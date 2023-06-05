@@ -1,0 +1,1 @@
+# Kumpulan File berisi Function dan Variabel Global
