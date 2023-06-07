@@ -95,14 +95,14 @@ class RegisterController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         "email": email.text,
-        "code": code
+        "userId": await LocalStorage().getUserID(),
       };
 
       print(data);
 
       var loginResponse = await RegisterService().resendCode(data);
-      doInPost();
       print(loginResponse);
+      doInPost();
     });
     loadingFalse();
   }
@@ -112,7 +112,7 @@ class RegisterController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         "phone_number": phoneNumber,
-        "code": code
+        "userId": await LocalStorage().getUserID(),
       };
 
       var loginResponse = await RegisterService().resendCode(data);

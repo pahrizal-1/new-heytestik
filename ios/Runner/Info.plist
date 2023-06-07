@@ -51,5 +51,11 @@
     <array>
       <string>https</string>
     </array>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>BTN SMART Mobile would like to access your microphone</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>BTN SMART Mobile would like to save photos from the app to your gallery</string>
+    <key>NSCameraUsageDescription</key>
+    <string>BTN SMART Mobile would like to access your camera</string>
 </dict>
 </plist>

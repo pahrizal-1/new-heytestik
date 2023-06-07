@@ -147,49 +147,54 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                         if (image != null) {
                           File imageFile = File(image.path);
                           imagePath = imageFile;
+                          setState(() {});
                         }
                       },
-                      child: imagePath != null ? Container(
-                        height: 83,
-                        width: 83,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffD9D9D9),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: FileImage(
-                              imagePath!,
+                      child: imagePath != null
+                          ? Container(
+                              height: 83,
+                              width: 83,
+                              decoration: const BoxDecoration(
+                                color: Color(0xffD9D9D9),
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(83),
+                                child: Image.file(
+                                  imagePath!,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 83,
+                              width: 83,
+                              decoration: const BoxDecoration(
+                                color: Color(0xffD9D9D9),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/icons/person-white.png',
+                                  ),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Container(
+                                  width: 28,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: greenColor,
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 24,
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ) :Container(
-                        height: 83,
-                        width: 83,
-                        decoration: const BoxDecoration(
-                          color: Color(0xffD9D9D9),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/icons/person-white.png',
-                            ),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 28,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: greenColor,
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              size: 24,
-                              color: whiteColor,
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                   const SizedBox(
@@ -220,11 +225,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                             child: Center(
-                              child: Text('Laki - laki',
-                                  style: _isGender
-                                      ? TextStyle(
-                                          color: whiteColor, fontSize: 12)
-                                      : blackTextStyle),
+                              child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
                             ),
                           ),
                         ),
@@ -256,10 +257,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                             child: Center(
                               child: Text(
                                 'Perempuan',
-                                style: _isGender
-                                    ? blackTextStyle
-                                    : TextStyle(
-                                        color: whiteColor, fontSize: 12),
+                                style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -302,7 +300,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   ButtonGreenWidget(
                     title: 'Verifikasi Sekarang',
                     onPressed: () async {
-                      if(state.province == 0 || state.city == 0) {
+                      if (state.province == 0 || state.city == 0) {
                         showDialog(
                           context: context,
                           builder: (context) => AlertWidget(subtitle: "Data Provinsi Dan Kota/Kabupaten Harap Diisi"),
