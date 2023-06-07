@@ -18,9 +18,19 @@ class LocalStorage {
     prefs.setInt("user_id", userID);
   }
 
+  Future<void> setUsername({required String username}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString("username", username);
+  }
+
   Future<String?> getAccessToken() async {
     SharedPreferences prefs = await getPrefs();
     return prefs.getString("jwtToken") ?? "";
+  }
+
+  Future<String> getUsername() async {
+    SharedPreferences prefs = await getPrefs();
+    return prefs.getString("username") ?? "-";
   }
 
   Future<String> getRefreshToken() async {

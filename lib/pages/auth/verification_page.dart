@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 import 'package:heystetik_mobileapps/pages/auth/personal_data_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -48,7 +49,18 @@ class VerificationPage extends StatelessWidget {
             const SizedBox(
               height: 18,
             ),
-            const OtpWidget(),
+            // const OtpWidget(),
+            OtpTextField(
+              numberOfFields: 5,
+              fieldWidth: 60,
+              borderColor: Color(0xFF512DA8),
+              showFieldAsBox: true,
+              onCodeChanged: (String code) {
+              },
+              onSubmit: (String verificationCode){
+                state.code = verificationCode;
+              }, // end onSubmit
+            ),
             const SizedBox(
               height: 55,
             ),

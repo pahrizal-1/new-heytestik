@@ -67,6 +67,7 @@ class PhoneNumberPage extends StatelessWidget {
               onPressed: () async {
                 if (state.phoneNumber != null) {
                   await state.registerPhoneNumber(context, doInPost: () async {
+                    print("INI KESINI BISA HARUSNYA");
                     Navigator.push(
                       context,
                       MaterialPageRoute(

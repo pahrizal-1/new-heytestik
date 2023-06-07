@@ -1,6 +1,7 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
@@ -54,7 +55,17 @@ class VerificasionEmailPage extends StatelessWidget {
             const SizedBox(
               height: 18,
             ),
-            const OtpWidget(),
+            OtpTextField(
+              numberOfFields: 5,
+              fieldWidth: 60,
+              borderColor: Color(0xFF512DA8),
+              showFieldAsBox: true,
+              onCodeChanged: (String code) {
+              },
+              onSubmit: (String verificationCode){
+                state.code = verificationCode;
+              }, // end onSubmit
+            ),
             const SizedBox(
               height: 55,
             ),
@@ -65,20 +76,32 @@ class VerificasionEmailPage extends StatelessWidget {
                   'Belum mendapatkan kode?',
                   style: greyTextStyle.copyWith(fontSize: 14),
                 ),
-                Text(
-                  ' Kirim Ulang',
-                  style: grenTextStyle.copyWith(fontSize: 14),
+                GestureDetector(
+                  onTap: () async {
+                    await state.resendCodeEmail(context, doInPost: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const TextMoreDialog(),
+                      );
+                    });
+                  },
+                  child: Text(
+                    ' Kirim Ulang',
+                    style: grenTextStyle.copyWith(fontSize: 14),
+                  ),
                 ),
               ],
             ),
             const Spacer(),
             ButtonGreenWidget(
               title: 'Konfimasi',
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const TextMoreDialog(),
-                );
+              onPressed: () async {
+                await state.verifyEmail(context, doInPost: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const TextMoreDialog(),
+                  );
+                });
               },
             ),
             const SizedBox(

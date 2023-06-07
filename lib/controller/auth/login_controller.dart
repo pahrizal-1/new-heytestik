@@ -37,7 +37,9 @@ class LoginController extends StateClass {
       };
 
       var loginResponse = await LoginService().login(data);
+      print(loginResponse);
       LocalStorage().setAccessToken(token: loginResponse['token']);
+      LocalStorage().setUsername(username: loginResponse['data']['fullname']);
       // if(loginResponse[''])
 
       doInPost();

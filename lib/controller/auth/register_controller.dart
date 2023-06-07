@@ -44,7 +44,25 @@ class RegisterController extends StateClass {
       };
 
       var loginResponse = await RegisterService().registerPhone(data);
-      LocalStorage().setUserID(userID: loginResponse['id']);
+      print(loginResponse);
+      LocalStorage().setUserID(userID: loginResponse['data']['id']);
+      doInPost();
+    });
+    loadingFalse();
+  }
+
+  registerEmail(BuildContext context, {required Function() doInPost}) async {
+    loadingTrue();
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "email": email.text,
+        "userId": await LocalStorage().getUserID(),
+      };
+
+      print(data);
+
+      var response = await RegisterService().registerEmail(data);
+      print(response);
       doInPost();
     });
     loadingFalse();
@@ -68,6 +86,38 @@ class RegisterController extends StateClass {
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
       doInPost();
+    });
+    loadingFalse();
+  }
+
+  resendCodeEmail(BuildContext context, {required Function() doInPost}) async {
+    loadingTrue();
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "email": email.text,
+        "code": code
+      };
+
+      print(data);
+
+      var loginResponse = await RegisterService().resendCode(data);
+      doInPost();
+      print(loginResponse);
+    });
+    loadingFalse();
+  }
+
+  resendCodePhone(BuildContext context, {required Function() doInPost}) async {
+    loadingTrue();
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "phone_number": phoneNumber,
+        "code": code
+      };
+
+      var loginResponse = await RegisterService().resendCode(data);
+      doInPost();
+      print(loginResponse);
     });
     loadingFalse();
   }

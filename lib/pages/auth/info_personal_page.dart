@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,6 +7,7 @@ import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/auth/register_controller.dart';
@@ -24,6 +27,7 @@ class InfoPersonalPage extends StatefulWidget {
 
 class _InfoPersonalPageState extends State<InfoPersonalPage> {
   bool _isGender = true;
+  File? imagePath;
 
   @override
   void initState() {
@@ -135,31 +139,54 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     height: 31,
                   ),
                   Center(
-                    child: Container(
-                      height: 83,
-                      width: 83,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffD9D9D9),
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/icons/person-white.png',
+                    child: GestureDetector(
+                      onTap: () async {
+                        final ImagePicker picker = ImagePicker();
+                        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+                        if (image != null) {
+                          File imageFile = File(image.path);
+                          imagePath = imageFile;
+                        }
+                      },
+                      child: imagePath != null ? Container(
+                        height: 83,
+                        width: 83,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffD9D9D9),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: FileImage(
+                              imagePath!,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          width: 28,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: greenColor,
+                      ) :Container(
+                        height: 83,
+                        width: 83,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD9D9D9),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/icons/person-white.png',
+                            ),
                           ),
-                          child: Icon(
-                            Icons.add,
-                            size: 24,
-                            color: whiteColor,
+                        ),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: greenColor,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 24,
+                              color: whiteColor,
+                            ),
                           ),
                         ),
                       ),

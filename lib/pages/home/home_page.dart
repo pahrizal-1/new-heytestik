@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:heystetik_mobileapps/controller/slideshow/slideshow_controller.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/pages/home/header_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,8 +13,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../chat_customer/onboarding_chat_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
@@ -21,6 +28,8 @@ class HomePage extends StatelessWidget {
       throw Exception('Could not launch $urlParse');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,7 @@ class HomePage extends StatelessWidget {
                   return Builder(
                     builder: (BuildContext context) {
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           _launchURL(value['link']);
                         },
                         child: Container(
@@ -359,7 +368,9 @@ class HomePage extends StatelessWidget {
               child: FutureBuilder(
                   future: SnipTipsService().getSnipTips(),
                   builder: (context, AsyncSnapshot snapshot) {
-                    if(!snapshot.hasData) {
+                    print(snapshot.data);
+
+                    if (!snapshot.hasData) {
                       return Container();
                     }
                     return Row(

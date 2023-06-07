@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/pages/interest/interest1_page.dart';
 
+import '../../core/local_storage.dart';
+
 class HeaderPage extends StatefulWidget {
   const HeaderPage({super.key});
 
@@ -10,6 +12,19 @@ class HeaderPage extends StatefulWidget {
 }
 
 class _HeaderPageState extends State<HeaderPage> {
+  late String username;
+
+  @override
+  void initState() {
+    super.initState();
+    getUsername();
+  }
+
+  void getUsername() async {
+    username = await LocalStorage().getUsername();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,21 +37,14 @@ class _HeaderPageState extends State<HeaderPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   "Hello, ",
-                  style: TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 19),
+                  style: TextStyle(fontFamily: 'ProximaNova', fontWeight: FontWeight.w400, fontSize: 19),
                 ),
                 Text(
-                  "Jhon Doe",
-                  style: TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 19,
-                      color: Colors.black),
+                  username,
+                  style: const TextStyle(fontFamily: 'ProximaNova', fontWeight: FontWeight.w600, fontSize: 19, color: Colors.black),
                 ),
               ],
             ),
@@ -78,8 +86,7 @@ class _HeaderPageState extends State<HeaderPage> {
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage("assets/images/profiledummy.png")),
+                      image: const DecorationImage(image: AssetImage("assets/images/profiledummy.png")),
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),

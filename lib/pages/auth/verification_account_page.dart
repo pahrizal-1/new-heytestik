@@ -201,13 +201,15 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                   ),
                   ButtonGreenWidget(
                     title: 'Verifikasi Sekarang',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const VerificasionEmailPage(),
-                        ),
-                      );
+                    onPressed: () async {
+                      await state.registerEmail(context, doInPost: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VerificasionEmailPage(),
+                          ),
+                        );
+                      });
                     },
                   ),
                   const SizedBox(
