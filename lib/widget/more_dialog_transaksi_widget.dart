@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import "dart:async";
+import 'dart:async';
 
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import "../pages/auth/auth_page.dart";
-import "../pages/chat_customer/selesai_pembayaran_page.dart";
-import "../theme/theme.dart";
 import 'Text_widget.dart';
 
 class TransaksiMoreDialog extends StatefulWidget {

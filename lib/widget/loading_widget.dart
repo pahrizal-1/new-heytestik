@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({

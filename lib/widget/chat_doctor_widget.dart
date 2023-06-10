@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
-import 'more_dialog_chat_doctor.dart';
 
 class ChatAktif extends StatelessWidget {
   final String nametile;

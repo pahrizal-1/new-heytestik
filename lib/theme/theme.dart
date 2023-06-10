@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 Color whiteColor = const Color(0xffFFFFFF);
 Color subwhiteColor = const Color(0xfff1f1f1);
@@ -27,7 +26,7 @@ const double paddingL = 25;
 const double spaceWidth = 15;
 const double spaceHeigt = 15;
 const EdgeInsets onboardingheader =
-EdgeInsets.only(top: 60, bottom: 60, left: 22, right: 24);
+    EdgeInsets.only(top: 60, bottom: 60, left: 22, right: 24);
 const EdgeInsets kRegularPadding = EdgeInsets.all(20);
 const EdgeInsets kTopPadding = EdgeInsets.only(top: 10);
 const EdgeInsets lsymetric = EdgeInsets.only(left: 25, right: 25);

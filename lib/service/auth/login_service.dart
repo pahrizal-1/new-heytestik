@@ -8,9 +8,8 @@ class LoginService extends ProviderClass {
 
   Future<dynamic> login(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/login",
+      '/auth/login',
       data: data,
-      // checkLogin: false,
     );
 
     return response;

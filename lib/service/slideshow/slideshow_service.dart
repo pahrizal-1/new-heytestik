@@ -8,7 +8,7 @@ class SlideShowService extends ProviderClass {
 
   Future<dynamic> getSlideShow() async {
     var response = await networkingConfig.doGet(
-      "/slideshow_banner",
+      '/slideshow_banner',
     );
 
     return response;

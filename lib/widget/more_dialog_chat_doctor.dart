@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import "dart:async";
-import "package:flutter/material.dart";
-import "../pages/auth/auth_page.dart";
-import "../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart";
-import "../theme/theme.dart";
-import 'Text_widget.dart';
+import 'package:flutter/material.dart';
+import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
+import '../theme/theme.dart';
 
 class MoreDialogChatDoctor extends StatefulWidget {
   const MoreDialogChatDoctor({super.key});
@@ -79,11 +76,11 @@ class _MoreDialogChatDoctorState extends State<MoreDialogChatDoctor> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "dila btw",
+                              'dila btw',
                               style: blackTextStyle.copyWith(fontSize: 15),
                             ),
                             Text(
-                              "Untuk Diri Sendiri, 22 tahun ",
+                              'Untuk Diri Sendiri, 22 tahun ',
                               style: subTitleTextStyle,
                             )
                           ],
@@ -94,7 +91,7 @@ class _MoreDialogChatDoctorState extends State<MoreDialogChatDoctor> {
                       height: 17,
                     ),
                     Text(
-                      "Mengapa jerawat aku banyak bekasnya?",
+                      'Mengapa jerawat aku banyak bekasnya?',
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     const SizedBox(
@@ -115,7 +112,7 @@ class _MoreDialogChatDoctorState extends State<MoreDialogChatDoctor> {
                       children: [
                         Expanded(
                           child: Text(
-                            "Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ",
+                            'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ',
                             style: greyTextStyle.copyWith(
                               fontSize: 14,
                             ),

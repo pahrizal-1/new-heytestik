@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import '../theme/theme.dart';
@@ -53,7 +52,8 @@ class ChatBottomNavigator extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const BalasanCepatPage(),
+                                          builder: (context) =>
+                                              const BalasanCepatPage(),
                                         ),
                                       );
                                     },
@@ -67,8 +67,11 @@ class ChatBottomNavigator extends StatelessWidget {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/lighr.png',
                                             color: whiteColor,
@@ -85,7 +88,8 @@ class ChatBottomNavigator extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const CatatanDocter(),
+                                          builder: (context) =>
+                                              const CatatanDocter(),
                                         ),
                                       );
                                     },
@@ -99,8 +103,11 @@ class ChatBottomNavigator extends StatelessWidget {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/book.png',
                                             color: whiteColor,

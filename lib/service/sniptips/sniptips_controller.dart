@@ -8,7 +8,7 @@ class SnipTipsService extends ProviderClass {
 
   Future<dynamic> getSnipTips() async {
     var response = await networkingConfig.doGet(
-      "/snips_tips",
+      '/snips_tips',
     );
 
     return response;
