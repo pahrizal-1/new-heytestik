@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:heystetik_mobileapps/controller/slideshow/slideshow_controller.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/pages/home/header_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../chat_customer/onboarding_chat_page.dart';
@@ -21,15 +18,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse)) {
       throw Exception('Could not launch $urlParse');
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +35,17 @@ class _HomePageState extends State<HomePage> {
           FutureBuilder(
             future: SlideShowService().getSlideShow(),
             builder: (context, AsyncSnapshot snapshot) {
+              print(snapshot.data);
               if (!snapshot.hasData) {
-                return Container();
+                return Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      color: greenColor,
+                    ),
+                  ),
+                );
               }
 
               return CarouselSlider(
@@ -52,10 +55,10 @@ class _HomePageState extends State<HomePage> {
                   initialPage: 2,
                   autoPlayAnimationDuration: const Duration(seconds: 3),
                 ),
-                items: snapshot.data.map<Widget>((value) {
+                items: snapshot.data['data'].map<Widget>((value) {
                   return Builder(
                     builder: (BuildContext context) {
-                      return GestureDetector(
+                      return InkWell(
                         onTap: () {
                           _launchURL(value['link']);
                         },
@@ -96,14 +99,14 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
-                              image: AssetImage("assets/images/jerawat.png"),
+                              image: AssetImage('assets/images/jerawat.png'),
                             ),
                           ),
                         ),
                         const Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            "Jerawat",
+                            'Jerawat',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 12,
@@ -122,66 +125,15 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
-                              image: AssetImage("assets/images/rambutrontok.png"),
+                              image:
+                                  AssetImage('assets/images/rambutrontok.png'),
                             ),
                           ),
                         ),
                         const Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            "Rambut\nRontok",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          transform: Matrix4.translationValues(0, -5, 0),
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage("assets/images/kerutan.png"),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            "Kerutan",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage("assets/images/bekasjerawat.png"),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            "Bekas\nJerawat",
+                            'Rambut\nRontok',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 12,
@@ -201,14 +153,67 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
-                              image: AssetImage("assets/images/ketombe.png"),
+                              image: AssetImage('assets/images/kerutan.png'),
                             ),
                           ),
                         ),
                         const Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            "Ketombe",
+                            'Kerutan',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'ProximaNova',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: const DecorationImage(
+                              image:
+                                  AssetImage('assets/images/bekasjerawat.png'),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'Bekas\nJerawat',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'ProximaNova',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          transform: Matrix4.translationValues(0, -5, 0),
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/ketombe.png'),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'Ketombe',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 12,
@@ -228,114 +233,138 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               children: [
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Column(
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        transform: Matrix4.translationValues(0, -5, 0),
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/images/kebotakan.png"))),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Kebotakan",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'ProximaNova',
-                            fontWeight: FontWeight.w400,
+                      Column(
+                        children: [
+                          Container(
+                            transform: Matrix4.translationValues(0, -5, 0),
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/kebotakan.png'))),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage("assets/images/dagu.png"))),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Bekas\nJerawat",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'ProximaNova',
-                            fontWeight: FontWeight.w400,
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Kebotakan',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'ProximaNova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage("assets/images/kulitkusam.png"))),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Kulit\nKusam",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'ProximaNova',
-                            fontWeight: FontWeight.w400,
+                      Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/dagu.png'))),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/images/skingoals.png"))),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Skin Goals\nlain",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'ProximaNova',
-                            fontWeight: FontWeight.w400,
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Bekas\nJerawat',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'ProximaNova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        transform: Matrix4.translationValues(0, -5, 0),
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage("assets/images/lainnya.png"))),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Lainnya",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'ProximaNova',
-                            fontWeight: FontWeight.w400,
+                      Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/kulitkusam.png'))),
                           ),
-                        ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Kulit\nKusam',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'ProximaNova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ])
+                      Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/skingoals.png'))),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Skin Goals\nlain',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'ProximaNova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            transform: Matrix4.translationValues(0, -5, 0),
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/lainnya.png'))),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Lainnya',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'ProximaNova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ])
               ],
             ),
           ),
@@ -347,14 +376,22 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Weekly Snips - Tips",
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 16, fontWeight: FontWeight.bold, color: fromCssColor('#231F20B2')),
+                    'Weekly Snips - Tips',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: fromCssColor('#231F20B2')),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      "See More",
-                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: fromCssColor('#466762')),
+                      'See More',
+                      style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: fromCssColor('#466762')),
                     ),
                   ),
                 ],
@@ -371,10 +408,18 @@ class _HomePageState extends State<HomePage> {
                     print(snapshot.data);
 
                     if (!snapshot.hasData) {
-                      return Container();
+                      return Center(
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                            color: greenColor,
+                          ),
+                        ),
+                      );
                     }
                     return Row(
-                      children: snapshot.data.map<Widget>((value) {
+                      children: snapshot.data['data'].map<Widget>((value) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Container(
@@ -383,7 +428,10 @@ class _HomePageState extends State<HomePage> {
                               gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
-                                colors: [fromCssColor('#8FC5BC'), fromCssColor('#A8EBEB')],
+                                colors: [
+                                  fromCssColor('#8FC5BC'),
+                                  fromCssColor('#A8EBEB')
+                                ],
                               ),
                             ),
                             width: 300,
@@ -391,7 +439,8 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+                                  padding: const EdgeInsets.only(
+                                      top: 15, left: 15, right: 15),
                                   child: Text(
                                     value['tips'],
                                     style: const TextStyle(
@@ -410,23 +459,34 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       const CircleAvatar(
                                         maxRadius: 17,
-                                        backgroundImage: AssetImage('assets/images/profiledummy.png'),
+                                        backgroundImage: AssetImage(
+                                            'assets/images/profiledummy.png'),
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                            padding: const EdgeInsets.only(
+                                                left: 10, bottom: 5),
                                             child: Text(
                                               value['doctor']['fullname'],
-                                              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'ProximaNova'),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14,
+                                                  fontFamily: 'ProximaNova'),
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 10),
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
                                             child: Text(
                                               value['doctor_title'],
-                                              style: TextStyle(fontSize: 11, color: fromCssColor('#231F2080')),
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color:
+                                                    fromCssColor('#231F2080'),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -451,14 +511,22 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Skincare and Treatment",
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 16, fontWeight: FontWeight.bold, color: fromCssColor('#231F20B2')),
+                    'Skincare and Treatment',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: fromCssColor('#231F20B2')),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      "See More",
-                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: fromCssColor('#466762')),
+                      'See More',
+                      style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: fromCssColor('#466762')),
                     ),
                   ),
                 ],
@@ -476,7 +544,11 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       width: 300,
                       height: 150,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home2.png'))),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/home2.png'))),
                     ),
                   ),
                   Padding(
@@ -484,7 +556,11 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       width: 300,
                       height: 150,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home2.png'))),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/home2.png'))),
                     ),
                   ),
                   Padding(
@@ -492,7 +568,11 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       width: 300,
                       height: 150,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home2.png'))),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/home2.png'))),
                     ),
                   ),
                 ],
@@ -507,14 +587,22 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Article",
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 16, fontWeight: FontWeight.bold, color: fromCssColor('#231F20B2')),
+                    'Article',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: fromCssColor('#231F20B2')),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      "See More",
-                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: fromCssColor('#466762')),
+                      'See More',
+                      style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: fromCssColor('#466762')),
                     ),
                   ),
                 ],
@@ -537,12 +625,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -558,13 +651,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -578,7 +672,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -600,12 +694,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -621,13 +720,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -641,7 +741,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -663,12 +763,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -684,13 +789,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -704,7 +810,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -728,14 +834,22 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Article News",
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 16, fontWeight: FontWeight.bold, color: fromCssColor('#231F20B2')),
+                    'Article News',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: fromCssColor('#231F20B2')),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      "See More",
-                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: fromCssColor('#466762')),
+                      'See More',
+                      style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: fromCssColor('#466762')),
                     ),
                   ),
                 ],
@@ -758,12 +872,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -779,13 +898,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -799,7 +919,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -821,12 +941,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -842,13 +967,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -862,7 +988,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -884,12 +1010,17 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Atasi Kebotakan Karena Alopecia Androgenetik",
+                              'Atasi Kebotakan Karena Alopecia Androgenetik',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'ProximaNova',
@@ -905,13 +1036,14 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 const Text(
-                                  "22 Februari 2023",
+                                  '22 Februari 2023',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -925,7 +1057,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Text(
-                                  "Steffana Dewi",
+                                  'Steffana Dewi',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                   ),
@@ -945,7 +1077,8 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
@@ -959,7 +1092,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(bottom: 3),
                   child: SvgPicture.asset('assets/icons/icon_home.svg'),
                 ),
-                label: "Home"),
+                label: 'Home'),
             BottomNavigationBarItem(
                 icon: InkWell(
                   onTap: () {
@@ -981,7 +1114,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(bottom: 3),
                   child: SvgPicture.asset('assets/icons/icon_stream.svg'),
                 ),
-                label: "Stream"),
+                label: 'Stream'),
             BottomNavigationBarItem(
                 icon: Container(
                   height: 30,
@@ -992,7 +1125,7 @@ class _HomePageState extends State<HomePage> {
                     // child: Icon(Icons.health_and_safety_outlined, size: 26),
                   ),
                 ),
-                label: "Solutions"),
+                label: 'Solutions'),
           ],
           selectedFontSize: 12,
           unselectedFontSize: 12,
@@ -1001,26 +1134,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-// child: Container(
-//   height: 150,
-//   width: MediaQuery.of(context)
-//       .size
-//       .width, // Atur tinggi yang sesuai dengan kebutuhan Anda
-//   child: GridView.builder(
-//     scrollDirection: Axis.horizontal,
-//     // shrinkWrap: true,
-//     // physics: NeverScrollableScrollPhysics(),
-//     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//       crossAxisCount: 1,
-//       mainAxisSpacing: 10.0,
-//     ),
-//     itemCount: 1,
-//     itemBuilder: (BuildContext context, int index) {
-//       return Container(
-//         height: 100,
-//         color: Colors.blue,
-//         child: Text('Item $index'),
-//       );
-//     },
-//   ),
-// ),

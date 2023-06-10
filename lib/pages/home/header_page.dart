@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
-import 'package:heystetik_mobileapps/pages/interest/interest1_page.dart';
 
 import '../../core/local_storage.dart';
 
@@ -12,7 +11,7 @@ class HeaderPage extends StatefulWidget {
 }
 
 class _HeaderPageState extends State<HeaderPage> {
-  late String username;
+  String username = '';
 
   @override
   void initState() {
@@ -39,12 +38,19 @@ class _HeaderPageState extends State<HeaderPage> {
             Row(
               children: [
                 const Text(
-                  "Hello, ",
-                  style: TextStyle(fontFamily: 'ProximaNova', fontWeight: FontWeight.w400, fontSize: 19),
+                  'Hello, ',
+                  style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 19),
                 ),
                 Text(
                   username,
-                  style: const TextStyle(fontFamily: 'ProximaNova', fontWeight: FontWeight.w600, fontSize: 19, color: Colors.black),
+                  style: const TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 19,
+                      color: Colors.black),
                 ),
               ],
             ),
@@ -66,7 +72,7 @@ class _HeaderPageState extends State<HeaderPage> {
                       width: 22,
                       decoration: BoxDecoration(
                         image: const DecorationImage(
-                          image: AssetImage("assets/icons/icon-home.png"),
+                          image: AssetImage('assets/icons/icon-home.png'),
                         ),
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -86,7 +92,8 @@ class _HeaderPageState extends State<HeaderPage> {
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(image: AssetImage("assets/images/profiledummy.png")),
+                      image: const DecorationImage(
+                          image: AssetImage('assets/images/profiledummy.png')),
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
