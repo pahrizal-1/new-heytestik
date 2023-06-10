@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis1_page.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profile4_page.dart';
-import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
