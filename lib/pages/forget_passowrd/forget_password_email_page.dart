@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/pages/forget_passowrd/forget_password_code_page.dart';
 
 import '../../theme/theme.dart';
@@ -15,7 +13,6 @@ class ForgetPasswordEmailPage extends StatefulWidget {
 }
 
 class _ForgetPasswordEmailPageState extends State<ForgetPasswordEmailPage> {
-  bool _obscureText = true;
   FocusNode myFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/pages/forget_passowrd/forget_password_code_password_page.dart';
 import 'package:heystetik_mobileapps/widget/otp_widget.dart';
 
@@ -12,8 +10,6 @@ class ForgetPasswordCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _obscureText = true;
-    FocusNode myFocusNode = FocusNode();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
