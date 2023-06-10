@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/search_klink_page.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';

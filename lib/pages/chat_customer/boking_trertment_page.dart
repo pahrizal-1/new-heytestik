@@ -1,13 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/reservasi_page.dart';
+
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/more_dialog_filter_widget.dart';
+
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../widget/produk_searct_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/text_form_widget.dart';
 
