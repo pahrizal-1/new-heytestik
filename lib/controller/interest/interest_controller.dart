@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/service/auth/login_service.dart';
 import 'package:heystetik_mobileapps/service/interest/interest_service.dart';
 
 import '../../core/local_storage.dart';
@@ -34,6 +33,7 @@ class InterestController extends StateClass {
     _faceCorrective.remove(value);
     notifyListeners();
   }
+
   void addBodyCorrective(String value) {
     _bodyCorrective.add(value);
     notifyListeners();
@@ -43,6 +43,7 @@ class InterestController extends StateClass {
     _bodyCorrective.remove(value);
     notifyListeners();
   }
+
   void addPastTreatment(String value) {
     _pastTreatment.add(value);
     notifyListeners();
@@ -52,6 +53,7 @@ class InterestController extends StateClass {
     _pastTreatment.remove(value);
     notifyListeners();
   }
+
   void addAugementation(String value) {
     _augmentation.add(value);
     notifyListeners();
@@ -62,55 +64,54 @@ class InterestController extends StateClass {
     notifyListeners();
   }
 
-
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (skinType == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Tipe Kulit harus diisi",
+          message: 'Pilihan Tipe Kulit harus diisi',
         );
       }
       if (skinToneColor == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Warna Tone Kulit harus diisi",
+          message: 'Pilihan Warna Tone Kulit harus diisi',
         );
       }
       if (skinUnderToneColor == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Warna Undertone Kulit harus diisi",
+          message: 'Pilihan Warna Undertone Kulit harus diisi',
         );
       }
       if (hairType == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Tipe Rambut harus diisi",
+          message: 'Pilihan Tipe Rambut harus diisi',
         );
       }
       if (hairColor == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Warna Rambut harus diisi",
+          message: 'Pilihan Warna Rambut harus diisi',
         );
       }
       if (hijabers == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Pilihan Hijaber harus diisi",
+          message: 'Pilihan Hijaber harus diisi',
         );
       }
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "skin_type": skinType,
-        "skin_tone_color": skinToneColor,
-        "skin_undertone_color": skinUnderToneColor,
-        "hair_type": hairType,
-        "hair_color": hairColor,
-        "hijabers": hijabers,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'skin_type': skinType,
+        'skin_tone_color': skinToneColor,
+        'skin_undertone_color': skinUnderToneColor,
+        'hair_type': hairType,
+        'hair_color': hairColor,
+        'hijabers': hijabers,
+        'status': true
       };
 
       var loginResponse = await InterestService().beautyProfile(data);
@@ -126,20 +127,20 @@ class InterestController extends StateClass {
       if (skincare == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Budget Skincare harus diisi",
+          message: 'Budget Skincare harus diisi',
         );
       }
       if (treatment == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Budget Treatment harus diisi",
+          message: 'Budget Treatment harus diisi',
         );
       }
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "budget_for_skincare": skincare,
-        "budget_for_treatment": treatment,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'budget_for_skincare': skincare,
+        'budget_for_treatment': treatment,
+        'status': true
       };
 
       var loginResponse = await InterestService().budgets(data);
@@ -149,24 +150,24 @@ class InterestController extends StateClass {
     loadingFalse();
   }
 
-  faceCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  faceCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
-      print(faceCorrective?.length);
+      print(faceCorrective.length);
 
-      for(int i = 0; i < faceCorrective!.length; i ++) {
+      for (int i = 0; i < faceCorrective.length; i++) {
         listData.add({
-          "name_face_corrective": faceCorrective![i],
+          'name_face_corrective': faceCorrective[i],
         });
       }
 
-
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "lists": listData,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'lists': listData,
+        'status': true
       };
 
       print(data);
@@ -178,21 +179,22 @@ class InterestController extends StateClass {
     loadingFalse();
   }
 
-  bodyCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  bodyCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
-      for(int i = 0; i < bodyCorrective.length; i ++) {
+      for (int i = 0; i < bodyCorrective.length; i++) {
         listData.add({
-          "name_body_corrective": bodyCorrective[i],
+          'name_body_corrective': bodyCorrective[i],
         });
       }
 
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "lists": listData,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'lists': listData,
+        'status': true
       };
 
       var loginResponse = await InterestService().bodyCorrective(data);
@@ -202,22 +204,20 @@ class InterestController extends StateClass {
     loadingFalse();
   }
 
-  augmentationSkinGoals(BuildContext context, {required Function() doInPost}) async {
+  augmentationSkinGoals(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-
       List<Map<String, dynamic>> listData = [];
 
-      for(int i = 0; i < augmentation!.length; i ++) {
-        listData.add({
-          "": ""
-        });
+      for (int i = 0; i < augmentation.length; i++) {
+        listData.add({'': ''});
       }
 
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "lists": augmentation,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'lists': augmentation,
+        'status': true
       };
 
       var loginResponse = await InterestService().pastTreatment(data);
@@ -227,34 +227,35 @@ class InterestController extends StateClass {
     loadingFalse();
   }
 
-  pastTreatmentGoals(BuildContext context, {required Function() doInPost}) async {
+  pastTreatmentGoals(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (skincare == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Budget Skincare harus diisi",
+          message: 'Budget Skincare harus diisi',
         );
       }
       if (treatment == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Budget Treatment harus diisi",
+          message: 'Budget Treatment harus diisi',
         );
       }
 
       List<Map<String, dynamic>> listData = [];
 
-      for(int i = 0; i < _pastTreatment!.length; i ++) {
+      for (int i = 0; i < _pastTreatment.length; i++) {
         listData.add({
-          "name_history_treatment": _pastTreatment![i],
+          'name_history_treatment': _pastTreatment[i],
         });
       }
 
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "lists": listData,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'lists': listData,
+        'status': true
       };
 
       var loginResponse = await InterestService().pastTreatment(data);
@@ -263,5 +264,4 @@ class InterestController extends StateClass {
     });
     loadingFalse();
   }
-
 }

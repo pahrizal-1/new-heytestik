@@ -11,7 +11,7 @@ class RegisterController extends StateClass {
   TextEditingController password = TextEditingController();
   TextEditingController referralCode = TextEditingController();
   String? phoneNumber;
-  String gender = "Laki-laki";
+  String gender = 'Laki-laki';
   int province = 0;
   int? city;
   String? code;
@@ -29,17 +29,18 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  registerPhoneNumber(BuildContext context, {required Function() doInPost}) async {
+  registerPhoneNumber(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (phoneNumber == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "No Handphone harus diisi",
+          message: 'No Handphone harus diisi',
         );
       }
       var data = {
-        "no_phone": phoneNumber,
+        'no_phone': phoneNumber,
       };
 
       var loginResponse = await RegisterService().registerPhone(data);
@@ -54,8 +55,8 @@ class RegisterController extends StateClass {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        "email": email.text,
-        "userId": await LocalStorage().getUserID(),
+        'email': email.text,
+        'userId': await LocalStorage().getUserID(),
       };
 
       print(data);
@@ -73,13 +74,13 @@ class RegisterController extends StateClass {
       if (code == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Code harus diisi",
+          message: 'Code harus diisi',
         );
       }
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "verify_type": "email",
-        "code": code
+        'userId': await LocalStorage().getUserID(),
+        'verify_type': 'email',
+        'code': code
       };
 
       var loginResponse = await RegisterService().registerPhone(data);
@@ -93,8 +94,8 @@ class RegisterController extends StateClass {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        "email": email.text,
-        "userId": await LocalStorage().getUserID(),
+        'email': email.text,
+        'userId': await LocalStorage().getUserID(),
       };
 
       print(data);
@@ -110,8 +111,8 @@ class RegisterController extends StateClass {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        "phone_number": phoneNumber,
-        "userId": await LocalStorage().getUserID(),
+        'phone_number': phoneNumber,
+        'userId': await LocalStorage().getUserID(),
       };
 
       var loginResponse = await RegisterService().resendCode(data);
@@ -121,13 +122,14 @@ class RegisterController extends StateClass {
     loadingFalse();
   }
 
-  verifyPhoneNumber(BuildContext context, {required Function() doInPost}) async {
+  verifyPhoneNumber(BuildContext context,
+      {required Function() doInPost}) async {
     loadingTrue();
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (code == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Code harus diisi",
+          message: 'Code harus diisi',
         );
       }
 
@@ -135,9 +137,9 @@ class RegisterController extends StateClass {
       print(await LocalStorage().getUserID());
 
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "verify_type": "phone",
-        "code": code,
+        'userId': await LocalStorage().getUserID(),
+        'verify_type': 'phone',
+        'code': code,
       };
 
       var loginResponse = await RegisterService().phoneVerify(data);
@@ -153,42 +155,42 @@ class RegisterController extends StateClass {
       if (email.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Email harus diisi",
+          message: 'Email harus diisi',
         );
       }
       if (emailValid.hasMatch(email.text) == false) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Format email salah",
+          message: 'Format email salah',
         );
       }
       if (password.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Password harus diisi",
+          message: 'Password harus diisi',
         );
       }
       if (fullName.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: "Nama Lengkap harus diisi",
+          message: 'Nama Lengkap harus diisi',
         );
       }
       var data = {
-        "userId": await LocalStorage().getUserID(),
-        "gender": gender,
-        "fullname": fullName.text,
-        "email": email.text,
-        "password": password.text,
-        "referral_code": referralCode.text,
-        "provinceId": province,
-        "cityId": city,
-        "status": true
+        'userId': await LocalStorage().getUserID(),
+        'gender': gender,
+        'fullname': fullName.text,
+        'email': email.text,
+        'password': password.text,
+        'referral_code': referralCode.text,
+        'provinceId': province,
+        'cityId': city,
+        'status': true
       };
 
       print(data);
 
-      var loginResponse = await RegisterService().register(data);
+      await RegisterService().register(data);
       doInPost();
     });
     loadingFalse();
