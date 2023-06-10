@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/more_dialog_filter_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
 import '../../../widget/costoum_pin_widgets.dart';
@@ -21,7 +17,7 @@ class _PinPageState extends State<PinPage> {
   bool isErr = false;
 
   addPin(String number) {
-    print("number $number");
+    print('number $number');
     if (pinController.text.length < 6) {
       setState(() {
         pinController.text = pinController.text + number;
@@ -31,9 +27,9 @@ class _PinPageState extends State<PinPage> {
     if (pinController.text.length == 6) {
       if (pinController.text == pin) {
         Navigator.pop(context, true);
-        print("pin");
+        print('pin');
       } else {
-        print("Password salahß");
+        print('Password salahß');
         isErr = true;
         Text(
           'Password anda salah',
@@ -42,7 +38,7 @@ class _PinPageState extends State<PinPage> {
       }
     }
 
-    print("pinController ${pinController.text}");
+    print('pinController ${pinController.text}');
   }
 
   deletedPin() {

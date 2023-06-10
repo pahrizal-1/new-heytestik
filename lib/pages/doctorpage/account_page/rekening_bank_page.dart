@@ -1,13 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/profil_doctor_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../theme/theme.dart';
