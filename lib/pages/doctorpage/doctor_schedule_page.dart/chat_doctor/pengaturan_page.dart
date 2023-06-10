@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_pembuka_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare1_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen1_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class PengaturanPage extends StatelessWidget {
@@ -19,7 +17,7 @@ class PengaturanPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Text(
-          "PENGATURAN",
+          'PENGATURAN',
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'ProximaNova',
@@ -43,7 +41,7 @@ class PengaturanPage extends StatelessWidget {
                     width: 30,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/icons/alert-circle1.png"),
+                          image: AssetImage('assets/icons/alert-circle1.png'),
                           fit: BoxFit.fill),
                     ),
                   ),
@@ -56,7 +54,7 @@ class PengaturanPage extends StatelessWidget {
                       textAlign: TextAlign.start,
                       text: TextSpan(
                         text:
-                            "Kamu dapat membuat template untuk balasan chat dan resep rekomendasi pasien secara otomatis.",
+                            'Kamu dapat membuat template untuk balasan chat dan resep rekomendasi pasien secara otomatis.',
                         style: TextStyle(
                           fontFamily: 'ProximaNova',
                           color: fromCssColor('#6B6B6B'),
@@ -71,7 +69,7 @@ class PengaturanPage extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                "Chat",
+                'Chat',
                 style: TextStyle(
                   fontFamily: 'ProximaNova',
                   fontWeight: bold,
@@ -99,7 +97,7 @@ class PengaturanPage extends StatelessWidget {
                       width: 20,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/icons/chat1.png"),
+                          image: AssetImage('assets/icons/chat1.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -111,7 +109,7 @@ class PengaturanPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Chat Pembuka",
+                          'Chat Pembuka',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -126,7 +124,7 @@ class PengaturanPage extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          "Sambut pasien baru secara otomatis",
+                          'Sambut pasien baru secara otomatis',
                           style: TextStyle(
                             fontFamily: 'ProximaNova',
                             fontSize: 12,
@@ -160,7 +158,7 @@ class PengaturanPage extends StatelessWidget {
                       width: 20,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/icons/light1.png"),
+                          image: AssetImage('assets/icons/light1.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -172,7 +170,7 @@ class PengaturanPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Balasan Cepat",
+                          'Balasan Cepat',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -187,7 +185,7 @@ class PengaturanPage extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          "Gunakan berulang kali pesan yang sering dipakai",
+                          'Gunakan berulang kali pesan yang sering dipakai',
                           style: TextStyle(
                             fontFamily: 'ProximaNova',
                             fontSize: 12,
@@ -209,7 +207,7 @@ class PengaturanPage extends StatelessWidget {
                 ),
               ),
               Text(
-                "Resep",
+                'Resep',
                 style: TextStyle(
                   fontFamily: 'ProximaNova',
                   fontWeight: bold,
@@ -237,7 +235,7 @@ class PengaturanPage extends StatelessWidget {
                       width: 23,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/icons/skincare1.png"),
+                          image: AssetImage('assets/icons/skincare1.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -249,7 +247,7 @@ class PengaturanPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Rekomendasi Skincare",
+                          'Rekomendasi Skincare',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -268,7 +266,7 @@ class PengaturanPage extends StatelessWidget {
                           child: RichText(
                             text: TextSpan(
                               text:
-                                  "Buat template resep yang sering diberikan ke pasien",
+                                  'Buat template resep yang sering diberikan ke pasien',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: fromCssColor('#A3A3A3'),
@@ -301,7 +299,7 @@ class PengaturanPage extends StatelessWidget {
                       width: 23,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/icons/treatmen1.png"),
+                          image: AssetImage('assets/icons/treatmen1.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -313,7 +311,7 @@ class PengaturanPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Rekomendasi Treatment",
+                          'Rekomendasi Treatment',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -332,7 +330,7 @@ class PengaturanPage extends StatelessWidget {
                           child: RichText(
                             text: TextSpan(
                               text:
-                                  "Buat template resep yang sering diberikan ke pasien",
+                                  'Buat template resep yang sering diberikan ke pasien',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: fromCssColor('#A3A3A3'),

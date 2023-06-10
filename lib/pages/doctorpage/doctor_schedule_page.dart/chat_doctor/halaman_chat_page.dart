@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 
 import '../../../../theme/theme.dart';
-import '../../../../widget/container_widget.dart';
 
 class HalamanChatPage extends StatefulWidget {
   const HalamanChatPage({super.key});

@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 import '../../../../theme/theme.dart';
 import '../../../../widget/card_skincare.dart';
-import '../../../../widget/card_widget.dart';
-import 'catatan_produck_doctor_page.dart';
-import 'catatan_produk_docter1_page.dart';
 
 class TambahanSkinCare2 extends StatefulWidget {
   const TambahanSkinCare2({super.key});
