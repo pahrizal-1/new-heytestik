@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/controller/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
 import '../../widget/drop_dow_widget.dart';
-import '../../widget/text_form_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class BeautyProfilPage extends StatelessWidget {

@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/login_controller.dart';
 import '../../widget/timeline_widget.dart';
 
 class VerificationAcooutPage extends StatefulWidget {
@@ -18,16 +17,12 @@ class VerificationAcooutPage extends StatefulWidget {
 }
 
 class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
-  late TextEditingController _controller;
   bool _isEnable = false;
   bool isSelected = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: Provider.of<RegisterController>(context, listen: false).email.text,
-    );
   }
 
   @override
@@ -186,10 +181,13 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                           ),
                           child: Center(
                             child: isSelected
-                                ? Text('Simpan', style: whiteTextStyle.copyWith(fontSize: 14))
+                                ? Text('Simpan',
+                                    style:
+                                        whiteTextStyle.copyWith(fontSize: 14))
                                 : Text(
                                     'Ubah',
-                                    style: whiteTextStyle.copyWith(fontSize: 14),
+                                    style:
+                                        whiteTextStyle.copyWith(fontSize: 14),
                                   ),
                           ),
                         ),

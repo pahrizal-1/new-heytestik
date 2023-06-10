@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -117,7 +115,7 @@ class _SkinGoalsDuaState extends State<SkinGoalsDua> {
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 23),
+              padding: const EdgeInsets.symmetric(horizontal: 23),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -207,7 +205,8 @@ class _SkinGoalsDuaState extends State<SkinGoalsDua> {
                   ButtonGreenWidget(
                     title: 'Lanjut',
                     onPressed: () async {
-                      await state.bodyCorrectiveGoals(context, doInPost: () async {
+                      await state.bodyCorrectiveGoals(context,
+                          doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -220,7 +219,7 @@ class _SkinGoalsDuaState extends State<SkinGoalsDua> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             )
           ],

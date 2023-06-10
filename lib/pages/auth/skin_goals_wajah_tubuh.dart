@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_treameant.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -56,7 +54,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 18,
                   iconimg: 'assets/images/check.png',
                 ),
@@ -78,7 +76,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 20,
                   iconimg: 'assets/images/check.png',
                 ),
@@ -145,11 +143,11 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   const SizedBox(
                     height: 19,
                   ),
-                  const Wrap(
+                  Wrap(
                     direction: Axis.horizontal,
                     spacing: 8,
                     runSpacing: 8,
-                    children: [
+                    children: const [
                       CardSkinGoals(
                         title: 'Cryolipolysis',
                         width: 120,
@@ -323,7 +321,8 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   ButtonGreenWidget(
                     title: 'Lanjut',
                     onPressed: () async {
-                      await state.bodyCorrectiveGoals(context, doInPost: () async {
+                      await state.bodyCorrectiveGoals(context,
+                          doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -331,7 +330,6 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                           ),
                         );
                       });
-
                     },
                   ),
                 ],

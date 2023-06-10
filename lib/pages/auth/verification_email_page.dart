@@ -1,17 +1,11 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
-import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
-import '../../widget/otp_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
   const VerificasionEmailPage({super.key});
@@ -60,9 +54,8 @@ class VerificasionEmailPage extends StatelessWidget {
               fieldWidth: 60,
               borderColor: Color(0xFF512DA8),
               showFieldAsBox: true,
-              onCodeChanged: (String code) {
-              },
-              onSubmit: (String verificationCode){
+              onCodeChanged: (String code) {},
+              onSubmit: (String verificationCode) {
                 state.code = verificationCode;
               }, // end onSubmit
             ),

@@ -4,7 +4,6 @@ import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:intl_phone_field/phone_number.dart';
 
 class OptionLoginPage extends StatelessWidget {
   const OptionLoginPage({super.key});

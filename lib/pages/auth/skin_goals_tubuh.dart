@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/controller/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_dua.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +54,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 18,
                   iconimg: 'assets/images/check.png',
                 ),
@@ -79,7 +76,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 20,
                   iconimg: 'assets/images/check.png',
                 ),
@@ -118,7 +115,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 23),
+              padding: const EdgeInsets.symmetric(horizontal: 23),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -183,7 +180,8 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   ButtonGreenWidget(
                     title: 'Lanjut',
                     onPressed: () async {
-                      await state.bodyCorrectiveGoals(context, doInPost: () async {
+                      await state.bodyCorrectiveGoals(context,
+                          doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

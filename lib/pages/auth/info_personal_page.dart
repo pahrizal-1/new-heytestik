@@ -1,21 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/auth/register_controller.dart';
-import '../../core/error_config.dart';
 import '../../theme/theme.dart';
 import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';
-import '../../widget/text_form_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class InfoPersonalPage extends StatefulWidget {
@@ -32,7 +26,9 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
   @override
   void initState() {
     super.initState();
-    _isGender = Provider.of<RegisterController>(context, listen: false).gender == "Laki-laki";
+    _isGender =
+        Provider.of<RegisterController>(context, listen: false).gender ==
+            "Laki-laki";
   }
 
   @override
@@ -142,7 +138,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     child: GestureDetector(
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
-                        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                        final XFile? image =
+                            await picker.pickImage(source: ImageSource.gallery);
 
                         if (image != null) {
                           File imageFile = File(image.path);
@@ -225,7 +222,11 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                             child: Center(
-                              child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
+                              child: Text('Laki - laki',
+                                  style: _isGender
+                                      ? TextStyle(
+                                          color: whiteColor, fontSize: 12)
+                                      : blackTextStyle),
                             ),
                           ),
                         ),
@@ -257,7 +258,10 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                             child: Center(
                               child: Text(
                                 'Perempuan',
-                                style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
+                                style: _isGender
+                                    ? blackTextStyle
+                                    : TextStyle(
+                                        color: whiteColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -274,7 +278,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
@@ -303,7 +308,9 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                       if (state.province == 0 || state.city == 0) {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertWidget(subtitle: "Data Provinsi Dan Kota/Kabupaten Harap Diisi"),
+                          builder: (context) => AlertWidget(
+                              subtitle:
+                                  "Data Provinsi Dan Kota/Kabupaten Harap Diisi"),
                         );
                       } else {
                         await state.register(context, doInPost: () async {
