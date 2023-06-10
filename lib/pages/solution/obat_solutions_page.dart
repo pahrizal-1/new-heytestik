@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/card_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class ObatSolutionsPage extends StatelessWidget {
@@ -401,7 +400,6 @@ class KonsultasProduk extends StatelessWidget {
     );
   }
 }
-
 
 class CirkelCategory extends StatelessWidget {
   final String img;

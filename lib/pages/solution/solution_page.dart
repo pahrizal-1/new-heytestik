@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/card_widget.dart';

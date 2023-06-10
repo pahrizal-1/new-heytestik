@@ -1,13 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/card_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class SolutionsTreatment1Page extends StatefulWidget {
