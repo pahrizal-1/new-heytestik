@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/interest/interest3_page.dart';
 import 'package:heystetik_mobileapps/pages/interest/interest5_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
