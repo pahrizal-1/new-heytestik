@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/view_chat_page.dart';
-
 import '../../theme/theme.dart';
 import '../../widget/text_form_widget.dart';
 
@@ -19,7 +18,7 @@ class SelectConditionsPage extends StatelessWidget {
             child: const Icon(Icons.arrow_back)),
         backgroundColor: greenColor,
         title: Row(
-          children: [
+          children: const [
             Text('Pilih Kodisi'),
           ],
         ),
@@ -31,13 +30,15 @@ class SelectConditionsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SearchTextField(),
+              SearchTextField(
+                title: 'Cari Kodisi',
+              ),
               const SizedBox(
                 height: 18,
               ),
               Text(
                 'Korektif Wajah',
-                style: blackTextStyle,
+                style: blackTextStyle.copyWith(fontSize: 18),
               ),
               const SizedBox(
                 height: 18,
@@ -54,11 +55,11 @@ class SelectConditionsPage extends StatelessWidget {
                 title: 'kusam',
                 img: 'assets/images/pelkhitam.png',
               ),
-              KorektifWajahPage(
+              const KorektifWajahPage(
                 title: 'Bekas Jerawat',
                 img: 'assets/images/pelkhitam.png',
               ),
-              KorektifWajahPage(
+              const KorektifWajahPage(
                 title: 'Bekas Flek Hitam & Melasma',
                 img: 'assets/images/pelkhitam.png',
               ),
@@ -67,20 +68,42 @@ class SelectConditionsPage extends StatelessWidget {
               ),
               Text(
                 'Korektif Wajah',
-                style: blackTextStyle,
+                style: blackTextStyle.copyWith(fontSize: 18),
               ),
               const SizedBox(
                 height: 18,
               ),
-              KorektifWajahPage(
+              const KorektifWajahPage(
                 title: 'Bekas Flek Hitam & Melasma',
                 img: 'assets/images/pelkhitam.png',
               ),
-              KorektifWajahPage(
+              const KorektifWajahPage(
                 title: 'Bekas Flek Hitam & Melasma',
                 img: 'assets/images/pelkhitam.png',
               ),
-              KorektifWajahPage(
+              const KorektifWajahPage(
+                title: 'Bekas Flek Hitam & Melasma',
+                img: 'assets/images/pelkhitam.png',
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                'Augmentation Wajah & Tubuh',
+                style: blackTextStyle.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              const KorektifWajahPage(
+                title: 'Bekas Flek Hitam & Melasma',
+                img: 'assets/images/pelkhitam.png',
+              ),
+              const KorektifWajahPage(
+                title: 'Bekas Flek Hitam & Melasma',
+                img: 'assets/images/pelkhitam.png',
+              ),
+              const KorektifWajahPage(
                 title: 'Bekas Flek Hitam & Melasma',
                 img: 'assets/images/pelkhitam.png',
               ),
@@ -110,7 +133,7 @@ class KorektifWajahPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PertanyaanAwalPage(),
+              builder: (context) => const ChatPage(),
             ),
           );
         },

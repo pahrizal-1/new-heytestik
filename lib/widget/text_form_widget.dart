@@ -126,8 +126,10 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
 }
 
 class SearchTextField extends StatelessWidget {
+  final String title;
   const SearchTextField({
     super.key,
+    required this.title,
   });
 
   @override
@@ -136,11 +138,49 @@ class SearchTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xfffF1F1F1),
-        hintText: "Cari Kondisi",
+        hintText: title,
         prefixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(1.0),
+          borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}
+
+class TextFromPerawat extends StatelessWidget {
+  final String title;
+  final VoidCallback? onTap;
+  const TextFromPerawat({
+    super.key,
+    required this.title,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(color: const Color(0xFFCCCCCC))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: blackHigtTextStyle.copyWith(fontSize: 15),
+            ),
+            Icon(
+              Icons.keyboard_arrow_right,
+              size: 12,
+              color: greenColor,
+            ),
+          ],
         ),
       ),
     );

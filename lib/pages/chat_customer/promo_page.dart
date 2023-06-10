@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';

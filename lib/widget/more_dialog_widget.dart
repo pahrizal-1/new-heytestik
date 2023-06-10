@@ -5,11 +5,9 @@ import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/info_personal_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/timeline_widget.dart';
-import 'package:provider/provider.dart';
-
-import '../controller/auth/register_controller.dart';
 
 class MoreDialog extends StatelessWidget {
   const MoreDialog({super.key});
@@ -149,8 +147,6 @@ class TextMoreDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<RegisterController>(context);
-
     return AlertDialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(10),
@@ -173,7 +169,7 @@ class TextMoreDialog extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Yey! Email ${state.email.text} telah berhasil terverifikasi.',
+              'Yey! Email rasmalina.rina@gmail.com telah berhasil terverifikasi.',
               style: greyTextStyle.copyWith(fontSize: 13),
             ),
             const SizedBox(
@@ -213,49 +209,236 @@ class ProfilMoreDialog extends StatefulWidget {
 }
 
 class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
-  void initState() {
-    super.initState();
-    Timer(
-      const Duration(seconds: 1),
-      () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) => const AuthPage(),
-        ),
-      ),
-    );
-  }
+  // void initState() {
+  //   super.initState();
+  //   Timer(
+  //     const Duration(seconds: 1),
+  //     () => Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(
+  //         builder: (BuildContext context) => const AuthPage(),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(1),
+      insetPadding: const EdgeInsets.all(0.1),
       content: Container(
-        height: 300,
+        height: 270,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Image.asset(
-              'assets/images/profilelengkap.png',
-              width: 170,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 200,
+                    width: 240,
+                    transform: Matrix4.translationValues(10, -60, 0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/images/more-image.png",
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    transform: Matrix4.translationValues(0, -50, 0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Yeaay!',
+                          style: blackHigtTextStyle.copyWith(fontSize: 30),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Akun Profilmu Sudah lengkap',
+                          style: greyTextStyle.copyWith(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              'Yeaay!',
-              style: blackHigtTextStyle.copyWith(fontSize: 30),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Akun Profilmu Sudah lengkap',
-              style: greyTextStyle.copyWith(fontSize: 15),
-            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 45,
+                  width: 45,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.grey,
+                    size: 30,
+                  ),
+                ),
+              ),
+            )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class DetailMoreDialogFilter extends StatelessWidget {
+  const DetailMoreDialogFilter({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.all(0.1),
+      content: Container(
+        height: 356,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 21, top: 35, right: 21),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_outlined,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Detail Perawatan',
+                    style: blackTextStyle.copyWith(fontSize: 20),
+                  )
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Durasi Perawatan',
+                        title2: '15 Menit',
+                      ),
+                      SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Masa Pemulihan',
+                        title2: '2-4 Hari',
+                      ),
+                      SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Tipe',
+                        title2: 'Non- Surgical',
+                      ),
+                      SizedBox(
+                        height: 34,
+                      ),
+                      Text(
+                        'Detail Perawatan',
+                        style: TextStyle(color: blackColor, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                color: blackColor, shape: BoxShape.circle),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'Cleasing',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                color: blackColor, shape: BoxShape.circle),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'Foto Befoer-After',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                color: blackColor, shape: BoxShape.circle),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'Diberikan Cairan Felling',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                        ],
+                      )
+                    ]),
+              ),
+            ],
+          ),
         ),
       ),
     );

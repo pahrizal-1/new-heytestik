@@ -42,6 +42,34 @@ AppBar AppBarChat(BuildContext context) {
   );
 }
 
+AppBar AppBarProfile(BuildContext context) {
+  return AppBar(
+    backgroundColor: fromCssColor('#24A7A0'),
+    title: Text(
+      "Pertanyaan Awal",
+      style: TextStyle(
+          fontFamily: 'ProximaNova',
+          fontWeight: bold,
+          fontSize: 20,
+          letterSpacing: 1),
+    ),
+  );
+}
+
+AppBar AppBarProfileRiwayat(BuildContext context) {
+  return AppBar(
+    backgroundColor: fromCssColor('#24A7A0'),
+    title: Text(
+      "Riwayat Medis",
+      style: TextStyle(
+          fontFamily: 'ProximaNova',
+          fontWeight: bold,
+          fontSize: 20,
+          letterSpacing: 1),
+    ),
+  );
+}
+
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: fromCssColor('#24A7A0'),

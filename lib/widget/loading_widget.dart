@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+// import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:from_css_color/from_css_color.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
@@ -26,3 +28,13 @@ class LoadingWidget extends StatelessWidget {
         : child;
   }
 }
+// child: SpinKitCircle(
+                //   itemBuilder: (context, index) {
+                //     final colors = [greenColor, Colors.black54];
+                //     final color = colors[index % colors.length];
+                //     return DecoratedBox(
+                //       decoration:
+                //           BoxDecoration(color: color, shape: BoxShape.circle),
+                //     );
+                //   },
+                // ),

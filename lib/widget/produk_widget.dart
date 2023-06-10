@@ -1,0 +1,408 @@
+import 'package:flutter/material.dart';
+
+import '../theme/theme.dart';
+
+class ProdukKeranjang extends StatelessWidget {
+  final String namaBrand;
+  final String namaProduk;
+  final String diskonProduk;
+  final String hargaDiskon;
+  final String harga;
+  final String urlImg;
+  final String rating;
+  const ProdukKeranjang({
+    super.key,
+    required this.namaBrand,
+    required this.namaProduk,
+    required this.diskonProduk,
+    required this.hargaDiskon,
+    required this.harga,
+    required this.urlImg,
+    required this.rating,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 260,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            constraints: const BoxConstraints(maxWidth: 250),
+            height: 107,
+            width: 127,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(urlImg),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 8),
+              constraints: const BoxConstraints(maxWidth: 120),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    namaBrand,
+                    style: blackHigtTextStyle.copyWith(fontSize: 13),
+                  ),
+                  Text(
+                    namaProduk,
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: regular,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 28,
+                        height: 13,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                        child: Center(
+                          child: Text(
+                            diskonProduk,
+                            style: blackHigtTextStyle.copyWith(
+                                color: redColor, fontSize: 11),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        hargaDiskon,
+                        style: subGreyTextStyle.copyWith(
+                          fontSize: 12,
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 2,
+                          color: const Color(0xff9B9B9B),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    harga,
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: yellowColor,
+                        size: 18,
+                      ),
+                      Text(
+                        rating,
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '+ Keranjang',
+                          style: whiteTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+class ProdukObat extends StatelessWidget {
+  final String namaBrand;
+
+  final String harga;
+  final String urlImg;
+
+  const ProdukObat({
+    Key? key,
+    required this.namaBrand,
+    required this.harga,
+    required this.urlImg,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 285,
+          width: 164,
+          child: Column(
+            children: [
+              Image.asset(
+                urlImg,
+                width: 164,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 11, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$namaBrand',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: regular,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      harga,
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Per Tube',
+                      style: subGreyTextStyle.copyWith(
+                          fontSize: 12, color: const Color(0xFF9B9B9B)),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Dapat dibeli hingga 20 April 2023',
+                      style: grenTextStyle.copyWith(
+                        fontSize: 11,
+                        fontWeight: medium,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      height: 30,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          backgroundColor: greenColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '+ Keranjang',
+                            style: whiteTextStyle.copyWith(fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ProdukTreatment extends StatelessWidget {
+  final String namaKlinik;
+  final String namaTreatmen;
+  final String lokasiKlinik;
+  final String diskonProduk;
+  final String hargaDiskon;
+  final String harga;
+  final String urlImg;
+  final String rating;
+  final String km;
+  const ProdukTreatment({
+    Key? key,
+    required this.namaKlinik,
+    required this.namaTreatmen,
+    required this.diskonProduk,
+    required this.hargaDiskon,
+    required this.harga,
+    required this.urlImg,
+    required this.rating,
+    required this.km,
+    required this.lokasiKlinik,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 7),
+      width: 164,
+      height: 285,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            constraints: const BoxConstraints(maxWidth: 250),
+            height: 107,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(7), topRight: Radius.circular(7)),
+              image:
+                  DecorationImage(image: AssetImage(urlImg), fit: BoxFit.cover),
+            ),
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    namaKlinik,
+                    style: blackHigtTextStyle.copyWith(fontSize: 13),
+                  ),
+                  Text(
+                    namaTreatmen,
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: regular,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 28,
+                        height: 13,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                        child: Center(
+                          child: Text(
+                            "$diskonProduk%",
+                            style: blackHigtTextStyle.copyWith(
+                                color: redColor, fontSize: 11),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Rp $hargaDiskon",
+                        style: subGreyTextStyle.copyWith(
+                          fontSize: 12,
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 2,
+                          color: const Color(0xff9B9B9B),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    lokasiKlinik,
+                    style: subGreyTextStyle.copyWith(
+                      fontSize: 12,
+                      color: const Color(0xff9B9B9B),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    'Rp$harga',
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: yellowColor,
+                        size: 18,
+                      ),
+                      Text(
+                        '4.9 (120k)',
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Image.asset(
+                        'assets/icons/mapgrey.png',
+                        width: 9,
+                      ),
+                      Text(
+                        " $km Km",
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 13,
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      height: 25,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Center(
+                        child: Text(
+                          '+ Keranjang',
+                          style: whiteTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+Widget buildImg1(String images, int index) => Image.asset(
+      images,
+      fit: BoxFit.fill,
+    );

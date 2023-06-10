@@ -22,6 +22,84 @@ class CardSkinGoals extends StatefulWidget {
   State<CardSkinGoals> createState() => _CardSkinGoalsState();
 }
 
+class CardSkincare extends StatelessWidget {
+  final String title;
+  const CardSkincare({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      height: 45,
+      decoration: BoxDecoration(
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(7),
+      ),
+      child: Text(
+        title,
+        style: blackHigtTextStyle.copyWith(fontWeight: regular, fontSize: 13),
+      ),
+    );
+  }
+}
+
+class CardSearch extends StatefulWidget {
+  final String title;
+  const CardSearch({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  State<CardSearch> createState() => _CardSearchState();
+}
+
+class _CardSearchState extends State<CardSearch> {
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () {
+            setState(
+                  () {
+                isSelected = !isSelected;
+              },
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+            height: 30,
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? const Color.fromRGBO(36, 167, 160, 0.2)
+                  : whiteColor,
+              borderRadius: BorderRadius.circular(7),
+              border: Border.all(
+                color: isSelected ? greenColor : const Color(0xffCCCCCC),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                widget.title,
+                style: subGreyTextStyle.copyWith(
+                    fontSize: 15,
+                    color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _CardSkinGoalsState extends State<CardSkinGoals> {
   bool isIconSelected1 = false;
   @override
@@ -72,7 +150,7 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
             color: whiteColor,
             borderRadius: BorderRadius.circular(10),
             border:
-                Border.all(color: isIconSelected1 ? greenColor : greyColor)),
+            Border.all(color: isIconSelected1 ? greenColor : greyColor)),
         height: 40,
         width: widget.width,
         child: Row(
@@ -104,11 +182,10 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
 
 class CardBank extends StatefulWidget {
   final String img;
-  final String title;
+
   const CardBank({
     super.key,
     required this.img,
-    required this.title,
   });
 
   @override
@@ -116,7 +193,135 @@ class CardBank extends StatefulWidget {
 }
 
 class _CardBankState extends State<CardBank> {
-  bool isSelected = true;
+  List<String> nameBank = [
+    'Transfer Bank BCA',
+    'Transfer Bank BNI',
+    'Transfer Bank BRI',
+  ];
+  List<String> img = [
+    'assets/images/logo-bca.png',
+    'assets/images/logo-bni.png',
+    'assets/images/logo-bri.png',
+  ];
+  int isSelected = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(3, (index) {
+        return InkWell(
+          onTap: () {
+            setState(() {
+              isSelected = index;
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      img[index],
+                      width: 52,
+                    ),
+                    const SizedBox(
+                      width: 19,
+                    ),
+                    Text(
+                      nameBank[index],
+                      style: blackTextStyle.copyWith(fontSize: 15),
+                    ),
+                    const Spacer(),
+                    Container(
+                      height: 18,
+                      width: 18,
+                      decoration: isSelected == index
+                          ? BoxDecoration(
+                        color: greenColor,
+                        shape: BoxShape.circle,
+                      )
+                          : BoxDecoration(
+                        color: whiteColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: blackColor),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 27,
+                ),
+                Divider(
+                  thickness: 2,
+                )
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+class CardFilter extends StatefulWidget {
+  final String title;
+  const CardFilter({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  State<CardFilter> createState() => _CardFilterState();
+}
+
+class _CardFilterState extends State<CardFilter> {
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(
+              () {
+            isSelected = !isSelected;
+          },
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        height: 30,
+        decoration: BoxDecoration(
+          color:
+          isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(
+            color: isSelected ? greenColor : const Color(0xffCCCCCC),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            widget.title,
+            style: subGreyTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardImage extends StatefulWidget {
+  final String imageBrand;
+  CardImage({Key? key, required this.imageBrand}) : super(key: key);
+
+  @override
+  _CardImageState createState() => _CardImageState();
+}
+
+class _CardImageState extends State<CardImage> {
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -125,46 +330,26 @@ class _CardBankState extends State<CardBank> {
           isSelected = !isSelected;
         });
       },
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(
-                widget.img,
-                width: 52,
-              ),
-              const SizedBox(
-                width: 19,
-              ),
-              Text(
-                widget.title,
-                style: blackTextStyle.copyWith(fontSize: 15),
-              ),
-              const Spacer(),
-              Container(
-                height: 18,
-                width: 18,
-                decoration: isSelected
-                    ? BoxDecoration(
-                        color: whiteColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: blackColor),
-                      )
-                    : BoxDecoration(
-                        color: greenColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: blackColor),
-                      ),
-              )
-            ],
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(
+            color: isSelected ? Colors.green : const Color(0xffCCCCCC),
           ),
-          const SizedBox(
-            height: 27,
+        ),
+        child: Center(
+          child: Container(
+            height: 31,
+            width: 60,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(widget.imageBrand), fit: BoxFit.fill),
+            ),
           ),
-          const Divider(
-            thickness: 2,
-          )
-        ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+// ignore: must_be_immutable
 class AlertWidget extends StatelessWidget {
   String subtitle;
 

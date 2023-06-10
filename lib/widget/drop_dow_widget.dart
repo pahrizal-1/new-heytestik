@@ -50,13 +50,13 @@ class _DropDownWigetState extends State<DropDownWiget> {
           "Diatas Rp10.000.000",
         ]
             .map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(
-                  child: Text(e.toString()),
-                  value: e,
-                ))
+          child: Text(e.toString()),
+          value: e,
+        ))
             .toList(),
         onChanged: ((value) {
           setState(
-            () {
+                () {
               if (widget.type == 1) {
                 state.skincare = value;
               }
@@ -112,20 +112,20 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
                 items: !snapshot.hasData ? null : snapshot.data
                     .map<DropdownMenuItem<String>>(
                       (e) => DropdownMenuItem<String>(
-                        value: e['id'].toString(),
-                        child: Text(
-                          e['name'],
-                          style: blackTextStyle,
-                        ),
-                      ),
-                    )
+                    value: e['id'].toString(),
+                    child: Text(
+                      e['name'],
+                      style: blackTextStyle,
+                    ),
+                  ),
+                )
                     .toList(),
                 onChanged: ((value) {
                   if (value != null) {
                     state.setProvince(int.parse(value));
                     state.setCity(null);
                     setState(
-                      () {
+                          () {
                         selectedvalue = value;
                       },
                     );
@@ -177,21 +177,21 @@ class _DropDownkotaWigetState extends State<DropDownkotaWiget> {
                 items: !snapshot.hasData ? null : snapshot.data
                     .map<DropdownMenuItem<String>>(
                       (e) => DropdownMenuItem<String>(
-                        value: e['id'].toString(),
-                        child: Text(
-                          e['name'],
-                          style: blackTextStyle,
-                        ),
-                      ),
-                    )
+                    value: e['id'].toString(),
+                    child: Text(
+                      e['name'],
+                      style: blackTextStyle,
+                    ),
+                  ),
+                )
                     .toList(),
                 onChanged: ((value) {
                   setState(
-                    () {
+                        () {
                       if (value != null) {
                         state.setCity(int.parse(value));
                         setState(
-                          () {
+                              () {
                             selectedvalue = value;
                           },
                         );

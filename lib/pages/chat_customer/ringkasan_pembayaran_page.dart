@@ -1,10 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
+import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
-import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widgrt.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class RingkasanPembayaranPage extends StatelessWidget {
@@ -26,13 +30,23 @@ class RingkasanPembayaranPage extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 26),
-            child: Container(
-              width: 20,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/icons/icon-home-chat.png'),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 26),
+              child: Container(
+                width: 20,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/icons/icon-home-chat.png'),
+                  ),
                 ),
               ),
             ),
@@ -193,23 +207,8 @@ class RingkasanPembayaranPage extends StatelessWidget {
                   const SizedBox(
                     height: 27,
                   ),
-                  const CardBank(
-                      img: 'assets/images/logo-bca.png',
-                      title: 'Bank Central BCA'),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  const CardBank(
-                      img: 'assets/images/logo-bni.png',
-                      title: 'Bank Central BCA'),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  const CardBank(
-                      img: 'assets/images/logo-bri.png',
-                      title: 'Bank Central BCA'),
-                  const SizedBox(
-                    height: 15,
+                  CardBank(
+                    img: 'assets/images/logo-bca.png',
                   ),
                   Text(
                     'Total Harga',
@@ -238,10 +237,15 @@ class RingkasanPembayaranPage extends StatelessWidget {
                   ButtonGreenWidget(
                     title: 'Bayar',
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const TransaksiMoreDialog(),
-                          barrierDismissible: false);
+                      showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                        ),
+                        builder: (context) => const TransaksiMoreDialog(),
+                      );
                     },
                   ),
                   const SizedBox(

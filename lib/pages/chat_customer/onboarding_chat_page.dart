@@ -12,7 +12,7 @@ class OnboardingChat extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: greenColor,
         title: Row(
-          children: [
+          children: const [
             Text('Chat'),
           ],
         ),
