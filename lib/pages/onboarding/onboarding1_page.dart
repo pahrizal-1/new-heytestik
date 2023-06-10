@@ -1,11 +1,8 @@
 // import 'dart:js_util';
 
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/onboarding2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 class OnBoarding1Page extends StatefulWidget {
   const OnBoarding1Page({super.key});

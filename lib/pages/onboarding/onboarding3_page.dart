@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
-import 'package:heystetik_mobileapps/pages/interest/interest1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 class OnBoarding3Page extends StatefulWidget {
   const OnBoarding3Page({super.key});

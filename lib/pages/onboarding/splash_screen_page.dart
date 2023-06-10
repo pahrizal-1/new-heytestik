@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/home/home_page.dart';
-import 'package:lottie/lottie.dart';
 import 'package:video_player/video_player.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/onboarding1_page.dart';
 
@@ -27,7 +26,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       );
     Timer(const Duration(milliseconds: 5500), () async {
       String? token = await LocalStorage().getAccessToken();
-      if(token == null || token == "") {
+      if (token == null || token == '') {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
