@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal2_page.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+
+import '../home/home_page.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
   const PertanyaanAwalPage({super.key});
@@ -22,7 +24,39 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarChat(context),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            const Text('Pertanyaan Awal'),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomepageCutomer(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/icons/icon-home-chat.png',
+                width: 18,
+              ),
+            )
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Padding(
@@ -85,6 +119,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
                       color: isIconSelected1
                           ? fromCssColor('#24A7A0')
                           : Colors.transparent,
@@ -147,6 +182,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
                       // border: OutlineInputBorder(
                       //   borderRadius: BorderRadius.circular(16),
                       //   borderSide: BorderSide.none,
@@ -213,6 +249,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
                       color: isIconSelected3
                           ? fromCssColor('#24A7A0')
                           : Colors.transparent,
@@ -275,6 +312,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
                       color: isIconSelected4
                           ? fromCssColor('#24A7A0')
                           : Colors.transparent,

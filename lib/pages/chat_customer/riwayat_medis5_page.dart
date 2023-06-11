@@ -20,7 +20,7 @@ class _RiwayatMedis5PageState extends State<RiwayatMedis5Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: appBarRiwayat(context),
       body: ListView(
         children: [
           Container(
@@ -82,6 +82,7 @@ class _RiwayatMedis5PageState extends State<RiwayatMedis5Page> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             color: isIconSelected1
                                 ? fromCssColor('#24A7A0')
                                 : Colors.transparent,
@@ -133,6 +134,7 @@ class _RiwayatMedis5PageState extends State<RiwayatMedis5Page> {
                         child: Container(
                           height: 150,
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             border: Border.all(
                               color: fromCssColor('#CCCCCC'),
                               width: 1,
@@ -165,6 +167,7 @@ class _RiwayatMedis5PageState extends State<RiwayatMedis5Page> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             color: isIconSelected2
                                 ? fromCssColor('#24A7A0')
                                 : Colors.transparent,

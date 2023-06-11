@@ -21,7 +21,7 @@ class _RiwayatMedis1PageState extends State<RiwayatMedis1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: appBarRiwayat(context),
       body: Stack(
         children: [
           Column(
@@ -97,6 +97,7 @@ class _RiwayatMedis1PageState extends State<RiwayatMedis1Page> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
                           color: isIconSelected1
                               ? fromCssColor('#24A7A0')
                               : Colors.transparent,
@@ -156,6 +157,7 @@ class _RiwayatMedis1PageState extends State<RiwayatMedis1Page> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
                           color: isIconSelected2
                               ? fromCssColor('#24A7A0')
                               : Colors.transparent,
@@ -215,6 +217,7 @@ class _RiwayatMedis1PageState extends State<RiwayatMedis1Page> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
                           color: isIconSelected3
                               ? fromCssColor('#24A7A0')
                               : Colors.transparent,
@@ -274,6 +277,7 @@ class _RiwayatMedis1PageState extends State<RiwayatMedis1Page> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
                           color: isIconSelected4
                               ? fromCssColor('#24A7A0')
                               : Colors.transparent,
