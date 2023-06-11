@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 
 import '../../core/local_storage.dart';
 
@@ -84,7 +84,7 @@ class _HeaderPageState extends State<HeaderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DoctorHomePage(),
+                        builder: (context) => const TabBarDoctor(),
                       ),
                     );
                   },

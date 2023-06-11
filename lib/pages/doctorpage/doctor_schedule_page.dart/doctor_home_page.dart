@@ -1,102 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/halaman_chat_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/pengaturan_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
-
-import '../account_page/profil_doctor_page.dart';
-
-class DoctorHomePage extends StatefulWidget {
-  const DoctorHomePage({super.key});
-
-  @override
-  State<DoctorHomePage> createState() => _DoctorHomePageState();
-}
-
-class _DoctorHomePageState extends State<DoctorHomePage> {
-  List<Widget> widgetList = [
-    const HomePageDoctor(),
-    const HalamanChatPage(),
-    const PengaturanPage(),
-    const ProfilDoctorPage()
-  ];
-  void onTap(int index) {
-    setState(() {
-      myIndex = index;
-    });
-  }
-
-  int myIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: widgetList[myIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            myIndex = index;
-          });
-        },
-        currentIndex: myIndex,
-        backgroundColor: Colors.transparent,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: fromCssColor('#6DC0B3'),
-        unselectedItemColor: fromCssColor('#616161'),
-        elevation: 0,
-        items: [
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  'assets/icons/icon_home.svg',
-                  color: myIndex == 0 ? greenColor : greyColor,
-                ),
-              ),
-              label: "Home"),
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  'assets/icons/icon_chat.svg',
-                  color: myIndex == 1 ? greenColor : greyColor,
-                ),
-              ),
-              label: 'Chat'),
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  'assets/icons/icon_pengaturan.svg',
-                  color: myIndex == 2 ? greenColor : greyColor,
-                ),
-              ),
-              label: "Pengaturan"),
-          BottomNavigationBarItem(
-              icon: Container(
-                height: 30,
-                width: 30,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  // child: Image.asset(
-                  //   'assets/images/jpgsolutions.jpg',
-                  //   color: greenColor,
-                  // ),
-                  child: Icon(
-                    Icons.person_add_outlined,
-                    size: 26,
-                    color: myIndex == 3 ? greenColor : greyColor,
-                  ),
-                ),
-              ),
-              label: "Profil"),
-        ],
-      ),
-    );
-  }
-}
 
 class HomePageDoctor extends StatelessWidget {
   const HomePageDoctor({
@@ -138,7 +44,7 @@ class HomePageDoctor extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Hai,",
+                                  'Hai,',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'ProximaNova',
@@ -149,7 +55,7 @@ class HomePageDoctor extends StatelessWidget {
                                   height: 5,
                                 ),
                                 Text(
-                                  "dr. Risty Hafinah, Sp.DV",
+                                  'dr. Risty Hafinah, Sp.DV',
                                   style: TextStyle(
                                     fontWeight: bold,
                                     fontFamily: 'ProximaNova',
@@ -178,7 +84,7 @@ class HomePageDoctor extends StatelessWidget {
                           decoration: BoxDecoration(
                             image: const DecorationImage(
                               image: AssetImage(
-                                  "assets/icons/notification-dot.png"),
+                                  'assets/icons/notification-dot.png'),
                             ),
                           ),
                         ),
@@ -213,7 +119,7 @@ class HomePageDoctor extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Jadwal Hari ini, 24 Feb 2023",
+                        'Jadwal Hari ini, 24 Feb 2023',
                         style: TextStyle(
                           fontWeight: bold,
                           color: fromCssColor('#6B6B6B'),
@@ -225,7 +131,7 @@ class HomePageDoctor extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "10:00 - 12:00",
+                        '10:00 - 12:00',
                         style: TextStyle(
                           fontWeight: bold,
                           fontSize: 25,
@@ -258,7 +164,7 @@ class HomePageDoctor extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "Jadwal Konsultasi Dengan Pasien",
+                      'Jadwal Konsultasi Dengan Pasien',
                       style: TextStyle(
                         fontWeight: bold,
                         fontFamily: 'ProximaNova',
@@ -305,7 +211,7 @@ class HomePageDoctor extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5),
                                     child: Text(
-                                      "10:00 WIB",
+                                      '10:00 WIB',
                                       style: TextStyle(
                                         color: fromCssColor('#6B6B6B'),
                                         fontFamily: 'ProximaNova',
@@ -384,13 +290,3 @@ class HomePageDoctor extends StatelessWidget {
     );
   }
 }
-// ListView.builder(
-            //   shrinkWrap: true,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   itemCount: 2,
-            //   itemBuilder: (BuildContext context, int index) {
-            //     return ListTile(
-            //       title: Text('Item $index'),
-            //     );
-            //   },
-            // ),
