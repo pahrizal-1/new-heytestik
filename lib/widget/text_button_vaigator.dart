@@ -134,3 +134,54 @@ class ChatBottomNavigator extends StatelessWidget {
         ));
   }
 }
+
+class ChatBottomCostomer extends StatelessWidget {
+  const ChatBottomCostomer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  maxLines: 6,
+                  minLines: 1,
+                  decoration: InputDecoration(
+                    filled: true,
+                    isDense: true,
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10000)),
+                      borderSide: BorderSide(
+                        style: BorderStyle.none,
+                        width: 0,
+                      ),
+                    ),
+                    fillColor: whiteColor,
+                    hintText: 'Messeges',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Image.asset(
+                        'assets/icons/plus-icosn.png',
+                        width: 16,
+                      ),
+                    ),
+                    hintStyle: subGreyTextStyle,
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/icons/Group 461.png',
+                width: 40,
+              )
+            ],
+          ),
+        ));
+  }
+}
