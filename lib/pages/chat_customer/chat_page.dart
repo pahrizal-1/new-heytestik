@@ -11,16 +11,21 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        elevation: 0,
-        title: Text(
-          'Bekas Jerawat',
-          style: TextStyle(
-            letterSpacing: 0.2,
-            fontWeight: bold,
-            fontFamily: 'ProximaNova',
-            color: Colors.white,
-          ),
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            const Text('Bekas Jerawat'),
+          ],
         ),
       ),
       body: SingleChildScrollView(

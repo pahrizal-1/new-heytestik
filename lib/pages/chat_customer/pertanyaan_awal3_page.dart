@@ -5,7 +5,9 @@ import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis1_page.dar
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+
+import '../../theme/theme.dart';
+import '../home/home_page.dart';
 
 class PertanyaanAwal3Page extends StatefulWidget {
   const PertanyaanAwal3Page({super.key});
@@ -18,7 +20,39 @@ class _PertanyaanAwal3PageState extends State<PertanyaanAwal3Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarChat(context),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            const Text('Pertanyaan Awal'),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomepageCutomer(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/icons/icon-home-chat.png',
+                width: 18,
+              ),
+            )
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           Column(
