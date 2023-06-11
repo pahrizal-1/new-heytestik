@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/pages/home/header_page.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/botton_navigations_widget.dart';
+
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../chat_customer/onboarding_chat_page.dart';
+import '../solution/solution_page.dart';
+import '../stream_page/stream_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +25,90 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Widget> widgetList = [
+    const HomepageCutomer(),
+    const OnboardingChat(),
+    const StreamPage(),
+    const SolutionPage(),
+  ];
+
+  void onTap(int index) {
+    setState(() {
+      myIndex = index;
+    });
+  }
+
+  int myIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: widgetList[myIndex],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
+        child: BottomNavigationBar(
+          onTap: onTap,
+          currentIndex: myIndex,
+          backgroundColor: Colors.transparent,
+          selectedItemColor: fromCssColor('#6DC0B3'),
+          unselectedItemColor: fromCssColor('#616161'),
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: SvgPicture.asset(
+                    'assets/icons/icon_home.svg',
+                    color: myIndex == 0 ? greenColor : greyColor,
+                  ),
+                ),
+                label: "Home"),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: SvgPicture.asset(
+                    'assets/icons/icon_chat.svg',
+                    color: myIndex == 1 ? greenColor : greyColor,
+                  ),
+                ),
+                label: 'Chat'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: SvgPicture.asset(
+                    'assets/icons/icon_stream.svg',
+                    color: myIndex == 2 ? greenColor : greyColor,
+                  ),
+                ),
+                label: "Stream"),
+            BottomNavigationBarItem(
+                icon: Image.asset(
+                  'assets/icons/solutions.png',
+                  width: 30,
+                  color: myIndex == 3 ? greenColor : greyColor,
+                ),
+                label: "Solutions"),
+          ],
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+        ),
+      ),
+    );
+  }
+}
+
+class HomepageCutomer extends StatefulWidget {
+  const HomepageCutomer({super.key});
+
+  @override
+  State<HomepageCutomer> createState() => _HomepageCutomerState();
+}
+
+class _HomepageCutomerState extends State<HomepageCutomer> {
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse)) {
@@ -29,7 +119,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: ListView(
         children: [
           const HeaderPage(),
@@ -424,7 +513,7 @@ class _HomePageState extends State<HomePage> {
                           highlightColor: whiteColor.withOpacity(0.6),
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                left: 20, top: 5, bottom: 5),
+                                left: 10, top: 5, bottom: 5),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -1109,62 +1198,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          selectedItemColor: fromCssColor('#6DC0B3'),
-          unselectedItemColor: fromCssColor('#616161'),
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: SvgPicture.asset('assets/icons/icon_home.svg'),
-                ),
-                label: 'Home'),
-            BottomNavigationBarItem(
-                icon: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OnboardingChat(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: SvgPicture.asset('assets/icons/icon_chat.svg'),
-                  ),
-                ),
-                label: 'Chat'),
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: SvgPicture.asset('assets/icons/icon_stream.svg'),
-                ),
-                label: 'Stream'),
-            BottomNavigationBarItem(
-                icon: Container(
-                  height: 30,
-                  width: 30,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: Image.asset('assets/images/jpgsolutions.jpg'),
-                    // child: Icon(Icons.health_and_safety_outlined, size: 26),
-                  ),
-                ),
-                label: 'Solutions'),
-          ],
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-        ),
       ),
     );
   }
