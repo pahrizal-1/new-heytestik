@@ -41,12 +41,21 @@ class _HomePageState extends State<HomePage> {
                 return Shimmer.fromColors(
                     baseColor: greyColor.withOpacity(0.25),
                     highlightColor: whiteColor.withOpacity(0.6),
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 49, right: 49),
-                      height: 100,
-                      width: 100,
-                      decoration:
-                          BoxDecoration(color: greyColor.withOpacity(0.9)),
+                    child: CarouselSlider(
+                      options: CarouselOptions(height: 184.0),
+                      items: [1, 2, 3, 4, 5].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(7)),
+                            );
+                          },
+                        );
+                      }).toList(),
                     ));
               }
 
