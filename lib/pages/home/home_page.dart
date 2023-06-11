@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../chat_customer/onboarding_chat_page.dart';
@@ -37,15 +38,16 @@ class _HomePageState extends State<HomePage> {
             builder: (context, AsyncSnapshot snapshot) {
               print(snapshot.data);
               if (!snapshot.hasData) {
-                return Center(
-                  child: SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      color: greenColor,
-                    ),
-                  ),
-                );
+                return Shimmer.fromColors(
+                    baseColor: greyColor.withOpacity(0.25),
+                    highlightColor: whiteColor.withOpacity(0.6),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 49, right: 49),
+                      height: 100,
+                      width: 100,
+                      decoration:
+                          BoxDecoration(color: greyColor.withOpacity(0.9)),
+                    ));
               }
 
               return CarouselSlider(
@@ -408,15 +410,39 @@ class _HomePageState extends State<HomePage> {
                     print(snapshot.data);
 
                     if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator(
-                            color: greenColor,
-                          ),
-                        ),
-                      );
+                      return Shimmer.fromColors(
+                          baseColor: greyColor.withOpacity(0.25),
+                          highlightColor: whiteColor.withOpacity(0.6),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 5, bottom: 5),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: greyColor.withOpacity(0.9),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: greyColor.withOpacity(0.9),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ));
                     }
                     return Row(
                       children: snapshot.data['data'].map<Widget>((value) {
