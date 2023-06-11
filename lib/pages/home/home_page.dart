@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/pages/home/header_page.dart';
-
 import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/botton_navigations_widget.dart';
-
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../chat_customer/onboarding_chat_page.dart';
 import '../solution/solution_page.dart';
 import '../stream_page/stream_page.dart';
