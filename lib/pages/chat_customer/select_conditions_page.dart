@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/text_form_widget.dart';
 
-class SelectConditionsPage extends StatelessWidget {
+class SelectConditionsPage extends StatefulWidget {
   const SelectConditionsPage({super.key});
+
+  @override
+  State<SelectConditionsPage> createState() => _SelectConditionsPageState();
+}
+
+class _SelectConditionsPageState extends State<SelectConditionsPage> {
+  final InterestConditionsController state =
+      Get.put(InterestConditionsController());
+
+  @override
+  void initState() {
+    super.initState();
+    get(context);
+  }
+
+  get(BuildContext context) async {
+    await state.getInterestConditions(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,97 +37,122 @@ class SelectConditionsPage extends StatelessWidget {
             },
             child: const Icon(Icons.arrow_back)),
         backgroundColor: greenColor,
-        title: Row(
-          children: const [
-            Text('Pilih Kodisi'),
-          ],
-        ),
+        title: const Text('Pilih Kodisi'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SearchTextField(
-                title: 'Cari Kodisi',
+      body: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
+        child: Obx(
+          () => LoadingWidget(
+            isLoading: state.isLoading.value,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SearchTextField(
+                    title: 'Cari Kodisi',
+                    controller: state.searchController,
+                    onChange: (value) {
+                      state.onChangeFilterText(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+
+                  for (int i = 0; i < state.filterData.length; i++)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // state.filterData[i].interestConditionsCategoryId == 1
+                        //     ? Text(
+                        //         state.filterData[i].category!.name.toString(),
+                        //         style: blackTextStyle.copyWith(fontSize: 18),
+                        //       )
+                        //     : Container(),
+                        // const SizedBox(
+                        //   height: 18,
+                        // ),
+                        KorektifWajahPage(
+                          title: state.filterData[i].name.toString(),
+                          img: 'assets/images/pelkhitam.png',
+                        ),
+                      ],
+                    ),
+                  // Text(
+                  //   'Korektif Wajah',
+                  //   style: blackTextStyle.copyWith(fontSize: 18),
+                  // ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Berawat',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'kusam',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Jerawat',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
+                  // Text(
+                  //   'Korektif Wajah',
+                  //   style: blackTextStyle.copyWith(fontSize: 18),
+                  // ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
+                  // Text(
+                  //   'Augmentation Wajah & Tubuh',
+                  //   style: blackTextStyle.copyWith(fontSize: 18),
+                  // ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                  // const KorektifWajahPage(
+                  //   title: 'Bekas Flek Hitam & Melasma',
+                  //   img: 'assets/images/pelkhitam.png',
+                  // ),
+                ],
               ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Korektif Wajah',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Berawat',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'kusam',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Jerawat',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Korektif Wajah',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Augmentation Wajah & Tubuh',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -162,7 +208,7 @@ class KorektifWajahPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 const Icon(
-                  Icons.arrow_forward,
+                  Icons.arrow_forward_ios_rounded,
                 ),
               ],
             ),
