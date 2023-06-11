@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/onboarding1_page.dart';
 
@@ -38,7 +38,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (BuildContext context) => const HomePage(),
+              builder: (BuildContext context) => const TabBarCustomer(),
             ),
           );
         });

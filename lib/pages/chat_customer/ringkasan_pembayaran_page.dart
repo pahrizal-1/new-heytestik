@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -34,7 +34,7 @@ class RingkasanPembayaranPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => const TabBarCustomer(),
                 ),
               );
             },

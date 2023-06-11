@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/option_login_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -55,14 +55,14 @@ class _LoginPageState extends State<LoginPage> {
                 height: 32,
               ),
               Text(
-                "Sign In",
+                'Sign In',
                 style: blackHigtTextStyle,
               ),
               const SizedBox(
                 height: 8,
               ),
               Text(
-                "Please complete this form for create account.If you need help please email on pahrizal@mail.com",
+                'Please complete this form for create account.If you need help please email on pahrizal@mail.com',
                 style: subGreyTextStyle,
                 textAlign: TextAlign.left,
               ),
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomePage(),
+                          builder: (context) => const TabBarCustomer(),
                         ),
                         (route) => false,
                       );
