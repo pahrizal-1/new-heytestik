@@ -232,9 +232,6 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
               ],
             ),
           ),
-          SizedBox(
-            height: 80,
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 25, left: 25),
             child: ButtonGreenWidget(
