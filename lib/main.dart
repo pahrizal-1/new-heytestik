@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
 import 'package:heystetik_mobileapps/controller/slideshow/slideshow_controller.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           create: (context) => InterestController(),
         ),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: 'Heystetik Aplication',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
