@@ -152,7 +152,7 @@ class RekeningBankPage extends StatelessWidget {
                               const SizedBox(
                                 height: 22,
                               ),
-                              const SearchTextField(
+                              SearchTextField(
                                 title: 'Cari Kodisi',
                               ),
                               const SizedBox(

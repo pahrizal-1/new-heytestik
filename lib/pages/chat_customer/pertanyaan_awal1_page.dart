@@ -33,7 +33,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
               lineHeight: 5,
               percent: 0.1,
               progressColor: fromCssColor('#24A7A0'),
-              backgroundColor: fromCssColor("#D9D9D9"),
+              backgroundColor: fromCssColor('#D9D9D9'),
             ),
           ),
           Padding(
@@ -41,10 +41,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 13),
+                const SizedBox(height: 13),
                 RichText(
                   text: TextSpan(
-                    text: "Data Umum",
+                    text: 'Data Umum',
                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       fontWeight: FontWeight.bold,
@@ -53,10 +53,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 RichText(
-                  text: TextSpan(
-                    text: "Menurutmu, kulit wajahmu termasuk tipe yang mana?",
+                  text: const TextSpan(
+                    text: 'Menurutmu, kulit wajahmu termasuk tipe yang mana?',
                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       color: Colors.black,
@@ -66,7 +66,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 InkWell(
@@ -74,7 +74,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PertanyaanAwal2Page()),
+                          builder: (context) => const PertanyaanAwal2Page()),
                     );
                     setState(() {
                       isIconSelected1 = !isIconSelected1;
@@ -112,7 +112,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: "Normal",
+                              text: 'Normal',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: isIconSelected1
@@ -128,7 +128,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 InkWell(
@@ -136,7 +136,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PertanyaanAwal2Page()),
+                          builder: (context) => const PertanyaanAwal2Page()),
                     );
                     setState(() {
                       isIconSelected2 = !isIconSelected2;
@@ -147,6 +147,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
+                      // border: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(16),
+                      //   borderSide: BorderSide.none,
+                      // ),
                       color: isIconSelected2
                           ? fromCssColor('#24A7A0')
                           : Colors.transparent,
@@ -174,7 +178,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: "Kering",
+                              text: 'Kering',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: isIconSelected2
@@ -190,7 +194,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 InkWell(
@@ -198,7 +202,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PertanyaanAwal2Page()),
+                          builder: (context) => const PertanyaanAwal2Page()),
                     );
                     setState(() {
                       isIconSelected3 = !isIconSelected3;
@@ -236,7 +240,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: "Berminyak",
+                              text: 'Berminyak',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: isIconSelected3
@@ -252,7 +256,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 InkWell(
@@ -260,7 +264,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PertanyaanAwal2Page()),
+                          builder: (context) => const PertanyaanAwal2Page()),
                     );
                     setState(() {
                       isIconSelected4 = !isIconSelected4;
@@ -298,7 +302,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: "Kombinasi",
+                              text: 'Kombinasi',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: isIconSelected4
