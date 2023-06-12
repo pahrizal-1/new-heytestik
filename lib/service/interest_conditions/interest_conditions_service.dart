@@ -21,7 +21,7 @@ class InterestConditionsService extends ProviderClass {
     return InterestConditionsModel.fromJson(response);
   }
 
-  Future<dynamic> getInterestConditionById(String id) async {
+  Future<dynamic> getInterestConditionById(int id) async {
     var response = await networkingConfig.doGet('/interest_conditions/$id');
     return InterestConditionByIdModel.fromJson(response);
   }
