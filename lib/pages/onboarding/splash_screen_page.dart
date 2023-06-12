@@ -28,7 +28,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     Timer(const Duration(milliseconds: 5500), () async {
       String? token = await LocalStorage().getAccessToken();
       int? roleId = await LocalStorage().getRoleID();
-      if (token == null || token == '') {
+      if (token == null || token == '-') {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
