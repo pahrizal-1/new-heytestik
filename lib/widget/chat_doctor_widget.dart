@@ -134,13 +134,11 @@ class ChatRead extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-          enableDrag: false,
-          isDismissible: false,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          context: context,
-          builder: (context) => const ChatDoctorPage(),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ChatDoctorPage(),
+          ),
         );
       },
       child: Padding(
