@@ -73,16 +73,8 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // state.filterData[i].interestConditionsCategoryId == 1
-                        //     ? Text(
-                        //         state.filterData[i].category!.name.toString(),
-                        //         style: blackTextStyle.copyWith(fontSize: 18),
-                        //       )
-                        //     : Container(),
-                        // const SizedBox(
-                        //   height: 18,
-                        // ),
                         KorektifWajahPage(
+                          id: state.filterData[i].id,
                           title: state.filterData[i].name.toString(),
                           img: 'assets/images/pelkhitam.png',
                         ),
@@ -170,10 +162,12 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
 }
 
 class KorektifWajahPage extends StatelessWidget {
+  final int? id;
   final String title;
   final String img;
   const KorektifWajahPage({
     super.key,
+    required this.id,
     required this.title,
     required this.img,
   });
@@ -184,10 +178,11 @@ class KorektifWajahPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
+          print('id $id');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const ChatPage(),
+              builder: (context) => ChatPage(id: id),
             ),
           );
         },
