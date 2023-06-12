@@ -21,13 +21,19 @@ class PertanyaanAwalPage extends StatefulWidget {
 }
 
 class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
-  bool isIconSelected1 = false;
-  bool isIconSelected2 = false;
-  bool isIconSelected3 = false;
-  bool isIconSelected4 = false;
   final InterestConditionsController state =
       Get.put(InterestConditionsController());
-  List answerSelect = [];
+
+  List answerSelect = [
+    {
+      'idQuestion': '',
+      'question': '',
+      'idAnswer': '',
+      'answer': '',
+      'isIconSelected': false,
+    }
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +43,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   }
 
   get(BuildContext context) async {
-    state.isIconSelected.value = false;
     await state.getInterestConditionById(context, widget.id!.toInt());
     answerSelect = state.answerSelect1;
   }
@@ -387,198 +392,3 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
     );
   }
 }
-
-
- // InkWell(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               const PertanyaanAwal2Page()),
-                        //     );
-                        //     setState(() {
-                        //       isIconSelected2 = !isIconSelected2;
-                        //       isIconSelected1 = false;
-                        //       isIconSelected3 = false;
-                        //       isIconSelected4 = false;
-                        //     });
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(7),
-                        //       // border: OutlineInputBorder(
-                        //       //   borderRadius: BorderRadius.circular(16),
-                        //       //   borderSide: BorderSide.none,
-                        //       // ),
-                        //       color: isIconSelected2
-                        //           ? fromCssColor('#24A7A0')
-                        //           : Colors.transparent,
-                        //       border: Border.all(
-                        //         color: fromCssColor('#CCCCCC'),
-                        //         width: 1,
-                        //       ),
-                        //     ),
-                        //     height: 50,
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(10),
-                        //       child: Row(
-                        //         children: [
-                        //           Padding(
-                        //             padding: const EdgeInsets.only(right: 10),
-                        //             child: Icon(
-                        //               (isIconSelected2
-                        //                   ? Icons.radio_button_on
-                        //                   : Icons.circle_outlined),
-                        //               size: 20,
-                        //               color: isIconSelected2
-                        //                   ? Colors.white
-                        //                   : fromCssColor('#323232'),
-                        //             ),
-                        //           ),
-                        //           RichText(
-                        //             text: TextSpan(
-                        //               text: 'Kering',
-                        //               style: TextStyle(
-                        //                 fontFamily: 'ProximaNova',
-                        //                 color: isIconSelected2
-                        //                     ? Colors.white
-                        //                     : Colors.black,
-                        //                 fontWeight: FontWeight.bold,
-                        //                 fontSize: 13,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(
-                        //   height: 13,
-                        // ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               const PertanyaanAwal2Page()),
-                        //     );
-                        //     setState(() {
-                        //       isIconSelected3 = !isIconSelected3;
-                        //       isIconSelected1 = false;
-                        //       isIconSelected2 = false;
-                        //       isIconSelected4 = false;
-                        //     });
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(7),
-                        //       color: isIconSelected3
-                        //           ? fromCssColor('#24A7A0')
-                        //           : Colors.transparent,
-                        //       border: Border.all(
-                        //         color: fromCssColor('#CCCCCC'),
-                        //         width: 1,
-                        //       ),
-                        //     ),
-                        //     height: 50,
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(10),
-                        //       child: Row(
-                        //         children: [
-                        //           Padding(
-                        //             padding: const EdgeInsets.only(right: 10),
-                        //             child: Icon(
-                        //               (isIconSelected3
-                        //                   ? Icons.radio_button_on
-                        //                   : Icons.circle_outlined),
-                        //               size: 20,
-                        //               color: isIconSelected3
-                        //                   ? Colors.white
-                        //                   : fromCssColor('#323232'),
-                        //             ),
-                        //           ),
-                        //           RichText(
-                        //             text: TextSpan(
-                        //               text: 'Berminyak',
-                        //               style: TextStyle(
-                        //                 fontFamily: 'ProximaNova',
-                        //                 color: isIconSelected3
-                        //                     ? Colors.white
-                        //                     : Colors.black,
-                        //                 fontWeight: FontWeight.bold,
-                        //                 fontSize: 13,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(
-                        //   height: 13,
-                        // ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               const PertanyaanAwal2Page()),
-                        //     );
-                        //     setState(() {
-                        //       isIconSelected4 = !isIconSelected4;
-                        //       isIconSelected1 = false;
-                        //       isIconSelected2 = false;
-                        //       isIconSelected3 = false;
-                        //     });
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(7),
-                        //       color: isIconSelected4
-                        //           ? fromCssColor('#24A7A0')
-                        //           : Colors.transparent,
-                        //       border: Border.all(
-                        //         color: fromCssColor('#CCCCCC'),
-                        //         width: 1,
-                        //       ),
-                        //     ),
-                        //     height: 50,
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(10),
-                        //       child: Row(
-                        //         children: [
-                        //           Padding(
-                        //             padding: const EdgeInsets.only(right: 10),
-                        //             child: Icon(
-                        //               (isIconSelected4
-                        //                   ? Icons.radio_button_on
-                        //                   : Icons.circle_outlined),
-                        //               size: 20,
-                        //               color: isIconSelected4
-                        //                   ? Colors.white
-                        //                   : fromCssColor('#323232'),
-                        //             ),
-                        //           ),
-                        //           RichText(
-                        //             text: TextSpan(
-                        //               text: 'Kombinasi',
-                        //               style: TextStyle(
-                        //                 fontFamily: 'ProximaNova',
-                        //                 color: isIconSelected4
-                        //                     ? Colors.white
-                        //                     : Colors.black,
-                        //                 fontWeight: FontWeight.bold,
-                        //                 fontSize: 13,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
