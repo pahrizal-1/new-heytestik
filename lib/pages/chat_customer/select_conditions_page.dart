@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/text_form_widget.dart';
+import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
 
 class SelectConditionsPage extends StatefulWidget {
   const SelectConditionsPage({super.key});
@@ -53,106 +55,47 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
         child: Obx(
           () => LoadingWidget(
             isLoading: state.isLoading.value,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SearchTextField(
-                    title: 'Cari Kodisi',
-                    controller: state.searchController,
-                    onChange: (value) {
-                      state.onChangeFilterText(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-
-                  for (int i = 0; i < state.filterData.length; i++)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        KorektifWajahPage(
-                          id: state.filterData[i].id,
-                          title: state.filterData[i].name.toString(),
-                          img: 'assets/images/pelkhitam.png',
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 70),
+                  child: Obx(
+                    () => GroupedListView<Data, String>(
+                      elements: state.filterData.toList(),
+                      groupBy: (element) => element.category!.name.toString(),
+                      groupComparator: (value1, value2) =>
+                          value2.compareTo(value1),
+                      order: GroupedListOrder.ASC,
+                      useStickyGroupSeparators: true,
+                      groupSeparatorBuilder: (String value) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
+                      ),
+                      itemBuilder: (c, element) {
+                        return KorektifWajahPage(
+                          id: element.id,
+                          title: element.name.toString(),
+                          img: 'assets/images/pelkhitam.png',
+                        );
+                      },
                     ),
-                  // Text(
-                  //   'Korektif Wajah',
-                  //   style: blackTextStyle.copyWith(fontSize: 18),
-                  // ),
-                  // const SizedBox(
-                  //   height: 18,
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Berawat',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'kusam',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Jerawat',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const SizedBox(
-                  //   height: 18,
-                  // ),
-                  // Text(
-                  //   'Korektif Wajah',
-                  //   style: blackTextStyle.copyWith(fontSize: 18),
-                  // ),
-                  // const SizedBox(
-                  //   height: 18,
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const SizedBox(
-                  //   height: 18,
-                  // ),
-                  // Text(
-                  //   'Augmentation Wajah & Tubuh',
-                  //   style: blackTextStyle.copyWith(fontSize: 18),
-                  // ),
-                  // const SizedBox(
-                  //   height: 18,
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                  // const KorektifWajahPage(
-                  //   title: 'Bekas Flek Hitam & Melasma',
-                  //   img: 'assets/images/pelkhitam.png',
-                  // ),
-                ],
-              ),
+                  ),
+                ),
+                SearchTextField(
+                  title: 'Cari Kodisi',
+                  controller: state.searchController,
+                  onChange: (value) {
+                    state.onChangeFilterText(value);
+                  },
+                ),
+              ],
             ),
           ),
         ),
