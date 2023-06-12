@@ -1,10 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
@@ -34,7 +32,6 @@ class CheckOutPage extends StatelessWidget {
               'Checkout',
               style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
             ),
-            const Spacer(),
           ],
         ),
       ),
@@ -43,50 +40,66 @@ class CheckOutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: lsymetric.copyWith(top: 20),
+              padding: const EdgeInsets.only(left: 26, right: 25, top: 20),
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Alamat',
                         style: blackTextStyle.copyWith(fontSize: 18),
                       ),
-                      const Spacer(),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: greenColor,
-                        size: 25,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Alamatpage()));
+                        },
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: greenColor,
+                          size: 26,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 70,
-                    width: 340,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 19, vertical: 15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(
-                        color: const Color(0xffD9D9D9),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Alamatpage()));
+                    },
+                    child: Container(
+                      height: 70,
+                      width: 340,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 19, vertical: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: const Color(0xffD9D9D9),
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Belum ada alamat',
-                          style: subTitleTextStyle,
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text('+ Tambah Alamat Baru',
-                            style: grenTextStyle.copyWith(fontSize: 15))
-                      ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Belum ada alamat',
+                            style: subTitleTextStyle,
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text('+ Tambah Alamat Baru',
+                              style: grenTextStyle.copyWith(fontSize: 15))
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -161,18 +174,28 @@ class CheckOutPage extends StatelessWidget {
                   BoxPengriman(
                     urlIcons: 'assets/icons/delivery-icons.png',
                     title: 'Pilih Pengiriman',
-                    onTap: () {},
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                        ),
+                        builder: (context) => const PlihPengirimMoreDialog(),
+                      );
+                    },
                     width: 30,
                   ),
                   BoxPengriman(
                     urlIcons: 'assets/icons/cod-icons.png',
-                    title: 'Pilih Pengiriman',
+                    title: 'Pilih Metode Pembayaran',
                     onTap: () {},
                     width: 30,
                   ),
                   BoxPengriman(
                     urlIcons: 'assets/icons/persen_icons.png',
-                    title: 'Pilih Pengiriman',
+                    title: 'Lebih Hemat Pake Promo',
                     onTap: () {},
                     width: 30,
                   ),
@@ -198,26 +221,111 @@ class CheckOutPage extends StatelessWidget {
                   const SizedBox(
                     height: 26,
                   ),
-                  TextBoldSpacebetwen(
+                  const TextBoldSpacebetwen(
                     title: 'Total Produk',
                     title1: '',
                     title2: 'Rp940.400',
                   ),
-                  TextBoldSpacebetwen(
+                  const TextBoldSpacebetwen(
                     title: 'Biaya Pengiriman',
                     title1: '',
                     title2: '-',
                   ),
-                  TextBoldSpacebetwen(
+                  const TextBoldSpacebetwen(
                     title: 'Biaya Pembayaran',
                     title1: '',
                     title2: 'Rp40.000',
                   ),
-                  TextBoldSpacebetwen(
+                  const TextBoldSpacebetwen(
                     title: 'Diskon Promo',
                     title1: '',
                     title2: '-',
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'PPN',
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 15,
+                            color: Color(0XFF323232),
+                            fontWeight: regular),
+                      ),
+                      Text(
+                        'Gratis',
+                        style: blackHigtTextStyle.copyWith(
+                            fontSize: 15, color: redColor),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 11,
+                  ),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                  const TextBoldSpacebetwen(
+                    title: 'Total Tagihan',
+                    title1: '',
+                    title2: 'Rp903.400',
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+        height: 100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total 5 Produk',
+                  style: blackRegulerTextStyle,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Rp293.400',
+                      style: blackHigtTextStyle.copyWith(fontSize: 20),
+                    ),
+                    const Icon(Icons.keyboard_arrow_up)
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 38, vertical: 16),
+              height: 51,
+              decoration: BoxDecoration(
+                color: greenColor,
+                borderRadius: BorderRadius.circular(7),
+              ),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/icons/check_button.png',
+                    width: 17,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Bayar',
+                    style: whiteTextStyle.copyWith(fontSize: 16),
+                  )
                 ],
               ),
             )
@@ -243,37 +351,37 @@ class BoxPengriman extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 9),
-      height: 50,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(7),
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            urlIcons,
-            width: width,
-          ),
-          const SizedBox(
-            width: 17,
-          ),
-          Text(
-            title,
-            style: blackRegulerTextStyle,
-          ),
-          const Spacer(),
-          InkWell(
-            onTap: onTap,
-            child: Icon(
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 9),
+        height: 50,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          border: Border.all(color: borderColor),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              urlIcons,
+              width: width,
+            ),
+            const SizedBox(
+              width: 17,
+            ),
+            Text(
+              title,
+              style: blackRegulerTextStyle,
+            ),
+            const Spacer(),
+            Icon(
               Icons.keyboard_arrow_right,
               size: 25,
               color: greenColor,
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
