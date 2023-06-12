@@ -5,7 +5,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  final int? id;
+  const ChatPage({required this.id, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +272,7 @@ class ChatPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PertanyaanAwalPage(),
+                          builder: (context) => PertanyaanAwalPage(id: id),
                         ),
                       );
                     },
