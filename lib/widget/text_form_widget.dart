@@ -205,3 +205,33 @@ class TextFromPerawat extends StatelessWidget {
     );
   }
 }
+
+class InfomasiTextFrom extends StatelessWidget {
+  final String title;
+  const InfomasiTextFrom({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      height: 60,
+      child: TextFormField(
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(7),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(7),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          labelText: title,
+          labelStyle: subTitleTextStyle,
+        ),
+      ),
+    );
+  }
+}
