@@ -76,7 +76,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
@@ -84,11 +84,11 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                   Container(
                                     width: 10,
                                     height: 10,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Colors.green),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 11,
                                   ),
                                   Text(
@@ -102,7 +102,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 15),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -110,7 +110,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 15),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -120,12 +120,12 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                   ),
                                 ],
                               ),
-                              Divider(
+                              const Divider(
                                 thickness: 1,
                               ),
                               Row(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 11,
                                   ),
                                   Text(
@@ -139,7 +139,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 15),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -147,7 +147,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 15),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -169,7 +169,8 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                   decoration: BoxDecoration(color: whiteColor),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,7 +215,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                       thickness: 2,
                                       color: _wigetIndex == 0
                                           ? greenColor
-                                          : Color(0xffD9D9D9),
+                                          : const Color(0xffD9D9D9),
                                     )
                                   ],
                                 ),
@@ -243,7 +244,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                       thickness: 2,
                                       color: _wigetIndex == 1
                                           ? greenColor
-                                          : Color(0xffD9D9D9),
+                                          : const Color(0xffD9D9D9),
                                     ),
                                   ],
                                 ),
@@ -260,7 +261,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
           ),
           IndexedStack(
             index: _wigetIndex,
-            children: [
+            children: const [
               ChatAktif1(),
               ChatSekesau(),
             ],
@@ -278,20 +279,20 @@ class ChatAktif1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return const Positioned(
       top: 380,
       left: 0,
       right: 0,
       bottom: 0,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 33),
+          padding: EdgeInsets.symmetric(horizontal: 33),
           child: Column(
-            children: const [
+            children: [
               ChatAktif(
                 nametile: 'dila btw',
                 subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                topic: "Licorice",
+                topic: 'Licorice',
                 menit: '11:30 PM',
                 pesanChat: '2',
                 chat:
@@ -302,14 +303,14 @@ class ChatAktif1 extends StatelessWidget {
                   nametile: 'Farida Dinda',
                   category: 'Skin Care',
                   subNameTitle: '22 tahun; Korektif Wajah - Jerawat',
-                  topic: "Licorice",
+                  topic: 'Licorice',
                   menit: '10:20 AM',
                   chat: 'Kalau masih bingung, bisa tanyakan langsung'),
               ChatRead(
                   nametile: 'Farida Dinda',
                   category: 'Skin Care',
                   subNameTitle: '22 tahun; Korektif Wajah - Kulit Kusam',
-                  topic: "Licorice",
+                  topic: 'Licorice',
                   menit: 'Kemarin',
                   chat:
                       'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
@@ -328,21 +329,21 @@ class ChatSekesau extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return const Positioned(
       top: 380,
       left: 0,
       right: 0,
       bottom: 0,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 33),
+          padding: EdgeInsets.symmetric(horizontal: 33),
           child: Column(
-            children: const [
+            children: [
               ChatAktif(
                 category: 'Skin Care',
                 nametile: 'Pahrizal',
                 subNameTitle: 'Untuk Diri Sendiri, 22 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: 'Kermarin',
                 chat:
                     'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok',
@@ -351,7 +352,7 @@ class ChatSekesau extends StatelessWidget {
                   category: 'Skin Care',
                   nametile: 'Muhyi Abdul Basiit',
                   subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                  topic: "Jerawat",
+                  topic: 'Jerawat',
                   menit: 'Kermarin',
                   chat:
                       'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
@@ -359,7 +360,7 @@ class ChatSekesau extends StatelessWidget {
                 category: 'Skin Care',
                 nametile: 'Udin Bimlliah',
                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: '12/03/23',
                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
               ),
@@ -367,7 +368,7 @@ class ChatSekesau extends StatelessWidget {
                 category: 'Skin Care',
                 nametile: 'Udin Bimlliah',
                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: '12/03/23',
                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
               ),
@@ -375,7 +376,7 @@ class ChatSekesau extends StatelessWidget {
                 category: 'Skin Care',
                 nametile: 'Udin Bimlliah',
                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: '12/03/23',
                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
               ),
@@ -383,7 +384,7 @@ class ChatSekesau extends StatelessWidget {
                 category: 'Skin Care',
                 nametile: 'Udin Bimlliah',
                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: '12/03/23',
                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
               ),
@@ -391,7 +392,7 @@ class ChatSekesau extends StatelessWidget {
                 category: 'Skin Care',
                 nametile: 'Udin Bimlliah',
                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-                topic: "Jerawat",
+                topic: 'Jerawat',
                 menit: '12/03/23',
                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
               ),
