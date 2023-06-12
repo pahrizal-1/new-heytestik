@@ -123,7 +123,10 @@ AppBar appBarRiwayat(BuildContext context) {
         const SizedBox(
           width: 11,
         ),
-        const Text('Riwayat Medis'),
+        Text(
+          'Riwayat Medis',
+          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+        ),
         const Spacer(),
         InkWell(
           onTap: () {
@@ -142,4 +145,18 @@ AppBar appBarRiwayat(BuildContext context) {
       ],
     ),
   );
+}
+
+class dividergreen extends StatelessWidget {
+  const dividergreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Divider(
+      thickness: 5,
+      color: Color(0xFFECECEC),
+    );
+  }
 }

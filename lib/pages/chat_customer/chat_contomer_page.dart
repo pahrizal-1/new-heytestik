@@ -18,7 +18,7 @@ class ChatCostomerPage extends StatefulWidget {
 }
 
 class _ChatCostomerPageState extends State<ChatCostomerPage> {
-  bool clik = false;
+  bool clik = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
