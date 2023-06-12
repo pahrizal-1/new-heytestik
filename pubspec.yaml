@@ -59,7 +59,8 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   get: ^4.6.5
   shimmer: ^3.0.0
-    
+  grouped_list: ^5.1.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
