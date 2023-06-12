@@ -72,8 +72,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          height: 140,
-          width: 250,
+          height: 100,
+          width: 200,
           child: VideoPlayer(controller),
         ),
       ),
