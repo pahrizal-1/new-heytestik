@@ -10,8 +10,6 @@ import '../../widget/button_widget.dart';
 class VerificasionEmailPage extends StatelessWidget {
   const VerificasionEmailPage({super.key});
 
-  get blackColor => null;
-
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<RegisterController>(context);
