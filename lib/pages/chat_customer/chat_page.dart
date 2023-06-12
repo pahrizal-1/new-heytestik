@@ -1,16 +1,31 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/boking_trertment_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   final int? id;
-  const ChatPage({required this.id, super.key});
+  const ChatPage({super.key, required this.id});
 
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final images = [
+    'assets/images/bekas-jerawat1.png',
+    'assets/images/bekas-jerawat2.png',
+    'assets/images/bekas-jerawat3.png',
+    'assets/images/bekas-jerawat4.png',
+  ];
+  int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0XfFFFFFFf),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
@@ -32,34 +47,42 @@ class ChatPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 320,
-                initialPage: 0,
-                viewportFraction: 1,
-                autoPlay: true,
-                autoPlayAnimationDuration: const Duration(seconds: 2),
-              ),
-              items: [
-                'assets/images/bekas-jerawat1.png',
-                'assets/images/bekas-jerawat2.png',
-                'assets/images/bekas-jerawat3.png',
-                'assets/images/bekas-jerawat4.png',
-              ].map((imagePath) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(imagePath),
-                        ),
+            Column(
+              children: [
+                Stack(
+                  children: [
+                    CarouselSlider.builder(
+                      itemCount: images.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final imge = images[index];
+
+                        return buildImage(imge, index);
+                      },
+                      options: CarouselOptions(
+                        height: 325,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        autoPlayAnimationDuration: Duration(seconds: 2),
+                        onPageChanged: (index, reason) =>
+                            setState(() => activeIndex = index),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
+                    ),
+                    Positioned(
+                      left: 170,
+                      bottom: 32,
+                      child: AnimatedSmoothIndicator(
+                        activeIndex: activeIndex,
+                        count: images.length,
+                        effect: JumpingDotEffect(
+                            activeDotColor: greenColor,
+                            dotColor: whiteColor,
+                            dotWidth: 10,
+                            dotHeight: 10),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
@@ -179,7 +202,7 @@ class ChatPage extends StatelessWidget {
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/images/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
@@ -206,7 +229,7 @@ class ChatPage extends StatelessWidget {
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/images/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
@@ -240,7 +263,7 @@ class ChatPage extends StatelessWidget {
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/images/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
@@ -272,7 +295,8 @@ class ChatPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PertanyaanAwalPage(id: id),
+                          builder: (context) =>
+                              PertanyaanAwalPage(id: widget.id),
                         ),
                       );
                     },
