@@ -17,7 +17,6 @@ class InterestConditionsController {
 
   ById.InterestConditionByIdModel? detail;
   List<ById.InterestConditionsQuestion> question = [];
-  RxBool isIconSelected = false.obs;
   RxMap answer = {
     'interest_conditions_id': 0,
     'userId': 0,
@@ -37,7 +36,6 @@ class InterestConditionsController {
   getInterestConditions(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // await Future.delayed(Duration(seconds: 3));
       data.value = await InterestConditionsService().getInterestConditions();
       filterData.value = data.value.data!;
     });
