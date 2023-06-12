@@ -18,6 +18,7 @@ class ChatDoctorPage extends StatefulWidget {
 
 class _ChatDoctorPageState extends State<ChatDoctorPage> {
   bool isVisibeliti = true;
+  bool clik = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,16 +27,44 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: Image.asset(
-          'assets/icons/logoheystetik.png',
-          width: 108,
-        ),
-        actions: const [
-          Padding(
-            padding: lsymetric,
-            child: Icon(
-              Icons.search,
-              size: 30,
+        title: clik
+            ? Image.asset(
+                'assets/icons/logoheystetik.png',
+                width: 108,
+              )
+            : Row(
+                children: [
+                  Icon(Icons.arrow_back),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    child: Text(
+                      'Search',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 17, fontWeight: regular),
+                    ),
+                  )
+                ],
+              ),
+        actions: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                clik = !clik;
+              });
+            },
+            child: Padding(
+              padding: lsymetric,
+              child: clik
+                  ? Icon(
+                      Icons.search,
+                      size: 30,
+                    )
+                  : Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 30,
+                    ),
             ),
           )
         ],
