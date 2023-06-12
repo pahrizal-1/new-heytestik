@@ -10,9 +10,15 @@ import '../../widget/chat_widget.dart';
 import '../../widget/rekomedasi_chat_widget.dart';
 import '../../widget/text_button_vaigator.dart';
 
-class ChatCostomerPage extends StatelessWidget {
+class ChatCostomerPage extends StatefulWidget {
   const ChatCostomerPage({super.key});
 
+  @override
+  State<ChatCostomerPage> createState() => _ChatCostomerPageState();
+}
+
+class _ChatCostomerPageState extends State<ChatCostomerPage> {
+  bool clik = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,16 +26,44 @@ class ChatCostomerPage extends StatelessWidget {
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: Image.asset(
-          'assets/icons/logoheystetik.png',
-          width: 108,
-        ),
-        actions: const [
-          Padding(
-            padding: lsymetric,
-            child: Icon(
-              Icons.search,
-              size: 30,
+        title: clik
+            ? Image.asset(
+                'assets/icons/logoheystetik.png',
+                width: 108,
+              )
+            : Row(
+                children: [
+                  Icon(Icons.arrow_back),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    child: Text(
+                      'Search',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 17, fontWeight: regular),
+                    ),
+                  )
+                ],
+              ),
+        actions: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                clik = !clik;
+              });
+            },
+            child: Padding(
+              padding: lsymetric,
+              child: clik
+                  ? Icon(
+                      Icons.search,
+                      size: 30,
+                    )
+                  : Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 30,
+                    ),
             ),
           )
         ],
@@ -86,13 +120,34 @@ class ChatCostomerPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(
-                thickness: 2,
-              ),
+              Container(
+                height: 31,
+                color: Color(0xFFFFE2C1),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Rekomendasi Dokter sudah siap. Klik',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 12, fontWeight: regular),
+                    ),
+                    Text(
+                      "'Detail Perawatan’",
+                      style: blackHigtTextStyle.copyWith(fontSize: 12),
+                    ),
+                    Text(
+                      'ya :)',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 12, fontWeight: regular),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           Positioned(
-            top: 93,
+            top: 110,
             left: 0,
             right: 0,
             bottom: 0,
@@ -173,6 +228,26 @@ class ChatCostomerPage extends StatelessWidget {
                         timetitle: '10:90',
                         title:
                             'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok'),
+                    ChatLeft(
+                      imgDoctor: 'assets/images/doctor-img.png',
+                      nameDoctor: 'dr. Risty Hafinah, Sp.DV',
+                      timetitle: '18:80',
+                      color: subwhiteColor,
+                      title:
+                          'Jerawat disebabkan produksi kelenjar minyak dan sel2 kulit mati berlebih terjadi sumbatan disertai peradangan bakteri P. acnes disebabkan banyak pencetus \n\nPencetus jerawat multifaktor yaitu genetik, stres psikis, hormon, makanan manis, indeks glikemik tinggi, dairy product, tidur larut malam, lembab keringat, debu, skincare, dan kosmetik.',
+                    ),
+                    TextChat(
+                      timetitle: ' 10:90',
+                      color: subwhiteColor,
+                      title:
+                          'Untuk mengetahui lebih jelas, apakah setelah menggunakan produk tersebut, malam harinya rajin double cleansing?',
+                    ),
+                    ChatRight(
+                        color: subgreenColor,
+                        imgUser: 'assets/icons/logo.png',
+                        nameUser: 'Rina Romandi',
+                        timetitle: '10:90',
+                        title: 'Mmmm...Double cleansing itu apa sih, dok?'),
                     RekomendasiDokterWidget(),
                     TextChat(
                       timetitle: ' 10:90',
@@ -193,7 +268,7 @@ class ChatCostomerPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: ChatBottomNavigator(),
+      bottomNavigationBar: ChatBottomCostomer(),
     );
   }
 }

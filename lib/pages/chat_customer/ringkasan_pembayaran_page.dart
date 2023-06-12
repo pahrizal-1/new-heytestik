@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
-import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+
+import '../home/home_page.dart';
 
 class RingkasanPembayaranPage extends StatelessWidget {
   const RingkasanPembayaranPage({super.key});
@@ -17,40 +18,41 @@ class RingkasanPembayaranPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: greenColor,
         elevation: 0,
-        title: Text(
-          'Ringkasan Pembayaran',
-          style: whiteTextStyle.copyWith(fontSize: 20),
-        ),
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TabBarCustomer(),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 26),
-              child: Container(
-                width: 20,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/icons/icon-home-chat.png'),
-                  ),
-                ),
-              ),
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
             ),
-          )
-        ],
+            const SizedBox(
+              width: 11,
+            ),
+            Text(
+              'Ringkasan Pembayaran',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+            ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomepageCutomer(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/icons/icon-home-chat.png',
+                width: 18,
+              ),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
