@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:video_player/video_player.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/onboarding1_page.dart';
 
@@ -26,6 +27,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       );
     Timer(const Duration(milliseconds: 5500), () async {
       String? token = await LocalStorage().getAccessToken();
+      int? roleId = await LocalStorage().getRoleID();
       if (token == null || token == '') {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.of(context).pushReplacement(
@@ -35,13 +37,25 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           );
         });
       } else {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (BuildContext context) => const TabBarCustomer(),
-            ),
-          );
-        });
+        if (roleId == 2) {
+          print('masuk ke doctor');
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const TabBarDoctor(),
+              ),
+            );
+          });
+        } else if (roleId == 3) {
+          print('masuk ke customer');
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const TabBarCustomer(),
+              ),
+            );
+          });
+        }
       }
     });
   }
