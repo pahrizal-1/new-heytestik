@@ -55,11 +55,18 @@ class _ChatPageState extends State<ChatPage> {
                       itemCount: images.length,
                       itemBuilder: (context, index, realIndex) {
                         final imge = images[index];
-
-                        return buildImage(imge, index);
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(imge),
+                            ),
+                          ),
+                        );
                       },
                       options: CarouselOptions(
-                        height: 325,
+                        height: 320,
                         viewportFraction: 1,
                         autoPlay: true,
                         autoPlayAnimationDuration: Duration(seconds: 2),
