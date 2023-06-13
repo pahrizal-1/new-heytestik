@@ -409,6 +409,8 @@ Widget buildImg1(String images, int index) => Image.asset(
 
 class DetailProduk extends StatelessWidget {
   final String price;
+  final String? priceDiscon;
+  final String? discon;
   final String nameProduk;
   final String item;
   final String urlImg;
@@ -419,6 +421,8 @@ class DetailProduk extends StatelessWidget {
     required this.nameProduk,
     required this.item,
     required this.urlImg,
+    this.priceDiscon = '',
+    this.discon = '',
   }) : super(key: key);
 
   @override
@@ -441,29 +445,54 @@ class DetailProduk extends StatelessWidget {
           const SizedBox(
             width: 15,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                nameProduk,
-                style: grenTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Text(
-                '$item item',
-                style: blackRegulerTextStyle,
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Text(
-                'Rp$price',
-                style: blackHigtTextStyle.copyWith(fontSize: 15),
-              ),
-            ],
+          Container(
+            constraints: const BoxConstraints(maxWidth: 230),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  nameProduk,
+                  style: grenTextStyle.copyWith(fontSize: 15),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  '$item item',
+                  style: blackRegulerTextStyle,
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    priceDiscon != ''
+                        ? Text(
+                            priceDiscon.toString(),
+                            style: subGreyTextStyle.copyWith(
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                              decorationThickness: 2,
+                              color: const Color(0xff9B9B9B),
+                            ),
+                          )
+                        : Container(),
+                    discon != ''
+                        ? Text(
+                            discon.toString(),
+                            style: grenTextStyle.copyWith(fontSize: 14),
+                          )
+                        : Container(),
+                    Text(
+                      'Rp$price',
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           )
         ],
       ),
