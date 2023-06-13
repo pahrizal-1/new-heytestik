@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_selesai_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -58,7 +59,7 @@ class CheckOutPage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Alamatpage()));
+                                  builder: (context) => CheckOutSelesai()));
                         },
                         child: Icon(
                           Icons.keyboard_arrow_right,
@@ -79,7 +80,6 @@ class CheckOutPage extends StatelessWidget {
                               builder: (context) => Alamatpage()));
                     },
                     child: Container(
-                      height: 70,
                       width: 340,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 19, vertical: 15),
@@ -147,6 +147,8 @@ class CheckOutPage extends StatelessWidget {
                     urlImg: 'assets/images/produk2.png',
                   ),
                   const DetailProduk(
+                    discon: '20%',
+                    priceDiscon: 'Rp.800.000',
                     price: '29,000',
                     nameProduk: 'Teenderm Alpha Pure 30ml',
                     item: '2',
