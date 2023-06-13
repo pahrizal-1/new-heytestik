@@ -16,18 +16,18 @@ class TransaksiMoreDialog extends StatefulWidget {
 }
 
 class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) => const SelesaiPembayaranPage(),
-        ),
-      ),
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Timer(
+  //     const Duration(seconds: 2),
+  //     () => Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(
+  //         builder: (BuildContext context) => const SelesaiPembayaranPage(),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,13 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
                   padding: const EdgeInsets.only(top: 4),
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const SelesaiPembayaranPage(),
+                        ),
+                      );
                     },
                     child: Image.asset(
                       'assets/icons/danger-icons.png',
