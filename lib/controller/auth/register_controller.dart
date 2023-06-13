@@ -190,7 +190,8 @@ class RegisterController extends StateClass {
 
       print(data);
 
-      await RegisterService().register(data);
+      var res = await RegisterService().register(data);
+      print('data $res');
       doInPost();
     });
     loadingFalse();

@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/boking_trertment_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
