@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
+import '../../widget/text_form_widget.dart';
+import '../doctorpage/account_page/tambah_bank_page.dart';
 
 class CheckOutPage extends StatelessWidget {
   const CheckOutPage({super.key});
@@ -190,7 +193,131 @@ class CheckOutPage extends StatelessWidget {
                   BoxPengriman(
                     urlIcons: 'assets/icons/cod-icons.png',
                     title: 'Pilih Metode Pembayaran',
-                    onTap: () {},
+                    onTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(25),
+                            topStart: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (context) => SingleChildScrollView(
+                          child: Wrap(
+                            children: [
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 60, left: 33, right: 33),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Image.asset(
+                                                'assets/icons/danger-icons.png',
+                                                width: 20,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 17,
+                                            ),
+                                            Text(
+                                              'Pilih Metode Pembayaran',
+                                              style: blackHigtTextStyle
+                                                  .copyWith(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 40,
+                                        ),
+                                        Text(
+                                          'Pembayaran Instan',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 18),
+                                        ),
+                                        const SizedBox(
+                                          height: 17,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/gopay.png',
+                                              width: 47,
+                                            ),
+                                            const SizedBox(
+                                              width: 23,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Gopay',
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(fontSize: 15),
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Text(
+                                                  'Tidak tersedia untuk transaksi ini',
+                                                  style: subTitleTextStyle,
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 23,
+                                  ),
+                                  const dividergreen(),
+                                  const SizedBox(
+                                    height: 21,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 33, right: 33),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Pembayaran Instan',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 18),
+                                        ),
+                                        const SizedBox(
+                                          height: 12,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const CardBankPengriman()
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                     width: 30,
                   ),
                   BoxPengriman(

@@ -205,12 +205,7 @@ class RingkasanPembayaranPage extends StatelessWidget {
                     'Pilih Metode Pembayaran',
                     style: blackHigtTextStyle.copyWith(fontSize: 18),
                   ),
-                  const SizedBox(
-                    height: 27,
-                  ),
-                  CardBank(
-                    img: 'assets/images/logo-bca.png',
-                  ),
+                  CardBank(),
                   Text(
                     'Total Harga',
                     style: blackTextStyle.copyWith(
