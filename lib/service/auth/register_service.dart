@@ -3,13 +3,13 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 
 class RegisterService extends ProviderClass {
-  RegisterService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  RegisterService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> register(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/info-personal",
+      '/auth/register/info-personal',
       data: data,
-      // checkLogin: false,
     );
 
     return response;
@@ -17,9 +17,8 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> registerPhone(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/phone",
+      '/auth/register/phone',
       data: data,
-      // checkLogin: false,
     );
 
     return response;
@@ -27,9 +26,8 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> phoneVerify(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/verify",
+      '/auth/register/verify',
       data: data,
-      // checkLogin: false,
     );
 
     return response;
@@ -37,9 +35,8 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> emailVerify(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/verify",
+      '/auth/register/verify',
       data: data,
-      // checkLogin: false,
     );
 
     return response;
@@ -47,7 +44,7 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> resendCode(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/resend-code",
+      '/auth/register/resend-code',
       data: data,
     );
 
@@ -56,7 +53,7 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> registerEmail(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/auth/register/email",
+      '/auth/register/email',
       data: data,
     );
 

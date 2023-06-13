@@ -69,7 +69,7 @@ class MoreDialog extends StatelessWidget {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 18,
                   iconimg: 'assets/images/check.png',
                 ),
@@ -82,7 +82,7 @@ class MoreDialog extends StatelessWidget {
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
                   width: 30,
-                  iconimg: "assets/images/Vector.png",
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -91,9 +91,9 @@ class MoreDialog extends StatelessWidget {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
+                  img: 'assets/images/iphone1.png',
                   width: 20,
-                  iconimg: "assets/images/Vector.png",
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -104,7 +104,7 @@ class MoreDialog extends StatelessWidget {
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
                   width: 25,
-                  iconimg: "assets/images/Vector.png",
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -245,7 +245,7 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/more-image.png",
+                          'assets/images/more-image.png',
                         ),
                         fit: BoxFit.fill,
                       ),
