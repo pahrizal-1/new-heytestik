@@ -47,7 +47,7 @@ TextStyle subGreyTextStyle = TextStyle(
 );
 
 TextStyle subTitleTextStyle = TextStyle(
-  color: Color(0XffA3A3A3),
+  color: const Color(0XffA3A3A3),
   fontSize: 13,
   fontFamily: 'proxima-nova',
   fontWeight: regular,

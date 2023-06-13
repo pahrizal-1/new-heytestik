@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
@@ -14,7 +13,7 @@ class Alamatpage extends StatefulWidget {
 
 class _AlamatpageState extends State<Alamatpage> {
   final TextEditingController _controller = TextEditingController(
-      text: "Kebayoran Lama, Jakarta Selatan, DKI Jakarta");
+      text: 'Kebayoran Lama, Jakarta Selatan, DKI Jakarta');
   bool _isEnable = false;
   bool isSelected = false;
   @override

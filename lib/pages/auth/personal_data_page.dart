@@ -62,7 +62,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         onTap: () {
                           setState(() {
                             _isGender = true;
-                            state.gender = "Laki-laki";
+                            state.gender = 'Laki-laki';
                           });
                         },
                         child: Container(
@@ -79,7 +79,10 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                           child: Center(
-                            child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
+                            child: Text('Laki - laki',
+                                style: _isGender
+                                    ? TextStyle(color: whiteColor, fontSize: 12)
+                                    : blackTextStyle),
                           ),
                         ),
                       ),
@@ -92,7 +95,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         onTap: () {
                           setState(() {
                             _isGender = false;
-                            state.gender = "Perempuan";
+                            state.gender = 'Perempuan';
                           });
                         },
                         child: Container(
@@ -111,7 +114,9 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                           child: Center(
                             child: Text(
                               'Perempuan',
-                              style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
+                              style: _isGender
+                                  ? blackTextStyle
+                                  : TextStyle(color: whiteColor, fontSize: 12),
                             ),
                           ),
                         ),
@@ -124,7 +129,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                 ),
                 TextFormWidget(
                   controller: state.fullName,
-                  title: "Nama Lengkap",
+                  title: 'Nama Lengkap',
                   hintText: 'Nama Depan',
                 ),
                 const SizedBox(
@@ -200,7 +205,9 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                             );
                           },
                           child: Icon(
-                            _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                            _obscureText
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
                             color: greyColor,
                           ),
                         ),
@@ -217,7 +224,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                     TextFormWidget(
                       controller: state.referralCode,
                       title: 'Kode Referral',
-                      hintText: "Kode Referral",
+                      hintText: 'Kode Referral',
                     ),
                     const SizedBox(
                       height: 30,
@@ -230,16 +237,17 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                             style: greyTextStyle.copyWith(fontSize: 12),
                             children: [
                               TextSpan(
-                                text: " kebijakan Privasi",
+                                text: ' kebijakan Privasi',
                                 style: grenTextStyle.copyWith(fontSize: 13),
                                 children: [
                                   TextSpan(
-                                    text: " dan",
+                                    text: ' dan',
                                     style: greyTextStyle.copyWith(fontSize: 12),
                                     children: [
                                       TextSpan(
-                                        text: " Syarat dan Ketentuan",
-                                        style: grenTextStyle.copyWith(fontSize: 13),
+                                        text: ' Syarat dan Ketentuan',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 13),
                                       ),
                                     ],
                                   ),
@@ -252,7 +260,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                           height: 8,
                         ),
                         ButtonGreenWidget(
-                          title: "Daftar",
+                          title: 'Daftar',
                           onPressed: () async {
                             await state.register(context, doInPost: () async {
                               showDialog(
@@ -273,14 +281,15 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: Divider(
                             color: greyColor,
                             height: 36,
                           )),
                     ),
                     Text(
-                      "atau daftar dengan",
+                      'atau daftar dengan',
                       style: greyTextStyle,
                     ),
                     Expanded(
