@@ -15,6 +15,9 @@ class Alamatpage extends StatefulWidget {
 class _AlamatpageState extends State<Alamatpage> {
   final TextEditingController _controller = TextEditingController(
       text: "Kebayoran Lama, Jakarta Selatan, DKI Jakarta");
+
+  final TextEditingController labelAlamat = TextEditingController();
+  int labelAlamatLength = 0;
   bool _isEnable = false;
   bool isSelected = false;
   @override
@@ -156,7 +159,16 @@ class _AlamatpageState extends State<Alamatpage> {
                 height: 60,
                 child: TextFormField(
                   maxLength: 30,
+                  controller: labelAlamat,
+                  onChanged: (value) {
+                    if (labelAlamat.text.length <= 30) {
+                      setState(() {
+                        labelAlamatLength = labelAlamat.text.length;
+                      });
+                    }
+                  },
                   decoration: InputDecoration(
+                    counterText: '',
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(7),
                       borderSide: BorderSide(color: borderColor),
@@ -167,6 +179,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                     labelText: 'Label Alamat',
                     labelStyle: subTitleTextStyle,
+                    suffix: Text('$labelAlamatLength/30'),
                   ),
                 ),
               ),
