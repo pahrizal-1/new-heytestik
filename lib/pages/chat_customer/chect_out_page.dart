@@ -8,8 +8,6 @@ import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
-import '../../widget/text_form_widget.dart';
-import '../doctorpage/account_page/tambah_bank_page.dart';
 
 class CheckOutPage extends StatelessWidget {
   const CheckOutPage({super.key});
