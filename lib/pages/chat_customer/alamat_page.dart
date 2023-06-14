@@ -109,7 +109,7 @@ class _AlamatpageState extends State<Alamatpage> {
               ),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: borderColor,
@@ -126,7 +126,7 @@ class _AlamatpageState extends State<Alamatpage> {
                       width: 18,
                     ),
                     Container(
-                      constraints: const BoxConstraints(maxWidth: 200),
+                      constraints: const BoxConstraints(maxWidth: 160),
                       child: Text(
                         'Kebayoran Lama, Jakarta Selatan, DKI Jakarta',
                         style: blackRegulerTextStyle,
@@ -142,10 +142,10 @@ class _AlamatpageState extends State<Alamatpage> {
                       },
                       child: isSelected
                           ? Text('Simpan',
-                              style: grenTextStyle.copyWith(fontSize: 14))
+                              style: grenTextStyle.copyWith(fontSize: 12))
                           : Text(
                               'Ubah',
-                              style: grenTextStyle.copyWith(fontSize: 14),
+                              style: grenTextStyle.copyWith(fontSize: 12),
                             ),
                     ),
                   ],
@@ -200,7 +200,7 @@ class _AlamatpageState extends State<Alamatpage> {
                       borderRadius: BorderRadius.circular(7),
                       borderSide: BorderSide(color: borderColor),
                     ),
-                    labelText: 'Label Alamat',
+                    labelText: 'Alamat Lengkap*',
                     labelStyle: subTitleTextStyle,
                   ),
                 ),
@@ -221,7 +221,7 @@ class _AlamatpageState extends State<Alamatpage> {
                       borderRadius: BorderRadius.circular(7),
                       borderSide: BorderSide(color: borderColor),
                     ),
-                    labelText: 'Label Alamat',
+                    labelText: 'Catatan untuk kurir',
                     labelStyle: subTitleTextStyle,
                   ),
                 ),
