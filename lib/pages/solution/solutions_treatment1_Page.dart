@@ -127,7 +127,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 ),
                 Container(
                   transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 280),
+                  constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
                         fontSize: 15, fontFamily: "ProximaNova"),
@@ -533,7 +533,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 15),
             child: Wrap(
               children: [
                 ProdukTreatment(

@@ -51,7 +51,7 @@ class ChatAktif extends StatelessWidget {
                   width: 11,
                 ),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 200),
+                  constraints: const BoxConstraints(maxWidth: 180),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,6 +62,7 @@ class ChatAktif extends StatelessWidget {
                       Text(
                         subNameTitle,
                         style: subTitleTextStyle.copyWith(fontSize: 10),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         chat,
@@ -157,7 +158,7 @@ class ChatRead extends StatelessWidget {
                   width: 11,
                 ),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 200),
+                  constraints: const BoxConstraints(maxWidth: 180),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

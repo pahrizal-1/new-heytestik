@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -220,9 +221,11 @@ class SelesaiPembayaranPage extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CheckOutPage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CaraPembyaranPage(),
+                          ),
+                        );
                       },
                       child: Center(
                         child: Text(

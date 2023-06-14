@@ -446,7 +446,7 @@ class DetailProduk extends StatelessWidget {
             width: 15,
           ),
           Container(
-            constraints: const BoxConstraints(maxWidth: 230),
+            constraints: const BoxConstraints(maxWidth: 200),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
