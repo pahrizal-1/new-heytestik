@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/option_login_page.dart';
+import 'package:heystetik_mobileapps/pages/forget_passowrd/forget_password_email_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -139,10 +140,20 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 16,
               ),
-              Center(
-                child: Text(
-                  'Forgot Password',
-                  style: greyTextStyle,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ForgetPasswordEmailPage(),
+                    ),
+                  );
+                },
+                child: Center(
+                  child: Text(
+                    'Forgot Password',
+                    style: greyTextStyle,
+                  ),
                 ),
               )
             ],
