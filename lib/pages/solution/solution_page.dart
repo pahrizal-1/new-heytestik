@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -154,8 +155,19 @@ class _SolutionPageState extends State<SolutionPage> {
                       height: 7,
                     ),
                     Expanded(
-                      child: Image.asset(
-                        'assets/images/skincare.png',
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const SolutionSkincare1Page(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/skincare.png',
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -450,10 +462,10 @@ class _SolutionPageState extends State<SolutionPage> {
               const SizedBox(
                 height: 14,
               ),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25),
+                  padding: EdgeInsets.only(left: 25),
                   child: Row(
                     children: [
                       CardSkincare(
@@ -478,7 +490,7 @@ class _SolutionPageState extends State<SolutionPage> {
               const SizedBox(
                 height: 17,
               ),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 25),

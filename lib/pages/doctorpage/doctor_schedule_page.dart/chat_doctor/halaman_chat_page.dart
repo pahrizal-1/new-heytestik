@@ -16,270 +16,285 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 275,
-            color: whiteColor,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  height: 156,
-                  color: greenColor,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/logoheystetik.png',
-                        width: 122,
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  left: 20,
-                  right: 20,
-                  top: 112,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: whiteColor,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 18),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Jadwal Saya',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const Spacer(),
-                              Text(
-                                'Atur Jadwal',
-                                style: grenTextStyle.copyWith(fontSize: 15),
-                              ),
-                              Icon(
-                                Icons.keyboard_arrow_right,
-                                color: greenColor,
-                                size: 30,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: 10,
-                                height: 10,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.green),
-                              ),
-                              const SizedBox(
-                                width: 11,
-                              ),
-                              Text(
-                                'Online',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const Spacer(),
-                              Text(
-                                '10:00',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '-',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '10:20',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
-                          Row(
-                            children: [
-                              const SizedBox(
-                                width: 11,
-                              ),
-                              Text(
-                                'Selanjutnya hari ini',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const Spacer(),
-                              Text(
-                                '10:00',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '-',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '20:20',
-                                style: subTitleTextStyle.copyWith(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 275,
+              color: whiteColor,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              decoration: BoxDecoration(color: whiteColor),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-                  Text(
-                    'Jawab Chat Pasien ',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    height: 156,
+                    color: greenColor,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/logoheystetik.png',
+                          width: 122,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 27,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _wigetIndex = 0;
-                            });
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Aktif (5)',
-                                      style: grenTextStyle.copyWith(
-                                          fontSize: 15,
-                                          color: _wigetIndex == 0
-                                              ? greenColor
-                                              : greyColor),
-                                    ),
-                                  ],
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                  color: _wigetIndex == 0
-                                      ? greenColor
-                                      : const Color(0xffD9D9D9),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                  Positioned(
+                    left: 20,
+                    right: 20,
+                    top: 112,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: whiteColor,
                       ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _wigetIndex = 1;
-                            });
-                          },
-                          child: Container(
-                            child: Column(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 18),
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
                                 Text(
-                                  'Selesai',
-                                  style: greyTextStyle.copyWith(
-                                      fontSize: 15,
-                                      color: _wigetIndex == 1
-                                          ? greenColor
-                                          : greyColor),
+                                  'Jadwal Saya',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 15),
                                 ),
-                                Divider(
-                                  thickness: 2,
-                                  color: _wigetIndex == 1
-                                      ? greenColor
-                                      : const Color(0xffD9D9D9),
+                                const Spacer(),
+                                Text(
+                                  'Atur Jadwal',
+                                  style: grenTextStyle.copyWith(fontSize: 15),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: greenColor,
+                                  size: 30,
                                 ),
                               ],
                             ),
-                          ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.green),
+                                ),
+                                const SizedBox(
+                                  width: 11,
+                                ),
+                                Text(
+                                  'Online',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '10:00',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '-',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '10:20',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 1,
+                            ),
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 11,
+                                ),
+                                Text(
+                                  'Selanjutnya hari ini',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '10:00',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '-',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '20:20',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Column(
-                    children: const [
-                      ChatAktif(
-                        nametile: 'dila btw',
-                        subNameTitle:
-                            '22 tahun; Korektif Wajah - Bekas Jerawat',
-                        topic: 'Licorice',
-                        menit: '11:30 PM',
-                        pesanChat: '2',
-                        chat:
-                            'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok',
-                        category: 'Skin Care',
-                      ),
-                      ChatAktif(
-                          nametile: 'Farida Dinda',
-                          category: 'Skin Care',
-                          subNameTitle: '22 tahun; Korektif Wajah - Jerawat',
-                          topic: 'Licorice',
-                          menit: '10:20 AM',
-                          chat: 'Kalau masih bingung, bisa tanyakan langsung'),
-                      ChatRead(
-                          nametile: 'Farida Dinda',
-                          category: 'Skin Care',
-                          subNameTitle:
-                              '22 tahun; Korektif Wajah - Kulit Kusam',
-                          topic: 'Licorice',
-                          menit: 'Kemarin',
-                          chat:
-                              'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                decoration: BoxDecoration(color: whiteColor),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Jawab Chat Pasien ',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 27,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                _wigetIndex = 0;
+                              });
+                            },
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Aktif (5)',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 15,
+                                            color: _wigetIndex == 0
+                                                ? greenColor
+                                                : greyColor),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                    color: _wigetIndex == 0
+                                        ? greenColor
+                                        : const Color(0xffD9D9D9),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                _wigetIndex = 1;
+                              });
+                            },
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Selesai',
+                                    style: greyTextStyle.copyWith(
+                                        fontSize: 15,
+                                        color: _wigetIndex == 1
+                                            ? greenColor
+                                            : greyColor),
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                    color: _wigetIndex == 1
+                                        ? greenColor
+                                        : const Color(0xffD9D9D9),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Container(
+                      child: Column(
+                        children: const [
+                          ChatAktif(
+                            nametile: 'dila btw',
+                            subNameTitle:
+                                '22 tahun; Korektif Wajah - Bekas Jerawat',
+                            topic: 'Licorice',
+                            menit: '11:30 PM',
+                            pesanChat: '2',
+                            chat:
+                                'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok',
+                            category: 'Skin Care',
+                          ),
+                          ChatAktif(
+                              nametile: 'Farida Dinda',
+                              category: 'Skin Care',
+                              subNameTitle:
+                                  '22 tahun; Korektif Wajah - Jerawat',
+                              topic: 'Licorice',
+                              menit: '10:20 AM',
+                              chat:
+                                  'Kalau masih bingung, bisa tanyakan langsung'),
+                          ChatRead(
+                              nametile: 'Farida Dinda',
+                              category: 'Skin Care',
+                              subNameTitle:
+                                  '22 tahun; Korektif Wajah - Kulit Kusam',
+                              topic: 'Licorice',
+                              menit: 'Kemarin',
+                              chat:
+                                  'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

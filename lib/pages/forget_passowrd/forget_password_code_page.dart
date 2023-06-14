@@ -59,22 +59,22 @@ class ForgetPasswordCodePage extends StatelessWidget {
                           bottomRight: Radius.circular(4)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 17,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Code Verification was sent on your email",
+                        'Code Verification was sent on your email',
                         style: subGreyTextStyle,
                         textAlign: TextAlign.left,
                       ),
                       Text(
-                        "muhyiabdulbasith@basiht.com",
+                        'muhyiabdulbasith@basiht.com',
                         style: blackHigtTextStyle.copyWith(fontSize: 14),
                         textAlign: TextAlign.left,
                       ),
