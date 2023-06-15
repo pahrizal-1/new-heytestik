@@ -70,7 +70,7 @@ class ObatSolutionsPage extends StatelessWidget {
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: Container(
-              height: 40,
+              height: 60,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: fromCssColor("#CCCCCC"),
@@ -85,13 +85,13 @@ class ObatSolutionsPage extends StatelessWidget {
                     right: 10,
                   ),
                   child: Image.asset(
-                    "assets/icons/search1.png",
+                    'assets/icons/search1.png',
                     width: 10,
                   ),
                 ),
                 Container(
                   transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 280),
+                  constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
                         fontSize: 15, fontFamily: "ProximaNova"),
@@ -186,12 +186,12 @@ class ObatSolutionsPage extends StatelessWidget {
             const SizedBox(
               height: 22,
             ),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 20),
                 child: Row(
-                  children: const [
+                  children: [
                     CirkelCategory(
                       title: 'Lihat\nSemua',
                       img: 'assets/images/lainnya.png',

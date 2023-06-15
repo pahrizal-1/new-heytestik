@@ -51,7 +51,7 @@ class ChatAktif extends StatelessWidget {
                   width: 11,
                 ),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 200),
+                  constraints: const BoxConstraints(maxWidth: 180),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,6 +62,7 @@ class ChatAktif extends StatelessWidget {
                       Text(
                         subNameTitle,
                         style: subTitleTextStyle.copyWith(fontSize: 10),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         chat,
@@ -134,13 +135,11 @@ class ChatRead extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-          enableDrag: false,
-          isDismissible: false,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          context: context,
-          builder: (context) => const ChatDoctorPage(),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ChatDoctorPage(),
+          ),
         );
       },
       child: Padding(
@@ -159,7 +158,7 @@ class ChatRead extends StatelessWidget {
                   width: 11,
                 ),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 200),
+                  constraints: const BoxConstraints(maxWidth: 180),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

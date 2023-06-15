@@ -147,7 +147,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   const SizedBox(
                     height: 19,
                   ),
-                  const Wrap(
+                  Wrap(
                     direction: Axis.horizontal,
                     spacing: 8,
                     runSpacing: 8,

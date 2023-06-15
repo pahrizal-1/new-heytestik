@@ -1,112 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/text_form_widget.dart';
+import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
 
-class SelectConditionsPage extends StatelessWidget {
+class SelectConditionsPage extends StatefulWidget {
   const SelectConditionsPage({super.key});
+
+  @override
+  State<SelectConditionsPage> createState() => _SelectConditionsPageState();
+}
+
+class _SelectConditionsPageState extends State<SelectConditionsPage> {
+  final InterestConditionsController state =
+      Get.put(InterestConditionsController());
+
+  @override
+  void initState() {
+    super.initState();
+    get(context);
+  }
+
+  get(BuildContext context) async {
+    await state.getInterestConditions(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Row(
-          children: const [
-            Text('Pilih Kodisi'),
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            const Text('Pilih Kodisi'),
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SearchTextField(
-                title: 'Cari Kodisi',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Korektif Wajah',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Berawat',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'kusam',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Jerawat',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Korektif Wajah',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Augmentation Wajah & Tubuh',
-                style: blackTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-              const KorektifWajahPage(
-                title: 'Bekas Flek Hitam & Melasma',
-                img: 'assets/images/pelkhitam.png',
-              ),
-            ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
+        child: Obx(
+          () => LoadingWidget(
+            isLoading: state.isLoading.value,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 70),
+                  child: Obx(
+                    () => GroupedListView<Data, String>(
+                      elements: state.filterData.toList(),
+                      groupBy: (element) => element.category!.name.toString(),
+                      groupComparator: (value1, value2) =>
+                          value2.compareTo(value1),
+                      order: GroupedListOrder.ASC,
+                      useStickyGroupSeparators: true,
+                      groupSeparatorBuilder: (String value) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      itemBuilder: (c, element) {
+                        return KorektifWajahPage(
+                          id: element.id,
+                          title: element.name.toString(),
+                          img: 'assets/images/pelkhitam.png',
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SearchTextField(
+                  title: 'Cari Kodisi',
+                  controller: state.searchController,
+                  onChange: (value) {
+                    state.onChangeFilterText(value);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -115,10 +105,12 @@ class SelectConditionsPage extends StatelessWidget {
 }
 
 class KorektifWajahPage extends StatelessWidget {
+  final int? id;
   final String title;
   final String img;
   const KorektifWajahPage({
     super.key,
+    required this.id,
     required this.title,
     required this.img,
   });
@@ -129,10 +121,11 @@ class KorektifWajahPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
+          print('id $id');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const ChatPage(),
+              builder: (context) => ChatPage(id: id),
             ),
           );
         },
@@ -162,7 +155,7 @@ class KorektifWajahPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 const Icon(
-                  Icons.arrow_forward,
+                  Icons.arrow_forward_ios_rounded,
                 ),
               ],
             ),

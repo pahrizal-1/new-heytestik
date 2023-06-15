@@ -65,17 +65,15 @@ class PhoneNumberPage extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Kirim Kode Verifikasi',
               onPressed: () async {
-                if (state.phoneNumber != null) {
-                  await state.registerPhoneNumber(context, doInPost: () async {
-                    print("INI KESINI BISA HARUSNYA");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const VerificationPage(),
-                      ),
-                    );
-                  });
-                }
+                await state.registerPhoneNumber(context, doInPost: () async {
+                  print('INI KESINI BISA HARUSNYA');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerificationPage(),
+                    ),
+                  );
+                });
               },
             ),
             const SizedBox(

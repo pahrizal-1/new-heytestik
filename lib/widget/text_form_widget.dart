@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -96,7 +98,11 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
             });
           },
           child: Container(
-            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(10), border: Border.all(color: isIconSelected1 ? greenColor : whiteColor)),
+            decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                    color: isIconSelected1 ? greenColor : whiteColor)),
             height: 50,
             child: Center(
               child: Padding(
@@ -105,14 +111,21 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      isIconSelected1 ? Icons.check_circle_rounded : Icons.add_circle,
+                      isIconSelected1
+                          ? Icons.check_circle_rounded
+                          : Icons.add_circle,
                       size: 18,
                       color: isIconSelected1 ? greenColor : greyColor,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       'Acne',
-                      style: TextStyle(letterSpacing: 0.5, fontSize: 12, fontFamily: 'ProximaNova', color: isIconSelected1 ? greenColor : greyColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          letterSpacing: 0.5,
+                          fontSize: 12,
+                          fontFamily: 'ProximaNova',
+                          color: isIconSelected1 ? greenColor : greyColor,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -127,21 +140,27 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
 
 class SearchTextField extends StatelessWidget {
   final String title;
-  const SearchTextField({
+  final TextEditingController? controller;
+  Function(String)? onChange;
+  SearchTextField({
     super.key,
     required this.title,
+    this.controller,
+    this.onChange,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      onChanged: onChange,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color(0xfffF1F1F1),
+        fillColor: const Color(0xffff1f1f1),
         hintText: title,
         prefixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
         ),
       ),
@@ -181,6 +200,36 @@ class TextFromPerawat extends StatelessWidget {
               color: greenColor,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class InfomasiTextFrom extends StatelessWidget {
+  final String title;
+  const InfomasiTextFrom({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      height: 60,
+      child: TextFormField(
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(7),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(7),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          labelText: title,
+          labelStyle: subTitleTextStyle,
         ),
       ),
     );

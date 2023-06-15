@@ -14,14 +14,26 @@ class PromoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: greenColor,
         elevation: 0,
-        title: const Text('Pakai Promo'),
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Text(
+              'Pakai Promo',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

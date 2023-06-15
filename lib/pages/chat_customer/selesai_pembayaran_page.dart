@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -13,23 +13,26 @@ class SelesaiPembayaranPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: greenColor,
-        centerTitle: false,
         elevation: 0,
-        title: Text(
-          'BCA Transfer',
-          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Text(
+              'Bca Tranfer',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+            ),
+          ],
         ),
-        leading: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RingkasanPembayaranPage(),
-                ),
-              );
-            },
-            child: const Icon(Icons.arrow_back)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -214,10 +217,20 @@ class SelesaiPembayaranPage extends StatelessWidget {
                     const SizedBox(
                       height: 18,
                     ),
-                    Center(
-                      child: Text(
-                        'Lihat Cara Pembayaran',
-                        style: grenTextStyle.copyWith(fontSize: 15),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CaraPembyaranPage(),
+                          ),
+                        );
+                      },
+                      child: Center(
+                        child: Text(
+                          'Lihat Cara Pembayaran',
+                          style: grenTextStyle.copyWith(fontSize: 15),
+                        ),
                       ),
                     )
                   ],

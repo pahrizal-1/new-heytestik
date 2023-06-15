@@ -67,7 +67,7 @@ class TambahBankPage extends StatelessWidget {
                   children: [
                     Text(
                       'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',
-                      style: blackHigtTextStyle.copyWith(fontSize: 14),
+                      style: blackHigtTextStyle.copyWith(fontSize: 13),
                     ),
                     const Spacer(),
                     InkWell(

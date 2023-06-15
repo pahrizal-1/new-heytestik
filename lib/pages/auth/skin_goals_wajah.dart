@@ -147,7 +147,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
                   const SizedBox(
                     height: 19,
                   ),
-                  const Wrap(
+                   Wrap(
                     direction: Axis.horizontal,
                     spacing: 8,
                     runSpacing: 8,

@@ -406,3 +406,96 @@ Widget buildImg1(String images, int index) => Image.asset(
       images,
       fit: BoxFit.fill,
     );
+
+class DetailProduk extends StatelessWidget {
+  final String price;
+  final String? priceDiscon;
+  final String? discon;
+  final String nameProduk;
+  final String item;
+  final String urlImg;
+
+  const DetailProduk({
+    Key? key,
+    required this.price,
+    required this.nameProduk,
+    required this.item,
+    required this.urlImg,
+    this.priceDiscon = '',
+    this.discon = '',
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 9),
+      padding: const EdgeInsets.only(left: 15, bottom: 15, top: 14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          color: const Color(0xffD9D9D9),
+        ),
+      ),
+      child: Row(
+        children: [
+          Image.asset(
+            urlImg,
+            width: 65,
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Container(
+            constraints: const BoxConstraints(maxWidth: 200),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  nameProduk,
+                  style: grenTextStyle.copyWith(fontSize: 15),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  '$item item',
+                  style: blackRegulerTextStyle,
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    priceDiscon != ''
+                        ? Text(
+                            priceDiscon.toString(),
+                            style: subGreyTextStyle.copyWith(
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                              decorationThickness: 2,
+                              color: const Color(0xff9B9B9B),
+                            ),
+                          )
+                        : Container(),
+                    discon != ''
+                        ? Text(
+                            discon.toString(),
+                            style: grenTextStyle.copyWith(fontSize: 14),
+                          )
+                        : Container(),
+                    Text(
+                      'Rp$price',
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

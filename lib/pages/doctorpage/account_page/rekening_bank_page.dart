@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../theme/theme.dart';
@@ -22,7 +22,7 @@ class RekeningBankPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DoctorHomePage(),
+                      builder: (context) => const TabBarDoctor(),
                     ),
                   );
                 },
@@ -46,12 +46,12 @@ class RekeningBankPage extends StatelessWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text('PT. BCA (BANK CENTRAL ASIA) TBK'),
                     Text('0212871964\na.n Risty Hafinah')
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: subgreyColor),
@@ -79,14 +79,14 @@ class RekeningBankPage extends StatelessWidget {
               height: 17,
             ),
             Container(
-              padding:
-                  EdgeInsets.only(left: 18, right: 50, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(
+                  left: 18, right: 50, top: 10, bottom: 10),
               height: 68,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 border: Border.all(color: greenColor),
                 borderRadius: BorderRadius.circular(7),
-                color: Color.fromRGBO(36, 167, 160, 0.2),
+                color: const Color.fromRGBO(36, 167, 160, 0.2),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +152,7 @@ class RekeningBankPage extends StatelessWidget {
                               const SizedBox(
                                 height: 22,
                               ),
-                              const SearchTextField(
+                              SearchTextField(
                                 title: 'Cari Kodisi',
                               ),
                               const SizedBox(
@@ -162,7 +162,7 @@ class RekeningBankPage extends StatelessWidget {
                                 shrinkWrap: true,
                                 keyboardDismissBehavior:
                                     ScrollViewKeyboardDismissBehavior.onDrag,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: 10,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Column(
@@ -197,10 +197,10 @@ class RekeningBankPage extends StatelessWidget {
                                               fontSize: 14),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 16,
                                       ),
-                                      Divider(
+                                      const Divider(
                                         thickness: 2,
                                       )
                                     ],

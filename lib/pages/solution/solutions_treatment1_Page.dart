@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../theme/theme.dart';
@@ -65,7 +66,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     ],
                   ),
                   Text(
-                    'Obat Resep',
+                    'Jl. Arteri Pd. Indah No.8',
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
                 ],
@@ -127,7 +128,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 ),
                 Container(
                   transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 280),
+                  constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
                         fontSize: 15, fontFamily: "ProximaNova"),
@@ -397,25 +398,35 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     )
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 75,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color(0XFFD9D9D9),
-                        borderRadius: BorderRadius.circular(7),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TreatmentKlink(),
                       ),
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Text(
-                      'Klinik',
-                      style: blackTextStyle.copyWith(fontSize: 13),
-                    )
-                  ],
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 75,
+                        width: 75,
+                        decoration: BoxDecoration(
+                          color: const Color(0XFFD9D9D9),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        'Klinik',
+                        style: blackTextStyle.copyWith(fontSize: 13),
+                      )
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -453,7 +464,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
           const SizedBox(
             height: 17,
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: EdgeInsets.only(left: 20),
@@ -532,8 +543,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25),
+          const Padding(
+            padding: EdgeInsets.only(left: 15),
             child: Wrap(
               children: [
                 ProdukTreatment(

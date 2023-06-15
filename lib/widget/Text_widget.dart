@@ -69,3 +69,34 @@ class TextBoldSpacebetwen extends StatelessWidget {
     );
   }
 }
+
+class RedTextSpacebetwen extends StatelessWidget {
+  final String title;
+
+  final String titleRed;
+  const RedTextSpacebetwen({
+    Key? key,
+    required this.title,
+    required this.titleRed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: subGreyTextStyle.copyWith(
+              fontSize: 15,
+              color: const Color(0XFF323232),
+              fontWeight: regular),
+        ),
+        Text(
+          titleRed,
+          style: blackHigtTextStyle.copyWith(fontSize: 15, color: redColor),
+        ),
+      ],
+    );
+  }
+}
