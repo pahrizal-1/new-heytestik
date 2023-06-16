@@ -141,12 +141,12 @@ class ObatSolutionsPage extends StatelessWidget {
                 ],
               ),
             ),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.only(right: 20, left: 25),
+                padding: EdgeInsets.only(right: 20, left: 25),
                 child: Row(
-                  children: const [
+                  children: [
                     ProdukObat(
                         namaBrand: 'Noroid Soothing Cream 200ml',
                         harga: 'Rp152.500',
@@ -258,10 +258,13 @@ class ObatSolutionsPage extends StatelessWidget {
                     'assets/icons/filters.png',
                     width: 78,
                   ),
-                  Wrap(
-                    spacing: 2,
-                    runSpacing: 2,
-                    children: const [
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
                       KonsultasProduk(
                         harga: 'Rp200.500',
                         title: 'Digenta Cream 10g\n',
@@ -319,6 +322,7 @@ class KonsultasProduk extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        border: Border.all(color: borderColor, width: 0.2),
         borderRadius: BorderRadius.circular(7),
       ),
       width: 164,
@@ -337,7 +341,7 @@ class KonsultasProduk extends StatelessWidget {
             height: 5,
           ),
           Container(
-            padding: const EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.only(left: 11, bottom: 11, right: 11),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -389,9 +393,6 @@ class KonsultasProduk extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 29,
-                )
               ],
             ),
           ),
