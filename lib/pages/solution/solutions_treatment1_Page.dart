@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -361,12 +362,22 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 75,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color(0XFFD9D9D9),
-                        borderRadius: BorderRadius.circular(7),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NearMePage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 75,
+                        width: 75,
+                        decoration: BoxDecoration(
+                          color: const Color(0XFFD9D9D9),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                       ),
                     ),
                     SizedBox(
