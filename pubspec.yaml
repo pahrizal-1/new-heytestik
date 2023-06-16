@@ -43,6 +43,7 @@ dependencies:
   carousel_slider: ^4.2.1
   video_player: ^2.6.1
   lottie: ^2.3.2
+  sticky_headers: "^0.3.0"
   flutter_svg: 
   percent_indicator: ^4.2.3
   timeline_tile: ^2.0.0
