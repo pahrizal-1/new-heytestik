@@ -23,7 +23,12 @@ class ProdukKeranjang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.only(right: 3),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: subwhiteColor, width: 0.4),
+      ),
       height: 260,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -163,6 +168,10 @@ class ProdukObat extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor, width: 0.2),
+            borderRadius: BorderRadius.circular(7),
+          ),
           height: 285,
           width: 164,
           child: Column(
@@ -267,6 +276,10 @@ class ProdukTreatment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: borderColor, width: 0.2),
+        borderRadius: BorderRadius.circular(7),
+      ),
       margin: EdgeInsets.only(right: 7),
       width: 164,
       height: 285,
@@ -388,8 +401,11 @@ class ProdukTreatment extends StatelessWidget {
                           borderRadius: BorderRadius.circular(3)),
                       child: Center(
                         child: Text(
-                          '+ Keranjang',
-                          style: whiteTextStyle.copyWith(fontSize: 12),
+                          'Reservasi',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: bold,
+                          ),
                         ),
                       ),
                     ),

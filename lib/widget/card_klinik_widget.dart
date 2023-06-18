@@ -39,69 +39,70 @@ class CardKlinik extends StatelessWidget {
             const SizedBox(
               width: 18,
             ),
-            Container(
-              constraints: const BoxConstraints(maxWidth: 250),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    namaKlink,
-                    style: blackTextStyle.copyWith(fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Image.asset('assets/icons/dolar.png'),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: yellowColor,
-                        size: 18,
-                      ),
-                      Text(
-                        rating,
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 11, color: const Color(0xff9B9B9B)),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      Image.asset(
-                        'assets/icons/mapgrey.png',
-                        width: 9,
-                      ),
-                      Text(
-                        ' $km KM',
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 11, color: const Color(0xff9B9B9B)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  buttonTitle != ''
-                      ? Container(
-                          height: 25,
-                          width: 182,
-                          padding: const EdgeInsets.only(
-                              left: 16, right: 17, bottom: 5, top: 5),
-                          decoration: BoxDecoration(
-                            color: subgreenColor,
-                            borderRadius: BorderRadius.circular(23),
-                          ),
-                          child: Text(
-                            buttonTitle.toString(),
-                            style: grenTextStyle.copyWith(fontSize: 12),
-                          ),
-                        )
-                      : Container(),
-                ],
+            Expanded(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      namaKlink,
+                      style: blackTextStyle.copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Image.asset('assets/icons/dolar.png'),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: yellowColor,
+                          size: 18,
+                        ),
+                        Text(
+                          rating,
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Image.asset(
+                          'assets/icons/mapgrey.png',
+                          width: 9,
+                        ),
+                        Text(
+                          ' $km KM',
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    buttonTitle != ''
+                        ? Container(
+                            height: 25,
+                            width: 182,
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 17, bottom: 5, top: 5),
+                            decoration: BoxDecoration(
+                              color: subgreenColor,
+                              borderRadius: BorderRadius.circular(23),
+                            ),
+                            child: Text(
+                              buttonTitle.toString(),
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
             )
           ],

@@ -445,7 +445,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 15),
                 child: Wrap(
                   spacing: 5,
                   runSpacing: 5,

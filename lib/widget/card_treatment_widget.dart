@@ -43,68 +43,69 @@ class CardTreatment extends StatelessWidget {
                     const SizedBox(
                       width: 18,
                     ),
-                    Container(
-                      constraints: const BoxConstraints(maxWidth: 250),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            namaKlink,
-                            style: blackTextStyle.copyWith(fontSize: 16),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Image.asset('assets/icons/dolar.png'),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: yellowColor,
-                                size: 18,
-                              ),
-                              Text(
-                                rating,
-                                style: subGreyTextStyle.copyWith(
-                                    fontSize: 11,
-                                    color: const Color(0xff9B9B9B)),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Image.asset(
-                                'assets/icons/mapgrey.png',
-                                width: 9,
-                              ),
-                              Text(
-                                ' $km KM',
-                                style: subGreyTextStyle.copyWith(
-                                    fontSize: 11,
-                                    color: const Color(0xff9B9B9B)),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 11,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset('assets/icons/check12.png'),
-                              const SizedBox(
-                                width: 3,
-                              ),
-                              Text(
-                                'Ketemu 4 Treatment',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 11),
-                              ),
-                            ],
-                          ),
-                        ],
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              namaKlink,
+                              style: blackTextStyle.copyWith(fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Image.asset('assets/icons/dolar.png'),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: yellowColor,
+                                  size: 18,
+                                ),
+                                Text(
+                                  rating,
+                                  style: subGreyTextStyle.copyWith(
+                                      fontSize: 11,
+                                      color: const Color(0xff9B9B9B)),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Image.asset(
+                                  'assets/icons/mapgrey.png',
+                                  width: 9,
+                                ),
+                                Text(
+                                  ' $km KM',
+                                  style: subGreyTextStyle.copyWith(
+                                      fontSize: 11,
+                                      color: const Color(0xff9B9B9B)),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 11,
+                            ),
+                            Row(
+                              children: [
+                                Image.asset('assets/icons/check12.png'),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  'Ketemu 4 Treatment',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 11),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
@@ -111,6 +112,7 @@ class _SolutionPageState extends State<SolutionPage> {
               return buildImg1(imge, index);
             },
             options: CarouselOptions(
+              height: 210,
               viewportFraction: 1,
               onPageChanged: (index, reason) =>
                   setState(() => activeIndex = index),
@@ -123,11 +125,11 @@ class _SolutionPageState extends State<SolutionPage> {
             child: AnimatedSmoothIndicator(
               activeIndex: activeIndex,
               count: images.length,
-              effect: JumpingDotEffect(
+              effect: ScaleEffect(
                   activeDotColor: greenColor,
                   dotColor: const Color(0xffD9D9D9),
-                  dotWidth: 10,
-                  dotHeight: 10),
+                  dotWidth: 6,
+                  dotHeight: 6),
             ),
           ),
           Column(
@@ -205,9 +207,13 @@ class _SolutionPageState extends State<SolutionPage> {
                       left: 14, top: 8, bottom: 7, right: 14),
                   width: 340,
                   height: 35,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: borderColor, width: 0.2),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
                   child: Row(
                     children: [
-                      Image.asset('assets/icons/map.png'),
+                      SvgPicture.asset('assets/icons/map.svg'),
                       const SizedBox(
                         width: 11,
                       ),
@@ -216,10 +222,9 @@ class _SolutionPageState extends State<SolutionPage> {
                         style: blackTextStyle.copyWith(fontWeight: regular),
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.gps_fixed,
-                        size: 15.9,
-                        color: greenColor,
+                      SvgPicture.asset(
+                        'assets/icons/icon_gps.svg',
+                        width: 15,
                       ),
                       const SizedBox(
                         height: 29,
@@ -260,7 +265,12 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(
+                      Container(
+                        margin: const EdgeInsets.only(right: 3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(color: subwhiteColor, width: 0.4),
+                        ),
                         height: 260,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -342,7 +352,12 @@ class _SolutionPageState extends State<SolutionPage> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      Container(
+                        margin: const EdgeInsets.only(right: 3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(color: subwhiteColor, width: 0.4),
+                        ),
                         height: 260,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
