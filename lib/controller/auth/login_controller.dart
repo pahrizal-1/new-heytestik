@@ -40,11 +40,12 @@ class LoginController extends StateClass {
       print(loginResponse['data']['token']);
       print(loginResponse['data']['data']['fullname']);
       print(loginResponse['data']['data']['roleId']);
+      print(loginResponse['data']['data']['id']);
       LocalStorage().setAccessToken(token: loginResponse['data']['token']);
       LocalStorage()
           .setUsername(username: loginResponse['data']['data']['fullname']);
       LocalStorage().setRoleID(roleID: loginResponse['data']['data']['roleId']);
-
+      LocalStorage().setUserID(userID: loginResponse['data']['data']['id']);
       doInPost();
     });
     loadingFalse();
