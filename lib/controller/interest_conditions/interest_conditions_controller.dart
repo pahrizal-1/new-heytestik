@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/models/interest_conditions_by_id_model.dart'
     as ById;
 import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
@@ -17,21 +16,21 @@ class InterestConditionsController {
 
   ById.InterestConditionByIdModel? detail;
   List<ById.InterestConditionsQuestion> question = [];
-  RxMap answer = {
-    'interest_conditions_id': 0,
-    'userId': 0,
-    'lists': [
-      {
-        'interest_conditions_answer_id': 0,
-        'interest_conditions_question_id': 0,
-        'answer_description': ''
-      },
-    ],
-  }.obs;
 
-  RxList answerSelect1 = [].obs;
   RxInt index = 0.obs;
-  RxInt percent = 1.obs;
+  TextEditingController essayController = TextEditingController();
+  var answerData = {'interest_conditions_id': 0, 'userId': 0, 'lists': []};
+  RxList lists = [].obs;
+  RxList answerSelect = [
+    {
+      'idQuestion': '',
+      'question': '',
+      'idAnswer': '',
+      'answer': '',
+      'typeAnswer': '',
+      'isIconSelected': false,
+    }
+  ].obs;
 
   getInterestConditions(BuildContext context) async {
     isLoading.value = true;
@@ -53,7 +52,9 @@ class InterestConditionsController {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       index.value = 0;
-      answerSelect1.clear();
+      answerSelect.clear();
+      answerData.clear();
+      essayController.clear();
       detail = await InterestConditionsService().getInterestConditionById(id);
       question = detail!.data!.interestConditionsQuestion!;
       if (question.isEmpty) {
@@ -62,20 +63,47 @@ class InterestConditionsController {
         );
         Get.back();
       }
-      var data =
-          jsonDecode(jsonEncode(detail!.data!.interestConditionsQuestion!));
 
-      for (int i = 0; i < data.length; i++) {
-        answerSelect1.add({
+      for (int i = 0;
+          i < detail!.data!.interestConditionsQuestion!.length;
+          i++) {
+        answerSelect.add({
           'idQuestion': '',
           'question': '',
           'idAnswer': '',
           'answer': '',
+          'typeAnswer': detail!.data!.interestConditionsQuestion![i].typeAnswer
+              .toString(),
           'isIconSelected': false,
         });
+        lists.add({
+          'interest_conditions_answer_id': 0,
+          'interest_conditions_question_id': 0,
+          'answer_description': '-'
+        });
       }
+    });
+    isLoading.value = false;
+  }
 
-      await Future.delayed(const Duration(seconds: 1));
+  saveInterestConditionCustomer(BuildContext context, int interestConditionsId,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var userId = await LocalStorage().getUserID();
+      answerData['interest_conditions_id'] = interestConditionsId;
+      answerData['userId'] = userId!.toInt();
+      answerData['lists'] = lists;
+
+      print('answerData $answerData');
+
+      var res = await InterestConditionsService()
+          .saveInterestConditionCustomer(answerData);
+      print('res $res');
+
+      doInPost();
+      answerData.clear();
+      essayController.clear();
     });
     isLoading.value = false;
   }

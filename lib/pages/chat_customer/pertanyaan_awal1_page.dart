@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
-
 import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis7_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -24,16 +26,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   final InterestConditionsController state =
       Get.put(InterestConditionsController());
 
-  List answerSelect = [
-    {
-      'idQuestion': '',
-      'question': '',
-      'idAnswer': '',
-      'answer': '',
-      'isIconSelected': false,
-    }
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -44,7 +36,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
 
   get(BuildContext context) async {
     await state.getInterestConditionById(context, widget.id!.toInt());
-    answerSelect = state.answerSelect1;
   }
 
   @override
@@ -157,9 +148,14 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                 width: 1,
                               ),
                             ),
-                            child: const TextField(
+                            child: TextField(
+                              onChanged: (value) {
+                                state.lists[state.index.value]
+                                    ['answer_description'] = value;
+                              },
+                              controller: state.essayController,
                               maxLines: null,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText:
                                     'Boleh sebutkan alergimu disini ya :)',
                                 hintStyle: TextStyle(
@@ -180,39 +176,14 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                               i++,)
                             InkWell(
                               onTap: () async {
-                                print(
-                                    'awal ${answerSelect[state.index.value]}');
-                                var idQuestion =
-                                    state.question[state.index.value].id;
-                                var question =
-                                    state.question[state.index.value].name;
-                                var answer = state.question[state.index.value]
-                                    .interestConditionsAnswer?[i].name
-                                    .toString();
-                                var idAnswer = state.question[state.index.value]
-                                    .interestConditionsAnswer?[i].id;
-                                setState(() {
-                                  answerSelect[state.index.value]
-                                      ['idQuestion'] = idQuestion;
-                                  answerSelect[state.index.value]['question'] =
-                                      question;
-                                  answerSelect[state.index.value]['idAnswer'] =
-                                      idAnswer;
-                                  answerSelect[state.index.value]['answer'] =
-                                      answer;
-                                  answerSelect[state.index.value]
-                                      ['isIconSelected'] = true;
-                                });
-
-                                print(
-                                    'akhir ${answerSelect[state.index.value]}');
+                                selectAnswer(i);
                               },
                               child: Obx(
                                 () => Container(
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
-                                    color: answerSelect[state.index.value]
+                                    color: state.answerSelect[state.index.value]
                                                 ['answer'] ==
                                             state
                                                 .question[state.index.value]
@@ -235,8 +206,8 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                             padding: const EdgeInsets.only(
                                                 right: 10),
                                             child: Icon(
-                                              (answerSelect[state.index.value]
-                                                          ['answer'] ==
+                                              (state.answerSelect[state.index
+                                                          .value]['answer'] ==
                                                       state
                                                           .question[
                                                               state.index.value]
@@ -246,7 +217,8 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                                   ? Icons.radio_button_on
                                                   : Icons.circle_outlined),
                                               size: 20,
-                                              color: answerSelect[state.index
+                                              color: state.answerSelect[state
+                                                          .index
                                                           .value]['answer'] ==
                                                       state
                                                           .question[
@@ -272,8 +244,9 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                                     .toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
-                                                  color: answerSelect[state
-                                                                  .index.value]
+                                                  color: state.answerSelect[
+                                                                  state.index
+                                                                      .value]
                                                               ['answer'] ==
                                                           state
                                                               .question[state
@@ -317,15 +290,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                 (state.question.length - 1)) {
                               print('terus nambah');
                               state.index.value += 1;
-                            } else {
-                              print('abis');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RiwayatMedis7Page(),
-                                ),
-                              );
                             }
 
                             print('index ${state.index.value}');
@@ -351,7 +315,8 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                   } else {
                                     print('abis');
                                   }
-                                  print('index ${state.index.value}');
+                                  print(
+                                      'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
                                 },
                               ),
                             ),
@@ -361,23 +326,37 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                             Expanded(
                               child: ButtonGreenWidget(
                                 title: 'Simpan & Lanjut',
-                                onPressed: () {
+                                onPressed: () async {
                                   if (state.index.value <
                                       (state.question.length - 1)) {
                                     print('terus nambah');
                                     state.index.value += 1;
                                   } else {
                                     print('abis');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RiwayatMedis7Page(),
+
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AlertConfirmationWidget(
+                                        subtitle: 'Apakah anda sudah yakin?',
+                                        action: () async {
+                                          Navigator.pop(context);
+                                          await state
+                                              .saveInterestConditionCustomer(
+                                            context,
+                                            widget.id!.toInt(),
+                                            doInPost: () async {
+                                              Get.to(const RiwayatMedis7Page());
+                                              // TINGGAL KASIH ALERT BERHASIL
+                                            },
+                                          );
+                                        },
                                       ),
                                     );
                                   }
 
-                                  print('index ${state.index.value}');
+                                  print(
+                                      'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
                                 },
                               ),
                             )
@@ -390,5 +369,35 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
         ),
       ),
     );
+  }
+
+  selectAnswer(int i) {
+    print('awal ${state.answerSelect[state.index.value]}');
+    var idQuestion = state.question[state.index.value].id;
+    var question = state.question[state.index.value].name;
+    var answer = state
+        .question[state.index.value].interestConditionsAnswer?[i].name
+        .toString();
+    var idAnswer =
+        state.question[state.index.value].interestConditionsAnswer?[i].id;
+
+    setState(() {
+      state.answerSelect[state.index.value]['idQuestion'] = idQuestion;
+      state.answerSelect[state.index.value]['question'] = question;
+      state.answerSelect[state.index.value]['idAnswer'] = idAnswer;
+      state.answerSelect[state.index.value]['answer'] = answer;
+      state.answerSelect[state.index.value]['isIconSelected'] = true;
+    });
+
+    print('akhir ${state.answerSelect[state.index.value]}');
+
+    // SAVE DATA TO API
+    state.lists[state.index.value]['interest_conditions_answer_id'] = idAnswer;
+    state.lists[state.index.value]['interest_conditions_question_id'] =
+        idQuestion;
+    state.lists[state.index.value]['answer_description'] =
+        state.answerSelect == 'description' ? state.essayController.text : '-';
+    print(
+        'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
   }
 }
