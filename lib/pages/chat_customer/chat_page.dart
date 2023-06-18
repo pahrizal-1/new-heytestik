@@ -24,7 +24,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XfFFFFFFf),
+      backgroundColor: const Color(0XfFFFFFFf),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
@@ -68,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
                         height: 320,
                         viewportFraction: 1,
                         autoPlay: true,
-                        autoPlayAnimationDuration: Duration(seconds: 2),
+                        autoPlayAnimationDuration: const Duration(seconds: 2),
                         onPageChanged: (index, reason) =>
                             setState(() => activeIndex = index),
                       ),
