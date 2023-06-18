@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -50,6 +52,71 @@ class AlertWidget extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AlertConfirmationWidget extends StatelessWidget {
+  String subtitle;
+  Function() action;
+  AlertConfirmationWidget(
+      {required this.subtitle, required this.action, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(10),
+      content: Container(
+        padding: const EdgeInsets.only(left: 39, right: 39, top: 39),
+        height: 210,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Info',
+              style: blackHigtTextStyle.copyWith(fontSize: 24),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              subtitle,
+              style: greyTextStyle.copyWith(fontSize: 13),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Text(
+                    'Tidak',
+                    style: grenTextStyle.copyWith(fontSize: 15),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                  onTap: () async => await action(),
+                  child: Text(
+                    'Ya',
+                    style: grenTextStyle.copyWith(fontSize: 15),
+                  ),
+                )
+              ],
             ),
           ],
         ),
