@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
@@ -165,139 +166,154 @@ class ObatSolutionsPage extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            Container(
-              height: 34,
-              width: 258,
-              padding: const EdgeInsets.only(
-                top: 8,
-                left: 25,
-                bottom: 7,
-              ),
-              decoration: BoxDecoration(
-                  color: greenColor,
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-              child: Text(
-                'Obat berdasarkan Concern',
-                style: whiteTextStyle.copyWith(fontSize: 16),
-              ),
-            ),
-            const SizedBox(
-              height: 22,
-            ),
-            const SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Row(
+            StickyHeader(
+              header: Container(
+                color: Color(0xFFFFFFFF),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CirkelCategory(
-                      title: 'Lihat\nSemua',
-                      img: 'assets/images/lainnya.png',
+                    Container(
+                      height: 34,
+                      width: 258,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        left: 25,
+                        bottom: 7,
+                      ),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20))),
+                      child: Text(
+                        'Obat berdasarkan Concern',
+                        style: whiteTextStyle.copyWith(fontSize: 16),
+                      ),
                     ),
-                    CirkelCategory(
-                      title: 'Jerawat',
-                      img: 'assets/images/jerawat.png',
+                    const SizedBox(
+                      height: 22,
                     ),
-                    CirkelCategory(
-                      title: 'Rambut\nRontok',
-                      img: 'assets/images/rambutrontok.png',
+                    const SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CirkelCategory(
+                              title: 'Lihat\nSemua',
+                              img: 'assets/images/lainnya.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Jerawat',
+                              img: 'assets/images/jerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Rambut\nRontok',
+                              img: 'assets/images/rambutrontok.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kerutan',
+                              img: 'assets/images/kerutan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/bekasjerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'ketombe',
+                              img: 'assets/images/ketombe.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kebotakan',
+                              img: 'assets/images/kebotakan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/dagu.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kulit\nKusam',
+                              img: 'assets/images/kulitkusam.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Skin\nGoals',
+                              img: 'assets/images/skingoals.png',
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    CirkelCategory(
-                      title: 'Kerutan',
-                      img: 'assets/images/kerutan.png',
+                    const SizedBox(
+                      height: 7,
                     ),
-                    CirkelCategory(
-                      title: 'Bekas\nJerawat',
-                      img: 'assets/images/bekasjerawat.png',
+                    const Divider(
+                      thickness: 1,
                     ),
-                    CirkelCategory(
-                      title: 'ketombe',
-                      img: 'assets/images/ketombe.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Kebotakan',
-                      img: 'assets/images/kebotakan.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Bekas\nJerawat',
-                      img: 'assets/images/dagu.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Kulit\nKusam',
-                      img: 'assets/images/kulitkusam.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Skin\nGoals',
-                      img: 'assets/images/skingoals.png',
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, top: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Jerawat',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Image.asset(
+                            'assets/icons/filters.png',
+                            width: 78,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            const Divider(
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, top: 26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Jerawat',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Image.asset(
-                    'assets/icons/filters.png',
-                    width: 78,
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    children: [
-                      KonsultasProduk(
-                        harga: 'Rp200.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp1,522.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp1,522.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                    ],
-                  )
-                ],
+              content: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    KonsultasProduk(
+                      harga: 'Rp200.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp1,522.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp1,522.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                  ],
+                ),
               ),
             )
           ],
