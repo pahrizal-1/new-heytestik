@@ -8,14 +8,6 @@ class InterestConditionsService extends ProviderClass {
   InterestConditionsService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  // Future<dynamic> registerPhone(dynamic data) async {
-  //   var response = await networkingConfig.doPost(
-  //     '/interest_conditions',
-  //     data: data,
-  //   );
-  //   return response;
-  // }
-
   Future<InterestConditionsModel> getInterestConditions() async {
     var response = await networkingConfig.doGet('/interest_conditions');
     return InterestConditionsModel.fromJson(response);
@@ -24,5 +16,13 @@ class InterestConditionsService extends ProviderClass {
   Future<dynamic> getInterestConditionById(int id) async {
     var response = await networkingConfig.doGet('/interest_conditions/$id');
     return InterestConditionByIdModel.fromJson(response);
+  }
+
+  Future<dynamic> saveInterestConditionCustomer(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/interest_condition_customer',
+      data: data,
+    );
+    return response;
   }
 }
