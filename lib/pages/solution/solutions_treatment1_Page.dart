@@ -33,49 +33,46 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: blackColor,
+              ),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Loksimu',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 13, fontWeight: regular),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down,
+                      color: greenColor,
+                    )
+                  ],
                 ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Loksimu',
-                        style: blackTextStyle.copyWith(
-                            fontSize: 13, fontWeight: regular),
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: greenColor,
-                      )
-                    ],
-                  ),
-                  Text(
-                    'Jl. Arteri Pd. Indah No.8',
-                    style: blackTextStyle.copyWith(fontSize: 15),
-                  ),
-                ],
-              )
-            ],
-          ),
+                Text(
+                  'Jl. Arteri Pd. Indah No.8',
+                  style: blackTextStyle.copyWith(fontSize: 15),
+                ),
+              ],
+            )
+          ],
         ),
         actions: [
           Padding(
@@ -196,8 +193,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         decoration: BoxDecoration(
                             color: whiteColor,
                             borderRadius: BorderRadius.circular(24),
-                            border:
-                                Border.all(color: const Color(0xfffCCCCCC))),
+                            border: Border.all(color: const Color(0xffcccccc))),
                         child: Center(
                           child: Text(
                             'Bekas Jerawat',
@@ -294,7 +290,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                       width: 164,
                       decoration: BoxDecoration(
                           image: const DecorationImage(
-                              image: AssetImage("assets/images/Laser.png"),
+                              image: AssetImage('assets/images/Laser.png'),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(7)),
                       child: Container(
@@ -325,7 +321,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 22,
             ),
             CarouselSlider.builder(
@@ -381,7 +377,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -401,7 +397,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -451,7 +447,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -482,13 +478,13 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     const SizedBox(
                       height: 17,
                     ),
-                    const SingleChildScrollView(
+                    SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             CirkelCategory(
                               title: 'Lihat\nSemua',
                               img: 'assets/images/lainnya.png',
@@ -569,12 +565,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 25),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
                     child: Wrap(
                       spacing: 12,
                       runSpacing: 12,
-                      children: [
+                      children: const [
                         ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',

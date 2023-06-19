@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/filter_tap_widget.dart';
 
 class FilterTreatmen extends StatelessWidget {
   const FilterTreatmen({
@@ -24,9 +25,60 @@ class FilterTreatmen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(color: borderColor),
                 ),
-                child: Image.asset(
-                  'assets/icons/filter-icon.png',
-                  width: 13,
+                child: InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(25),
+                          topStart: Radius.circular(25),
+                        ),
+                      ),
+                      builder: (context) => SingleChildScrollView(
+                        child: Wrap(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 60, left: 21, right: 21),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Filter',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 20),
+                                  ),
+                                  const SizedBox(
+                                    height: 31,
+                                  ),
+                                  const FilterTap(
+                                    title: 'Rating',
+                                    img: 'assets/icons/stars-icons.png',
+                                  ),
+                                  const FilterTap(
+                                    title: 'Popularitas',
+                                    img: 'assets/icons/popularity.png',
+                                  ),
+                                  const FilterTap(
+                                    title: 'Jarak',
+                                    img: 'assets/icons/mapgrey.png',
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Image.asset(
+                    'assets/icons/filter-icon.png',
+                    width: 13,
+                  ),
                 ),
               ),
               Container(
@@ -49,10 +101,10 @@ class FilterTreatmen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(color: borderColor),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text('Treatment'),
                     SizedBox(
                       width: 9,
@@ -73,10 +125,10 @@ class FilterTreatmen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(color: borderColor),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text('Rentang harga'),
                     SizedBox(
                       width: 9,
