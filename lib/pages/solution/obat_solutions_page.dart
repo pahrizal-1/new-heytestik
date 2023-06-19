@@ -142,7 +142,7 @@ class ObatSolutionsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SingleChildScrollView(
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding: EdgeInsets.only(right: 20, left: 25),
@@ -193,13 +193,13 @@ class ObatSolutionsPage extends StatelessWidget {
                     const SizedBox(
                       height: 22,
                     ),
-                    const SingleChildScrollView(
+                    SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             CirkelCategory(
                               title: 'Lihat\nSemua',
                               img: 'assets/images/lainnya.png',
@@ -276,12 +276,12 @@ class ObatSolutionsPage extends StatelessWidget {
                 ),
               ),
               content: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20, bottom: 10),
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
                   spacing: 12,
                   runSpacing: 12,
-                  children: [
+                  children: const [
                     KonsultasProduk(
                       harga: 'Rp200.500',
                       title: 'Digenta Cream 10g\n',
@@ -398,15 +398,14 @@ class KonsultasProduk extends StatelessWidget {
                   height: 12,
                 ),
                 Container(
-                  height: 30,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                   decoration: BoxDecoration(
                       border: Border.all(color: greenColor),
                       borderRadius: BorderRadius.circular(7)),
-                  child: Center(
-                    child: Text(
-                      'Harus Dengan Resep Dokter',
-                      style: grenTextStyle.copyWith(fontSize: 10),
-                    ),
+                  child: Text(
+                    'Harus Dengan Resep Dokter',
+                    style: grenTextStyle.copyWith(fontSize: 10),
                   ),
                 ),
               ],

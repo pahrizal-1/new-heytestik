@@ -186,12 +186,12 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 25),
+                      padding: const EdgeInsets.only(left: 25),
                       child: Row(
-                        children: [
+                        children: const [
                           ProdukKeranjang(
                             namaBrand: 'ISISPHARMA',
                             namaProduk: 'Teenderm Gel',
@@ -267,7 +267,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: images.map((imagePath) {
@@ -275,7 +275,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   return Container(
                     width: 7.0,
                     height: 7.0,
-                    margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _current == index
@@ -285,7 +285,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   );
                 }).toList(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Padding(
@@ -325,12 +325,12 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                               itemCount: imageList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 List<String> textList = [
-                                  "Cleanser",
-                                  "Serum",
-                                  "Mosturizer",
-                                  "Toner",
-                                  "Eye Cream",
-                                  "Sunscreen"
+                                  'Cleanser',
+                                  'Serum',
+                                  'Mosturizer',
+                                  'Toner',
+                                  'Eye Cream',
+                                  'Sunscreen'
                                 ];
                                 return Container(
                                   height: 135,
@@ -444,12 +444,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 15),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Wrap(
-                  spacing: 5,
-                  runSpacing: 5,
-                  children: [
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: const [
                     Produkheight(
                         namaBrand: 'ISISPHARMA',
                         namaProduk: 'Teenderm Gel',

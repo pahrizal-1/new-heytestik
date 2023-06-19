@@ -43,8 +43,8 @@ class TreatmentKlink extends StatelessWidget {
             ],
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
           child: FilterTreatmen(),
         ),
       ),
