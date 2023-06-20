@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
@@ -33,39 +34,33 @@ class ObatSolutionsPage extends StatelessWidget {
               ),
               Text(
                 'Obat Resep',
-                style: blackTextStyle.copyWith(fontSize: 20),
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/icons/icon-home.png',
-            width: 18,
-            color: blackColor,
+          SvgPicture.asset(
+            'assets/icons/notif-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/trello1.png',
-            width: 21,
-            color: blackColor,
+          SvgPicture.asset(
+            'assets/icons/trello-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/humberger.png',
-            width: 19,
-            color: blackColor,
+          SvgPicture.asset(
+            'assets/icons/humberger-icons.svg',
           ),
           const SizedBox(
             width: 26,
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(56.0),
+          preferredSize: const Size.fromHeight(56.0),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
@@ -276,7 +271,7 @@ class ObatSolutionsPage extends StatelessWidget {
                 ),
               ),
               content: Padding(
-                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                padding: const EdgeInsets.only(left: 20, bottom: 10, top: 20),
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
                   spacing: 12,
@@ -349,6 +344,7 @@ class KonsultasProduk extends StatelessWidget {
           Container(
             height: 164,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
               image:
                   DecorationImage(image: AssetImage(imgUrl), fit: BoxFit.cover),
             ),

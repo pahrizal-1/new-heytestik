@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 
 import '../theme/theme.dart';
 
@@ -163,89 +164,94 @@ class ProdukObat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor, width: 0.2),
-            borderRadius: BorderRadius.circular(7),
-          ),
-          height: 285,
-          width: 164,
-          child: Column(
-            children: [
-              Image.asset(
-                urlImg,
-                width: 164,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 11, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$namaBrand',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 13,
-                        fontWeight: regular,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text(
-                      harga,
-                      style: blackHigtTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'Per Tube',
-                      style: subGreyTextStyle.copyWith(
-                          fontSize: 12, color: const Color(0xFF9B9B9B)),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'Dapat dibeli hingga 20 April 2023',
-                      style: grenTextStyle.copyWith(
-                        fontSize: 11,
-                        fontWeight: medium,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Container(
-                      height: 30,
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: greenColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '+ Keranjang',
-                            style: whiteTextStyle.copyWith(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DetailObatPage()));
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor, width: 0.2),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            width: 164,
+            child: Column(
+              children: [
+                Image.asset(
+                  urlImg,
+                  width: 164,
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 11, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$namaBrand',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: regular,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        harga,
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'Per Tube',
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 12, color: const Color(0xFF9B9B9B)),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'Dapat dibeli hingga 20 April 2023',
+                        style: grenTextStyle.copyWith(
+                          fontSize: 11,
+                          fontWeight: medium,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Container(
+                        height: 30,
+                        child: TextButton(
+                          onPressed: () {},
+                          style: TextButton.styleFrom(
+                            backgroundColor: greenColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '+ Keranjang',
+                              style: whiteTextStyle.copyWith(fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

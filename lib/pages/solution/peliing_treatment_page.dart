@@ -67,7 +67,7 @@ class PeelinngTraetmentPage extends StatelessWidget {
         ),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
-          child: FilterTreatmen(),
+          child: FilterTreatment(),
         ),
       ),
       body: ListView(

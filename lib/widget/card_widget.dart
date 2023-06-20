@@ -74,7 +74,6 @@ class _CardSearchState extends State<CardSearch> {
             );
           },
           child: Container(
-            margin: EdgeInsets.only(left: 8),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             height: 30,
             decoration: BoxDecoration(

@@ -596,7 +596,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
             child: Padding(
               padding: lsymetric,
               child: Row(
-                children: [
+                children: const [
                   ProdukTreatment(
                     namaKlinik: 'Klinik Utama Lithea',
                     namaTreatmen: 'Radiant Glow Peeling',

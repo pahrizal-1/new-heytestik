@@ -78,25 +78,23 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/icons/icon-home.png',
-            width: 18,
+          SvgPicture.asset(
             color: whiteColor,
+            'assets/icons/notif-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/trello1.png',
-            width: 21,
+          SvgPicture.asset(
             color: whiteColor,
+            'assets/icons/trello-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/humberger.png',
-            width: 20,
+          SvgPicture.asset(
+            'assets/icons/humberger-icons.svg',
+            color: whiteColor,
           ),
           const SizedBox(
             width: 26,

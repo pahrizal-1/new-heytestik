@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget,.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../widget/produk_widget.dart';
 
@@ -294,7 +295,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Shop by Category",
+                      'Shop by Category',
                       style: TextStyle(
                         fontWeight: bold,
                         fontFamily: 'ProximaNova',
@@ -374,138 +375,142 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 25,
-                  top: 19,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Semua Produk',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 9,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/filters.png',
-                            width: 78,
-                          ),
-                          Container(
-                            height: 30,
-                            padding: EdgeInsets.only(left: 11.5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Terbaru',
-                                  style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                const Icon(Icons.keyboard_arrow_down)
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 30,
-                            padding: EdgeInsets.only(left: 11.5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Etalase Skincare',
-                                  style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                const Icon(Icons.keyboard_arrow_down)
-                              ],
-                            ),
-                          )
-                        ],
+              StickyHeader(
+                header: Container(
+                  color: whiteColor,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(
+                    left: 25,
+                    top: 19,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Semua Produk',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 9,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/filters.png',
+                              width: 78,
+                            ),
+                            Container(
+                              height: 30,
+                              padding: EdgeInsets.only(left: 11.5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Terbaru',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const Icon(Icons.keyboard_arrow_down)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              padding: EdgeInsets.only(left: 11.5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Etalase Skincare',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const Icon(Icons.keyboard_arrow_down)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: const [
-                    Produkheight(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/edocare.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat'),
-                    Produkheight(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/produk6.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat'),
-                    Produkheight(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/edocare.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat'),
-                    Produkheight(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel sadsadsadsadasdsad',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/edocare.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat'),
-                    Produkheight(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/produk6.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat'),
-                    Produkheight(
-                        namaBrand: 'sadasdsad',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20',
-                        hargaDiskon: '250.000',
-                        harga: '200.000',
-                        urlImg: 'assets/images/edocare.png',
-                        rating: '4.9 (120k)',
-                        kota: 'Amerika Serikat')
-                  ],
+                content: Padding(
+                  padding: const EdgeInsets.only(left: 25, right: 25),
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: const [
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/produk6.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel sadsadsadsadasdsad',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/produk6.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat')
+                    ],
+                  ),
                 ),
               )
             ],

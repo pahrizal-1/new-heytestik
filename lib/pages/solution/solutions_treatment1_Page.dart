@@ -33,46 +33,49 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back,
-                color: blackColor,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: blackColor,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Loksimu',
-                      style: blackTextStyle.copyWith(
-                          fontSize: 13, fontWeight: regular),
-                    ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      color: greenColor,
-                    )
-                  ],
-                ),
-                Text(
-                  'Jl. Arteri Pd. Indah No.8',
-                  style: blackTextStyle.copyWith(fontSize: 15),
-                ),
-              ],
-            )
-          ],
+              const SizedBox(
+                width: 11,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Loksimu',
+                        style: blackTextStyle.copyWith(
+                            fontSize: 13, fontWeight: regular),
+                      ),
+                      const SizedBox(
+                        width: 7,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color: greenColor,
+                      )
+                    ],
+                  ),
+                  Text(
+                    'Jl. Arteri Pd. Indah No.8',
+                    style: blackTextStyle.copyWith(fontSize: 15),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
         actions: [
           Padding(
@@ -80,17 +83,13 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             child: Row(
               children: [
                 SvgPicture.asset(
-                  'assets/icons/bell.svg',
-                  width: 18,
-                  color: blackColor,
+                  'assets/icons/notif-icons.svg',
                 ),
                 const SizedBox(
                   width: 14,
                 ),
-                Image.asset(
-                  'assets/icons/humberger.png',
-                  width: 19,
-                  color: blackColor,
+                SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
                 ),
                 const SizedBox(
                   width: 26,
@@ -121,7 +120,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     right: 10,
                   ),
                   child: Image.asset(
-                    "assets/icons/search1.png",
+                    'assets/icons/search1.png',
                     width: 10,
                   ),
                 ),
