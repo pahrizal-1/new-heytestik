@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/solution/cabang_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class CardKlinik extends StatelessWidget {
@@ -86,18 +87,29 @@ class CardKlinik extends StatelessWidget {
                       height: 11,
                     ),
                     buttonTitle != ''
-                        ? Container(
-                            height: 25,
-                            width: 182,
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 17, bottom: 5, top: 5),
-                            decoration: BoxDecoration(
-                              color: subgreenColor,
-                              borderRadius: BorderRadius.circular(23),
-                            ),
-                            child: Text(
-                              buttonTitle.toString(),
-                              style: grenTextStyle.copyWith(fontSize: 12),
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CabangKlinikPage(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 182,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                color: subgreenColor,
+                                borderRadius: BorderRadius.circular(23),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  buttonTitle.toString(),
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
+                              ),
                             ),
                           )
                         : Container(),

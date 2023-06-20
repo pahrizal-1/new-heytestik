@@ -72,7 +72,7 @@ class ButtonWhiteWidget extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: 14,
-            color: blackColor,
+            color: greenColor,
             fontWeight: bold,
           ),
         ),

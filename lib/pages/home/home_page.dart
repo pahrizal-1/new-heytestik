@@ -35,25 +35,25 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               print(snapshot.data);
               if (!snapshot.hasData) {
                 return Shimmer.fromColors(
-                    baseColor: greyColor.withOpacity(0.25),
-                    highlightColor: whiteColor.withOpacity(0.6),
-                    child: CarouselSlider(
-                      options: CarouselOptions(height: 184.0),
-                      items: [1, 2, 3, 4, 5].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(7)),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ));
+                  baseColor: greyColor.withOpacity(0.25),
+                  highlightColor: whiteColor.withOpacity(0.6),
+                  child: CarouselSlider(
+                    options: CarouselOptions(height: 184.0),
+                    items: [1, 2, 3, 4, 5].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(7)),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                );
               }
 
               return CarouselSlider(

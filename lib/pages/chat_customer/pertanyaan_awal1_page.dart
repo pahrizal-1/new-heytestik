@@ -46,12 +46,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
         backgroundColor: greenColor,
         title: Row(
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
             const SizedBox(
               width: 11,
             ),

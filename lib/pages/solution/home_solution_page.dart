@@ -70,32 +70,31 @@ class _SolutionPageState extends State<SolutionPage> {
                 ),
                 Text(
                   '-mu disini',
-                  style: subGreyTextStyle.copyWith(color: Color(0Xff9B9B9B)),
+                  style:
+                      subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B)),
                 ),
               ],
             ),
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/icons/icon-home.png',
-            width: 18,
+          SvgPicture.asset(
             color: whiteColor,
+            'assets/icons/notif-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/trello1.png',
-            width: 21,
+          SvgPicture.asset(
             color: whiteColor,
+            'assets/icons/trello-icons.svg',
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/humberger.png',
-            width: 20,
+          SvgPicture.asset(
+            'assets/icons/humberger-icons.svg',
+            color: whiteColor,
           ),
           const SizedBox(
             width: 26,
@@ -480,12 +479,12 @@ class _SolutionPageState extends State<SolutionPage> {
               const SizedBox(
                 height: 14,
               ),
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 25),
+                  padding: const EdgeInsets.only(left: 25),
                   child: Row(
-                    children: [
+                    children: const [
                       CardSkincare(
                         title: 'Cleanser',
                       ),
@@ -508,12 +507,12 @@ class _SolutionPageState extends State<SolutionPage> {
               const SizedBox(
                 height: 17,
               ),
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 25),
+                  padding: const EdgeInsets.only(left: 25),
                   child: Row(
-                    children: [
+                    children: const [
                       ProdukKeranjang(
                         namaBrand: 'ISISPHARMA',
                         namaProduk: 'Teenderm Gel',
@@ -579,7 +578,8 @@ class _SolutionPageState extends State<SolutionPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PeelinngTraetmentPage(),
+                              builder: (context) =>
+                                  const PeelinngTraetmentPage(),
                             ),
                           );
                         },
@@ -654,7 +654,7 @@ class _SolutionPageState extends State<SolutionPage> {
                         width: 127,
                         decoration: BoxDecoration(
                             image: const DecorationImage(
-                                image: AssetImage("assets/images/Laser.png"),
+                                image: AssetImage('assets/images/Laser.png'),
                                 fit: BoxFit.cover),
                             borderRadius: BorderRadius.circular(7)),
                         child: Container(

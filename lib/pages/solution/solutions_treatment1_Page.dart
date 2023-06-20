@@ -83,17 +83,13 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             child: Row(
               children: [
                 SvgPicture.asset(
-                  'assets/icons/bell.svg',
-                  width: 18,
-                  color: blackColor,
+                  'assets/icons/notif-icons.svg',
                 ),
                 const SizedBox(
                   width: 14,
                 ),
-                Image.asset(
-                  'assets/icons/humberger.png',
-                  width: 19,
-                  color: blackColor,
+                SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
                 ),
                 const SizedBox(
                   width: 26,
@@ -124,7 +120,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     right: 10,
                   ),
                   child: Image.asset(
-                    "assets/icons/search1.png",
+                    'assets/icons/search1.png',
                     width: 10,
                   ),
                 ),
@@ -139,9 +135,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                         fontFamily: "ProximaNova",
-                        color: fromCssColor(
-                          '#9B9B9B',
-                        ),
+                        color: fromCssColor('#9B9B9B'),
                       ),
                     ),
                   ),
@@ -198,8 +192,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         decoration: BoxDecoration(
                             color: whiteColor,
                             borderRadius: BorderRadius.circular(24),
-                            border:
-                                Border.all(color: const Color(0xfffCCCCCC))),
+                            border: Border.all(color: const Color(0xffcccccc))),
                         child: Center(
                           child: Text(
                             'Bekas Jerawat',
@@ -296,7 +289,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                       width: 164,
                       decoration: BoxDecoration(
                           image: const DecorationImage(
-                              image: AssetImage("assets/images/Laser.png"),
+                              image: AssetImage('assets/images/Laser.png'),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(7)),
                       child: Container(
@@ -327,7 +320,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 22,
             ),
             CarouselSlider.builder(
@@ -383,7 +376,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -403,7 +396,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -453,7 +446,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
@@ -469,105 +462,114 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               height: 33,
             ),
             StickyHeader(
-              header: Padding(
-                padding: lsymetric,
-                child: Text(
-                  'Choose from Concerns',
-                  style: blackTextStyle.copyWith(fontSize: 18),
+              header: Container(
+                color: whiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: lsymetric,
+                      child: Text(
+                        'Choose from Concerns',
+                        style: blackTextStyle.copyWith(fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 17,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            CirkelCategory(
+                              title: 'Lihat\nSemua',
+                              img: 'assets/images/lainnya.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Jerawat',
+                              img: 'assets/images/jerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Rambut\nRontok',
+                              img: 'assets/images/rambutrontok.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kerutan',
+                              img: 'assets/images/kerutan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/bekasjerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'ketombe',
+                              img: 'assets/images/ketombe.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kebotakan',
+                              img: 'assets/images/kebotakan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/dagu.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kulit\nKusam',
+                              img: 'assets/images/kulitkusam.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Skin\nGoals',
+                              img: 'assets/images/skingoals.png',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 17,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0xffCCCCCC),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Semua Treatment',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Image.asset(
+                            'assets/icons/filters.png',
+                            width: 78,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 17,
-                  ),
-                  const SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          CirkelCategory(
-                            title: 'Lihat\nSemua',
-                            img: 'assets/images/lainnya.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Jerawat',
-                            img: 'assets/images/jerawat.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Rambut\nRontok',
-                            img: 'assets/images/rambutrontok.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Kerutan',
-                            img: 'assets/images/kerutan.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Bekas\nJerawat',
-                            img: 'assets/images/bekasjerawat.png',
-                          ),
-                          CirkelCategory(
-                            title: 'ketombe',
-                            img: 'assets/images/ketombe.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Kebotakan',
-                            img: 'assets/images/kebotakan.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Bekas\nJerawat',
-                            img: 'assets/images/dagu.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Kulit\nKusam',
-                            img: 'assets/images/kulitkusam.png',
-                          ),
-                          CirkelCategory(
-                            title: 'Skin\nGoals',
-                            img: 'assets/images/skingoals.png',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    color: Color(0xffCCCCCC),
-                  ),
+                  Container(),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, top: 19, right: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Semua Treatment',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18),
-                        ),
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        Image.asset(
-                          'assets/icons/filters.png',
-                          width: 78,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 25),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Wrap(
                       spacing: 12,
                       runSpacing: 12,
-                      children: [
+                      children: const [
                         ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',

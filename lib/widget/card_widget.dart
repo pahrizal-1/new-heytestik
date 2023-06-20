@@ -74,7 +74,6 @@ class _CardSearchState extends State<CardSearch> {
             );
           },
           child: Container(
-            margin: EdgeInsets.only(left: 8),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             height: 30,
             decoration: BoxDecoration(
@@ -230,20 +229,13 @@ class _CardBankState extends State<CardBank> {
                       style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     const Spacer(),
-                    Container(
-                      height: 18,
-                      width: 18,
-                      decoration: isSelected == index
-                          ? BoxDecoration(
-                              color: greenColor,
-                              shape: BoxShape.circle,
-                            )
-                          : BoxDecoration(
-                              color: whiteColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: blackColor),
-                            ),
-                    ),
+                    Icon(
+                      isSelected == index
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      size: 23,
+                      color: isSelected == index ? greenColor : blackColor,
+                    )
                   ],
                 ),
                 const SizedBox(

@@ -310,7 +310,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(0.1),
       content: Container(
-        height: 356,
+        height: 380,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,

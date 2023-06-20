@@ -100,3 +100,45 @@ class RedTextSpacebetwen extends StatelessWidget {
     );
   }
 }
+
+class TitleDetail extends StatelessWidget {
+  final String title1;
+  final String title2;
+  const TitleDetail({
+    Key? key,
+    required this.title1,
+    required this.title2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title1,
+              style: blackRegulerTextStyle.copyWith(),
+            ),
+            const SizedBox(
+              width: 73,
+            ),
+            Text(
+              title2,
+              style: blackRegulerTextStyle.copyWith(),
+              textAlign: TextAlign.start,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Divider(
+          thickness: 2,
+          color: borderColor,
+        )
+      ],
+    );
+  }
+}

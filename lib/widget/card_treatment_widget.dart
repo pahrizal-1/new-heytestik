@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class CardTreatment extends StatelessWidget {
@@ -56,7 +57,7 @@ class CardTreatment extends StatelessWidget {
                             const SizedBox(
                               height: 3,
                             ),
-                            Image.asset('assets/icons/dolar.png'),
+                            SvgPicture.asset('assets/icons/dolar-icons.svg'),
                             const SizedBox(
                               height: 6,
                             ),
@@ -93,7 +94,7 @@ class CardTreatment extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                Image.asset('assets/icons/check12.png'),
+                                SvgPicture.asset('assets/icons/check.svg'),
                                 const SizedBox(
                                   width: 3,
                                 ),
@@ -113,7 +114,7 @@ class CardTreatment extends StatelessWidget {
               ],
             ),
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: EdgeInsets.only(left: 115, top: 10),
