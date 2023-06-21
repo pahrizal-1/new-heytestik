@@ -5,7 +5,6 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 
 import '../../theme/theme.dart';
-import 'obat_solutions_page.dart';
 
 class DetailObatPage extends StatelessWidget {
   const DetailObatPage({super.key});
@@ -13,6 +12,7 @@ class DetailObatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0XffFFFFFF),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -218,26 +218,7 @@ class DetailObatPage extends StatelessWidget {
                 TitleDetail(
                   title1: 'Jenis Obat',
                   title2: 'Topikal',
-                ),
-                TitleDetail(
-                  title1: 'Concern',
-                  title2: 'Bekas Jerawat, Kulit Kering',
-                ),
-                TitleDetail(
-                  title1: 'Golongan',
-                  title2: 'Obat Keras',
-                ),
-                TitleDetail(
-                  title1: 'Krim',
-                  title2: 'Obat Keras',
-                ),
-                TitleDetail(
-                  title1: 'No. BPOM',
-                  title2: 'DKL8817605529A1',
-                ),
-                TitleDetail(
-                  title1: 'Manufaktur',
-                  title2: 'Interbat',
+                  textColor: blackColor,
                 ),
                 const SizedBox(
                   height: 16,
@@ -318,76 +299,62 @@ class DetailObatPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class DescripsiText extends StatefulWidget {
-  final String title1;
-  final String subtitle2;
-  final String? divider;
-  const DescripsiText({
-    Key? key,
-    required this.title1,
-    required this.subtitle2,
-    this.divider,
-  }) : super(key: key);
-
-  @override
-  State<DescripsiText> createState() => _DescripsiTextState();
-}
-
-class _DescripsiTextState extends State<DescripsiText> {
-  bool isVisibelity = true;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            setState(() {
-              isVisibelity = !isVisibelity;
-            });
-          },
-          child: Row(
-            children: [
-              Text(
-                widget.title1,
-                style: blackHigtTextStyle.copyWith(
-                  fontSize: 18,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+        height: 100,
+        child: Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  width: 142,
+                  decoration: BoxDecoration(
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7)),
+                  height: 40,
+                  child: Center(
+                    child: Text(
+                      'Konsultasi Dulu',
+                      style: whiteTextStyle.copyWith(
+                          fontSize: 15, fontWeight: bold),
+                    ),
+                  ),
                 ),
               ),
-              const Spacer(),
-              Icon(
-                isVisibelity
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-                color: greenColor,
-              )
-            ],
-          ),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7)),
+                  height: 40,
+                  child: Center(
+                    child: Text(
+                      'Beli Langsung',
+                      style: grenTextStyle.copyWith(
+                          fontSize: 15, fontWeight: bold),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+          ],
         ),
-        const SizedBox(
-          height: 7,
-        ),
-        Visibility(
-          visible: isVisibelity,
-          child: Text(
-            widget.subtitle2,
-            style: blackRegulerTextStyle.copyWith(fontSize: 15),
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Divider(
-          thickness: 1,
-          color: borderColor,
-        ),
-        const SizedBox(
-          height: 18,
-        ),
-      ],
+      ),
     );
   }
 }
