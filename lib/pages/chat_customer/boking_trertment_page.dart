@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -254,10 +255,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           const SizedBox(
             height: 21,
           ),
-          const Divider(
-            thickness: 6,
-            color: Color(0xffF1F1F1),
-          ),
+          const dividergreen(),
           const SizedBox(
             height: 25,
           ),

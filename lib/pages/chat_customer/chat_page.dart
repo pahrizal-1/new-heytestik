@@ -75,15 +75,15 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                     Positioned(
                       left: 170,
-                      bottom: 32,
+                      bottom: 25,
                       child: AnimatedSmoothIndicator(
                         activeIndex: activeIndex,
                         count: images.length,
-                        effect: JumpingDotEffect(
+                        effect: ScaleEffect(
                             activeDotColor: greenColor,
                             dotColor: whiteColor,
-                            dotWidth: 10,
-                            dotHeight: 10),
+                            dotWidth: 6,
+                            dotHeight: 6),
                       ),
                     ),
                   ],

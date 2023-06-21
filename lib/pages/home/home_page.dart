@@ -385,21 +385,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 children: [
                   Text(
                     'Weekly Snips - Tips',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'See More',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                    style: blackHigtTextStyle.copyWith(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 16,
                     ),
                   ),
                 ],
@@ -455,18 +443,16 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Container(
+                            height: 121,
+                            width: 315,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  fromCssColor('#8FC5BC'),
-                                  fromCssColor('#A8EBEB')
-                                ],
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                  'assets/icons/bg_wekkly.png',
+                                ),
                               ),
                             ),
-                            width: 300,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -536,82 +522,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: SizedBox(
-              height: 30,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Skincare and Treatment',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'See More',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: SizedBox(
               height: 30,
@@ -619,22 +529,20 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Article',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
+                    'Cek artikel yang kamu sukai, yuk!',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 16,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      'See More',
+                      'Liat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                          color: greenColor),
                     ),
                   ),
                 ],
@@ -866,22 +774,20 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Article News',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
+                    'Hot News 🔥',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 16,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      'See More',
+                      'Liat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                          color: greenColor),
                     ),
                   ),
                 ],

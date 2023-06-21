@@ -245,24 +245,27 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                         bottomNavigationBar: Container(
                           height: 90,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 22, right: 22),
+                            padding: const EdgeInsets.only(left: 25, right: 25),
                             child: Row(
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                    width: 165,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: greenColor),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    height: 50,
-                                    child: Center(
-                                      child: Text(
-                                        'Batal',
-                                        style: grenTextStyle.copyWith(
-                                            fontSize: 15, fontWeight: bold),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      width: 165,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: greenColor),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(
+                                          'Batal',
+                                          style: grenTextStyle.copyWith(
+                                              fontSize: 15, fontWeight: bold),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -270,20 +273,23 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 165,
-                                    decoration: BoxDecoration(
-                                        color: greenColor,
-                                        border: Border.all(color: greenColor),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    height: 50,
-                                    child: Center(
-                                      child: Text(
-                                        'Simpan',
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 15, fontWeight: bold),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      width: 165,
+                                      decoration: BoxDecoration(
+                                          color: greenColor,
+                                          border: Border.all(color: greenColor),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(
+                                          'Simpan',
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 15, fontWeight: bold),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -315,128 +321,130 @@ class _FilterTreatmentState extends State<FilterTreatment> {
               InkWell(
                 onTap: () {
                   showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      backgroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadiusDirectional.only(
-                          topEnd: Radius.circular(25),
-                          topStart: Radius.circular(25),
+                    isScrollControlled: true,
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(25),
+                        topStart: Radius.circular(25),
+                      ),
+                    ),
+                    builder: (context) => Scaffold(
+                      body: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 25,
+                            right: 25,
+                            top: 70,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Treatment',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 20),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Cryolipolysis',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Electrocauter',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Facial',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Filler',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Hifu',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Laser Co2',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Laser Erbium',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Laser Nd:Yag ',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Laser Pico Lase',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Laser Pico Laser',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Pulsed Dye',
+                              ),
+                              const FilterTapTreatment(
+                                title: ' Led Light Therapy',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      builder: (context) => Scaffold(
-                            body: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 25,
-                                right: 25,
-                                top: 70,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Treatment',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 20),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Cryolipolysis',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Electrocauter',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Facial',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Filler',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Hifu',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Laser Co2',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Laser Erbium',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Laser Nd:Yag ',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Laser Pico Lase',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Laser Pico Laser',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Pulsed Dye',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: ' Led Light Therapy',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            bottomNavigationBar: Container(
-                              height: 90,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 22, right: 22),
-                                child: Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        width: 165,
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: greenColor),
-                                            borderRadius:
-                                                BorderRadius.circular(7)),
-                                        height: 50,
-                                        child: Center(
-                                          child: Text(
-                                            'Batal',
-                                            style: grenTextStyle.copyWith(
-                                                fontSize: 15, fontWeight: bold),
-                                          ),
-                                        ),
+                      bottomNavigationBar: Container(
+                        height: 90,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 22, right: 22),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    width: 165,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: greenColor),
+                                        borderRadius: BorderRadius.circular(7)),
+                                    height: 50,
+                                    child: Center(
+                                      child: Text(
+                                        'Batal',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 15, fontWeight: bold),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        width: 165,
-                                        decoration: BoxDecoration(
-                                            color: greenColor,
-                                            border:
-                                                Border.all(color: greenColor),
-                                            borderRadius:
-                                                BorderRadius.circular(7)),
-                                        height: 50,
-                                        child: Center(
-                                          child: Text(
-                                            'Simpan',
-                                            style: whiteTextStyle.copyWith(
-                                                fontSize: 15, fontWeight: bold),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ));
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Expanded(
+                                  child: Container(
+                                    width: 165,
+                                    decoration: BoxDecoration(
+                                        color: greenColor,
+                                        border: Border.all(color: greenColor),
+                                        borderRadius: BorderRadius.circular(7)),
+                                    height: 50,
+                                    child: Center(
+                                      child: Text(
+                                        'Simpan',
+                                        style: whiteTextStyle.copyWith(
+                                            fontSize: 15, fontWeight: bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 9),

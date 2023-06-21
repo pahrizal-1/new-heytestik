@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
 import '../theme/theme.dart';
 
@@ -24,126 +27,133 @@ class ProdukKeranjang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 3),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        border: Border.all(color: subwhiteColor, width: 0.4),
-      ),
-      height: 260,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            constraints: const BoxConstraints(maxWidth: 250),
-            height: 107,
-            width: 127,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(urlImg),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailSkinCarePage(),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(color: subwhiteColor, width: 0.6),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 135,
+              width: 120,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(urlImg),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 7,
-          ),
-          Container(
-              padding: const EdgeInsets.only(left: 8),
-              constraints: const BoxConstraints(maxWidth: 120),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    namaBrand,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
-                  ),
-                  Text(
-                    namaProduk,
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13,
-                        fontWeight: regular,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 13,
+            const SizedBox(
+              height: 7,
+            ),
+            Container(
+                padding: const EdgeInsets.only(left: 8, right: 9, bottom: 10),
+                constraints: const BoxConstraints(maxWidth: 130),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      namaBrand,
+                      style: blackHigtTextStyle.copyWith(fontSize: 13),
+                    ),
+                    Text(
+                      namaProduk,
+                      style: blackHigtTextStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: regular,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 28,
+                          height: 13,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          child: Center(
+                            child: Text(
+                              diskonProduk,
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 11),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          hargaDiskon,
+                          style: subGreyTextStyle.copyWith(
+                            fontSize: 12,
+                            decoration: TextDecoration.lineThrough,
+                            decorationThickness: 2,
+                            color: const Color(0xff9B9B9B),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      harga,
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: yellowColor,
+                          size: 18,
+                        ),
+                        Text(
+                          rating,
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 5),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          borderRadius: BorderRadius.circular(3),
+                          color: greenColor,
+                        ),
                         child: Center(
                           child: Text(
-                            diskonProduk,
-                            style: blackHigtTextStyle.copyWith(
-                                color: redColor, fontSize: 11),
+                            '+ Keranjang',
+                            style: whiteTextStyle.copyWith(fontSize: 12),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        hargaDiskon,
-                        style: subGreyTextStyle.copyWith(
-                          fontSize: 12,
-                          decoration: TextDecoration.lineThrough,
-                          decorationThickness: 2,
-                          color: const Color(0xff9B9B9B),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    harga,
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: yellowColor,
-                        size: 18,
-                      ),
-                      Text(
-                        rating,
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 11, color: const Color(0xff9B9B9B)),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 30,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: greenColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '+ Keranjang',
-                          style: whiteTextStyle.copyWith(fontSize: 12),
-                        ),
-                      ),
                     ),
-                  ),
-                ],
-              ))
-        ],
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }

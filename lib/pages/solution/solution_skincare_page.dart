@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget,.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../widget/produk_widget.dart';
@@ -269,22 +270,16 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                 }).toList(),
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: images.map((imagePath) {
-                  int index = images.indexOf(imagePath);
-                  return Container(
-                    width: 7.0,
-                    height: 7.0,
-                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _current == index
-                          ? greenColor
-                          : fromCssColor("#D9D9D9"),
-                    ),
-                  );
-                }).toList(),
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: _current,
+                  count: images.length,
+                  effect: ScaleEffect(
+                      activeDotColor: greenColor,
+                      dotColor: const Color(0xffD9D9D9),
+                      dotWidth: 6,
+                      dotHeight: 6),
+                ),
               ),
               const SizedBox(
                 height: 25,

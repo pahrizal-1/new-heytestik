@@ -264,30 +264,40 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                   child: Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: subwhiteColor, width: 0.4),
-                        ),
-                        height: 260,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 107,
-                              width: 127,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/images/noroid.png'),
+                      InkWell(
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const DetailSkinCarePage(),
+                          //   ),
+                          // );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            border:
+                                Border.all(color: subwhiteColor, width: 0.6),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 107,
+                                width: 127,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/noroid.png'),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
                                 padding: const EdgeInsets.only(left: 8),
                                 constraints:
                                     const BoxConstraints(maxWidth: 120),
@@ -324,18 +334,20 @@ class _SolutionPageState extends State<SolutionPage> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 12,
-                                    ),
-                                    SizedBox(
                                       height: 30,
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: greenColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                          ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            bottom: 5,
+                                            top: 5),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          color: greenColor,
                                         ),
                                         child: Center(
                                           child: Text(
@@ -347,97 +359,111 @@ class _SolutionPageState extends State<SolutionPage> {
                                       ),
                                     ),
                                   ],
-                                ))
-                          ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: subwhiteColor, width: 0.4),
-                        ),
-                        height: 260,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 107,
-                              width: 127,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/degenda_cream.png'),
+                      InkWell(
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const DetailSkinCarePage(),
+                          //   ),
+                          // );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            border:
+                                Border.all(color: subwhiteColor, width: 0.6),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 107,
+                                width: 127,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/noroid.png'),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(left: 8),
-                              constraints: const BoxConstraints(maxWidth: 120),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text('Digenta Cream 10g'),
-                                  const SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    'Rp152.500',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 15),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    'Per Tube',
-                                    style: subGreyTextStyle.copyWith(
-                                        fontSize: 12,
-                                        color: const Color(0xFF9B9B9B)),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    'Dapat dibeli hingga 20 April 2023',
-                                    style: grenTextStyle.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: medium,
-                                      fontStyle: FontStyle.italic,
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 8),
+                                constraints:
+                                    const BoxConstraints(maxWidth: 120),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Noroid Soothing Cream 80ml'),
+                                    const SizedBox(
+                                      height: 3,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: greenColor,
-                                        shape: RoundedRectangleBorder(
+                                    Text(
+                                      'Rp152.500',
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      'Per Tube',
+                                      style: subGreyTextStyle.copyWith(
+                                          fontSize: 12,
+                                          color: const Color(0xFF9B9B9B)),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      'Dapat dibeli hingga 20 April 2023',
+                                      style: grenTextStyle.copyWith(
+                                        fontSize: 11,
+                                        fontWeight: medium,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            bottom: 5,
+                                            top: 5),
+                                        decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(3),
+                                          color: greenColor,
                                         ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '+ Keranjang',
-                                          style: whiteTextStyle.copyWith(
-                                              fontSize: 12),
+                                        child: Center(
+                                          child: Text(
+                                            '+ Keranjang',
+                                            style: whiteTextStyle.copyWith(
+                                                fontSize: 12),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       const ProdukKeranjang(

@@ -31,6 +31,11 @@ class Produkheight extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          padding: EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor, width: 0.2),
+            borderRadius: BorderRadius.circular(7),
+          ),
           width: 164,
           child: Column(
             children: [
