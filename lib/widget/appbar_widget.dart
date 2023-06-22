@@ -147,6 +147,13 @@ AppBar appBarRiwayat(BuildContext context) {
   );
 }
 
+Divider dividergrey() {
+  return const Divider(
+    thickness: 0.6,
+    color: Color(0xFFCCCCCC),
+  );
+}
+
 class dividergreen extends StatelessWidget {
   const dividergreen({
     Key? key,

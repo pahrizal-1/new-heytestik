@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -215,38 +216,48 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 padding: const EdgeInsets.only(left: 25),
                 child: Row(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      height: 222,
-                      width: 164,
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage(
-                                'assets/images/Peliing.png',
-                              ),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(7)),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PeelinngTraetmentPage(),
+                          ),
+                        );
+                      },
                       child: Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        height: 222,
+                        width: 164,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          gradient: LinearGradient(
-                              colors: [
-                                blackColor.withOpacity(0.5),
-                                Colors.transparent
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.center),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/Peliing.png',
+                                ),
+                                fit: BoxFit.cover),
+                            borderRadius: BorderRadius.circular(7)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            gradient: LinearGradient(
+                                colors: [
+                                  blackColor.withOpacity(0.5),
+                                  Colors.transparent
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.center),
+                          ),
+                          child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 11),
+                                child: Text(
+                                  'PEELING',
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 18, fontWeight: bold),
+                                ),
+                              )),
                         ),
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 11),
-                              child: Text(
-                                'PEELING',
-                                style: whiteTextStyle.copyWith(
-                                    fontSize: 18, fontWeight: bold),
-                              ),
-                            )),
                       ),
                     ),
                     Container(

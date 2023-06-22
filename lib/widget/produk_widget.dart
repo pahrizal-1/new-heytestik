@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/boking_trertment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
@@ -27,21 +29,21 @@ class ProdukKeranjang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const DetailSkinCarePage(),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(right: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          border: Border.all(color: subwhiteColor, width: 0.6),
-        ),
+    return Container(
+      margin: const EdgeInsets.only(right: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: subwhiteColor, width: 0.6),
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DetailSkinCarePage(),
+            ),
+          );
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,38 +294,45 @@ class ProdukTreatment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(bottom: 11),
       decoration: BoxDecoration(
+        color: whiteColor,
         border: Border.all(color: borderColor, width: 0.2),
         borderRadius: BorderRadius.circular(7),
       ),
-      margin: EdgeInsets.only(right: 7),
+      margin: const EdgeInsets.only(right: 7),
       width: 164,
-      height: 285,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            constraints: const BoxConstraints(maxWidth: 250),
-            height: 107,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(7), topRight: Radius.circular(7)),
-              image:
-                  DecorationImage(image: AssetImage(urlImg), fit: BoxFit.cover),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const BokingTreatment()));
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: 250),
+              height: 107,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(7), topRight: Radius.circular(7)),
+                image: DecorationImage(
+                    image: AssetImage(urlImg), fit: BoxFit.cover),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 7,
-          ),
-          Container(
-              padding: const EdgeInsets.only(left: 8, right: 8),
+            const SizedBox(
+              height: 7,
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 11, right: 11),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     namaKlinik,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13, overflow: TextOverflow.ellipsis),
                   ),
                   Text(
                     namaTreatmen,
@@ -366,6 +375,13 @@ class ProdukTreatment extends StatelessWidget {
                     ],
                   ),
                   Text(
+                    'Rp$harga',
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
                     lokasiKlinik,
                     style: subGreyTextStyle.copyWith(
                       fontSize: 12,
@@ -373,11 +389,7 @@ class ProdukTreatment extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    'Rp$harga',
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    height: 5,
                   ),
                   Row(
                     children: [
@@ -427,8 +439,10 @@ class ProdukTreatment extends StatelessWidget {
                     ),
                   ),
                 ],
-              ))
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -436,7 +450,7 @@ class ProdukTreatment extends StatelessWidget {
 
 Widget buildImg1(String images, int index) => Image.asset(
       images,
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
     );
 
 class DetailProduk extends StatelessWidget {

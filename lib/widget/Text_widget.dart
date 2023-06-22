@@ -218,3 +218,38 @@ class _DescripsiTextState extends State<DescripsiText> {
     );
   }
 }
+
+class TetxtInfomasi extends StatelessWidget {
+  final String title;
+  final String title2;
+  const TetxtInfomasi({
+    Key? key,
+    required this.title,
+    required this.title2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: blackRegulerTextStyle.copyWith(
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          title2,
+          // '10:00 - 22:00 WIB',
+          style: blackRegulerTextStyle.copyWith(
+            fontSize: 13,
+          ),
+        ),
+      ],
+    );
+  }
+}

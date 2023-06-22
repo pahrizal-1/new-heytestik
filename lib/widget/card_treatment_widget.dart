@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../pages/solution/view_detail_klink_page.dart';
+
 class CardTreatment extends StatelessWidget {
   final String namaKlink;
   final String urlImg;
@@ -28,88 +30,96 @@ class CardTreatment extends StatelessWidget {
             padding: const EdgeInsets.only(top: 19, left: 25),
             child: Column(
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 93,
-                      height: 93,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(urlImg),
-                          fit: BoxFit.cover,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DetailKlnikPage()));
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 93,
+                        height: 93,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(urlImg),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              namaKlink,
-                              style: blackTextStyle.copyWith(fontSize: 16),
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            SvgPicture.asset('assets/icons/dolar-icons.svg'),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: yellowColor,
-                                  size: 18,
-                                ),
-                                Text(
-                                  rating,
-                                  style: subGreyTextStyle.copyWith(
-                                      fontSize: 11,
-                                      color: const Color(0xff9B9B9B)),
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                Image.asset(
-                                  'assets/icons/mapgrey.png',
-                                  width: 9,
-                                ),
-                                Text(
-                                  ' $km KM',
-                                  style: subGreyTextStyle.copyWith(
-                                      fontSize: 11,
-                                      color: const Color(0xff9B9B9B)),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 11,
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset('assets/icons/check.svg'),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  'Ketemu 4 Treatment',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 11),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                      const SizedBox(
+                        width: 18,
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                namaKlink,
+                                style: blackTextStyle.copyWith(fontSize: 16),
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              SvgPicture.asset('assets/icons/dolar-icons.svg'),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: yellowColor,
+                                    size: 18,
+                                  ),
+                                  Text(
+                                    rating,
+                                    style: subGreyTextStyle.copyWith(
+                                        fontSize: 11,
+                                        color: const Color(0xff9B9B9B)),
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Image.asset(
+                                    'assets/icons/mapgrey.png',
+                                    width: 9,
+                                  ),
+                                  Text(
+                                    ' $km KM',
+                                    style: subGreyTextStyle.copyWith(
+                                        fontSize: 11,
+                                        color: const Color(0xff9B9B9B)),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 11,
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/check.svg'),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    'Ketemu 4 Treatment',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 11),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
