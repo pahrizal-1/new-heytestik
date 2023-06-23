@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/boking_trertment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';

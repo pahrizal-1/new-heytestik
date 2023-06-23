@@ -1,7 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -12,10 +10,8 @@ import 'package:sticky_headers/sticky_headers.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../../widget/card_widget.dart';
-import '../../widget/fikter_card_solusions_widget.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/produk_widget.dart';
-import 'nearme_page.dart';
 
 class DetailKlnikPage extends StatefulWidget {
   const DetailKlnikPage({super.key});
@@ -438,7 +434,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
           const SizedBox(
             height: 20,
           ),
-          dividergreen(),
+          const dividergreen(),
           Container(
             width: 390,
             height: 395,
@@ -493,7 +489,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                     padding: const EdgeInsets.only(left: 25),
                     child: Row(
                       children: [
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',
                           diskonProduk: '20',
@@ -504,7 +500,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           km: '80',
                           lokasiKlinik: 'Bogor Timur',
                         ),
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'ZAP Plaza Senayan',
                           namaTreatmen: 'Toning Laser',
                           diskonProduk: '20',
@@ -515,7 +511,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           km: '80',
                           lokasiKlinik: 'Bogor Timur',
                         ),
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'ZAP Plaza Senayan',
                           namaTreatmen: 'IPL Rejuvenation',
                           diskonProduk: '20',
@@ -526,7 +522,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           km: '80',
                           lokasiKlinik: 'Bogor Timur',
                         ),
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',
                           diskonProduk: '20',
@@ -537,7 +533,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           km: '80',
                           lokasiKlinik: 'Bogor Timur',
                         ),
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',
                           diskonProduk: '20',
@@ -548,7 +544,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           km: '80',
                           lokasiKlinik: 'Bogor Timur',
                         ),
-                        ProdukTreatment(
+                        const ProdukTreatment(
                           namaKlinik: 'Klinik Utama Lithea',
                           namaTreatmen: 'Radiant Glow Peeling',
                           diskonProduk: '20',

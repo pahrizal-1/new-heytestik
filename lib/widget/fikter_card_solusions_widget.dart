@@ -383,7 +383,34 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                                 title: 'Pulsed Dye',
                               ),
                               const FilterTapTreatment(
-                                title: ' Led Light Therapy',
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
+                              ),
+                              const FilterTapTreatment(
+                                title: 'Led Light Therapy',
                               ),
                             ],
                           ),
@@ -419,9 +446,9 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              InkWell(
-                                onTap: () {},
-                                child: Expanded(
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {},
                                   child: Container(
                                     width: 165,
                                     decoration: BoxDecoration(
@@ -458,12 +485,15 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Text('Treatment'),
-                      SizedBox(
+                    children: [
+                      Text(
+                        'Treatment',
+                        style: blackRegulerTextStyle,
+                      ),
+                      const SizedBox(
                         width: 9,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.keyboard_arrow_down,
                         size: 15,
                       )
