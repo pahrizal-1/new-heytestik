@@ -55,6 +55,7 @@ class PromoPage extends StatelessWidget {
                   Container(
                     width: 230,
                     height: 40,
+                    padding: EdgeInsets.only(left: 10),
                     // width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: whiteColor,
@@ -63,9 +64,10 @@ class PromoPage extends StatelessWidget {
                           topLeft: Radius.circular(7),
                           bottomLeft: Radius.circular(7)),
                     ),
-                    child: Center(
-                      child: Text('Masukkan kode voucher',
-                          style: subGreyTextStyle),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: InputBorder.none,
+                          hintText: 'Masukkan kode voucher'),
                     ),
                   ),
                   Expanded(
@@ -155,19 +157,9 @@ class PromoPage extends StatelessWidget {
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 4 hari lagi! ',
               ),
-              SizedBox(
-                height: 116,
-              ),
               ButtonGreenWidget(
                 title: 'Pakai Voucher',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RingkasanPembayaranPage(),
-                    ),
-                  );
-                },
+                onPressed: () {},
               )
             ],
           ),

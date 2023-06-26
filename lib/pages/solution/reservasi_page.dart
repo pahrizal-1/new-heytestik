@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/solution/reservasi2_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -164,7 +165,14 @@ class ReservasiPage extends StatelessWidget {
             ),
             ButtonGreenWidget(
               title: 'Pesan',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Reservasi2Page(),
+                  ),
+                );
+              },
             ),
           ],
         ),

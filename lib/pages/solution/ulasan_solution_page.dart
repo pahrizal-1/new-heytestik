@@ -34,6 +34,9 @@ class _UlasanPageState extends State<UlasanPage> {
                   color: whiteColor,
                 ),
               ),
+              SizedBox(
+                width: 11,
+              ),
               Row(
                 children: [
                   Text(

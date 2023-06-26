@@ -254,7 +254,7 @@ class SelesaiPembayaranPage extends StatelessWidget {
                       height: 18,
                     ),
                     const Text(
-                      'Setelah pembayaranmu terkonfirmasi, kamu langsung dapat melakukan konsultasi dengan dokter. ',
+                      'Setelah pembayaranmu terkonfirmasi, pihak klinik akan segera menghubungi kamu. Pastikan nomer HP-mu aktif ya :)',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
