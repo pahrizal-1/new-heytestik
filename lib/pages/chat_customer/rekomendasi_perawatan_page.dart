@@ -93,7 +93,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                           RichText(
                             text: const TextSpan(
                               text:
-                                  "Hai! Rekomendasi perawatan buat kamu sudah selesai :)",
+                                  'Hai! Rekomendasi perawatan buat kamu sudah selesai :)',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: Colors.white,
@@ -109,7 +109,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                           RichText(
                             text: const TextSpan(
                               text:
-                                  "Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!",
+                                  'Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: Colors.white,
@@ -169,7 +169,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                             child: RichText(
                               text: TextSpan(
                                 text:
-                                    "Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga 12 Agustus 2023",
+                                    'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga 12 Agustus 2023',
                                 style: TextStyle(
                                   fontFamily: 'ProximaNova',
                                   color: fromCssColor('#323232'),
@@ -189,7 +189,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Rekomendasi obat",
+                        'Rekomendasi obat',
                         style: TextStyle(
                           fontWeight: bold,
                           fontSize: 18,
@@ -199,7 +199,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        "13 Mei 2023",
+                        '13 Mei 2023',
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'ProximaNova',
@@ -236,11 +236,11 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     height: 20,
                   ),
                   const ContainerProdukPenting(
-                      imageProduk: "assets/images/produk1.png",
+                      imageProduk: 'assets/images/produk1.png',
                       merkProduk: 'Cefila® 200 Cefixime ',
                       penggunaanJadwal: 'sesudah makan',
-                      penggunaan: "2x Sehari",
-                      harga: "Rp.50.000",
+                      penggunaan: '2x Sehari',
+                      harga: 'Rp.50.000',
                       stock: '1',
                       jenisProduk: 'Antibiotik Jerawat'),
                   const SizedBox(
@@ -250,7 +250,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Rekomendasi Skincare",
+                        'Rekomendasi Skincare',
                         style: TextStyle(
                           fontWeight: bold,
                           fontSize: 18,
@@ -313,7 +313,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     height: 15,
                   ),
                   const ContainerProdukPenting(
-                      imageProduk: "assets/images/penting1.png",
+                      imageProduk: 'assets/images/penting1.png',
                       merkProduk: 'Teenderm Hydra 40ml',
                       penggunaanJadwal: 'Pagi & Malam',
                       penggunaan: '2x sehari',
@@ -324,13 +324,13 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     height: 15,
                   ),
                   ContainerProdukPenting(
-                      imageProduk: "assets/images/penting2.png",
+                      imageProduk: 'assets/images/penting2.png',
                       merkProduk: 'Teenderm Alpha Pure 30ml',
                       penggunaanJadwal: 'Pagi & Malam',
                       penggunaan: '2x sehari',
                       harga: 'Rp175.000',
                       stock: '1',
-                      jenisProduk: "Krim Jerawat"),
+                      jenisProduk: 'Krim Jerawat'),
                   SizedBox(
                     height: 20,
                   ),
@@ -338,7 +338,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Rekomendasi Treatment",
+                        'Rekomendasi Treatment',
                         style: TextStyle(
                           fontWeight: bold,
                           fontSize: 18,
@@ -455,7 +455,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Cost",
+                                                  'Cost',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -501,7 +501,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Recov. Time",
+                                                  'Recov. Time',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -547,7 +547,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Type",
+                                                  'Type',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -693,7 +693,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Cost",
+                                                  'Cost',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -739,7 +739,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Recov. Time",
+                                                  'Recov. Time',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -785,7 +785,7 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                                               Container(
                                                 width: 75,
                                                 child: Text(
-                                                  "Type",
+                                                  'Type',
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,

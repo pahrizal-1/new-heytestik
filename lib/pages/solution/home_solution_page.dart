@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
@@ -11,6 +12,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/card_widget.dart';
+import '../../widget/pencarian_search_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class SolutionPage extends StatefulWidget {
@@ -44,36 +46,44 @@ class _SolutionPageState extends State<SolutionPage> {
             color: whiteColor,
             borderRadius: BorderRadius.circular(7),
           ),
-          child: Center(
-            child: Row(
-              children: [
-                Icon(
-                  Icons.search,
-                  size: 20,
-                  color: greyColor,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Cari',
-                  style: subGreyTextStyle.copyWith(
-                      color: const Color(0Xff9B9B9B), fontSize: 15),
-                ),
-                Text(
-                  "'Solution'",
-                  style: subGreyTextStyle.copyWith(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15,
-                      color: const Color(0Xff9B9B9B),
-                      fontWeight: bold),
-                ),
-                Text(
-                  '-mu disini',
-                  style:
-                      subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B)),
-                ),
-              ],
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PencarianPageWidget()));
+            },
+            child: Center(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.search,
+                    size: 20,
+                    color: greyColor,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Cari',
+                    style: subGreyTextStyle.copyWith(
+                        color: const Color(0Xff9B9B9B), fontSize: 15),
+                  ),
+                  Text(
+                    "'Solution'",
+                    style: subGreyTextStyle.copyWith(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 15,
+                        color: const Color(0Xff9B9B9B),
+                        fontWeight: bold),
+                  ),
+                  Text(
+                    '-mu disini',
+                    style: subGreyTextStyle.copyWith(
+                        color: const Color(0Xff9B9B9B)),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -85,9 +95,17 @@ class _SolutionPageState extends State<SolutionPage> {
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            color: whiteColor,
-            'assets/icons/trello-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
+            },
+            child: SvgPicture.asset(
+              color: whiteColor,
+              'assets/icons/trello-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
