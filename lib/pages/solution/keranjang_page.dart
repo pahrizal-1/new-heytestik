@@ -200,7 +200,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
           vertical: 12,
           horizontal: 25,
         ),
-        height: 149,
+        height: 150,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

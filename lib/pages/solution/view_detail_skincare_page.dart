@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
+import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 
 import '../../widget/Text_widget.dart';
 import '../../widget/produk_widget.dart';
@@ -54,20 +57,54 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/icons/search.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PencarianPageWidget(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/search.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/share-icons.svg',
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/trello-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/trello-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,

@@ -307,14 +307,6 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ButtonCostumWidget(
-                      img: 'assets/icons/logo-apple.png',
-                      colors: blackColor,
-                      iconsColors: whiteColor,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ButtonCostumWidget(
                       img: 'assets/icons/logo-google.png',
                       colors: redColor,
                     ),
@@ -339,7 +331,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const AuthPage(),

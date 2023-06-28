@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
+import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 
 import '../../widget/fikter_card_solusions_widget.dart';
 
@@ -30,35 +31,45 @@ class PeelinngTraetmentPage extends StatelessWidget {
               width: 11,
             ),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(left: 13, right: 14),
-                height: 35,
-                decoration: BoxDecoration(
-                  color: subwhiteColor,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Center(
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/search1.png',
-                        width: 10,
-                        color: blackColor,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Peeling',
-                        style: blackRegulerTextStyle,
-                      ),
-                      const Spacer(),
-                      Image.asset(
-                        'assets/icons/x-circle.png',
-                        width: 14,
-                        fit: BoxFit.cover,
-                      ),
-                    ],
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PencarianPageWidget(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(left: 13, right: 14),
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: subwhiteColor,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
+                          color: blackColor,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Search...',
+                          style: blackRegulerTextStyle,
+                        ),
+                        const Spacer(),
+                        Image.asset(
+                          'assets/icons/x-circle.png',
+                          width: 14,
+                          fit: BoxFit.cover,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

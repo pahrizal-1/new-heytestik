@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/produk_widget.dart';
+import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/text_form_widget.dart';
 
 class BokingTreatment extends StatefulWidget {
@@ -58,9 +59,25 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           const SizedBox(
             width: 21,
           ),
-          SvgPicture.asset(
-            'assets/icons/share-icons.svg',
-            color: whiteColor,
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+              color: whiteColor,
+            ),
           ),
           const SizedBox(
             width: 21,
