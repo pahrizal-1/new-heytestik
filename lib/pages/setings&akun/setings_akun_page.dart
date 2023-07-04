@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/rekening_bank_settings_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
@@ -70,7 +73,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     fontSize: 20,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 22,
                 ),
                 ListTitleAkun(
@@ -78,40 +81,53 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DaftarAlamatPage()));
+                            builder: (context) => const DaftarAlamatPage()));
                   },
                   iconUrl: 'assets/icons/map-icons.png',
-                  title: 'Daftar Alamat',
+                  title: 'Daftar AlamaRt',
                   title1: 'Atur alamat pengiriman belanjaan',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 ListTitleAkun(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const RekeningBankSettings()));
+                  },
                   iconUrl: 'assets/icons/credit-card.png',
                   title: 'Rekening Bank',
                   title1: 'Atur alamat pengiriman belanjaan',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 ListTitleAkun(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const KeamananAkunPage()));
+                  },
                   iconUrl: 'assets/icons/lock-icons.png',
                   title: 'Keamanan Akun',
                   title1: 'Atur alamat pengiriman belanjaan',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                ListTitleAkun(
+                const ListTitleAkun(
                   iconUrl: 'assets/icons/notification-logo-blak.png',
                   title: 'Notifikasi',
                   title1: 'Atur alamat pengiriman belanjaan',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                ListTitleAkun(
+                const ListTitleAkun(
                   iconUrl: 'assets/icons/privasi-akun-logo.png',
                   title: 'Notifikasi',
                   title1: 'Atur alamat pengiriman belanjaan',
@@ -120,7 +136,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
             ),
           ),
           const dividergreen(),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Padding(
@@ -134,17 +150,17 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     fontSize: 20,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 Row(
                   children: [
-                    ListTitleAkun(
+                    const ListTitleAkun(
                       iconUrl: 'assets/icons/map_black.png',
                       title: 'Geolokasi',
                       title1: 'Atur rekomendasi berdasarkan lokasi',
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Switch(
                       focusColor: greenColor,
                       activeColor: greenColor,
@@ -157,19 +173,19 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
-                ListTitleAkun(
+                const ListTitleAkun(
                   iconUrl: 'assets/icons/bersihkan-icons.png',
                   title: 'Bersihkan Cache',
                   title1: 'Solusi cepat untuk atasi masalah aplikasi',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
-                dividergreen(),
-                SizedBox(
+                const dividergreen(),
+                const SizedBox(
                   height: 25,
                 ),
                 Row(
@@ -179,7 +195,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                       width: 24,
                       height: 24,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -228,7 +244,7 @@ class ListTitleAkun extends StatelessWidget {
             width: 24,
             height: 24,
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
@@ -240,7 +256,7 @@ class ListTitleAkun extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Text(

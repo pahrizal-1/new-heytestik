@@ -124,3 +124,98 @@ class AlertConfirmationWidget extends StatelessWidget {
     );
   }
 }
+
+class AlertDialogSucsees extends StatefulWidget {
+  const AlertDialogSucsees({super.key});
+
+  @override
+  State<AlertDialogSucsees> createState() => _AlertDialogSucseesState();
+}
+
+class _AlertDialogSucseesState extends State<AlertDialogSucsees> {
+  // void initState() {
+  //   super.initState();
+  //   Timer(
+  //     const Duration(seconds: 1),
+  //     () => Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(
+  //         builder: (BuildContext context) => const AuthPage(),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0.1),
+      content: Container(
+        height: 300,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 234,
+                    width: 241,
+                    transform: Matrix4.translationValues(10, -100, 0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/potoalert.png',
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    transform: Matrix4.translationValues(0, -70, 0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Yeaay!',
+                          style: blackHigtTextStyle.copyWith(fontSize: 30),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Akun Profilmu Sudah lengkap',
+                          style: greyTextStyle.copyWith(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 12, top: 12),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      height: 20,
+                      width: 20,
+                    )),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

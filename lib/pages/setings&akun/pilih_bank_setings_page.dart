@@ -6,8 +6,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../widget/button_widget.dart';
 
-class TambahBankPage extends StatelessWidget {
-  const TambahBankPage({super.key});
+class PilihBankSetingsPage extends StatelessWidget {
+  const PilihBankSetingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,7 @@ class TambahBankPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                RekeningBankPage()),
-                      );
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       Icons.arrow_back,
@@ -86,7 +81,6 @@ class TambahBankPage extends StatelessWidget {
                 style: subTitleTextStyle.copyWith(fontSize: 12),
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                       child: Container(
@@ -100,16 +94,13 @@ class TambahBankPage extends StatelessWidget {
                       ),
                     ),
                   ))),
-                  const SizedBox(
-                    width: 10,
-                  ),
                   Container(
-                    padding:
-                        EdgeInsets.only(left: 8, right: 8, bottom: 7, top: 7),
                     decoration: BoxDecoration(
                       border: Border.all(color: subgreyColor),
                       borderRadius: BorderRadius.circular(7),
                     ),
+                    width: 58,
+                    height: 28,
                     child: Center(
                       child: Text(
                         'Periksa',
@@ -154,11 +145,11 @@ class TambahBankPage extends StatelessWidget {
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (BuildContext context) => RekeningBankPage()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => RekeningBankPage()),
+                  );
                 },
               ),
             ],
