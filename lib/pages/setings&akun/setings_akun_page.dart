@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/rekening_bank_settings_page.dart';
@@ -52,8 +53,14 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => AkunHomePage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 26,
@@ -84,7 +91,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                             builder: (context) => const DaftarAlamatPage()));
                   },
                   iconUrl: 'assets/icons/map-icons.png',
-                  title: 'Daftar AlamaRt',
+                  title: 'Daftar Alamat',
                   title1: 'Atur alamat pengiriman belanjaan',
                 ),
                 const SizedBox(
@@ -100,7 +107,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                   },
                   iconUrl: 'assets/icons/credit-card.png',
                   title: 'Rekening Bank',
-                  title1: 'Atur alamat pengiriman belanjaan',
+                  title1: 'Tarik Saldo Heystetik ke rekening tujuan',
                 ),
                 const SizedBox(
                   height: 25,
@@ -114,7 +121,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                   },
                   iconUrl: 'assets/icons/lock-icons.png',
                   title: 'Keamanan Akun',
-                  title1: 'Atur alamat pengiriman belanjaan',
+                  title1: 'Kata sandi, PIN, dan verifikasi data diri',
                 ),
                 const SizedBox(
                   height: 25,
@@ -122,7 +129,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 const ListTitleAkun(
                   iconUrl: 'assets/icons/notification-logo-blak.png',
                   title: 'Notifikasi',
-                  title1: 'Atur alamat pengiriman belanjaan',
+                  title1: 'Atur segala jenis pesan notifikasi',
                 ),
                 const SizedBox(
                   height: 25,
@@ -130,7 +137,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 const ListTitleAkun(
                   iconUrl: 'assets/icons/privasi-akun-logo.png',
                   title: 'Notifikasi',
-                  title1: 'Atur alamat pengiriman belanjaan',
+                  title1: 'Atur penggunaan data & akun yang tersambung',
                 ),
               ],
             ),
@@ -262,8 +269,7 @@ class ListTitleAkun extends StatelessWidget {
               Text(
                 title1,
                 style: blackRegulerTextStyle.copyWith(
-                  fontSize: 12,
-                ),
+                    fontSize: 12, color: blackColor),
               ),
             ],
           )

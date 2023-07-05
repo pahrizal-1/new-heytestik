@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
+import '../tabbar/tabbar_customer.dart';
 
 class AkunHomePage extends StatelessWidget {
   const AkunHomePage({super.key});
@@ -98,16 +101,21 @@ class AkunHomePage extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SetingsAkunPage(),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.settings_outlined))
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SetingsAkunPage(),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/icons/setings-icons.png',
+                        width: 18,
+                        height: 18,
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -136,28 +144,38 @@ class AkunHomePage extends StatelessWidget {
                 const SizedBox(
                   height: 14,
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/icon_home1.svg',
-                      width: 18,
-                      height: 18,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: Text(
-                        'Kembali ke Beranda',
-                        style: blackRegulerTextStyle.copyWith(
-                            fontSize: 15, color: blackColor),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TabBarCustomer(),
                       ),
-                    ),
-                  ],
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/icon_home1.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: Text(
+                          'Kembali ke Beranda',
+                          style: blackRegulerTextStyle.copyWith(
+                              fontSize: 15, color: blackColor),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
-                  height: 17,
+                  height: 14,
                 ),
                 dividergrey(),
                 const SizedBox(
@@ -254,38 +272,58 @@ class AkunHomePage extends StatelessWidget {
             padding: lsymetric,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/daftar-transaksi-icons.png',
-                      width: 16,
-                    ),
-                    const SizedBox(
-                      width: 17,
-                    ),
-                    Text(
-                      'Daftar Transaksi',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DaftarTransaksiPage(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/daftar-transaksi-icons.png',
+                        width: 16,
+                      ),
+                      const SizedBox(
+                        width: 17,
+                      ),
+                      Text(
+                        'Daftar Transaksi',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 17,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/love-grey.png',
-                      width: 18,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      'Wishlist',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WishListPage(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/love-grey.png',
+                        width: 18,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Wishlist',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 17,

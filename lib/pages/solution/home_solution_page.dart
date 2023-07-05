@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
@@ -110,9 +111,17 @@ class _SolutionPageState extends State<SolutionPage> {
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
-            color: whiteColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AkunHomePage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+              color: whiteColor,
+            ),
           ),
           const SizedBox(
             width: 26,
