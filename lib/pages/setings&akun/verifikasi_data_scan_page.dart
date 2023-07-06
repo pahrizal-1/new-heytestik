@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/poto_ktp_page.dart';
+
 import 'package:heystetik_mobileapps/pages/setings&akun/poto_wajah_page.dart';
 
 import '../../theme/theme.dart';

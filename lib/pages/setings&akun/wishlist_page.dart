@@ -5,15 +5,8 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/card_widget.dart';
-import '../../widget/filter_tap_widget.dart';
-
-import '../../widget/produk_height_widget,.dart';
-import '../../widget/produk_widget.dart';
 
 import '../../widget/produk_wishlist._widgets.dart';
-import '../../widget/tampilan_right_widget.dart';
-import '../solution/etalase_treatment_page.dart';
 import '../solution/keranjang_page.dart';
 
 class WishListPage extends StatefulWidget {
@@ -100,7 +93,7 @@ class _WishListPageState extends State<WishListPage> {
               decoration: BoxDecoration(
                 color: const Color(0xffF1F1F1),
                 border: Border.all(
-                  color: fromCssColor("#CCCCCC"),
+                  color: fromCssColor('#CCCCCC'),
                 ),
                 borderRadius: BorderRadius.circular(7),
               ),
@@ -121,12 +114,12 @@ class _WishListPageState extends State<WishListPage> {
                   constraints: const BoxConstraints(maxWidth: 300),
                   child: TextFormField(
                     style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
+                        fontSize: 15, fontFamily: 'ProximaNova'),
                     decoration: InputDecoration(
-                      hintText: "Cari Wishlist",
+                      hintText: 'Cari Wishlist',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        fontFamily: "ProximaNova",
+                        fontFamily: 'ProximaNova',
                         color: fromCssColor(
                           '#9B9B9B',
                         ),

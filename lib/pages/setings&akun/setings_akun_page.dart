@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';

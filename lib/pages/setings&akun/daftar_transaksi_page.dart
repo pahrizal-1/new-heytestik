@@ -245,7 +245,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                 colortittleBg: subgreenColor,
                 img: 'assets/images/penting1.png',
               ),
-              DaftarTransaksiProduk(
+              const DaftarTransaksiProduk(
                 nameProduk: 'Pesan Obat & Skincare',
                 tanggal: '12 Jun 2023',
                 pesanan: 'Teenderm Hydra 40ml',
@@ -272,7 +272,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                 colortittleBg: subgreenColor,
                 img: 'assets/images/doctor-img.png',
               ),
-              DaftarTransaksiProduk(
+              const DaftarTransaksiProduk(
                 nameProduk: 'Peeling TCA Ringan',
                 tanggal: '10 Jun 2023',
                 pesanan: 'Reservasi Treatment',

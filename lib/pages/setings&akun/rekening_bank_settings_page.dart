@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/pilih_bank_setings_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';

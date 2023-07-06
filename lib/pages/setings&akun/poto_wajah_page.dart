@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/more_dialog_widget.dart';
 
 class PotoWajahPage extends StatelessWidget {
   const PotoWajahPage({super.key});

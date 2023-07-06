@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
@@ -328,20 +329,30 @@ class AkunHomePage extends StatelessWidget {
                 const SizedBox(
                   height: 17,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/stars-grey.png',
-                      width: 18,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      'Ulasan',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UlasanSetingsPage(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/stars-grey.png',
+                        width: 18,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Ulasan',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 18,

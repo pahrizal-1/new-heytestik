@@ -3,7 +3,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_data_setings_page.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/button_widget.dart';
 
 class VerifikasiSetingsPage extends StatelessWidget {
   const VerifikasiSetingsPage({super.key});
