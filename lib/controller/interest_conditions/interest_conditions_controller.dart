@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
+import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_by_id_model.dart'
     as ById;
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 import 'package:heystetik_mobileapps/service/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
-class InterestConditionsController {
-  RxBool isLoading = false.obs;
+class InterestConditionsController extends StateClass {
   TextEditingController searchController = TextEditingController();
   Rx<InterestConditionsModel> data = InterestConditionsModel(data: []).obs;
   RxList<Data> filterData = List<Data>.empty().obs;
