@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/option_login_page.dart';
 import 'package:heystetik_mobileapps/pages/forget_passowrd/forget_password_email_page.dart';
-import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,11 +15,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LoginController state = Get.put(LoginController());
   bool _obscureText = true;
   FocusNode myFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<LoginController>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -121,18 +121,12 @@ class _LoginPageState extends State<LoginPage> {
                 height: 30,
               ),
               LoadingWidget(
-                isLoading: state.isLoading,
+                isLoading: state.isLoading.value,
                 child: ButtonGreenWidget(
                   title: 'Sign In',
                   onPressed: () async {
                     await state.logIn(context, doInPost: () async {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TabBarCustomer(),
-                        ),
-                        (route) => false,
-                      );
+                      await state.redirectTo();
                     });
                   },
                 ),
