@@ -8,7 +8,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> infoPersonal(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/register/info-personal",
+      '/register/info-personal',
       data: data,
     );
 
@@ -17,7 +17,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> beautyProfile(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/interest_beauty_profile",
+      '/interest_beauty_profile',
       data: data,
     );
 
@@ -26,7 +26,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> faceCorrective(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/interest_face_corrective_skin_goals",
+      '/interest_face_corrective_skin_goals',
       data: data,
     );
 
@@ -35,7 +35,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> bodyCorrective(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/interest_body_corrective_skin_goals",
+      '/interest_body_corrective_skin_goals',
       data: data,
     );
 
@@ -44,7 +44,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> pastTreatment(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/interest_history_treatment_skin_goals",
+      '/interest_history_treatment_skin_goals',
       data: data,
     );
 
@@ -53,7 +53,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> budgets(dynamic data) async {
     var response = await networkingConfig.doPost(
-      "/interest_budget_skin_goals",
+      '/interest_budget_skin_goals',
       data: data,
     );
 

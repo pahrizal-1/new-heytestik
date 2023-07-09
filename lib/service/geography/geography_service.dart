@@ -8,16 +8,15 @@ class GeographyService extends ProviderClass {
 
   Future<dynamic> getProvince() async {
     var response = await networkingConfig.doGet(
-      "/geography/provinces?order=ASC&page=50&take=10",
+      '/geography/provinces?order=ASC&page=50&take=10',
     );
-
 
     return response;
   }
 
   Future<dynamic> getCity(int provinceID) async {
     var response = await networkingConfig.doGet(
-      "/geography/kota-kabupatens?order=ASC&page=1&take=50&provinceId=$provinceID",
+      '/geography/kota-kabupatens?order=ASC&page=1&take=50&provinceId=$provinceID',
     );
 
     return response;
