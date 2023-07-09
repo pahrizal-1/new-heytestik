@@ -54,7 +54,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     'dila btw - ',
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
-                  Text('22 tahun')
+                  const Text('22 tahun')
                 ],
               ),
               const SizedBox(
@@ -63,7 +63,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               const Divider(
                 thickness: 1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(
@@ -140,10 +140,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 13,
                   ),
-                  Text('Tidak'),
+                  const Text('Tidak'),
                 ],
               ),
               const SizedBox(
@@ -195,11 +195,11 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 2, right: 2),
+                      padding: const EdgeInsets.only(left: 2, right: 2),
                       width: 72,
                       height: 23,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(36, 167, 160, 0.1),
+                          color: const Color.fromRGBO(36, 167, 160, 0.1),
                           border: Border.all(
                             color: greenColor,
                           ),
@@ -211,7 +211,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                             style: blackTextStyle.copyWith(
                                 fontSize: 15, fontWeight: regular),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Image.asset(
                             'assets/icons/danger-icons.png',
                             width: 10,
@@ -223,34 +223,34 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Keywords:'),
-                        SizedBox(
+                        const Text('Keywords:'),
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
                           height: 23,
                           width: 107,
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(36, 167, 160, 0.1),
+                              color: const Color.fromRGBO(36, 167, 160, 0.1),
                               border: Border.all(
                                 color: greenColor,
                               ),
                               borderRadius: BorderRadius.circular(7)),
-                          child: Center(child: Text('Acne Vulgaris')),
+                          child: const Center(child: Text('Acne Vulgaris')),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
                           height: 23,
                           width: 107,
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(36, 167, 160, 0.1),
+                              color: const Color.fromRGBO(36, 167, 160, 0.1),
                               border: Border.all(
                                 color: greenColor,
                               ),
                               borderRadius: BorderRadius.circular(7)),
-                          child: Center(child: Text('Oily Skins')),
+                          child: const Center(child: Text('Oily Skins')),
                         ),
                       ],
                     )
@@ -308,7 +308,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   );
                 },
                 child: Text(
-                  "+ Tambah Dari Template",
+                  '+ Tambah Dari Template',
                   style: grenTextStyle.copyWith(fontSize: 15),
                 ),
               ),
@@ -316,7 +316,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 shrinkWrap: true,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
                   return Container();
@@ -338,7 +338,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     );
                   },
                   child: Text(
-                    "+ Tambah Skincare",
+                    '+ Tambah Skincare',
                     style: grenTextStyle.copyWith(fontSize: 13),
                   ),
                 ),
@@ -372,7 +372,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   );
                 },
                 child: Text(
-                  "+ Tambah Dari Template",
+                  '+ Tambah Dari Template',
                   style: grenTextStyle.copyWith(fontSize: 15),
                 ),
               ),
@@ -380,10 +380,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 shrinkWrap: true,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
-                  return Column(
+                  return const Column(
                     children: [],
                   );
                 },
@@ -404,7 +404,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     );
                   },
                   child: Text(
-                    "+ Tambah Treatment",
+                    '+ Tambah Treatment',
                     style: grenTextStyle.copyWith(fontSize: 13),
                   ),
                 ),
