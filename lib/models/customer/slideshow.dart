@@ -6,7 +6,13 @@ class SlideshowModel {
   final int position;
   final bool status;
 
-  SlideshowModel({required this.id, required this.imagePath, required this.title, required this.link, required this.position, required this.status});
+  SlideshowModel(
+      {required this.id,
+      required this.imagePath,
+      required this.title,
+      required this.link,
+      required this.position,
+      required this.status});
 
   factory SlideshowModel.fromJson(Map<String, dynamic> data) {
     return SlideshowModel(
