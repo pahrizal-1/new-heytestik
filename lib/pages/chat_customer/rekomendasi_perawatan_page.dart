@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/search_klink_page.dart';
+
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -597,13 +597,13 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                             child: ButtonGreenWidget(
                               title: 'Cari & Pilih Klinik',
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SearchKlinkPage(),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         const SearchKlinkPage(),
+                                //   ),
+                                // );
                               },
                             ),
                           ),
@@ -835,13 +835,13 @@ class RekomendasiPerawatan1Page extends StatelessWidget {
                             child: ButtonGreenWidget(
                               title: 'Cari & Pilih Klinik',
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SearchKlinkPage(),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         const SearchKlinkPage(),
+                                //   ),
+                                // );
                               },
                             ),
                           ),

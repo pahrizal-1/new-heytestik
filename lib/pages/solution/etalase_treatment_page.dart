@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
+
 import 'package:heystetik_mobileapps/pages/solution/pencarian_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 

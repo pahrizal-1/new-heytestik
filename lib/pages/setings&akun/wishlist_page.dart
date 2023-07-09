@@ -147,7 +147,8 @@ class _WishListPageState extends State<WishListPage> {
                         children: [
                           Text(
                             '4 Produk',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                            style: blackTextStyle.copyWith(
+                                color: const Color(0xff6B6B6B), fontSize: 15),
                           ),
                           InkWell(
                             onTap: () {
@@ -159,17 +160,24 @@ class _WishListPageState extends State<WishListPage> {
                               children: [
                                 Text(
                                   'Tampilan',
-                                  style: subTitleTextStyle.copyWith(
-                                      color: const Color(0xff6B6B6B)),
+                                  style: blackTextStyle.copyWith(
+                                      color: const Color(0xff6B6B6B),
+                                      fontSize: 15),
                                 ),
                                 const SizedBox(
                                   width: 4,
                                 ),
                                 isSelecteTampilan
                                     ? SvgPicture.asset(
-                                        'assets/icons/tampilan1.svg')
+                                        'assets/icons/tampilan1.svg',
+                                        width: 12,
+                                        height: 12,
+                                      )
                                     : SvgPicture.asset(
-                                        'assets/icons/tampillan2.svg')
+                                        'assets/icons/tampillan2.svg',
+                                        width: 12,
+                                        height: 12,
+                                      )
                               ],
                             ),
                           )

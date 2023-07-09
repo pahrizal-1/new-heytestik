@@ -201,15 +201,9 @@ class UlasanProuduk extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(7),
-        boxShadow: [
-          BoxShadow(
-            color: blackColor,
-            blurRadius: 0.5,
-          ),
-        ],
-      ),
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(color: borderColor)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
@@ -89,9 +90,17 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            color: whiteColor,
-            'assets/icons/notif-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotifikasionPage()));
+            },
+            child: SvgPicture.asset(
+              color: whiteColor,
+              'assets/icons/notif-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
@@ -312,26 +321,34 @@ class _SolutionPageState extends State<SolutionPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 107,
-                                width: 127,
+                                height: 135,
+                                width: 120,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/noroid.png'),
-                                  ),
+                                      image: AssetImage(
+                                          'assets/images/noroid.png'),
+                                      fit: BoxFit.cover),
                                 ),
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Container(
-                                padding: const EdgeInsets.only(left: 8),
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  bottom: 10,
+                                ),
                                 constraints:
-                                    const BoxConstraints(maxWidth: 120),
+                                    const BoxConstraints(maxWidth: 130),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text('Noroid Soothing Cream 80ml'),
+                                    Text(
+                                      'Noroid Soothing Cream 80ml',
+                                      style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 13),
+                                    ),
                                     const SizedBox(
                                       height: 3,
                                     ),
@@ -361,108 +378,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 30,
-                                    ),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            bottom: 5,
-                                            top: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(3),
-                                          color: greenColor,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            '+ Keranjang',
-                                            style: whiteTextStyle.copyWith(
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const DetailSkinCarePage(),
-                          //   ),
-                          // );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            border:
-                                Border.all(color: subwhiteColor, width: 0.6),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 107,
-                                width: 127,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/noroid.png'),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 8),
-                                constraints:
-                                    const BoxConstraints(maxWidth: 120),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('Noroid Soothing Cream 80ml'),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      'Rp152.500',
-                                      style: blackHigtTextStyle.copyWith(
-                                          fontSize: 15),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      'Per Tube',
-                                      style: subGreyTextStyle.copyWith(
-                                          fontSize: 12,
-                                          color: const Color(0xFF9B9B9B)),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      'Dapat dibeli hingga 20 April 2023',
-                                      style: grenTextStyle.copyWith(
-                                        fontSize: 11,
-                                        fontWeight: medium,
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
+                                      height: 14,
                                     ),
                                     InkWell(
                                       onTap: () {},

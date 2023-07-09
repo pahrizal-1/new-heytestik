@@ -23,7 +23,7 @@ class GaleryMyJourney extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => TulisUlasan2Page()));
+                          builder: (context) => const TulisUlasan2Page()));
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -70,7 +70,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -79,7 +79,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -88,7 +88,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -97,7 +97,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -106,7 +106,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -141,7 +141,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -150,7 +150,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -159,7 +159,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -168,7 +168,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -193,7 +193,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -202,7 +202,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -211,7 +211,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -220,7 +220,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -255,7 +255,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -264,7 +264,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -273,7 +273,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -282,7 +282,7 @@ class GaleryMyJourney extends StatelessWidget {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),

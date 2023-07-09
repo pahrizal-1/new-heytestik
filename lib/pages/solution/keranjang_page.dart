@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_svg/svg.dart';
-import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
-import '../../widget/container_widget.dart';
+
 import '../../widget/produk_card_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
@@ -51,15 +50,35 @@ class _KeranjangPageState extends State<KeranjangPage> {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/icons/love-icons.svg',
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WishListPage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/love-icons.svg',
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AkunHomePage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 26,

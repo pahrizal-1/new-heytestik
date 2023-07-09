@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/widget/card_tittle_filter.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 
-import '../pages/chat_customer/search_klink_page.dart';
 import '../theme/theme.dart';
 
 class MoreDialogFilter extends StatefulWidget {
@@ -167,12 +166,12 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchKlinkPage(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SearchKlinkPage(),
+                          //   ),
+                          // );
                         },
                         child: Container(
                           height: 50,
@@ -196,12 +195,12 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchKlinkPage(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SearchKlinkPage(),
+                          //   ),
+                          // );
                         },
                         child: Container(
                           height: 50,

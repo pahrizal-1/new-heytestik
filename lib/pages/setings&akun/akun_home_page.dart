@@ -24,13 +24,14 @@ class AkunHomePage extends StatelessWidget {
           child: Row(
             children: [
               InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    'assets/icons/danger-icons.png',
-                    width: 14,
-                  )),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset(
+                  'assets/icons/danger-icons.png',
+                  width: 15,
+                ),
+              ),
               const SizedBox(
                 width: 11,
               ),
@@ -159,6 +160,7 @@ class AkunHomePage extends StatelessWidget {
                       SvgPicture.asset(
                         'assets/icons/icon_home1.svg',
                         width: 24,
+                        color: blackColor,
                         height: 24,
                       ),
                       const SizedBox(
@@ -272,6 +274,7 @@ class AkunHomePage extends StatelessWidget {
           Padding(
             padding: lsymetric,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: () {
@@ -284,16 +287,19 @@ class AkunHomePage extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/daftar-transaksi-icons.png',
-                        width: 16,
-                      ),
+                      SvgPicture.asset(
+                          'assets/icons/daftar-transaksi-icons.svg'),
+                      // Image.asset(
+                      //   'assets/icons/daftar-transaksi-icons.png',
+                      //   width: 16,
+                      // ),
                       const SizedBox(
-                        width: 17,
+                        width: 16,
                       ),
                       Text(
                         'Daftar Transaksi',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       )
                     ],
                   ),
@@ -312,16 +318,19 @@ class AkunHomePage extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/love-grey.png',
-                        width: 18,
-                      ),
+                      SvgPicture.asset('assets/icons/love-wishlist-icons.svg'),
+                      // Image.asset(
+                      //   'assets/icons/love-grey.png',
+                      //   width: 18,
+                      // ),
+
                       const SizedBox(
-                        width: 15,
+                        width: 13,
                       ),
                       Text(
                         'Wishlist',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       )
                     ],
                   ),
@@ -340,16 +349,14 @@ class AkunHomePage extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/stars-grey.png',
-                        width: 18,
-                      ),
+                      SvgPicture.asset('assets/icons/stars-ulasan-icons.svg'),
                       const SizedBox(
-                        width: 15,
+                        width: 13,
                       ),
                       Text(
                         'Ulasan',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       ),
                     ],
                   ),

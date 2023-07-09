@@ -12,9 +12,6 @@ class Alamatpage extends StatefulWidget {
 }
 
 class _AlamatpageState extends State<Alamatpage> {
-  final TextEditingController _controller = TextEditingController(
-      text: "Kebayoran Lama, Jakarta Selatan, DKI Jakarta");
-
   final TextEditingController labelAlamat = TextEditingController();
   int labelAlamatLength = 0;
   bool _isEnable = false;

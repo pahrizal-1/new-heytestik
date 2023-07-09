@@ -55,7 +55,10 @@ class _BokingTreatmentState extends State<BokingTreatment> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset('assets/icons/love-grey.svg'),
+          SvgPicture.asset(
+            'assets/icons/love-grey.svg',
+            color: whiteColor,
+          ),
           const SizedBox(
             width: 21,
           ),
@@ -716,63 +719,67 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
-        height: 100,
-        child: Row(
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Konsultasi',
-                      style: grenTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Konsultasi',
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservasiPage()));
-                },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  width: 142,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Reservasi',
-                      style: whiteTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+                const SizedBox(
+                  width: 6,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ReservasiPage()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      width: 142,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Reservasi',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

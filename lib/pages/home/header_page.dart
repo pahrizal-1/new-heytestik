@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 
 import '../../core/local_storage.dart';
@@ -59,14 +60,14 @@ class _HeaderPageState extends State<HeaderPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: InkWell(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const Interest1Page(),
-                    //     ),
-                    //   );
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotifikasionPage(),
+                        ),
+                      );
+                    },
                     child: Container(
                       height: 22,
                       width: 22,

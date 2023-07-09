@@ -147,9 +147,6 @@ class ObatSolutionsPage extends StatelessWidget {
                         namaBrand: 'Noroid Soothing Cream 200ml',
                         harga: 'Rp152.500',
                         urlImg: 'assets/images/noroid1.png'),
-                    SizedBox(
-                      width: 12,
-                    ),
                     ProdukObat(
                         namaBrand: 'Digenta Cream 10g\n ',
                         harga: 'Rp152.500',

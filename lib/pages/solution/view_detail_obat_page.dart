@@ -5,6 +5,10 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/pencarian_search_widget.dart';
+import '../../widget/share_solusion_widget_page.dart';
+import '../setings&akun/akun_home_page.dart';
+import 'keranjang_page.dart';
 
 class DetailObatPage extends StatelessWidget {
   const DetailObatPage({super.key});
@@ -44,26 +48,68 @@ class DetailObatPage extends StatelessWidget {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/icons/search.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PencarianPageWidget(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/search.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/share-icons.svg',
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => const ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/trello-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/trello-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AkunHomePage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 26,
@@ -299,61 +345,67 @@ class DetailObatPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
-        height: 100,
-        child: Row(
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  width: 142,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Konsultasi Dulu',
-                      style: whiteTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      width: 142,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Konsultasi Dulu',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Beli Langsung',
-                      style: grenTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Beli Langsung',
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(
+                  width: 6,
+                ),
+              ],
             ),
-            const SizedBox(
-              width: 6,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
