@@ -1,8 +1,8 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-import 'package:heystetik_mobileapps/models/interest_conditions_by_id_model.dart';
-import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_by_id_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
 class InterestConditionsService extends ProviderClass {
   InterestConditionsService()

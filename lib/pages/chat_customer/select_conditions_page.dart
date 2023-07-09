@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/text_form_widget.dart';
-import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
 class SelectConditionsPage extends StatefulWidget {
   const SelectConditionsPage({super.key});

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/models/interest_conditions_by_id_model.dart'
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_by_id_model.dart'
     as ById;
-import 'package:heystetik_mobileapps/models/interest_conditions_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 import 'package:heystetik_mobileapps/service/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
