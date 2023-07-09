@@ -97,7 +97,7 @@ class ErrorConfig implements Exception {
       default:
         return ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
-          message: 'Please check your internet connection again',
+          message: message ?? 'Please check your internet connection again',
         );
     }
   }
