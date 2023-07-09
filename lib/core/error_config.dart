@@ -45,7 +45,7 @@ class ErrorConfig implements Exception {
   static logError(dynamic object) {
     if (kDebugMode) {
       log('\x1B[31m${object.toString()}\x1B[0m');
-      log('Error ini di log dari [ErrorConfig] Rainbow app\nTetap Semangat 👍 semoga Allah mudahkan ✨');
+      log('Error ini di log dari [ErrorConfig] Heystetik Mobile Apps app\nTetap Semangat 👍 semoga Allah mudahkan ✨');
     }
   }
 
@@ -134,7 +134,7 @@ ErrorConfig handleError(
     var response = dioError.response;
     var status = dioError.response?.statusCode;
     ErrorConfig.logError(
-        'Rainbow Error [DioError] : \n  error : $errorInfo\n  type : ${dioError.type}\n  message : $dioMessage\n  request path : $requestPath\n  response : $response, status : $status');
+        'Heystetik Mobile Apps Error [DioError] : \n  error : $errorInfo\n  type : ${dioError.type}\n  message : $dioMessage\n  request path : $requestPath\n  response : $response, status : $status');
     error = ErrorConfig.findDioError(error);
   }
 
@@ -145,7 +145,7 @@ ErrorConfig handleError(
     var message = error.message;
     var cause = error.cause;
     ErrorConfig.logError(
-        'Rainbow Error [ErrorConfig] : \n  cause : $cause\n  message : $message');
+        'Heystetik Mobile Apps Error [ErrorConfig] : \n  cause : $cause\n  message : $message');
 
     if (context == null) {
       return returnedError;
