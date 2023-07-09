@@ -12,6 +12,7 @@ import '../../widget/Text_widget.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/produk_widget.dart';
+import '../../widget/share_solusion_widget_page.dart';
 
 class DetailKlnikPage extends StatefulWidget {
   const DetailKlnikPage({super.key});
@@ -71,13 +72,32 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset('assets/icons/love-grey.svg'),
+          SvgPicture.asset(
+            'assets/icons/love-grey.svg',
+            color: whiteColor,
+          ),
           const SizedBox(
             width: 21,
           ),
-          SvgPicture.asset(
-            'assets/icons/share-icons.svg',
-            color: whiteColor,
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => const ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+              color: whiteColor,
+            ),
           ),
           const SizedBox(
             width: 21,

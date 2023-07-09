@@ -6,7 +6,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/card_widget.dart';
-import '../../widget/fikter_card_solusions_widget.dart';
+
 import '../../widget/filter_tap_widget.dart';
 import 'etalase_treatment_page.dart';
 

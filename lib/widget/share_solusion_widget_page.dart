@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/route_manager.dart';
 import '../theme/theme.dart';
 
 class ShareShowWidget extends StatelessWidget {

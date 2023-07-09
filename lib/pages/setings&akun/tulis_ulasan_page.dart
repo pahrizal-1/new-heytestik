@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -59,11 +59,11 @@ class TulisUlasaPage extends StatelessWidget {
                   child: Container(
                     height: 5,
                     decoration: BoxDecoration(
-                        color: Color(0xffF1F1F1),
+                        color: const Color(0xffF1F1F1),
                         borderRadius: BorderRadius.circular(7)),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 14,
                 ),
                 Text(
@@ -88,7 +88,7 @@ class TulisUlasaPage extends StatelessWidget {
                     width: 40,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: AssetImage('assets/images/penting1.png'),
                             fit: BoxFit.cover)),
                   ),
@@ -122,27 +122,33 @@ class TulisUlasaPage extends StatelessWidget {
             const SizedBox(
               height: 26,
             ),
-            StartUlasan(
+            const StartUlasan(
               title: 'Efektivitas',
+              widtStarrs: 25,
+              fonstsizeTitle: 15,
               iconColor: Color(0xffFFC36A),
             ),
             dividergrey(),
             const SizedBox(
-              height: 23,
+              height: 19,
             ),
-            StartUlasan(
+            const StartUlasan(
               title: 'Tekstur',
+              widtStarrs: 25,
+              fonstsizeTitle: 15,
               iconColor: Color.fromRGBO(155, 155, 155, 0.61),
             ),
             dividergrey(),
             const SizedBox(
-              height: 23,
+              height: 19,
             ),
-            StartUlasan(
+            const StartUlasan(
               iconColor: Color(0xffFFC36A),
               title: 'Packaging',
+              widtStarrs: 25,
+              fonstsizeTitle: 15,
             ),
-            SizedBox(
+            const SizedBox(
               height: 78,
             ),
             Text(
@@ -150,7 +156,7 @@ class TulisUlasaPage extends StatelessWidget {
               style: blackRegulerTextStyle.copyWith(
                   fontSize: 15, color: blackColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 3,
             ),
             Row(
@@ -159,13 +165,13 @@ class TulisUlasaPage extends StatelessWidget {
                   'Excellent Product!',
                   style: grenTextStyle.copyWith(fontSize: 20),
                 ),
-                Spacer(),
-                SvgPicture.asset(
-                  'assets/icons/stars.svg',
-                  width: 23,
-                  color: Color(0xffFFC36A),
+                const Spacer(),
+                Image.asset(
+                  'assets/icons/stars-new.png',
+                  width: 25,
+                  color: const Color(0xffFFC36A),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
                 Text(
@@ -183,7 +189,7 @@ class TulisUlasaPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TulisUlasan2Page()));
+                        builder: (context) => const TulisUlasan2Page()));
               },
             )
           ],
@@ -194,12 +200,16 @@ class TulisUlasaPage extends StatelessWidget {
 }
 
 class StartUlasan extends StatelessWidget {
+  final double? fonstsizeTitle;
+  final double? widtStarrs;
   final String title;
   final Color? iconColor;
   const StartUlasan({
     super.key,
     required this.title,
     this.iconColor,
+    this.fonstsizeTitle,
+    this.widtStarrs,
   });
 
   @override
@@ -211,50 +221,50 @@ class StartUlasan extends StatelessWidget {
             Text(
               title,
               style: blackRegulerTextStyle.copyWith(
-                  fontSize: 15, color: blackColor),
+                  fontSize: fonstsizeTitle, color: blackColor),
             ),
-            Spacer(),
-            SvgPicture.asset(
-              'assets/icons/stars.svg',
-              width: 23,
-              color: Color(0xffFFC36A),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            SvgPicture.asset(
-              'assets/icons/stars.svg',
-              width: 23,
-              color: Color(0xffFFC36A),
+            const Spacer(),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
             ),
             const SizedBox(
               width: 6,
             ),
-            SvgPicture.asset(
-              'assets/icons/stars.svg',
-              width: 23,
-              color: Color(0xffFFC36A),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
             ),
             const SizedBox(
               width: 6,
             ),
-            SvgPicture.asset(
-              'assets/icons/stars.svg',
-              width: 23,
-              color: Color(0xffFFC36A),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
             ),
             const SizedBox(
               width: 6,
             ),
-            SvgPicture.asset(
-              'assets/icons/stars.svg',
-              width: 23,
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
               color: iconColor,
             )
           ],
         ),
         const SizedBox(
-          height: 23,
+          height: 19,
         ),
       ],
     );

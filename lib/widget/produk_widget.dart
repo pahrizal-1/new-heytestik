@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
@@ -186,6 +183,7 @@ class ProdukObat extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
               border: Border.all(color: borderColor, width: 0.2),
               borderRadius: BorderRadius.circular(7),
@@ -198,12 +196,13 @@ class ProdukObat extends StatelessWidget {
                   width: 164,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 11, right: 10),
+                  padding:
+                      const EdgeInsets.only(left: 11, right: 10, bottom: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$namaBrand',
+                        namaBrand,
                         style: blackTextStyle.copyWith(
                           fontSize: 13,
                           fontWeight: regular,

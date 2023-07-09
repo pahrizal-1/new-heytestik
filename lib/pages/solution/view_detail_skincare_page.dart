@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 
@@ -85,7 +83,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     topStart: Radius.circular(25),
                   ),
                 ),
-                builder: (context) => ShareShowWidget(),
+                builder: (context) => const ShareShowWidget(),
               );
             },
             child: SvgPicture.asset(
@@ -109,8 +107,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AkunHomePage()));
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 26,
@@ -335,12 +341,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 const SizedBox(
                   height: 16,
                 ),
-                DescripsiText(
+                const DescripsiText(
                   title1: 'Deskripsi',
                   subtitle2:
                       'DTeen derm gel dari ISISPHARMA Perancis merupakan produk cleanser nomor 1 di Isispharma, membersihkan dan mengelupas kulit Anda secara mendalam untuk menghilangkan kotoran dan mengatur sebum berlebih dengan kandungan kompleks α-PURE-nya.\nIndikasi:\nKulit berminyak, Komedo, Kulit tidak sensitif \nKhasiat klinis terbukti setelah 1 bulan penggunaan:\n• Pori-pori kurang terlihat hingga 28%*\n• Ketidaksempurnaan berkurang 24%\n• Kulit lebih bersih pada 82%* kasus\n• Kulit lebih halus pada 72%* kasus\n*Penilaian mandiri 22 sukarelawan selama 28 hari.',
                 ),
-                DescripsiText(
+                const DescripsiText(
                   title1: 'Petunjuk Penggunaan',
                   subtitle2:
                       'Bersihkan wajah pada pagi dan malam. Gunakan gerakan melingkar kecil untuk memijat selama 1 hingga 2 menit lalu bilas. Untuk hasil yang lebih baik, gabungkan dengan produk perawatan kulit lainnya dari rangkaian Teen derm yang disesuaikan dengan jenis kulit Anda.',
@@ -471,11 +477,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 5, vertical: 10),
-                        margin: EdgeInsets.only(right: 3),
+                        margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
                           color: whiteColor,
-                          border: Border.all(color: Color(0xffCCCCCC)),
+                          border: Border.all(color: const Color(0xffCCCCCC)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: Row(
@@ -484,7 +490,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               '5.0',
                               style: blackHigtTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
                             Column(
@@ -510,11 +516,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 5, vertical: 10),
-                        margin: EdgeInsets.only(right: 3),
+                        margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
                           color: whiteColor,
-                          border: Border.all(color: Color(0xffCCCCCC)),
+                          border: Border.all(color: const Color(0xffCCCCCC)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: Row(
@@ -523,7 +529,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               '5.0',
                               style: blackHigtTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
                             Column(
@@ -549,11 +555,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 5, vertical: 10),
-                        margin: EdgeInsets.only(right: 3),
+                        margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
                           color: whiteColor,
-                          border: Border.all(color: Color(0xffCCCCCC)),
+                          border: Border.all(color: const Color(0xffCCCCCC)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: Row(
@@ -562,7 +568,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               '5.0',
                               style: blackHigtTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
                             Column(
@@ -605,13 +611,21 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       ],
                     ),
                     const Spacer(),
-                    Text(
-                      'Lihat Semua',
-                      style: grenTextStyle.copyWith(fontSize: 12),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UlasanPage()));
+                      },
+                      child: Text(
+                        '  Lihat Semua',
+                        style: grenTextStyle.copyWith(fontSize: 12),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 11,
                 ),
                 Row(
@@ -671,7 +685,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       size: 12,
                       color: Color(0xffFFC36A),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 12,
                     ),
                     Text(
@@ -687,7 +701,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 Text(
                   'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
                   style: greyTextStyle.copyWith(
-                      fontSize: 13, color: Color(0xff6B6B6B)),
+                      fontSize: 13, color: const Color(0xff6B6B6B)),
                 ),
                 const SizedBox(
                   height: 13,
@@ -723,7 +737,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Text(
                       'Bagikan ulasanmu, yuk Sobat Hey :)',
                       style: blackHigtTextStyle.copyWith(
-                          fontSize: 13, color: Color(0XFF6B6B6B)),
+                          fontSize: 13, color: const Color(0XFF6B6B6B)),
                     )
                   ],
                 ),
@@ -781,7 +795,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               ],
             ),
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: lsymetric,
@@ -853,7 +867,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               ],
             ),
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: lsymetric,
@@ -902,81 +916,86 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-        height: 90,
-        child: Row(
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 142,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Konsultasi Dulu',
-                      style: whiteTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: 142,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Konsultasi Dulu',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      'Beli Langsung',
-                      style: grenTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Beli Langsung',
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Container(
-              height: 40,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                border: Border.all(color: borderColor),
-              ),
-              child: Row(
-                // ignore: prefer_const_constructors
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: greenColor,
-                    size: 17,
+                const SizedBox(
+                  width: 6,
+                ),
+                Container(
+                  height: 40,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: borderColor),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/trello-icons.svg',
-                    width: 17,
+                  child: Row(
+                    // ignore: prefer_const_constructors
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: greenColor,
+                        size: 17,
+                      ),
+                      SvgPicture.asset(
+                        'assets/icons/trello-icons.svg',
+                        width: 17,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

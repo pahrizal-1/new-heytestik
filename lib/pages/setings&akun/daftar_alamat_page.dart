@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
 
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
@@ -62,7 +63,6 @@ class DaftarAlamatPage extends StatelessWidget {
                     ),
                     child: Center(
                       child: TextField(
-                        autofocus: true,
                         decoration: InputDecoration(
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(13),
@@ -171,7 +171,14 @@ class DaftarAlamatPage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           height: 40,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Alamatpage(),
+                                ),
+                              );
+                            },
                             style: TextButton.styleFrom(
                               side: BorderSide(color: borderColor, width: 1),
                               backgroundColor: whiteColor,
@@ -280,7 +287,15 @@ class DaftarAlamatPage extends StatelessWidget {
                               child: SizedBox(
                                 height: 40,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Alamatpage(),
+                                      ),
+                                    );
+                                  },
                                   style: TextButton.styleFrom(
                                     side: BorderSide(
                                         color: borderColor, width: 1),

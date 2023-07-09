@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../widget/filter_tap_widget.dart';
+import '../../widget/share_solusion_widget_page.dart';
 
 class UlasanPage extends StatefulWidget {
   const UlasanPage({super.key});
@@ -61,13 +62,32 @@ class _UlasanPageState extends State<UlasanPage> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset('assets/icons/love-grey.svg'),
+          SvgPicture.asset(
+            'assets/icons/love-grey.svg',
+            color: whiteColor,
+          ),
           const SizedBox(
             width: 21,
           ),
-          SvgPicture.asset(
-            'assets/icons/share-icons.svg',
-            color: whiteColor,
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => const ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+              color: whiteColor,
+            ),
           ),
           const SizedBox(
             width: 21,
@@ -708,7 +728,7 @@ class _UlasanPageState extends State<UlasanPage> {
           ),
           const dividergreen(),
           Padding(
-            padding: lsymetric,
+            padding: lsymetric.copyWith(bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

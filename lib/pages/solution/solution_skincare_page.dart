@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget,.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -61,33 +64,57 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/icons/icon-home.png',
-            width: 18,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotifikasionPage()));
+            },
+            child: Image.asset(
+              'assets/icons/icon-home.png',
+              width: 18,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/trello1.png',
-            width: 21,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
+            },
+            child: Image.asset(
+              'assets/icons/trello1.png',
+              width: 21,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/humberger.png',
-            width: 19,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AkunHomePage()));
+            },
+            child: Image.asset(
+              'assets/icons/humberger.png',
+              width: 19,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 26,
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(56.0),
+          preferredSize: const Size.fromHeight(56.0),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
@@ -96,7 +123,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: fromCssColor("#CCCCCC"),
+                  color: fromCssColor('#CCCCCC'),
                 ),
                 borderRadius: BorderRadius.circular(35),
               ),
@@ -108,7 +135,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     right: 10,
                   ),
                   child: Image.asset(
-                    "assets/icons/search1.png",
+                    'assets/icons/search1.png',
                     width: 10,
                   ),
                 ),
@@ -117,12 +144,12 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
+                        fontSize: 15, fontFamily: 'ProximaNova'),
                     decoration: InputDecoration(
-                      hintText: "Cari Treatment",
+                      hintText: 'Cari Treatment',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        fontFamily: "ProximaNova",
+                        fontFamily: 'ProximaNova',
                         color: fromCssColor(
                           '#9B9B9B',
                         ),
@@ -154,7 +181,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Dermatologist’s choice for you👌🏻",
+                          'Dermatologist’s choice for you👌🏻',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -173,7 +200,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                           child: RichText(
                             text: TextSpan(
                               text:
-                                  "Pilihan skincare berdasarkan konsultasimu.",
+                                  'Pilihan skincare berdasarkan konsultasimu.',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: fromCssColor('#A3A3A3'),
@@ -188,12 +215,12 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   const SizedBox(
                     height: 15,
                   ),
-                  SingleChildScrollView(
+                  const SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 25),
+                      padding: EdgeInsets.only(left: 25),
                       child: Row(
-                        children: const [
+                        children: [
                           ProdukKeranjang(
                             namaBrand: 'ISISPHARMA',
                             namaProduk: 'Teenderm Gel',
@@ -301,7 +328,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SingleChildScrollView(
@@ -312,9 +339,9 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             width: MediaQuery.of(context).size.width,
                             height: 300,
                             child: GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 childAspectRatio: 0.85,
                               ),
@@ -331,7 +358,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                 return Container(
                                   height: 135,
                                   width: 105,
-                                  margin: EdgeInsets.all(8),
+                                  margin: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -349,13 +376,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       FittedBox(
                                         child: Text(
                                           textList[index],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 13,
-                                              fontFamily: "ProximaNova"),
+                                              fontFamily: 'ProximaNova'),
                                         ),
                                       ),
                                     ],
@@ -376,7 +403,6 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.only(
                     left: 25,
-                    top: 19,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,9 +422,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                               'assets/icons/filters.png',
                               width: 78,
                             ),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Container(
                               height: 30,
-                              padding: EdgeInsets.only(left: 11.5),
+                              margin: EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.only(left: 11.5),
                               decoration: BoxDecoration(
                                 border: Border.all(color: borderColor),
                                 borderRadius: BorderRadius.circular(7),
@@ -417,7 +447,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             ),
                             Container(
                               height: 30,
-                              padding: EdgeInsets.only(left: 11.5),
+                              margin: const EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.only(left: 11.5),
                               decoration: BoxDecoration(
                                 border: Border.all(color: borderColor),
                                 borderRadius: BorderRadius.circular(7),
@@ -443,13 +474,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     ],
                   ),
                 ),
-                content: Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25),
+                content: const Padding(
+                  padding: EdgeInsets.only(left: 25, right: 25),
                   child: Wrap(
                     alignment: WrapAlignment.spaceBetween,
                     spacing: 12,
                     runSpacing: 12,
-                    children: const [
+                    children: [
                       Produkheight(
                           namaBrand: 'ISISPHARMA',
                           namaProduk: 'Teenderm Gel',

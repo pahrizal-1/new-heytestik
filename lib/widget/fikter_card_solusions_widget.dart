@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/filter_tap_widget.dart';
 
@@ -98,8 +98,8 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: const [
+                                const Row(
+                                  children: [
                                     CardSearch(
                                       title: 'Promo',
                                     ),
@@ -124,30 +124,28 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Container(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            fillColor: greenColor,
-                                            hoverColor: greenColor,
-                                            hintText: 'Min.',
-                                            hintStyle: TextStyle(
-                                                color: subgreyColor,
-                                                fontSize: 12),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: greenColor,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(7)),
-                                            border: OutlineInputBorder(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          fillColor: greenColor,
+                                          hoverColor: greenColor,
+                                          hintText: 'Min.',
+                                          hintStyle: TextStyle(
+                                              color: subgreyColor,
+                                              fontSize: 12),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: greenColor,
+                                                width: 2,
+                                              ),
                                               borderRadius:
-                                                  BorderRadius.circular(7),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(12),
+                                                  BorderRadius.circular(7)),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                           ),
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
                                         ),
                                       ),
                                     ),
@@ -162,30 +160,28 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                                       width: 13,
                                     ),
                                     Expanded(
-                                      child: Container(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            fillColor: greenColor,
-                                            hoverColor: greenColor,
-                                            hintText: 'Max',
-                                            hintStyle: TextStyle(
-                                                color: subgreyColor,
-                                                fontSize: 12),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: greenColor,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(7)),
-                                            border: OutlineInputBorder(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          fillColor: greenColor,
+                                          hoverColor: greenColor,
+                                          hintText: 'Max',
+                                          hintStyle: TextStyle(
+                                              color: subgreyColor,
+                                              fontSize: 12),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: greenColor,
+                                                width: 2,
+                                              ),
                                               borderRadius:
-                                                  BorderRadius.circular(7),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(12),
+                                                  BorderRadius.circular(7)),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                           ),
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
                                         ),
                                       ),
                                     ),
@@ -510,10 +506,10 @@ class _FilterTreatmentState extends State<FilterTreatment> {
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(color: borderColor),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text('Rentang harga'),
                     SizedBox(
                       width: 9,

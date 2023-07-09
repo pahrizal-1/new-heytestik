@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/solution/reservasi2_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi3_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
-import '../../widget/more_dialog_bank.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
 class SelesaiPembayaranSolusionPage extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -253,21 +252,21 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                   'Tambahkan foto ‘My Journey’?',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6,
                 ),
                 Text(
                   'Upload foto before-after setelah menggunakan produk ini untuk melihat perubahan yang terjadi pada kulitmu. ',
                   style: subTitleTextStyle.copyWith(fontSize: 13),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
                   'Before',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Wrap(
@@ -279,7 +278,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -288,7 +287,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -297,7 +296,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -306,7 +305,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                       width: 82,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image: AssetImage('assets/images/before1.png'),
                               fit: BoxFit.cover)),
                     ),
@@ -325,18 +324,18 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 dividergrey(),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Text(
                   'After',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 InkWell(
@@ -355,7 +354,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
               ],
             ),
           ),
-          dividergreen(),
+          const dividergreen(),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
@@ -372,7 +371,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                     'Apakah kamu akan merekomendasikan\nproduk ini?',
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -408,7 +407,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                                       ? whiteColor
                                       : blackColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 Text(
@@ -427,14 +426,14 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 23,
                   ),
                   Text(
                     'Apakah kamu akan membeli lagi produk ini?',
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -469,7 +468,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                                       ? whiteColor
                                       : blackColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 Text(
@@ -494,7 +493,7 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
           ),
           Padding(
             padding: lsymetric.copyWith(bottom: 30),
-            child: ButtonGreenWidget(title: 'Kirim'),
+            child: const ButtonGreenWidget(title: 'Kirim'),
           )
         ],
       ),

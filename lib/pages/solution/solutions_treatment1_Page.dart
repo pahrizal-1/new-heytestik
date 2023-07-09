@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
@@ -83,14 +85,30 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding: const EdgeInsets.only(top: 15),
             child: Row(
               children: [
-                SvgPicture.asset(
-                  'assets/icons/notif-icons.svg',
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NotifikasionPage()));
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/notif-icons.svg',
+                  ),
                 ),
                 const SizedBox(
                   width: 14,
                 ),
-                SvgPicture.asset(
-                  'assets/icons/humberger-icons.svg',
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AkunHomePage()));
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/humberger-icons.svg',
+                  ),
                 ),
                 const SizedBox(
                   width: 26,
@@ -100,7 +118,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
           )
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(56.0),
+          preferredSize: const Size.fromHeight(56.0),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
@@ -109,7 +127,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: fromCssColor("#CCCCCC"),
+                  color: fromCssColor('#CCCCCC'),
                 ),
                 borderRadius: BorderRadius.circular(35),
               ),
@@ -130,12 +148,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
+                        fontSize: 15, fontFamily: 'ProximaNova'),
                     decoration: InputDecoration(
-                      hintText: "Cari Treatment",
+                      hintText: 'Cari Treatment',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        fontFamily: "ProximaNova",
+                        fontFamily: 'ProximaNova',
                         color: fromCssColor('#9B9B9B'),
                       ),
                     ),

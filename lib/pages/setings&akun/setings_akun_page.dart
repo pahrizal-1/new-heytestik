@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';
@@ -125,7 +126,13 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 const SizedBox(
                   height: 25,
                 ),
-                const ListTitleAkun(
+                ListTitleAkun(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NotifikasionPage()));
+                  },
                   iconUrl: 'assets/icons/notification-logo-blak.png',
                   title: 'Notifikasi',
                   title1: 'Atur segala jenis pesan notifikasi',
@@ -135,7 +142,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 ),
                 const ListTitleAkun(
                   iconUrl: 'assets/icons/privasi-akun-logo.png',
-                  title: 'Notifikasi',
+                  title: 'Privasi Akun',
                   title1: 'Atur penggunaan data & akun yang tersambung',
                 ),
               ],
