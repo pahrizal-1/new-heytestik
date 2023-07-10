@@ -192,7 +192,7 @@ class _WishListPageState extends State<WishListPage> {
                   ],
                 ),
               ),
-              content: const Column(
+              content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(

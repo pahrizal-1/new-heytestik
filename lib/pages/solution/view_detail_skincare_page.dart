@@ -795,7 +795,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               ],
             ),
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: lsymetric,
@@ -867,7 +867,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               ],
             ),
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: lsymetric,
