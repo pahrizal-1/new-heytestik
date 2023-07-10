@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import '../../theme/theme.dart';
+import '../../widget/button_widget.dart';
+import '../setings&akun/verifikasi_setings_page.dart';
 
-class UbahEmailCostumerProfilPage extends StatelessWidget {
-  const UbahEmailCostumerProfilPage({super.key});
+class UbahTanggalLahirProfilCustomer extends StatefulWidget {
+  const UbahTanggalLahirProfilCustomer({super.key});
+
+  @override
+  State<UbahTanggalLahirProfilCustomer> createState() =>
+      _UbahTanggalLahirProfilCustomerState();
+}
+
+class _UbahTanggalLahirProfilCustomerState
+    extends State<UbahTanggalLahirProfilCustomer> {
+  TextEditingController _dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -32,7 +42,7 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
                 width: 11,
               ),
               Text(
-                'Ubah Email',
+                'Ubah Tanggal Lahir',
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
             ],
@@ -50,92 +60,60 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: lsymetric.copyWith(top: 10),
+        padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Biar akunmu aman, pastikan e-mail kamu aktif.',
+              'Pastikan tanggal lahirmu diisi dengan benar ya :)',
               style: blackRegulerTextStyle.copyWith(
-                  fontSize: 15, color: blackColor),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Email Terdaftar',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: borderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: borderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'rasmalina.rina@gmail.com',
-                hintStyle: blackRegulerTextStyle.copyWith(fontSize: 13),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                labelStyle: TextStyle(
-                  color: fromCssColor('#A3A3A3'),
-                ),
+                fontSize: 15,
+                color: blackColor,
               ),
-            ),
-            const SizedBox(
-              height: 21,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Email Baru',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: borderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: borderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'Masukan Email Baru',
-                hintStyle: blackRegulerTextStyle.copyWith(
-                  fontSize: 13,
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                labelStyle: TextStyle(
-                  color: fromCssColor('#A3A3A3'),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              'Kami akan kirim kode verifikasi ke e-mail ini.',
-              style: blackRegulerTextStyle.copyWith(
-                  color: blackColor, fontSize: 13),
             ),
             const SizedBox(
               height: 28,
             ),
+            TextFormField(
+              readOnly: true,
+              onTap: () {
+                _selectDate();
+              },
+              controller: _dateController,
+              decoration: InputDecoration(
+                suffixIcon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: greyColor,
+                ),
+                labelText: 'Tanggal Lahir',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintStyle: blackTextStyle.copyWith(fontSize: 13),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                labelStyle: TextStyle(
+                  color: fromCssColor('#A3A3A3'),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 38,
+            ),
             ButtonGreenWidget(
-              title: 'Lanjut',
+              title: 'Simpan',
               onPressed: () {
                 Navigator.push(
                     context,
@@ -147,5 +125,19 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? _picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2100));
+
+    if (_picked != null) {
+      setState(() {
+        _dateController.text = _picked.toString().split(" ")[0];
+      });
+    }
   }
 }

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
+import '../setings&akun/verifikasi_setings_page.dart';
 
-class UbahNamaProfilCustomer extends StatelessWidget {
-  const UbahNamaProfilCustomer({super.key});
+class UbahNomorCustomerProfilPage extends StatelessWidget {
+  const UbahNomorCustomerProfilPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: whiteColor,
+        backgroundColor: Colors.transparent,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),
           child: Row(
@@ -32,21 +33,33 @@ class UbahNamaProfilCustomer extends StatelessWidget {
                 width: 11,
               ),
               Text(
-                'Ubah Nama',
+                'Ubah Nomor HP',
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
-              )
+              ),
             ],
           ),
         ),
+        actions: [
+          Image.asset(
+            'assets/icons/more-six.png',
+            width: 15,
+            height: 15,
+          ),
+          const SizedBox(
+            width: 26,
+          ),
+        ],
       ),
       body: Padding(
-        padding: lsymetric.copyWith(top: 10),
+        padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
         child: Column(
           children: [
             Text(
               'Pakai nama asli untuk memudahkan verifikasi. Nama ini akan tampil di beberapa halaman.',
               style: blackRegulerTextStyle.copyWith(
-                  fontSize: 15, color: blackColor),
+                fontSize: 15,
+                color: blackColor,
+              ),
             ),
             const SizedBox(
               height: 28,
@@ -76,6 +89,7 @@ class UbahNamaProfilCustomer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Rina Rasmalina',
+                  hintStyle: blackTextStyle.copyWith(fontSize: 13),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
@@ -83,7 +97,7 @@ class UbahNamaProfilCustomer extends StatelessWidget {
                   ),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   labelStyle: TextStyle(
-                    color: fromCssColor("#A3A3A3"),
+                    color: fromCssColor('#A3A3A3'),
                   ),
                 ),
               ),
@@ -95,12 +109,9 @@ class UbahNamaProfilCustomer extends StatelessWidget {
               title: 'Simpan',
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const TamBahanUserNameProfilCustomer(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VerifikasiSetingsPage()));
               },
             )
           ],

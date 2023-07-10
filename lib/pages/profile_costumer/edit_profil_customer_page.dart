@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/pilih_metode_verifikasi_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_jenis_kelamin_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nama_profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_tanggal_lahir_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
@@ -226,8 +228,8 @@ class EditProfilCostomer extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                InkWell(
-                  onTap: () {
+                TextProfil(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -236,16 +238,23 @@ class EditProfilCostomer extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const TextProfil(
-                    title2: 'rasmalina.rina@gmail.com',
-                    widtd: 84,
-                    titlel: 'Email',
-                  ),
+                  title2: 'rasmalina.rina@gmail.com',
+                  widtd: 84,
+                  titlel: 'Email',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const PilihMetodeVerifikasiProfil(),
+                      ),
+                    );
+                  },
                   title2: '085211234567',
                   widtd: 52,
                   titlel: 'Nomor HP',
@@ -253,7 +262,16 @@ class EditProfilCostomer extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const UbahJenisKelaminProfilPage(),
+                      ),
+                    );
+                  },
                   title2: 'Perempuan',
                   widtd: 29,
                   titlel: 'Jenis Kelamin',
@@ -261,8 +279,17 @@ class EditProfilCostomer extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
                   title2: '1 Januari 2003',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const UbahTanggalLahirProfilCustomer(),
+                      ),
+                    );
+                  },
                   widtd: 31,
                   titlel: 'Tanggal Lahir',
                 )
@@ -288,39 +315,45 @@ class EditProfilCostomer extends StatelessWidget {
 class TextProfil extends StatelessWidget {
   final String titlel;
   final String title2;
+  final VoidCallback? onPressed;
+
   final double widtd;
   const TextProfil({
     super.key,
     required this.titlel,
     required this.title2,
     required this.widtd,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          titlel,
-          style: subTitleTextStyle.copyWith(fontSize: 15),
-        ),
-        SizedBox(
-          width: widtd,
-        ),
-        Text(
-          title2,
-          style:
-              blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
-          textAlign: TextAlign.start,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const Spacer(),
-        Image.asset(
-          'assets/icons/arrow-left-hight.png',
-          width: 25,
-          color: blackColor,
-        )
-      ],
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        children: [
+          Text(
+            titlel,
+            style: subTitleTextStyle.copyWith(fontSize: 15),
+          ),
+          SizedBox(
+            width: widtd,
+          ),
+          Text(
+            title2,
+            style:
+                blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const Spacer(),
+          Image.asset(
+            'assets/icons/arrow-left-hight.png',
+            width: 25,
+            color: blackColor,
+          )
+        ],
+      ),
     );
   }
 }
