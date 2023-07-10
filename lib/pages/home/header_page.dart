@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
-import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 
 import '../../core/local_storage.dart';
 
@@ -85,7 +85,7 @@ class _HeaderPageState extends State<HeaderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const TabBarDoctor(),
+                        builder: (context) => const ProfilCustomerPage(),
                       ),
                     );
                   },

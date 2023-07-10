@@ -85,7 +85,7 @@ class VerifikasiSetingsPage extends StatelessWidget {
               disabledBorderColor: borderColor,
               enabledBorderColor: borderColor,
               numberOfFields: 5,
-              fieldWidth: 60,
+              fieldWidth: 50,
               borderColor: greenColor,
               showFieldAsBox: true,
             ),

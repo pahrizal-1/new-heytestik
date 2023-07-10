@@ -109,19 +109,21 @@ class _WishListPageState extends State<WishListPage> {
                     width: 10,
                   ),
                 ),
-                Container(
-                  transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 300),
-                  child: TextFormField(
-                    style: const TextStyle(
-                        fontSize: 15, fontFamily: 'ProximaNova'),
-                    decoration: InputDecoration(
-                      hintText: 'Cari Wishlist',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        color: fromCssColor(
-                          '#9B9B9B',
+                Expanded(
+                  child: Container(
+                    transform: Matrix4.translationValues(0, -3, 0),
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: TextFormField(
+                      style: const TextStyle(
+                          fontSize: 15, fontFamily: 'ProximaNova'),
+                      decoration: InputDecoration(
+                        hintText: 'Cari Wishlist',
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          color: fromCssColor(
+                            '#9B9B9B',
+                          ),
                         ),
                       ),
                     ),
