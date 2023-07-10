@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/poto_ktp_page.dart';

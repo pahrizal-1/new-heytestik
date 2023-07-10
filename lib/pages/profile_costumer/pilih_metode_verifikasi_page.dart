@@ -3,7 +3,6 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_email_customer_
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nomor_customer_profil_page.dart';
 
 import '../../theme/theme.dart';
-import '../setings&akun/verifikasi_setings_page.dart';
 
 class PilihMetodeVerifikasiProfil extends StatelessWidget {
   const PilihMetodeVerifikasiProfil({super.key});
