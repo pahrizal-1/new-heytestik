@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/chat_customer/boking_trertment_page.dart';
+import '../pages/solution/view_detail_treatment_page.dart';
 import '../theme/theme.dart';
 
 class ProdukSearcWidget extends StatelessWidget {

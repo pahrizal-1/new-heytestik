@@ -31,7 +31,7 @@ class RegisterController extends StateClass {
 
   registerPhoneNumber(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (phoneNumber == null) {
         throw ErrorConfig(
@@ -48,11 +48,11 @@ class RegisterController extends StateClass {
       LocalStorage().setUserID(userID: loginResponse['data']['id']);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   registerEmail(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         'email': email.text,
@@ -65,11 +65,11 @@ class RegisterController extends StateClass {
       print(response);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   verifyEmail(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (code == null) {
         throw ErrorConfig(
@@ -87,11 +87,11 @@ class RegisterController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   resendCodeEmail(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         'email': email.text,
@@ -104,11 +104,11 @@ class RegisterController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   resendCodePhone(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         'phone_number': phoneNumber,
@@ -119,12 +119,12 @@ class RegisterController extends StateClass {
       doInPost();
       print(loginResponse);
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   verifyPhoneNumber(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (code == null) {
         throw ErrorConfig(
@@ -146,11 +146,11 @@ class RegisterController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   register(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text.isEmpty) {
         throw ErrorConfig(
@@ -190,9 +190,10 @@ class RegisterController extends StateClass {
 
       print(data);
 
-      await RegisterService().register(data);
+      var res = await RegisterService().register(data);
+      print('data $res');
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 }

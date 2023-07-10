@@ -8,7 +8,7 @@ class DoctorScheduleServices extends ProviderClass {
 
   Future<dynamic> getDoctorScheule() async {
     var response = await networkingConfig.doGet(
-      "/doctor-customer-schedules",
+      '/doctor-customer-schedules',
     );
 
     return response;

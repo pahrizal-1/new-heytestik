@@ -1,7 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/produk_height_widget,.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:sticky_headers/sticky_headers.dart';
+
+import '../../widget/produk_widget.dart';
 
 class SolutionSkincare1Page extends StatefulWidget {
   const SolutionSkincare1Page({super.key});
@@ -28,144 +36,152 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: whiteColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
                   Icons.arrow_back,
                   color: blackColor,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "Skincare",
-                  style: TextStyle(
-                      fontFamily: "ProximaNova",
-                      fontWeight: bold,
-                      fontSize: 20,
-                      color: blackColor),
-                ),
-              ],
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Skincare',
+                style: blackTextStyle.copyWith(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotifikasionPage()));
+            },
+            child: Image.asset(
+              'assets/icons/icon-home.png',
+              width: 18,
+              color: blackColor,
             ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 22,
-                    width: 22,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/icons/bell.png"),
+          ),
+          const SizedBox(
+            width: 14,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
+            },
+            child: Image.asset(
+              'assets/icons/trello1.png',
+              width: 21,
+              color: blackColor,
+            ),
+          ),
+          const SizedBox(
+            width: 14,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AkunHomePage()));
+            },
+            child: Image.asset(
+              'assets/icons/humberger.png',
+              width: 19,
+              color: blackColor,
+            ),
+          ),
+          const SizedBox(
+            width: 26,
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56.0),
+          child: Container(
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            height: 56.0,
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: fromCssColor('#CCCCCC'),
+                ),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 10,
+                  ),
+                  child: Image.asset(
+                    'assets/icons/search1.png',
+                    width: 10,
+                  ),
+                ),
+                Container(
+                  transform: Matrix4.translationValues(0, -3, 0),
+                  constraints: const BoxConstraints(maxWidth: 250),
+                  child: TextFormField(
+                    style: const TextStyle(
+                        fontSize: 15, fontFamily: 'ProximaNova'),
+                    decoration: InputDecoration(
+                      hintText: 'Cari Treatment',
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        color: fromCssColor(
+                          '#9B9B9B',
+                        ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 22,
-                    width: 22,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/icons/trolii.png"),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 22,
-                    width: 22,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/icons/menu3.png"),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+              ]),
+            ),
+          ),
         ),
       ),
+      backgroundColor: whiteColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: fromCssColor("#CCCCCC"),
-                        ),
-                        borderRadius: BorderRadius.circular(35),
-                      ),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/icons/search1.png"))),
-                              ),
-                            ),
-                            Container(
-                              transform: Matrix4.translationValues(0, -4, 0),
-                              constraints: const BoxConstraints(maxWidth: 280),
-                              child: TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 15, fontFamily: "ProximaNova"),
-                                decoration: InputDecoration(
-                                  hintText: "Cari Skincare",
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Column(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Dermatologist’s choice for you👌🏻",
+                          'Dermatologist’s choice for you👌🏻',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
@@ -184,7 +200,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                           child: RichText(
                             text: TextSpan(
                               text:
-                                  "Pilihan skincare berdasarkan konsultasimu.",
+                                  'Pilihan skincare berdasarkan konsultasimu.',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: fromCssColor('#A3A3A3'),
@@ -195,395 +211,61 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 25),
                       child: Row(
                         children: [
-                          Container(
-                            height: 265,
-                            width: 155,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 130,
-                                    width: 155,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/produk6.png"),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 155),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            "ISISPHARMA",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            "Teenderm Gel",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              height: 1.3,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 14,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: fromCssColor("#C92A2A33"),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            textAlign: TextAlign.center,
-                                            "20%",
-                                            style: TextStyle(
-                                              fontWeight: bold,
-                                              fontSize: 11,
-                                              fontFamily: "ProximaNova",
-                                              color: fromCssColor("#FF0000"),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: "Rp250.000",
-                                          style: TextStyle(
-                                            color: fromCssColor("#9B9B9B"),
-                                            fontFamily: "ProximaNova",
-                                            fontSize: 11,
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            decorationColor:
-                                                fromCssColor("#9B9B9B"),
-                                            decorationThickness: 1,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                    "Rp200.000",
-                                    style: TextStyle(
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 15,
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 1),
-                                    child: Text(
-                                      "Jakarta Selatan",
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        fontSize: 11,
-                                        color: fromCssColor("#9B9B9B"),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 9,
-                                        width: 9,
-                                        decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/icons/fav.png"),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        "4.9 (120k)",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontSize: 11,
-                                          color: fromCssColor("#9B9B9B"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          color: greenColor,
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "+ Keranjang",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              fontSize: 12,
-                                              color: whiteColor,
-                                              fontWeight: bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          ProdukKeranjang(
+                            namaBrand: 'ISISPHARMA',
+                            namaProduk: 'Teenderm Gel',
+                            diskonProduk: '20%',
+                            hargaDiskon: 'Rp1,100,00',
+                            harga: 'Rp900.000',
+                            urlImg: 'assets/images/plasma.png',
+                            rating: '4.9 (120k)',
                           ),
-                          const SizedBox(
-                            width: 15,
+                          ProdukKeranjang(
+                            namaBrand: 'CANTABRIA',
+                            namaProduk:
+                                'Neoretin Discrom Control Pigment Neutralizer Serum',
+                            diskonProduk: '20%',
+                            hargaDiskon: 'Rp500.000',
+                            harga: 'Rp200.000',
+                            urlImg: 'assets/images/catabria.png',
+                            rating: '4.9 (120k)',
                           ),
-                          Container(
-                            height: 265,
-                            width: 155,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 130,
-                                    width: 155,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/produk6.png"),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 155),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            "ISISPHARMA",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              fontSize: 13,
-                                              fontWeight: bold,
-                                            ),
-                                          ),
-                                        ),
-                                        const FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            "Teenderm Gel",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              height: 1.3,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 14,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: fromCssColor("#C92A2A33"),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            textAlign: TextAlign.center,
-                                            "20%",
-                                            style: TextStyle(
-                                              fontWeight: bold,
-                                              fontSize: 11,
-                                              fontFamily: "ProximaNova",
-                                              color: fromCssColor("#FF0000"),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: "Rp250.000",
-                                          style: TextStyle(
-                                            color: fromCssColor("#9B9B9B"),
-                                            fontFamily: "ProximaNova",
-                                            fontSize: 11,
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            decorationColor:
-                                                fromCssColor("#9B9B9B"),
-                                            decorationThickness: 1,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                    "Rp200.000",
-                                    style: TextStyle(
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 15,
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 1),
-                                    child: Text(
-                                      "Jakarta Selatan",
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        fontSize: 11,
-                                        color: fromCssColor("#9B9B9B"),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 9,
-                                        width: 9,
-                                        decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/icons/fav.png"),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        "4.9 (120k)",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontSize: 11,
-                                          color: fromCssColor("#9B9B9B"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          color: greenColor,
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "+ Keranjang",
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              fontSize: 12,
-                                              color: whiteColor,
-                                              fontWeight: bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          ProdukKeranjang(
+                            namaBrand: 'ISISPHARMA',
+                            namaProduk: 'Teenderm Gel',
+                            diskonProduk: '20%',
+                            hargaDiskon: 'Rp250.000',
+                            harga: 'Rp200.000',
+                            urlImg: 'assets/images/catabria2.png',
+                            rating: '4.9 (120k)',
+                          ),
+                          ProdukKeranjang(
+                            namaBrand: 'ISISPHARMA',
+                            namaProduk: 'Endocare Tensage Cream',
+                            diskonProduk: '20%',
+                            hargaDiskon: 'Rp250.000',
+                            harga: 'Rp200.000',
+                            urlImg: 'assets/images/catabria.png',
+                            rating: '4.9 (120k)',
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
               CarouselSlider(
                 options: CarouselOptions(
@@ -614,25 +296,19 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: images.map((imagePath) {
-                  int index = images.indexOf(imagePath);
-                  return Container(
-                    width: 7.0,
-                    height: 7.0,
-                    margin: EdgeInsets.symmetric(horizontal: 4.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _current == index
-                          ? greenColor
-                          : fromCssColor("#D9D9D9"),
-                    ),
-                  );
-                }).toList(),
+              const SizedBox(height: 10),
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: _current,
+                  count: images.length,
+                  effect: ScaleEffect(
+                      activeDotColor: greenColor,
+                      dotColor: const Color(0xffD9D9D9),
+                      dotWidth: 6,
+                      dotHeight: 6),
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Padding(
@@ -641,7 +317,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Shop by Category",
+                      'Shop by Category',
                       style: TextStyle(
                         fontWeight: bold,
                         fontFamily: 'ProximaNova',
@@ -652,7 +328,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SingleChildScrollView(
@@ -663,26 +339,26 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             width: MediaQuery.of(context).size.width,
                             height: 300,
                             child: GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 childAspectRatio: 0.85,
                               ),
                               itemCount: imageList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 List<String> textList = [
-                                  "Cleanser",
-                                  "Serum",
-                                  "Mosturizer",
-                                  "Toner",
-                                  "Eye Cream",
-                                  "Sunscreen"
+                                  'Cleanser',
+                                  'Serum',
+                                  'Mosturizer',
+                                  'Toner',
+                                  'Eye Cream',
+                                  'Sunscreen'
                                 ];
                                 return Container(
                                   height: 135,
                                   width: 105,
-                                  margin: EdgeInsets.all(8),
+                                  margin: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -700,13 +376,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       FittedBox(
                                         child: Text(
                                           textList[index],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 13,
-                                              fontFamily: "ProximaNova"),
+                                              fontFamily: 'ProximaNova'),
                                         ),
                                       ),
                                     ],
@@ -721,6 +397,148 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   ],
                 ),
               ),
+              StickyHeader(
+                header: Container(
+                  color: whiteColor,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(
+                    left: 25,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Semua Produk',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 9,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/filters.png',
+                              width: 78,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.only(left: 11.5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Terbaru',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const Icon(Icons.keyboard_arrow_down)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              margin: const EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.only(left: 11.5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Etalase Skincare',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const Icon(Icons.keyboard_arrow_down)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                ),
+                content: const Padding(
+                  padding: EdgeInsets.only(left: 25, right: 25),
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/produk6.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel sadsadsadsadasdsad',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/produk6.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat'),
+                      Produkheight(
+                          namaBrand: 'ISISPHARMA',
+                          namaProduk: 'Teenderm Gel',
+                          diskonProduk: '20',
+                          hargaDiskon: '250.000',
+                          harga: '200.000',
+                          urlImg: 'assets/images/edocare.png',
+                          rating: '4.9 (120k)',
+                          kota: 'Amerika Serikat')
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

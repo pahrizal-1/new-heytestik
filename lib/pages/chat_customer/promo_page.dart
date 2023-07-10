@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
+
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
@@ -14,14 +14,26 @@ class PromoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: greenColor,
         elevation: 0,
-        title: const Text('Pakai Promo'),
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Text(
+              'Pakai Promo',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,6 +55,7 @@ class PromoPage extends StatelessWidget {
                   Container(
                     width: 230,
                     height: 40,
+                    padding: EdgeInsets.only(left: 10),
                     // width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: whiteColor,
@@ -51,9 +64,10 @@ class PromoPage extends StatelessWidget {
                           topLeft: Radius.circular(7),
                           bottomLeft: Radius.circular(7)),
                     ),
-                    child: Center(
-                      child: Text('Masukkan kode voucher',
-                          style: subGreyTextStyle),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: InputBorder.none,
+                          hintText: 'Masukkan kode voucher'),
                     ),
                   ),
                   Expanded(
@@ -143,19 +157,9 @@ class PromoPage extends StatelessWidget {
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 4 hari lagi! ',
               ),
-              SizedBox(
-                height: 116,
-              ),
               ButtonGreenWidget(
                 title: 'Pakai Voucher',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RingkasanPembayaranPage(),
-                    ),
-                  );
-                },
+                onPressed: () {},
               )
             ],
           ),

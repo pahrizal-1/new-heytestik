@@ -65,7 +65,7 @@ class InterestController extends StateClass {
   }
 
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (skinType == null) {
         throw ErrorConfig(
@@ -118,11 +118,11 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   budgets(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (skincare == null) {
         throw ErrorConfig(
@@ -147,12 +147,12 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   faceCorrectiveGoals(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
@@ -176,12 +176,12 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   bodyCorrectiveGoals(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
@@ -201,12 +201,12 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   augmentationSkinGoals(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
@@ -224,12 +224,12 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 
   pastTreatmentGoals(BuildContext context,
       {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (skincare == null) {
         throw ErrorConfig(
@@ -262,6 +262,6 @@ class InterestController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    loadingFalse();
+    isLoading.value = false;
   }
 }

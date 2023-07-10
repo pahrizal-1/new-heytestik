@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 
 import '../../core/local_storage.dart';
 
@@ -59,14 +60,14 @@ class _HeaderPageState extends State<HeaderPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: InkWell(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const Interest1Page(),
-                    //     ),
-                    //   );
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotifikasionPage(),
+                        ),
+                      );
+                    },
                     child: Container(
                       height: 22,
                       width: 22,
@@ -84,7 +85,7 @@ class _HeaderPageState extends State<HeaderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DoctorHomePage(),
+                        builder: (context) => const ProfilCustomerPage(),
                       ),
                     );
                   },

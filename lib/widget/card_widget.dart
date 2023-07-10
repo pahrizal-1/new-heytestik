@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/interest/interest_controller.dart';
@@ -67,13 +68,12 @@ class _CardSearchState extends State<CardSearch> {
         InkWell(
           onTap: () {
             setState(
-                  () {
+              () {
                 isSelected = !isSelected;
               },
             );
           },
           child: Container(
-            margin: EdgeInsets.only(left: 8),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             height: 30,
             decoration: BoxDecoration(
@@ -112,32 +112,32 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
           isIconSelected1 = !isIconSelected1;
         });
 
-        if(widget.type == 1) {
-          if(isIconSelected1) {
+        if (widget.type == 1) {
+          if (isIconSelected1) {
             state.faceCorrective.add(widget.title);
           } else {
             state.faceCorrective.remove(widget.title);
           }
         }
 
-        if(widget.type == 2) {
-          if(isIconSelected1) {
+        if (widget.type == 2) {
+          if (isIconSelected1) {
             state.bodyCorrective.add(widget.title);
           } else {
             state.bodyCorrective.remove(widget.title);
           }
         }
 
-        if(widget.type == 3) {
-          if(isIconSelected1) {
+        if (widget.type == 3) {
+          if (isIconSelected1) {
             state.augmentation.add(widget.title);
           } else {
             state.augmentation.remove(widget.title);
           }
         }
 
-        if(widget.type == 4) {
-          if(isIconSelected1) {
+        if (widget.type == 4) {
+          if (isIconSelected1) {
             state.pasTreatment.add(widget.title);
           } else {
             state.pasTreatment.remove(widget.title);
@@ -150,7 +150,7 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
             color: whiteColor,
             borderRadius: BorderRadius.circular(10),
             border:
-            Border.all(color: isIconSelected1 ? greenColor : greyColor)),
+                Border.all(color: isIconSelected1 ? greenColor : greyColor)),
         height: 40,
         width: widget.width,
         child: Row(
@@ -181,11 +181,8 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
 }
 
 class CardBank extends StatefulWidget {
-  final String img;
-
   const CardBank({
     super.key,
-    required this.img,
   });
 
   @override
@@ -215,7 +212,7 @@ class _CardBankState extends State<CardBank> {
             });
           },
           child: Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 18),
             child: Column(
               children: [
                 Row(
@@ -232,26 +229,19 @@ class _CardBankState extends State<CardBank> {
                       style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     const Spacer(),
-                    Container(
-                      height: 18,
-                      width: 18,
-                      decoration: isSelected == index
-                          ? BoxDecoration(
-                        color: greenColor,
-                        shape: BoxShape.circle,
-                      )
-                          : BoxDecoration(
-                        color: whiteColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: blackColor),
-                      ),
-                    ),
+                    Icon(
+                      isSelected == index
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      size: 23,
+                      color: isSelected == index ? greenColor : blackColor,
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: 27,
+                const SizedBox(
+                  height: 20,
                 ),
-                Divider(
+                const Divider(
                   thickness: 2,
                 )
               ],
@@ -262,6 +252,252 @@ class _CardBankState extends State<CardBank> {
     );
   }
 }
+
+class CardBankPengriman extends StatefulWidget {
+  const CardBankPengriman({
+    super.key,
+  });
+
+  @override
+  State<CardBankPengriman> createState() => _CardBankPengrimanState();
+}
+
+class _CardBankPengrimanState extends State<CardBankPengriman> {
+  int isSelected = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = 0;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/logo-bca.png',
+                            width: 52,
+                          ),
+                          const SizedBox(
+                            width: 19,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'BCA Virtual Account',
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              ),
+                              Text(
+                                'Biaya Pembayaran Rp3.000',
+                                style: subTitleTextStyle,
+                              )
+                            ],
+                          ),
+                          const Spacer(),
+                          Icon(
+                            isSelected == 0
+                                ? Icons.radio_button_on
+                                : Icons.circle_outlined,
+                            color: isSelected == 0
+                                ? greenColor
+                                : const Color(0xFF323232),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Divider(
+                      thickness: 2,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isSelected = 1;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/logo-bni.png',
+                          width: 52,
+                        ),
+                        const SizedBox(
+                          width: 19,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'BNI Virtual Account',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
+                            Text(
+                              'Biaya Pembayaran Rp3.000',
+                              style: subTitleTextStyle,
+                            )
+                          ],
+                        ),
+                        const Spacer(),
+                        Icon(
+                          isSelected == 1
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 1
+                              ? greenColor
+                              : const Color(0xFF323232),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isSelected = 2;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/logo-bri.png',
+                          width: 52,
+                        ),
+                        const SizedBox(
+                          width: 19,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'BRI Virtual Account',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
+                            Text(
+                              'Biaya Pembayaran Rp3.000',
+                              style: subTitleTextStyle,
+                            )
+                          ],
+                        ),
+                        const Spacer(),
+                        Icon(
+                          isSelected == 2
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 2
+                              ? greenColor
+                              : const Color(0xFF323232),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const dividergreen(),
+        const SizedBox(
+          height: 22,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Transfer Bank (Verifikasi Manual)',
+                style: blackHigtTextStyle.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 31,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 3;
+                  });
+                },
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icons/mandiri-icons.png',
+                      width: 52,
+                    ),
+                    const SizedBox(
+                      width: 19,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Transfer Bank MANDIRI',
+                          style: blackTextStyle.copyWith(fontSize: 15),
+                        ),
+                        Text(
+                          'Biaya Pembayaran Rp3.000',
+                          style: subTitleTextStyle,
+                        )
+                      ],
+                    ),
+                    const Spacer(),
+                    Icon(
+                      isSelected == 3
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 3
+                          ? greenColor
+                          : const Color(0xFF323232),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+///////////////////////////////////////////////////////////
 
 class CardFilter extends StatefulWidget {
   final String title;
@@ -281,7 +517,7 @@ class _CardFilterState extends State<CardFilter> {
     return InkWell(
       onTap: () {
         setState(
-              () {
+          () {
             isSelected = !isSelected;
           },
         );
@@ -291,7 +527,7 @@ class _CardFilterState extends State<CardFilter> {
         height: 30,
         decoration: BoxDecoration(
           color:
-          isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
+              isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
           borderRadius: BorderRadius.circular(7),
           border: Border.all(
             color: isSelected ? greenColor : const Color(0xffCCCCCC),

@@ -10,8 +10,6 @@ import '../../widget/button_widget.dart';
 class VerificasionEmailPage extends StatelessWidget {
   const VerificasionEmailPage({super.key});
 
-  get blackColor => null;
-
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<RegisterController>(context);
@@ -51,10 +49,12 @@ class VerificasionEmailPage extends StatelessWidget {
             ),
             OtpTextField(
               numberOfFields: 5,
-              fieldWidth: 60,
-              borderColor: Color(0xFF512DA8),
+              fieldWidth: 50,
+              borderColor: greenColor,
               showFieldAsBox: true,
-              onCodeChanged: (String code) {},
+              onCodeChanged: (String code) {
+                print('code otp $code');
+              },
               onSubmit: (String verificationCode) {
                 state.code = verificationCode;
               }, // end onSubmit

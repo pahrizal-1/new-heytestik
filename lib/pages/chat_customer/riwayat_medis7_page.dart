@@ -18,7 +18,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context),
+        appBar: appBarRiwayat(context),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -101,6 +101,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                     height: 50,
                                     width: 50,
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/icons/upload-cam.png'),
@@ -157,6 +158,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                     height: 45,
                                     width: 45,
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/icons/upload-galery.png'),
@@ -206,6 +208,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                           height: 20,
                           width: 20,
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             image: DecorationImage(
                               image:
                                   AssetImage("assets/icons/alert-circle1.png"),
@@ -241,6 +244,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                 Container(
                                   height: 80,
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
                                     image: DecorationImage(
                                       image: AssetImage(
                                           'assets/images/tampak-depan.png'),
@@ -275,6 +279,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                 Container(
                                   height: 80,
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
                                     image: DecorationImage(
                                       image:
                                           AssetImage('assets/images/zoom1.png'),
@@ -309,6 +314,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                 Container(
                                   height: 80,
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
                                     image: DecorationImage(
                                       image: AssetImage(
                                           'assets/images/kanan1.png'),
@@ -343,6 +349,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                 Container(
                                   height: 80,
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
                                     image: DecorationImage(
                                       image:
                                           AssetImage('assets/images/kiri1.png'),
@@ -393,6 +400,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/icons/ceklis2.png'),
@@ -425,6 +433,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/icons/ceklis2.png'),
@@ -457,6 +466,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/icons/ceklis2.png'),
