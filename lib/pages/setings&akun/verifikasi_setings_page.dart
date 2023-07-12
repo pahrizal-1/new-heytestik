@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_data_setings_page.dart';
 
 import '../../theme/theme.dart';
 
@@ -36,12 +35,12 @@ class VerifikasiSetingsPage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        VerifikasiDataSetingsPage()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (BuildContext context) =>
+              //           VerifikasiDataSetingsPage()),
+              // );
             },
             child: Image.asset(
               'assets/icons/more-six.png',

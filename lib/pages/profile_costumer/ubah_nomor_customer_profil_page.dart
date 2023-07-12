@@ -75,7 +75,7 @@ class UbahNomorCustomerProfilPage extends StatelessWidget {
                       'assets/icons/x-circle.png',
                     ),
                   ),
-                  labelText: 'Nama',
+                  labelText: 'Nomor Telepon',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: borderColor,
@@ -88,8 +88,10 @@ class UbahNomorCustomerProfilPage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText: 'Rina Rasmalina',
-                  hintStyle: blackTextStyle.copyWith(fontSize: 13),
+                  hintText: 'Masukan Nomor Telepon Baru',
+                  hintStyle: blackRegulerTextStyle.copyWith(
+                    fontSize: 13,
+                  ),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(

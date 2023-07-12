@@ -63,6 +63,7 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
               height: 16,
             ),
             TextFormField(
+              readOnly: true,
               decoration: InputDecoration(
                 labelText: 'Email Terdaftar',
                 enabledBorder: OutlineInputBorder(
@@ -78,7 +79,8 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: 'rasmalina.rina@gmail.com',
-                hintStyle: blackRegulerTextStyle.copyWith(fontSize: 13),
+                hintStyle: blackRegulerTextStyle.copyWith(
+                    fontSize: 13, color: blackColor),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 border: OutlineInputBorder(

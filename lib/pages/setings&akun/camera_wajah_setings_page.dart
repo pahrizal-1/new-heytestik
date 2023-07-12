@@ -1,17 +1,18 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/poto_ktp_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/poto_wajah_page.dart';
 
 import '../../theme/theme.dart';
 
-class CameraCutomeKTP extends StatefulWidget {
-  const CameraCutomeKTP({super.key});
+class CameraWajahSettingsPage extends StatefulWidget {
+  const CameraWajahSettingsPage({super.key});
 
   @override
-  State<CameraCutomeKTP> createState() => _CameraCutomeKTPState();
+  State<CameraWajahSettingsPage> createState() =>
+      _CameraWajahSettingsPageState();
 }
 
-class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
+class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
@@ -35,7 +36,7 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
         setState(() {});
       });
     } else {
-      print("NO any camera found");
+      print('NO any camera found');
     }
   }
 
@@ -65,7 +66,7 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
               ),
               Expanded(
                 child: Text(
-                  'Foto KTP',
+                  'Foto Wajah',
                   style: whiteTextStyle.copyWith(
                     fontSize: 20,
                   ),
@@ -75,34 +76,50 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 290,
-            width: 516,
-            child: controller == null
-                ? const Center(child: Text("Loading Camera..."))
-                : !controller!.value.isInitialized
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : CameraPreview(controller!),
-          ),
-          SizedBox(
-            height: 135,
-          ),
-          Text(
-            'Pastikan KTP mu terlihat jelas di dalam bingkai foto ini.',
-            style: whiteTextStyle.copyWith(fontSize: 13),
-          ),
-          const SizedBox(
-            height: 39,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 73, right: 73),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 18),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                // ignore: sized_box_for_whitespace
+                Container(
+                  height: 500,
+                  width: 516,
+                  child: controller == null
+                      ? const Center(child: Text('Loading Camera...'))
+                      : !controller!.value.isInitialized
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : CameraPreview(controller!),
+                ),
+                Center(
+                    child: Container(
+                  height: 500,
+                  width: 516,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/icons/bingkai-icons.png'))),
+                )),
+              ],
+            ),
+            const SizedBox(
+              height: 23,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Text(
+                'Pastikan wajahmu terlihat jelas dan berada di dalam bingkai ini.',
+                style: whiteTextStyle.copyWith(fontSize: 13),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 23,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Image.asset(
                   'assets/icons/refresh-icons.png',
@@ -127,8 +144,10 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
                     } catch (e) {
                       print(e); //show error
                     }
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => PotoKtp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PotoWajahPage()));
                   },
                   child: Image.asset(
                     'assets/icons/button-camera.png',
@@ -153,8 +172,8 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

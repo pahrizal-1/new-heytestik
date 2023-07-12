@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:heystetik_mobileapps/pages/home/header_page.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../core/local_storage.dart';
+import '../setings&akun/akun_home_page.dart';
 
 class HomepageCutomer extends StatefulWidget {
   const HomepageCutomer({super.key});
@@ -23,12 +28,100 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
     }
   }
 
+  String username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUsername();
+  }
+
+  void getUsername() async {
+    username = await LocalStorage().getUsername();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: whiteColor,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilCustomerPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        image: AssetImage('assets/images/profiledummy.png')),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Hai, ',
+                style: blackRegulerTextStyle.copyWith(fontSize: 18),
+              ),
+              Text(
+                username,
+                style: blackTextStyle.copyWith(fontSize: 18),
+              )
+            ],
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotifikasionPage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/notification-dot-black.svg',
+            ),
+          ),
+          const SizedBox(
+            width: 21,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AkunHomePage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
+          ),
+          const SizedBox(
+            width: 26,
+          ),
+        ],
+      ),
       body: ListView(
         children: [
-          const HeaderPage(),
           FutureBuilder(
             future: SlideShowService().getSlideShow(),
             builder: (context, AsyncSnapshot snapshot) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/metode_veifikasi_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_data_setings_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -56,9 +57,17 @@ class KeamananAkunPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(left: 25, right: 25, top: 19),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Ubah Kata Sandi',
-            style: blackHigtTextStyle.copyWith(fontSize: 15),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MetodeVerifikasiPage()));
+            },
+            child: Text(
+              'Ubah Kata Sandi',
+              style: blackHigtTextStyle.copyWith(fontSize: 15),
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -72,7 +81,7 @@ class KeamananAkunPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MetodeVerifikasiPage()));
+                      builder: (context) => const VerifikasiDataSetingsPage()));
             },
             child: Text(
               'Verifikasi Data Diri',

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skin3_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
-import '../../../../widget/Text_widget.dart';
-import '../../../../widget/show_dialog_sousions_payment.dart';
-import '../../../solution/selesai_pembayaran_solustion_page.dart';
 
 class RekomendasiSkincare2Page extends StatelessWidget {
   const RekomendasiSkincare2Page({super.key});
@@ -28,22 +23,16 @@ class RekomendasiSkincare2Page extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    size: 20,
+                    color: whiteColor,
                   ),
                 ),
-                SizedBox(
-                  width: 5,
+                const SizedBox(
+                  width: 11,
                 ),
                 Text(
                   'Tambah Template Skincare',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ProximaNova',
-                    fontWeight: bold,
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
+                  style: whiteTextStyle.copyWith(fontSize: 18),
+                )
               ],
             ),
             InkWell(

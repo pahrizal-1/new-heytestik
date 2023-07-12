@@ -50,15 +50,29 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
         ),
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        title: Text(
-          'Rekomendasi Skincare',
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'ProximaNova',
-            fontWeight: bold,
-            fontSize: 20,
-            letterSpacing: 0.5,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Rekomendasi Skincare',
+                style: whiteTextStyle.copyWith(fontSize: 20),
+              )
+            ],
           ),
         ),
       ),

@@ -3,7 +3,6 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../widget/button_widget.dart';
-import '../setings&akun/verifikasi_setings_page.dart';
 
 class UbahTanggalLahirProfilCustomer extends StatefulWidget {
   const UbahTanggalLahirProfilCustomer({super.key});
@@ -115,10 +114,10 @@ class _UbahTanggalLahirProfilCustomerState
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VerifikasiSetingsPage()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const VerifikasiSetingsPage()));
               },
             )
           ],
