@@ -14,16 +14,21 @@ class LocalStorage {
     return prefs.getString('jwtToken') ?? '-';
   }
 
-  // REFRESH TOKEN
-  Future<void> setRefreshToken({required String token}) async {
+  Future removeAccessToken() async {
     SharedPreferences prefs = await getPrefs();
-    prefs.setString('refresh_token', token);
+    prefs.remove('jwtToken');
   }
 
-  Future<String> getRefreshToken() async {
-    SharedPreferences prefs = await getPrefs();
-    return prefs.getString('refresh_token') ?? '-';
-  }
+  // REFRESH TOKEN
+  // Future<void> setRefreshToken({required String token}) async {
+  //   SharedPreferences prefs = await getPrefs();
+  //   prefs.setString('refresh_token', token);
+  // }
+
+  // Future<String> getRefreshToken() async {
+  //   SharedPreferences prefs = await getPrefs();
+  //   return prefs.getString('refresh_token') ?? '-';
+  // }
 
   // USER ID
   Future<void> setUserID({required int userID}) async {
