@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/skincare_recommendations_model.dart';
-import 'package:heystetik_mobileapps/service/skincare_recommendations/skincare_recommendations_service.dart';
+import 'package:heystetik_mobileapps/service/customer/skincare_recommendations/skincare_recommendations_service.dart';
 
 class SkincareRecommendationController extends StateClass {
   TextEditingController searchController = TextEditingController();

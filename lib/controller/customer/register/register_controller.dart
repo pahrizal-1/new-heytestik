@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/service/auth/register_service.dart';
+import 'package:heystetik_mobileapps/service/customer/register/register_service.dart';
 
-import '../../core/local_storage.dart';
+import '../../../core/local_storage.dart';
 
 class RegisterController extends StateClass {
   TextEditingController fullName = TextEditingController();
