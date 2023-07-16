@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/register_controller.dart';
+import '../../controller/customer/register/register_controller.dart';
 import '../../widget/more_dialog_widget.dart';
 
 class PersonalDataPage extends StatefulWidget {

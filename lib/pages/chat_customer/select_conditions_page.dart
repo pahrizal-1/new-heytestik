@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/interest_conditions/interest_conditions_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';

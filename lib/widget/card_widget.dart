@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/interest/interest_controller.dart';
+import '../controller/customer/interest/interest_controller.dart';
 import '../theme/theme.dart';
 
 class CardSkinGoals extends StatefulWidget {

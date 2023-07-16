@@ -39,7 +39,7 @@ Container ContainerSchedule = Container(
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      "10:00 WIB",
+                      '10:00 WIB',
                       style: TextStyle(
                         color: fromCssColor('#6B6B6B'),
                         fontFamily: 'ProximaNova',
@@ -133,7 +133,7 @@ Container ContainerDoctor = Container(
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Jadwal: 24 Feb 2023 | 10:00 WIB",
+                'Jadwal: 24 Feb 2023 | 10:00 WIB',
                 style: TextStyle(
                   color: fromCssColor('#6B6B6B'),
                   fontFamily: 'ProximaNova',
@@ -218,7 +218,7 @@ Container WidgetPhoto = Container(
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: "Belum ada foto dari ‘My Journey’",
+                    text: 'Belum ada foto dari ‘My Journey’',
                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       color: fromCssColor('#9B9B9B'),
@@ -238,7 +238,12 @@ Container WidgetPhoto = Container(
 
 class ContainerSettings extends StatelessWidget {
   final String title;
-  const ContainerSettings({Key? key, required this.title}) : super(key: key);
+  final bool isLogout;
+  const ContainerSettings({
+    Key? key,
+    required this.title,
+    this.isLogout = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -253,26 +258,28 @@ class ContainerSettings extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 1,
-            offset: Offset(0, 0),
+            offset: const Offset(0, 0),
           ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
               style: TextStyle(
+                color: isLogout ? greenColor : null,
                 fontSize: 15,
                 letterSpacing: 0.2,
-                fontFamily: "ProximaNova",
+                fontFamily: 'ProximaNova',
               ),
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
+              color: isLogout ? greenColor : null,
             ),
           ],
         ),
@@ -371,7 +378,7 @@ class ContainerProduk extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Penggunaan",
+                              'Penggunaan',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 fontSize: 12,
@@ -486,7 +493,7 @@ class ContainerProduk extends StatelessWidget {
                   height: 40,
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: "Catatan",
+                      labelText: 'Catatan',
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: greenColor,
@@ -507,7 +514,7 @@ class ContainerProduk extends StatelessWidget {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: TextStyle(
-                        color: fromCssColor("#A3A3A3"),
+                        color: fromCssColor('#A3A3A3'),
                       ),
                     ),
                   ),
@@ -615,7 +622,7 @@ class ContainerProdukPenting extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Penggunaan",
+                                  'Penggunaan',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 12,
@@ -728,7 +735,7 @@ class ContainerProdukPenting extends StatelessWidget {
                       height: 40,
                       child: TextFormField(
                         decoration: InputDecoration(
-                          labelText: "Catatan",
+                          labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: greenColor,
@@ -749,7 +756,7 @@ class ContainerProdukPenting extends StatelessWidget {
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           labelStyle: TextStyle(
-                            color: fromCssColor("#A3A3A3"),
+                            color: fromCssColor('#A3A3A3'),
                           ),
                         ),
                       ),

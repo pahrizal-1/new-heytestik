@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/controller/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';

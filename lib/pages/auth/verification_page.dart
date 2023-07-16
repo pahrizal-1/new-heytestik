@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/pages/auth/personal_data_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/register_controller.dart';
+import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
 
 class VerificationPage extends StatelessWidget {

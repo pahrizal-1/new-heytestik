@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
-import 'package:heystetik_mobileapps/controller/slideshow/slideshow_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/slideshow/slideshow_controller.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:provider/provider.dart';
 
-import 'controller/interest/interest_controller.dart';
+import 'controller/customer/interest/interest_controller.dart';
 
 void main() {
   runApp(const MyApp());
