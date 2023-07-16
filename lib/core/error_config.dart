@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 class ErrorConfig implements Exception {
@@ -160,7 +162,7 @@ ErrorConfig handleError(
         break;
       case ErrorConfig.userUnauthorized:
         // go to login page when user unauthorized
-        // Get.offAll(() => const LoginScreen());
+        Get.offAll(() => const LoginPage());
         break;
       case ErrorConfig.appNoInternet:
         // No internet issue
@@ -184,6 +186,10 @@ ErrorConfig handleError(
       case ErrorConfig.locationMocked:
         // SnackbarWidget.getErrorSnackbar(
         //     "Error, you probably using mocked location", error.message);
+        break;
+      case ErrorConfig.networkRequest401:
+        // go to login page when user unauthorized
+        Get.offAll(() => const LoginPage());
         break;
       case ErrorConfig.networkRequest404:
         showDialog(
