@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
+
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page.dart';
@@ -20,6 +22,8 @@ class ProfilDoctorPage extends StatefulWidget {
 }
 
 class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -556,8 +560,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      print('logout dokter');
-                      await LocalStorage().removeAccessToken();
+                      await state.logout(context);
                     },
                     child: const ContainerSettings(
                       title: 'Log-Out',
