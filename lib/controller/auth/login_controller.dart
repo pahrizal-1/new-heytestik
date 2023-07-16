@@ -47,14 +47,20 @@ class LoginController extends StateClass {
       await LocalStorage()
           .setAccessToken(token: loginResponse['data']['token']);
       await LocalStorage()
-          .setUsername(username: loginResponse['data']['user']['fullname']);
+          .setFullName(fullName: loginResponse['data']['user']['fullname']);
       await LocalStorage()
           .setRoleID(roleID: loginResponse['data']['user']['roleId']);
       await LocalStorage()
           .setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
+      clear();
     });
     isLoading.value = false;
+  }
+
+  clear() {
+    email.clear();
+    password.clear();
   }
 
   redirectTo() async {
