@@ -37,7 +37,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   }
 
   void getUsername() async {
-    username = await LocalStorage().getUsername();
+    username = await LocalStorage().getFullName();
     setState(() {});
   }
 
