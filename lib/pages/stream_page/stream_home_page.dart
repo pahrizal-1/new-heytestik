@@ -163,9 +163,9 @@ class _StreamHomePageState extends State<StreamHomePage> {
           Padding(
             padding: const EdgeInsets.only(top: 63),
             child: Center(
-                child: index == 0
-                    ? const AllInfoStreamPage()
-                    : const NewsHomePage()),
+              child:
+                  index == 0 ? const AllInfoStreamPage() : const NewsHomePage(),
+            ),
           ),
         ],
       ),

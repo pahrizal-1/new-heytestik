@@ -4,7 +4,6 @@ import 'package:heystetik_mobileapps/pages/stream_page/home_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/trending_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/your_interest_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import '../chat_customer/detail_perawatan_page.dart';
 
 class AllInfoStreamPage extends StatelessWidget {
   const AllInfoStreamPage({super.key});

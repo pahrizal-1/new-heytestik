@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';

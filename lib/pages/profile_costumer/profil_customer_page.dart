@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/button_widget.dart';
+import '../../widget/category_cirkel_widgets.dart';
+import '../../widget/filter_tap_widget.dart';
+import '../../widget/show_modal_dialog.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'edit_profil_customer_page.dart';
 
@@ -322,12 +328,169 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         height: 2,
                         width: 170,
                         decoration: BoxDecoration(
-                            color: iSelected == 1 ? greenColor : subTitleColor),
+                          color: iSelected == 1 ? greenColor : subTitleColor,
+                        ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
+            ),
+          ),
+          const SizedBox(
+            height: 22,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 25, right: 25, top: 22),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/profiledummy.png'),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: fromCssColor('#CCCCCC'),
+                          ),
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.only(left: 12),
+                          transform: Matrix4.translationValues(0, -3, 0),
+                          child: TextFormField(
+                            style: const TextStyle(
+                                fontSize: 15, fontFamily: 'ProximaNova'),
+                            decoration: InputDecoration(
+                                hintText:
+                                    'Mau share apa hari ini? Tulis disini yuk :)',
+                                border: InputBorder.none,
+                                hintStyle:
+                                    subTitleTextStyle.copyWith(fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 13,
+                ),
+              ],
+            ),
+          ),
+          dividergrey(),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
+              child: Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 9,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: borderColor,
+                        ),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Image.asset(
+                      'assets/icons/search1.png',
+                      height: 10,
+                      width: 10,
+                    ),
+                  ),
+                  CategoryProfilAkun(
+                    title: 'Semua',
+                  ),
+                  CategoryProfilAkun(
+                    title: 'Stream',
+                  ),
+                  CategoryProfilAkun(
+                      title: 'My Journey',
+                      onPressed: () {
+                        shomodal(context, const RatingDenganUlasanWidgets());
+                      }),
+                  CategoryProfilAkun(
+                    title: 'Polling',
+                    onPressed: () {
+                      shomodal(
+                        context,
+                        Wrap(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 33, right: 33, top: 30, bottom: 40),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Image.asset(
+                                          'assets/icons/danger-icons.png',
+                                          width: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 22,
+                                      ),
+                                      Text(
+                                        'Rating dengan ulasan',
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 39,
+                                  ),
+                                  const FilterTapRating(
+                                    title: '1',
+                                  ),
+                                  const FilterTapRating(
+                                    title: '2',
+                                  ),
+                                  const FilterTapRating(
+                                    title: '3',
+                                  ),
+                                  const FilterTapRating(
+                                    title: '4',
+                                  ),
+                                  const FilterTapRating(
+                                    title: '5',
+                                  ),
+                                  const ButtonGreenWidget(title: 'Tampilkan')
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  CategoryProfilAkun(
+                    title: 'Liked',
+                  ),
+                  CategoryProfilAkun(
+                    title: 'Saved',
+                  ),
+                ],
+              ),
             ),
           )
         ],
