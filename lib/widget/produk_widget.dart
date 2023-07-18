@@ -353,7 +353,7 @@ class ProdukTreatment extends StatelessWidget {
                             color: const Color.fromRGBO(201, 42, 42, 0.2)),
                         child: Center(
                           child: Text(
-                            "$diskonProduk%",
+                            '$diskonProduk%',
                             style: blackHigtTextStyle.copyWith(
                                 color: redColor, fontSize: 11),
                           ),
@@ -363,7 +363,7 @@ class ProdukTreatment extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        "Rp $hargaDiskon",
+                        'Rp $hargaDiskon',
                         style: subGreyTextStyle.copyWith(
                           fontSize: 12,
                           decoration: TextDecoration.lineThrough,
@@ -410,7 +410,7 @@ class ProdukTreatment extends StatelessWidget {
                         width: 9,
                       ),
                       Text(
-                        " $km Km",
+                        ' $km Km',
                         style: subGreyTextStyle.copyWith(
                             fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),

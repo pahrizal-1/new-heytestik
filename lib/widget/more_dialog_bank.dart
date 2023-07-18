@@ -47,10 +47,10 @@ class _BankMoreDialogState extends State<BankMoreDialog> {
                     height: 200,
                     width: 240,
                     transform: Matrix4.translationValues(10, -60, 0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/more-image.png",
+                          'assets/images/more-image.png',
                         ),
                         fit: BoxFit.fill,
                       ),
@@ -110,7 +110,7 @@ class _BankMoreDialogState extends State<BankMoreDialog> {
                 child: Container(
                   height: 45,
                   width: 45,
-                  child: Icon(
+                  child: const Icon(
                     Icons.close,
                     color: Color(0xff323232),
                     size: 30,

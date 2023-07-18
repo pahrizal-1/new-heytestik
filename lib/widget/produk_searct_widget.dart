@@ -96,7 +96,7 @@ class ProdukSearcWidget extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: greyColor, shape: BoxShape.circle),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(

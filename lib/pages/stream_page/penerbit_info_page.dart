@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 95a2577f60a65d2d879e3f1ef5348ae3200a436a
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
@@ -68,7 +71,7 @@ class _InfoPenerbitPageState extends State<InfoPenerbitPage> {
                 Container(
                   height: 110,
                   width: 110,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage('assets/icons/penerbit1.png'),
@@ -145,28 +148,28 @@ class _InfoPenerbitPageState extends State<InfoPenerbitPage> {
                 ),
               ],
             ),
-            ArtikelNews(
+            const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
               category: 'BEAUTY / CONCERN',
               judul: 'Cara Atasi Mata Panda dengan Tepat',
               penerbit: '22 September 2022 | Nadira Maura',
               menit: '2',
             ),
-            ArtikelNews(
+            const ArtikelNews(
               img: 'assets/images/Rahasia_Kulit_Sehat.png',
               category: 'BEAUTY / CONCERN',
               judul: 'Rahasia Kulit Sehat Ala Artis Korea',
               penerbit: '22 September 2022 | Nadira Maura',
               menit: '2',
             ),
-            ArtikelNews(
+            const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
               category: 'BEAUTY / TREATMENT',
               judul: 'Rahasia Kulit Sehat Ala Artis Korea',
               penerbit: '11 Januari 2022  |  Nadira Maura',
               menit: '2',
             ),
-            ArtikelNews(
+            const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
               category: 'BEAUTY / CONCERN',
               judul: 'Cara Atasi Mata Panda dengan Tepat',

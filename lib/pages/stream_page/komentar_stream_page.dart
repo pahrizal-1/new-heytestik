@@ -499,7 +499,7 @@ class KomentarStreamPage extends StatelessWidget {
                                                                     color:
                                                                         blackColor),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 21,
                                                           ),
                                                           Text(
@@ -511,7 +511,7 @@ class KomentarStreamPage extends StatelessWidget {
                                                                     color:
                                                                         blackColor),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 21,
                                                           ),
                                                           Text(
@@ -523,7 +523,7 @@ class KomentarStreamPage extends StatelessWidget {
                                                                     color:
                                                                         blackColor),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 21,
                                                           ),
                                                           Row(

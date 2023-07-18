@@ -37,15 +37,14 @@ class ShareShowWidget extends StatelessWidget {
         const SizedBox(
           height: 39,
         ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 40, top: 39, right: 40, bottom: 40),
+        const Padding(
+          padding: EdgeInsets.only(left: 40, top: 39, right: 40, bottom: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   CardShere(
                     title: 'Whatsapp',
                     urlImg: 'assets/icons/wa-icons.png',
@@ -72,12 +71,12 @@ class ShareShowWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
+              SizedBox(
                 height: 25,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   CardShere(
                     height: 35,
                     widht: 35,

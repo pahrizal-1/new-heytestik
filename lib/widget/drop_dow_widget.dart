@@ -1,6 +1,6 @@
+// ignore_for_file: prefer_null_aware_operators
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/service/customer/geography/geography_service.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class _DropDownWigetState extends State<DropDownWiget> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0XFFCCCCCC),
+          color: const Color(0XFFCCCCCC),
         ),
         borderRadius: BorderRadius.circular(7),
       ),
@@ -37,21 +37,21 @@ class _DropDownWigetState extends State<DropDownWiget> {
         underline: Container(),
         hint: Text(
           'Pilih anggaran per bulan',
-          style: subGreyTextStyle.copyWith(color: Color(0XFFCCCCCC)),
+          style: subGreyTextStyle.copyWith(color: const Color(0XFFCCCCCC)),
         ),
         value: selectedvalue,
         elevation: 0,
         isExpanded: true,
         items: [
           'Dibawah Rp500.000',
-          "Rp500.000 - Rp1.000.000",
-          "Rp1.100.000 - Rp5.000.000",
-          "Rp5.100.000 - Rp10.000.000",
-          "Diatas Rp10.000.000",
+          'Rp500.000 - Rp1.000.000',
+          'Rp1.100.000 - Rp5.000.000',
+          'Rp5.100.000 - Rp10.000.000',
+          'Diatas Rp10.000.000',
         ]
             .map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(
-                  child: Text(e.toString()),
                   value: e,
+                  child: Text(e.toString()),
                 ))
             .toList(),
         onChanged: ((value) {
@@ -100,15 +100,15 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0XFFCCCCCC)),
+                  border: Border.all(color: const Color(0XFFCCCCCC)),
                   borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 value: selectedvalue,
                 hint: Text(
-                  "Provinsi",
+                  'Provinsi',
                   style: blackTextStyle.copyWith(
-                      color: Color(0xff323232), fontWeight: medium),
+                      color: const Color(0xff323232), fontWeight: medium),
                 ),
                 elevation: 0,
                 isExpanded: true,
@@ -170,12 +170,12 @@ class _DropDownkotaWigetState extends State<DropDownkotaWiget> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0XFFCCCCCC)),
+                  border: Border.all(color: const Color(0XFFCCCCCC)),
                   borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 hint: Text(
-                  "Pilih Kota Tempat Tinggal mu",
+                  'Pilih Kota Tempat Tinggal mu',
                   style: greyTextStyle,
                 ),
                 value: state.city == null ? null : state.city.toString(),
@@ -260,7 +260,7 @@ class _CircleImgWidgetState extends State<CircleImgWidget> {
                 state.hairColor = widget.title;
               }
               if (widget.type == 6) {
-                state.hijabers = widget.title == "Hijab";
+                state.hijabers = widget.title == 'Hijab';
               }
             });
           },

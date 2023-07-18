@@ -80,28 +80,28 @@ class ViewDetailTags extends StatelessWidget {
               const SizedBox(
                 height: 44,
               ),
-              ArtikelNews(
+              const ArtikelNews(
                 img: 'assets/icons/artikerl-panda.png',
                 category: 'BEAUTY / CONCERN',
                 judul: 'Cara Atasi Mata Panda dengan Tepat',
                 penerbit: '22 September 2022 | Nadira Maura',
                 menit: '2',
               ),
-              ArtikelNews(
+              const ArtikelNews(
                 img: 'assets/icons/artikerl-panda.png',
                 category: 'BEAUTY / CONCERN',
                 judul: 'Cara Atasi Mata Panda dengan Tepat',
                 penerbit: '22 September 2022 | Nadira Maura',
                 menit: '2',
               ),
-              ArtikelNews(
+              const ArtikelNews(
                 img: 'assets/icons/artikerl-panda.png',
                 category: 'BEAUTY / CONCERN',
                 judul: 'Cara Atasi Mata Panda dengan Tepat',
                 penerbit: '22 September 2022 | Nadira Maura',
                 menit: '2',
               ),
-              ArtikelNews(
+              const ArtikelNews(
                 img: 'assets/icons/artikerl-panda.png',
                 category: 'BEAUTY / CONCERN',
                 judul: 'Cara Atasi Mata Panda dengan Tepat',

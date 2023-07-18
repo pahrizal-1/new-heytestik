@@ -121,7 +121,8 @@ class TimeMoreDialogPage extends StatelessWidget {
         height: 95,
         child: TimelineTile(
           hasIndicator: true,
-          beforeLineStyle: LineStyle(color: Color(0xffcccccc), thickness: 4),
+          beforeLineStyle:
+              const LineStyle(color: Color(0xffcccccc), thickness: 4),
           axis: TimelineAxis.horizontal,
           isFirst: isFirst,
           isLast: isLast,

@@ -41,7 +41,7 @@ class TampilanRight extends StatelessWidget {
                     style: blackRegulerTextStyle.copyWith(
                         color: blackColor, fontSize: 12),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 3,
                   ),
                   Row(
@@ -82,7 +82,7 @@ class TampilanRight extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 3,
                   ),
                   Row(
