@@ -6,8 +6,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/shere_link_stream.dart';
 
-class TabbarStreamHomePage extends StatelessWidget {
-  const TabbarStreamHomePage({
+class HomeStreamPage extends StatelessWidget {
+  const HomeStreamPage({
     super.key,
   });
 

@@ -180,10 +180,11 @@ class KomentarStreamPage extends StatelessWidget {
                             Text(
                               '13',
                               style: TextStyle(
-                                  color: greyColor,
-                                  fontSize: 14,
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova'),
+                                color: greyColor,
+                                fontSize: 14,
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                              ),
                             ),
                             const SizedBox(
                               width: 5,
@@ -418,6 +419,214 @@ class KomentarStreamPage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  maxLines: 6,
+                  minLines: 1,
+                  decoration: InputDecoration(
+                    filled: true,
+                    isDense: true,
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10000)),
+                      borderSide: BorderSide(
+                        style: BorderStyle.none,
+                        width: 0,
+                      ),
+                    ),
+                    fillColor: whiteColor,
+                    hintText: 'Tulis Komentar',
+                    suffixIcon: Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: PopupMenuButton(
+                          icon: Image.asset(
+                            'assets/icons/atement.png',
+                            width: 20,
+                          ),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
+                              height: 100,
+                              child: Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                insetPadding:
+                                                    const EdgeInsets.all(0.1),
+                                                content: Container(
+                                                    height: 225,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                      color: whiteColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 35,
+                                                          vertical: 32),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Tambahkan gambar',
+                                                            style: blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color:
+                                                                        blackColor),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 21,
+                                                          ),
+                                                          Text(
+                                                            'Kamera',
+                                                            style: blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color:
+                                                                        blackColor),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 21,
+                                                          ),
+                                                          Text(
+                                                            'Dari galeri',
+                                                            style: blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color:
+                                                                        blackColor),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 21,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Text(
+                                                                  'CANCEL',
+                                                                  style: blackRegulerTextStyle
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              blackColor),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Foto / Kamera',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Spacer(),
+                                        Container(
+                                          height: 44,
+                                          width: 44,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            'assets/icons/camera-new.png',
+                                            height: 25,
+                                            width: 25,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Poll',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Spacer(),
+                                        Container(
+                                          height: 44,
+                                          width: 44,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            'assets/icons/poll.png',
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                          ],
+                        )),
+                    hintStyle: subGreyTextStyle,
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/icons/Group 461.png',
+                width: 40,
+              )
+            ],
+          ),
         ),
       ),
     );
