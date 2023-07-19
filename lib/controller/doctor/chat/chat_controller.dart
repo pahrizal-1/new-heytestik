@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
 
 class DoctorChatController extends StateClass {
-  RxString fullName = ''.obs;
-  String currentTime = CurrenctTime().timeNow();
   Rx<CurrentDoctorScheduleModel?> currentSchedule =
       CurrentDoctorScheduleModel.fromJson({}).obs;
   RxInt currentScheduleId = 0.obs;
@@ -24,14 +21,6 @@ class DoctorChatController extends StateClass {
 
   RxBool isFirstSchedule = false.obs;
   RxBool isSecondSchedule = false.obs;
-
-  init(BuildContext context) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      fullName.value = await LocalStorage().getFullName();
-    });
-    isLoading.value = false;
-  }
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -55,9 +44,9 @@ class DoctorChatController extends StateClass {
         DateTime second2 = now;
 
         // CEK APAKAH JADWAL PERTAMA ADA ATAU TIDAK
-        if (endTime.value.isNotEmpty ||
-            endTime.value != '-' ||
-            endTime.value != '') {
+        if (startTime.value.isNotEmpty ||
+            startTime.value != '-' ||
+            startTime.value != '') {
           startTime1.value = CurrenctTime.getFirstTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
