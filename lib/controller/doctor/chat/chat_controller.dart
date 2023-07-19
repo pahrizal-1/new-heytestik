@@ -1,0 +1,97 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/current_time.dart';
+import 'package:heystetik_mobileapps/core/error_config.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
+import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
+import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
+
+class DoctorChatController extends StateClass {
+  RxString fullName = ''.obs;
+  String currentTime = CurrenctTime().timeNow();
+  Rx<CurrentDoctorScheduleModel?> currentSchedule =
+      CurrentDoctorScheduleModel.fromJson({}).obs;
+  RxInt currentScheduleId = 0.obs;
+  RxString startTime = ''.obs;
+  RxString endTime = ''.obs;
+  RxString startTime1 = ''.obs;
+  RxString startTime2 = ''.obs;
+  RxString endTime1 = ''.obs;
+  RxString endTime2 = ''.obs;
+  RxBool isFirstSchedule = false.obs;
+  RxBool isSecondSchedule = false.obs;
+
+  init(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      fullName.value = await LocalStorage().getFullName();
+    });
+    isLoading.value = false;
+  }
+
+  Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
+      BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      currentSchedule.value =
+          await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
+
+      currentScheduleId.value = currentSchedule.value!.data!.id ?? 0;
+      startTime.value = currentSchedule.value!.data!.firstSchedule ?? '-';
+      endTime.value = currentSchedule.value!.data!.lastSchdule ?? '-';
+
+      startTime1.value = CurrenctTime.getFirstTime(
+        currentSchedule.value!.data!.firstSchedule.toString(),
+      );
+      print('startTime1 ${startTime1.value}');
+
+      startTime2.value = CurrenctTime.getLastTime(
+        currentSchedule.value!.data!.firstSchedule.toString(),
+      );
+      print('startTime2 ${startTime2.value}');
+
+      endTime1.value = CurrenctTime.getFirstTime(
+        currentSchedule.value!.data!.lastSchdule.toString(),
+      );
+      print('endTime1 ${startTime2.value}');
+
+      endTime2.value = CurrenctTime.getLastTime(
+        currentSchedule.value!.data!.lastSchdule.toString(),
+      );
+      print('endTime2 ${startTime2.value}');
+
+      DateTime now = DateTime.now();
+      print('now $now');
+
+      String dateStr = now.toString().substring(0, 10);
+      print('tanggal $dateStr');
+
+      DateTime first1 = DateTime.parse('$dateStr ${startTime1.value}');
+      DateTime first2 = DateTime.parse('$dateStr ${startTime2.value}');
+      print('first1 $first1');
+      print('first2 $first2');
+      DateTime second1 = DateTime.parse('$dateStr ${endTime1.value}');
+      DateTime second2 = DateTime.parse('$dateStr ${endTime2.value}');
+      print('second1 $second1');
+      print('second2 $second2');
+
+      if (now.isAfter(first1) && now.isBefore(first2)) {
+        print('jadwal pertama');
+        isFirstSchedule.value = true;
+        isSecondSchedule.value = false;
+      } else if (now.isAfter(second1) && now.isBefore(second2)) {
+        print('jadwal kedua');
+        isFirstSchedule.value = false;
+        isSecondSchedule.value = true;
+      } else {
+        print('salah');
+        isFirstSchedule.value = false;
+        isSecondSchedule.value = false;
+      }
+    });
+
+    return currentSchedule.value;
+  }
+}
