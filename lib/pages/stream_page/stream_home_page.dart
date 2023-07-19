@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../widget/pencarian_search_widget.dart';
 import '../home/notifikasion_page.dart';
 import '../profile_costumer/profil_customer_page.dart';
+import '../setings&akun/akun_home_page.dart';
 
 class StreamHomePage extends StatefulWidget {
   const StreamHomePage({super.key});
@@ -29,10 +30,32 @@ class _StreamHomePageState extends State<StreamHomePage> {
           padding: const EdgeInsets.only(left: 6),
           child: Row(
             children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilCustomerPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        image: AssetImage('assets/images/profiledummy.png')),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
               Text(
                 'Stream',
                 style: blackTextStyle.copyWith(fontSize: 20),
-              ),
+              )
             ],
           ),
         ),
@@ -52,7 +75,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
             ),
           ),
           const SizedBox(
-            width: 16,
+            width: 14,
           ),
           InkWell(
             onTap: () {
@@ -69,30 +92,24 @@ class _StreamHomePageState extends State<StreamHomePage> {
             ),
           ),
           const SizedBox(
-            width: 16,
+            width: 14,
           ),
           InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfilCustomerPage(),
+                  builder: (context) => const AkunHomePage(),
                 ),
               );
             },
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/profiledummy.png'),
-                ),
-              ),
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+              color: blackColor,
             ),
           ),
           const SizedBox(
-            width: 25,
+            width: 26,
           ),
         ],
       ),

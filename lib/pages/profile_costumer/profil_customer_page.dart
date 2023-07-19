@@ -3,17 +3,24 @@ import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
+import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
 import '../../widget/category_cirkel_widgets.dart';
 import '../../widget/filter_tap_widget.dart';
+
+import '../../widget/post_dengan_poto.dart';
+import '../../widget/post_polling.dart';
 import '../../widget/show_modal_dialog.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'edit_profil_customer_page.dart';
 
 class ProfilCustomerPage extends StatefulWidget {
-  const ProfilCustomerPage({super.key});
+  final double? height;
+  final Color? color;
+  const ProfilCustomerPage(
+      {super.key, this.height = 1, this.color = Colors.white});
 
   @override
   State<ProfilCustomerPage> createState() => _ProfilCustomerPageState();
@@ -337,16 +344,13 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 22,
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, top: 22),
             child: Column(
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundImage:
                           AssetImage('assets/images/profiledummy.png'),
                     ),
@@ -363,7 +367,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           borderRadius: BorderRadius.circular(35),
                         ),
                         child: Container(
-                          padding: EdgeInsets.only(left: 12),
+                          padding: const EdgeInsets.only(left: 12),
                           transform: Matrix4.translationValues(0, -3, 0),
                           child: TextFormField(
                             style: const TextStyle(
@@ -380,7 +384,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
               ],
@@ -410,21 +414,22 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       width: 10,
                     ),
                   ),
-                  CategoryProfilAkun(
+                  const CategoryProfilAkun(
                     title: 'Semua',
                   ),
-                  CategoryProfilAkun(
+                  const CategoryProfilAkun(
                     title: 'Stream',
                   ),
                   CategoryProfilAkun(
                       title: 'My Journey',
                       onPressed: () {
-                        shomodal(context, const RatingDenganUlasanWidgets());
+                        customeshomodal(
+                            context, const RatingDenganUlasanWidgets());
                       }),
                   CategoryProfilAkun(
                     title: 'Polling',
                     onPressed: () {
-                      shomodal(
+                      customeshomodal(
                         context,
                         Wrap(
                           children: [
@@ -485,14 +490,22 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                   ),
                   CategoryProfilAkun(
                     title: 'Liked',
+                    onPressed: () {
+                      customeshomodal(context, const TopikUlasanWidgets());
+                    },
                   ),
                   CategoryProfilAkun(
+                    onPressed: () {
+                      customeshomodal(context, const TopikUlasanWidgets());
+                    },
                     title: 'Saved',
                   ),
                 ],
               ),
             ),
-          )
+          ),
+          const PostDenganPoto(),
+          const PostPolling(),
         ],
       ),
     );

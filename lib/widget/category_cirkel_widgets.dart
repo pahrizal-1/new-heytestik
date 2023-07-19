@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
-import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../theme/theme.dart';
 
