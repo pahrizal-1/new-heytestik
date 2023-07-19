@@ -76,7 +76,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                             top: 112,
                             child: Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 140,
+                              // height: 140,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
                                 color: whiteColor,
