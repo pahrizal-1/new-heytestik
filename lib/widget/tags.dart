@@ -17,8 +17,8 @@ class TagsNews extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(right: 5, bottom: 7),
-        padding: EdgeInsets.symmetric(
+        margin: const EdgeInsets.only(right: 5, bottom: 7),
+        padding: const EdgeInsets.symmetric(
           horizontal: 5,
           vertical: 5,
         ),

@@ -190,8 +190,8 @@ class CategotyBuarty extends StatelessWidget {
       child: Container(
         width: 114,
         height: 48,
-        padding: EdgeInsets.only(left: 8),
-        margin: EdgeInsets.only(right: 5),
+        padding: const EdgeInsets.only(left: 8),
+        margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           border: Border.all(

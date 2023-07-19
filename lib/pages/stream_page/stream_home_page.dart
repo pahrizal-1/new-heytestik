@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../widget/pencarian_search_widget.dart';

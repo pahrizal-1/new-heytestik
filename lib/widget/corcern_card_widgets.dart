@@ -53,7 +53,7 @@ class CorcernCardWidgets extends StatelessWidget {
                       judul,
                       style: blackTextStyle.copyWith(fontSize: 14),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text(
@@ -82,7 +82,7 @@ class CorcernCardWidgets extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 11,
         ),
         dividergrey()

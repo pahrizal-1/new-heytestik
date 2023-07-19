@@ -4,9 +4,9 @@ import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
 
 import 'package:heystetik_mobileapps/widget/artikel_views_widgets.dart';
+import 'package:heystetik_mobileapps/widget/tags.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/Tags.dart';
 import '../../widget/pencarian_search_widget.dart';
 
 class ViewDetailBeutyStreamPage extends StatelessWidget {

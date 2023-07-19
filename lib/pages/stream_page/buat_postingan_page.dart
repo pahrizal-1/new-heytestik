@@ -120,13 +120,13 @@ class BuatPostinganPage extends StatelessWidget {
                 maxLines: 5,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                     ),
                     borderRadius: BorderRadius.circular(10),

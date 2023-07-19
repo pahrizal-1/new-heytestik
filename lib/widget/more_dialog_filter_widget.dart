@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/widget/card_tittle_filter.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 
@@ -59,9 +57,9 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                 const SizedBox(
                   height: 10,
                 ),
-                Wrap(
+                const Wrap(
                   direction: Axis.horizontal,
-                  children: const [CardTitle()],
+                  children: [CardTitle()],
                 ),
                 const SizedBox(
                   height: 43,
@@ -73,7 +71,7 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
+                const Row(
                   children: [
                     CardSearch(
                       title: 'Promo',
@@ -120,14 +118,14 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 13,
                     ),
                     Text(
                       'hingga',
                       style: subGreyTextStyle,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 13,
                     ),
                     Expanded(
@@ -157,7 +155,7 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Row(

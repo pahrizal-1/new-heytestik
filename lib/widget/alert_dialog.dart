@@ -168,7 +168,7 @@ class _AlertDialogSucseesState extends State<AlertDialogSucsees> {
                     height: 234,
                     width: 241,
                     transform: Matrix4.translationValues(10, -100, 0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
                           'assets/images/potoalert.png',

@@ -70,7 +70,7 @@ class HomeStreamPage extends StatelessWidget {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => ShareLinkStream(),
+                              builder: (context) => const ShareLinkStream(),
                             );
                           },
                           child: Icon(

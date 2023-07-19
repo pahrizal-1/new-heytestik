@@ -46,7 +46,7 @@ class _CelebrityNewsPageState extends State<CelebrityNewsPage> {
                           'CELEBRITY',
                           style: grenTextStyle.copyWith(fontSize: 10),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
@@ -125,8 +125,8 @@ class _CelebrityNewsPageState extends State<CelebrityNewsPage> {
                   dotHeight: 4),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 54, top: 50),
+          const Padding(
+            padding: EdgeInsets.only(left: 20, right: 54, top: 50),
             child: Column(
               children: [
                 CorcernCardWidgets(
