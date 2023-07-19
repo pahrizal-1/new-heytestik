@@ -89,7 +89,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Jadwal Saya',
+                                          'Jadwal Saya hari ini',
                                           style: blackHigtTextStyle.copyWith(
                                               fontSize: 15),
                                         ),
