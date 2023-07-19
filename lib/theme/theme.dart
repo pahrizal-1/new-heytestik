@@ -13,6 +13,8 @@ Color greyColor = const Color(0xff6B6B6B);
 Color subgreyColor = const Color(0xff575757);
 Color subgreenColor = const Color.fromRGBO(36, 167, 160, 0.2);
 Color borderColor = const Color(0XFFCCCCCC);
+Color baseColor = Colors.grey[300]!;
+Color highlightColor = Colors.grey[100]!;
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
