@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/stream1_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../widget/pencarian_search_widget.dart';
+import '../home/notifikasion_page.dart';
+import '../profile_costumer/profil_customer_page.dart';
 
 class StreamHomePage extends StatefulWidget {
   const StreamHomePage({super.key});
@@ -30,7 +32,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
               Text(
                 'Stream',
                 style: blackTextStyle.copyWith(fontSize: 20),
-              )
+              ),
             ],
           ),
         ),
@@ -54,12 +56,12 @@ class _StreamHomePageState extends State<StreamHomePage> {
           ),
           InkWell(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const NotifikasionPage(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotifikasionPage(),
+                ),
+              );
             },
             child: SvgPicture.asset(
               'assets/icons/notif-icons.svg',
@@ -71,12 +73,12 @@ class _StreamHomePageState extends State<StreamHomePage> {
           ),
           InkWell(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const ProfilCustomerPage(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilCustomerPage(),
+                ),
+              );
             },
             child: Container(
               height: 30,
@@ -161,7 +163,9 @@ class _StreamHomePageState extends State<StreamHomePage> {
           Padding(
             padding: const EdgeInsets.only(top: 63),
             child: Center(
-                child: index == 0 ? const Stream1Page() : const NewsHomePage()),
+                child: index == 0
+                    ? const AllInfoStreamPage()
+                    : const NewsHomePage()),
           ),
         ],
       ),

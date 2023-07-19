@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/tabbar_stream_home_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/trend_lifestyle_news_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import '../chat_customer/detail_perawatan_page.dart';
-import 'all_info_Stream_page.dart';
+import 'all_info_news_page.dart';
+import 'beauty_info_news_page.dart';
+import 'celebrity_info_news_page.dart';
 
 class NewsHomePage extends StatelessWidget {
   const NewsHomePage({super.key});
@@ -57,10 +58,10 @@ class NewsHomePage extends StatelessWidget {
             const Expanded(
               child: TabBarView(
                 children: [
-                  AllInfoStreamPage(),
-                  DetailPerawatanPage(),
-                  TabbarStreamHomePage(),
-                  TabbarStreamHomePage(),
+                  AllInfoNewsPage(),
+                  BeautyInfoNewsPage(),
+                  TrenLifestyleNewsPage(),
+                  CelebrityNewsPage(),
                 ],
               ),
             ),
