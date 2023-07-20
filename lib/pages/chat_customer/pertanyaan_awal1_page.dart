@@ -14,8 +14,8 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
-  final int? id;
-  const PertanyaanAwalPage({required this.id, super.key});
+  final int? interestConditionId;
+  const PertanyaanAwalPage({required this.interestConditionId, super.key});
 
   @override
   State<PertanyaanAwalPage> createState() => _PertanyaanAwalPageState();
@@ -33,7 +33,8 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   }
 
   get(BuildContext context) async {
-    await state.getInterestConditionById(context, widget.id!.toInt());
+    await state.getInterestConditionById(
+        context, widget.interestConditionId!.toInt());
   }
 
   @override
@@ -135,8 +136,9 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (state.question[state.index.value]
-                            .interestConditionsAnswer!.isEmpty)
+                        // JIKA DESKRIPSI
+                        if (state.question[state.index.value].typeAnswer ==
+                            'description')
                           Container(
                             height: 150,
                             decoration: BoxDecoration(
@@ -148,8 +150,11 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                             ),
                             child: TextField(
                               onChanged: (value) {
-                                state.lists[state.index.value]
+                                state.listsAnswer[state.index.value]
                                     ['answer_description'] = value;
+                                if (state.listsAnswer[state.index.value]
+                                        ['answer_description'] !=
+                                    '-') {}
                               },
                               controller: state.essayController,
                               maxLines: null,
@@ -167,6 +172,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                             ),
                           )
                         else
+                          // JIKA BUKAN DESKRIPSI
                           for (int i = 0;
                               i <
                                   state.question[state.index.value]
@@ -194,7 +200,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  height: 50,
+                                  // height: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: Row(
@@ -314,7 +320,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                     print('abis');
                                   }
                                   print(
-                                      'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
+                                      'answerData ke ${state.index.value + 1} ${state.listsAnswer[state.index.value]}');
                                 },
                               ),
                             ),
@@ -336,17 +342,16 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                       context: context,
                                       builder: (context) =>
                                           AlertConfirmationWidget(
-                                        subtitle: 'Apakah anda sudah yakin?',
+                                        subtitle:
+                                            'Apakah anda sudah yakin? Jika sudah yakin kita lanjut ke langkah berikutnya',
                                         action: () async {
                                           Navigator.pop(context);
-                                          await state
-                                              .saveInterestConditionCustomer(
-                                            context,
-                                            widget.id!.toInt(),
-                                            doInPost: () async {
-                                              Get.to(const RiwayatMedis7Page());
-                                              // TINGGAL KASIH ALERT BERHASIL
-                                            },
+                                          Get.to(
+                                            RiwayatMedis7Page(
+                                              interestConditionId: widget
+                                                  .interestConditionId!
+                                                  .toInt(),
+                                            ),
                                           );
                                         },
                                       ),
@@ -354,7 +359,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                   }
 
                                   print(
-                                      'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
+                                      'answerData ke ${state.index.value + 1} ${state.listsAnswer[state.index.value]}');
                                 },
                               ),
                             )
@@ -390,12 +395,13 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
     print('akhir ${state.answerSelect[state.index.value]}');
 
     // SAVE DATA TO API
-    state.lists[state.index.value]['interest_conditions_answer_id'] = idAnswer;
-    state.lists[state.index.value]['interest_conditions_question_id'] =
+    state.listsAnswer[state.index.value]['interest_condition_answer_id'] =
+        idAnswer;
+    state.listsAnswer[state.index.value]['interest_condition_question_id'] =
         idQuestion;
-    state.lists[state.index.value]['answer_description'] =
+    state.listsAnswer[state.index.value]['answer_description'] =
         state.answerSelect == 'description' ? state.essayController.text : '-';
     print(
-        'answerData ke ${state.index.value + 1} ${state.lists[state.index.value]}');
+        'answerData ke ${state.index.value + 1} ${state.listsAnswer[state.index.value]}');
   }
 }
