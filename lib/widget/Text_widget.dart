@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../theme/theme.dart';
 
@@ -252,6 +253,58 @@ class TetxtInfomasi extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class HasilKonsultasiWidgets extends StatelessWidget {
+  final String namaObat;
+  final String? berapaBayak;
+  const HasilKonsultasiWidgets({
+    super.key,
+    required this.namaObat,
+    this.berapaBayak = '',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 10, top: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'R/',
+                style: blackRegulerTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                namaObat,
+                style: grenTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              const Spacer(),
+              berapaBayak != ''
+                  ? Text(
+                      berapaBayak.toString(),
+                      style: blackRegulerTextStyle.copyWith(
+                        fontSize: 13,
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
+          const SizedBox(
+            height: 13,
+          ),
+          dividergrey(),
+        ],
+      ),
     );
   }
 }
