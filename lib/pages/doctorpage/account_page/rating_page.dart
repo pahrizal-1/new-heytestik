@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/linear_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../widget/button_widget.dart';
 import '../../../widget/filter_tap_widget.dart';
@@ -83,10 +81,15 @@ class _RatingPageState extends State<RatingPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                'assets/icons/danger-icons.png',
-                                width: 20,
-                                height: 20,
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                  'assets/icons/danger-icons.png',
+                                  width: 20,
+                                  height: 20,
+                                ),
                               ),
                               const SizedBox(
                                 height: 22,
@@ -121,23 +124,43 @@ class _RatingPageState extends State<RatingPage> {
                               const SizedBox(
                                 height: 19,
                               ),
-                              LinearUlasan(),
-                              SizedBox(
+                              const LinearUlasan(
+                                bintang: '5',
+                                jumlah: '122',
+                                height: 0.9,
+                              ),
+                              const SizedBox(
                                 height: 9,
                               ),
-                              LinearUlasan(),
-                              SizedBox(
+                              const LinearUlasan(
+                                bintang: '4',
+                                jumlah: '90',
+                                height: 0.7,
+                              ),
+                              const SizedBox(
                                 height: 9,
                               ),
-                              LinearUlasan(),
-                              SizedBox(
+                              const LinearUlasan(
+                                bintang: '3',
+                                jumlah: '10',
+                                height: 0.1,
+                              ),
+                              const SizedBox(
                                 height: 9,
                               ),
-                              LinearUlasan(),
-                              SizedBox(
+                              const LinearUlasan(
+                                bintang: '2',
+                                jumlah: '100',
+                                height: 0.9,
+                              ),
+                              const SizedBox(
                                 height: 9,
                               ),
-                              LinearUlasan(),
+                              const LinearUlasan(
+                                bintang: '1',
+                                jumlah: '20',
+                                height: 0.1,
+                              ),
                             ],
                           ),
                         ),

@@ -4,14 +4,14 @@ import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
 import '../../../widget/costoum_pin_widgets.dart';
 
-class PinPage extends StatefulWidget {
-  const PinPage({super.key});
+class PinPageBaruDoctor extends StatefulWidget {
+  const PinPageBaruDoctor({super.key});
 
   @override
-  State<PinPage> createState() => _PinPageState();
+  State<PinPageBaruDoctor> createState() => _PinPageBaruDoctorState();
 }
 
-class _PinPageState extends State<PinPage> {
+class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
   final TextEditingController pinController = TextEditingController(text: '');
   String pin = '123456';
   bool isErr = false;
@@ -26,10 +26,13 @@ class _PinPageState extends State<PinPage> {
 
     if (pinController.text.length == 6) {
       if (pinController.text == pin) {
-        Navigator.pop(context, true);
+        showDialog(
+          context: context,
+          builder: (context) => const MoreDialogPassword(),
+        );
         print('pin');
       } else {
-        print('Password salahß');
+        print('Password salah');
         isErr = true;
         Text(
           'Password anda salah',
@@ -54,12 +57,12 @@ class _PinPageState extends State<PinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF23A49E),
+      backgroundColor: const Color(0xff24A7A0),
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 21, top: 40),
+              padding: const EdgeInsets.only(left: 21, top: 50),
               child: InkWell(
                   onTap: () {
                     Navigator.pop(context);
@@ -70,11 +73,15 @@ class _PinPageState extends State<PinPage> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 58),
+              padding: const EdgeInsets.only(
+                left: 61,
+                top: 20,
+                right: 61,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
                   Text(
@@ -154,7 +161,7 @@ class _PinPageState extends State<PinPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   InkWell(
@@ -190,7 +197,7 @@ class _PinPageState extends State<PinPage> {
                                         style: blackHigtTextStyle.copyWith(
                                             fontWeight: regular, fontSize: 15),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 15,
                                       ),
                                       Row(
@@ -362,8 +369,8 @@ class _PinPageState extends State<PinPage> {
                             );
                           },
                           child: Container(
-                            width: 70,
-                            height: 70,
+                            width: 73,
+                            height: 73,
                             child: Center(
                                 child: Text(
                               'OK',
@@ -384,18 +391,18 @@ class _PinPageState extends State<PinPage> {
                           deletedPin();
                         },
                         child: Container(
-                          width: 70,
-                          height: 70,
+                          width: 75,
+                          height: 75,
                           child: Center(
                               child: Image.asset(
                             'assets/icons/aroowBac.png',
-                            width: 28,
+                            width: 35,
                           )),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 39,
                   ),
                 ],

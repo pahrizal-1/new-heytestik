@@ -5,14 +5,15 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 class ProfilDoctorPage extends StatefulWidget {
   const ProfilDoctorPage({super.key});
@@ -140,13 +141,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          showBottomSheet(
-                            context: context,
-                            enableDrag: true,
-                            builder: (BuildContext context) {
-                              return const BottomSheetProfile();
-                            },
-                          );
+                          customeshomodal(context, BottomSheetProfile());
                         },
                         child: Container(
                           height: 25,
@@ -525,7 +520,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PinPage(),
+                            builder: (context) => const PinPageLamaDoctor(),
                           ),
                         );
                       },
@@ -577,58 +572,61 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
   }
 }
 
-class BottomSheetProfile extends StatelessWidget {
+class BottomSheetProfile extends StatefulWidget {
   const BottomSheetProfile({super.key});
 
   @override
+  State<BottomSheetProfile> createState() => _BottomSheetProfileState();
+}
+
+class _BottomSheetProfileState extends State<BottomSheetProfile> {
+  int isSelected = 0;
+  @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-      child: Container(
-        height: 400,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          // color: Colors.lightGreenAccent[100],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: blackColor,
-                        size: 24,
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 30, right: 30, bottom: 20, top: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: blackColor,
+                      size: 24,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Filter Statistik Saya',
+                      style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 20,
+                        fontWeight: bold,
+                        letterSpacing: 1,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Filter Statistik Saya',
-                        style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 20,
-                          fontWeight: bold,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 0;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -658,21 +656,28 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
+                    Icon(
+                      isSelected == 0
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 0 ? greenColor : blackColor,
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Row(
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 1;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -702,21 +707,29 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
+                    const Spacer(),
+                    Icon(
+                      isSelected == 1
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 1 ? greenColor : blackColor,
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Row(
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 2;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -746,110 +759,109 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Custom Tanggal',
-                      style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 15,
-                        fontWeight: bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
+                    const Spacer(),
+                    Icon(
+                      isSelected == 2
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 2 ? greenColor : blackColor,
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Container(
-                  height: 35,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 0.5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Custom Tanggal',
+                    style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontSize: 15,
+                      fontWeight: bold,
+                      letterSpacing: 0.5,
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.date_range_outlined,
+                  Icon(
+                    Icons.circle_outlined,
+                    size: 0.2,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 35,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.date_range_outlined,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '17 Agu 2023 - 17 Nov 2023',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'ProximaNova',
+                          letterSpacing: 0.5,
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '17 Agu 2023 - 17 Nov 2023',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'ProximaNova',
-                            letterSpacing: 0.5,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Jenis Pertanyaan',
+                style: TextStyle(
+                  fontFamily: 'ProximaNova',
+                  fontSize: 15,
+                  fontWeight: bold,
+                  letterSpacing: 0.5,
                 ),
-                Text(
-                  'Jenis Pertanyaan',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontSize: 15,
-                    fontWeight: bold,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardFilter(title: 'Chat yang selesai'),
-                    CardFilter(title: 'Chat yang selesai')
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ButtonGreenWidget(
-                  title: 'Tampilkan',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CardFilter(title: 'Chat yang selesai'),
+                  CardFilter(title: 'Chat yang selesai')
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ButtonGreenWidget(
+                title: 'Tampilkan',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
