@@ -30,7 +30,7 @@ class ProdukWitlist extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             border: Border.all(color: borderColor, width: 0.2),
             borderRadius: BorderRadius.circular(7),

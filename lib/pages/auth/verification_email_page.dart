@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skin3_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -24,27 +23,21 @@ class RekomendasiSkincare2Page extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    size: 20,
+                    color: whiteColor,
                   ),
                 ),
-                SizedBox(
-                  width: 5,
+                const SizedBox(
+                  width: 11,
                 ),
                 Text(
-                  "Tambah Template Skincare",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ProximaNova',
-                    fontWeight: bold,
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
+                  'Tambah Template Skincare',
+                  style: whiteTextStyle.copyWith(fontSize: 18),
+                )
               ],
             ),
             InkWell(
               child: Text(
-                "SIMPAN",
+                'SIMPAN',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'ProximaNova',
@@ -65,29 +58,29 @@ class RekomendasiSkincare2Page extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Judul Resep",
+                'Judul Resep',
                 style: TextStyle(
-                  fontFamily: "ProximaNova",
+                  fontFamily: 'ProximaNova',
                   fontSize: 14,
                   letterSpacing: 0.2,
                   fontWeight: FontWeight.w400,
-                  color: fromCssColor("#A3A3A3"),
+                  color: fromCssColor('#A3A3A3'),
                 ),
               ),
               SizedBox(
                 child: TextField(
                   style: TextStyle(
-                    fontFamily: "ProximaNova",
+                    fontFamily: 'ProximaNova',
                     fontSize: 16,
                     fontWeight: bold,
                     letterSpacing: 0.2,
                     color: fromCssColor(
-                        "#323232"), // Ubah dengan warna teks yang diinginkan
+                        '#323232'), // Ubah dengan warna teks yang diinginkan
                   ),
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: fromCssColor("#A3A3A3"),
+                        color: fromCssColor('#A3A3A3'),
                         width: 1.0,
                       ),
                     ),
@@ -98,26 +91,73 @@ class RekomendasiSkincare2Page extends StatelessWidget {
                 height: 40,
               ),
               Text(
-                "Resep Rekomendasi",
+                'Resep Rekomendasi',
                 style: TextStyle(
-                  fontFamily: "ProximaNova",
+                  fontFamily: 'ProximaNova',
                   fontSize: 14,
                   letterSpacing: 0.2,
                   fontWeight: FontWeight.w400,
-                  color: fromCssColor("#A3A3A3"),
+                  color: fromCssColor('#A3A3A3'),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
               ButtonGreenWidget(
-                title: "+ Tambah Skincare",
+                title: '+ Tambah Skincare',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            RekomendasiSkincare3Page()),
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(25),
+                        topStart: Radius.circular(25),
+                      ),
+                    ),
+                    builder: (context) => Wrap(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 36, bottom: 40),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/danger-icons.png',
+                                    width: 14,
+                                  ),
+                                  const SizedBox(
+                                    width: 19,
+                                  ),
+                                  Text(
+                                    'Daftar Skincare',
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 38,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Jerawat',
+                                    style: blackHigtTextStyle.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
               )

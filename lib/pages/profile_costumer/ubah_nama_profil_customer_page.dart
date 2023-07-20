@@ -48,10 +48,10 @@ class UbahNamaProfilCustomer extends StatelessWidget {
               style: blackRegulerTextStyle.copyWith(
                   fontSize: 15, color: blackColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 28,
             ),
-            Container(
+            SizedBox(
               height: 40,
               child: TextFormField(
                 decoration: InputDecoration(

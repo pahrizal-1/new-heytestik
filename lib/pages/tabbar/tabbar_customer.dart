@@ -4,8 +4,9 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/onboarding_chat_page.dart';
 import 'package:heystetik_mobileapps/pages/home/home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/home_solution_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+
+import '../stream_page/stream_home_page.dart';
 
 class TabBarCustomer extends StatefulWidget {
   const TabBarCustomer({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
   List<Widget> widgetList = [
     const HomepageCutomer(),
     const OnboardingChat(),
-    const StreamPage(),
+    const StreamHomePage(),
     const SolutionPage(),
   ];
 

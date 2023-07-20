@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/poto_ktp_page.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
+import 'camera_ktp_setings_page.dart';
 
 class VerifikasiKtpPage extends StatelessWidget {
   const VerifikasiKtpPage({super.key});
@@ -206,7 +206,7 @@ class VerifikasiKtpPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PotoKtp(),
+                        builder: (context) => const CameraCutomeKTP(),
                       ),
                     );
                   },

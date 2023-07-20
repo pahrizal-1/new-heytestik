@@ -46,7 +46,7 @@ class ChatLeft extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(0),
                 topRight: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -120,7 +120,7 @@ class ChatRight extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(0),
                 bottomRight: Radius.circular(10),
@@ -194,7 +194,7 @@ class TextChat extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           // 'assets/images/logo_cheac_wa.png',

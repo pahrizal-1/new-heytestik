@@ -81,7 +81,7 @@ class TextUlasanRiwayat extends StatelessWidget {
                       width: 12,
                       height: 12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Text(

@@ -124,7 +124,7 @@ class CardTreatment extends StatelessWidget {
               ],
             ),
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: EdgeInsets.only(left: 115, top: 10),

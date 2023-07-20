@@ -56,7 +56,7 @@ class _CardTitleState extends State<CardTitle> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               InkWell(
@@ -139,7 +139,7 @@ class _CardTitleState extends State<CardTitle> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               InkWell(
@@ -222,7 +222,7 @@ class _CardTitleState extends State<CardTitle> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               InkWell(
@@ -260,7 +260,7 @@ class _CardTitleState extends State<CardTitle> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               InkWell(

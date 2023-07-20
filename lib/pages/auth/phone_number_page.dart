@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';

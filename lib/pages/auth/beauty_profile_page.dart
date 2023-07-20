@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/controller/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:provider/provider.dart';
 

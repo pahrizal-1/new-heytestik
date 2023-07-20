@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/interest/interest_controller.dart';
+import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
@@ -147,7 +147,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
                   const SizedBox(
                     height: 19,
                   ),
-                   Wrap(
+                  Wrap(
                     direction: Axis.horizontal,
                     spacing: 8,
                     runSpacing: 8,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class TambahBalasanPage extends StatelessWidget {
@@ -9,28 +8,45 @@ class TambahBalasanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Tambah Balasan Cepat'),
-            Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: whiteColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 11,
+                ),
+                Text(
+                  'Tambah Balasan Cepat',
+                  style: whiteTextStyle.copyWith(fontSize: 20),
+                )
+              ],
+            ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => BalasanCepatPage()),
-                );
-              },
               child: Text(
-                'Simpan',
-                style: whiteTextStyle.copyWith(fontSize: 15),
+                'SIMPAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'ProximaNova',
+                  fontWeight: bold,
+                  fontSize: 14,
+                  letterSpacing: 0.5,
+                ),
               ),
-            )
+            ),
           ],
         ),
-        backgroundColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, top: 19, right: 20),

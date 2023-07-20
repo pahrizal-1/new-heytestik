@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/register_controller.dart';
+import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';

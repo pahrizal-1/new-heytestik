@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 
@@ -28,6 +31,10 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
               const SizedBox(
                 width: 11,
               ),
+              Text(
+                'Ubah Email',
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              ),
             ],
           ),
         ),
@@ -41,6 +48,105 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
             width: 26,
           ),
         ],
+      ),
+      body: Padding(
+        padding: lsymetric.copyWith(top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Biar akunmu aman, pastikan e-mail kamu aktif.',
+              style: blackRegulerTextStyle.copyWith(
+                  fontSize: 15, color: blackColor),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: 'Email Terdaftar',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'rasmalina.rina@gmail.com',
+                hintStyle: blackRegulerTextStyle.copyWith(
+                    fontSize: 13, color: blackColor),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                labelStyle: TextStyle(
+                  color: fromCssColor('#A3A3A3'),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 21,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Email Baru',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Masukan Email Baru',
+                hintStyle: blackRegulerTextStyle.copyWith(
+                  fontSize: 13,
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                labelStyle: TextStyle(
+                  color: fromCssColor('#A3A3A3'),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              'Kami akan kirim kode verifikasi ke e-mail ini.',
+              style: blackRegulerTextStyle.copyWith(
+                  color: blackColor, fontSize: 13),
+            ),
+            const SizedBox(
+              height: 28,
+            ),
+            ButtonGreenWidget(
+              title: 'Lanjut',
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VerifikasiSetingsPage()));
+              },
+            )
+          ],
+        ),
       ),
     );
   }

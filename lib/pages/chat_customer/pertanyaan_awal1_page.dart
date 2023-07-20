@@ -3,16 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
+import 'package:heystetik_mobileapps/controller/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis7_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
-
-import '../home/home_page.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
   final int? id;
@@ -23,8 +22,7 @@ class PertanyaanAwalPage extends StatefulWidget {
 }
 
 class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
-  final InterestConditionsController state =
-      Get.put(InterestConditionsController());
+  final OrderController state = Get.put(OrderController());
 
   @override
   void initState() {
@@ -46,6 +44,12 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
         backgroundColor: greenColor,
         title: Row(
           children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
             const SizedBox(
               width: 11,
             ),
@@ -62,7 +66,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomepageCutomer(),
+                    builder: (context) => const TabBarCustomer(),
                   ),
                 );
               },

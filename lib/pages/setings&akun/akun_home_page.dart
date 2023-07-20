@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
@@ -15,6 +16,7 @@ class AkunHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -53,13 +55,23 @@ class AkunHomePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/profiledummy.png'),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfilCustomerPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/profiledummy.png'),
+                          ),
                         ),
                       ),
                     ),

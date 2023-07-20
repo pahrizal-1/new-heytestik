@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
+
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page.dart';
@@ -19,6 +22,8 @@ class ProfilDoctorPage extends StatefulWidget {
 }
 
 class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +31,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
         title: Text(
-          "Akun Saya",
+          'Akun Saya',
           style: TextStyle(
-            fontFamily: "ProximaNova",
+            fontFamily: 'ProximaNova',
             fontWeight: bold,
             color: whiteColor,
             fontSize: 20,
@@ -56,7 +61,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                           width: 65,
                           child: const CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/doctor1.png"),
+                                AssetImage('assets/images/doctor1.png'),
                           ),
                         ),
                         const SizedBox(
@@ -67,7 +72,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "dr. Risty Hafinah, Sp.DV",
+                              'dr. Risty Hafinah, Sp.DV',
                               style: TextStyle(
                                 fontWeight: bold,
                                 fontFamily: 'ProximaNova',
@@ -79,7 +84,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               height: 3,
                             ),
                             const Text(
-                              "Dokter Spesialis Kulit",
+                              'Dokter Spesialis Kulit',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 fontSize: 13,
@@ -101,10 +106,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       child: Container(
                         height: 20,
                         width: 20,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                              "assets/icons/edit.png",
+                              'assets/icons/edit.png',
                             ),
                           ),
                         ),
@@ -115,8 +120,8 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 30, bottom: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -124,9 +129,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total Statistik Saya",
+                        'Total Statistik Saya',
                         style: TextStyle(
-                          fontFamily: "Proximanova",
+                          fontFamily: 'Proximanova',
                           fontSize: 18,
                           letterSpacing: 0.5,
                           fontWeight: bold,
@@ -139,7 +144,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             context: context,
                             enableDrag: true,
                             builder: (BuildContext context) {
-                              return BottomSheetProfile();
+                              return const BottomSheetProfile();
                             },
                           );
                         },
@@ -150,9 +155,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.commit_sharp,
                                 size: 18,
@@ -161,10 +166,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                 width: 2,
                               ),
                               Text(
-                                "Filter",
+                                'Filter',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontFamily: "ProximaNova",
+                                  fontFamily: 'ProximaNova',
                                 ),
                               )
                             ],
@@ -173,7 +178,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Column(
@@ -191,7 +196,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   color: Colors.grey.withOpacity(0.2),
                                   spreadRadius: 1,
                                   blurRadius: 1,
-                                  offset: Offset(0, 0),
+                                  offset: const Offset(0, 0),
                                 ),
                               ],
                               borderRadius: BorderRadius.circular(8),
@@ -204,15 +209,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   Container(
                                     height: 20,
                                     width: 20,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "assets/icons/komen.png",
+                                          'assets/icons/komen.png',
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
@@ -220,23 +225,23 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "122K",
+                                        '122K',
                                         style: TextStyle(
-                                          fontFamily: "ProximaNova",
+                                          fontFamily: 'ProximaNova',
                                           fontWeight: bold,
                                           fontSize: 20,
                                           letterSpacing: 0.2,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
                                       Text(
-                                        "Konsultasi",
+                                        'Konsultasi',
                                         style: TextStyle(
-                                            fontFamily: "ProximaNova",
+                                            fontFamily: 'ProximaNova',
                                             fontSize: 13,
-                                            color: fromCssColor("#A3A3A3")),
+                                            color: fromCssColor('#A3A3A3')),
                                       )
                                     ],
                                   ),
@@ -254,7 +259,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   color: Colors.grey.withOpacity(0.2),
                                   spreadRadius: 1,
                                   blurRadius: 1,
-                                  offset: Offset(0, 0),
+                                  offset: const Offset(0, 0),
                                 ),
                               ],
                               borderRadius: BorderRadius.circular(8),
@@ -267,15 +272,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   Container(
                                     height: 20,
                                     width: 26,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "assets/icons/onoff.png",
+                                          'assets/icons/onoff.png',
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
@@ -283,23 +288,23 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "500",
+                                        '500',
                                         style: TextStyle(
-                                          fontFamily: "ProximaNova",
+                                          fontFamily: 'ProximaNova',
                                           fontWeight: bold,
                                           fontSize: 20,
                                           letterSpacing: 0.2,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
                                       Text(
-                                        "Hari Aktif",
+                                        'Hari Aktif',
                                         style: TextStyle(
-                                            fontFamily: "ProximaNova",
+                                            fontFamily: 'ProximaNova',
                                             fontSize: 13,
-                                            color: fromCssColor("#A3A3A3")),
+                                            color: fromCssColor('#A3A3A3')),
                                       )
                                     ],
                                   ),
@@ -309,7 +314,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -325,7 +330,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   color: Colors.grey.withOpacity(0.2),
                                   spreadRadius: 1,
                                   blurRadius: 1,
-                                  offset: Offset(0, 0),
+                                  offset: const Offset(0, 0),
                                 ),
                               ],
                               borderRadius: BorderRadius.circular(8),
@@ -338,15 +343,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   Container(
                                     height: 20,
                                     width: 20,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          "assets/icons/love.png",
+                                          'assets/icons/love.png',
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
@@ -354,23 +359,23 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "102K",
+                                        '102K',
                                         style: TextStyle(
-                                          fontFamily: "ProximaNova",
+                                          fontFamily: 'ProximaNova',
                                           fontWeight: bold,
                                           fontSize: 20,
                                           letterSpacing: 0.2,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
                                       Text(
-                                        "Disukai",
+                                        'Disukai',
                                         style: TextStyle(
-                                            fontFamily: "ProximaNova",
+                                            fontFamily: 'ProximaNova',
                                             fontSize: 13,
-                                            color: fromCssColor("#A3A3A3")),
+                                            color: fromCssColor('#A3A3A3')),
                                       )
                                     ],
                                   ),
@@ -397,7 +402,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     color: Colors.grey.withOpacity(0.2),
                                     spreadRadius: 1,
                                     blurRadius: 1,
-                                    offset: Offset(0, 0),
+                                    offset: const Offset(0, 0),
                                   ),
                                 ],
                                 borderRadius: BorderRadius.circular(8),
@@ -411,15 +416,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     Container(
                                       height: 20,
                                       width: 20,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         image: DecorationImage(
                                           image: AssetImage(
-                                            "assets/icons/fav.png",
+                                            'assets/icons/fav.png',
                                           ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Column(
@@ -427,23 +432,23 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "98%",
+                                          '98%',
                                           style: TextStyle(
-                                            fontFamily: "ProximaNova",
+                                            fontFamily: 'ProximaNova',
                                             fontWeight: bold,
                                             fontSize: 20,
                                             letterSpacing: 0.2,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 3,
                                         ),
                                         Text(
-                                          "Pasien Puas",
+                                          'Pasien Puas',
                                           style: TextStyle(
-                                              fontFamily: "ProximaNova",
+                                              fontFamily: 'ProximaNova',
                                               fontSize: 13,
-                                              color: fromCssColor("#A3A3A3")),
+                                              color: fromCssColor('#A3A3A3')),
                                         )
                                       ],
                                     ),
@@ -456,7 +461,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   InkWell(
@@ -480,19 +485,19 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Saldo Saya",
+                              'Saldo Saya',
                               style: TextStyle(
-                                  fontFamily: "ProximaNova",
+                                  fontFamily: 'ProximaNova',
                                   fontSize: 15,
                                   color: whiteColor),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             Text(
-                              "Rp5.000.000",
+                              'Rp5.000.000',
                               style: TextStyle(
-                                  fontFamily: "ProximaNova",
+                                  fontFamily: 'ProximaNova',
                                   fontSize: 20,
                                   fontWeight: bold,
                                   color: whiteColor),
@@ -502,17 +507,17 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Text(
-                    "Keamanan",
+                    'Keamanan',
                     style: TextStyle(
-                        fontFamily: "ProximaNova",
+                        fontFamily: 'ProximaNova',
                         fontWeight: bold,
                         fontSize: 18),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   InkWell(
@@ -524,74 +529,44 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                           ),
                         );
                       },
-                      child: ContainerSettings(
-                        title: "Ubah Kata Sandi",
+                      child: const ContainerSettings(
+                        title: 'Ubah Kata Sandi',
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Text(
-                    "Aplikasi Heystetik",
+                    'Aplikasi Heystetik',
                     style: TextStyle(
-                      fontFamily: "ProximaNova",
+                      fontFamily: 'ProximaNova',
                       fontWeight: bold,
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  ContainerSettings(title: "Notifikasi"),
-                  SizedBox(
+                  const ContainerSettings(title: 'Notifikasi'),
+                  const SizedBox(
                     height: 10,
                   ),
-                  ContainerSettings(title: "Tentang Heystetik"),
-                  SizedBox(
+                  const ContainerSettings(title: 'Tentang Heystetik'),
+                  const SizedBox(
                     height: 10,
                   ),
-                  ContainerSettings(title: "Update App"),
-                  SizedBox(
+                  const ContainerSettings(title: 'Update App'),
+                  const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(0, 0),
-                        ),
-                      ],
+                  InkWell(
+                    onTap: () async {
+                      await state.logout(context);
+                    },
+                    child: const ContainerSettings(
+                      title: 'Log-Out',
+                      isLogout: true,
                     ),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Log-Out",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: greenColor,
-                              letterSpacing: 0.2,
-                              fontFamily: "ProximaNova",
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 16,
-                            color: greenColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -611,7 +586,7 @@ class BottomSheetProfile extends StatelessWidget {
       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
       child: Container(
         height: 400,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),
@@ -619,7 +594,7 @@ class BottomSheetProfile extends StatelessWidget {
           // color: Colors.lightGreenAccent[100],
         ),
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -637,11 +612,11 @@ class BottomSheetProfile extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20),
                       child: Text(
                         'Filter Statistik Saya',
                         style: TextStyle(
-                          fontFamily: "ProximaNova",
+                          fontFamily: 'ProximaNova',
                           fontSize: 20,
                           fontWeight: bold,
                           letterSpacing: 1,
@@ -650,7 +625,7 @@ class BottomSheetProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -662,28 +637,28 @@ class BottomSheetProfile extends StatelessWidget {
                         Text(
                           'Hari Ini (Real Time)',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 15,
                             fontWeight: bold,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text(
                           '16 November (00.00-09.00)',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 12,
                             fontWeight: bold,
-                            color: fromCssColor("#9B9B9B"),
+                            color: fromCssColor('#9B9B9B'),
                             letterSpacing: 0.5,
                           ),
                         ),
                       ],
                     ),
-                    InkWell(
+                    const InkWell(
                       child: Icon(
                         Icons.circle_outlined,
                         size: 0.2,
@@ -691,7 +666,7 @@ class BottomSheetProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 22,
                   child: Divider(
                     thickness: 1,
@@ -706,28 +681,28 @@ class BottomSheetProfile extends StatelessWidget {
                         Text(
                           '7 Hari Terakhir',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 15,
                             fontWeight: bold,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text(
                           '09 - 15 Nov 2023',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 12,
                             fontWeight: bold,
-                            color: fromCssColor("#9B9B9B"),
+                            color: fromCssColor('#9B9B9B'),
                             letterSpacing: 0.5,
                           ),
                         ),
                       ],
                     ),
-                    InkWell(
+                    const InkWell(
                       child: Icon(
                         Icons.circle_outlined,
                         size: 0.2,
@@ -735,7 +710,7 @@ class BottomSheetProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 22,
                   child: Divider(
                     thickness: 1,
@@ -750,28 +725,28 @@ class BottomSheetProfile extends StatelessWidget {
                         Text(
                           '30 Hari Terakhir',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 15,
                             fontWeight: bold,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text(
                           '17 Okt - 15 Nov 2023',
                           style: TextStyle(
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             fontSize: 12,
                             fontWeight: bold,
-                            color: fromCssColor("#9B9B9B"),
+                            color: fromCssColor('#9B9B9B'),
                             letterSpacing: 0.5,
                           ),
                         ),
                       ],
                     ),
-                    InkWell(
+                    const InkWell(
                       child: Icon(
                         Icons.circle_outlined,
                         size: 0.2,
@@ -779,7 +754,7 @@ class BottomSheetProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 22,
                   child: Divider(
                     thickness: 1,
@@ -791,13 +766,13 @@ class BottomSheetProfile extends StatelessWidget {
                     Text(
                       'Custom Tanggal',
                       style: TextStyle(
-                        fontFamily: "ProximaNova",
+                        fontFamily: 'ProximaNova',
                         fontSize: 15,
                         fontWeight: bold,
                         letterSpacing: 0.5,
                       ),
                     ),
-                    InkWell(
+                    const InkWell(
                       child: Icon(
                         Icons.circle_outlined,
                         size: 0.2,
@@ -805,7 +780,7 @@ class BottomSheetProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -817,10 +792,10 @@ class BottomSheetProfile extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.date_range_outlined,
                         ),
@@ -828,10 +803,10 @@ class BottomSheetProfile extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          "17 Agu 2023 - 17 Nov 2023",
+                          '17 Agu 2023 - 17 Nov 2023',
                           style: TextStyle(
                             fontSize: 13,
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                             letterSpacing: 0.5,
                           ),
                         )
@@ -839,33 +814,33 @@ class BottomSheetProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
                   'Jenis Pertanyaan',
                   style: TextStyle(
-                    fontFamily: "ProximaNova",
+                    fontFamily: 'ProximaNova',
                     fontSize: 15,
                     fontWeight: bold,
                     letterSpacing: 0.5,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CardFilter(title: "Chat yang selesai"),
-                    CardFilter(title: "Chat yang selesai")
+                    CardFilter(title: 'Chat yang selesai'),
+                    CardFilter(title: 'Chat yang selesai')
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 ButtonGreenWidget(
-                  title: "Tampilkan",
+                  title: 'Tampilkan',
                   onPressed: () {
                     Navigator.pop(context);
                   },

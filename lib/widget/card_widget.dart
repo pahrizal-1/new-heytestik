@@ -1,10 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/interest/interest_controller.dart';
+import '../controller/customer/interest/interest_controller.dart';
 import '../theme/theme.dart';
 
 class CardSkinGoals extends StatefulWidget {
@@ -549,7 +549,7 @@ class _CardFilterState extends State<CardFilter> {
 
 class CardImage extends StatefulWidget {
   final String imageBrand;
-  CardImage({Key? key, required this.imageBrand}) : super(key: key);
+  const CardImage({Key? key, required this.imageBrand}) : super(key: key);
 
   @override
   _CardImageState createState() => _CardImageState();

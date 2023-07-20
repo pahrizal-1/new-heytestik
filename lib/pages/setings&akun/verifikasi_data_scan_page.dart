@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:heystetik_mobileapps/pages/setings&akun/poto_wajah_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/camera_wajah_setings_page.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
@@ -179,7 +178,7 @@ class VerifikasiDataScan extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PotoWajahPage(),
+                        builder: (context) => const CameraWajahSettingsPage(),
                       ),
                     );
                   },

@@ -44,7 +44,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                   style: blackRegulerTextStyle.copyWith(
                       fontSize: 20, color: blackColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 Text(
@@ -52,7 +52,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                   style: blackRegulerTextStyle.copyWith(
                       fontSize: 15, color: blackColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 Text(
@@ -60,7 +60,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                   style: blackRegulerTextStyle.copyWith(
                       fontSize: 15, color: blackColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 InkWell(
@@ -76,7 +76,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                         fontSize: 15, color: blackColor),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 Row(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:heystetik_mobileapps/controller/interest_conditions/interest_conditions_controller.dart';
+import 'package:heystetik_mobileapps/controller/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
@@ -16,8 +16,7 @@ class SelectConditionsPage extends StatefulWidget {
 }
 
 class _SelectConditionsPageState extends State<SelectConditionsPage> {
-  final InterestConditionsController state =
-      Get.put(InterestConditionsController());
+  final OrderController state = Get.put(OrderController());
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
             const SizedBox(
               width: 11,
             ),
-            const Text('Pilih Kodisi'),
+            const Text('Pilih Kondisi'),
           ],
         ),
       ),
@@ -60,32 +59,42 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 70),
                   child: Obx(
-                    () => GroupedListView<Data, String>(
-                      elements: state.filterData.toList(),
-                      groupBy: (element) => element.category!.name.toString(),
-                      groupComparator: (value1, value2) =>
-                          value2.compareTo(value1),
-                      order: GroupedListOrder.ASC,
-                      useStickyGroupSeparators: true,
-                      groupSeparatorBuilder: (String value) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          value,
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                    () => state.filterData.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'Data tidak ada',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          )
+                        : GroupedListView<Data, String>(
+                            elements: state.filterData.toList(),
+                            groupBy: (element) =>
+                                element.category!.name.toString(),
+                            groupComparator: (value1, value2) =>
+                                value2.compareTo(value1),
+                            order: GroupedListOrder.ASC,
+                            useStickyGroupSeparators: true,
+                            groupSeparatorBuilder: (String value) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            itemBuilder: (c, element) {
+                              return KorektifWajahPage(
+                                id: element.id,
+                                title: element.name.toString(),
+                                img: 'assets/images/pelkhitam.png',
+                              );
+                            },
                           ),
-                        ),
-                      ),
-                      itemBuilder: (c, element) {
-                        return KorektifWajahPage(
-                          id: element.id,
-                          title: element.name.toString(),
-                          img: 'assets/images/pelkhitam.png',
-                        );
-                      },
-                    ),
                   ),
                 ),
                 SearchTextField(

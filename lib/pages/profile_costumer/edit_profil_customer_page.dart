@@ -1,15 +1,44 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/pilih_metode_verifikasi_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_bio_profik_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_jenis_kelamin_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nama_profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_tanggal_lahir_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
-class EditProfilCostomer extends StatelessWidget {
+class EditProfilCostomer extends StatefulWidget {
   const EditProfilCostomer({super.key});
+
+  @override
+  State<EditProfilCostomer> createState() => _EditProfilCostomerState();
+}
+
+class _EditProfilCostomerState extends State<EditProfilCostomer> {
+  File? image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTempory = File(image.path);
+      setState(() => this.image = imageTempory);
+    } on PlatformException catch (e) {
+      print('Failed to pick : $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -46,22 +75,29 @@ class EditProfilCostomer extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Container(
-                  width: 75,
-                  height: 75,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/profiledummy.png'),
-                    ),
-                  ),
-                ),
+                image != null
+                    ? ClipOval(
+                        child: Image.file(
+                          image!,
+                          width: 75,
+                          height: 75,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : const FlutterLogo(
+                        size: 150,
+                      ),
                 const SizedBox(
                   height: 6,
                 ),
-                Text(
-                  'Ubah Foto Profil',
-                  style: grenTextStyle.copyWith(fontSize: 15),
+                InkWell(
+                  onTap: () {
+                    pickImage();
+                  },
+                  child: Text(
+                    'Ubah Foto Profil',
+                    style: grenTextStyle.copyWith(fontSize: 15),
+                  ),
                 ),
               ],
             ),
@@ -128,56 +164,74 @@ class EditProfilCostomer extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Username',
-                      style: subTitleTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const SizedBox(
-                      width: 53,
-                    ),
-                    Text(
-                      'Buat username yang unik',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                      textAlign: TextAlign.start,
-                    ),
-                    const Spacer(),
-                    Image.asset(
-                      'assets/icons/arrow-left-hight.png',
-                      width: 25,
-                      color: blackColor,
-                    )
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const TamBahanUserNameProfilCustomer()));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Username',
+                        style: subTitleTextStyle.copyWith(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        width: 53,
+                      ),
+                      Text(
+                        'Buat username yang unik',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                        textAlign: TextAlign.start,
+                      ),
+                      const Spacer(),
+                      Image.asset(
+                        'assets/icons/arrow-left-hight.png',
+                        width: 25,
+                        color: blackColor,
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Bio',
-                      style: subTitleTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const SizedBox(
-                      width: 100,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Tulis bio tentangmu ',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15,
-                        ),
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const TambahBioProfikCustomer()));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Bio',
+                        style: subTitleTextStyle.copyWith(fontSize: 15),
                       ),
-                    ),
-                    const Spacer(),
-                    Image.asset(
-                      'assets/icons/arrow-left-hight.png',
-                      width: 25,
-                    )
-                  ],
+                      const SizedBox(
+                        width: 100,
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Tulis bio tentangmu ',
+                          style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15,
+                          ),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Spacer(),
+                      Image.asset(
+                        'assets/icons/arrow-left-hight.png',
+                        width: 25,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -213,7 +267,7 @@ class EditProfilCostomer extends StatelessWidget {
                       style: subTitleTextStyle.copyWith(fontSize: 15),
                     ),
                     const SizedBox(
-                      width: 73,
+                      width: 74,
                     ),
                     Text(
                       '123456',
@@ -226,8 +280,8 @@ class EditProfilCostomer extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                InkWell(
-                  onTap: () {
+                TextProfil(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -236,34 +290,55 @@ class EditProfilCostomer extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const TextProfil(
-                    title2: 'rasmalina.rina@gmail.com',
-                    widtd: 84,
-                    titlel: 'Email',
-                  ),
+                  title2: 'rasmalina.rina@gmail.com',
+                  titlel: 'Email',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const PilihMetodeVerifikasiProfil(),
+                      ),
+                    );
+                  },
                   title2: '085211234567',
-                  widtd: 52,
                   titlel: 'Nomor HP',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const UbahJenisKelaminProfilPage(),
+                      ),
+                    );
+                  },
                   title2: 'Perempuan',
-                  widtd: 29,
                   titlel: 'Jenis Kelamin',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                const TextProfil(
+                TextProfil(
                   title2: '1 Januari 2003',
-                  widtd: 31,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const UbahTanggalLahirProfilCustomer(),
+                      ),
+                    );
+                  },
                   titlel: 'Tanggal Lahir',
                 )
               ],
@@ -288,39 +363,55 @@ class EditProfilCostomer extends StatelessWidget {
 class TextProfil extends StatelessWidget {
   final String titlel;
   final String title2;
-  final double widtd;
+  final VoidCallback? onPressed;
+
   const TextProfil({
     super.key,
     required this.titlel,
     required this.title2,
-    required this.widtd,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          titlel,
-          style: subTitleTextStyle.copyWith(fontSize: 15),
-        ),
-        SizedBox(
-          width: widtd,
-        ),
-        Text(
-          title2,
-          style:
-              blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
-          textAlign: TextAlign.start,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const Spacer(),
-        Image.asset(
-          'assets/icons/arrow-left-hight.png',
-          width: 25,
-          color: blackColor,
-        )
-      ],
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 125,
+            child: Text(
+              titlel,
+              style: TextStyle(
+                fontFamily: 'ProximaNova',
+                fontSize: 15,
+                letterSpacing: 0.5,
+                color: fromCssColor('#9B9B9B'),
+              ),
+            ),
+          ),
+          Container(
+            constraints: const BoxConstraints(maxWidth: 170),
+            child: RichText(
+              text: TextSpan(
+                text: title2,
+                style: TextStyle(
+                  fontFamily: 'ProximaNova',
+                  color: fromCssColor('#323232'),
+                  fontWeight: regular,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+          Spacer(),
+          Image.asset(
+            'assets/icons/arrow-left-hight.png',
+            width: 25,
+          )
+        ],
+      ),
     );
   }
 }

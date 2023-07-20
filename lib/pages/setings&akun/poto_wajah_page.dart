@@ -9,36 +9,45 @@ class PotoWajahPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Expanded(
+                child: Text(
+                  'Foto KTP',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       backgroundColor: blackColor,
       body: Padding(
         padding:
             const EdgeInsets.only(top: 56, bottom: 82, left: 25, right: 25),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: whiteColor,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(
-                  width: 11,
-                ),
-                Text(
-                  'Foto Wajah',
-                  style: whiteTextStyle.copyWith(fontSize: 20),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 104,
-            ),
             Container(
               height: 300,
               decoration: BoxDecoration(
@@ -49,7 +58,9 @@ class PotoWajahPage extends StatelessWidget {
                   ),
                   shape: BoxShape.circle),
             ),
-            Spacer(),
+            const SizedBox(
+              height: 134,
+            ),
             Text(
               'Pastikan informasi di foto ini sudah terlihat jelas, ya :)',
               style: whiteTextStyle.copyWith(fontWeight: regular),

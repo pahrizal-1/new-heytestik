@@ -19,7 +19,9 @@ class TextSpaceBetween extends StatelessWidget {
         Text(
           title,
           style: subGreyTextStyle.copyWith(
-              fontSize: 14, color: Color(0XFF323232), fontWeight: regular),
+              fontSize: 14,
+              color: const Color(0XFF323232),
+              fontWeight: regular),
         ),
         Text(
           title2.toString(),
@@ -50,7 +52,7 @@ class TextBoldSpacebetwen extends StatelessWidget {
                 title,
                 style: subGreyTextStyle.copyWith(
                     fontSize: 15,
-                    color: Color(0XFF323232),
+                    color: const Color(0XFF323232),
                     fontWeight: regular),
               ),
               Text(

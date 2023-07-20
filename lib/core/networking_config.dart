@@ -36,19 +36,9 @@ class NetworkingConfig {
               debugPrint('status code null');
               return false;
             }
-            if (statusCode == 401) {
-              debugPrint('status code 401');
-              debugPrint('token expired');
-              // LocalStorage().removeBearerToken();
-              // LocalStorage().removeDataUser();
-              // getx.Get.offAll(
-              //   () => const LoginScreen(),
-              // );
-              return true;
-            } else {
-              debugPrint('status code statusCode >= 200 && statusCode < 300');
-              return statusCode >= 200 && statusCode < 300;
-            }
+
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
           },
         ),
       );
@@ -78,24 +68,9 @@ class NetworkingConfig {
               debugPrint('status code null');
               return false;
             }
-            if (statusCode == 504) {
-              // your http status code
-              // for payment
-              debugPrint('status code 504');
-              return true;
-            } else if (statusCode == 401) {
-              debugPrint('status code 401');
-              debugPrint('token expired');
-              // LocalStorage().removeBearerToken();
-              // LocalStorage().removeDataUser();
-              // getx.Get.offAll(
-              //   () => const LoginScreen(),
-              // );
-              return true;
-            } else {
-              debugPrint('status code statusCode >= 200 && statusCode < 300');
-              return statusCode >= 200 && statusCode < 300;
-            }
+
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
           },
         ),
       );
@@ -126,19 +101,9 @@ class NetworkingConfig {
               debugPrint('status code null');
               return false;
             }
-            if (statusCode == 401) {
-              debugPrint('status code 401');
-              debugPrint('token expired');
-              // LocalStorage().removeBearerToken();
-              // LocalStorage().removeDataUser();
-              // getx.Get.offAll(
-              //   () => const LoginScreen(),
-              // );
-              return true;
-            } else {
-              debugPrint('status code statusCode >= 200 && statusCode < 300');
-              return statusCode >= 200 && statusCode < 300;
-            }
+
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
           },
         ),
       );

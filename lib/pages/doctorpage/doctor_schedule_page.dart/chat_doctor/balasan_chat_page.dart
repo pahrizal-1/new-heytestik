@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/edit_balasan_chat.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_balasan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-
-import '../../../../widget/text_form_widget.dart';
 
 class BalasanCepatPage extends StatelessWidget {
   const BalasanCepatPage({super.key});
@@ -12,26 +11,75 @@ class BalasanCepatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(
-                context,
-              );
-            },
-            child: Icon(Icons.arrow_back)),
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        title: const Text('Balasan Chat'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Balasan Cepat',
+                style: whiteTextStyle.copyWith(fontSize: 20),
+              )
+            ],
+          ),
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 19),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchTextField(
-              title: 'Cari Balasan ',
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Container(
+                    height: 12,
+                    width: 12,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/icons/search1.png'),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 280),
+                  child: TextFormField(
+                    style: const TextStyle(
+                        fontSize: 15, fontFamily: 'ProximaNova'),
+                    decoration: InputDecoration(
+                      hintText: 'Cari Balasan',
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        color: fromCssColor(
+                          '#9B9B9B',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 13,
             ),
             Row(
@@ -40,23 +88,23 @@ class BalasanCepatPage extends StatelessWidget {
                   'assets/icons/alert.png',
                   width: 17,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Untuk menggunakan balasan cepat, ketik “/” pada keyboard atau klik tombol balasan cepat',
-                    style: TextStyle(color: const Color(0Xff9B9B9B)),
+                    style: TextStyle(color: Color(0Xff9B9B9B)),
                   ),
                 ),
               ],
             ),
-            CardTambhan(
+            const CardTambhan(
               title: 'Definisi Jerawat',
               subTitle:
                   'Jerawat atau disebut juga dengan acne vulgaris (AV) adalah suatu penyakit peradangan kronis dari kelenjar pilosebasea yang ditandai adanya komedo, papul, kista, dan pustul. Bagian tubuh yang kerap ditumbuhi jerawat antara lain daerah wajah, bahu, lengan atas, dada, dan punggung. Biasanya kondisi ini diakibatkan oleh beragam faktor risiko, meliputi:',
             ),
-            CardTambhan(
+            const CardTambhan(
               title: 'Faktor Penyebab Jerawat',
               subTitle:
                   'Biasanya kondisi ini diakibatkan oleh beragam faktor risiko, meliputi: Faktor genetik. Faktor lingkungan.',
@@ -74,11 +122,12 @@ class BalasanCepatPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => TambahBalasanPage()),
+                    builder: (BuildContext context) =>
+                        const TambahBalasanPage()),
               );
             },
             backgroundColor: greenColor,
-            child: Icon(
+            child: const Icon(
               Icons.add,
               size: 40,
             ),
@@ -99,10 +148,10 @@ class CardTambhan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 22,
         ),
-        Divider(
+        const Divider(
           thickness: 2,
         ),
         const SizedBox(
@@ -130,7 +179,7 @@ class CardTambhan extends StatelessWidget {
               Text(
                 subTitle,
                 style: blackTextStyle.copyWith(
-                    color: Color(0XffA3A3A3), fontWeight: regular),
+                    color: const Color(0XffA3A3A3), fontWeight: regular),
               ),
             ],
           ),
