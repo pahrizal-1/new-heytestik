@@ -37,7 +37,7 @@ class ShareShowWidget extends StatelessWidget {
         const SizedBox(
           height: 39,
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 40, top: 39, right: 40, bottom: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

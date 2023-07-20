@@ -155,7 +155,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
@@ -792,7 +792,7 @@ class BottomSheetProfile extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
                     child: Row(
                       children: [
@@ -829,7 +829,7 @@ class BottomSheetProfile extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CardFilter(title: 'Chat yang selesai'),

@@ -57,7 +57,7 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Wrap(
+                Wrap(
                   direction: Axis.horizontal,
                   children: [CardTitle()],
                 ),
@@ -71,7 +71,7 @@ class _MoreDialogFilterState extends State<MoreDialogFilter> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Row(
+                Row(
                   children: [
                     CardSearch(
                       title: 'Promo',

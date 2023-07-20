@@ -135,7 +135,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
               ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20, right: 54, top: 50),
             child: Column(
               children: [

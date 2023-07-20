@@ -242,7 +242,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const Column(
+                    Column(
                       children: [
                         ChatAktif(
                           nametile: 'dila btw',
