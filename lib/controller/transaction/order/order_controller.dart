@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -6,10 +8,15 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_by_id_model.dart'
     as ById;
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
+import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
+    as PaymentMethod;
 import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
+import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 class OrderController extends StateClass {
+  RxString fullName = ''.obs;
+
   TextEditingController searchController = TextEditingController();
   Rx<InterestConditionsModel> data = InterestConditionsModel(data: []).obs;
   RxList<Data> filterData = List<Data>.empty().obs;
@@ -19,9 +26,9 @@ class OrderController extends StateClass {
 
   RxInt index = 0.obs;
   TextEditingController essayController = TextEditingController();
-  var answerData = {'interest_conditions_id': 0, 'userId': 0, 'lists': []};
-  RxList lists = [].obs;
-  RxList answerSelect = [
+
+  List listsAnswer = [];
+  List answerSelect = [
     {
       'idQuestion': '',
       'question': '',
@@ -30,7 +37,34 @@ class OrderController extends StateClass {
       'typeAnswer': '',
       'isIconSelected': false,
     }
-  ].obs;
+  ];
+
+  List<String> listImageUser = [];
+
+  Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
+      PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxInt idPayment = 0.obs;
+  RxString paymentMethod = ''.obs;
+  RxString paymentType = ''.obs;
+
+  clearVariabel() {
+    fullName.value = '';
+    searchController.clear();
+    data;
+    filterData.clear();
+    detail = null;
+    question.clear();
+    index.value = 0;
+    essayController.clear();
+    listsAnswer.clear();
+    answerSelect = [];
+
+    listImageUser.clear();
+    getPaymentMethod.value = null;
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+  }
 
   getInterestConditions(BuildContext context) async {
     isLoading.value = true;
@@ -53,7 +87,6 @@ class OrderController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       index.value = 0;
       answerSelect.clear();
-      answerData.clear();
       essayController.clear();
 
       detail = await InterestConditionsService().getInterestConditionById(id);
@@ -78,9 +111,11 @@ class OrderController extends StateClass {
               .toString(),
           'isIconSelected': false,
         });
-        lists.add({
-          'interest_conditions_answer_id': 0,
-          'interest_conditions_question_id': 0,
+        listsAnswer.add({
+          'typeAnswer': detail!.data!.interestConditionsQuestion![i].typeAnswer
+              .toString(),
+          'interest_condition_answer_id': 0,
+          'interest_condition_question_id': 0,
           'answer_description': '-'
         });
       }
@@ -88,25 +123,67 @@ class OrderController extends StateClass {
     isLoading.value = false;
   }
 
-  saveInterestConditionCustomer(BuildContext context, int interestConditionsId,
-      {required Function() doInPost}) async {
+  initPayment(BuildContext context) async {
     isLoading.value = true;
+    fullName.value = await LocalStorage().getFullName();
+    await getPaymentmethod(context);
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+    isLoading.value = false;
+  }
+
+  getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var userId = await LocalStorage().getUserID();
-      answerData['interest_conditions_id'] = interestConditionsId;
-      answerData['userId'] = userId!.toInt();
-      answerData['lists'] = lists;
+      getPaymentMethod.value = await TransactionService().paymentMethod();
+    });
+  }
 
-      print('answerData $answerData');
+  order(BuildContext context, int interestConditionsId,
+      {required Function() doInPost}) async {
+    isMinorLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      List paramAnswer = [];
+      print('listsAnswer ${listsAnswer.length}');
+      for (int i = 0; i < listsAnswer.length; i++) {
+        if (listsAnswer[i]['interest_condition_answer_id'] != 0 &&
+            listsAnswer[i]['interest_condition_question_id'] != 0) {
+          paramAnswer.add({
+            'interest_condition_answer_id': listsAnswer[i]
+                ['interest_condition_answer_id'],
+            'interest_condition_question_id': listsAnswer[i]
+                ['interest_condition_question_id'],
+            'answer_description': listsAnswer[i]['answer_description']
+          });
+        }
+      }
+      print('paramAnswer ${paramAnswer.length}');
+      print('paramAnswer $paramAnswer');
+      var reqOrder = {
+        'interest_condition_id': interestConditionsId.toString(),
+        'medical_history_item': paramAnswer,
+        'files': listImageUser,
+        'payment_method': paymentMethod.toString(),
+        'payment_type': paymentType.toString()
+      };
+      print('listImageUser $listImageUser');
+      print('reqOrder $reqOrder');
+      print('paymentType $paymentType');
+      print('paymentMethod $paymentMethod');
+      print('listsAnswer $listsAnswer');
 
-      var res = await InterestConditionsService()
-          .saveInterestConditionCustomer(answerData);
+      var res = await TransactionService().order(reqOrder);
       print('res $res');
+      if (res['success'] != true) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: res['message'],
+        );
+      }
 
       doInPost();
-      answerData.clear();
-      essayController.clear();
+      clearVariabel();
     });
-    isLoading.value = false;
+    isMinorLoading.value = false;
   }
 }
