@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
 import '../../widget/filter_tap_widget.dart';
+import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
 
 class UlasanPage extends StatefulWidget {
@@ -326,65 +328,7 @@ class _UlasanPageState extends State<UlasanPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
-                        ),
-                        builder: (context) => Wrap(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 33, right: 33, top: 30, bottom: 40),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/danger-icons.png',
-                                        width: 12,
-                                      ),
-                                      const SizedBox(
-                                        width: 22,
-                                      ),
-                                      Text(
-                                        'Rating dengan ulasan',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 39,
-                                  ),
-                                  const FilterTapRating(
-                                    title: '1',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '2',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '3',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '4',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '5',
-                                  ),
-                                  const ButtonGreenWidget(title: 'Tampilkan')
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      customeshomodal(context, RatingDenganUlasanWidgets());
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 5),
@@ -415,62 +359,9 @@ class _UlasanPageState extends State<UlasanPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
-                        ),
-                        builder: (context) => Wrap(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 33, right: 33, top: 30, bottom: 40),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/danger-icons.png',
-                                        width: 12,
-                                      ),
-                                      const SizedBox(
-                                        width: 22,
-                                      ),
-                                      Text(
-                                        'Topik Ulasan',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 39,
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Pelayanan',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Perawatan',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Manajemen',
-                                  ),
-                                  const FilterTapTreatment(
-                                    title: 'Rating Terendah',
-                                  ),
-                                  const ButtonGreenWidget(
-                                      title: 'Terapkan Filter')
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      customeshomodal(
+                        context,
+                        const TopikUlasanWidgets(),
                       );
                     },
                     child: Container(

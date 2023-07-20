@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
 import '../../theme/theme.dart';
 import '../../widget/artikel_views_widgets.dart';
 import '../../widget/pencarian_search_widget.dart';

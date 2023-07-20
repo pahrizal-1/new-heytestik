@@ -102,9 +102,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AkunHomePage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AkunHomePage(),
+                      ),
+                    );
                   },
                   child: SvgPicture.asset(
                     'assets/icons/humberger-icons.svg',

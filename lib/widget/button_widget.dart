@@ -62,7 +62,7 @@ class ButtonWhiteWidget extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          side: BorderSide(color: greenColor, width: 2),
+          side: BorderSide(color: greenColor, width: 1),
           backgroundColor: whiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

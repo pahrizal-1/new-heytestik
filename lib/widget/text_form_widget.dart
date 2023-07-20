@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class TextFormWidget extends StatelessWidget {
@@ -232,6 +233,148 @@ class InfomasiTextFrom extends StatelessWidget {
           labelStyle: subTitleTextStyle,
         ),
       ),
+    );
+  }
+}
+
+class PeryataanUmumTextFrom extends StatelessWidget {
+  final String pernyattan;
+  final String jawaban;
+  const PeryataanUmumTextFrom({
+    super.key,
+    required this.pernyattan,
+    required this.jawaban,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 13, right: 13, top: 11),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pernyattan,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: borderColor,
+                ),
+                borderRadius: BorderRadius.circular(7)),
+            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+            margin:
+                const EdgeInsets.only(left: 7, right: 7, top: 8, bottom: 15),
+            child: Text(
+              jawaban,
+              style: blackTextStyle.copyWith(fontSize: 13),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+//////////////////////////////////////////////////////
+class TetxFromProfilEdit extends StatefulWidget {
+  final String title1;
+  final TextEditingController? controller;
+  final IconData icon;
+  const TetxFromProfilEdit(
+      {super.key,
+      required this.title1,
+      required this.controller,
+      required this.icon});
+
+  @override
+  State<TetxFromProfilEdit> createState() => _TetxFromProfilEditState();
+}
+
+class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
+  bool _isEnable = false;
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 130,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(
+                  widget.title1,
+                  style: TextStyle(
+                    fontFamily: 'ProximaNova',
+                    fontSize: 13,
+                    letterSpacing: 0.5,
+                    color: fromCssColor('#999999'),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: Expanded(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 2, vertical: 2),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                                width: 2,
+                              ),
+                            ),
+                            border: isSelected
+                                ? OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: greenColor,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  )
+                                : InputBorder.none),
+                        controller: widget.controller,
+                        enabled: _isEnable,
+                        style: blackTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          _isEnable = !_isEnable;
+                          isSelected = !isSelected;
+                        });
+                      },
+                      child: isSelected
+                          ? Icon(Icons.check, size: 20, color: greenColor)
+                          : Icon(widget.icon,
+                              size: 20, color: fromCssColor('#999999'))),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 35,
+          child: Center(
+            child: Divider(
+              thickness: 1,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

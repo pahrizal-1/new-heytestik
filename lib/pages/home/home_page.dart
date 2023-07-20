@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
@@ -482,10 +481,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, top: 8),
               child: FutureBuilder(
                   future: state.getSnipsTips(context),
                   builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
@@ -525,89 +524,80 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       ));
                     }
                     return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!.data!.map<Widget>((value) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Container(
-                            // height: 121,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/bg_wekkly.png',
-                                ),
+                        return Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 16, bottom: 17),
+                          height: 130,
+                          width: 315,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                'assets/icons/bg_wekkly.png',
                               ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 15,
-                                    left: 15,
-                                    right: 15,
-                                    bottom: 15,
-                                  ),
-                                  child: Text(
-                                    value.tips ?? '-',
-                                    style: const TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 13,
-                                    ),
-                                    strutStyle: const StrutStyle(
-                                      height: 0.5,
-                                      leading: 0.5,
-                                    ),
-                                  ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                value.tips ?? '-',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  color: whiteColor,
+                                  fontWeight: regular,
+                                  fontSize: 13,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
+                                softWrap: false,
+                                maxLines: 3,
+                                strutStyle: const StrutStyle(
+                                  height: 0.5,
+                                  leading: 0.5,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const CircleAvatar(
+                                    maxRadius: 17,
+                                    backgroundImage: AssetImage(
+                                      'assets/images/profiledummy.png',
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 11,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const CircleAvatar(
-                                        maxRadius: 17,
-                                        backgroundImage: AssetImage(
-                                          'assets/images/profiledummy.png',
+                                      Text(
+                                        value.doctor?.fullname ?? '-',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: whiteColor,
+                                          fontSize: 14,
+                                          fontFamily: 'ProximaNova',
                                         ),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 10,
-                                              bottom: 5,
-                                            ),
-                                            child: Text(
-                                              value.doctor?.fullname ?? '-',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              value.doctorTitle ?? '-',
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color:
-                                                    fromCssColor('#231F2080'),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                      Text(
+                                        value.doctorTitle ?? '-',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: whiteColor,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
+                                ],
+                              )
+                            ],
                           ),
                         );
                       }).toList(),

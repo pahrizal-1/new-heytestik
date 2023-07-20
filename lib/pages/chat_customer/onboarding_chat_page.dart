@@ -6,7 +6,9 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../widget/pencarian_search_widget.dart';
 import '../home/notifikasion_page.dart';
+import '../setings&akun/akun_home_page.dart';
 
 class OnboardingChat extends StatelessWidget {
   const OnboardingChat({super.key});
@@ -22,9 +24,31 @@ class OnboardingChat extends StatelessWidget {
           padding: const EdgeInsets.only(left: 6),
           child: Row(
             children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilCustomerPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        image: AssetImage('assets/images/profiledummy.png')),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
               Text(
                 'Chat',
-                style: whiteTextStyle.copyWith(fontSize: 20),
+                style: whiteTextStyle.copyWith(fontSize: 18),
               )
             ],
           ),
@@ -35,40 +59,51 @@ class OnboardingChat extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+                  builder: (context) => const PencarianPageWidget(),
                 ),
               );
             },
             child: SvgPicture.asset(
-              'assets/icons/notif-icons.svg',
+              'assets/icons/search.svg',
               color: whiteColor,
             ),
           ),
           const SizedBox(
-            width: 16,
+            width: 14,
           ),
           InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfilCustomerPage(),
+                  builder: (context) => const NotifikasionPage(),
                 ),
               );
             },
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/profiledummy.png'),
-                ),
-              ),
+            child: SvgPicture.asset(
+              'assets/icons/notification-dot-black.svg',
+              color: whiteColor,
             ),
           ),
           const SizedBox(
-            width: 25,
+            width: 14,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AkunHomePage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+              color: whiteColor,
+            ),
+          ),
+          const SizedBox(
+            width: 26,
           ),
         ],
       ),
@@ -84,9 +119,10 @@ class OnboardingChat extends StatelessWidget {
                   height: 239,
                   width: 259,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image:
-                              AssetImage('assets/images/onboardingchat.png'))),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/onboardingchat.png'),
+                    ),
+                  ),
                 ),
                 Text(
                   'Kamu belum memiliki konsultasi\napapun :(',

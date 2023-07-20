@@ -37,8 +37,11 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
             children: [
               Container(
                 height: 200,
-                decoration: BoxDecoration(
-                  color: greenColor,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg-doctoe-home.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 child: Center(
                   child: Padding(
