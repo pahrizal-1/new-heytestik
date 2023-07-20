@@ -237,12 +237,14 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
             child: ButtonGreenWidget(
               title: 'Simpan & Lanjut',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RiwayatMedis7Page(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RiwayatMedis7Page(
+                //       interestConditionId: null,
+                //     ),
+                //   ),
+                // );
               },
             ),
           ),

@@ -6,8 +6,8 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ChatPage extends StatefulWidget {
-  final int? id;
-  const ChatPage({super.key, required this.id});
+  final int? interestConditionId;
+  const ChatPage({super.key, required this.interestConditionId});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -301,8 +301,8 @@ class _ChatPageState extends State<ChatPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              PertanyaanAwalPage(id: widget.id),
+                          builder: (context) => PertanyaanAwalPage(
+                              interestConditionId: widget.interestConditionId),
                         ),
                       );
                     },
