@@ -89,7 +89,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                             ),
                             itemBuilder: (c, element) {
                               return KorektifWajahPage(
-                                id: element.id,
+                                interestConditionId: element.id,
                                 title: element.name.toString(),
                                 img: 'assets/images/pelkhitam.png',
                               );
@@ -114,12 +114,12 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
 }
 
 class KorektifWajahPage extends StatelessWidget {
-  final int? id;
+  final int? interestConditionId;
   final String title;
   final String img;
   const KorektifWajahPage({
     super.key,
-    required this.id,
+    required this.interestConditionId,
     required this.title,
     required this.img,
   });
@@ -130,11 +130,12 @@ class KorektifWajahPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
-          print('id $id');
+          print('interestConditionId $interestConditionId');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatPage(id: id),
+              builder: (context) =>
+                  ChatPage(interestConditionId: interestConditionId),
             ),
           );
         },
