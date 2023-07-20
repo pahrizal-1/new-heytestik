@@ -9,6 +9,7 @@
         </intent>
     </queries>
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="Heystetik Mobile Apps"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
