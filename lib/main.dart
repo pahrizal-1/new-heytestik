@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/slideshow/slideshow_controller.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +22,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<RegisterController>(
           create: (context) => RegisterController(),
-        ),
-        ChangeNotifierProvider<SlideShowController>(
-          create: (context) => SlideShowController(),
         ),
         ChangeNotifierProvider<InterestController>(
           create: (context) => InterestController(),

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
+import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 class HomePageDoctor extends StatefulWidget {
   const HomePageDoctor({
@@ -107,8 +107,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               );
                             },
                             child: Container(
-                              height: 25,
-                              width: 25,
+                              height: paddingL,
+                              width: paddingL,
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
@@ -124,55 +124,123 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  transform: Matrix4.translationValues(0, -45, 0),
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.1,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
+              FutureBuilder(
+                future: state.getCurrentDoctorSchedule(context),
+                builder: (context,
+                    AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
+                  print(snapshot.connectionState);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: shimmerWidget(
+                        child: Container(
+                          transform: Matrix4.translationValues(0, -45, 0),
+                          width: MediaQuery.of(context).size.width,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: baseColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.1,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 25),
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Jadwal Hari ini, 24 Feb 2023',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              color: fromCssColor('#6B6B6B'),
-                              fontSize: 16,
-                              fontFamily: 'ProximaNova,',
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          transform: Matrix4.translationValues(0, -45, 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.1,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: paddingL, bottom: paddingL),
+                            child: Center(
+                              child: state.startTime.value.isEmpty
+                                  ? Text(
+                                      'Tidak ada jadwal',
+                                      style: TextStyle(
+                                        fontWeight: bold,
+                                        color: fromCssColor('#6B6B6B'),
+                                        fontSize: 16,
+                                        fontFamily: 'ProximaNova,',
+                                      ),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Obx(
+                                          () => Text(
+                                            'Jadwal Hari ini, ${state.today.value}',
+                                            style: TextStyle(
+                                              fontWeight: bold,
+                                              color: fromCssColor('#6B6B6B'),
+                                              fontSize: 16,
+                                              fontFamily: 'ProximaNova,',
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Obx(
+                                          () => Text(
+                                            state.isFirstSchedule.value
+                                                ? state.startTime.value
+                                                : state.isSecondSchedule.value
+                                                    ? state.endTime.value
+                                                    : 'Istirahat',
+                                            style: TextStyle(
+                                              fontWeight: bold,
+                                              fontSize: paddingL,
+                                              color: fromCssColor('#5DA89C'),
+                                              fontFamily: 'ProximaNova,',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          'Tidak ada jadwal',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontFamily: 'ProximaNova',
+                            fontSize: 15,
                           ),
-                          Text(
-                            '10:00 - 12:00',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontSize: 25,
-                              color: fromCssColor('#5DA89C'),
-                              fontFamily: 'ProximaNova,',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return Text(
+                        'Connection State: ${snapshot.connectionState}');
+                  }
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
@@ -183,7 +251,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       children: [
                         Container(
                           height: 23,
-                          width: 25,
+                          width: paddingL,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
                               image:
@@ -207,53 +275,53 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     const SizedBox(
                       height: spaceHeigt,
                     ),
-                    FutureBuilder(
-                      future: state.getDoctorSchedule(context),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        print(snapshot.connectionState);
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Shimmer.fromColors(
-                            baseColor: greyColor.withOpacity(0.25),
-                            highlightColor: whiteColor.withOpacity(0.6),
-                            child: Column(
-                              children: [
-                                ContainerSchedule,
-                                const SizedBox(
-                                  height: spaceHeigt,
-                                ),
-                                ContainerSchedule,
-                                const SizedBox(
-                                  height: spaceHeigt,
-                                ),
-                                ContainerSchedule,
-                              ],
-                            ),
-                          );
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return const Text('Error');
-                          } else if (snapshot.hasData) {
-                            return ContainerSchedule;
-                          } else {
-                            return Center(
-                              child: Text(
-                                'Belum ada jadwal',
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 15,
-                                ),
-                              ),
-                            );
-                          }
-                        } else {
-                          return Text(
-                              'Connection State: ${snapshot.connectionState}');
-                        }
-                      },
-                    ),
+                    // FutureBuilder(
+                    //   future: state.getDoctorSchedule(context),
+                    //   builder: (context, AsyncSnapshot snapshot) {
+                    //     print(snapshot.connectionState);
+                    //     if (snapshot.connectionState ==
+                    //         ConnectionState.waiting) {
+                    //       return Shimmer.fromColors(
+                    //         baseColor: greyColor.withOpacity(0.25),
+                    //         highlightColor: whiteColor.withOpacity(0.6),
+                    //         child: Column(
+                    //           children: [
+                    //             ContainerSchedule,
+                    //             const SizedBox(
+                    //               height: spaceHeigt,
+                    //             ),
+                    //             ContainerSchedule,
+                    //             const SizedBox(
+                    //               height: spaceHeigt,
+                    //             ),
+                    //             ContainerSchedule,
+                    //           ],
+                    //         ),
+                    //       );
+                    //     } else if (snapshot.connectionState ==
+                    //         ConnectionState.done) {
+                    //       if (snapshot.hasError) {
+                    //         return const Text('Error');
+                    //       } else if (snapshot.hasData) {
+                    //         return ContainerSchedule;
+                    //       } else {
+                    //         return Center(
+                    //           child: Text(
+                    //             'Belum ada jadwal',
+                    //             style: TextStyle(
+                    //               fontWeight: bold,
+                    //               fontFamily: 'ProximaNova',
+                    //               fontSize: 15,
+                    //             ),
+                    //           ),
+                    //         );
+                    //       }
+                    //     } else {
+                    //       return Text(
+                    //           'Connection State: ${snapshot.connectionState}');
+                    //     }
+                    //   },
+                    // ),
 
                     // Container(
                     //   decoration: BoxDecoration(

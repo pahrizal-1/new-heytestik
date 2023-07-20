@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.d
 import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
-class InterestConditionsController extends StateClass {
+class OrderController extends StateClass {
   TextEditingController searchController = TextEditingController();
   Rx<InterestConditionsModel> data = InterestConditionsModel(data: []).obs;
   RxList<Data> filterData = List<Data>.empty().obs;
@@ -55,8 +55,10 @@ class InterestConditionsController extends StateClass {
       answerSelect.clear();
       answerData.clear();
       essayController.clear();
+
       detail = await InterestConditionsService().getInterestConditionById(id);
       question = detail!.data!.interestConditionsQuestion!;
+
       if (question.isEmpty) {
         AlertWidget(
           subtitle: 'Tidak ada pertanyaan',

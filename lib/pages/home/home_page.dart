@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
+import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
-import 'package:heystetik_mobileapps/service/customer/slideshow/slideshow_service.dart';
-import 'package:heystetik_mobileapps/service/customer/sniptips/sniptips_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/local_storage.dart';
 import '../setings&akun/akun_home_page.dart';
 
 class HomepageCutomer extends StatefulWidget {
@@ -21,6 +21,8 @@ class HomepageCutomer extends StatefulWidget {
 }
 
 class _HomepageCutomerState extends State<HomepageCutomer> {
+  final HomeController state = Get.put(HomeController());
+
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse)) {
@@ -28,17 +30,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
     }
   }
 
-  String username = '';
-
   @override
   void initState() {
     super.initState();
-    getUsername();
-  }
-
-  void getUsername() async {
-    username = await LocalStorage().getFullName();
-    setState(() {});
+    state.init();
   }
 
   @override
@@ -78,9 +73,11 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 'Hai, ',
                 style: blackRegulerTextStyle.copyWith(fontSize: 18),
               ),
-              Text(
-                username,
-                style: blackTextStyle.copyWith(fontSize: 18),
+              Obx(
+                () => Text(
+                  state.username.value,
+                  style: blackTextStyle.copyWith(fontSize: 18),
+                ),
               )
             ],
           ),
@@ -123,13 +120,11 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
       body: ListView(
         children: [
           FutureBuilder(
-            future: SlideShowService().getSlideShow(),
-            builder: (context, AsyncSnapshot snapshot) {
+            future: state.getSlideShow(context),
+            builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
               print(snapshot.data);
               if (!snapshot.hasData) {
-                return Shimmer.fromColors(
-                  baseColor: greyColor.withOpacity(0.25),
-                  highlightColor: whiteColor.withOpacity(0.6),
+                return shimmerWidget(
                   child: CarouselSlider(
                     options: CarouselOptions(height: 184.0),
                     items: [1, 2, 3, 4, 5].map((i) {
@@ -156,12 +151,12 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                   initialPage: 2,
                   autoPlayAnimationDuration: const Duration(seconds: 3),
                 ),
-                items: snapshot.data['data'].map<Widget>((value) {
+                items: snapshot.data!.data!.map<Widget>((value) {
                   return Builder(
                     builder: (BuildContext context) {
                       return InkWell(
                         onTap: () {
-                          _launchURL(value['link']);
+                          _launchURL(value.link.toString());
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -492,52 +487,50 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: FutureBuilder(
-                  future: SnipTipsService().getSnipTips(),
-                  builder: (context, AsyncSnapshot snapshot) {
+                  future: state.getSnipsTips(context),
+                  builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
                     print(snapshot.data);
 
                     if (!snapshot.hasData) {
-                      return Shimmer.fromColors(
-                          baseColor: greyColor.withOpacity(0.25),
-                          highlightColor: whiteColor.withOpacity(0.6),
+                      return shimmerWidget(
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 5, bottom: 5),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                      color: greyColor.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                      color: greyColor.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ],
+                        padding:
+                            const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: greyColor.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                          ));
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 100,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: greyColor.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ));
                     }
                     return Row(
-                      children: snapshot.data['data'].map<Widget>((value) {
+                      children: snapshot.data!.data!.map<Widget>((value) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Container(
-                            height: 121,
-                            width: 315,
+                            // height: 121,
+                            width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               image: const DecorationImage(
@@ -551,9 +544,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 15, left: 15, right: 15),
+                                    top: 15,
+                                    left: 15,
+                                    right: 15,
+                                    bottom: 15,
+                                  ),
                                   child: Text(
-                                    value['tips'],
+                                    value.tips ?? '-',
                                     style: const TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 13,
@@ -571,7 +568,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                       const CircleAvatar(
                                         maxRadius: 17,
                                         backgroundImage: AssetImage(
-                                            'assets/images/profiledummy.png'),
+                                          'assets/images/profiledummy.png',
+                                        ),
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -579,20 +577,23 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 10, bottom: 5),
+                                              left: 10,
+                                              bottom: 5,
+                                            ),
                                             child: Text(
-                                              value['doctor']['fullname'],
+                                              value.doctor?.fullname ?? '-',
                                               style: const TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14,
-                                                  fontFamily: 'ProximaNova'),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
+                                                fontFamily: 'ProximaNova',
+                                              ),
                                             ),
                                           ),
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 10),
                                             child: Text(
-                                              value['doctor_title'],
+                                              value.doctorTitle ?? '-',
                                               style: TextStyle(
                                                 fontSize: 11,
                                                 color:

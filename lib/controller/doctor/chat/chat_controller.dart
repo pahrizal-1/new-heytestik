@@ -4,18 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
 
-class DoctorHomeController extends StateClass {
-  RxString fullName = ''.obs;
-
+class DoctorChatController extends StateClass {
   Rx<CurrentDoctorScheduleModel?> currentSchedule =
       CurrentDoctorScheduleModel.fromJson({}).obs;
-  RxString today = ''.obs;
   RxInt currentScheduleId = 0.obs;
   RxString startTime = ''.obs;
   RxString endTime = ''.obs;
@@ -23,19 +18,9 @@ class DoctorHomeController extends StateClass {
   RxString startTime2 = ''.obs;
   RxString endTime1 = ''.obs;
   RxString endTime2 = ''.obs;
+
   RxBool isFirstSchedule = false.obs;
   RxBool isSecondSchedule = false.obs;
-
-  Rx<FindDoctorScheduleModel?> findSchedul =
-      FindDoctorScheduleModel.fromJson({}).obs;
-
-  init(BuildContext context) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      fullName.value = await LocalStorage().getFullName();
-    });
-    isLoading.value = false;
-  }
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -43,7 +28,6 @@ class DoctorHomeController extends StateClass {
       currentSchedule.value =
           await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
       if (currentSchedule.value!.success!) {
-        today.value = currentSchedule.value!.data!.date ?? '-';
         currentScheduleId.value = currentSchedule.value!.data!.id ?? 0;
         startTime.value = currentSchedule.value!.data!.firstSchedule ?? '-';
         endTime.value = currentSchedule.value!.data!.lastSchdule ?? '-';
@@ -117,16 +101,5 @@ class DoctorHomeController extends StateClass {
     });
 
     return currentSchedule.value;
-  }
-
-  Future<FindDoctorScheduleModel?> getDoctorSchedule(
-      BuildContext context) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      findSchedul.value = await ConsultationDoctorScheduleServices()
-          .getDoctorSchedule(currentScheduleId.toInt(), startTime.toString(),
-              endTime.toString());
-    });
-
-    return findSchedul.value;
   }
 }
