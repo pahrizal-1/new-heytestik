@@ -235,3 +235,43 @@ class InfomasiTextFrom extends StatelessWidget {
     );
   }
 }
+
+class PeryataanUmumTextFrom extends StatelessWidget {
+  final String pernyattan;
+  final String jawaban;
+  const PeryataanUmumTextFrom({
+    super.key,
+    required this.pernyattan,
+    required this.jawaban,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 13, right: 13, top: 11),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            pernyattan,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: borderColor,
+                ),
+                borderRadius: BorderRadius.circular(7)),
+            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+            margin:
+                const EdgeInsets.only(left: 7, right: 7, top: 8, bottom: 15),
+            child: Text(
+              jawaban,
+              style: blackTextStyle.copyWith(fontSize: 13),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
