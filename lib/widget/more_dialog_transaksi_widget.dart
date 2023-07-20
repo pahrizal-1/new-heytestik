@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'Text_widget.dart';
@@ -13,19 +12,6 @@ class TransaksiMoreDialog extends StatefulWidget {
 }
 
 class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     const Duration(seconds: 2),
-  //     () => Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const SelesaiPembayaranPage(),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -46,13 +32,7 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
                     padding: const EdgeInsets.only(top: 4),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const SelesaiPembayaranPage(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Image.asset(
                         'assets/icons/danger-icons.png',
@@ -81,12 +61,12 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
                       style: greyTextStyle.copyWith(fontSize: 15),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      'Metode Pembayaran',
-                      style: greyTextStyle.copyWith(fontSize: 15),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Text(
+                  //     'Metode Pembayaran',
+                  //     style: greyTextStyle.copyWith(fontSize: 15),
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(
