@@ -91,13 +91,13 @@ class MenungguPemayaranPage extends StatelessWidget {
                                 'assets/icons/clock.png',
                                 width: 10,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 '14 Jun, 14:55',
                                 style: blackTextStyle.copyWith(
-                                    color: Color(0xffF76707)),
+                                    color: const Color(0xffF76707)),
                               )
                             ],
                           )
@@ -115,7 +115,7 @@ class MenungguPemayaranPage extends StatelessWidget {
                         width: 37,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               image: AssetImage('assets/images/logo-bca.png'),
                             )),
                       ),

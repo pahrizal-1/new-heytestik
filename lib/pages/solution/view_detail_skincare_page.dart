@@ -109,10 +109,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',

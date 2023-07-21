@@ -99,7 +99,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AkunHomePage(),
+                  builder: (context) => AkunHomePage(),
                 ),
               );
             },

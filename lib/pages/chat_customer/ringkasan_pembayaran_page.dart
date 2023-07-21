@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';

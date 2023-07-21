@@ -98,10 +98,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: Image.asset(
               'assets/icons/humberger.png',

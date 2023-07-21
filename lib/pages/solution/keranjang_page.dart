@@ -72,7 +72,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AkunHomePage(),
+                  builder: (context) => AkunHomePage(),
                 ),
               );
             },

@@ -104,7 +104,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AkunHomePage(),
+                        builder: (context) => AkunHomePage(),
                       ),
                     );
                   },

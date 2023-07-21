@@ -69,10 +69,8 @@ class _WishListPageState extends State<WishListPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',

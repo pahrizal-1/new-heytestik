@@ -90,7 +90,7 @@ class OnboardingChat2 extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AkunHomePage(),
+                  builder: (context) => AkunHomePage(),
                 ),
               );
             },
@@ -107,7 +107,7 @@ class OnboardingChat2 extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            DoctorChat(
+            const DoctorChat(
               judul: 'Bekas Jerawat',
               chat:
                   'Silakan dicek dulu ya :) Kalau masih bingung, langsung ditanyain aja ☺️',
@@ -202,7 +202,7 @@ class DoctorChat extends StatelessWidget {
                   style: grenTextStyle.copyWith(
                       fontSize: 12, fontWeight: regular, color: colorTanggal),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 9,
                 ),
                 valueChat != ''
