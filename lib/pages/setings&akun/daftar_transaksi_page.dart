@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 
 import '../../widget/daftar_transaksi_widgets.dart';
 
 class DaftarTransaksiPage extends StatelessWidget {
-  const DaftarTransaksiPage({super.key});
+  DaftarTransaksiPage({super.key});
+  final HistoryConsultationController state =
+      Get.put(HistoryConsultationController());
 
   @override
   Widget build(BuildContext context) {
@@ -207,16 +215,21 @@ class DaftarTransaksiPage extends StatelessWidget {
                           style: blackHigtTextStyle.copyWith(fontSize: 15),
                         ),
                         const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 2),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: redColor),
-                          child: Text(
-                            '1',
-                            style: whiteTextStyle.copyWith(fontSize: 10),
-                          ),
+                        Obx(
+                          () => state.totalPendingPayment.value == 0
+                              ? Container()
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 2),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: redColor),
+                                  child: Text(
+                                    state.totalPendingPayment.value.toString(),
+                                    style:
+                                        whiteTextStyle.copyWith(fontSize: 10),
+                                  ),
+                                ),
                         ),
                         const SizedBox(
                           width: 10,
@@ -231,60 +244,180 @@ class DaftarTransaksiPage extends StatelessWidget {
                   ),
                 ),
               ),
-              DaftarTransaksiProduk(
-                nameProduk: 'Pesan Obat & Skincare',
-                tanggal: '12 Jun 2023',
-                pesanan: 'Teenderm Hydra 40ml',
-                progres: 'Selesai',
-                jumlahBarang: '1',
-                produkLainnya: '+2 produk lainnya',
-                totalBelanjaan: 'Total Belanja',
-                harga: 'Rp915.000',
-                titleButton: 'Beli Lagi',
-                colorTittleProgres: greenColor,
-                colortittleBg: subgreenColor,
-                img: 'assets/images/penting1.png',
+              const SizedBox(
+                height: spaceHeigt,
               ),
-              const DaftarTransaksiProduk(
-                nameProduk: 'Pesan Obat & Skincare',
-                tanggal: '12 Jun 2023',
-                pesanan: 'Teenderm Hydra 40ml',
-                progres: 'Diproses',
-                jumlahBarang: '1',
-                produkLainnya: '+2 produk lainnya',
-                totalBelanjaan: 'Total Belanja',
-                harga: 'Rp915.000',
-                titleButton: 'Beli Lagi',
-                colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
-                colortittleBg: Color.fromARGB(255, 255, 204, 170),
-                img: 'assets/images/penting1.png',
+              FutureBuilder(
+                future: state.getHistoryConsultation(context),
+                builder: (context,
+                    AsyncSnapshot<TransactionHistoryConsultationModel?>
+                        snapshot) {
+                  print(snapshot.connectionState);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      children: [
+                        shimmerWidget(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.data?.data?.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return DaftarTransaksiProduk(
+                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            tanggal: ConverDate.defaultDate(
+                                snapshot.data!.data?.data?[index].createdAt ??
+                                    '-'),
+                            pesanan: 'Konsultasi',
+                            progres: snapshot.data!.data?.data?[index].status ==
+                                    'MENUNGGU_PEMBAYARAN'
+                                ? 'Menunggu Pembayaran'
+                                : snapshot.data!.data?.data?[index].status ==
+                                        'READY'
+                                    ? 'Review'
+                                    : 'Selesai',
+                            jumlahBarang: 'Bekas Jerawat',
+                            // totalBelanjaan: 'Total Harga',
+                            harga: CurrencyFormat.convertToIdr(
+                                snapshot.data!.data?.data?[index].totalPaid, 0),
+                            // titleButton: 'Konsultasi lagi',
+                            // colorTittleProgres:  greenColor,
+                            // colortittleBg: subgreenColor,
+                            img: 'assets/images/doctor-img.png',
+                            isConsultation: true,
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          'Tidak ada data',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontFamily: 'ProximaNova',
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return Text(
+                        'Connection State: ${snapshot.connectionState}');
+                  }
+                },
               ),
-              DaftarTransaksiProduk(
-                nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                tanggal: '10 Jun 2023',
-                pesanan: 'Konsultasi',
-                progres: 'Aktif',
-                jumlahBarang: 'Bekas Jerawat',
-                totalBelanjaan: 'Total Harga',
-                harga: 'Rp915.000',
-                titleButton: 'Konsultasi lagi',
-                colorTittleProgres: greenColor,
-                colortittleBg: subgreenColor,
-                img: 'assets/images/doctor-img.png',
-              ),
-              const DaftarTransaksiProduk(
-                nameProduk: 'Peeling TCA Ringan',
-                tanggal: '10 Jun 2023',
-                pesanan: 'Reservasi Treatment',
-                progres: 'Menunggu Konfirmasi Klinik',
-                jumlahBarang: 'Klinik Utama Lithea',
-                totalBelanjaan: 'Total Belanja',
-                harga: 'Rp915.000',
-                titleButton: 'Reservasi lagi',
-                colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
-                colortittleBg: Color.fromARGB(255, 255, 204, 170),
-                img: 'assets/images/treat1.png',
-              ),
+              // DaftarTransaksiProduk(
+              //   nameProduk: 'Pesan Obat & Skincare',
+              //   tanggal: '12 Jun 2023',
+              //   pesanan: 'Teenderm Hydra 40ml',
+              //   progres: 'Selesai',
+              //   jumlahBarang: '1',
+              //   produkLainnya: '+2 produk lainnya',
+              //   totalBelanjaan: 'Total Belanja',
+              //   harga: 'Rp915.000',
+              //   titleButton: 'Beli Lagi',
+              //   colorTittleProgres: greenColor,
+              //   colortittleBg: subgreenColor,
+              //   img: 'assets/images/penting1.png',
+              // ),
+              // const DaftarTransaksiProduk(
+              //   nameProduk: 'Pesan Obat & Skincare',
+              //   tanggal: '12 Jun 2023',
+              //   pesanan: 'Teenderm Hydra 40ml',
+              //   progres: 'Diproses',
+              //   jumlahBarang: '1',
+              //   produkLainnya: '+2 produk lainnya',
+              //   totalBelanjaan: 'Total Belanja',
+              //   harga: 'Rp915.000',
+              //   titleButton: 'Beli Lagi',
+              //   colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
+              //   colortittleBg: Color.fromARGB(255, 255, 204, 170),
+              //   img: 'assets/images/penting1.png',
+              // ),
+              // DaftarTransaksiProduk(
+              //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
+              //   tanggal: '10 Jun 2023',
+              //   pesanan: 'Konsultasi',
+              //   progres: 'Aktif',
+              //   jumlahBarang: 'Bekas Jerawat',
+              //   totalBelanjaan: 'Total Harga',
+              //   harga: 'Rp915.000',
+              //   titleButton: 'Konsultasi lagi',
+              //   colorTittleProgres: greenColor,
+              //   colortittleBg: subgreenColor,
+              //   img: 'assets/images/doctor-img.png',
+              // ),
+              // const DaftarTransaksiProduk(
+              //   nameProduk: 'Peeling TCA Ringan',
+              //   tanggal: '10 Jun 2023',
+              //   pesanan: 'Reservasi Treatment',
+              //   progres: 'Menunggu Konfirmasi Klinik',
+              //   jumlahBarang: 'Klinik Utama Lithea',
+              //   totalBelanjaan: 'Total Belanja',
+              //   harga: 'Rp915.000',
+              //   titleButton: 'Reservasi lagi',
+              //   colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
+              //   colortittleBg: Color.fromARGB(255, 255, 204, 170),
+              //   img: 'assets/images/treat1.png',
+              // ),
             ],
           ),
         ),
