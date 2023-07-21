@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 
 import '../theme/theme.dart';
 
@@ -10,31 +12,33 @@ class DaftarTransaksiProduk extends StatelessWidget {
   final String img;
   final String jumlahBarang;
   final String? produkLainnya;
-  final String totalBelanjaan;
+  // final String totalBelanjaan;
   final String harga;
-  final String titleButton;
-  final Color colorTittleProgres;
-  final Color colortittleBg;
+  // final String titleButton;
+  // final Color colorTittleProgres;
+  // final Color colortittleBg;
+  final bool isConsultation;
   const DaftarTransaksiProduk({
     super.key,
     required this.nameProduk,
     required this.tanggal,
     required this.pesanan,
     required this.progres,
-    required this.jumlahBarang,
+    this.jumlahBarang = '',
     this.produkLainnya = '',
-    required this.totalBelanjaan,
+    // required this.totalBelanjaan,
     required this.harga,
-    required this.titleButton,
-    required this.colorTittleProgres,
-    required this.colortittleBg,
+    // required this.titleButton,
+    // required this.colorTittleProgres,
+    // required this.colortittleBg,
     required this.img,
+    this.isConsultation = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
       decoration: BoxDecoration(
         color: whiteColor,
@@ -68,12 +72,22 @@ class DaftarTransaksiProduk extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                    color: colortittleBg,
+                    color: progres == 'Menunggu Pembayaran'
+                        ? const Color.fromARGB(255, 255, 204, 170)
+                        : progres == 'Review'
+                            ? const Color.fromARGB(255, 255, 204, 170)
+                            : subgreenColor,
                     borderRadius: BorderRadius.circular(7)),
                 child: Text(
                   progres,
                   style: grenTextStyle.copyWith(
-                      fontSize: 10, color: colorTittleProgres),
+                    fontSize: 10,
+                    color: progres == 'Menunggu Pembayaran'
+                        ? const Color.fromARGB(255, 255, 102, 0)
+                        : progres == 'Review'
+                            ? const Color.fromARGB(255, 255, 102, 0)
+                            : greenColor,
+                  ),
                 ),
               )
             ],
@@ -109,15 +123,21 @@ class DaftarTransaksiProduk extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 7,
-          ),
-          produkLainnya != ''
-              ? Text(
-                  produkLainnya.toString(),
-                  style: blackRegulerTextStyle.copyWith(color: blackColor),
-                )
-              : Container(),
+          isConsultation
+              ? Container()
+              : produkLainnya != ''
+                  ? const SizedBox(
+                      height: 7,
+                    )
+                  : Container(),
+          isConsultation
+              ? Container()
+              : produkLainnya != ''
+                  ? Text(
+                      produkLainnya.toString(),
+                      style: blackRegulerTextStyle.copyWith(color: blackColor),
+                    )
+                  : Container(),
           const SizedBox(
             height: 14,
           ),
@@ -128,7 +148,7 @@ class DaftarTransaksiProduk extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    totalBelanjaan,
+                    isConsultation ? 'Total Harga' : 'Total Belanja',
                     style: blackRegulerTextStyle.copyWith(fontSize: 13),
                   ),
                   Text(
@@ -138,38 +158,64 @@ class DaftarTransaksiProduk extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-                decoration: BoxDecoration(
-                  color: greenColor,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Center(
-                  child: Text(
-                    'Ulas',
-                    style: whiteTextStyle.copyWith(fontSize: 13),
-                  ),
-                ),
-              ),
+              progres == 'Review'
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Ulas',
+                          style: whiteTextStyle.copyWith(fontSize: 13),
+                        ),
+                      ),
+                    )
+                  : Container(),
               const SizedBox(
                 width: 5,
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  border: Border.all(color: greenColor),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Center(
-                  child: Text(
-                    titleButton,
-                    style: grenTextStyle.copyWith(fontSize: 13),
-                  ),
-                ),
-              ),
+              progres == 'Review'
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Konsultasi lagi',
+                          style: grenTextStyle.copyWith(fontSize: 13),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              progres == 'Menunggu Pembayaran'
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(const CaraPembyaranPage());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Lihat cara bayar',
+                            style: grenTextStyle.copyWith(fontSize: 13),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ],
