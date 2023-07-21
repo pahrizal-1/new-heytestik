@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../theme/theme.dart';
-import '../../../widget/text_form_widget.dart';
 
 class RekeningBankPage extends StatelessWidget {
   const RekeningBankPage({super.key});
@@ -44,7 +44,7 @@ class RekeningBankPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('PT. BCA (BANK CENTRAL ASIA) TBK'),
@@ -152,8 +152,46 @@ class RekeningBankPage extends StatelessWidget {
                               const SizedBox(
                                 height: 22,
                               ),
-                              SearchTextField(
-                                title: 'Cari Kodisi',
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Container(
+                                      height: 12,
+                                      width: 12,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/icons/search1.png'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 280),
+                                    child: TextFormField(
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'ProximaNova'),
+                                      decoration: InputDecoration(
+                                        hintText: 'Cari Nama Bank',
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          color: fromCssColor(
+                                            '#9B9B9B',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
                               ),
                               const SizedBox(
                                 height: 20,

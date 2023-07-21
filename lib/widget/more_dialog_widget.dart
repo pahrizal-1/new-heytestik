@@ -69,8 +69,8 @@ class MoreDialog extends StatelessWidget {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: 'assets/images/iphone1.png',
-                  width: 18,
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeMoreDialogPage(
@@ -81,7 +81,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
-                  width: 30,
+                  width: 25,
                   iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
@@ -92,7 +92,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Info Personal',
                   img: 'assets/images/iphone1.png',
-                  width: 20,
+                  width: 25,
                   iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
@@ -103,7 +103,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
@@ -114,7 +114,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: true,
                   title: 'Skin Goals',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
               ],

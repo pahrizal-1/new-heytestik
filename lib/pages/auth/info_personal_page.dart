@@ -28,7 +28,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
     super.initState();
     _isGender =
         Provider.of<RegisterController>(context, listen: false).gender ==
-            "Laki-laki";
+            'Laki-laki';
   }
 
   @override
@@ -65,8 +65,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
-                  width: 18,
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -77,7 +77,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   isLast: false,
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
-                  width: 30,
+                  width: 25,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -87,8 +87,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   isFirst: false,
                   isLast: true,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
-                  width: 20,
+                  img: 'assets/images/iphone1.png',
+                  width: 25,
                   iconimg: 'assets/images/Vector.png',
                 ),
                 TimeLineIdicatorPage(
@@ -99,7 +99,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   isLast: true,
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
                 TimeLineIdicatorPage(
@@ -110,7 +110,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   isLast: true,
                   title: 'Beauty Concern',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
               ],
@@ -205,7 +205,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                           onTap: () {
                             setState(() {
                               _isGender = true;
-                              state.gender = "Laki-laki";
+                              state.gender = 'Laki-laki';
                             });
                           },
                           child: Container(
@@ -239,7 +239,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                           onTap: () {
                             setState(() {
                               _isGender = false;
-                              state.gender = "Perempuan";
+                              state.gender = 'Perempuan';
                             });
                           },
                           child: Container(
@@ -310,7 +310,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                           context: context,
                           builder: (context) => AlertWidget(
                               subtitle:
-                                  "Data Provinsi Dan Kota/Kabupaten Harap Diisi"),
+                                  'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
                         );
                       } else {
                         await state.register(context, doInPost: () async {

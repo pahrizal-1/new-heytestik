@@ -19,18 +19,24 @@ class TambahBalasanPage extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back,
-                    color: whiteColor,
+                    size: 22,
                   ),
                 ),
                 const SizedBox(
-                  width: 11,
+                  width: 5,
                 ),
                 Text(
                   'Tambah Balasan Cepat',
-                  style: whiteTextStyle.copyWith(fontSize: 20),
-                )
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ],
             ),
             InkWell(
@@ -40,7 +46,7 @@ class TambahBalasanPage extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'ProximaNova',
                   fontWeight: bold,
-                  fontSize: 14,
+                  fontSize: 15,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -57,15 +63,22 @@ class TambahBalasanPage extends StatelessWidget {
               'Shortcut',
               style: subTitleTextStyle,
             ),
-            const SizedBox(
+            TextFormField(
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+                focusedBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+              ),
+            ),
+            SizedBox(
               height: 10,
-            ),
-            Text(
-              'Definisi Jerawat',
-              style: blackTextStyle.copyWith(fontSize: 15),
-            ),
-            const Divider(
-              thickness: 2,
             ),
             Text(
               'Kata-kata yang akan mengambil balasan ini',
