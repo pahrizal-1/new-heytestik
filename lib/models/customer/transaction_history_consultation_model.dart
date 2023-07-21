@@ -1,11 +1,11 @@
-class TransactionHistoryModel {
+class TransactionHistoryConsultationModel {
   bool? success;
   String? message;
   Data? data;
 
-  TransactionHistoryModel({this.success, this.message, this.data});
+  TransactionHistoryConsultationModel({this.success, this.message, this.data});
 
-  TransactionHistoryModel.fromJson(Map<String, dynamic> json) {
+  TransactionHistoryConsultationModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -137,6 +137,8 @@ class PaymentMethod {
   String? method;
   String? type;
   dynamic accountNumber;
+  String? segment;
+  String? description;
   bool? isActive;
   dynamic createdBy;
   dynamic updatedBy;
@@ -150,6 +152,8 @@ class PaymentMethod {
       this.method,
       this.type,
       this.accountNumber,
+      this.segment,
+      this.description,
       this.isActive,
       this.createdBy,
       this.updatedBy,
@@ -163,6 +167,8 @@ class PaymentMethod {
     method = json['method'];
     type = json['type'];
     accountNumber = json['account_number'];
+    segment = json['segment'];
+    description = json['description'];
     isActive = json['is_active'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -178,6 +184,8 @@ class PaymentMethod {
     data['method'] = method;
     data['type'] = type;
     data['account_number'] = accountNumber;
+    data['segment'] = segment;
+    data['description'] = description;
     data['is_active'] = isActive;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
