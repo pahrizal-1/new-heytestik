@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -154,34 +153,32 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                   const SizedBox(
                     height: 16,
                   ),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'PT. BCA (BANK CENTRAL ASIA) TBK',
-                          ),
-                          Text('0212871964 - Risty Hafinah')
-                        ],
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isSelected = !isSelected;
-                          });
-                        },
-                        child: Container(
-                          height: 17.65,
-                          width: 17.65,
-                          decoration: BoxDecoration(
-                              color: isSelected ? greenColor : whiteColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: blackColor)),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isSelected = !isSelected;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'PT. BCA (BANK CENTRAL ASIA) TBK',
+                            ),
+                            Text('0212871964 - Risty Hafinah')
+                          ],
                         ),
-                      )
-                    ],
+                        const Spacer(),
+                        Icon(
+                          isSelected
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected ? greenColor : blackColor,
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 31,

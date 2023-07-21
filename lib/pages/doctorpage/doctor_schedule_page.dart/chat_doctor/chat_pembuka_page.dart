@@ -11,12 +11,81 @@ class ChatPembukaPage extends StatefulWidget {
 
 class _ChatPembukaPageState extends State<ChatPembukaPage> {
   bool isSwitch = false;
+  bool isSelected = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: greenColor,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              Text(
+                'Chat Pembuka',
+                style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
+              ),
+            ],
+          ),
+          actions: [
+            isSelected
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 20, top: 2),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Simpan',
+                          style: whiteTextStyle.copyWith(fontSize: 15),
+                        ),
+                        const SizedBox(
+                          width: 31,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isSelected = !isSelected;
+                            });
+                          },
+                          child: Icon(
+                            Icons.more_vert,
+                            color: whiteColor,
+                          ),
+                        ),
+                      ],
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.only(top: 9, bottom: 9),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 13, right: 11, bottom: 9, top: 9),
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Buang perubahan',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                  )
+          ]),
       body: ListView(
         children: [
-          header(),
           const SizedBox(
             height: 20,
           ),
@@ -31,7 +100,7 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
                       'Aktifkan Chat Pembuka',
                       style: blackTextStyle.copyWith(fontSize: 17),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Switch(
                       focusColor: greenColor,
                       activeColor: greenColor,
@@ -58,58 +127,24 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
                   maxLines: 6,
                   minLines: 1,
                   decoration: InputDecoration(
-                      focusColor: greenColor,
-                      fillColor: greenColor,
-                      hoverColor: greenColor,
+                      focusedBorder: UnderlineInputBorder(
+                        //<-- SEE HERE
+                        borderSide: BorderSide(width: 1, color: subgreyColor),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        //<-- SEE HERE
+                        borderSide: BorderSide(width: 1, color: subgreyColor),
+                      ),
+                      // ignore: prefer_single_quotes
                       hintText: "Silakan Masukan Pesan Terbuka"),
                   style: blackTextStyle.copyWith(
                       fontSize: 15,
-                      color: Color(0Xff323232),
+                      color: const Color(0Xff323232),
                       fontWeight: regular),
                 )
               ],
             ),
           )
-        ],
-      ),
-    );
-  }
-
-  Container header() {
-    return Container(
-      padding: EdgeInsets.only(left: 21, right: 21),
-      height: 60,
-      decoration: BoxDecoration(color: greenColor),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: whiteColor,
-            ),
-          ),
-          SizedBox(
-            width: 7,
-          ),
-          Text(
-            'Chat Pembuka',
-            style: whiteTextStyle.copyWith(fontSize: 18),
-          ),
-          Spacer(),
-          Text(
-            'Simpan',
-            style: whiteTextStyle.copyWith(fontSize: 15),
-          ),
-          SizedBox(
-            width: 31,
-          ),
-          Icon(
-            Icons.more_vert,
-            color: whiteColor,
-          ),
         ],
       ),
     );

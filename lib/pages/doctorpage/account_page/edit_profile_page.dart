@@ -77,10 +77,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 65,
                       width: 65,
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         backgroundImage:
                             AssetImage('assets/images/doctor1.png'),
                       ),
@@ -230,7 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
@@ -411,7 +411,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             InkWell(

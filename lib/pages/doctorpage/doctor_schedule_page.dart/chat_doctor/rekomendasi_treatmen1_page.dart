@@ -20,11 +20,11 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        RekomendasiTreatmen2Page()),
+                        const RekomendasiTreatmen2Page()),
               );
             },
             backgroundColor: greenColor,
-            child: Icon(
+            child: const Icon(
               Icons.add,
               size: 40,
             ),
@@ -32,15 +32,29 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        title: Text(
-          "Rekomendasi Treatmen",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'ProximaNova',
-            fontWeight: bold,
-            fontSize: 20,
-            letterSpacing: 0.5,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Rekomendasi Treatment',
+                style: whiteTextStyle.copyWith(fontSize: 20),
+              )
+            ],
           ),
         ),
       ),
@@ -57,24 +71,24 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
                 ),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Container(
                         height: 12,
                         width: 12,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("assets/icons/search1.png"))),
+                                image: AssetImage('assets/icons/search1.png'))),
                       )),
                   Container(
-                    constraints: BoxConstraints(maxWidth: 280),
+                    constraints: const BoxConstraints(maxWidth: 280),
                     child: TextFormField(
                       style: const TextStyle(
-                          fontSize: 15, fontFamily: "ProximaNova"),
+                          fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
-                        hintText: "Cari Resep",
+                        hintText: 'Cari Resep',
                         border: InputBorder.none,
                         hintStyle: TextStyle(
-                          fontFamily: "ProximaNova",
+                          fontFamily: 'ProximaNova',
                           color: fromCssColor(
                             '#9B9B9B',
                           ),
@@ -84,14 +98,14 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
                   ),
                 ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               ListView.builder(
                 shrinkWrap: true,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 15,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
@@ -100,7 +114,7 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
                       height: 57,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: fromCssColor("#D9D9D9"),
+                          color: fromCssColor('#D9D9D9'),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -113,17 +127,17 @@ class RekomendasiTreatmen1Page extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Jerawat Ringan",
+                              'Jerawat Ringan',
                               style: TextStyle(
                                   fontWeight: bold,
-                                  fontFamily: "ProximaNova",
+                                  fontFamily: 'ProximaNova',
                                   fontSize: 15,
                                   letterSpacing: 0.5),
                             ),
                             Text(
-                              "Teenderm hydra",
+                              'Teenderm hydra',
                               style: TextStyle(
-                                  fontFamily: "ProximaNova",
+                                  fontFamily: 'ProximaNova',
                                   fontSize: 12,
                                   color: fromCssColor('#A3A3A3'),
                                   letterSpacing: 0.5),

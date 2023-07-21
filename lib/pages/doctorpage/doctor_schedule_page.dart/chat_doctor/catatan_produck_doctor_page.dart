@@ -18,29 +18,51 @@ class _CatatanDocterState extends State<CatatanDocter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Catatan Doctor'),
-            const Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Catatan Doctor',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
             InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
               child: Text(
-                'Simpan',
-                style: whiteTextStyle.copyWith(fontSize: 15),
+                'SIMPAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'ProximaNova',
+                  fontWeight: bold,
+                  fontSize: 15,
+                  letterSpacing: 0.5,
+                ),
               ),
-            )
+            ),
           ],
         ),
-        backgroundColor: greenColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
