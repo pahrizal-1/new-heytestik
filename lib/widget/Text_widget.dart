@@ -109,44 +109,51 @@ class TitleDetail extends StatelessWidget {
   final String title2;
   final Color textColor;
   final FontWeight? fontWeight;
+  final VoidCallback? ontap;
   const TitleDetail({
     Key? key,
     required this.title1,
     required this.title2,
     required this.textColor,
     this.fontWeight,
+    this.ontap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 12),
-      child: Column(
-        children: [
-          Table(
-            children: [
-              TableRow(
-                children: [
-                  Text(
-                    title1,
-                    style: blackRegulerTextStyle.copyWith(color: blackColor),
-                  ),
-                  Text(
-                    title2,
-                    style: grenTextStyle.copyWith(
-                        fontSize: 15, color: textColor, fontWeight: fontWeight),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          const Divider(
-            thickness: 2,
-          )
-        ],
+      child: InkWell(
+        onTap: ontap,
+        child: Column(
+          children: [
+            Table(
+              children: [
+                TableRow(
+                  children: [
+                    Text(
+                      title1,
+                      style: blackRegulerTextStyle.copyWith(color: blackColor),
+                    ),
+                    Text(
+                      title2,
+                      style: grenTextStyle.copyWith(
+                          fontSize: 15,
+                          color: textColor,
+                          fontWeight: fontWeight),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            const Divider(
+              thickness: 2,
+            )
+          ],
+        ),
       ),
     );
   }

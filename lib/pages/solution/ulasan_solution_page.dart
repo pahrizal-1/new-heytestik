@@ -618,182 +618,195 @@ class _UlasanPageState extends State<UlasanPage> {
             ),
           ),
           const dividergreen(),
-          Padding(
-            padding: lsymetric.copyWith(bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 11,
-                ),
-                Row(
+          comentbalasan(),
+          const dividergreen(),
+          comentbalasan(),
+        ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Container(
+          height: 50,
+          width: 50,
+          child: FloatingActionButton(
+              onPressed: () {}, child: Image.asset('assets/icons/dowload.png')),
+        ),
+      ),
+    );
+  }
+
+  Padding comentbalasan() {
+    return Padding(
+      padding: lsymetric.copyWith(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 11,
+          ),
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/doctor1.png',
+                width: 40,
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Jessy',
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                  Text(
+                    'Perawatan Peeling TCA Ringan',
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13, fontWeight: regular),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              const Icon(Icons.more_vert)
+            ],
+          ),
+          const SizedBox(
+            height: 13,
+          ),
+          Row(
+            children: [
+              const Icon(
+                Icons.star,
+                size: 12,
+                color: Color(0xffFFC36A),
+              ),
+              const Icon(
+                Icons.star,
+                size: 12,
+                color: Color(0xffFFC36A),
+              ),
+              const Icon(
+                Icons.star,
+                size: 12,
+                color: Color(0xffFFC36A),
+              ),
+              const Icon(
+                Icons.star,
+                size: 12,
+                color: Color(0xffFFC36A),
+              ),
+              const Icon(
+                Icons.star,
+                size: 12,
+                color: Color(0xffFFC36A),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Text(
+                '1 Bulan Yang lalu',
+                style: blackHigtTextStyle.copyWith(
+                    fontSize: 12, fontWeight: regular),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 13,
+          ),
+          Text(
+            'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
+            style: greyTextStyle.copyWith(
+                fontSize: 13, color: const Color(0xff6B6B6B)),
+          ),
+          const SizedBox(
+            height: 13,
+          ),
+          Row(
+            children: [
+              Image.asset(
+                'assets/icons/like.png',
+                width: 15,
+                color: greenColor,
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              Text(
+                '6 orang terbantu',
+                style:
+                    grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isVisibelity = !isVisibelity;
+                  });
+                },
+                child: Row(
                   children: [
-                    Image.asset(
-                      'assets/images/doctor1.png',
-                      width: 40,
-                    ),
+                    isVisibelity
+                        ? Text(
+                            'Liat Balesan',
+                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          )
+                        : Text(
+                            'Tutup Balasan',
+                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          ),
                     const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Jessy',
-                          style: blackHigtTextStyle.copyWith(fontSize: 15),
-                        ),
-                        Text(
-                          'Perawatan Peeling TCA Ringan',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 13, fontWeight: regular),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.more_vert)
-                  ],
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
+                      width: 4,
                     ),
                     const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Text(
-                      '1 Bulan Yang lalu',
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 12, fontWeight: regular),
+                      Icons.keyboard_arrow_down,
+                      color: Color(0xff6B6B6B),
                     )
                   ],
                 ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Visibility(
+            visible: isVisibelity,
+            child: Row(
+              children: [
+                Container(
+                  height: 60,
+                  width: 2,
+                  decoration: BoxDecoration(color: greenColor),
+                ),
                 const SizedBox(
-                  height: 13,
+                  width: 7,
                 ),
-                Text(
-                  'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                  style: greyTextStyle.copyWith(
-                      fontSize: 13, color: const Color(0xff6B6B6B)),
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/like.png',
-                      width: 15,
-                      color: greenColor,
-                    ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Text(
-                      '6 orang terbantu',
-                      style: grenTextStyle.copyWith(
-                          fontSize: 13, fontWeight: regular),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isVisibelity = !isVisibelity;
-                        });
-                      },
-                      child: Row(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          isVisibelity
-                              ? Text(
-                                  'Liat Balesan',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13),
-                                )
-                              : Text(
-                                  'Tutup Balasan',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13),
-                                ),
-                          const SizedBox(
-                            width: 4,
+                          Text(
+                            'Klinik Utama Lithea',
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 13, color: subTitleColor),
                           ),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xff6B6B6B),
+                          Text(
+                            ' 1 bulan lalu',
+                            style: blackRegulerTextStyle.copyWith(
+                                color: subTitleColor, fontSize: 13),
                           )
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Visibility(
-                  visible: isVisibelity,
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 60,
-                        width: 2,
-                        decoration: BoxDecoration(color: greenColor),
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Klinik Utama Lithea',
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 13, color: subTitleColor),
-                                ),
-                                Text(
-                                  ' 1 bulan lalu',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      color: subTitleColor, fontSize: 13),
-                                )
-                              ],
-                            ),
-                            Text(
-                              'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
-                              style: subTitleTextStyle,
-                            )
-                          ],
-                        ),
+                      Text(
+                        'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
+                        style: subTitleTextStyle,
                       )
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),

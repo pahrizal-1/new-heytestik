@@ -84,8 +84,34 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           fit: BoxFit.cover,
                         ),
                       )
-                    : const FlutterLogo(
-                        size: 150,
+                    : Container(
+                        height: 75,
+                        width: 75,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD9D9D9),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/icons/person-white.png',
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: greenColor,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 20,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
                       ),
                 const SizedBox(
                   height: 6,

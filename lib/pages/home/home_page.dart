@@ -633,10 +633,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: Row(
                 children: [
                   Padding(
@@ -878,10 +878,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: Row(
                 children: [
                   Padding(
