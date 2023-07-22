@@ -86,8 +86,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const SelesaiPembayaranPage(),
+                                builder: (context) => SelesaiPembayaranPage(),
                               ),
                             );
                           },
