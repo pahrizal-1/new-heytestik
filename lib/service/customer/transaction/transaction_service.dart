@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 
 class TransactionService extends ProviderClass {
   TransactionService()
@@ -36,6 +37,16 @@ class TransactionService extends ProviderClass {
       },
     );
     return response;
+  }
+
+  Future<TransactionStatusModel> transactionStatus(String orderId) async {
+    var response = await networkingConfig.doGet(
+      '/transaction/$orderId/status',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return TransactionStatusModel.fromJson(response);
   }
 
   Future<TransactionHistoryConsultationModel> historyConsultation() async {
