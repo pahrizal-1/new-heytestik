@@ -298,18 +298,21 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                   ),
                                 );
                               }
-
+                              // Get.to(SelesaiPembayaranPage(
+                              //   bank: 'BCA',
+                              //   orderId:
+                              //       'CONSULTATION.d8ca4e51-5428-4125-9b94-dd31b98f603c',
+                              //   expireTime: '2023-07-23 10:43:52',
+                              // ));
                               await state.order(
                                 context,
                                 widget.interestConditionId!.toInt(),
                                 doInPost: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const SelesaiPembayaranPage(),
-                                    ),
-                                  );
+                                  Get.to(SelesaiPembayaranPage(
+                                    orderId: state.orderId.value,
+                                    bank: state.bank.value,
+                                    expireTime: state.expireTime.value,
+                                  ));
                                 },
                               );
                             },

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -7,7 +9,9 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
 class HistoryConsultationController extends StateClass {
   Rx<TransactionHistoryConsultationModel> data =
@@ -52,6 +56,7 @@ class HistoryConsultationController extends StateClass {
   RxString virtualAccount = '-'.obs;
   RxString expirytime = '-'.obs;
   RxString grossAmount = '-'.obs;
+  RxString statusTransaction = '-'.obs;
 
   getTransactionStatus(BuildContext context, String orderId) async {
     isLoading.value = true;
@@ -66,11 +71,23 @@ class HistoryConsultationController extends StateClass {
             transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
         expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
         grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
+        statusTransaction.value =
+            transactionStatus.value.data?.transactionStatus ?? '-';
+
+        if (statusTransaction.value == 'settlement') {
+          Get.to(SuccessPage());
+          showDialog(
+            context: context,
+            builder: (context) => const BankMoreDialog(),
+          );
+          return;
+        }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
         Get.to(ExpiredPage(
           message: transactionStatus.value.message.toString(),
         ));
+        return;
       } else {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
