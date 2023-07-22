@@ -62,7 +62,8 @@ dependencies:
   shimmer: ^3.0.0
   grouped_list: ^5.1.2
   camera: ^0.10.5+2
-
+  geolocator: ^8.2.0
+  geocoding: ^2.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
