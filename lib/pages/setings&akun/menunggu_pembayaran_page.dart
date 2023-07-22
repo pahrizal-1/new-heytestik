@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
 
-class MenungguPemayaranPage extends StatelessWidget {
-  const MenungguPemayaranPage({super.key});
+class MenungguPemayaranPage extends StatefulWidget {
+  MenungguPemayaranPage({super.key});
+
+  @override
+  State<MenungguPemayaranPage> createState() => _MenungguPemayaranPageState();
+}
+
+class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
+  final HistoryConsultationController state =
+      Get.put(HistoryConsultationController());
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      state.getHistoryConsultationPaymentpending(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,154 +61,49 @@ class MenungguPemayaranPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(7),
-                boxShadow: [
-                  BoxShadow(
-                    color: blackColor,
-                    blurRadius: 0.5,
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: state.paymentPending!.isEmpty
+              ? Center(
+                  child: Text(
+                    'Tidak ada data',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
                   ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Pesan Obat & Skincare',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            '12 Jun 2023',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 10),
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Bayar Sebelum',
-                            style: blackRegulerTextStyle.copyWith(
-                                fontSize: 12, color: blackColor),
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/icons/clock.png',
-                                width: 10,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '14 Jun, 14:55',
-                                style: blackTextStyle.copyWith(
-                                    color: const Color(0xffF76707)),
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 15),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.paymentPending!.length,
+                      itemBuilder: (BuildContext context, index) {
+                        if (state.paymentPending![index].status ==
+                            'MENUNGGU_PEMBAYARAN') {
+                          return DaftarTransaksiProduk(
+                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            tanggal: ConverDate.defaultDate(
+                                state.paymentPending?[index].createdAt ?? '-'),
+                            pesanan: 'Konsultasi',
+                            progres: 'Menunggu Pembayaran',
+                            jumlahBarang: 'Bekas Jerawat',
+                            harga: CurrencyFormat.convertToIdr(
+                                state.paymentPending?[index].totalPaid, 0),
+                            img: 'assets/images/doctor-img.png',
+                            isConsultation: true,
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
                   ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 37,
-                        width: 37,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/logo-bca.png'),
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'BCA Virtual Account',
-                            style: blackHigtTextStyle.copyWith(fontSize: 13),
-                          ),
-                          Text(
-                            '8521123456789',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total Pembayaran',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          ),
-                          Text(
-                            'Rp915.000',
-                            style: blackHigtTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CaraPembyaranPage()));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 22, vertical: 5),
-                          decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(7),
-                              border: Border.all(color: greenColor)),
-                          child: Center(
-                            child: Text(
-                              'Lihat Cara Bayar',
-                              style: grenTextStyle.copyWith(fontSize: 13),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
         ),
       ),
     );
