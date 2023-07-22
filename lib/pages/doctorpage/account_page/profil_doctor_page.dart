@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.d
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
@@ -555,7 +556,11 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await state.logout(context);
+                      // await state.logout(context);
+                      showDialog(
+                        context: context,
+                        builder: (context) => const AlertDialogLogout(),
+                      );
                     },
                     child: const ContainerSettings(
                       title: 'Log-Out',

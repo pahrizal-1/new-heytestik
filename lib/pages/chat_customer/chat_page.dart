@@ -27,22 +27,9 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: const Color(0XfFFFFFFf),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        elevation: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            const Text('Bekas Jerawat'),
-          ],
-        ),
+        title: const Text('Bekas Jerawat'),
       ),
       body: SingleChildScrollView(
         child: Column(

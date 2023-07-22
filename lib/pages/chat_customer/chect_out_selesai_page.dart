@@ -5,7 +5,6 @@ import '../../widget/Text_widget.dart';
 import '../../widget/appbar_widget.dart';
 
 import '../../widget/produk_widget.dart';
-import 'alamat_page.dart';
 
 class CheckOutSelesai extends StatefulWidget {
   const CheckOutSelesai({super.key});

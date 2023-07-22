@@ -208,17 +208,16 @@ class AkunHomePage extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
-            child: FutureBuilder(
-              future: state.getMyActivity(context),
-              builder: (context,
-                  AsyncSnapshot<TransactionHistoryConsultationModel?>
-                      snapshot) {
-                print(snapshot.connectionState);
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    height: 50,
+          FutureBuilder(
+            future: state.getMyActivity(context),
+            builder: (context,
+                AsyncSnapshot<TransactionHistoryConsultationModel?> snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
                     child: ListView(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -265,22 +264,26 @@ class AkunHomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return SizedBox(
-                      height: 70,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data!.data?.data?.length,
-                        itemBuilder: (BuildContext context, index) {
-                          // JANGAN TAMPILKAN YG STATUSNYA SELESAI
-                          if (snapshot.data!.data?.data?[index].status !=
-                              'SELESAI') {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 5),
+                  ),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  return SizedBox(
+                    height: 70,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.data?.data?.length,
+                      itemBuilder: (BuildContext context, index) {
+                        // JANGAN TAMPILKAN YG STATUSNYA SELESAI
+                        if (snapshot.data!.data?.data?[index].status !=
+                            'SELESAI') {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              left: 25,
+                            ),
+                            child: Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
@@ -354,29 +357,29 @@ class AkunHomePage extends StatelessWidget {
                                   )
                                 ],
                               ),
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: Text(
-                        'Tidak ada data',
-                        style: TextStyle(
-                          fontWeight: bold,
-                          fontFamily: 'ProximaNova',
-                          fontSize: 20,
-                        ),
-                      ),
-                    );
-                  }
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  );
                 } else {
-                  return Text('Connection State: ${snapshot.connectionState}');
+                  return Center(
+                    child: Text(
+                      'Tidak ada data',
+                      style: TextStyle(
+                        fontWeight: bold,
+                        fontFamily: 'ProximaNova',
+                        fontSize: 20,
+                      ),
+                    ),
+                  );
                 }
-              },
-            ),
+              } else {
+                return Text('Connection State: ${snapshot.connectionState}');
+              }
+            },
           ),
           const SizedBox(
             height: 17,

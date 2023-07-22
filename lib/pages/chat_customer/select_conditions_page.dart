@@ -32,22 +32,9 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        centerTitle: false,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            const Text('Pilih Kondisi'),
-          ],
-        ),
+        title: const Text('Pilih Kondisi'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25, right: 25, top: 13),

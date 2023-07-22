@@ -247,15 +247,183 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                   ),
                   Row(
                     children: [
-                      Container(
-                        height: 20,
+                      Image.asset(
+                        'assets/icons/alert-new.png',
                         width: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/icons/alert-circle1.png'),
+                        height: 20,
+                        color: greenColor,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          'Yuk!! Ambil Poto kamu :)',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontSize: 15,
+                            fontFamily: 'ProximaNova',
+                            color: fromCssColor('#323232'),
                           ),
                         ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 110,
+                          width: 80,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ambil-poto-kosong.png'),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: const TextSpan(
+                                    text: 'Tampak depan',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        SizedBox(
+                          height: 110,
+                          width: 80,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ambil-poto-kosong.png'),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: const TextSpan(
+                                    text: 'Zoom area bermasalah',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        SizedBox(
+                          height: 110,
+                          width: 80,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ambil-poto-kosong.png'),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: const TextSpan(
+                                    text: 'Tampak samping kanan',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        SizedBox(
+                          height: 110,
+                          width: 80,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ambil-poto-kosong.png'),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: const TextSpan(
+                                    text: 'Tampak samping kiri',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/alert-new.png',
+                        width: 20,
+                        height: 20,
+                        color: greenColor,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 12),

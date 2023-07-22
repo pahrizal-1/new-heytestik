@@ -6,8 +6,6 @@ import '../../theme/theme.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/produk_height_widget,.dart';
-import '../../widget/produk_widget.dart';
-import '../../widget/tampilan_right_widget.dart';
 
 class CategorySkinCare extends StatefulWidget {
   const CategorySkinCare({super.key});

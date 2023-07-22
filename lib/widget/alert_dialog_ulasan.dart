@@ -100,3 +100,70 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
     );
   }
 }
+
+class AlertDialogLogout extends StatefulWidget {
+  const AlertDialogLogout({super.key});
+
+  @override
+  State<AlertDialogLogout> createState() => _AlertDialogLogoutState();
+}
+
+class _AlertDialogLogoutState extends State<AlertDialogLogout> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0.1),
+      content: Container(
+          height: 176,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Apakah Anda Akan Keluar ?',
+                  style:
+                      blackTextStyle.copyWith(fontSize: 20, color: blackColor),
+                ),
+                const SizedBox(
+                  height: 21,
+                ),
+                const SizedBox(
+                  height: 21,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Ya',
+                        style: grenTextStyle.copyWith(fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(width: 30),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Tidak',
+                        style: grenTextStyle.copyWith(fontSize: 18),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+  }
+}

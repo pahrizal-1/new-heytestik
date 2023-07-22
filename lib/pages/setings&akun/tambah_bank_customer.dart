@@ -3,8 +3,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../widget/button_widget.dart';
 
-class TambahBankPage extends StatelessWidget {
-  const TambahBankPage({super.key});
+class TambahBankCustomerPage extends StatelessWidget {
+  const TambahBankCustomerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class TambahBankPage extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back,
                       size: 24,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 18,
                   ),
                   Text(
@@ -96,8 +96,8 @@ class TambahBankPage extends StatelessWidget {
                     width: 10,
                   ),
                   Container(
-                    padding:
-                        EdgeInsets.only(left: 8, right: 8, bottom: 7, top: 7),
+                    padding: const EdgeInsets.only(
+                        left: 8, right: 8, bottom: 7, top: 7),
                     decoration: BoxDecoration(
                       border: Border.all(color: subgreyColor),
                       borderRadius: BorderRadius.circular(7),
@@ -112,7 +112,7 @@ class TambahBankPage extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 390,
               ),
               Text.rich(

@@ -43,19 +43,9 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Row(
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
             Obx(
               () => Text(state.title.value),
             ),
