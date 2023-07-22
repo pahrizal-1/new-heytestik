@@ -48,6 +48,7 @@ class OrderController extends StateClass {
 
   Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
       PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxInt totalPaymentMethod = 0.obs;
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
@@ -157,6 +158,7 @@ class OrderController extends StateClass {
   initPayment(BuildContext context) async {
     isLoading.value = true;
     fullName.value = await LocalStorage().getFullName();
+    getPaymentMethod.value == null;
     await getPaymentmethod(context);
     idPayment.value = 0;
     paymentMethod.value = '';
@@ -167,6 +169,7 @@ class OrderController extends StateClass {
   getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       getPaymentMethod.value = await TransactionService().paymentMethod();
+      totalPaymentMethod.value = getPaymentMethod.value!.data!.length;
     });
   }
 
