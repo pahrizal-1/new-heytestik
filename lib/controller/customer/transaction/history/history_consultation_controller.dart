@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 
 class HistoryConsultationController extends StateClass {
@@ -12,6 +14,9 @@ class HistoryConsultationController extends StateClass {
       TransactionHistoryConsultationModel().obs;
   List<Data2>? paymentPending = [];
   RxInt totalPendingPayment = 0.obs;
+
+  Rx<TransactionStatusModel> transactionStatus =
+      TransactionStatusModel.fromJson({}).obs;
 
   Future<TransactionHistoryConsultationModel?> getHistoryConsultation(
       BuildContext context) async {
@@ -38,6 +43,39 @@ class HistoryConsultationController extends StateClass {
           totalPendingPayment.value += 1;
           paymentPending?.add(data.value.data!.data![i]);
         }
+      }
+    });
+    isLoading.value = false;
+  }
+
+  RxString bank = '-'.obs;
+  RxString virtualAccount = '-'.obs;
+  RxString expirytime = '-'.obs;
+  RxString grossAmount = '-'.obs;
+
+  getTransactionStatus(BuildContext context, String orderId) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      transactionStatus.value =
+          await TransactionService().transactionStatus(orderId);
+
+      if (transactionStatus.value.success! &&
+          transactionStatus.value.message == 'Success') {
+        bank.value = transactionStatus.value.data?.vaNumbers?[0].bank ?? '-';
+        virtualAccount.value =
+            transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
+        expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
+        grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
+      } else if (transactionStatus.value.message == 'Transaction is expire') {
+        Get.back();
+        Get.to(ExpiredPage(
+          message: transactionStatus.value.message.toString(),
+        ));
+      } else {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: transactionStatus.value.message.toString(),
+        );
       }
     });
     isLoading.value = false;
