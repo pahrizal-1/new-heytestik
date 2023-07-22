@@ -52,6 +52,7 @@ class OrderController extends StateClass {
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
+  RxString orderId = ''.obs;
 
   clearVariabel() {
     fullName.value = '';
@@ -207,13 +208,15 @@ class OrderController extends StateClass {
       print('listsAnswer $listsAnswer');
 
       var res = await TransactionService().order(reqOrder);
-      print('res $res');
-      if (res['success'] != true) {
+
+      if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: res['message'],
+          message: res.message.toString(),
         );
       }
+      // JIKA SUKSES SET ORDER ID
+      orderId.value = res.data!.payment!.orderId.toString();
 
       doInPost();
       clearVariabel();
