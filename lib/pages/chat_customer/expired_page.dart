@@ -46,7 +46,7 @@ class ExpiredPage extends StatelessWidget {
               height: 16,
             ),
             Padding(
-              padding: lsymetric,
+              padding: lsymetric.copyWith(bottom: 40),
               child: ButtonGreenWidget(
                 title: 'Kembali Ke Home',
                 onPressed: () {
