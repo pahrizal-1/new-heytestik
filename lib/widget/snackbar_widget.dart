@@ -10,6 +10,11 @@ class SnackbarWidget {
         content: Text(message),
         behavior: SnackBarBehavior.floating,
         backgroundColor: greenColor,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 100,
+          left: 10,
+          right: 10,
+        ),
       ),
     );
   }
@@ -20,6 +25,11 @@ class SnackbarWidget {
         content: Text(message),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Get.theme.colorScheme.error,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 100,
+          left: 10,
+          right: 10,
+        ),
       ),
     );
   }
