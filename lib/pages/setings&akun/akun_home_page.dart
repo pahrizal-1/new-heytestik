@@ -311,7 +311,14 @@ class AkunHomePage extends StatelessWidget {
                                                         .status ==
                                                     'READY'
                                                 ? 'Review'
-                                                : 'Selesai',
+                                                : snapshot
+                                                            .data!
+                                                            .data
+                                                            ?.data?[index]
+                                                            .status ==
+                                                        'AKTIF'
+                                                    ? 'Aktif'
+                                                    : 'Selesai',
                                         style: grenTextStyle.copyWith(
                                           fontSize: 12,
                                           color: snapshot.data!.data
@@ -327,7 +334,14 @@ class AkunHomePage extends StatelessWidget {
                                                       'READY'
                                                   ? const Color.fromARGB(
                                                       255, 255, 102, 0)
-                                                  : greenColor,
+                                                  : snapshot
+                                                              .data!
+                                                              .data
+                                                              ?.data?[index]
+                                                              .status ==
+                                                          'AKTIF'
+                                                      ? greenColor
+                                                      : greenColor,
                                         ),
                                       ),
                                       Text(
@@ -364,82 +378,6 @@ class AkunHomePage extends StatelessWidget {
               },
             ),
           ),
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.horizontal,
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(left: 25),
-          //     child: Row(
-          //       children: [
-          //         Container(
-          //           margin: const EdgeInsets.only(right: 5),
-          //           padding: const EdgeInsets.symmetric(
-          //               horizontal: 16, vertical: 24),
-          //           decoration: BoxDecoration(
-          //             border: Border.all(color: borderColor),
-          //             borderRadius: BorderRadius.circular(7),
-          //           ),
-          //           child: Row(
-          //             children: [
-          //               Image.asset(
-          //                 'assets/icons/chat.png',
-          //                 width: 18,
-          //               ),
-          //               const SizedBox(
-          //                 width: 10,
-          //               ),
-          //               Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children: [
-          //                   Text(
-          //                     'Aktif',
-          //                     style: grenTextStyle.copyWith(fontSize: 12),
-          //                   ),
-          //                   Text(
-          //                     'Konsultasi Bekas Jerawat',
-          //                     style: blackHigtTextStyle.copyWith(fontSize: 13),
-          //                   ),
-          //                 ],
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         Container(
-          //           margin: const EdgeInsets.only(right: 5),
-          //           padding: const EdgeInsets.symmetric(
-          //               horizontal: 10, vertical: 10),
-          //           decoration: BoxDecoration(
-          //             border: Border.all(color: borderColor),
-          //             borderRadius: BorderRadius.circular(7),
-          //           ),
-          //           child: Row(
-          //             children: [
-          //               Image.asset(
-          //                 'assets/images/penting1.png',
-          //                 width: 59,
-          //               ),
-          //               const SizedBox(
-          //                 width: 10,
-          //               ),
-          //               Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children: [
-          //                   Text(
-          //                     'Diproses',
-          //                     style: grenTextStyle.copyWith(fontSize: 12),
-          //                   ),
-          //                   Text(
-          //                     'Teenderm Hydra 40ml',
-          //                     style: blackHigtTextStyle.copyWith(fontSize: 13),
-          //                   ),
-          //                 ],
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           const SizedBox(
             height: 17,
           ),
