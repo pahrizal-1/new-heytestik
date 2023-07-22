@@ -25,6 +25,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   final OrderController state = Get.put(OrderController());
   File? imagePathCamera;
   File? imagePathGallery;
+  List listShowImage = [];
 
   @override
   void initState() {
@@ -99,7 +100,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     ),
                   ),
                   const SizedBox(
-                    height: 17,
+                    height: 15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,142 +109,124 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                         onTap: () async {
                           await openCamera();
                         },
-                        child: imagePathCamera != null
-                            ? Image.file(
-                                imagePathCamera!,
-                                fit: BoxFit.cover,
-                                height: 145,
-                                width: 145,
-                              )
-                            : DottedBorder(
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(10),
-                                color: fromCssColor('#CCCCCC'),
-                                strokeWidth: 1,
-                                child: SizedBox(
-                                  height: 145,
-                                  width: 145,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/upload-cam.png'),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Ambil Foto',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'ProximaNova',
-                                            color: fromCssColor('#24A7A0'),
-                                            letterSpacing: 0.7,
-                                            fontWeight: bold),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: RichText(
-                                          textAlign: TextAlign.center,
-                                          text: const TextSpan(
-                                            text: 'Ambil Foto dengan kamera',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              color: Colors.black,
-                                              letterSpacing: 0.6,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          color: fromCssColor('#CCCCCC'),
+                          strokeWidth: 1,
+                          child: SizedBox(
+                            height: 145,
+                            width: 145,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/icons/upload-cam.png'),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'Ambil Foto',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'ProximaNova',
+                                      color: fromCssColor('#24A7A0'),
+                                      letterSpacing: 0.7,
+                                      fontWeight: bold),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Ambil Foto dengan kamera',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        letterSpacing: 0.6,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       InkWell(
                         onTap: () async {
                           await openGallery();
                         },
-                        child: imagePathGallery != null
-                            ? Image.file(
-                                imagePathGallery!,
-                                fit: BoxFit.cover,
-                                height: 145,
-                                width: 145,
-                              )
-                            : DottedBorder(
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(10),
-                                color: fromCssColor('#CCCCCC'),
-                                strokeWidth: 1,
-                                child: SizedBox(
-                                  height: 145,
-                                  width: 145,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 45,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/upload-galery.png'),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Upload Foto',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'ProximaNova',
-                                            color: fromCssColor('#24A7A0'),
-                                            letterSpacing: 0.7,
-                                            fontWeight: bold),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: RichText(
-                                          textAlign: TextAlign.center,
-                                          text: const TextSpan(
-                                            text: 'Unggah foto dari Galeri',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              color: Colors.black,
-                                              letterSpacing: 0.6,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          color: fromCssColor('#CCCCCC'),
+                          strokeWidth: 1,
+                          child: SizedBox(
+                            height: 145,
+                            width: 145,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 45,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/icons/upload-galery.png'),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'Upload Foto',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'ProximaNova',
+                                      color: fromCssColor('#24A7A0'),
+                                      letterSpacing: 0.7,
+                                      fontWeight: bold),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Unggah foto dari Galeri',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        letterSpacing: 0.6,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Row(
                     children: [
@@ -268,19 +251,58 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
+                    child: listShowImage.isNotEmpty
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: listShowImage.map<Widget>((value) {
+                              return Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(7),
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        child: Image.file(
+                                          File(value),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          listShowImage.removeWhere(
+                                              (item) => item == value);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: greenColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          )
+                        : Row(
                             children: [
                               Container(
                                 height: 80,
+                                width: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   image: const DecorationImage(
@@ -289,33 +311,12 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak depan',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
+                              const SizedBox(
+                                width: 8,
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
                               Container(
                                 height: 80,
+                                width: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   image: const DecorationImage(
@@ -324,33 +325,12 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Zoom area bermasalah',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
+                              const SizedBox(
+                                width: 8,
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
                               Container(
                                 height: 80,
+                                width: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   image: const DecorationImage(
@@ -359,63 +339,14 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak samping kanan',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
+                              const SizedBox(
+                                width: 8,
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ambil-poto-kosong.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak samping kiri',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Row(
                     children: [
@@ -440,7 +371,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -587,7 +518,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -766,6 +697,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
       });
 
       print('img camera $imagePathCamera');
+      listShowImage.add(imagePathCamera!.path);
       state.listImageUser.add(imagePathCamera!.path);
       print('img camera ${state.listImageUser}');
     } else {
@@ -783,6 +715,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
       });
 
       print('img galeri $imagePathGallery');
+      listShowImage.add(imagePathGallery!.path);
       state.listImageUser.add(imagePathGallery!.path);
       print('img galeri ${state.listImageUser}');
     } else {
