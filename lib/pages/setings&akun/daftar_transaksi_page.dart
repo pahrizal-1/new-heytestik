@@ -353,7 +353,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
-                            fontSize: 15,
+                            fontSize: 20,
                           ),
                         ),
                       );
