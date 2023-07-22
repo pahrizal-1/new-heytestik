@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class ErrorConfig implements Exception {
   String cause;
@@ -155,10 +156,12 @@ ErrorConfig handleError(
 
     switch ((error as ErrorConfig).cause) {
       case ErrorConfig.userInput:
-        showDialog(
-          context: context,
-          builder: (context) => AlertWidget(subtitle: error.message),
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertWidget(subtitle: error.message),
+        // );
+
+        SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
         break;
       case ErrorConfig.userUnauthorized:
         // go to login page when user unauthorized
