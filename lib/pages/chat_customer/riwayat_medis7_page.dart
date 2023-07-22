@@ -5,12 +5,12 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class RiwayatMedis7Page extends StatefulWidget {
@@ -40,7 +40,41 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarRiwayat(context),
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text(
+                'Riwayat Medis',
+                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TabBarCustomer(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/icons/icon-home-chat.png',
+                width: 18,
+              ),
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
