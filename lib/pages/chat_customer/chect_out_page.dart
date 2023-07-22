@@ -72,10 +72,10 @@ class CheckOutPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Alamatpage()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Alamatpage()));
                     },
                     child: Container(
                       width: 340,
