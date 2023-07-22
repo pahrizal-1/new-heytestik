@@ -37,8 +37,16 @@ class NetworkingConfig {
               return false;
             }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
+            if (statusCode == 400) {
+              // your http status code
+
+              // for payment
+              debugPrint('status code 400');
+              return true;
+            } else {
+              debugPrint('status code statusCode >= 200 && statusCode < 300');
+              return statusCode >= 200 && statusCode < 300;
+            }
           },
         ),
       );
