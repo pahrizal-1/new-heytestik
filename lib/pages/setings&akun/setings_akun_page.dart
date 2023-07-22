@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
@@ -85,10 +86,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 ),
                 ListTitleAkun(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DaftarAlamatPage()));
+                    Get.to(DaftarAlamatPage());
                   },
                   iconUrl: 'assets/icons/map-icons.png',
                   title: 'Daftar Alamat',
