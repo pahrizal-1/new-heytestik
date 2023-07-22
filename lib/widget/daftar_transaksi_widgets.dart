@@ -76,7 +76,11 @@ class DaftarTransaksiProduk extends StatelessWidget {
                         ? const Color.fromARGB(255, 255, 204, 170)
                         : progres == 'Review'
                             ? const Color.fromARGB(255, 255, 204, 170)
-                            : subgreenColor,
+                            : progres == 'Aktif'
+                                ? subgreenColor
+                                : progres == 'Selesai'
+                                    ? subgreenColor
+                                    : subgreenColor,
                     borderRadius: BorderRadius.circular(7)),
                 child: Text(
                   progres,
@@ -86,7 +90,11 @@ class DaftarTransaksiProduk extends StatelessWidget {
                         ? const Color.fromARGB(255, 255, 102, 0)
                         : progres == 'Review'
                             ? const Color.fromARGB(255, 255, 102, 0)
-                            : greenColor,
+                            : progres == 'Aktif'
+                                ? greenColor
+                                : progres == 'Selesai'
+                                    ? greenColor
+                                    : greenColor,
                   ),
                 ),
               )
@@ -158,7 +166,7 @@ class DaftarTransaksiProduk extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              progres == 'Review'
+              progres == 'Aktif' || progres == 'Selesai'
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 22, vertical: 5),
@@ -177,7 +185,7 @@ class DaftarTransaksiProduk extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              progres == 'Review'
+              progres == 'Aktif' || progres == 'Selesai'
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
