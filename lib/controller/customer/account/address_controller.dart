@@ -116,35 +116,79 @@ class AddressController extends StateClass {
   saveddress(BuildContext context) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        var req = {
-          'recipient_name': recipientName.text,
-          'recipient_phone': recipientPhone.text,
-          'pinpoint_latitude': pinpointLatitude.value,
-          'pinpoint_longitude': pinpointLongitude.value,
-          'pinpoint_address': pinpointAddress.value,
-          'label_address': labelAddress.text,
-          'complete_address': completeAddress.text,
-          'note_for_courier': noteForCourier.text,
-          'main_address': false,
-        };
-        print('req $req');
-        detail.value = await AddressService().saveAddress(req);
-        print(detail.value.data!);
-        if (detail.value.success! && detail.value.message == 'Success') {
-          Get.back();
-          // await listAddress(context);
-          // await Future.delayed(const Duration(seconds: 1));
-          clearForm();
-          SnackbarWidget.getSuccessSnackbar(
-            context,
-            'Berhasil',
-            'Alamat berhasil disimpan',
-          );
-          return;
-        }
-      } catch (e) {
-        print('heheh $e');
+      if (recipientName.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Nama lengkap harus diisi',
+        );
+      }
+      if (recipientPhone.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Nomor hp harus diisi',
+        );
+      }
+      if (pinpointLatitude.value == 0.0) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point latitude harus diisi',
+        );
+      }
+      if (pinpointLongitude.value == 0.0) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point longitude harus diisi',
+        );
+      }
+      if (pinpointAddress.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point address harus diisi',
+        );
+      }
+      if (labelAddress.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Label alamat harus diisi',
+        );
+      }
+      if (completeAddress.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Alamat lengkap harus diisi',
+        );
+      }
+      if (noteForCourier.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Catatan harus diisi',
+        );
+      }
+      var req = {
+        'recipient_name': recipientName.text,
+        'recipient_phone': recipientPhone.text,
+        'pinpoint_latitude': pinpointLatitude.value,
+        'pinpoint_longitude': pinpointLongitude.value,
+        'pinpoint_address': pinpointAddress.value,
+        'label_address': labelAddress.text,
+        'complete_address': completeAddress.text,
+        'note_for_courier': noteForCourier.text,
+        'main_address': false,
+      };
+      print('req $req');
+      detail.value = await AddressService().saveAddress(req);
+      print(detail.value.data!);
+      if (detail.value.success! && detail.value.message == 'Success') {
+        Get.back();
+        // await listAddress(context);
+        // await Future.delayed(const Duration(seconds: 1));
+        clearForm();
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          'Alamat berhasil disimpan',
+        );
+        return;
       }
     });
     isMinorLoading.value = false;
@@ -153,6 +197,54 @@ class AddressController extends StateClass {
   updateAddress(BuildContext context, int id) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (recipientName.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Nama lengkap harus diisi',
+        );
+      }
+      if (recipientPhone.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Nomor hp harus diisi',
+        );
+      }
+      if (pinpointLatitude.value == 0.0) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point latitude harus diisi',
+        );
+      }
+      if (pinpointLongitude.value == 0.0) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point longitude harus diisi',
+        );
+      }
+      if (pinpointAddress.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Pin point address harus diisi',
+        );
+      }
+      if (labelAddress.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Label alamat harus diisi',
+        );
+      }
+      if (completeAddress.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Alamat lengkap harus diisi',
+        );
+      }
+      if (noteForCourier.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Catatan harus diisi',
+        );
+      }
       var req = {
         'recipient_name': recipientName.text,
         'recipient_phone': recipientPhone.text,
