@@ -76,7 +76,7 @@ class DoctorChat extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                color: whiteColor,
+                color: Colors.transparent,
                 margin: EdgeInsets.only(top: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
