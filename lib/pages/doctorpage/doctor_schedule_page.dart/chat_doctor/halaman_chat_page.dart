@@ -142,7 +142,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               style: TextStyle(
                                 fontWeight: bold,
                                 fontFamily: 'ProximaNova',
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           );

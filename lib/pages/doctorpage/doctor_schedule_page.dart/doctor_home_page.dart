@@ -181,7 +181,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                       style: TextStyle(
                                         fontWeight: bold,
                                         color: fromCssColor('#6B6B6B'),
-                                        fontSize: 16,
+                                        fontSize: 20,
                                         fontFamily: 'ProximaNova,',
                                       ),
                                     )
@@ -231,7 +231,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
-                            fontSize: 15,
+                            fontSize: 20,
                           ),
                         ),
                       );
