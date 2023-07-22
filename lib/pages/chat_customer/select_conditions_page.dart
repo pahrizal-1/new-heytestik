@@ -131,13 +131,7 @@ class KorektifWajahPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print('interestConditionId $interestConditionId');
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  ChatPage(interestConditionId: interestConditionId),
-            ),
-          );
+          Get.to(ChatPage(interestConditionId: interestConditionId));
         },
         child: Column(
           children: [

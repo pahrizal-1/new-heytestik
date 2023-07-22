@@ -22,8 +22,13 @@ class OrderController extends StateClass {
   RxList<Data> filterData = List<Data>.empty().obs;
 
   ById.InterestConditionByIdModel? detail;
-  List<ById.InterestConditionsQuestion> question = [];
-
+  List<ById.InterestConditionsQuestion> listQuestion = [];
+  RxString title = 'Pertanyaan Awal'.obs;
+  RxString subtitle = 'Data Umum'.obs;
+  RxString question = ''.obs;
+  RxString typeAnswer = ''.obs;
+  RxInt totalQuestion = 0.obs;
+  RxList totalAnswer = [].obs;
   RxInt index = 0.obs;
   TextEditingController essayController = TextEditingController();
 
@@ -53,7 +58,13 @@ class OrderController extends StateClass {
     data;
     filterData.clear();
     detail = null;
-    question.clear();
+    title.value = 'Pertanyaan Awal';
+    subtitle.value = 'Data Umum';
+    question.value = '';
+    typeAnswer.value = '';
+    totalQuestion.value = 0;
+    totalAnswer.clear();
+    listQuestion.clear();
     index.value = 0;
     essayController.clear();
     listsAnswer.clear();
@@ -87,22 +98,41 @@ class OrderController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       index.value = 0;
       answerSelect.clear();
+      listsAnswer.clear();
       essayController.clear();
+      title.value = 'Pertanyaan Awal';
+      subtitle.value = 'Data Umum';
+      question.value = '';
+      typeAnswer.value = '';
+      totalQuestion.value = 0;
+      totalAnswer.clear();
 
       detail = await InterestConditionsService().getInterestConditionById(id);
-      question = detail!.data!.interestConditionsQuestion!;
+      listQuestion = detail!.data!.interestConditionsQuestion!;
 
-      if (question.isEmpty) {
+      // JIKA TIDAK ADA PERTANYAN KOSONG
+      if (detail!.data!.interestConditionsQuestion!.isEmpty) {
+        Get.back();
         AlertWidget(
           subtitle: 'Tidak ada pertanyaan',
         );
-        Get.back();
+
         return;
       }
+      // SET FIRST question
+      question.value = listQuestion[index.value].name.toString();
+      // SET FIRST typeAnswer
+      typeAnswer.value = listQuestion[index.value].typeAnswer.toString();
+      // SET TOTAL question
+      totalQuestion.value =
+          listQuestion[index.value].interestConditionsAnswer!.length;
 
       for (int i = 0;
           i < detail!.data!.interestConditionsQuestion!.length;
           i++) {
+        // SET TOTAL answer
+        totalAnswer.add(detail?.data?.interestConditionsQuestion?[i]
+            .interestConditionsAnswer?.length);
         answerSelect.add({
           'idQuestion': '',
           'question': '',

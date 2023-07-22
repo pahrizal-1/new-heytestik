@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -298,13 +299,8 @@ class _ChatPageState extends State<ChatPage> {
                   ButtonGreenWidget(
                     title: 'Konsul Sekarang',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PertanyaanAwalPage(
-                              interestConditionId: widget.interestConditionId),
-                        ),
-                      );
+                      Get.to(PertanyaanAwalPage(
+                          interestConditionId: widget.interestConditionId));
                     },
                   ),
                   const SizedBox(
