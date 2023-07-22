@@ -57,10 +57,10 @@ class _CheckOutSelesaiState extends State<CheckOutSelesai> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Alamatpage()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => Alamatpage()));
                         },
                         child: Icon(
                           Icons.keyboard_arrow_right,
@@ -75,12 +75,12 @@ class _CheckOutSelesaiState extends State<CheckOutSelesai> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Alamatpage(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => Alamatpage(),
+                      //   ),
+                      // );
                     },
                     child: Container(
                       width: 340,
