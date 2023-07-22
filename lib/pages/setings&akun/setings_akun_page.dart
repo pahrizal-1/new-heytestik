@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/rekening_bank_settings_p
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/alert_dialog_ulasan.dart';
 
 class SetingsAkunPage extends StatefulWidget {
   const SetingsAkunPage({super.key});
@@ -199,28 +200,36 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                 const SizedBox(
                   height: 25,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/log-out-icons.png',
-                      width: 24,
-                      height: 24,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Keluar Akun',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialogLogout(),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/log-out-icons.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Keluar Akun',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

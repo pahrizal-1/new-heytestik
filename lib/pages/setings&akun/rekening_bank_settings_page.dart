@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tambah_bank_customer.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
@@ -185,7 +185,7 @@ class RekeningBankSettings extends StatelessWidget {
                                                 ),
                                               ),
                                               builder: (context) =>
-                                                  const TambahBankPage());
+                                                  const TambahBankCustomerPage());
                                         },
                                         child: Text(
                                           'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',

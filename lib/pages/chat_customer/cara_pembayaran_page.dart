@@ -17,19 +17,9 @@ class _CaraPembyaranPageState extends State<CaraPembyaranPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Row(
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
             Text(
               'Cara Pembayaran',
               style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
