@@ -126,12 +126,7 @@ class AkunHomePage extends StatelessWidget {
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SetingsAkunPage(),
-                          ),
-                        );
+                        Get.to(const SetingsAkunPage());
                       },
                       child: Image.asset(
                         'assets/icons/setings-icons.png',
@@ -358,7 +353,7 @@ class AkunHomePage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: bold,
                           fontFamily: 'ProximaNova',
-                          fontSize: 15,
+                          fontSize: 20,
                         ),
                       ),
                     );
