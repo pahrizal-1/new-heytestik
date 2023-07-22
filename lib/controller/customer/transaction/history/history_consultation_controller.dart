@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 class HistoryConsultationController extends StateClass {
   Rx<TransactionHistoryConsultationModel> data =
       TransactionHistoryConsultationModel().obs;
+  List<Data2>? paymentPending = [];
   RxInt totalPendingPayment = 0.obs;
 
   Future<TransactionHistoryConsultationModel?> getHistoryConsultation(
@@ -17,14 +18,28 @@ class HistoryConsultationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalPendingPayment.value = 0;
       data.value = await TransactionService().historyConsultation();
-      print(data.value.data!.data?.length);
       for (int i = 0; i < data.value.data!.data!.length; i++) {
         if (data.value.data!.data![i].status == 'MENUNGGU_PEMBAYARAN') {
           totalPendingPayment.value += 1;
         }
       }
-      print('total ${totalPendingPayment.value}');
     });
     return data.value;
+  }
+
+  getHistoryConsultationPaymentpending(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      totalPendingPayment.value = 0;
+      paymentPending?.clear();
+      data.value = await TransactionService().historyConsultation();
+      for (int i = 0; i < data.value.data!.data!.length; i++) {
+        if (data.value.data!.data![i].status == 'MENUNGGU_PEMBAYARAN') {
+          totalPendingPayment.value += 1;
+          paymentPending?.add(data.value.data!.data![i]);
+        }
+      }
+    });
+    isLoading.value = false;
   }
 }
