@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -306,6 +307,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   height: 12,
                 ),
                 TitleDetail(
+                  ontap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategorySkinCare()));
+                  },
                   title1: 'Kategori',
                   title2: 'Cleanser',
                   textColor: greenColor,

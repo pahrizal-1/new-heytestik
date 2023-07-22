@@ -208,15 +208,15 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         width: 8,
                       ),
                       Container(
-                        width: 111,
-                        height: 28,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6, horizontal: 16),
                         decoration: BoxDecoration(
                             color: whiteColor,
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(color: const Color(0xffcccccc))),
                         child: Center(
                           child: Text(
-                            'Bekas Jerawat',
+                            'Jerawat',
                             style: blackTextStyle.copyWith(
                                 fontWeight: regular, fontSize: 13),
                           ),
@@ -374,11 +374,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               child: AnimatedSmoothIndicator(
                 activeIndex: activeIndex,
                 count: images.length,
-                effect: JumpingDotEffect(
+                effect: ScaleEffect(
                     activeDotColor: greenColor,
                     dotColor: const Color(0xffD9D9D9),
-                    dotWidth: 10,
-                    dotHeight: 10),
+                    dotWidth: 6,
+                    dotHeight: 6),
               ),
             ),
             Padding(
