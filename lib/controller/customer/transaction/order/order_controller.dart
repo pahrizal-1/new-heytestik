@@ -97,6 +97,7 @@ class OrderController extends StateClass {
           subtitle: 'Tidak ada pertanyaan',
         );
         Get.back();
+        return;
       }
 
       for (int i = 0;
