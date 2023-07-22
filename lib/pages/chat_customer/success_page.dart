@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../widget/button_widget.dart';
+
 class SuccessPage extends StatelessWidget {
   SuccessPage({super.key});
 
@@ -18,21 +20,51 @@ class SuccessPage extends StatelessWidget {
       //   ),
       // ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Selamat, pembayaranmu berhasil:)',
-              style: blackRegulerTextStyle.copyWith(fontSize: 25),
-            ),
-            const SizedBox(
-              height: spaceHeigt,
-            ),
-            Text(
-              'Sesi pembayaran berakhir :)',
-              style: blackRegulerTextStyle.copyWith(fontSize: 20),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/rekomendasi1.png',
+                width: 220,
+                height: 220,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Selamat, pembayaranmu berhasil:)',
+                style: blackTextStyle.copyWith(fontSize: 20),
+              ),
+              const SizedBox(
+                height: spaceHeigt,
+              ),
+              Text(
+                'Silakan Cek Pesananmu yaa Di Transaksi',
+                style: blackRegulerTextStyle.copyWith(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ButtonGreenWidget(
+                title: 'Yuk Konsultasi Chat Docter',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ButtonGreenWidget(
+                title: 'Konsultasi Lagi',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ButtonWhiteWidget(
+                title: 'Liat Daftar Transaksi',
+              )
+            ],
+          ),
         ),
       ),
     );
