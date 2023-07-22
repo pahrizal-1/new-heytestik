@@ -88,7 +88,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             'MENUNGGU_PEMBAYARAN') {
                           return DaftarTransaksiProduk(
                             nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                            tanggal: ConverDate.defaultDate(
+                            tanggal: ConvertDate.defaultDate(
                                 state.paymentPending?[index].createdAt ?? '-'),
                             pesanan: 'Konsultasi',
                             progres: 'Menunggu Pembayaran',

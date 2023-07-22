@@ -318,7 +318,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                         itemBuilder: (BuildContext context, index) {
                           return DaftarTransaksiProduk(
                             nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                            tanggal: ConverDate.defaultDate(
+                            tanggal: ConvertDate.defaultDate(
                                 snapshot.data!.data?.data?[index].createdAt ??
                                     '-'),
                             pesanan: 'Konsultasi',
