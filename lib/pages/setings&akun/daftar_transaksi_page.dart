@@ -193,12 +193,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MenungguPemayaranPage(),
-                        ),
-                      );
+                      Get.to(() => MenungguPemayaranPage());
                     },
                     child: Row(
                       children: [
@@ -333,7 +328,15 @@ class DaftarTransaksiPage extends StatelessWidget {
                                 : snapshot.data!.data?.data?[index].status ==
                                         'READY'
                                     ? 'Review'
-                                    : 'Selesai',
+                                    : snapshot.data!.data?.data?[index]
+                                                .status ==
+                                            'AKTIF'
+                                        ? 'Aktif'
+                                        : snapshot.data!.data?.data?[index]
+                                                    .status ==
+                                                'SELESAI'
+                                            ? 'Selesai'
+                                            : '-',
                             jumlahBarang: 'Bekas Jerawat',
                             // totalBelanjaan: 'Total Harga',
                             harga: CurrencyFormat.convertToIdr(
