@@ -1,113 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import '../../widget/pencarian_search_widget.dart';
-import '../home/notifikasion_page.dart';
-import '../setings&akun/akun_home_page.dart';
-
-class OnboardingChat2 extends StatelessWidget {
-  const OnboardingChat2({super.key});
+class ListChat extends StatelessWidget {
+  const ListChat({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfilCustomerPage(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png')),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Chat',
-                style: whiteTextStyle.copyWith(fontSize: 18),
-              )
-            ],
-          ),
-        ),
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/notif-icons.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const DoctorChat(
+            DoctorChat(
+              ontap: () {},
               judul: 'Bekas Jerawat',
               chat:
                   'Silakan dicek dulu ya :) Kalau masih bingung, langsung ditanyain aja ☺️',
@@ -116,6 +20,7 @@ class OnboardingChat2 extends StatelessWidget {
               valueChat: '2',
             ),
             DoctorChat(
+              ontap: () {},
               judul: 'Jerawat',
               chat:
                   'dr. Risty Hafinah, Sp.DV: Silakan dicek dulu ya :) Kalau masih bingung, langsung ditanyain aja ☺️',
@@ -132,7 +37,7 @@ class OnboardingChat2 extends StatelessWidget {
 
 class DoctorChat extends StatelessWidget {
   final String judul;
-
+  final VoidCallback? ontap;
   final String chat;
   final String img;
   final String jamTanggal;
@@ -146,6 +51,7 @@ class DoctorChat extends StatelessWidget {
     required this.jamTanggal,
     this.valueChat = '',
     this.colorTanggal,
+    this.ontap,
   });
 
   @override
@@ -153,6 +59,7 @@ class DoctorChat extends StatelessWidget {
     return Padding(
       padding: lsymetric.copyWith(top: 30),
       child: InkWell(
+        onTap: ontap,
         child: Row(
           children: [
             ClipRect(
@@ -160,10 +67,11 @@ class DoctorChat extends StatelessWidget {
                 img,
                 width: 52,
                 height: 52,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(
-              width: 8,
+              width: 10,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +86,7 @@ class DoctorChat extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      constraints: const BoxConstraints(maxWidth: 230),
+                      constraints: const BoxConstraints(maxWidth: 220),
                       child: Text(
                         chat,
                         style: blackTextStyle.copyWith(
