@@ -559,7 +559,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       // await state.logout(context);
                       showDialog(
                         context: context,
-                        builder: (context) => const AlertDialogLogout(),
+                        builder: (context) => AlertDialogLogout(),
                       );
                     },
                     child: const ContainerSettings(
