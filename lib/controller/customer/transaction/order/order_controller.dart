@@ -53,6 +53,8 @@ class OrderController extends StateClass {
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
   RxString orderId = ''.obs;
+  RxString bank = ''.obs;
+  RxString expireTime = ''.obs;
 
   clearVariabel() {
     fullName.value = '';
@@ -77,6 +79,9 @@ class OrderController extends StateClass {
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
+    orderId.value = '';
+    bank.value = '';
+    expireTime.value = '';
   }
 
   getInterestConditions(BuildContext context) async {
@@ -179,6 +184,10 @@ class OrderController extends StateClass {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List paramAnswer = [];
+      orderId.value = '';
+      bank.value = '';
+      expireTime.value = '';
+
       print('listsAnswer ${listsAnswer.length}');
       for (int i = 0; i < listsAnswer.length; i++) {
         if (listsAnswer[i]['interest_condition_answer_id'] != 0 &&
@@ -217,7 +226,10 @@ class OrderController extends StateClass {
       }
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.payment!.orderId.toString();
-
+      // JIKA SUKSES SET bank
+      bank.value = res.data!.payment!.vaNumbers![0].bank.toString();
+      // JIKA SUKSES SET expireTime
+      expireTime.value = res.data!.payment!.expiryTime.toString();
       doInPost();
       clearVariabel();
     });
