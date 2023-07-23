@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/address_by_id_model.dart';
+import 'package:heystetik_mobileapps/models/customer/customer_location_model.dart';
 import 'package:heystetik_mobileapps/models/customer/list_address_model.dart';
 
 class AddressService extends ProviderClass {
@@ -59,5 +60,26 @@ class AddressService extends ProviderClass {
       },
     );
     return AddressByIdModel.fromJson(response);
+  }
+
+  Future<CustomerLocationModel> createLocation(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/user-location',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return CustomerLocationModel.fromJson(response);
+  }
+
+  Future<CustomerLocationModel> getLocation() async {
+    var response = await networkingConfig.doGet(
+      '/user-location',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return CustomerLocationModel.fromJson(response);
   }
 }
