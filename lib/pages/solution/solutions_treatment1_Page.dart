@@ -66,32 +66,37 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               const SizedBox(
                 width: 11,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Lokasimu',
-                        style: blackTextStyle.copyWith(
-                            fontSize: 13, fontWeight: regular),
+                      Row(
+                        children: [
+                          Text(
+                            'Lokasimu',
+                            style: blackTextStyle.copyWith(
+                                fontSize: 13, fontWeight: regular),
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: greenColor,
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        width: 7,
+                      Obx(
+                        () => Text(
+                          state.myAddress.value,
+                          style: blackTextStyle.copyWith(fontSize: 13),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: greenColor,
-                      )
                     ],
                   ),
-                  Obx(
-                    () => Text(
-                      state.myAddress.value,
-                      style: blackTextStyle.copyWith(fontSize: 13),
-                    ),
-                  ),
-                ],
+                ),
               )
             ],
           ),

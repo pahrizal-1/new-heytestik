@@ -35,6 +35,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: greenColor,
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),
           child: Row(
