@@ -61,6 +61,7 @@ class DoctorChat extends StatelessWidget {
       child: InkWell(
         onTap: ontap,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRect(
               child: Image.asset(
@@ -73,35 +74,31 @@ class DoctorChat extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  judul,
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
+            Expanded(
+              child: Container(
+                color: Colors.transparent,
+                margin: EdgeInsets.only(top: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      constraints: const BoxConstraints(maxWidth: 220),
-                      child: Text(
-                        chat,
-                        style: blackTextStyle.copyWith(
-                          fontSize: 13,
-                        ),
-                        softWrap: false,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      judul,
+                      style: blackTextStyle.copyWith(fontSize: 18),
                     ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      chat,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 13,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-            const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
