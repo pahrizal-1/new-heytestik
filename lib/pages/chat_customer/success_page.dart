@@ -11,7 +11,9 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../widget/button_widget.dart';
 
 class SuccessPage extends StatelessWidget {
-  SuccessPage({super.key});
+  String orderId;
+
+  SuccessPage({required this.orderId, super.key});
   final ConsultationController state = Get.put(ConsultationController());
 
   @override
@@ -65,7 +67,7 @@ class SuccessPage extends StatelessWidget {
                       onPressed: () async {
                         await state.initiateChat(
                           context,
-                          'ccbfafc5-a61d-47d8-95cc-c3e9443cb8b3',
+                          orderId,
                         );
                       },
                     ),
