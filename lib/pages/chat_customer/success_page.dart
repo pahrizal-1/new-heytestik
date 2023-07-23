@@ -17,14 +17,14 @@ class SuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: greenColor,
-        title: Text(
-          'Pembayaran berhasil',
-          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-        ),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: greenColor,
+      //   title: Text(
+      //     'Pembayaran berhasil',
+      //     style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+      //   ),
+      // ),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
