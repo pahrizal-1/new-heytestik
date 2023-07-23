@@ -25,7 +25,7 @@ class ConsultationController extends StateClass {
       if (initiate.value!.success != true &&
           initiate.value!.message != 'Success') {
         throw ErrorConfig(
-          cause: ErrorConfig.userInput,
+          cause: ErrorConfig.anotherUnknow,
           message: initiate.value!.message.toString(),
         );
       }
