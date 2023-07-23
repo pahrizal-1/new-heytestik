@@ -220,7 +220,7 @@ class OrderController extends StateClass {
 
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
-          cause: ErrorConfig.userInput,
+          cause: ErrorConfig.anotherUnknow,
           message: res.message.toString(),
         );
       }
