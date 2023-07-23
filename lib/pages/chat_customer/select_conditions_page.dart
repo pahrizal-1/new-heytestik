@@ -21,7 +21,9 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   @override
   void initState() {
     super.initState();
-    get(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      get(context);
+    });
   }
 
   get(BuildContext context) async {
