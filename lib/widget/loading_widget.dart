@@ -5,10 +5,11 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
     super.key,
+    this.title = '',
     required this.isLoading,
     required this.child,
   });
-
+  final String title;
   final bool isLoading;
   final Widget child;
 
@@ -16,12 +17,28 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return isLoading
         ? Center(
-            child: SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    color: greenColor,
+                  ),
+                ),
+                title == ''
+                    ? Container()
+                    : const SizedBox(
+                        height: spaceHeigt,
+                      ),
+                title == ''
+                    ? Container()
+                    : Text(
+                        title,
+                        style: subGreyTextStyle,
+                      ),
+              ],
             ),
           )
         : child;
