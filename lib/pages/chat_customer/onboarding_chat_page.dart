@@ -18,7 +18,6 @@ class OnboardingChat extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),
