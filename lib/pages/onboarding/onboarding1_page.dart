@@ -55,7 +55,7 @@ class _OnBoarding1PageState extends State<OnBoarding1Page> {
                           );
                         },
                         child: Text(
-                          "Lanjut",
+                          'Lanjut',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',
