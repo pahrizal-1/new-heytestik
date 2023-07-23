@@ -53,7 +53,7 @@ class OptionLoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign In",
+                    'Sign In',
                     style: blackHigtTextStyle,
                     textAlign: TextAlign.left,
                   ),

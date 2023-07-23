@@ -12,7 +12,7 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          // width: MediaQuery.of(context).size.width,
           padding:
               const EdgeInsets.only(left: paddingL, right: paddingL, top: 446),
           decoration: const BoxDecoration(
