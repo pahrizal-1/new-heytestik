@@ -75,7 +75,9 @@ class HistoryConsultationController extends StateClass {
             transactionStatus.value.data?.transactionStatus ?? '-';
 
         if (statusTransaction.value == 'settlement') {
-          Get.to(SuccessPage());
+          Get.to(SuccessPage(
+            orderId: orderId,
+          ));
           showDialog(
             context: context,
             builder: (context) => BankMoreDialog(),
