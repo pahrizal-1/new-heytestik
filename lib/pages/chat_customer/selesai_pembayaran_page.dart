@@ -13,7 +13,6 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/more_dialog_bank.dart';
 
 class SelesaiPembayaranPage extends StatefulWidget {
   String bank;
