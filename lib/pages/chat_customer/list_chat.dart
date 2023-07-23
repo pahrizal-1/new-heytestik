@@ -1,34 +1,61 @@
-import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/theme/theme.dart';
+// ignore_for_file: must_be_immutable
 
-class ListChat extends StatelessWidget {
-  const ListChat({super.key});
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/recent_chat_customer_model.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+
+class ListChatPage extends StatefulWidget {
+  RecentChatCustomerModel? recentChat;
+  ListChatPage({required this.recentChat, super.key});
+
+  @override
+  State<ListChatPage> createState() => _ListChatPageState();
+}
+
+class _ListChatPageState extends State<ListChatPage> {
+  final ConsultationController state = Get.put(ConsultationController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            DoctorChat(
-              ontap: () {},
-              judul: 'Bekas Jerawat',
-              chat:
-                  'Silakan dicek dulu ya :) Kalau masih bingung, langsung ditanyain aja ☺️',
-              img: 'assets/images/doctor-img.png',
-              jamTanggal: '11:09 AM',
-              valueChat: '2',
-            ),
-            DoctorChat(
-              ontap: () {},
-              judul: 'Jerawat',
-              chat:
-                  'dr. Risty Hafinah, Sp.DV: Silakan dicek dulu ya :) Kalau masih bingung, langsung ditanyain aja ☺️',
-              img: 'assets/images/doctor1.png',
-              jamTanggal: '9/9/2022',
-              colorTanggal: subgreyColor,
-            ),
-          ],
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: widget.recentChat!.data!.isEmpty
+              ? Container()
+              : ListView.builder(
+                  shrinkWrap: true,
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.recentChat!.data!.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return DoctorChat(
+                      ontap: () {
+                        print("chat");
+                      },
+                      doctorId:
+                          state.recentChat.value!.data![i].doctorId!.toInt(),
+                      doctorName:
+                          state.recentChat.value!.data?[i].doctor?.fullname ??
+                              '',
+                      chat:
+                          state.recentChat.value!.data?[i].lastChat?.message ??
+                              '',
+                      img: 'assets/images/doctor-img.png',
+                      time: '11:09 AM',
+                      roomCode:
+                          state.recentChat.value!.data![i].code.toString(),
+                      seen: state.recentChat.value!.data![i].lastChat!.seen ??
+                          false,
+                      valueChat: state.recentChat.value!.data?[i].unseenCount
+                          .toString(),
+                    );
+                  },
+                ),
         ),
       ),
     );
@@ -36,22 +63,28 @@ class ListChat extends StatelessWidget {
 }
 
 class DoctorChat extends StatelessWidget {
-  final String judul;
+  final int doctorId;
+  final String doctorName;
   final VoidCallback? ontap;
   final String chat;
   final String img;
-  final String jamTanggal;
-  final Color? colorTanggal;
+  final String time;
+  final String roomCode;
+  // final Color? colorTanggal;
   final String? valueChat;
+  final bool seen;
   const DoctorChat({
     super.key,
-    required this.judul,
+    required this.doctorId,
+    required this.doctorName,
     required this.chat,
     required this.img,
-    required this.jamTanggal,
+    required this.time,
+    required this.roomCode,
     this.valueChat = '',
-    this.colorTanggal,
+    // this.colorTanggal,
     this.ontap,
+    required this.seen,
   });
 
   @override
@@ -61,7 +94,7 @@ class DoctorChat extends StatelessWidget {
       child: InkWell(
         onTap: ontap,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRect(
               child: Image.asset(
@@ -77,13 +110,13 @@ class DoctorChat extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.transparent,
-                margin: EdgeInsets.only(top: 5),
+                margin: const EdgeInsets.only(top: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      judul,
-                      style: blackTextStyle.copyWith(fontSize: 18),
+                      doctorName,
+                      style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     const SizedBox(
                       height: 4,
@@ -100,18 +133,24 @@ class DoctorChat extends StatelessWidget {
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  jamTanggal,
+                  time,
                   style: grenTextStyle.copyWith(
-                      fontSize: 12, fontWeight: regular, color: colorTanggal),
+                    fontSize: 12,
+                    fontWeight: regular,
+                    color: seen ? greyColor : greenColor,
+                  ),
                 ),
-                const SizedBox(
-                  height: 9,
-                ),
-                valueChat != ''
-                    ? Container(
+                seen
+                    ? Container()
+                    : const SizedBox(
+                        height: 9,
+                      ),
+                seen
+                    ? Container()
+                    : Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 7,
                           vertical: 2,
@@ -123,8 +162,7 @@ class DoctorChat extends StatelessWidget {
                           style: whiteTextStyle.copyWith(
                               fontSize: 12, color: whiteColor),
                         ),
-                      )
-                    : Container(),
+                      ),
               ],
             )
           ],
