@@ -78,7 +78,7 @@ class HistoryConsultationController extends StateClass {
           Get.to(SuccessPage());
           showDialog(
             context: context,
-            builder: (context) => const BankMoreDialog(),
+            builder: (context) => BankMoreDialog(),
           );
           return;
         }
