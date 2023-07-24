@@ -378,3 +378,67 @@ class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
     );
   }
 }
+
+class TextFormpollPostingan extends StatelessWidget {
+  final String title;
+
+  const TextFormpollPostingan({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.only(bottom: 11),
+          width: 296,
+          child: TextFormField(
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: borderColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: borderColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: title,
+              hintStyle: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              labelStyle: TextStyle(
+                color: fromCssColor('#A3A3A3'),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Container(
+          width: 24,
+          height: 24,
+          margin: EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+          child: Icon(
+            Icons.add,
+            color: whiteColor,
+            size: 20,
+          ),
+        )
+      ],
+    );
+  }
+}

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/appporp_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/onboarding_chat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -65,10 +66,7 @@ class SuccessPage extends StatelessWidget {
                     child: ButtonGreenWidget(
                       title: 'Yuk Konsultasi Chat Docter',
                       onPressed: () async {
-                        await state.initiateChat(
-                          context,
-                          orderId,
-                        );
+                        Get.to(const ApporedPage());
                       },
                     ),
                   ),
