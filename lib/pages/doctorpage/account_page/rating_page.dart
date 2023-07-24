@@ -21,40 +21,18 @@ class _RatingPageState extends State<RatingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 22,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Rating & Ulasan Pasien',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontWeight: bold,
-                    fontSize: 20,
-                    color: whiteColor,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        title: Text(
+          'Rating & Ulasan Pasien',
+          style: TextStyle(
+            fontFamily: 'ProximaNova',
+            fontWeight: bold,
+            fontSize: 20,
+            color: whiteColor,
+            letterSpacing: 0.5,
+          ),
         ),
       ),
       body: SingleChildScrollView(

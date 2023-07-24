@@ -11,30 +11,11 @@ class BalasanCepatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: whiteColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Balasan Cepat',
-                style: whiteTextStyle.copyWith(fontSize: 20),
-              )
-            ],
-          ),
+        title: Text(
+          'Balasan Cepat',
+          style: whiteTextStyle.copyWith(fontSize: 20),
         ),
       ),
       body: Padding(

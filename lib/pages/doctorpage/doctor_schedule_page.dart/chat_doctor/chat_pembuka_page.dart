@@ -18,26 +18,10 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
       appBar: AppBar(
           backgroundColor: greenColor,
           elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: whiteColor,
-                ),
-              ),
-              const SizedBox(
-                width: 7,
-              ),
-              Text(
-                'Chat Pembuka',
-                style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
-              ),
-            ],
+          titleSpacing: 0,
+          title: Text(
+            'Chat Pembuka',
+            style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
           ),
           actions: [
             isSelected
