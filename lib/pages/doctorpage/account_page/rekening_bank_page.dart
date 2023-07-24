@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
-import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../theme/theme.dart';
