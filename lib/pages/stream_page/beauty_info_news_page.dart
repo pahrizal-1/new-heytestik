@@ -26,29 +26,33 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
     return Scaffold(
       body: ListView(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(
               left: 20,
               right: 20,
               top: 35,
               bottom: 42,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CategotyBuarty(
-                  icon: 'assets/icons/icons_concenr.png',
-                  titile: 'Concern',
+            child: Expanded(
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CategotyBuarty(
+                      icon: 'assets/icons/icons_concenr.png',
+                      titile: 'Concern',
+                    ),
+                    CategotyBuarty(
+                      icon: 'assets/icons/skincare-corcrn.png',
+                      titile: 'Skincare',
+                    ),
+                    CategotyBuarty(
+                      icon: 'assets/icons/treatmen-cornern.png',
+                      titile: 'Treatment',
+                    ),
+                  ],
                 ),
-                CategotyBuarty(
-                  icon: 'assets/icons/skincare-corcrn.png',
-                  titile: 'Skincare',
-                ),
-                CategotyBuarty(
-                  icon: 'assets/icons/treatmen-cornern.png',
-                  titile: 'Treatment',
-                ),
-              ],
+              ),
             ),
           ),
           CarouselSlider.builder(
@@ -186,38 +190,34 @@ class CategotyBuarty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: 114,
-        height: 48,
-        padding: const EdgeInsets.only(left: 8),
-        margin: const EdgeInsets.only(right: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          border: Border.all(
-            color: borderColor,
-            width: 0.4,
-          ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+      margin: const EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          color: borderColor,
+          width: 0.4,
         ),
-        child: Center(
-          child: Row(
-            children: [
-              Image.asset(
-                icon,
-                width: 30,
-                height: 30,
+      ),
+      child: Center(
+        child: Row(
+          children: [
+            Image.asset(
+              icon,
+              width: 30,
+              height: 30,
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Text(
+              titile,
+              style: blackTextStyle.copyWith(
+                fontSize: 13,
               ),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                titile,
-                style: blackTextStyle.copyWith(
-                  fontSize: 13,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

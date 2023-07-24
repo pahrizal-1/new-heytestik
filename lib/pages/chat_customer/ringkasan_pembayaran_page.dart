@@ -39,25 +39,16 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Row(
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
             Text(
               'Ringkasan Pembayaran',
               style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
             ),
-            const Spacer(),
+            Spacer(),
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -71,6 +62,9 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                 'assets/icons/icon-home-chat.png',
                 width: 18,
               ),
+            ),
+            SizedBox(
+              width: 16,
             )
           ],
         ),
