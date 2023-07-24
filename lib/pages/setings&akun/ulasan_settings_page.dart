@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/ulasan_riwayat_widgets.dart';
+import '../../widget/ulasan_widgets.dart';
 import 'detail_ulasan_page.dart';
 
 class UlasanSetingsPage extends StatefulWidget {

@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 
 class MenungguPemayaranPage extends StatefulWidget {
-  MenungguPemayaranPage({super.key});
+  const MenungguPemayaranPage({super.key});
 
   @override
   State<MenungguPemayaranPage> createState() => _MenungguPemayaranPageState();
@@ -86,7 +86,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                       itemBuilder: (BuildContext context, index) {
                         if (state.paymentPending![index].status ==
                             'MENUNGGU_PEMBAYARAN') {
-                          return DaftarTransaksiProduk(
+                          return TransaksiKonsultan(
                             nameProduk: 'dr. Risty Hafinah, Sp.DV',
                             tanggal: ConvertDate.defaultDate(
                                 state.paymentPending?[index].createdAt ?? '-'),
