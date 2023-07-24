@@ -27,31 +27,30 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
       body: ListView(
         children: [
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 20,
               right: 20,
               top: 35,
               bottom: 42,
             ),
-            child: Expanded(
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategotyBuarty(
-                      icon: 'assets/icons/icons_concenr.png',
-                      titile: 'Concern',
-                    ),
-                    CategotyBuarty(
-                      icon: 'assets/icons/skincare-corcrn.png',
-                      titile: 'Skincare',
-                    ),
-                    CategotyBuarty(
-                      icon: 'assets/icons/treatmen-cornern.png',
-                      titile: 'Treatment',
-                    ),
-                  ],
-                ),
+            child: Container(
+              color: whiteColor,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CategotyBuarty(
+                    icon: 'assets/icons/icons_concenr.png',
+                    titile: 'Concern',
+                  ),
+                  CategotyBuarty(
+                    icon: 'assets/icons/skincare-corcrn.png',
+                    titile: 'Skincare',
+                  ),
+                  CategotyBuarty(
+                    icon: 'assets/icons/treatmen-cornern.png',
+                    titile: 'Treatment',
+                  ),
+                ],
               ),
             ),
           ),
@@ -192,7 +191,6 @@ class CategotyBuarty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-      margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
         border: Border.all(
@@ -205,8 +203,8 @@ class CategotyBuarty extends StatelessWidget {
           children: [
             Image.asset(
               icon,
-              width: 30,
-              height: 30,
+              width: 25,
+              height: 25,
             ),
             const SizedBox(
               width: 6,

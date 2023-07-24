@@ -392,34 +392,36 @@ class TextFormpollPostingan extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          padding: EdgeInsets.only(bottom: 11),
-          width: 296,
-          child: TextFormField(
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: borderColor,
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.only(bottom: 11),
+            width: 296,
+            child: TextFormField(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: borderColor,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              hintText: title,
-              hintStyle: subTitleTextStyle.copyWith(
-                fontSize: 14,
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              labelStyle: TextStyle(
-                color: fromCssColor('#A3A3A3'),
+                hintText: title,
+                hintStyle: subTitleTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelStyle: TextStyle(
+                  color: fromCssColor('#A3A3A3'),
+                ),
               ),
             ),
           ),
