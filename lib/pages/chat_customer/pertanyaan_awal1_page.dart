@@ -43,6 +43,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         backgroundColor: greenColor,
         title: Row(
           children: [
@@ -63,7 +64,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                 'assets/icons/icon-home-chat.png',
                 width: 18,
               ),
-            )
+            ),
+            const SizedBox(
+              width: 20,
+            ),
           ],
         ),
       ),

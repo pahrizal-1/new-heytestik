@@ -18,25 +18,12 @@ class _CatatanDocterState extends State<CatatanDocter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
                 Text(
                   'Catatan Doctor',
                   style: TextStyle(
@@ -49,20 +36,27 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 ),
               ],
             ),
-            InkWell(
-              child: Text(
-                'SIMPAN',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ProximaNova',
-                  fontWeight: bold,
-                  fontSize: 15,
-                  letterSpacing: 0.5,
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Center(
+              child: InkWell(
+                child: Text(
+                  'SIMPAN',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 15,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

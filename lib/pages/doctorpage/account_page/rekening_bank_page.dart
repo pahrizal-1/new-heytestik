@@ -13,28 +13,11 @@ class RekeningBankPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TabBarDoctor(),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.arrow_back)),
-            const SizedBox(
-              width: 7,
-            ),
-            Text(
-              'Rekening Bank',
-              style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-            ),
-          ],
+        title: Text(
+          'Rekening Bank',
+          style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
         ),
       ),
       body: Padding(

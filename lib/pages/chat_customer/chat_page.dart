@@ -27,6 +27,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: const Color(0XfFFFFFFf),
       appBar: AppBar(
+        titleSpacing: 0,
         elevation: 0,
         backgroundColor: greenColor,
         title: const Text('Bekas Jerawat'),

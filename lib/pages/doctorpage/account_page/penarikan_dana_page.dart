@@ -15,25 +15,12 @@ class _PenarikanDanaState extends State<PenarikanDana> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.arrow_back)),
-            SizedBox(
-              width: 7,
-            ),
-            Text(
-              'Penarikan Saldo',
-              style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-            ),
-          ],
+        title: Text(
+          'Penarikan Saldo',
+          style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
         ),
       ),
       body: SingleChildScrollView(

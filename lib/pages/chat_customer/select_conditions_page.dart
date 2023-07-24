@@ -34,6 +34,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         centerTitle: false,
         backgroundColor: greenColor,
         title: const Text('Pilih Kondisi'),
