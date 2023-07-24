@@ -64,6 +64,7 @@ dependencies:
   camera: ^0.10.5+2
   geolocator: ^8.2.0
   geocoding: ^2.0.4
+  # permission_handler: ^10.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
