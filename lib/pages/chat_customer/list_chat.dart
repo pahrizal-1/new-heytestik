@@ -25,7 +25,16 @@ class _ListChatPageState extends State<ListChatPage> {
         () => LoadingWidget(
           isLoading: state.isLoading.value,
           child: widget.recentChat!.data!.isEmpty
-              ? Container()
+              ? Center(
+                  child: Text(
+                    'Belum ada chat konsultasi',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
+                )
               : ListView.builder(
                   shrinkWrap: true,
                   keyboardDismissBehavior:
