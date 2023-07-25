@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 
 import '../theme/theme.dart';
@@ -29,17 +31,17 @@ class AlertDialogTransaksi extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Kembali ke home',
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TabBarCustomer(),
-                    ));
+                Get.offAll(const TabBarCustomer());
               },
             ),
             const SizedBox(
               height: 15,
             ),
-            ButtonWhiteWidget(title: 'Lihat daftar transaksi'),
+            ButtonWhiteWidget(
+                title: 'Lihat daftar transaksi',
+                onPressed: () {
+                  Get.offAll(DaftarTransaksiPage());
+                }),
           ],
         ),
       ),
