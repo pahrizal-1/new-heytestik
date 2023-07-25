@@ -327,15 +327,23 @@ class AkunHomePage extends StatelessWidget {
                                                               ?.data?[index]
                                                               .status ==
                                                           'READY'
-                                                      ? 'Review'
+                                                      ? 'Ready'
                                                       : snapshot
                                                                   .data!
                                                                   .data
                                                                   ?.data?[index]
                                                                   .status ==
-                                                              'AKTIF'
-                                                          ? 'Aktif'
-                                                          : 'Selesai',
+                                                              'REVIEW'
+                                                          ? 'Review'
+                                                          : snapshot
+                                                                      .data!
+                                                                      .data
+                                                                      ?.data?[
+                                                                          index]
+                                                                      .status ==
+                                                                  'AKTIF'
+                                                              ? 'Aktif'
+                                                              : 'Selesai',
                                               style: grenTextStyle.copyWith(
                                                 fontSize: 12,
                                                 color: snapshot
@@ -360,9 +368,17 @@ class AkunHomePage extends StatelessWidget {
                                                                     ?.data?[
                                                                         index]
                                                                     .status ==
-                                                                'AKTIF'
-                                                            ? greenColor
-                                                            : greenColor,
+                                                                'REVIEW'
+                                                            ? const Color.fromARGB(
+                                                                255, 255, 102, 0)
+                                                            : snapshot
+                                                                        .data!
+                                                                        .data
+                                                                        ?.data?[index]
+                                                                        .status ==
+                                                                    'AKTIF'
+                                                                ? greenColor
+                                                                : greenColor,
                                               ),
                                             ),
                                             Text(
