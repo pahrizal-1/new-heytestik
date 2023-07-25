@@ -12,26 +12,13 @@ class NotifikasionPage extends StatelessWidget {
       backgroundColor: const Color(0XfFFFFFFf),
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            Text(
-              'Notifikasi',
-              style: whiteTextStyle.copyWith(
-                fontSize: 20,
-              ),
-            ),
-          ],
+        title: Text(
+          'Notifikasi',
+          style: whiteTextStyle.copyWith(
+            fontSize: 20,
+          ),
         ),
       ),
       body: SingleChildScrollView(

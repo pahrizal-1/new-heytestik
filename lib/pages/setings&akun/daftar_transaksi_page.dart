@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 
+import '../../widget/appbar_widget.dart';
 import '../../widget/daftar_transaksi_widgets.dart';
 
 class DaftarTransaksiPage extends StatelessWidget {
@@ -21,50 +22,36 @@ class DaftarTransaksiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         elevation: 2,
-        automaticallyImplyLeading: false,
         backgroundColor: whiteColor,
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                color: blackColor,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: borderColor),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(13),
-                        child: Image.asset(
-                          'assets/icons/search1.png',
-                          width: 12,
-                          color: subgreyColor,
-                        ),
-                      ),
-                      hintText: 'Cari Alamat',
-                      border: InputBorder.none,
+        title: Container(
+          height: 43,
+          child: Center(
+            child: TextFormField(
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(0),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: borderColor,
                     ),
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(7)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: borderColor),
+                    borderRadius: BorderRadius.circular(7)),
+                prefixIcon: Icon(Icons.search),
+                prefixIconColor: subgreyColor,
+                hintText: 'Cari Alamat',
+                border: InputBorder.none,
               ),
             ),
-          ],
+          ),
         ),
         actions: [
+          const SizedBox(
+            width: 10,
+          ),
           SvgPicture.asset(
             'assets/icons/trello-icons.svg',
           ),
@@ -80,7 +67,7 @@ class DaftarTransaksiPage extends StatelessWidget {
         ],
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(55.0),
-            child: Container(
+            child: SizedBox(
               height: 50.0,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -193,14 +180,20 @@ class DaftarTransaksiPage extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
-                      Get.to(() => MenungguPemayaranPage());
+                      Get.to(() => const MenungguPemayaranPage());
                     },
                     child: Row(
                       children: [
-                        Image.asset(
-                          'assets/icons/uang-icons.png',
-                          width: 20,
-                          height: 11,
+                        Container(
+                          width: 25,
+                          height: 25,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/icons/transaksi_logo.png',
+                                ),
+                                fit: BoxFit.cover),
+                          ),
                         ),
                         const SizedBox(
                           width: 11,
@@ -311,62 +304,39 @@ class DaftarTransaksiPage extends StatelessWidget {
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return snapshot.data!.data!.data!.isEmpty
-                          ? Center(
-                              child: Text(
-                                'Belum ada transaksi',
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.data?.data?.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return DaftarTransaksiProduk(
-                                  doctorName: 'dr. Risty Hafinah, Sp.DV',
-                                  tanggal: ConvertDate.defaultDate(snapshot
-                                          .data!.data?.data?[index].createdAt ??
-                                      '-'),
-                                  pesanan: 'Konsultasi',
-                                  progres: snapshot.data!.data?.data?[index]
-                                              .status ==
-                                          'MENUNGGU_PEMBAYARAN'
-                                      ? 'Menunggu Pembayaran'
-                                      : snapshot.data!.data?.data?[index]
-                                                  .status ==
-                                              'READY'
-                                          ? 'Review'
-                                          : snapshot.data!.data?.data?[index]
-                                                      .status ==
-                                                  'AKTIF'
-                                              ? 'Aktif'
-                                              : snapshot
-                                                          .data!
-                                                          .data
-                                                          ?.data?[index]
-                                                          .status ==
-                                                      'SELESAI'
-                                                  ? 'Selesai'
-                                                  : '-',
-                                  keluhan: 'Bekas Jerawat',
-                                  // totalBelanjaan: 'Total Harga',
-                                  harga: CurrencyFormat.convertToIdr(
-                                      snapshot
-                                          .data!.data?.data?[index].totalPaid,
-                                      0),
-                                  // titleButton: 'Konsultasi lagi',
-                                  // colorTittleProgres:  greenColor,
-                                  // colortittleBg: subgreenColor,
-                                  img: 'assets/images/doctor-img.png',
-                                  isConsultation: true,
-                                );
-                              },
-                            );
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.data?.data?.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return TransaksiKonsultan(
+                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            tanggal: ConvertDate.defaultDate(
+                                snapshot.data!.data?.data?[index].createdAt ??
+                                    '-'),
+                            pesanan: 'Konsultasi',
+                            progres: snapshot.data!.data?.data?[index].status ==
+                                    'MENUNGGU_PEMBAYARAN'
+                                ? 'Menunggu Pembayaran'
+                                : snapshot.data!.data?.data?[index].status ==
+                                        'READY'
+                                    ? 'Review'
+                                    : snapshot.data!.data?.data?[index]
+                                                .status ==
+                                            'AKTIF'
+                                        ? 'Aktif'
+                                        : snapshot.data!.data?.data?[index]
+                                                    .status ==
+                                                'SELESAI'
+                                            ? 'Selesai'
+                                            : '-',
+                            jumlahBarang: 'Bekas Jerawat',
+                            harga: CurrencyFormat.convertToIdr(
+                                snapshot.data!.data?.data?[index].totalPaid, 0),
+                            img: 'assets/images/doctor-img.png',
+                          );
+                        },
+                      );
                     } else {
                       return Center(
                         child: Text(
@@ -385,60 +355,6 @@ class DaftarTransaksiPage extends StatelessWidget {
                   }
                 },
               ),
-              // DaftarTransaksiProduk(
-              //   nameProduk: 'Pesan Obat & Skincare',
-              //   tanggal: '12 Jun 2023',
-              //   pesanan: 'Teenderm Hydra 40ml',
-              //   progres: 'Selesai',
-              //   jumlahBarang: '1',
-              //   produkLainnya: '+2 produk lainnya',
-              //   totalBelanjaan: 'Total Belanja',
-              //   harga: 'Rp915.000',
-              //   titleButton: 'Beli Lagi',
-              //   colorTittleProgres: greenColor,
-              //   colortittleBg: subgreenColor,
-              //   img: 'assets/images/penting1.png',
-              // ),
-              // const DaftarTransaksiProduk(
-              //   nameProduk: 'Pesan Obat & Skincare',
-              //   tanggal: '12 Jun 2023',
-              //   pesanan: 'Teenderm Hydra 40ml',
-              //   progres: 'Diproses',
-              //   jumlahBarang: '1',
-              //   produkLainnya: '+2 produk lainnya',
-              //   totalBelanjaan: 'Total Belanja',
-              //   harga: 'Rp915.000',
-              //   titleButton: 'Beli Lagi',
-              //   colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
-              //   colortittleBg: Color.fromARGB(255, 255, 204, 170),
-              //   img: 'assets/images/penting1.png',
-              // ),
-              // DaftarTransaksiProduk(
-              //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-              //   tanggal: '10 Jun 2023',
-              //   pesanan: 'Konsultasi',
-              //   progres: 'Aktif',
-              //   jumlahBarang: 'Bekas Jerawat',
-              //   totalBelanjaan: 'Total Harga',
-              //   harga: 'Rp915.000',
-              //   titleButton: 'Konsultasi lagi',
-              //   colorTittleProgres: greenColor,
-              //   colortittleBg: subgreenColor,
-              //   img: 'assets/images/doctor-img.png',
-              // ),
-              // const DaftarTransaksiProduk(
-              //   nameProduk: 'Peeling TCA Ringan',
-              //   tanggal: '10 Jun 2023',
-              //   pesanan: 'Reservasi Treatment',
-              //   progres: 'Menunggu Konfirmasi Klinik',
-              //   jumlahBarang: 'Klinik Utama Lithea',
-              //   totalBelanjaan: 'Total Belanja',
-              //   harga: 'Rp915.000',
-              //   titleButton: 'Reservasi lagi',
-              //   colorTittleProgres: Color.fromARGB(255, 255, 102, 0),
-              //   colortittleBg: Color.fromARGB(255, 255, 204, 170),
-              //   img: 'assets/images/treat1.png',
-              // ),
             ],
           ),
         ),

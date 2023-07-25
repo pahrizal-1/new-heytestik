@@ -26,17 +26,16 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
     return Scaffold(
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               left: 20,
               right: 20,
               top: 35,
               bottom: 42,
             ),
-            child: Container(
-              color: whiteColor,
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   CategotyBuarty(
                     icon: 'assets/icons/icons_concenr.png',
@@ -191,6 +190,7 @@ class CategotyBuarty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+      margin: const EdgeInsets.only(right: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
         border: Border.all(
