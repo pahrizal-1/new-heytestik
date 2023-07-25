@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_page.dart';
 
-import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
-
 import '../../theme/theme.dart';
+import '../../widget/appbar_widget.dart';
 import '../../widget/ulasan_riwayat_widgets.dart';
 import '../../widget/ulasan_widgets.dart';
 import 'detail_ulasan_page.dart';
@@ -22,31 +21,13 @@ class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: whiteColor,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Ulasan',
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                ),
-              )
-            ],
+        title: Text(
+          'Ulasan',
+          style: blackTextStyle.copyWith(
+            fontSize: 20,
           ),
         ),
         bottom: PreferredSize(

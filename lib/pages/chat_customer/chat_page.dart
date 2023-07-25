@@ -6,6 +6,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../widget/appar_cutome.dart';
+
 class ChatPage extends StatefulWidget {
   final int? interestConditionId;
   const ChatPage({super.key, required this.interestConditionId});
@@ -26,11 +28,11 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0XfFFFFFFf),
-      appBar: AppBar(
-        titleSpacing: 0,
-        elevation: 0,
-        backgroundColor: greenColor,
-        title: const Text('Bekas Jerawat'),
+      appBar: AppBarCustome(
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        title: 'Bekas Jerawat',
+        bgColor: greenColor,
       ),
       body: SingleChildScrollView(
         child: Column(

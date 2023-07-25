@@ -169,3 +169,9 @@ class dividergreen extends StatelessWidget {
     );
   }
 }
+
+IconThemeData iconthemeblack() {
+  return IconThemeData(
+    color: Colors.black, // <-- SEE HERE
+  );
+}

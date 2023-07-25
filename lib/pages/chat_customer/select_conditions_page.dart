@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/controller/customer/transaction/order/order
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
+import '../../widget/appar_cutome.dart';
 import '../../widget/text_form_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
@@ -33,11 +34,11 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        centerTitle: false,
-        backgroundColor: greenColor,
-        title: const Text('Pilih Kondisi'),
+      appBar: AppBarCustome(
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        title: 'Pilih Kondisi',
+        bgColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25, right: 25, top: 13),

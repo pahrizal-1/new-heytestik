@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 8,
               ),
               Text(
-                'Please complete this form for create account.If you need help please email on pahrizal@mail.com',
+                'Please complete this form for create account.If you need help please email on heys@mail.com',
                 style: subGreyTextStyle,
                 textAlign: TextAlign.left,
               ),
