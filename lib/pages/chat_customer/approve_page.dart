@@ -1,8 +1,27 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-class ApporedPage extends StatelessWidget {
-  const ApporedPage({super.key});
+class ApprovePage extends StatefulWidget {
+  String orderId;
+  ApprovePage({required this.orderId, super.key});
+
+  @override
+  State<ApprovePage> createState() => _ApprovePageState();
+}
+
+class _ApprovePageState extends State<ApprovePage> {
+  final ConsultationController state = Get.put(ConsultationController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.getUser();
+    state.initiateChat(context, widget.orderId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,30 +29,24 @@ class ApporedPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.arrow_back,
-                size: 27,
-                color: blackColor,
-              ),
-            ),
-          ],
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            size: 27,
+            color: blackColor,
+          ),
         ),
       ),
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20, bottom: 90, left: 15, right: 15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/icons/x-circle.png',
-              width: 25,
-              height: 25,
-            ),
             const SizedBox(
               height: 30,
             ),
@@ -56,7 +69,7 @@ class ApporedPage extends StatelessWidget {
             const Spacer(),
             Center(
               child: Text(
-                'Berikan Waktu Untuk Menghubungkan Dengan Doctor',
+                'Sedang menghubungkan dengan dokter',
                 style: blackRegulerTextStyle.copyWith(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
@@ -66,18 +79,30 @@ class ApporedPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                'Tunggu Sebentar ....',
+                'Tunggu sebentar ....',
                 style: blackTextStyle.copyWith(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                color: greenColor,
+              ),
+            ),
+            const SizedBox(
               height: 50,
             ),
-            Text(
-              'Halo Muhyi Abdul Basith, Kami Sudah memveritahu dokter Tentang permintaan',
-              style: blackRegulerTextStyle.copyWith(fontSize: 14),
-              textAlign: TextAlign.center,
+            Obx(
+              () => Text(
+                'Halo ${state.username.value}, kami sudah memberitahu dokter tentang permintaan kamu',
+                style: blackRegulerTextStyle.copyWith(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -85,9 +110,11 @@ class ApporedPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  '200',
-                  style: blackTextStyle.copyWith(fontSize: 18),
+                Obx(
+                  () => Text(
+                    state.resendTime.value.toString(),
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                  ),
                 ),
                 const SizedBox(
                   width: 5,
