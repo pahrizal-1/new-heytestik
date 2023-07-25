@@ -302,7 +302,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                 context,
                                 widget.interestConditionId!.toInt(),
                                 doInPost: () async {
-                                  Get.to(SelesaiPembayaranPage(
+                                  Get.offAll(SelesaiPembayaranPage(
                                     orderId: state.orderId.value,
                                     bank: state.bank.value,
                                     expireTime: state.expireTime.value,
