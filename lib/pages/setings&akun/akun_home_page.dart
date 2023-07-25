@@ -269,109 +269,128 @@ class AkunHomePage extends StatelessWidget {
               }
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
-                  return SizedBox(
-                    height: 70,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.data?.data?.length,
-                      itemBuilder: (BuildContext context, index) {
-                        // JANGAN TAMPILKAN YG STATUSNYA SELESAI
-                        if (snapshot.data!.data?.data?[index].status !=
-                            'SELESAI') {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              left: 25,
+                  return snapshot.data!.data!.data!.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Belum ada aktivitas',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
                             ),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: borderColor),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/chat.png',
-                                    width: 18,
+                          ),
+                        )
+                      : SizedBox(
+                          height: 70,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.data?.data?.length,
+                            itemBuilder: (BuildContext context, index) {
+                              // JANGAN TAMPILKAN YG STATUSNYA SELESAI
+                              if (snapshot.data!.data?.data?[index].status !=
+                                  'SELESAI') {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 25,
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        snapshot.data!.data?.data?[index]
-                                                    .status ==
-                                                'MENUNGGU_PEMBAYARAN'
-                                            ? 'Menunggu Pembayaran'
-                                            : snapshot.data!.data?.data?[index]
-                                                        .status ==
-                                                    'READY'
-                                                ? 'Review'
-                                                : snapshot
-                                                            .data!
-                                                            .data
-                                                            ?.data?[index]
-                                                            .status ==
-                                                        'AKTIF'
-                                                    ? 'Aktif'
-                                                    : 'Selesai',
-                                        style: grenTextStyle.copyWith(
-                                          fontSize: 12,
-                                          color: snapshot.data!.data
-                                                      ?.data?[index].status ==
-                                                  'MENUNGGU_PEMBAYARAN'
-                                              ? const Color.fromARGB(
-                                                  255, 255, 102, 0)
-                                              : snapshot
-                                                          .data!
-                                                          .data
-                                                          ?.data?[index]
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/chat.png',
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data!.data?.data?[index]
                                                           .status ==
-                                                      'READY'
-                                                  ? const Color.fromARGB(
-                                                      255, 255, 102, 0)
+                                                      'MENUNGGU_PEMBAYARAN'
+                                                  ? 'Menunggu Pembayaran'
                                                   : snapshot
                                                               .data!
                                                               .data
                                                               ?.data?[index]
                                                               .status ==
-                                                          'AKTIF'
-                                                      ? greenColor
-                                                      : greenColor,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Konsultasi Bekas Jerawat',
-                                        style: blackHigtTextStyle.copyWith(
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  );
+                                                          'READY'
+                                                      ? 'Review'
+                                                      : snapshot
+                                                                  .data!
+                                                                  .data
+                                                                  ?.data?[index]
+                                                                  .status ==
+                                                              'AKTIF'
+                                                          ? 'Aktif'
+                                                          : 'Selesai',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 12,
+                                                color: snapshot
+                                                            .data!
+                                                            .data
+                                                            ?.data?[index]
+                                                            .status ==
+                                                        'MENUNGGU_PEMBAYARAN'
+                                                    ? const Color.fromARGB(
+                                                        255, 255, 102, 0)
+                                                    : snapshot
+                                                                .data!
+                                                                .data
+                                                                ?.data?[index]
+                                                                .status ==
+                                                            'READY'
+                                                        ? const Color.fromARGB(
+                                                            255, 255, 102, 0)
+                                                        : snapshot
+                                                                    .data!
+                                                                    .data
+                                                                    ?.data?[
+                                                                        index]
+                                                                    .status ==
+                                                                'AKTIF'
+                                                            ? greenColor
+                                                            : greenColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Konsultasi Bekas Jerawat',
+                                              style:
+                                                  blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
+                        );
                 } else {
                   return Center(
                     child: Text(
-                      'Tidak ada data',
+                      'Belum ada aktivitas',
                       style: TextStyle(
                         fontWeight: bold,
                         fontFamily: 'ProximaNova',
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   );
