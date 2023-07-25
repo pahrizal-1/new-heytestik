@@ -42,18 +42,10 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text(
-                'Riwayat Medis',
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-              ),
-            ],
-          ),
+        title: Text(
+          'Riwayat Medis',
+          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
         ),
         actions: [
           Padding(
