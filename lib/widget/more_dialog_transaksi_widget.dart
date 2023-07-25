@@ -88,7 +88,7 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
               ),
               TextBoldSpacebetwen(
                 title: 'Diskon Voucher',
-                title2: 'Rp25.000',
+                title2: 'Rp0',
                 title1: '',
               ),
               SizedBox(
@@ -102,7 +102,7 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
               ),
               TextBoldSpacebetwen(
                 title: 'Total Tagihan',
-                title2: 'Rp20.000',
+                title2: 'Rp45.000',
                 title1: '',
               ),
             ],
