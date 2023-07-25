@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -102,7 +103,11 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
 
     Future<bool> onWillPop() async {
-      return Future.value(true);
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+      return Future.value(false);
     }
 
     return WillPopScope(
@@ -110,19 +115,9 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          automaticallyImplyLeading: false,
           backgroundColor: greenColor,
           title: Row(
             children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
               Text(
                 widget.bank,
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
