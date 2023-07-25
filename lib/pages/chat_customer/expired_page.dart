@@ -15,14 +15,6 @@ class ExpiredPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: greenColor,
-      //   title: Text(
-      //     message,
-      //     style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Center(
