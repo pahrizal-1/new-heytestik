@@ -311,48 +311,66 @@ class DaftarTransaksiPage extends StatelessWidget {
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.data?.data?.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return DaftarTransaksiProduk(
-                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                            tanggal: ConvertDate.defaultDate(
-                                snapshot.data!.data?.data?[index].createdAt ??
-                                    '-'),
-                            pesanan: 'Konsultasi',
-                            progres: snapshot.data!.data?.data?[index].status ==
-                                    'MENUNGGU_PEMBAYARAN'
-                                ? 'Menunggu Pembayaran'
-                                : snapshot.data!.data?.data?[index].status ==
-                                        'READY'
-                                    ? 'Review'
-                                    : snapshot.data!.data?.data?[index]
-                                                .status ==
-                                            'AKTIF'
-                                        ? 'Aktif'
-                                        : snapshot.data!.data?.data?[index]
-                                                    .status ==
-                                                'SELESAI'
-                                            ? 'Selesai'
-                                            : '-',
-                            jumlahBarang: 'Bekas Jerawat',
-                            // totalBelanjaan: 'Total Harga',
-                            harga: CurrencyFormat.convertToIdr(
-                                snapshot.data!.data?.data?[index].totalPaid, 0),
-                            // titleButton: 'Konsultasi lagi',
-                            // colorTittleProgres:  greenColor,
-                            // colortittleBg: subgreenColor,
-                            img: 'assets/images/doctor-img.png',
-                            isConsultation: true,
-                          );
-                        },
-                      );
+                      return snapshot.data!.data!.data!.isEmpty
+                          ? Center(
+                              child: Text(
+                                'Belum ada transaksi',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.data?.data?.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return DaftarTransaksiProduk(
+                                  doctorName: 'dr. Risty Hafinah, Sp.DV',
+                                  tanggal: ConvertDate.defaultDate(snapshot
+                                          .data!.data?.data?[index].createdAt ??
+                                      '-'),
+                                  pesanan: 'Konsultasi',
+                                  progres: snapshot.data!.data?.data?[index]
+                                              .status ==
+                                          'MENUNGGU_PEMBAYARAN'
+                                      ? 'Menunggu Pembayaran'
+                                      : snapshot.data!.data?.data?[index]
+                                                  .status ==
+                                              'READY'
+                                          ? 'Review'
+                                          : snapshot.data!.data?.data?[index]
+                                                      .status ==
+                                                  'AKTIF'
+                                              ? 'Aktif'
+                                              : snapshot
+                                                          .data!
+                                                          .data
+                                                          ?.data?[index]
+                                                          .status ==
+                                                      'SELESAI'
+                                                  ? 'Selesai'
+                                                  : '-',
+                                  keluhan: 'Bekas Jerawat',
+                                  // totalBelanjaan: 'Total Harga',
+                                  harga: CurrencyFormat.convertToIdr(
+                                      snapshot
+                                          .data!.data?.data?[index].totalPaid,
+                                      0),
+                                  // titleButton: 'Konsultasi lagi',
+                                  // colorTittleProgres:  greenColor,
+                                  // colortittleBg: subgreenColor,
+                                  img: 'assets/images/doctor-img.png',
+                                  isConsultation: true,
+                                );
+                              },
+                            );
                     } else {
                       return Center(
                         child: Text(
-                          'Tidak ada data',
+                          'Belum ada transaksi',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',

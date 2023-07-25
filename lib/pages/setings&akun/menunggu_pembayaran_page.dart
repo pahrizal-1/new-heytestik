@@ -67,7 +67,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
           child: state.paymentPending!.isEmpty
               ? Center(
                   child: Text(
-                    'Tidak ada data',
+                    'Belum ada transaksi',
                     style: TextStyle(
                       fontWeight: bold,
                       fontFamily: 'ProximaNova',
@@ -87,12 +87,12 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                         if (state.paymentPending![index].status ==
                             'MENUNGGU_PEMBAYARAN') {
                           return DaftarTransaksiProduk(
-                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            doctorName: 'dr. Risty Hafinah, Sp.DV',
                             tanggal: ConvertDate.defaultDate(
                                 state.paymentPending?[index].createdAt ?? '-'),
                             pesanan: 'Konsultasi',
                             progres: 'Menunggu Pembayaran',
-                            jumlahBarang: 'Bekas Jerawat',
+                            keluhan: 'Bekas Jerawat',
                             harga: CurrencyFormat.convertToIdr(
                                 state.paymentPending?[index].totalPaid, 0),
                             img: 'assets/images/doctor-img.png',
