@@ -5,12 +5,12 @@ import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.da
 import '../theme/theme.dart';
 
 class DaftarTransaksiProduk extends StatelessWidget {
-  final String nameProduk;
+  final String doctorName;
   final String tanggal;
   final String pesanan;
   final String progres;
   final String img;
-  final String jumlahBarang;
+  final String keluhan;
   final String? produkLainnya;
   // final String totalBelanjaan;
   final String harga;
@@ -20,11 +20,11 @@ class DaftarTransaksiProduk extends StatelessWidget {
   final bool isConsultation;
   const DaftarTransaksiProduk({
     super.key,
-    required this.nameProduk,
+    required this.doctorName,
     required this.tanggal,
     required this.pesanan,
     required this.progres,
-    this.jumlahBarang = '',
+    this.keluhan = '',
     this.produkLainnya = '',
     // required this.totalBelanjaan,
     required this.harga,
@@ -103,34 +103,37 @@ class DaftarTransaksiProduk extends StatelessWidget {
           const SizedBox(
             height: 7,
           ),
-          Row(
-            children: [
-              Container(
-                height: 37,
-                width: 37,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    image: DecorationImage(
-                        image: AssetImage(img), fit: BoxFit.cover)),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    nameProduk,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
-                  ),
-                  Text(
-                    '$jumlahBarang barang',
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          progres == 'Menunggu Pembayaran'
+              ? Container()
+              : Row(
+                  children: [
+                    Container(
+                      height: 37,
+                      width: 37,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        image: DecorationImage(
+                            image: AssetImage(img), fit: BoxFit.cover),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          doctorName,
+                          style: blackHigtTextStyle.copyWith(fontSize: 13),
+                        ),
+                        Text(
+                          keluhan,
+                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
           isConsultation
               ? Container()
               : produkLainnya != ''
