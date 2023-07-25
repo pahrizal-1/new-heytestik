@@ -63,13 +63,6 @@ class BankMoreDialog extends StatelessWidget {
                             title: 'Kembali',
                             onPressed: () async {
                               Get.back();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         const ChatCostomerPage(),
-                              //   ),
-                              // );
                             },
                           )
                         ],
@@ -82,14 +75,6 @@ class BankMoreDialog extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const AuthPage(),
-                //     ),
-                //   );
-                // },
                 child: Container(
                   height: 45,
                   width: 45,
