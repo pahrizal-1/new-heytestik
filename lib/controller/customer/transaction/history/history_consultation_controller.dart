@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
 class HistoryConsultationController extends StateClass {
@@ -74,8 +75,23 @@ class HistoryConsultationController extends StateClass {
         statusTransaction.value =
             transactionStatus.value.data?.transactionStatus ?? '-';
 
+        if (statusTransaction.value == 'pending') {
+          showDialog(
+            context: context,
+            builder: (context) => AlertWidget(
+                subtitle:
+                    'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
+          );
+          return;
+        }
+        if (statusTransaction.value == 'expire') {
+          Get.offAll(ExpiredPage(
+            message: '',
+          ));
+          return;
+        }
         if (statusTransaction.value == 'settlement') {
-          Get.to(SuccessPage(
+          Get.offAll(SuccessPage(
             orderId: orderId,
           ));
           showDialog(
@@ -86,7 +102,7 @@ class HistoryConsultationController extends StateClass {
         }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
-        Get.to(ExpiredPage(
+        Get.offAll(ExpiredPage(
           message: transactionStatus.value.message.toString(),
         ));
         return;
