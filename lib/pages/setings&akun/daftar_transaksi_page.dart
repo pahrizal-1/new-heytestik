@@ -310,7 +310,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                         itemCount: snapshot.data!.data?.data?.length,
                         itemBuilder: (BuildContext context, index) {
                           return TransaksiKonsultan(
-                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            namaDokter: 'dr. Risty Hafinah, Sp.DV',
                             tanggal: ConvertDate.defaultDate(
                                 snapshot.data!.data?.data?[index].createdAt ??
                                     '-'),
@@ -320,17 +320,21 @@ class DaftarTransaksiPage extends StatelessWidget {
                                 ? 'Menunggu Pembayaran'
                                 : snapshot.data!.data?.data?[index].status ==
                                         'READY'
-                                    ? 'Review'
+                                    ? 'Ready'
                                     : snapshot.data!.data?.data?[index]
                                                 .status ==
-                                            'AKTIF'
-                                        ? 'Aktif'
+                                            'REVIEW'
+                                        ? 'Review'
                                         : snapshot.data!.data?.data?[index]
                                                     .status ==
-                                                'SELESAI'
-                                            ? 'Selesai'
-                                            : '-',
-                            jumlahBarang: 'Bekas Jerawat',
+                                                'AKTIF'
+                                            ? 'Aktif'
+                                            : snapshot.data!.data?.data?[index]
+                                                        .status ==
+                                                    'SELESAI'
+                                                ? 'Selesai'
+                                                : '-',
+                            keluhan: 'Bekas Jerawat',
                             harga: CurrencyFormat.convertToIdr(
                                 snapshot.data!.data?.data?[index].totalPaid, 0),
                             img: 'assets/images/doctor-img.png',

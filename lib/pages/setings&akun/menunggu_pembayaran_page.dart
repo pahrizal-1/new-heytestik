@@ -87,15 +87,30 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                         if (state.paymentPending![index].status ==
                             'MENUNGGU_PEMBAYARAN') {
                           return TransaksiKonsultan(
-                            nameProduk: 'dr. Risty Hafinah, Sp.DV',
+                            namaDokter: 'dr. Risty Hafinah, Sp.DV',
                             tanggal: ConvertDate.defaultDate(
                                 state.paymentPending?[index].createdAt ?? '-'),
                             pesanan: 'Konsultasi',
-                            progres: 'Menunggu Pembayaran',
+                            progres: state.paymentPending?[index].status ==
+                                    'MENUNGGU_PEMBAYARAN'
+                                ? 'Menunggu Pembayaran'
+                                : state.paymentPending?[index].status == 'READY'
+                                    ? 'Ready'
+                                    : state.paymentPending?[index].status ==
+                                            'REVIEW'
+                                        ? 'Review'
+                                        : state.paymentPending?[index].status ==
+                                                'AKTIF'
+                                            ? 'Aktif'
+                                            : state.paymentPending?[index]
+                                                        .status ==
+                                                    'SELESAI'
+                                                ? 'Selesai'
+                                                : '-',
+                            keluhan: 'Bekas Jerawat',
                             harga: CurrencyFormat.convertToIdr(
                                 state.paymentPending?[index].totalPaid, 0),
                             img: 'assets/images/doctor-img.png',
-                            isConsultation: true,
                           );
                         }
                         return Container();

@@ -5,26 +5,23 @@ import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.da
 import '../theme/theme.dart';
 
 class TransaksiKonsultan extends StatelessWidget {
-  final String nameProduk;
+  final String namaDokter;
   final String tanggal;
   final String pesanan;
   final String progres;
   final String img;
-  final String jumlahBarang;
-
+  final String keluhan;
   final String harga;
 
-  final bool isConsultation;
   const TransaksiKonsultan({
     super.key,
-    required this.nameProduk,
+    required this.namaDokter,
     required this.tanggal,
     required this.pesanan,
     required this.progres,
-    this.jumlahBarang = '',
+    this.keluhan = '',
     required this.harga,
     required this.img,
-    this.isConsultation = false,
   });
 
   @override
@@ -66,13 +63,15 @@ class TransaksiKonsultan extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: progres == 'Menunggu Pembayaran'
                         ? const Color.fromARGB(255, 255, 204, 170)
-                        : progres == 'Review'
+                        : progres == 'Ready'
                             ? const Color.fromARGB(255, 255, 204, 170)
-                            : progres == 'Aktif'
-                                ? subgreenColor
-                                : progres == 'Selesai'
+                            : progres == 'Review'
+                                ? const Color.fromARGB(255, 255, 204, 170)
+                                : progres == 'Aktif'
                                     ? subgreenColor
-                                    : subgreenColor,
+                                    : progres == 'Selesai'
+                                        ? subgreenColor
+                                        : subgreenColor,
                     borderRadius: BorderRadius.circular(7)),
                 child: Text(
                   progres,
@@ -80,13 +79,15 @@ class TransaksiKonsultan extends StatelessWidget {
                     fontSize: 10,
                     color: progres == 'Menunggu Pembayaran'
                         ? const Color.fromARGB(255, 255, 102, 0)
-                        : progres == 'Review'
+                        : progres == 'Ready'
                             ? const Color.fromARGB(255, 255, 102, 0)
-                            : progres == 'Aktif'
-                                ? greenColor
-                                : progres == 'Selesai'
+                            : progres == 'Review'
+                                ? const Color.fromARGB(255, 255, 102, 0)
+                                : progres == 'Aktif'
                                     ? greenColor
-                                    : greenColor,
+                                    : progres == 'Selesai'
+                                        ? greenColor
+                                        : greenColor,
                   ),
                 ),
               )
@@ -95,34 +96,39 @@ class TransaksiKonsultan extends StatelessWidget {
           const SizedBox(
             height: 7,
           ),
-          Row(
-            children: [
-              Container(
-                height: 37,
-                width: 37,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    image: DecorationImage(
-                        image: AssetImage(img), fit: BoxFit.cover)),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    nameProduk,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
-                  ),
-                  Text(
-                    jumlahBarang,
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          progres == 'Menunggu Pembayaran' || progres == 'Ready'
+              ? Text(
+                  keluhan,
+                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                )
+              : Row(
+                  children: [
+                    Container(
+                      height: 37,
+                      width: 37,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          image: DecorationImage(
+                              image: AssetImage(img), fit: BoxFit.cover)),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          namaDokter,
+                          style: blackHigtTextStyle.copyWith(fontSize: 13),
+                        ),
+                        Text(
+                          keluhan,
+                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
           const SizedBox(
             height: 14,
           ),
