@@ -7,19 +7,18 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/intiate_chat_model.dart';
-import 'package:heystetik_mobileapps/models/customer/recent_chat_customer_model.dart';
+import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/service/customer/consultation/consultation_service.dart';
 
 class ConsultationController extends StateClass {
   RxString username = '-'.obs;
   Rx<InitiateChatModel?> initiate = InitiateChatModel.fromJson({}).obs;
-  RxString virtualAccount = '-'.obs;
-  RxString expirytime = '-'.obs;
-  RxString grossAmount = '-'.obs;
-  RxString statusTransaction = '-'.obs;
-
-  Rx<RecentChatCustomerModel?> recentChat =
-      RecentChatCustomerModel.fromJson({}).obs;
+  // RxString virtualAccount = '-'.obs;
+  // RxString expirytime = '-'.obs;
+  // RxString grossAmount = '-'.obs;
+  // RxString statusTransaction = '-'.obs;
+  RxInt customerId = 0.obs;
+  Rx<RecentChatModel?> recentChat = RecentChatModel.fromJson({}).obs;
   RxInt totalRecentChat = 0.obs;
   RxInt resendTime = 200.obs;
   Timer? _timer;
@@ -71,13 +70,14 @@ class ConsultationController extends StateClass {
   getRecentChat(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      customerId.value = (await LocalStorage().getUserID())!;
       recentChat.value = await ConsultationService().recentChat();
 
       if (recentChat.value!.success != true &&
           recentChat.value!.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
-          message: initiate.value!.message.toString(),
+          message: recentChat.value!.message.toString(),
         );
       }
 

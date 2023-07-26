@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
-import 'package:heystetik_mobileapps/models/customer/recent_chat_customer_model.dart';
+import 'package:heystetik_mobileapps/core/current_time.dart';
+import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 class ListChatPage extends StatefulWidget {
-  RecentChatCustomerModel? recentChat;
+  RecentChatModel? recentChat;
   ListChatPage({required this.recentChat, super.key});
 
   @override
@@ -44,10 +45,10 @@ class _ListChatPageState extends State<ListChatPage> {
                   itemBuilder: (BuildContext context, int i) {
                     return DoctorChat(
                       ontap: () {
-                        print("chat");
+                        print(state.recentChat.value!.data![i].code);
                       },
-                      doctorId:
-                          state.recentChat.value!.data![i].doctorId!.toInt(),
+                      // doctorId:
+                      //     state.recentChat.value!.data![i].doctorId!.toInt(),
                       doctorName:
                           state.recentChat.value!.data?[i].doctor?.fullname ??
                               '',
@@ -55,13 +56,21 @@ class _ListChatPageState extends State<ListChatPage> {
                           state.recentChat.value!.data?[i].lastChat?.message ??
                               '',
                       img: 'assets/images/doctor-img.png',
-                      time: '11:09 AM',
-                      roomCode:
-                          state.recentChat.value!.data![i].code.toString(),
+                      time: CurrenctTime.timeChat(
+                        state.recentChat.value!.data![i].lastChat!.createdAt
+                            .toString(),
+                      ),
+                      // roomCode:
+                      //     state.recentChat.value!.data![i].code.toString(),
                       seen: state.recentChat.value!.data![i].lastChat!.seen ??
                           false,
                       valueChat: state.recentChat.value!.data?[i].unseenCount
                           .toString(),
+                      isMe:
+                          state.recentChat.value?.data?[i].lastChat!.senderId ==
+                                  state.customerId.value
+                              ? true
+                              : false,
                     );
                   },
                 ),
@@ -72,28 +81,30 @@ class _ListChatPageState extends State<ListChatPage> {
 }
 
 class DoctorChat extends StatelessWidget {
-  final int doctorId;
+  // final int doctorId;
   final String doctorName;
   final VoidCallback? ontap;
   final String chat;
   final String img;
   final String time;
-  final String roomCode;
+  // final String roomCode;
+  final bool isMe;
   // final Color? colorTanggal;
   final String? valueChat;
   final bool seen;
   const DoctorChat({
     super.key,
-    required this.doctorId,
+    // required this.doctorId,
     required this.doctorName,
     required this.chat,
     required this.img,
     required this.time,
-    required this.roomCode,
+    // required this.roomCode,
     this.valueChat = '',
     // this.colorTanggal,
     this.ontap,
     required this.seen,
+    required this.isMe,
   });
 
   @override
@@ -152,26 +163,30 @@ class DoctorChat extends StatelessWidget {
                     color: seen ? greyColor : greenColor,
                   ),
                 ),
-                seen
-                    ? Container()
-                    : const SizedBox(
-                        height: 9,
-                      ),
-                seen
-                    ? Container()
-                    : Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 7,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                            color: greenColor, shape: BoxShape.circle),
-                        child: Text(
-                          valueChat.toString(),
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 12, color: whiteColor),
-                        ),
-                      ),
+                const SizedBox(
+                  height: 8,
+                ),
+                isMe
+                    ? Image.asset(
+                        'assets/images/logo_cheac_wa.png',
+                        width: 20,
+                        color: seen ? null : greyColor,
+                      )
+                    : seen
+                        ? Container()
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                                color: greenColor, shape: BoxShape.circle),
+                            child: Text(
+                              valueChat.toString(),
+                              style: whiteTextStyle.copyWith(
+                                  fontSize: 12, color: whiteColor),
+                            ),
+                          ),
               ],
             )
           ],
