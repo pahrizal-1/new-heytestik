@@ -165,9 +165,8 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 105,
-                            height: 23,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
                               color: const Color(0xffA72424),
                               borderRadius: BorderRadius.circular(25),

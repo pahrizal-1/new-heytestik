@@ -41,6 +41,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: greenColor,
         title: Text(
