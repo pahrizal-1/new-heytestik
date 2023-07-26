@@ -8,7 +8,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
-import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
+import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
 class DoctorHomeController extends StateClass {
   RxString fullName = ''.obs;
@@ -60,9 +60,10 @@ class DoctorHomeController extends StateClass {
         DateTime second2 = now;
 
         // CEK APAKAH JADWAL PERTAMA ADA ATAU TIDAK
-        if (startTime.value.isNotEmpty ||
-            startTime.value != '-' ||
-            startTime.value != '') {
+        if (currentSchedule.value!.data!.firstSchedule != null) {
+          // if (startTime.value.isNotEmpty ||
+          //     startTime.value != '-' ||
+          //     startTime.value != '') {
           startTime1.value = CurrenctTime.getFirstTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
@@ -75,12 +76,14 @@ class DoctorHomeController extends StateClass {
 
           first1 = DateTime.parse('$dateStr ${startTime1.value}');
           first2 = DateTime.parse('$dateStr ${startTime2.value}');
+          // }
         }
 
         // CEK APAKAH JADWAL KEDUA ADA ATAU TIDAK
-        if (endTime.value.isNotEmpty ||
-            endTime.value != '-' ||
-            endTime.value != '') {
+        if (currentSchedule.value!.data!.lastSchdule != null) {
+          // if (endTime.value.isNotEmpty ||
+          //     endTime.value != '-' ||
+          //     endTime.value != '') {
           endTime1.value = CurrenctTime.getFirstTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
@@ -93,8 +96,8 @@ class DoctorHomeController extends StateClass {
 
           second1 = DateTime.parse('$dateStr ${endTime1.value}');
           second2 = DateTime.parse('$dateStr ${endTime2.value}');
+          // }
         }
-
         print('first1 $first1');
         print('first2 $first2');
         print('second1 $second1');
