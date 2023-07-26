@@ -2,6 +2,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 
@@ -30,5 +31,16 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     );
 
     return FindDoctorScheduleModel.fromJson(response);
+  }
+
+  Future<RecentChatModel> recentChat() async {
+    var response = await networkingConfig.doGet(
+      '/chat/recent',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+
+    return RecentChatModel.fromJson(response);
   }
 }
