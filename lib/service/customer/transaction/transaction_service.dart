@@ -42,7 +42,7 @@ class TransactionService extends ProviderClass {
 
   Future<TransactionStatusModel> transactionStatus(String orderId) async {
     var response = await networkingConfig.doGet(
-      '/transaction/$orderId/status',
+      '/transaction/CONSULTATION.$orderId/status',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
       },

@@ -225,7 +225,7 @@ class OrderController extends StateClass {
         );
       }
       // JIKA SUKSES SET ORDER ID
-      orderId.value = res.data!.payment!.orderId.toString();
+      orderId.value = res.data!.payment!.transactionId.toString();
       // JIKA SUKSES SET bank
       bank.value = res.data!.payment!.vaNumbers![0].bank.toString();
       // JIKA SUKSES SET expireTime
