@@ -625,7 +625,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     children: [
                       Container(),
                       const Padding(
-                        padding: EdgeInsets.only(left: 25),
+                        padding: EdgeInsets.only(left: 25, bottom: 10),
                         child: Wrap(
                           spacing: 12,
                           runSpacing: 12,

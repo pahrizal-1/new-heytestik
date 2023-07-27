@@ -300,7 +300,7 @@ class ProdukTreatment extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       margin: const EdgeInsets.only(right: 7),
-      width: 164,
+      width: 150,
       child: InkWell(
         onTap: () {
           Navigator.push(context,

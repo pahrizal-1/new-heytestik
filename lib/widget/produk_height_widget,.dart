@@ -36,7 +36,7 @@ class Produkheight extends StatelessWidget {
             border: Border.all(color: borderColor, width: 0.2),
             borderRadius: BorderRadius.circular(7),
           ),
-          width: 164,
+          width: 150,
           child: Column(
             children: [
               Container(

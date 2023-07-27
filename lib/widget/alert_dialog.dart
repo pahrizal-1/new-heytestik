@@ -14,47 +14,51 @@ class AlertWidget extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(10),
-      content: Container(
-        padding: const EdgeInsets.only(left: 39, right: 39, top: 39),
-        height: 210,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Info',
-              style: blackHigtTextStyle.copyWith(fontSize: 24),
+      content: Wrap(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.only(left: 39, right: 39, top: 39, bottom: 39),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              subtitle,
-              style: greyTextStyle.copyWith(fontSize: 13),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Oke',
-                    style: grenTextStyle.copyWith(fontSize: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Info',
+                  style: blackHigtTextStyle.copyWith(fontSize: 24),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  subtitle,
+                  style: greyTextStyle.copyWith(fontSize: 13),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Oke',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -71,55 +75,59 @@ class AlertConfirmationWidget extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(10),
-      content: Container(
-        padding: const EdgeInsets.only(left: 39, right: 39, top: 39),
-        height: 210,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Info',
-              style: blackHigtTextStyle.copyWith(fontSize: 24),
+      content: Wrap(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.only(left: 39, right: 39, top: 39, bottom: 39),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              subtitle,
-              style: greyTextStyle.copyWith(fontSize: 13),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Text(
-                    'Tidak',
-                    style: grenTextStyle.copyWith(fontSize: 15),
-                  ),
+                Text(
+                  'Info',
+                  style: blackHigtTextStyle.copyWith(fontSize: 24),
                 ),
                 const SizedBox(
-                  width: 20,
+                  height: 10,
                 ),
-                InkWell(
-                  onTap: () async => await action(),
-                  child: Text(
-                    'Ya',
-                    style: grenTextStyle.copyWith(fontSize: 15),
-                  ),
-                )
+                Text(
+                  subtitle,
+                  style: greyTextStyle.copyWith(fontSize: 13),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Text(
+                        'Tidak',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    InkWell(
+                      onTap: () async => await action(),
+                      child: Text(
+                        'Ya',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -150,71 +158,74 @@ class _AlertDialogSucseesState extends State<AlertDialogSucsees> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(0.1),
-      content: Container(
-        height: 300,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 234,
-                    width: 241,
-                    transform: Matrix4.translationValues(10, -100, 0),
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/potoalert.png',
-                        ),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    transform: Matrix4.translationValues(0, -70, 0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Yeaay!',
-                          style: blackHigtTextStyle.copyWith(fontSize: 30),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Akun Profilmu Sudah lengkap',
-                          style: greyTextStyle.copyWith(fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+      content: Wrap(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(20),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 12, top: 12),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Image.asset(
-                      'assets/icons/danger-icons.png',
-                      height: 20,
-                      width: 20,
-                    )),
-              ),
-            )
-          ],
-        ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 234,
+                        width: 241,
+                        transform: Matrix4.translationValues(10, -100, 0),
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/potoalert.png',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        transform: Matrix4.translationValues(0, -70, 0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Yeaay!',
+                              style: blackHigtTextStyle.copyWith(fontSize: 30),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Akun Profilmu Sudah lengkap',
+                              style: greyTextStyle.copyWith(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 12, top: 12),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset(
+                          'assets/icons/danger-icons.png',
+                          height: 20,
+                          width: 20,
+                        )),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

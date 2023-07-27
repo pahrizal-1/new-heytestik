@@ -473,11 +473,12 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   ),
                 ),
                 content: const Padding(
-                  padding: EdgeInsets.only(left: 25, right: 25),
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Wrap(
+                    runAlignment: WrapAlignment.center,
                     alignment: WrapAlignment.spaceBetween,
                     spacing: 12,
-                    runSpacing: 12,
+                    runSpacing: 15,
                     children: [
                       Produkheight(
                           namaBrand: 'ISISPHARMA',
