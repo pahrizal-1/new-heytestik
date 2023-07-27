@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
@@ -241,7 +242,7 @@ class _CardBankState extends State<CardBank> {
                         Row(
                           children: [
                             Image.network(
-                              'https://heystetik.ahrulsyamil.com/files/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              '${Global.BASE_API}/files/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
                               width: 40,
                               height: 35,
                             ),
