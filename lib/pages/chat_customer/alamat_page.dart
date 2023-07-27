@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/address_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -32,28 +33,11 @@ class _AlamatpageState extends State<Alamatpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            Text(
-              'Alamat',
-              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-            ),
-          ],
-        ),
-      ),
+      appBar: AppBarCustome(
+          title: 'Alamat',
+          colorIcons: whiteColor,
+          colorTitle: whiteColor,
+          bgColor: greenColor),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
@@ -71,7 +55,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     height: 14,
                   ),
                   Container(
-                    height: 60,
+                    height: 40,
                     child: TextFormField(
                       maxLength: 30,
                       controller: state.recipientName,
@@ -81,31 +65,37 @@ class _AlamatpageState extends State<Alamatpage> {
                         }
                       },
                       decoration: InputDecoration(
-                        counterText: '',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        labelText: 'Nama Lengkap',
-                        labelStyle: subTitleTextStyle,
-                        suffix: Text('${state.recipientName.text.length}/30'),
-                      ),
+                          contentPadding: EdgeInsets.only(bottom: 10, left: 9),
+                          counterText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          labelText: 'Nama Lengkap',
+                          labelStyle: subTitleTextStyle,
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child:
+                                Text('${state.recipientName.text.length}/30'),
+                          ),
+                          suffixStyle: greyTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular)),
                     ),
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    height: 60,
+                    height: 40,
                     child: TextFormField(
                       controller: state.recipientPhone,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
                           borderSide: BorderSide(color: borderColor),
@@ -116,7 +106,8 @@ class _AlamatpageState extends State<Alamatpage> {
                         ),
                         labelText: 'Nomer Hp Penerima*',
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.only(top: 14, left: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 11),
                           child: Text(
                             '+62',
                             style: blackHigtTextStyle.copyWith(fontSize: 15),
@@ -190,7 +181,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     height: 30,
                   ),
                   Container(
-                    height: 60,
+                    height: 40,
                     child: TextFormField(
                       maxLength: 30,
                       controller: state.labelAddress,
@@ -200,19 +191,24 @@ class _AlamatpageState extends State<Alamatpage> {
                         }
                       },
                       decoration: InputDecoration(
-                        counterText: '',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        labelText: 'Label Alamat',
-                        labelStyle: subTitleTextStyle,
-                        suffix: Text('${state.labelAddress.text.length}/30'),
-                      ),
+                          contentPadding: EdgeInsets.only(bottom: 10, left: 9),
+                          counterText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          labelText: 'Label Alamat',
+                          labelStyle: subTitleTextStyle,
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text('${state.labelAddress.text.length}/30'),
+                          ),
+                          suffixStyle: greyTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular)),
                     ),
                   ),
                   const SizedBox(
@@ -222,9 +218,8 @@ class _AlamatpageState extends State<Alamatpage> {
                     height: 101,
                     child: TextFormField(
                       controller: state.completeAddress,
-                      maxLines: null,
+                      maxLines: 10,
                       keyboardType: TextInputType.multiline,
-                      expands: true,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
@@ -253,19 +248,25 @@ class _AlamatpageState extends State<Alamatpage> {
                         }
                       },
                       decoration: InputDecoration(
-                        counterText: '',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        labelText: 'Catatan untuk kurir',
-                        labelStyle: subTitleTextStyle,
-                        suffix: Text('${state.noteForCourier.text.length}/30'),
-                      ),
+                          contentPadding: EdgeInsets.only(bottom: 10, left: 9),
+                          counterText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          labelText: 'Catatan untuk kurir',
+                          labelStyle: subTitleTextStyle,
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child:
+                                Text('${state.noteForCourier.text.length}/30'),
+                          ),
+                          suffixStyle: greyTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular)),
                     ),
                   ),
                   const SizedBox(

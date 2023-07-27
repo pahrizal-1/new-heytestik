@@ -62,7 +62,7 @@ class PhoneNumberPage extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
+                  contentPadding: const EdgeInsets.only(top: 4),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: greyColor),
                   ),
