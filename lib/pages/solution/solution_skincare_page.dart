@@ -425,7 +425,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             ),
                             Container(
                               height: 30,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.only(right: 5),
                               padding: const EdgeInsets.only(left: 11.5),
                               decoration: BoxDecoration(
                                 border: Border.all(color: borderColor),
@@ -472,12 +472,9 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     ],
                   ),
                 ),
-                content: const Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                content: const Center(
                   child: Wrap(
-                    runAlignment: WrapAlignment.center,
-                    alignment: WrapAlignment.spaceBetween,
-                    spacing: 12,
+                    spacing: 20,
                     runSpacing: 15,
                     children: [
                       Produkheight(

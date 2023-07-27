@@ -55,9 +55,9 @@ class VerifikasiKtpPage extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 111, left: 83, right: 83),
+            padding: const EdgeInsets.only(left: 83, right: 83),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Stack(
                   children: [
@@ -66,7 +66,7 @@ class VerifikasiKtpPage extends StatelessWidget {
                       left: 3,
                       child: Image.asset(
                         'assets/icons/ktp.png',
-                        width: 224,
+                        width: 2,
                         height: 141,
                       ),
                     ),
