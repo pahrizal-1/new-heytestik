@@ -30,24 +30,24 @@ class NetworkingConfig {
         queryParameters: params,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            if (statusCode == 400) {
-              // your http status code
+          //   if (statusCode == 400) {
+          //     // your http status code
 
-              // for payment
-              debugPrint('status code 400');
-              return true;
-            } else {
-              debugPrint('status code statusCode >= 200 && statusCode < 300');
-              return statusCode >= 200 && statusCode < 300;
-            }
-          },
+          //     // for payment
+          //     debugPrint('status code 400');
+          //     return true;
+          //   } else {
+          //     debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //     return statusCode >= 200 && statusCode < 300;
+          //   }
+          // },
         ),
       );
       return response.data;
@@ -70,16 +70,16 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
+          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //   return statusCode >= 200 && statusCode < 300;
+          // },
         ),
       );
       return response.data;
@@ -103,16 +103,16 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
+          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //   return statusCode >= 200 && statusCode < 300;
+          // },
         ),
       );
       return response.data;
@@ -134,16 +134,16 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
+          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //   return statusCode >= 200 && statusCode < 300;
+          // },
         ),
       );
       return response.data;
