@@ -267,11 +267,9 @@ class ObatSolutionsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              content: Padding(
-                padding: const EdgeInsets.only(left: 20, bottom: 10, top: 20),
+              content: Center(
                 child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  spacing: 12,
+                  spacing: 15,
                   runSpacing: 12,
                   children: const [
                     KonsultasProduk(
