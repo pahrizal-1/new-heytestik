@@ -45,14 +45,10 @@ class LoginController extends StateClass {
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
-      await LocalStorage()
-          .setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage()
-          .setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage()
-          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage()
-          .setUserID(userID: loginResponse['data']['user']['id']);
+      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
       clear();
     });
@@ -80,26 +76,39 @@ class LoginController extends StateClass {
   }
 
   loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      const List<String> scopes = <String>[
-        'email',
-      ];
+    try {
+      isLoading.value = true;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        const List<String> scopes = <String>[
+          'email',
+        ];
 
-      GoogleSignIn _googleSignIn = GoogleSignIn(
-        clientId: '714578753540-1agk186m4da4uqgeebe0cprkoc8r79st.apps.googleusercontent.com',
-        scopes: scopes,
-      );
+        GoogleSignIn _googleSignIn = GoogleSignIn(
+          scopes: scopes,
+        );
 
-      await _googleSignIn.signIn();
+        print("DISINI");
+        await _googleSignIn.signIn();
+        // await _googleSignIn.requestScopes(scopes);
 
-      if (await _googleSignIn.isSignedIn()) {
-        final googleAuth = await _googleSignIn.currentUser?.authentication;
-        print(googleAuth!.accessToken);
-      }
+        _googleSignIn.onCurrentUserChanged
+            .listen((GoogleSignInAccount? account) async {
+              print(account);
+        });
 
-      doInPost();
-    });
-    loadingFalse();
+          print("DISINI");
+        print(await _googleSignIn.isSignedIn());
+
+        if (await _googleSignIn.isSignedIn()) {
+          final googleAuth = await _googleSignIn.currentUser?.authentication;
+          print(googleAuth!.accessToken);
+        }
+
+        doInPost();
+      });
+      isLoading.value = false;
+    } catch(error) {
+      print(error);
+    }
   }
 }
