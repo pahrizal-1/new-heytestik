@@ -15,16 +15,12 @@ import '../../../../widget/rekomedasi_chat_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 
 class ChatDoctorPage extends StatefulWidget {
-  final String roomCode;
-  final String sendBy;
-  final String receiverBy;
-  final int roomId;
-  final int senderId;
-  final int receiverId;
+  final String roomCode, senderBy, receiverBy;
+  final int roomId, senderId, receiverId;
   ChatDoctorPage({
     super.key,
     required this.roomCode,
-    required this.sendBy,
+    required this.senderBy,
     required this.receiverBy,
     required this.roomId,
     required this.senderId,
@@ -38,7 +34,8 @@ class ChatDoctorPage extends StatefulWidget {
 class _ChatDoctorPageState extends State<ChatDoctorPage> {
   bool isVisibeliti = true;
   bool clik = true;
-  final DoctorConsultationController state = Get.put(DoctorConsultationController());
+  final DoctorConsultationController state =
+      Get.put(DoctorConsultationController());
   ScrollController scrollController = ScrollController();
 
   @override
@@ -282,46 +279,47 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               SizedBox(
                 height: 8,
               ),
-              Obx(() {
-                return Container(
-                  // height: 1000,
+              Obx(
+                () => Container(
                   child: ListView.builder(
-                      controller: scrollController,
                       shrinkWrap: true,
-                      itemCount: state.listLastChat.length,
+                      itemCount: state.recentChatActive.length,
                       physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (buildex, index) {
+                      itemBuilder: (context, i) {
                         var formatter = new DateFormat('dd-MM-yyyy');
                         String formattedTime = DateFormat('kk:mm').format(
-                            DateTime.parse(state.listLastChat[index]
-                                    ['created_at']
+                            DateTime.parse(state
+                                .recentChatActive[i].lastChat!.createdAt
                                 .toString()));
-
-                        if (state.listLastChat[index]['id'] == widget.roomId &&
-                            state.listLastChat[index]['sender_id'] == 0) {
+                        if (state.recentChatActive[i].id == widget.roomId &&
+                            state.recentChatActive[i].lastChat!.senderId == 0) {
                           return ChatLeft(
                             // imgDoctor: 'assets/icons/logo.png',
                             // nameDoctor: 'Rina Rasmalina',
                             timetitle: formattedTime,
                             color: subwhiteColor,
-                            title: state.listLastChat[index]['message'],
+                            title: state.recentChatActive[i].lastChat!.message,
                           );
-                        } else if (state.listLastChat[index]['sender_id'] ==
+                        } else if (state
+                                    .recentChatActive[i].lastChat!.senderId ==
                                 widget.senderId &&
-                            state.listLastChat[index]['media_chat_messages']
-                                .isEmpty) {
+                            state.recentChatActive[i].lastChat!
+                                    .mediaChatMessages ==
+                                null) {
                           return ChatRight(
                             imgUser: 'assets/images/doctor-img.png',
-                            // imgData: state.listLastChat[index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + state.listLastChat[index]['media_chat_messages'][index]['media']['path'] : '',
-                            nameUser: widget.sendBy,
+                            nameUser: widget.senderBy,
                             timetitle: formattedTime,
                             color: subgreenColor,
-                            title: state.listLastChat[index]['message'],
+                            title: state.recentChatActive[i].lastChat!.message
+                                .toString(),
                           );
-                        } else if (state.listLastChat[index]['sender_id'] ==
+                        } else if (state
+                                    .recentChatActive[i].lastChat!.senderId ==
                                 widget.senderId &&
-                            state.listLastChat[index]['media_chat_messages']
-                                .isNotEmpty) {
+                            state.recentChatActive[i].lastChat!
+                                    .mediaChatMessages !=
+                                null) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: GestureDetector(
@@ -335,14 +333,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                 var dateFormatted =
                                     DateFormat("yyyy-MM-dd-HH:mm:ss")
                                         .format(DateTime.now());
-                                print('hsail date ' + dateFormatted.toString());
-                                print('hsail format ' +
-                                    dateTime.timeZoneOffset.toString());
                               },
-                              child: state
-                                          .listLastChat[index]
-                                              ['media_chat_messages']
-                                          .length <
+                              child: state.recentChatActive[i].lastChat!
+                                          .mediaChatMessages!.length <
                                       1
                                   ? Container(
                                       margin: const EdgeInsets.symmetric(
@@ -369,8 +362,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                           GridView.builder(
                                             shrinkWrap: true,
                                             itemCount: state
-                                                .listLastChat[index]
-                                                    ['media_chat_messages']
+                                                .recentChatActive[i]
+                                                .lastChat!
+                                                .mediaChatMessages!
                                                 .length,
                                             gridDelegate:
                                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -381,17 +375,19 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                 (BuildContext context, count) {
                                               return Image.network(
                                                 'http://117.53.46.208:8192/files/' +
-                                                    state.listLastChat[index][
-                                                            'media_chat_messages']
-                                                        [
+                                                    state
+                                                            .recentChatActive[i]
+                                                            .lastChat!
+                                                            .mediaChatMessages![
                                                         count]['media']['path'],
                                               );
                                             },
                                           ),
                                           SizedBox(height: 10),
                                           Text(
-                                            state.listLastChat[index]
-                                                ['message'],
+                                            state.recentChatActive[i].lastChat!
+                                                .message
+                                                .toString(),
                                             style: greyTextStyle.copyWith(
                                               fontSize: 15,
                                             ),
@@ -414,10 +410,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                         ],
                                       ),
                                     )
-                                  : state
-                                              .listLastChat[index]
-                                                  ['media_chat_messages']
-                                              .length >
+                                  : state.recentChatActive[i].lastChat!
+                                              .mediaChatMessages!.length >
                                           1
                                       ? Stack(
                                           children: [
@@ -452,8 +446,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   GridView.builder(
                                                     shrinkWrap: true,
                                                     itemCount: state
-                                                        .listLastChat[index][
-                                                            'media_chat_messages']
+                                                        .recentChatActive[i]
+                                                        .lastChat!
+                                                        .mediaChatMessages!
                                                         .length,
                                                     gridDelegate:
                                                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -467,19 +462,21 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                             count) {
                                                       return Image.network(
                                                         'http://117.53.46.208:8192/files/' +
-                                                            state.listLastChat[
-                                                                            index]
-                                                                        [
-                                                                        'media_chat_messages']
-                                                                    [count][
+                                                            state
+                                                                    .recentChatActive[
+                                                                        i]
+                                                                    .lastChat!
+                                                                    .mediaChatMessages![count]
+                                                                [
                                                                 'media']['path'],
                                                       );
                                                     },
                                                   ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    state.listLastChat[index]
-                                                        ['message'],
+                                                    state.recentChatActive[i]
+                                                        .lastChat!.message
+                                                        .toString(),
                                                     style:
                                                         greyTextStyle.copyWith(
                                                       fontSize: 15,
@@ -522,11 +519,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                       MaterialPageRoute(
                                                         builder: ((context) =>
                                                             PreviewImage(
-                                                              path: state.listLastChat[
-                                                                      index][
-                                                                  'media_chat_messages'],
-                                                              senderId:
-                                                                  widget.sendBy,
+                                                              path: state
+                                                                  .recentChatActive[
+                                                                      i]
+                                                                  .lastChat!
+                                                                  .mediaChatMessages!,
+                                                              senderId: widget
+                                                                  .senderBy,
                                                             )),
                                                       ),
                                                     );
@@ -541,64 +540,31 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                           imgUser:
                                               'assets/images/doctor-img.png',
                                           // imgData: state.listLastChat[index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + state.listLastChat[index]['media_chat_messages'][index]['media']['path'] : '',
-                                          nameUser: widget.sendBy,
+                                          nameUser: widget.senderBy,
                                           timetitle: formattedTime,
                                           color: subgreenColor,
-                                          title: state.listLastChat[index]
-                                              ['message'],
-                                        ),
+                                          title: state.recentChatActive[i]
+                                              .lastChat!.message
+                                              .toString()),
                             ),
                           );
-                        } else if (state.listLastChat[index]['sender_id'] ==
+                        } else if (state
+                                .recentChatActive[i].lastChat!.senderId ==
                             widget.receiverId) {
                           return ChatLeft(
-                            // imgUser: 'assets/images/doctor-img.png',
-                            // imgData: 'https://heystetik.ahrulsyamil.com/files/' + state.listLastChat[index]['media_chat_messages'][0]['media']['path'],
                             nameDoctor: widget.receiverBy,
                             timetitle: formattedTime,
                             color: subwhiteColor,
-                            title: state.listLastChat[index]['message'],
+                            title: state.recentChatActive[i].lastChat!.message
+                                .toString(),
                           );
-                        } else {
-                          Container();
                         }
-                        // state.listLastChat[index]['id'] == widget.roomId &&
-                        //         state.listLastChat[index]['sender_id'] == 0
-                        //     ? ChatLeft(
-                        //         // imgDoctor: 'assets/icons/logo.png',
-                        //         // nameDoctor: 'Rina Rasmalina',
-                        //         timetitle: formattedTime,
-                        //         color: subwhiteColor,
-                        //         title: state.listLastChat[index]['message'],
-                        //       )
-                        //     : state.listLastChat[index]['sender_id'] ==
-                        //             widget.senderId
-                        //         ? ChatRight(
-                        //             imgUser: 'assets/images/doctor-img.png',
-                        //             // imgData: state.listLastChat[index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + state.listLastChat[index]['media_chat_messages'][index]['media']['path'] : '',
-                        //             nameUser: widget.sendBy,
-                        //             timetitle: formattedTime,
-                        //             color: subgreenColor,
-                        //             title: state.listLastChat[index]['message'],
-                        //           )
-                        //         : state.listLastChat[index]['sender_id'] ==
-                        //                 widget.receiverId
-                        //             ? ChatLeft(
-                        //                 // imgUser: 'assets/images/doctor-img.png',
-                        //                 // imgData: 'https://heystetik.ahrulsyamil.com/files/' + state.listLastChat[index]['media_chat_messages'][0]['media']['path'],
-                        //                 nameDoctor: widget.receiverBy,
-                        //                 timetitle: formattedTime,
-                        //                 color: subwhiteColor,
-                        //                 title: state.listLastChat[index]
-                        //                     ['message'],
-                        //               )
-                        //             : Container();
                       }),
-                );
-              }),
+                ),
+              )
 
               // RekomendasiDokterWidget(),
-              // TextChat(
+              // i(
               //   timetitle: ' 10:90',
               //   color: subgreenColor,
               //   title:
@@ -614,17 +580,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         senderId: widget.senderId,
         receiverId: widget.receiverId,
         roomCode: widget.roomCode,
-        // onTap: () {
-        //   state.sendMessage(
-        //     widget.roomId,
-        //     widget.roomId,
-        //     widget.senderId,
-        //     widget.receiverId,
-        //     widget.roomCode,
-        //     state.messageController.text,
-        //   );
-        // },
-
         onCamera: () {
           state.openCamera();
         },

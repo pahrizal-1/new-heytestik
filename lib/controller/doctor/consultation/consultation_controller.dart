@@ -155,10 +155,40 @@ class DoctorConsultationController extends StateClass {
 
   Future getListRecentChat() async {
     try {
-      isLoading.value = true;
-      var response = await RecentChatService().getRecentChat();
-      listRecentChat.value = response;
-      print('list ' + listRecentChat.toString());
+      // isLoading.value = true;
+      // var response = await RecentChatService().getRecentChat();
+      // listRecentChat.value = response;
+      // print('list ' + listRecentChat.toString());
+
+      doctorId.value = (await LocalStorage().getUserID())!;
+
+      recentChat.value =
+          await ConsultationDoctorScheduleServices().recentChat();
+
+      if (recentChat.value!.success != true &&
+          recentChat.value!.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: recentChat.value!.message.toString(),
+        );
+      }
+
+      /// heheh
+      for (int i = 0; i < recentChat.value!.data!.length; i++) {
+        if (recentChat.value!.data![i].doctor!.isActive!) {
+          // ADD RECENT CHAT ACTIVE
+          recentChatActive.add(recentChat.value!.data![i]);
+        } else {
+          // ADD RECENT CHAT DONE
+          recentChatDone.add(recentChat.value!.data![i]);
+        }
+      }
+
+      // SET TOTAL RECENT CHAT ACTIVE
+      totalRecentChatActive.value = recentChatActive.length;
+
+      // SET TOTAL RECENT CHAT DONE
+      totalRecentChatDone.value = recentChatDone.length;
 
       // for (var i in response) {
       //   log('print ' + i['last_chat']['message'].toString());
@@ -175,36 +205,7 @@ class DoctorConsultationController extends StateClass {
     isLoading.value = true;
     //replace your restFull API here.
     var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
-    listLastChat.value = response;
-
-    doctorId.value = (await LocalStorage().getUserID())!;
-
-    recentChat.value = await ConsultationDoctorScheduleServices().recentChat();
-
-    if (recentChat.value!.success != true &&
-        recentChat.value!.message != 'Success') {
-      throw ErrorConfig(
-        cause: ErrorConfig.anotherUnknow,
-        message: recentChat.value!.message.toString(),
-      );
-    }
-
-    /// heheh
-    for (int i = 0; i < recentChat.value!.data!.length; i++) {
-      if (recentChat.value!.data![i].doctor!.isActive!) {
-        // ADD RECENT CHAT ACTIVE
-        recentChatActive.add(recentChat.value!.data![i]);
-      } else {
-        // ADD RECENT CHAT DONE
-        recentChatDone.add(recentChat.value!.data![i]);
-      }
-    }
-
-    // SET TOTAL RECENT CHAT ACTIVE
-    totalRecentChatActive.value = recentChatActive.length;
-
-    // SET TOTAL RECENT CHAT DONE
-    totalRecentChatDone.value = recentChatDone.length;
+    recentChatActive.add(response);
     isLoading.value = false;
   }
 

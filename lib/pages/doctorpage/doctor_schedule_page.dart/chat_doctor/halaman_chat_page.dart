@@ -393,10 +393,13 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       // );
                     },
                     child: ChatAktif(
+                      roomCode: state.recentChatActive[i].code.toString(),
+                      roomId: state.recentChatActive[i].id!.toInt(),
                       customerName:
                           state.recentChatActive[i].customer!.fullname ?? '-',
+                      doctorName:
+                          state.recentChatDone[i].doctor!.fullname ?? '-',
                       subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                      // topic: 'Licorice',
                       img: 'assets/images/doctor-img.png',
                       time: CurrenctTime.timeChat(state
                           .recentChatActive[i].lastChat!.createdAt
@@ -409,7 +412,11 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               state.doctorId.value
                           ? true
                           : false,
-                      // category: 'Skin Care',
+                      senderId:
+                          state.recentChatActive[i].lastChat!.senderId!.toInt(),
+                      receiverId: state
+                          .recentChatActive[i].lastChat!.receiverId!
+                          .toInt(),
                     ),
                   );
                 },
@@ -453,8 +460,12 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       // );
                     },
                     child: ChatAktif(
+                      roomCode: state.recentChatActive[i].code.toString(),
+                      roomId: state.recentChatActive[i].id!.toInt(),
                       customerName:
                           state.recentChatDone[i].customer!.fullname ?? '-',
+                      doctorName:
+                          state.recentChatDone[i].doctor!.fullname ?? '-',
                       subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
                       img: 'assets/icons/logo.png',
                       chat: state.recentChatDone[i].lastChat!.message ?? '-',
@@ -468,166 +479,16 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               state.doctorId.value
                           ? true
                           : false,
-                      // category: 'Skin Care',
+                      senderId:
+                          state.recentChatActive[i].lastChat!.senderId!.toInt(),
+                      receiverId: state
+                          .recentChatActive[i].lastChat!.receiverId!
+                          .toInt(),
                     ),
                   );
-
-                  // return DoctorChat(
-                  //   ontap: () {
-                  //     print("chat");
-                  //   },
-                  //   doctorId:
-                  //       state.recentChat.value!.data![i].doctorId!.toInt(),
-                  //   doctorName:
-                  //       state.recentChat.value!.data?[i].doctor?.fullname ??
-                  //           '',
-                  //   chat:
-                  //       state.recentChat.value!.data?[i].lastChat?.message ??
-                  //           '',
-                  //   img: 'assets/images/doctor-img.png',
-                  //   time: '11:09 AM',
-                  //   roomCode:
-                  //       state.recentChat.value!.data![i].code.toString(),
-                  //   seen: state.recentChat.value!.data![i].lastChat!.seen ??
-                  //       false,
-                  //   valueChat: state.recentChat.value!.data?[i].unseenCount
-                  //       .toString(),
-                  // );
                 },
               ),
       ),
     );
   }
 }
-
-// class ChatAktif1 extends StatelessWidget {
-//   const ChatAktif1({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Positioned(
-//       top: 380,
-//       left: 0,
-//       right: 0,
-//       bottom: 0,
-//       child: SingleChildScrollView(
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 33),
-//           child: Column(
-//             children: [
-//               ChatAktif(
-//                 nametile: 'dila btw',
-//                 subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-//                 topic: 'Licorice',
-//                 menit: '11:30 PM',
-//                 pesanChat: '2',
-//                 chat:
-//                     'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok',
-//                 category: 'Skin Care',
-//               ),
-//               ChatAktif(
-//                   nametile: 'Farida Dinda',
-//                   category: 'Skin Care',
-//                   subNameTitle: '22 tahun; Korektif Wajah - Jerawat',
-//                   topic: 'Licorice',
-//                   menit: '10:20 AM',
-//                   chat: 'Kalau masih bingung, bisa tanyakan langsung'),
-//               ChatRead(
-//                   nametile: 'Farida Dinda',
-//                   category: 'Skin Care',
-//                   subNameTitle: '22 tahun; Korektif Wajah - Kulit Kusam',
-//                   topic: 'Licorice',
-//                   menit: 'Kemarin',
-//                   chat:
-//                       'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ChatSekesau extends StatelessWidget {
-//   const ChatSekesau({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Positioned(
-//       top: 380,
-//       left: 0,
-//       right: 0,
-//       bottom: 0,
-//       child: SingleChildScrollView(
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 33),
-//           child: Column(
-//             children: [
-//               ChatAktif(
-//                 category: 'Skin Care',
-//                 nametile: 'Pahrizal',
-//                 subNameTitle: 'Untuk Diri Sendiri, 22 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: 'Kermarin',
-//                 chat:
-//                     'Halo dok selamat siang..aku mau bertanya ni aku cocok nya skincarenya gimana, akhir² ini aku hanya memakai kelly saja, tidak memakai apa apa sehabis mandi kecuali kelly.. tapi 2 hari sebelum ini aku makai sunscreen YOU Spf 50+ PA ++++, eh tp sunscreen nya malah bikin kulit aku abu abu, kesel sih tapi tetep kupake karna kukira ngaruh, tapi kayanya ngga:(disini aku pengen jerawat, beruntusan, komedo, bekas jerawat hilang semua dan paling terutama kulit aku putih. kulit aku tipenya berminyak sekitaran hidung dan komedonya banyak banget apalagi di bawah bibir banyak.. mohon bantuannya dok',
-//               ),
-//               ChatAktif(
-//                   category: 'Skin Care',
-//                   nametile: 'Muhyi Abdul Basiit',
-//                   subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                   topic: 'Jerawat',
-//                   menit: 'Kermarin',
-//                   chat:
-//                       'Apakah aman ya dok jika licorice + niacinamide 10% dipakai untuk kulit sensitif berjerawat? Mohon saran juga untuk kandungan skincare yg bisa mencerahkan untuk kulit sensitif berjerawat.'),
-//               ChatRead(
-//                 category: 'Skin Care',
-//                 nametile: 'Udin Bimlliah',
-//                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: '12/03/23',
-//                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
-//               ),
-//               ChatRead(
-//                 category: 'Skin Care',
-//                 nametile: 'Udin Bimlliah',
-//                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: '12/03/23',
-//                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
-//               ),
-//               ChatRead(
-//                 category: 'Skin Care',
-//                 nametile: 'Udin Bimlliah',
-//                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: '12/03/23',
-//                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
-//               ),
-//               ChatRead(
-//                 category: 'Skin Care',
-//                 nametile: 'Udin Bimlliah',
-//                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: '12/03/23',
-//                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
-//               ),
-//               ChatRead(
-//                 category: 'Skin Care',
-//                 nametile: 'Udin Bimlliah',
-//                 subNameTitle: 'Untuk Diri Sendiri, 20 tahun ',
-//                 topic: 'Jerawat',
-//                 menit: '12/03/23',
-//                 chat: 'Kalau masih bingung, bisa tanyakan langsung',
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

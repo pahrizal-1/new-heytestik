@@ -4,6 +4,7 @@ import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.da
 
 class ChatAktif extends StatelessWidget {
   final String customerName;
+  final String doctorName;
   final String subNameTitle;
   // final String topic;
 
@@ -14,9 +15,14 @@ class ChatAktif extends StatelessWidget {
   final bool seen;
   final bool isMe;
   final String img;
+  final String roomCode;
+  final int roomId;
+  final int senderId;
+  final int receiverId;
   const ChatAktif({
     super.key,
     required this.customerName,
+    required this.doctorName,
     required this.subNameTitle,
     // required this.topic,
     required this.time,
@@ -26,24 +32,28 @@ class ChatAktif extends StatelessWidget {
     this.valueChat = '',
     required this.isMe,
     required this.img,
+    required this.roomCode,
+    required this.roomId,
+    required this.senderId,
+    required this.receiverId,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => ChatDoctorPage(
-        //         roomCode: roomCode,
-        //         sendBy: sendBy,
-        //         receiverBy: nametile,
-        //         roomId: roomId,
-        //         senderId: senderId,
-        //         receiverId: receiverId,
-        //       ),
-        //     ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatDoctorPage(
+                roomCode: roomCode,
+                senderBy: doctorName,
+                receiverBy: customerName,
+                roomId: roomId,
+                senderId: senderId,
+                receiverId: receiverId,
+              ),
+            ));
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 25),
