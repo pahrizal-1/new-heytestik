@@ -43,7 +43,7 @@ class Produkheight extends StatelessWidget {
                 height: 135,
                 width: 164,
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(urlImg))),
+                    image: DecorationImage(image: NetworkImage(urlImg))),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 11, right: 10),
