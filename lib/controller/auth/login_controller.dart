@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
@@ -44,6 +45,30 @@ class LoginController extends StateClass {
       LocalStorage()
           .setUsername(username: loginResponse['data']['data']['fullname']);
       LocalStorage().setRoleID(roleID: loginResponse['data']['data']['roleId']);
+
+      doInPost();
+    });
+    loadingFalse();
+  }
+
+  loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
+    loadingTrue();
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      const List<String> scopes = <String>[
+        'email',
+      ];
+
+      GoogleSignIn _googleSignIn = GoogleSignIn(
+        clientId: '714578753540-1agk186m4da4uqgeebe0cprkoc8r79st.apps.googleusercontent.com',
+        scopes: scopes,
+      );
+
+      await _googleSignIn.signIn();
+
+      if (await _googleSignIn.isSignedIn()) {
+        final googleAuth = await _googleSignIn.currentUser?.authentication;
+        print(googleAuth!.accessToken);
+      }
 
       doInPost();
     });
