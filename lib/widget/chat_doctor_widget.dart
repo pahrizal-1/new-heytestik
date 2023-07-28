@@ -2,27 +2,39 @@ import 'package:flutter/material.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../pages/chat_customer/onboarding_chat2_page.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 
 class ChatAktif extends StatelessWidget {
   final String nametile;
-  final String subNameTitle;
+  final String? subNameTitle;
   final String topic;
+  final String sendBy;
 
   final String category;
   final String menit;
   final String chat;
-  final String? pesanChat;
+  final int? pesanChat;
+  final String roomCode;
+  final int roomId;
+  final int senderId;
+  final int receiverId;
 
-  const ChatAktif(
-      {super.key,
-      required this.nametile,
-      required this.subNameTitle,
-      required this.topic,
-      required this.menit,
-      required this.chat,
-      required this.category,
-      this.pesanChat = ''});
+  const ChatAktif({
+    super.key,
+    required this.nametile,
+    this.subNameTitle,
+    required this.topic,
+    required this.sendBy,
+    required this.menit,
+    required this.chat,
+    required this.category,
+    this.pesanChat,
+    required this.roomCode,
+    required this.roomId,
+    required this.senderId,
+    required this.receiverId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,14 @@ class ChatAktif extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ChatDoctorPage(),
+            builder: (context) => ChatDoctorPage(
+              roomCode: roomCode,
+              sendBy: sendBy,
+              receiverBy: nametile,
+              roomId: roomId,
+              senderId: senderId,
+              receiverId: receiverId,
+            ),
           ),
         );
       },
@@ -60,7 +79,7 @@ class ChatAktif extends StatelessWidget {
                         style: blackTextStyle.copyWith(fontSize: 15),
                       ),
                       Text(
-                        subNameTitle,
+                        subNameTitle!,
                         style: subTitleTextStyle.copyWith(fontSize: 10),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -135,12 +154,12 @@ class ChatRead extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ChatDoctorPage(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const ChatDoctorPage(),
+        //   ),
+        // );
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 25),

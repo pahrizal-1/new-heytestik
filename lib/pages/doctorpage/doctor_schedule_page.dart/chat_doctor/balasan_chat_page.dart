@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/edit_balasan_chat.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_balasan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-class BalasanCepatPage extends StatelessWidget {
+import '../../../../controller/doctor/settings/setting_controller.dart';
+
+class BalasanCepatPage extends StatefulWidget {
   const BalasanCepatPage({super.key});
+
+  @override
+  State<BalasanCepatPage> createState() => _BalasanCepatPageState();
+}
+
+class _BalasanCepatPageState extends State<BalasanCepatPage> {
+  final SettingController state = Get.put(SettingController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.getReplyChat();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +36,7 @@ class BalasanCepatPage extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
+                  state.quickListChat.value = [];
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -99,15 +117,19 @@ class BalasanCepatPage extends StatelessWidget {
                 ),
               ],
             ),
-            const CardTambhan(
-              title: 'Definisi Jerawat',
-              subTitle:
-                  'Jerawat atau disebut juga dengan acne vulgaris (AV) adalah suatu penyakit peradangan kronis dari kelenjar pilosebasea yang ditandai adanya komedo, papul, kista, dan pustul. Bagian tubuh yang kerap ditumbuhi jerawat antara lain daerah wajah, bahu, lengan atas, dada, dan punggung. Biasanya kondisi ini diakibatkan oleh beragam faktor risiko, meliputi:',
-            ),
-            const CardTambhan(
-              title: 'Faktor Penyebab Jerawat',
-              subTitle:
-                  'Biasanya kondisi ini diakibatkan oleh beragam faktor risiko, meliputi: Faktor genetik. Faktor lingkungan.',
+            Obx(
+              () => Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: state.quickListChat.length,
+                    itemBuilder: (context, index) {
+                      return CardTambhan(
+                        title: state.quickListChat[index]['shortcut'],
+                        subTitle: state.quickListChat[index]['message'],
+                      );
+                    }),
+              ),
             ),
           ],
         ),
@@ -147,6 +169,7 @@ class CardTambhan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
           height: 22,

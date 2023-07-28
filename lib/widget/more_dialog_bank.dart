@@ -80,13 +80,13 @@ class _BankMoreDialogState extends State<BankMoreDialog> {
                           ButtonGreenWidget(
                             title: 'Chat Dokter',
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ChatCostomerPage(),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) =>
+                              //         const ChatCostomerPage(),
+                              //   ),
+                              // );
                             },
                           )
                         ],

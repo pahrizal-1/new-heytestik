@@ -31,12 +31,12 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
             const Spacer(),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ChatDoctorPage(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const ChatDoctorPage(),
+                //   ),
+                // );
               },
               child: Text(
                 'Simpan',

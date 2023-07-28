@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
+import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/costoum_pin_widgets.dart';
 
 class PinPage extends StatefulWidget {
@@ -12,41 +14,28 @@ class PinPage extends StatefulWidget {
 }
 
 class _PinPageState extends State<PinPage> {
-  final TextEditingController pinController = TextEditingController(text: '');
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
   String pin = '123456';
   bool isErr = false;
 
   addPin(String number) {
     print('number $number');
-    if (pinController.text.length < 6) {
+    if (state.pinOldController.text.length < 6) {
       setState(() {
-        pinController.text = pinController.text + number;
+        state.pinOldController.text = state.pinOldController.text + number;
       });
     }
 
-    if (pinController.text.length == 6) {
-      if (pinController.text == pin) {
-        Navigator.pop(context, true);
-        print('pin');
-      } else {
-        print('Password salahß');
-        isErr = true;
-        Text(
-          'Password anda salah',
-          style: blackTextStyle.copyWith(color: redColor),
-        );
-      }
-    }
-
-    print('pinController ${pinController.text}');
+    print('state.pinOldController ${state.pinOldController.text}');
   }
 
   deletedPin() {
-    if (pinController.text.isNotEmpty) {
+    if (state.pinOldController.text.isNotEmpty) {
       setState(() {
         isErr = false;
-        pinController.text =
-            pinController.text.substring(0, pinController.text.length - 1);
+        state.pinOldController.text = state.pinOldController.text
+            .substring(0, state.pinOldController.text.length - 1);
       });
     }
   }
@@ -78,7 +67,7 @@ class _PinPageState extends State<PinPage> {
                     height: 100,
                   ),
                   Text(
-                    'Masukkan Kata Sandi\nBaru Anda',
+                    'Masukkan Kata Sandi\nLama Anda',
                     style: whiteTextStyle.copyWith(
                       fontWeight: bold,
                       fontSize: 20,
@@ -95,7 +84,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 1)
+                          (state.pinOldController.text.length >= 1)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           size: 15,
@@ -105,7 +94,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 2)
+                          (state.pinOldController.text.length >= 2)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -115,7 +104,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 3)
+                          (state.pinOldController.text.length >= 3)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -125,7 +114,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 4)
+                          (state.pinOldController.text.length >= 4)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -135,7 +124,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 5)
+                          (state.pinOldController.text.length >= 5)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -145,7 +134,7 @@ class _PinPageState extends State<PinPage> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length == 6)
+                          (state.pinOldController.text.length == 6)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -350,27 +339,298 @@ class _PinPageState extends State<PinPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(
+                              PinNewPage(pinOld: state.pinOldController.text));
+                          print('hey');
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          child: Center(
+                              child: Text(
+                            'OK',
+                            style: whiteTextStyle.copyWith(
+                                fontSize: 25, fontWeight: bold),
+                          )),
+                        ),
+                      ),
+                      CustomInputButton(
+                        title: '0',
+                        onTap: () {
+                          addPin('0');
+                        },
+                      ),
                       GestureDetector(
                         onTap: () {
                           deletedPin();
                         },
-                        child: InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const MoreDialogPassword(),
-                            );
-                          },
-                          child: Container(
-                            width: 70,
-                            height: 70,
-                            child: Center(
-                                child: Text(
-                              'OK',
-                              style: whiteTextStyle.copyWith(
-                                  fontSize: 25, fontWeight: bold),
-                            )),
-                          ),
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          child: Center(
+                              child: Image.asset(
+                            'assets/icons/aroowBac.png',
+                            width: 28,
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 39,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PinNewPage extends StatefulWidget {
+  String? pinOld;
+  PinNewPage({super.key, required this.pinOld});
+
+  @override
+  State<PinNewPage> createState() => _PinNewPageState();
+}
+
+class _PinNewPageState extends State<PinNewPage> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
+  String pin = '123456';
+  bool isErr = false;
+
+  addPin(String number) {
+    print('number $number');
+    if (state.pinNewController.text.length < 6) {
+      setState(() {
+        state.pinNewController.text = state.pinNewController.text + number;
+      });
+    }
+
+    print('state.pinNewController ${state.pinNewController.text}');
+  }
+
+  deletedPin() {
+    if (state.pinNewController.text.isNotEmpty) {
+      setState(() {
+        isErr = false;
+        state.pinNewController.text = state.pinNewController.text
+            .substring(0, state.pinNewController.text.length - 1);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset(
+              "assets/images/bg-pin.png",
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 21, top: 40),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: whiteColor,
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 58),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Text(
+                    'Masukkan Kata Sandi\nBaru Anda',
+                    style: whiteTextStyle.copyWith(
+                      fontWeight: bold,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 57,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length >= 1)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          size: 15,
+                          color: whiteColor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length >= 2)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: whiteColor,
+                          size: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length >= 3)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: whiteColor,
+                          size: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length >= 4)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: whiteColor,
+                          size: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length >= 5)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: whiteColor,
+                          size: 15,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Icon(
+                          (state.pinNewController.text.length == 6)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
+                          color: whiteColor,
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 80,
+                  ),
+                  // ignore: prefer_const_constructors
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomInputButton(
+                        title: '1',
+                        onTap: () {
+                          addPin('1');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '2',
+                        onTap: () {
+                          addPin('2');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '3',
+                        onTap: () {
+                          addPin('3');
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomInputButton(
+                        title: '4',
+                        onTap: () {
+                          addPin('4');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '5',
+                        onTap: () {
+                          addPin('5');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '6',
+                        onTap: () {
+                          addPin('6');
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomInputButton(
+                        title: '7',
+                        onTap: () {
+                          addPin('7');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '8',
+                        onTap: () {
+                          addPin('8');
+                        },
+                      ),
+                      CustomInputButton(
+                        title: '9',
+                        onTap: () {
+                          addPin('9');
+                        },
+                      ),
+                    ],
+                  ),
+                  // ignore: prefer_const_constructors
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          print('old' + widget.pinOld.toString());
+                          print('new' + state.pinNewController.text.toString());
+                          state.updatePassword(
+                            context,
+                            widget.pinOld.toString(),
+                            state.pinNewController.text,
+                          );
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          child: Center(
+                              child: Text(
+                            'OK',
+                            style: whiteTextStyle.copyWith(
+                                fontSize: 25, fontWeight: bold),
+                          )),
                         ),
                       ),
                       CustomInputButton(

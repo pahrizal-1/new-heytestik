@@ -140,7 +140,7 @@ class DetailPasienPage extends StatelessWidget {
               ),
             ),
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PeryataanUmumTextFrom(
@@ -172,7 +172,7 @@ class DetailPasienPage extends StatelessWidget {
               ),
             ),
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PeryataanUmumTextFrom(

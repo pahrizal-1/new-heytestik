@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+
+import '../../../../controller/doctor/settings/setting_controller.dart';
 
 class TambahBalasanPage extends StatelessWidget {
   const TambahBalasanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SettingController state = Get.put(SettingController());
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -17,6 +22,8 @@ class TambahBalasanPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    state.shortcutController.text = '';
+                    state.messageController.text = '';
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -34,6 +41,9 @@ class TambahBalasanPage extends StatelessWidget {
               ],
             ),
             InkWell(
+              onTap: (){
+                state.postQuickChat(context);
+              },
               child: Text(
                 'SIMPAN',
                 style: TextStyle(
@@ -53,63 +63,55 @@ class TambahBalasanPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Shortcut',
-              style: subTitleTextStyle,
+            Text('Shortcut'),
+            SizedBox(height: 7),
+            TextFormField(
+              keyboardType: TextInputType.multiline,
+              minLines: 1, //Normal textInputField will be displayed
+              maxLines: 5,
+              controller: state.shortcutController,
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(height: 10),
+            Text('Balasan Cepat'),
+            SizedBox(height: 7),
+            TextFormField(
+              keyboardType: TextInputType.multiline,
+              minLines: 1, //Normal textInputField will be displayed
+              maxLines: null,
+              controller: state.messageController,
             ),
-            Text(
-              'Definisi Jerawat',
-              style: blackTextStyle.copyWith(fontSize: 15),
-            ),
-            const Divider(
-              thickness: 2,
-            ),
-            Text(
-              'Kata-kata yang akan mengambil balasan ini',
-              style: subTitleTextStyle,
-            ),
-            const SizedBox(
-              height: 58,
-            ),
-            Text(
-              'Pesan Balasan',
-              style: subTitleTextStyle,
-            ),
-            Row(
-              children: [
-                Container(
-                  width: 284,
-                  child: TextFormField(
-                    maxLines: 6,
-                    minLines: 1,
-                    decoration: InputDecoration(
-                      focusColor: greenColor,
-                      fillColor: greenColor,
-                      hoverColor: greenColor,
-                    ),
-                    style: blackTextStyle.copyWith(
-                        fontSize: 15,
-                        color: Color(0Xff323232),
-                        fontWeight: regular),
-                  ),
-                ),
-                Spacer(),
-                Image.asset(
-                  'assets/icons/onlyCamaera.png',
-                  width: 22,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Masukkan teks atau pilih media',
-              style: subTitleTextStyle,
-            )
+            // Row(
+            //   children: [
+            //     Container(
+            //       width: 284,
+            //       child: TextFormField(
+            //         maxLines: 6,
+            //         minLines: 1,
+            //         decoration: InputDecoration(
+            //           focusColor: greenColor,
+            //           fillColor: greenColor,
+            //           hoverColor: greenColor,
+            //         ),
+            //         style: blackTextStyle.copyWith(
+            //             fontSize: 15,
+            //             color: Color(0Xff323232),
+            //             fontWeight: regular),
+            //       ),
+            //     ),
+            //     Spacer(),
+            //     Image.asset(
+            //       'assets/icons/onlyCamaera.png',
+            //       width: 22,
+            //     )
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // Text(
+            //   'Masukkan teks atau pilih media',
+            //   style: subTitleTextStyle,
+            // )
           ],
         ),
       ),
