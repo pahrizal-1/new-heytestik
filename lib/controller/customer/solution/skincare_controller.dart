@@ -16,6 +16,32 @@ class SkincareController extends StateClass {
   List<Lookup.Data2> lookup = [];
   List<Skincare.Data2> skincare = [];
   Rx<DetailSkincare.Data> skincareDetail = DetailSkincare.Data.fromJson({}).obs;
+  // RxString productName = ''.obs;
+  // RxInt price = 0.obs;
+  // RxInt priceDiscouts = 0.obs;
+  // RxString category = ''.obs;
+  // RxInt productStock = 0.obs;
+  // RxBool productIsActive = false.obs;
+  // RxInt rating = 0.obs;
+  // RxString type = ''.obs;
+  // RxString display = ''.obs;
+  // RxInt minOrded = 0.obs;
+  // RxString shiping = ''.obs;
+  // RxString productTreshold = ''.obs;
+  // RxString productSku = ''.obs;
+  // RxString image = ''.obs;
+  // //
+  // RxString description = ''.obs;
+  // RxString brand = ''.obs;
+  // RxString specificationTexture = ''.obs;
+  // RxString specificationBpom = ''.obs;
+  // RxString specificationNetto = ''.obs;
+  // RxString specificationNettoType = ''.obs;
+  // RxString specificationPackagingTpe = ''.obs;
+  // RxString specificationHowToUse = ''.obs;
+  // RxString specificationStorageAdvice = ''.obs;
+  // RxString specificationExpired = ''.obs;
+  // RxString specificationIngredients = ''.obs;
 
   getSkincare(BuildContext context) async {
     isLoading.value = true;
@@ -32,6 +58,24 @@ class SkincareController extends StateClass {
       var res = await SolutionService().detailSkincare(id);
       skincareDetail.value = res.data!;
       // belum semmua data ditampilkan di view
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      // productName.value = res.data?.name ?? '-';
+      // price.value = res.data?.price ?? 0;
+      // priceDiscouts.value = res.data?.price ?? 0;
+      // category.value = res.data?.category ?? '-';
+      // productStock.value = res.data?.productStock ?? 0;
+      // productIsActive.value = res.data?.productIsActive ?? false;
+      // rating.value = res.data?.rating ?? 0;
+      // type.value = res.data?.type ?? '-';
+      // display.value = res.data?.display ?? '-';
+      // minOrded.value = res.data?.minOrder ?? 0;
+      // image.value = res.data!.mediaProducts?[0].media?.path ?? '-';
+      // description.value = res.data?.skincareDetail?.description ?? '-';
     });
     isLoading.value = false;
   }

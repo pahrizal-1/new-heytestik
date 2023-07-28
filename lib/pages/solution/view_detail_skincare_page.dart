@@ -64,11 +64,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: 11,
               ),
               Expanded(
-                child: Obx(
-                  () => Text(
-                    state.skincareDetail.value.name.toString(),
-                    style: blackTextStyle.copyWith(
-                        fontSize: 20, overflow: TextOverflow.ellipsis),
+                child: Text(
+                  '${state.skincareDetail.value.skincareDetail?.specificationIngredients}',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               )
@@ -185,7 +185,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Text(
                           CurrencyFormat.convertToIdr(
-                              state.skincareDetail.value.price, 0),
+                            state.skincareDetail.value.price ?? 0,
+                            0,
+                          ),
                           style: subGreyTextStyle.copyWith(
                             fontSize: 12,
                             decoration: TextDecoration.lineThrough,
@@ -198,7 +200,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Row(
                       children: [
                         Text(
-                          'Rp136.000',
+                          CurrencyFormat.convertToIdr(
+                            state.skincareDetail.value.price ?? 0,
+                            0,
+                          ),
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         const Spacer(),
@@ -211,15 +216,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       height: 15,
                     ),
                     Text(
-                      'ISISPHARMA',
+                      '${state.skincareDetail.value.name}',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     Text(
-                      'Teenderm Gel',
+                      '${state.skincareDetail.value.category}',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     Text(
-                      '40ml',
+                      '${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     const SizedBox(
@@ -228,7 +233,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Row(
                       children: [
                         Text(
-                          'Terjual 3.002',
+                          'Terjual 0',
                           style:
                               blackRegulerTextStyle.copyWith(color: blackColor),
                         ),
@@ -252,7 +257,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 width: 5,
                               ),
                               Text(
-                                '4.9',
+                                '${state.skincareDetail.value.rating}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 13),
                               ),
@@ -260,7 +265,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 width: 5,
                               ),
                               Text(
-                                '(1600)',
+                                '(0)',
                                 style: blackRegulerTextStyle.copyWith(
                                     fontSize: 13),
                               )
@@ -338,32 +343,36 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CategorySkinCare()));
+                                builder: (context) =>
+                                    const CategorySkinCare()));
                       },
                       title1: 'Kategori',
-                      title2: 'Cleanser',
+                      title2: '${state.skincareDetail.value.category}',
                       textColor: greenColor,
                     ),
                     TitleDetail(
                       title1: 'Etalase Skincare',
-                      title2: 'Jerawat',
+                      title2: '${state.skincareDetail.value.display}',
                       textColor: greenColor,
                     ),
                     TitleDetail(
                       title1: 'Tekstur',
-                      title2: 'Gel',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationTexture}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'Kemasan',
-                      title2: 'Tube 40ml',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationPackagingType} ${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'No. BPOM',
-                      title2: '1234567890',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationBpom}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
@@ -373,15 +382,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     const SizedBox(
                       height: 16,
                     ),
-                    const DescripsiText(
+                    DescripsiText(
                       title1: 'Deskripsi',
                       subtitle2:
-                          'DTeen derm gel dari ISISPHARMA Perancis merupakan produk cleanser nomor 1 di Isispharma, membersihkan dan mengelupas kulit Anda secara mendalam untuk menghilangkan kotoran dan mengatur sebum berlebih dengan kandungan kompleks α-PURE-nya.\nIndikasi:\nKulit berminyak, Komedo, Kulit tidak sensitif \nKhasiat klinis terbukti setelah 1 bulan penggunaan:\n• Pori-pori kurang terlihat hingga 28%*\n• Ketidaksempurnaan berkurang 24%\n• Kulit lebih bersih pada 82%* kasus\n• Kulit lebih halus pada 72%* kasus\n*Penilaian mandiri 22 sukarelawan selama 28 hari.',
+                          '${state.skincareDetail.value.skincareDetail?.description}',
                     ),
-                    const DescripsiText(
+                    DescripsiText(
                       title1: 'Petunjuk Penggunaan',
                       subtitle2:
-                          'Bersihkan wajah pada pagi dan malam. Gunakan gerakan melingkar kecil untuk memijat selama 1 hingga 2 menit lalu bilas. Untuk hasil yang lebih baik, gabungkan dengan produk perawatan kulit lainnya dari rangkaian Teen derm yang disesuaikan dengan jenis kulit Anda.',
+                          '${state.skincareDetail.value.skincareDetail?.specificationHowToUse}',
                     ),
                     InkWell(
                       onTap: () {
@@ -413,7 +422,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Visibility(
                       visible: isVisibelity,
                       child: Text(
-                        'ɑ PURE COMPLEX: regulasi sebum, astringent, exfoliating, purifying, anti bacterial, anti-inflammatory, soothing andmoisturizing active ingredientsGLUCONOLACTONE: exfoliatingSILICA BEADS: natural exfoliatingZINC+L-PCA: sebum regulatingCOPPER+L-PCA: anti microbial',
+                        '${state.skincareDetail.value.skincareDetail?.specificationIngredients}',
                         style: blackRegulerTextStyle.copyWith(fontSize: 15),
                       ),
                     ),
