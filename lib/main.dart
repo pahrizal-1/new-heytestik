@@ -22,6 +22,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
+  description: 'High Importance Notifications',
   importance: Importance.max,
   playSound: true,
 );
@@ -34,14 +35,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print(message);
+  });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
     announcement: false,
@@ -74,6 +78,10 @@ void main() async {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
+              channelShowBadge: true,
+              channelDescription: channel.description,
+              importance: Importance.max,
+              priority: Priority.max,
               icon: android?.smallIcon,
               // other properties...
             ),
