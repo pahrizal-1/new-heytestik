@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
-
 import 'package:from_css_color/from_css_color.dart';
-
-import 'package:heystetik_mobileapps/pages/solution/pencarian_page.dart';
+import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import '../../theme/theme.dart';
 
-class EtalaseTreatMentPage extends StatelessWidget {
+class EtalaseTreatMentPage extends StatefulWidget {
   const EtalaseTreatMentPage({super.key});
+
+  @override
+  State<EtalaseTreatMentPage> createState() => _EtalaseTreatMentPageState();
+}
+
+class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
+  final EtalaseController state = Get.put(EtalaseController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      get(context);
+    });
+  }
+
+  get(BuildContext context) async {
+    await state.getConcern(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +70,7 @@ class EtalaseTreatMentPage extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: fromCssColor("#CCCCCC"),
+                  color: fromCssColor('#CCCCCC'),
                 ),
                 borderRadius: BorderRadius.circular(35),
               ),
@@ -66,19 +86,24 @@ class EtalaseTreatMentPage extends StatelessWidget {
                     width: 10,
                   ),
                 ),
-                Container(
-                  transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 300),
-                  child: TextFormField(
-                    style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
-                    decoration: InputDecoration(
-                      hintText: "Cari Treatment",
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: "ProximaNova",
-                        color: fromCssColor(
-                          '#9B9B9B',
+                Expanded(
+                  child: Container(
+                    transform: Matrix4.translationValues(0, -3, 0),
+                    child: TextFormField(
+                      controller: state.searchController,
+                      onChanged: (value) {
+                        state.onChangeFilterText(value);
+                      },
+                      style: const TextStyle(
+                          fontSize: 15, fontFamily: 'ProximaNova'),
+                      decoration: InputDecoration(
+                        hintText: 'Cari Treatment',
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          color: fromCssColor(
+                            '#9B9B9B',
+                          ),
                         ),
                       ),
                     ),
@@ -132,106 +157,207 @@ class EtalaseTreatMentPage extends StatelessWidget {
                 const SizedBox(
                   height: 14,
                 ),
-                Text(
-                  'Korektif Wajah',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                InkWell(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ChatPage(id: id),
-                    //   ),
-                    // );
-                  },
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 47,
-                            width: 60,
-                            decoration: const BoxDecoration(
-                              color: Color(0xffD9D9D9),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/pelkhitam.png',
+                Obx(
+                  () => state.filterData.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'Data tidak ada',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          child: GroupedListView<Data2, String>(
+                            shrinkWrap: true,
+                            elements: state.filterData.toList(),
+                            groupBy: (element) => element.segment.toString(),
+                            groupComparator: (value1, value2) =>
+                                value2.compareTo(value1),
+                            order: GroupedListOrder.ASC,
+                            useStickyGroupSeparators: true,
+                            groupSeparatorBuilder: (String value) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
+                            itemBuilder: (c, element) {
+                              return EtalaseTreatmentPage(
+                                interestConditionId: element.id,
+                                title: element.name.toString(),
+                                img: 'assets/images/pelkhitam.png',
+                              );
+                            },
                           ),
-                          const SizedBox(
-                            width: 13,
-                          ),
-                          Text(
-                            'Bekas Flek Hitam & Melasma',
-                            style: blackTextStyle,
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        color: greyColor,
-                        thickness: 0.5,
-                      ),
-                    ],
-                  ),
+                        ),
                 ),
-                Text(
-                  'Korektif Tubuh',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PencarianPage()));
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 47,
-                            width: 60,
-                            decoration: const BoxDecoration(
-                              color: Color(0xffD9D9D9),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/pelkhitam.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 13,
-                          ),
-                          Text(
-                            'Lemak Membandel',
-                            style: blackTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      color: greyColor,
-                      thickness: 0.5,
-                    ),
-                  ],
-                ),
+                // Text(
+                //   'Korektif Wajah',
+                //   style: blackHigtTextStyle.copyWith(fontSize: 18),
+                // ),
+                // const SizedBox(
+                //   height: 18,
+                // ),
+                // InkWell(
+                //   onTap: () {
+                //     // Navigator.push(
+                //     //   context,
+                //     //   MaterialPageRoute(
+                //     //     builder: (context) => ChatPage(id: id),
+                //     //   ),
+                //     // );
+                //   },
+                //   child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Container(
+                //             height: 47,
+                //             width: 60,
+                //             decoration: const BoxDecoration(
+                //               color: Color(0xffD9D9D9),
+                //               shape: BoxShape.circle,
+                //               image: DecorationImage(
+                //                 image: AssetImage(
+                //                   'assets/images/pelkhitam.png',
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           const SizedBox(
+                //             width: 13,
+                //           ),
+                //           Text(
+                //             'Bekas Flek Hitam & Melasma',
+                //             style: blackTextStyle,
+                //           ),
+                //         ],
+                //       ),
+                //       Divider(
+                //         color: greyColor,
+                //         thickness: 0.5,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Text(
+                //   'Korektif Tubuh',
+                //   style: blackHigtTextStyle.copyWith(fontSize: 18),
+                // ),
+                // const SizedBox(
+                //   height: 18,
+                // ),
+                // Column(
+                //   children: [
+                //     InkWell(
+                //       onTap: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => const PencarianPage()));
+                //       },
+                //       child: Row(
+                //         children: [
+                //           Container(
+                //             height: 47,
+                //             width: 60,
+                //             decoration: const BoxDecoration(
+                //               color: Color(0xffD9D9D9),
+                //               shape: BoxShape.circle,
+                //               image: DecorationImage(
+                //                 image: AssetImage(
+                //                   'assets/images/pelkhitam.png',
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           const SizedBox(
+                //             width: 13,
+                //           ),
+                //           Text(
+                //             'Lemak Membandel',
+                //             style: blackTextStyle,
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //     Divider(
+                //       color: greyColor,
+                //       thickness: 0.5,
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class EtalaseTreatmentPage extends StatelessWidget {
+  final int? interestConditionId;
+  final String title;
+  final String img;
+  const EtalaseTreatmentPage({
+    super.key,
+    required this.interestConditionId,
+    required this.title,
+    required this.img,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: InkWell(
+        onTap: () {
+          print('interestConditionId $interestConditionId');
+          // Get.to(ChatPage(interestConditionId: interestConditionId));
+        },
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 47,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffD9D9D9),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        img,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 13,
+                ),
+                Text(
+                  title,
+                  style: blackTextStyle,
+                ),
+                // const Spacer(),
+                // const Icon(
+                //   Icons.arrow_forward_ios_rounded,
+                // ),
+              ],
+            ),
+            Divider(
+              color: greyColor,
+              thickness: 0.5,
+            ),
+          ],
+        ),
       ),
     );
   }
