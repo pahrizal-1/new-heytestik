@@ -16,6 +16,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../widget/produk_widget.dart';
+import 'category_skincare.dart';
 
 class SolutionSkincare1Page extends StatefulWidget {
   const SolutionSkincare1Page({super.key});
@@ -348,110 +349,58 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         const SizedBox(
                           height: 20,
                         ),
-                        SingleChildScrollView(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 600,
-                            child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                childAspectRatio: 0.85,
-                              ),
-                              itemCount: state.lookup.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                // List<String> textList = [
-                                //   'Cleanser',
-                                //   'Serum',
-                                //   'Mosturizer',
-                                //   'Toner',
-                                //   'Eye Cream',
-                                //   'Sunscreen'
-                                // ];
-                                return Container(
-                                  height: 300,
-                                  width: 105,
-                                  margin: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                        Obx(
+                          () => LoadingWidget(
+                            isLoading: state.isLoadingLookup.value,
+                            child: SingleChildScrollView(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 250,
+                                child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 4,
+                                    childAspectRatio: 1,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 100,
-                                        decoration: BoxDecoration(
+                                  itemCount: state.lookup.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      margin: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                'assets/images/cleanser01.png',
-                                              ),
-                                              fit: BoxFit.cover),
+                                          border:
+                                              Border.all(color: borderColor)),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.to(
+                                            CategorySkinCare(
+                                              category: state
+                                                  .lookup[index].value
+                                                  .toString(),
+                                            ),
+                                          );
+                                        },
+                                        child: Center(
+                                          child: Text(
+                                            state.lookup[index].value
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'ProximaNova'),
+                                          ),
                                         ),
                                       ),
-                                      const SizedBox(height: 5),
-                                      FittedBox(
-                                        child: Text(
-                                          state.lookup[index].value.toString(),
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              fontFamily: 'ProximaNova'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        // ListView.builder(
-                        //   shrinkWrap: true,
-                        //   keyboardDismissBehavior:
-                        //       ScrollViewKeyboardDismissBehavior.onDrag,
-                        //   physics: const NeverScrollableScrollPhysics(),
-                        //   itemCount: state.lookup.length,
-                        //   itemBuilder: (BuildContext context, int index) {
-                        //     return Wrap(
-                        //       children: [
-                        //         Container(
-                        //           height: 120,
-                        //           width: 100,
-                        //           margin: const EdgeInsets.all(8),
-                        //           decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           child: Column(
-                        //             children: [
-                        //               Container(
-                        //                 height: 100,
-                        //                 decoration: BoxDecoration(
-                        //                   borderRadius:
-                        //                       BorderRadius.circular(10),
-                        //                   image: const DecorationImage(
-                        //                       image: AssetImage(
-                        //                         'assets/images/cleanser01.png',
-                        //                       ),
-                        //                       fit: BoxFit.cover),
-                        //                 ),
-                        //               ),
-                        //               const SizedBox(height: 5),
-                        //               FittedBox(
-                        //                 child: Text(
-                        //                   state.lookup[index].value.toString(),
-                        //                   style: const TextStyle(
-                        //                       fontSize: 13,
-                        //                       fontFamily: 'ProximaNova'),
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     );
-                        //   },
-                        // ),
                       ],
                     ),
                   ),
@@ -532,35 +481,44 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         ],
                       ),
                     ),
-                    content: Center(
-                      child: Wrap(
-                        spacing: 23,
-                        runSpacing: 12,
-                        children: state.skincare
-                            .map(
-                              (e) => InkWell(
-                                onTap: () {
-                                  Get.to(DetailSkinCarePage(
-                                    id: e.id!.toInt(),
-                                  ));
-                                },
-                                child: Produkheight(
-                                  namaBrand: e.name.toString(),
-                                  namaProduk: e.category.toString(),
-                                  diskonProduk: '20',
-                                  hargaDiskon:
-                                      CurrencyFormat.convertToIdr(e.price, 0),
-                                  harga:
-                                      CurrencyFormat.convertToIdr(e.price, 0),
-                                  urlImg:
-                                      '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                  // rating: '4.9 (120k)',
-                                  rating: e.rating.toString(),
-                                  kota: 'Amerika Serikat',
-                                ),
-                              ),
-                            )
-                            .toList(),
+                    content: Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoadingSkincare.value,
+                        child: Center(
+                          child: Wrap(
+                            spacing: 23,
+                            runSpacing: 12,
+                            children: state.skincare
+                                .map(
+                                  (e) => InkWell(
+                                    onTap: () {
+                                      Get.to(DetailSkinCarePage(
+                                        id: e.id!.toInt(),
+                                        productId: e
+                                            .mediaProducts![0].productId!
+                                            .toInt(),
+                                      ));
+                                    },
+                                    child: Produkheight(
+                                      namaBrand:
+                                          e.skincareDetail!.brand.toString(),
+                                      namaProduk: e.name.toString(),
+                                      diskonProduk: '20',
+                                      hargaDiskon: CurrencyFormat.convertToIdr(
+                                          e.price, 0),
+                                      harga: CurrencyFormat.convertToIdr(
+                                          e.price, 0),
+                                      urlImg:
+                                          '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                      // rating: '4.9 (120k)',
+                                      rating: e.rating.toString(),
+                                      kota: 'Amerika Serikat',
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                       ),
                     ),
                   )
