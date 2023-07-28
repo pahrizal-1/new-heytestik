@@ -26,19 +26,22 @@ class DoctorHomeController extends StateClass {
   RxBool isFirstSchedule = false.obs;
   RxBool isSecondSchedule = false.obs;
 
-  Rx<FindDoctorScheduleModel?> findSchedul =
+  Rx<FindDoctorScheduleModel?> findSchedule =
       FindDoctorScheduleModel.fromJson({}).obs;
+
+  RxInt totalFindSchedule = 0.obs;
 
   init(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       fullName.value = await LocalStorage().getFullName();
+      await getCurrentDoctorSchedule(context);
+      await getDoctorSchedule(context);
     });
     isLoading.value = false;
   }
 
-  Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
-      BuildContext context) async {
+  getCurrentDoctorSchedule(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       currentSchedule.value =
           await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
@@ -119,17 +122,28 @@ class DoctorHomeController extends StateClass {
       }
     });
 
-    return currentSchedule.value;
+    // return currentSchedule.value;
   }
 
-  Future<FindDoctorScheduleModel?> getDoctorSchedule(
-      BuildContext context) async {
+  getDoctorSchedule(BuildContext context) async {
+    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      findSchedul.value = await ConsultationDoctorScheduleServices()
-          .getDoctorSchedule(currentScheduleId.toInt(), startTime.toString(),
-              endTime.toString());
+      print("hahahahhhhhhhhhhhhhhhhh");
+      print("startTime");
+      print(startTime);
+      print("endTime");
+      print(endTime);
+      findSchedule.value =
+          await ConsultationDoctorScheduleServices().getDoctorSchedule(
+        currentScheduleId.toInt(),
+        startTime.toString(),
+        endTime.toString(),
+      );
+
+      // SET TOTAL totalFindSchedule
+      totalFindSchedule.value = findSchedule.value!.data!.data!.length;
     });
 
-    return findSchedul.value;
+    // isLoading.value = false;
   }
 }
