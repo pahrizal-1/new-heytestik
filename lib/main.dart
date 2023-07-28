@@ -14,8 +14,6 @@ import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
   print("Handling a background message: ${message.messageId}");
 }
 
@@ -48,11 +46,11 @@ void main() async {
   });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
-    announcement: false,
+    announcement: true,
     badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
+    carPlay: true,
+    criticalAlert: true,
+    provisional: true,
     sound: true,
   );
   await FirebaseMessaging.instance.subscribeToTopic("all");
@@ -71,21 +69,22 @@ void main() async {
 
     if (notification != null && android != null) {
       flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelShowBadge: true,
-              channelDescription: channel.description,
-              importance: Importance.max,
-              priority: Priority.max,
-              icon: android?.smallIcon,
-              // other properties...
-            ),
-          ));
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelShowBadge: true,
+            channelDescription: channel.description,
+            importance: Importance.max,
+            priority: Priority.max,
+            icon: android?.smallIcon,
+            // other properties...
+          ),
+        ),
+      );
     }
   });
 
