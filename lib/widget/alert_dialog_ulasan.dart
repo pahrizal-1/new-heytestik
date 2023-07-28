@@ -187,7 +187,7 @@ class AlertInfomasi extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Apakah Anda Akan Hapun?',
+                  'Apakah Anda Akan Hapus?',
                   style: subGreyTextStyle.copyWith(
                       fontSize: 17, color: blackColor),
                 ),
