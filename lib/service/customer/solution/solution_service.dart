@@ -4,13 +4,13 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_solution_model.dart';
-import 'package:heystetik_mobileapps/models/customer/skincare_solution_model.dart';
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 
 class SolutionService extends ProviderClass {
   SolutionService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<SkincareSolutionModel> getSkincare() async {
+  Future<SkincareModel> getSkincare() async {
     var response = await networkingConfig.doGet(
       '/solution/skincare?page=1&search=&take=100&order=asc',
       headers: {
@@ -18,7 +18,7 @@ class SolutionService extends ProviderClass {
       },
     );
 
-    return SkincareSolutionModel.fromJson(response);
+    return SkincareModel.fromJson(response);
   }
 
   Future<DetailSkincareSolutionModel> detailSkincare(int id) async {

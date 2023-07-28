@@ -8,7 +8,7 @@ import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_mo
     as DetailSkincare;
 import 'package:heystetik_mobileapps/models/customer/lookup_solution_model.dart'
     as Lookup;
-import 'package:heystetik_mobileapps/models/customer/skincare_solution_model.dart'
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 

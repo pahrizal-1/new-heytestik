@@ -1,11 +1,11 @@
-class SkincareSolutionModel {
+class SkincareModel {
   bool? success;
   String? message;
   Data? data;
 
-  SkincareSolutionModel({this.success, this.message, this.data});
+  SkincareModel({this.success, this.message, this.data});
 
-  SkincareSolutionModel.fromJson(Map<String, dynamic> json) {
+  SkincareModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
