@@ -168,7 +168,7 @@ Container ContainerDoctor = Container(
             width: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: fromCssColor('#6DC0B3'),
+              color: greenColor,
             ),
             child: Center(
               child: Text(

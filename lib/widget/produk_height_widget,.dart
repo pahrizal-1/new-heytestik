@@ -87,7 +87,7 @@ class Produkheight extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          'Rp$hargaDiskon',
+                          hargaDiskon,
                           style: subGreyTextStyle.copyWith(
                             fontSize: 12,
                             decoration: TextDecoration.lineThrough,
@@ -98,7 +98,7 @@ class Produkheight extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      'Rp$harga',
+                      harga,
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     const SizedBox(

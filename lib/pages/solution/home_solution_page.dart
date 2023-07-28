@@ -65,9 +65,11 @@ class _SolutionPageState extends State<SolutionPage> {
           child: InkWell(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PencarianPageWidget()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PencarianPageWidget(),
+                ),
+              );
             },
             child: Center(
               child: Row(
