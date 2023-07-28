@@ -43,7 +43,7 @@ class _VerifikasiDataSetingsPageState extends State<VerifikasiDataSetingsPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 117, right: 25, left: 25),
+        padding: const EdgeInsets.only(right: 25, left: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

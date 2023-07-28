@@ -34,45 +34,6 @@ class _OnboardingChatState extends State<OnboardingChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => LoadingWidget(
-          isLoading: state.isLoading.value,
-          child: state.totalRecentChat.value == 0
-              ? const BelumKonsultasiChat()
-              : ListChatPage(
-                  recentChat: state.recentChat.value,
-                ),
-        ),
-      ),
-      floatingActionButton: state.totalRecentChat == 0
-          ? Container()
-          : SizedBox(
-              height: 55,
-              width: 55,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Get.to(const BelumKonsultasiChat());
-                },
-                backgroundColor: greenColor,
-                child: Icon(
-                  Icons.add,
-                  color: whiteColor,
-                  size: 35,
-                ),
-              ),
-            ),
-    );
-  }
-}
-
-class BelumKonsultasiChat extends StatelessWidget {
-  const BelumKonsultasiChat({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: greenColor,
@@ -163,49 +124,90 @@ class BelumKonsultasiChat extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 113,
-          ),
-          Center(
-            child: Column(
-              children: [
-                Container(
-                  height: 239,
-                  width: 259,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/onboardingchat.png'),
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: state.totalRecentChat.value == 0
+              ? const BelumKonsultasiChat()
+              : ListChatPage(
+                  recentChat: state.recentChat.value,
+                ),
+        ),
+      ),
+      floatingActionButton: state.totalRecentChat == 0
+          ? Container()
+          : SizedBox(
+              height: 55,
+              width: 55,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Get.to(const BelumKonsultasiChat());
+                },
+                backgroundColor: greenColor,
+                child: Icon(
+                  Icons.add,
+                  color: whiteColor,
+                  size: 35,
+                ),
+              ),
+            ),
+    );
+  }
+}
+
+class BelumKonsultasiChat extends StatelessWidget {
+  const BelumKonsultasiChat({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 113,
+            ),
+            Center(
+              child: Column(
+                children: [
+                  Container(
+                    height: 239,
+                    width: 259,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/onboardingchat.png'),
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  'Kamu belum memiliki konsultasi\napapun :(',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: lsymetric,
-            child: ButtonGreenWidget(
-              title: 'Mulai Konsultasi',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SelectConditionsPage(),
+                  Text(
+                    'Kamu belum memiliki konsultasi\napapun :(',
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                    textAlign: TextAlign.center,
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: lsymetric,
+              child: ButtonGreenWidget(
+                title: 'Mulai Konsultasi',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SelectConditionsPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

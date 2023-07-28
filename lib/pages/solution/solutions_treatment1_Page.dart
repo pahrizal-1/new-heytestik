@@ -624,10 +624,9 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 25),
+                      Center(
                         child: Wrap(
-                          spacing: 12,
+                          spacing: 15,
                           runSpacing: 12,
                           children: [
                             ProdukTreatment(

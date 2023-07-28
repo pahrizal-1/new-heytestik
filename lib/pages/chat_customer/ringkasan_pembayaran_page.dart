@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
@@ -14,11 +15,9 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../home/home_page.dart';
-
 class RingkasanPembayaranPage extends StatefulWidget {
   final int? interestConditionId;
-  RingkasanPembayaranPage({required this.interestConditionId, super.key});
+  const RingkasanPembayaranPage({required this.interestConditionId, super.key});
 
   @override
   State<RingkasanPembayaranPage> createState() =>
@@ -54,7 +53,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomepageCutomer(),
+                    builder: (context) => const TabBarCustomer(),
                   ),
                 );
               },

@@ -348,11 +348,10 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         const SizedBox(
                           height: 20,
                         ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: 600,
                                 child: GridView.builder(
@@ -387,7 +386,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              image: DecorationImage(
+                                              image: const DecorationImage(
                                                   image: AssetImage(
                                                     'assets/images/cleanser01.png',
                                                   ),
@@ -410,8 +409,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                   },
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -493,11 +492,10 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         ],
                       ),
                     ),
-                    content: Padding(
-                      padding: EdgeInsets.only(left: 25, right: 25),
+                    content: Center(
                       child: Wrap(
                         alignment: WrapAlignment.spaceBetween,
-                        spacing: 12,
+                        spacing: 15,
                         runSpacing: 12,
                         children: state.skincare
                             .map(
