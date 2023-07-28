@@ -45,7 +45,7 @@ class PotoKtp extends StatelessWidget {
       ),
       body: Padding(
         padding:
-            const EdgeInsets.only(top: 56, bottom: 82, left: 25, right: 25),
+            const EdgeInsets.only(top: 30, bottom: 50, left: 25, right: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:from_css_color/from_css_color.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
+import '../home/notifikasion_page.dart';
+import '../setings&akun/akun_home_page.dart';
+import 'keranjang_page.dart';
 
 class ObatSolutionsPage extends StatelessWidget {
   const ObatSolutionsPage({super.key});
@@ -40,20 +43,54 @@ class ObatSolutionsPage extends StatelessWidget {
           ),
         ),
         actions: [
-          SvgPicture.asset(
-            'assets/icons/notif-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotifikasionPage()));
+            },
+            child: Image.asset(
+              'assets/icons/icon-home.png',
+              width: 18,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/trello-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const KeranjangPage(),
+                ),
+              );
+            },
+            child: Image.asset(
+              'assets/icons/trello1.png',
+              width: 21,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AkunHomePage(),
+                ),
+              );
+            },
+            child: Image.asset(
+              'assets/icons/humberger.png',
+              width: 19,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 26,
@@ -137,7 +174,7 @@ class ObatSolutionsPage extends StatelessWidget {
                 ],
               ),
             ),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding: EdgeInsets.only(right: 20, left: 25),
@@ -148,7 +185,7 @@ class ObatSolutionsPage extends StatelessWidget {
                         harga: 'Rp152.500',
                         urlImg: 'assets/images/noroid1.png'),
                     ProdukObat(
-                        namaBrand: 'Digenta Cream 10g\n ',
+                        namaBrand: 'Digenta Cream 10g\n',
                         harga: 'Rp152.500',
                         urlImg: 'assets/images/digentasalep.png')
                   ],
@@ -160,7 +197,7 @@ class ObatSolutionsPage extends StatelessWidget {
             ),
             StickyHeader(
               header: Container(
-                color: Color(0xFFFFFFFF),
+                color: const Color(0xFFFFFFFF),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -185,13 +222,13 @@ class ObatSolutionsPage extends StatelessWidget {
                     const SizedBox(
                       height: 22,
                     ),
-                    SingleChildScrollView(
+                    const SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             CirkelCategory(
                               title: 'Lihat\nSemua',
                               img: 'assets/images/lainnya.png',
@@ -267,11 +304,11 @@ class ObatSolutionsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              content: Center(
+              content: const Center(
                 child: Wrap(
                   spacing: 15,
                   runSpacing: 12,
-                  children: const [
+                  children: [
                     KonsultasProduk(
                       harga: 'Rp200.500',
                       title: 'Digenta Cream 10g\n',
@@ -432,7 +469,7 @@ class CirkelCategory extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 image: DecorationImage(image: AssetImage(img))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(

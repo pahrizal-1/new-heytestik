@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
+
 import 'package:provider/provider.dart';
 
 import 'controller/customer/interest/interest_controller.dart';

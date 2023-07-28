@@ -348,70 +348,110 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 600,
-                                child: GridView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 0.85,
-                                  ),
-                                  itemCount: state.lookup.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    // List<String> textList = [
-                                    //   'Cleanser',
-                                    //   'Serum',
-                                    //   'Mosturizer',
-                                    //   'Toner',
-                                    //   'Eye Cream',
-                                    //   'Sunscreen'
-                                    // ];
-                                    return Container(
-                                      height: 135,
-                                      width: 105,
-                                      margin: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 100,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              image: const DecorationImage(
-                                                  image: AssetImage(
-                                                    'assets/images/cleanser01.png',
-                                                  ),
-                                                  fit: BoxFit.cover),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          FittedBox(
-                                            child: Text(
-                                              state.lookup[index].value
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 13,
-                                                  fontFamily: 'ProximaNova'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
+                        SingleChildScrollView(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 600,
+                            child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 0.85,
                               ),
+                              itemCount: state.lookup.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // List<String> textList = [
+                                //   'Cleanser',
+                                //   'Serum',
+                                //   'Mosturizer',
+                                //   'Toner',
+                                //   'Eye Cream',
+                                //   'Sunscreen'
+                                // ];
+                                return Container(
+                                  height: 300,
+                                  width: 105,
+                                  margin: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: const DecorationImage(
+                                              image: AssetImage(
+                                                'assets/images/cleanser01.png',
+                                              ),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      FittedBox(
+                                        child: Text(
+                                          state.lookup[index].value.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 13,
+                                              fontFamily: 'ProximaNova'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          ],
+                          ),
                         ),
+                        // ListView.builder(
+                        //   shrinkWrap: true,
+                        //   keyboardDismissBehavior:
+                        //       ScrollViewKeyboardDismissBehavior.onDrag,
+                        //   physics: const NeverScrollableScrollPhysics(),
+                        //   itemCount: state.lookup.length,
+                        //   itemBuilder: (BuildContext context, int index) {
+                        //     return Wrap(
+                        //       children: [
+                        //         Container(
+                        //           height: 120,
+                        //           width: 100,
+                        //           margin: const EdgeInsets.all(8),
+                        //           decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //           ),
+                        //           child: Column(
+                        //             children: [
+                        //               Container(
+                        //                 height: 100,
+                        //                 decoration: BoxDecoration(
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(10),
+                        //                   image: const DecorationImage(
+                        //                       image: AssetImage(
+                        //                         'assets/images/cleanser01.png',
+                        //                       ),
+                        //                       fit: BoxFit.cover),
+                        //                 ),
+                        //               ),
+                        //               const SizedBox(height: 5),
+                        //               FittedBox(
+                        //                 child: Text(
+                        //                   state.lookup[index].value.toString(),
+                        //                   style: const TextStyle(
+                        //                       fontSize: 13,
+                        //                       fontFamily: 'ProximaNova'),
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -445,7 +485,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                 ),
                                 Container(
                                   height: 30,
-                                  margin: EdgeInsets.only(right: 5),
+                                  margin: const EdgeInsets.only(right: 5),
                                   padding: const EdgeInsets.only(left: 11.5),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: borderColor),
@@ -494,8 +534,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     ),
                     content: Center(
                       child: Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        spacing: 15,
+                        spacing: 23,
                         runSpacing: 12,
                         children: state.skincare
                             .map(
