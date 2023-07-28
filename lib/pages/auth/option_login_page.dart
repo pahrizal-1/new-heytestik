@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../controller/customer/register/register_controller.dart';
+
 class OptionLoginPage extends StatelessWidget {
   const OptionLoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LoginController stateRegis = Get.put(LoginController());
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -87,7 +93,11 @@ class OptionLoginPage extends StatelessWidget {
               ),
               ButtonSignWidget(
                 img: 'assets/images/Frame 28.png',
-                onPressed: () {},
+                onPressed: () async {
+                  await stateRegis.loginWithGoogle(context, doInPost: () async {
+                    print("NGENTOT");
+                  });
+                },
               ),
               ButtonSignWidget(
                 img: 'assets/images/Frame 26.png',

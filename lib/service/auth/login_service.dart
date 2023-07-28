@@ -14,4 +14,8 @@ class LoginService extends ProviderClass {
 
     return response;
   }
+
+  Future<dynamic> loginWithGoogle(dynamic data) async {
+
+  }
 }
