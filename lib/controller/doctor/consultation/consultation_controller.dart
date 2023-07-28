@@ -177,7 +177,34 @@ class DoctorConsultationController extends StateClass {
     var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
     listLastChat.value = response;
 
-    log('print ' + listLastChat.toString());
+    doctorId.value = (await LocalStorage().getUserID())!;
+
+    recentChat.value = await ConsultationDoctorScheduleServices().recentChat();
+
+    if (recentChat.value!.success != true &&
+        recentChat.value!.message != 'Success') {
+      throw ErrorConfig(
+        cause: ErrorConfig.anotherUnknow,
+        message: recentChat.value!.message.toString(),
+      );
+    }
+
+    /// heheh
+    for (int i = 0; i < recentChat.value!.data!.length; i++) {
+      if (recentChat.value!.data![i].doctor!.isActive!) {
+        // ADD RECENT CHAT ACTIVE
+        recentChatActive.add(recentChat.value!.data![i]);
+      } else {
+        // ADD RECENT CHAT DONE
+        recentChatDone.add(recentChat.value!.data![i]);
+      }
+    }
+
+    // SET TOTAL RECENT CHAT ACTIVE
+    totalRecentChatActive.value = recentChatActive.length;
+
+    // SET TOTAL RECENT CHAT DONE
+    totalRecentChatDone.value = recentChatDone.length;
     isLoading.value = false;
   }
 
