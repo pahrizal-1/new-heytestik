@@ -233,7 +233,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            width: 30,
+                                            width: 15,
                                           ),
                                           Text(
                                             '1 Strip (10 tablet)',
