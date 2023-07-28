@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 
 import '../theme/theme.dart';
 
 class Produkheight extends StatelessWidget {
+  final int produkId;
   final String namaBrand;
   final String namaProduk;
   final String diskonProduk;
@@ -12,8 +15,9 @@ class Produkheight extends StatelessWidget {
   final String harga;
   final String urlImg;
   final String rating;
-  const Produkheight({
+  Produkheight({
     super.key,
+    required this.produkId,
     required this.namaBrand,
     required this.namaProduk,
     required this.diskonProduk,
@@ -23,7 +27,7 @@ class Produkheight extends StatelessWidget {
     required this.rating,
     required this.kota,
   });
-
+  final CartController cart = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,7 +132,9 @@ class Produkheight extends StatelessWidget {
                     Container(
                       height: 30,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await cart.addCart(context, produkId, 1, '');
+                        },
                         style: TextButton.styleFrom(
                           backgroundColor: greenColor,
                           shape: RoundedRectangleBorder(

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 
 import 'appbar_widget.dart';
 
 class ProdukCardWidget extends StatefulWidget {
+  final int cartId;
+  final int productId;
   final String imageProduk;
   final String namaProdik;
   final String merkProduk;
@@ -12,9 +18,13 @@ class ProdukCardWidget extends StatefulWidget {
   final String penggunaan;
   final String harga;
   final String hintText;
-
+  final String packagingType;
+  final String netto;
+  final String nettoType;
   const ProdukCardWidget({
     Key? key,
+    required this.cartId,
+    required this.productId,
     required this.imageProduk,
     required this.merkProduk,
     required this.penggunaanJadwal,
@@ -22,6 +32,9 @@ class ProdukCardWidget extends StatefulWidget {
     required this.harga,
     required this.hintText,
     required this.namaProdik,
+    required this.packagingType,
+    required this.netto,
+    required this.nettoType,
   }) : super(key: key);
 
   @override
@@ -29,6 +42,8 @@ class ProdukCardWidget extends StatefulWidget {
 }
 
 class _ProdukCardWidgetState extends State<ProdukCardWidget> {
+  final CartController state = Get.put(CartController());
+  final WishlistController wishlist = Get.put(WishlistController());
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
@@ -127,7 +142,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     decoration: BoxDecoration(
                                       border: Border.all(color: borderColor),
                                       image: DecorationImage(
-                                        image: AssetImage(widget.imageProduk),
+                                        image: NetworkImage(widget.imageProduk),
                                       ),
                                     ),
                                   ),
@@ -236,7 +251,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                             width: 15,
                                           ),
                                           Text(
-                                            '1 Strip (10 tablet)',
+                                            '1 ${widget.packagingType} (${widget.netto} ${widget.nettoType})',
                                             style: TextStyle(
                                               fontFamily: 'ProximaNova',
                                               fontSize: 13,
@@ -294,14 +309,30 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        'Pindahkan ke Wishlist',
-                        style: subTitleTextStyle,
+                      InkWell(
+                        onTap: () async {
+                          await wishlist.addWishlist(context, widget.productId);
+                        },
+                        child: Text(
+                          'Pindahkan ke Wishlist',
+                          style: subTitleTextStyle,
+                        ),
                       ),
                       const Spacer(),
-                      Image.asset(
-                        'assets/icons/trash.png',
-                        width: 20,
+                      InkWell(
+                        onTap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertInfomasi(function: () async {
+                              await state.deleteCart(context, widget.cartId);
+                            }),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/icons/trash.png',
+                          width: 20,
+                        ),
                       ),
                       const SizedBox(
                         width: 21,

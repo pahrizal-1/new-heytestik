@@ -500,6 +500,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                       ));
                                     },
                                     child: Produkheight(
+                                      produkId: e.id!.toInt(),
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
