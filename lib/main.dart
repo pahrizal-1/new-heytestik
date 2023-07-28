@@ -14,14 +14,13 @@ import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
   print("Handling a background message: ${message.messageId}");
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
+  description: 'High Importance Notifications',
   importance: Importance.max,
   playSound: true,
 );
@@ -34,21 +33,24 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print(message);
+  });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
-    announcement: false,
+    announcement: true,
     badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
+    carPlay: true,
+    criticalAlert: true,
+    provisional: true,
     sound: true,
   );
   await FirebaseMessaging.instance.subscribeToTopic("all");
@@ -67,17 +69,22 @@ void main() async {
 
     if (notification != null && android != null) {
       flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              icon: android?.smallIcon,
-              // other properties...
-            ),
-          ));
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelShowBadge: true,
+            channelDescription: channel.description,
+            importance: Importance.max,
+            priority: Priority.max,
+            icon: android?.smallIcon,
+            // other properties...
+          ),
+        ),
+      );
     }
   });
 
