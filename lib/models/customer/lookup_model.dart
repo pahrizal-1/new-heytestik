@@ -1,11 +1,11 @@
-class LookupSolutionModel {
+class LookupModel {
   bool? success;
   String? message;
   Data? data;
 
-  LookupSolutionModel({this.success, this.message, this.data});
+  LookupModel({this.success, this.message, this.data});
 
-  LookupSolutionModel.fromJson(Map<String, dynamic> json) {
+  LookupModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;

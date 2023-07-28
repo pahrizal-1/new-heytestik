@@ -3,7 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
-import 'package:heystetik_mobileapps/models/customer/lookup_solution_model.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 
 class SolutionService extends ProviderClass {
@@ -32,7 +32,7 @@ class SolutionService extends ProviderClass {
     return DetailSkincareSolutionModel.fromJson(response);
   }
 
-  Future<LookupSolutionModel> getLookup() async {
+  Future<LookupModel> getLookup() async {
     var response = await networkingConfig.doGet(
       '/lookup?page=1&take=100&order=asc&category[]=SKINCARE_CATEGORY&search=',
       headers: {
@@ -40,6 +40,6 @@ class SolutionService extends ProviderClass {
       },
     );
 
-    return LookupSolutionModel.fromJson(response);
+    return LookupModel.fromJson(response);
   }
 }

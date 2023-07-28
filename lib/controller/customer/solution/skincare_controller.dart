@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart'
     as DetailSkincare;
-import 'package:heystetik_mobileapps/models/customer/lookup_solution_model.dart'
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
