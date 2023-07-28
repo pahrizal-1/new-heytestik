@@ -34,12 +34,12 @@ class ProdukKeranjang extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DetailSkinCarePage(),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const DetailSkinCarePage(),
+          //   ),
+          // );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
