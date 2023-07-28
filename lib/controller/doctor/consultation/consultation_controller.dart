@@ -138,6 +138,7 @@ class DoctorConsultationController extends StateClass {
         );
       }
 
+      /// heheh
       for (int i = 0; i < recentChat.value!.data!.length; i++) {
         if (recentChat.value!.data![i].doctor!.isActive!) {
           // ADD RECENT CHAT ACTIVE
