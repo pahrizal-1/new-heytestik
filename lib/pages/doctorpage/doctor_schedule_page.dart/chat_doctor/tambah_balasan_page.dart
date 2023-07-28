@@ -47,7 +47,7 @@ class TambahBalasanPage extends StatelessWidget {
               ],
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 state.postQuickChat(context);
               },
               child: Text(
@@ -77,20 +77,6 @@ class TambahBalasanPage extends StatelessWidget {
               maxLines: 5,
               controller: state.shortcutController,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
-                focusedBorder: UnderlineInputBorder(
-                  //<-- SEE HERE
-                  borderSide: BorderSide(width: 1, color: subgreyColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  //<-- SEE HERE
-                  borderSide: BorderSide(width: 1, color: subgreyColor),
-                ),
-              ),
-            ),
             SizedBox(
               height: 10,
             ),
@@ -110,6 +96,7 @@ class TambahBalasanPage extends StatelessWidget {
                 Container(
                   width: 284,
                   child: TextFormField(
+                    controller: state.messageController,
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(

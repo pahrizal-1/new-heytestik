@@ -7,7 +7,8 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/widget/chat_widget.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../controller/doctor/chat/chat_controller.dart';
+// import '../../../../controller/doctor/chat/chat_controller.dart';
+import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widget/preview_widget.dart';
 import '../../../../widget/rekomedasi_chat_widget.dart';
@@ -37,7 +38,7 @@ class ChatDoctorPage extends StatefulWidget {
 class _ChatDoctorPageState extends State<ChatDoctorPage> {
   bool isVisibeliti = true;
   bool clik = true;
-  final DoctorChatController state = Get.put(DoctorChatController());
+  final DoctorConsultationController state = Get.put(DoctorConsultationController());
   ScrollController scrollController = ScrollController();
 
   @override

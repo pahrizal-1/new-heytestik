@@ -213,59 +213,6 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                   ),
                   Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total Statistik Saya',
-                            style: TextStyle(
-                              fontFamily: 'Proximanova',
-                              fontSize: 18,
-                              letterSpacing: 0.5,
-                              fontWeight: bold,
-                              color: blackColor,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showBottomSheet(
-                                context: context,
-                                enableDrag: true,
-                                builder: (BuildContext context) {
-                                  return const BottomSheetProfile();
-                                },
-                              );
-                            },
-                            child: Container(
-                              height: 25,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 0.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.commit_sharp,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 2,
-                                  ),
-                                  Text(
-                                    'Filter',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'ProximaNova',
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -560,112 +507,6 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SaldoProfilPage(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 80,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: greenColor,
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Saldo Saya',
-                                  style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 15,
-                                      color: whiteColor),
-                                ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Obx(
-                                  () => Text(
-                                    'Rp ' +
-                                        state.saldo.value.balance.toString(),
-                                    style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 20,
-                                        fontWeight: bold,
-                                        color: whiteColor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        'Keamanan',
-                        style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontWeight: bold,
-                            fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PinPageLamaDoctor(),
-                              ),
-                            );
-                          },
-                          child: const ContainerSettings(
-                            title: 'Ubah Kata Sandi',
-                          )),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        'Aplikasi Heystetik',
-                        style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontWeight: bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const ContainerSettings(title: 'Notifikasi'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const ContainerSettings(title: 'Tentang Heystetik'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const ContainerSettings(title: 'Update App'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await state.logout(context);
-                        },
-                        child: const ContainerSettings(
-                          title: 'Log-Out',
-                          isLogout: true,
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(
@@ -701,13 +542,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             const SizedBox(
                               height: 3,
                             ),
-                            Text(
-                              'Rp5.000.000',
-                              style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                  fontWeight: bold,
-                                  color: whiteColor),
+                            Obx(
+                              () => Text(
+                                'Rp ' + state.saldo.value.balance.toString(),
+                                style: TextStyle(
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                    color: whiteColor),
+                              ),
                             ),
                           ],
                         ),

@@ -29,6 +29,7 @@ class _BalasanCepatPageState extends State<BalasanCepatPage> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),
