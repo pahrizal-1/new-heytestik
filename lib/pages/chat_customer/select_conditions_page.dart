@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:heystetik_mobileapps/controller/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
+import '../../widget/appar_cutome.dart';
 import '../../widget/text_form_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
@@ -21,7 +22,9 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   @override
   void initState() {
     super.initState();
-    get(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      get(context);
+    });
   }
 
   get(BuildContext context) async {
@@ -31,23 +34,11 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            const Text('Pilih Kondisi'),
-          ],
-        ),
+      appBar: AppBarCustome(
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        title: 'Pilih Kondisi',
+        bgColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
@@ -89,7 +80,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                             ),
                             itemBuilder: (c, element) {
                               return KorektifWajahPage(
-                                id: element.id,
+                                interestConditionId: element.id,
                                 title: element.name.toString(),
                                 img: 'assets/images/pelkhitam.png',
                               );
@@ -114,12 +105,12 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
 }
 
 class KorektifWajahPage extends StatelessWidget {
-  final int? id;
+  final int? interestConditionId;
   final String title;
   final String img;
   const KorektifWajahPage({
     super.key,
-    required this.id,
+    required this.interestConditionId,
     required this.title,
     required this.img,
   });
@@ -130,13 +121,8 @@ class KorektifWajahPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
-          print('id $id');
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(id: id),
-            ),
-          );
+          print('interestConditionId $interestConditionId');
+          Get.to(ChatPage(interestConditionId: interestConditionId));
         },
         child: Column(
           children: [

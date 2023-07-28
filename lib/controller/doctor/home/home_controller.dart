@@ -8,7 +8,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
-import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
+import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
 class DoctorHomeController extends StateClass {
   RxString fullName = ''.obs;
@@ -26,19 +26,22 @@ class DoctorHomeController extends StateClass {
   RxBool isFirstSchedule = false.obs;
   RxBool isSecondSchedule = false.obs;
 
-  Rx<FindDoctorScheduleModel?> findSchedul =
+  Rx<FindDoctorScheduleModel?> findSchedule =
       FindDoctorScheduleModel.fromJson({}).obs;
+
+  RxInt totalFindSchedule = 0.obs;
 
   init(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       fullName.value = await LocalStorage().getFullName();
+      await getCurrentDoctorSchedule(context);
+      await getDoctorSchedule(context);
     });
     isLoading.value = false;
   }
 
-  Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
-      BuildContext context) async {
+  getCurrentDoctorSchedule(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       currentSchedule.value =
           await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
@@ -60,9 +63,10 @@ class DoctorHomeController extends StateClass {
         DateTime second2 = now;
 
         // CEK APAKAH JADWAL PERTAMA ADA ATAU TIDAK
-        if (startTime.value.isNotEmpty ||
-            startTime.value != '-' ||
-            startTime.value != '') {
+        if (currentSchedule.value!.data!.firstSchedule != null) {
+          // if (startTime.value.isNotEmpty ||
+          //     startTime.value != '-' ||
+          //     startTime.value != '') {
           startTime1.value = CurrenctTime.getFirstTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
@@ -75,12 +79,14 @@ class DoctorHomeController extends StateClass {
 
           first1 = DateTime.parse('$dateStr ${startTime1.value}');
           first2 = DateTime.parse('$dateStr ${startTime2.value}');
+          // }
         }
 
         // CEK APAKAH JADWAL KEDUA ADA ATAU TIDAK
-        if (endTime.value.isNotEmpty ||
-            endTime.value != '-' ||
-            endTime.value != '') {
+        if (currentSchedule.value!.data!.lastSchdule != null) {
+          // if (endTime.value.isNotEmpty ||
+          //     endTime.value != '-' ||
+          //     endTime.value != '') {
           endTime1.value = CurrenctTime.getFirstTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
@@ -93,8 +99,8 @@ class DoctorHomeController extends StateClass {
 
           second1 = DateTime.parse('$dateStr ${endTime1.value}');
           second2 = DateTime.parse('$dateStr ${endTime2.value}');
+          // }
         }
-
         print('first1 $first1');
         print('first2 $first2');
         print('second1 $second1');
@@ -116,17 +122,28 @@ class DoctorHomeController extends StateClass {
       }
     });
 
-    return currentSchedule.value;
+    // return currentSchedule.value;
   }
 
-  Future<FindDoctorScheduleModel?> getDoctorSchedule(
-      BuildContext context) async {
+  getDoctorSchedule(BuildContext context) async {
+    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      findSchedul.value = await ConsultationDoctorScheduleServices()
-          .getDoctorSchedule(currentScheduleId.toInt(), startTime.toString(),
-              endTime.toString());
+      print("hahahahhhhhhhhhhhhhhhhh");
+      print("startTime");
+      print(startTime);
+      print("endTime");
+      print(endTime);
+      findSchedule.value =
+          await ConsultationDoctorScheduleServices().getDoctorSchedule(
+        currentScheduleId.toInt(),
+        startTime.toString(),
+        endTime.toString(),
+      );
+
+      // SET TOTAL totalFindSchedule
+      totalFindSchedule.value = findSchedule.value!.data!.data!.length;
     });
 
-    return findSchedul.value;
+    // isLoading.value = false;
   }
 }

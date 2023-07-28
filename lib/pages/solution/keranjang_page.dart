@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/appbar_widget.dart';
 import '../../widget/button_widget.dart';
 
 import '../../widget/produk_card_widget.dart';
@@ -24,29 +25,14 @@ class _KeranjangPageState extends State<KeranjangPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: whiteColor,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Keranjang',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
-              )
-            ],
+          child: Text(
+            'Keranjang',
+            style: blackHigtTextStyle.copyWith(fontSize: 20),
           ),
         ),
         actions: [
@@ -72,7 +58,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AkunHomePage(),
+                  builder: (context) => AkunHomePage(),
                 ),
               );
             },

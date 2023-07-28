@@ -3,8 +3,14 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class LinearUlasan extends StatelessWidget {
+  final String bintang;
+  final double height;
+  final String jumlah;
   const LinearUlasan({
     super.key,
+    required this.bintang,
+    required this.height,
+    required this.jumlah,
   });
 
   @override
@@ -23,7 +29,7 @@ class LinearUlasan extends StatelessWidget {
           width: 12,
         ),
         Text(
-          '5',
+          bintang,
           style: blackHigtTextStyle.copyWith(
             fontSize: 15,
           ),
@@ -32,18 +38,18 @@ class LinearUlasan extends StatelessWidget {
           width: 12,
         ),
         LinearPercentIndicator(
-          lineHeight: 5,
+          lineHeight: 4,
           width: 250,
           animation: true,
-          animationDuration: 2500,
-          percent: 0.5,
+          animationDuration: 2600,
+          percent: height,
           progressColor: const Color(0xffFFC36A),
         ),
         const SizedBox(
           width: 12,
         ),
         Text(
-          '122',
+          jumlah,
           style: subTitleTextStyle.copyWith(
             fontSize: 12,
           ),

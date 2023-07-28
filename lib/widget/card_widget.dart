@@ -1,6 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -190,65 +194,103 @@ class CardBank extends StatefulWidget {
 }
 
 class _CardBankState extends State<CardBank> {
-  List<String> nameBank = [
-    'Transfer Bank BCA',
-    'Transfer Bank BNI',
-    'Transfer Bank BRI',
-  ];
-  List<String> img = [
-    'assets/images/logo-bca.png',
-    'assets/images/logo-bni.png',
-    'assets/images/logo-bri.png',
-  ];
+  final OrderController state = Get.put(OrderController());
+
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(3, (index) {
-        return InkWell(
-          onTap: () {
-            setState(() {
-              isSelected = index;
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(top: 18),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      img[index],
-                      width: 52,
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: state.totalPaymentMethod.value == 0
+          ? Container()
+          : ListView.builder(
+              shrinkWrap: true,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.totalPaymentMethod.value,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    if (state.getPaymentMethod.value!.data![index].isActive !=
+                        false) {
+                      state.idPayment.value = state
+                          .getPaymentMethod.value!.data![index].id!
+                          .toInt();
+                      state.paymentMethod.value =
+                          state.getPaymentMethod.value!.data![index].method ??
+                              '-';
+                      state.paymentType.value =
+                          state.getPaymentMethod.value!.data![index].type ??
+                              '-';
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertWidget(
+                          subtitle:
+                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    height: 35,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Image.network(
+                              '${Global.BASE_API}/files/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              width: 40,
+                              height: 35,
+                            ),
+                            const SizedBox(
+                              width: 19,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.getPaymentMethod.value!.data![index]
+                                          .name ??
+                                      '-',
+                                  style: blackTextStyle.copyWith(fontSize: 15),
+                                ),
+                                Text(
+                                  state.getPaymentMethod.value!.data![index]
+                                          .description ??
+                                      '-',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 12),
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            Obx(
+                              () => Icon(
+                                state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? Icons.radio_button_on
+                                    : Icons.circle_outlined,
+                                size: 23,
+                                color: state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? greenColor
+                                    : blackColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 19,
-                    ),
-                    Text(
-                      nameBank[index],
-                      style: blackTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const Spacer(),
-                    Icon(
-                      isSelected == index
-                          ? Icons.radio_button_on
-                          : Icons.circle_outlined,
-                      size: 23,
-                      color: isSelected == index ? greenColor : blackColor,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Divider(
-                  thickness: 2,
-                )
-              ],
+                  ),
+                );
+              },
             ),
-          ),
-        );
-      }),
     );
   }
 }

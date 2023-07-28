@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../theme/theme.dart';
 
@@ -108,44 +109,51 @@ class TitleDetail extends StatelessWidget {
   final String title2;
   final Color textColor;
   final FontWeight? fontWeight;
+  final VoidCallback? ontap;
   const TitleDetail({
     Key? key,
     required this.title1,
     required this.title2,
     required this.textColor,
     this.fontWeight,
+    this.ontap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 12),
-      child: Column(
-        children: [
-          Table(
-            children: [
-              TableRow(
-                children: [
-                  Text(
-                    title1,
-                    style: blackRegulerTextStyle.copyWith(color: blackColor),
-                  ),
-                  Text(
-                    title2,
-                    style: grenTextStyle.copyWith(
-                        fontSize: 15, color: textColor, fontWeight: fontWeight),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          const Divider(
-            thickness: 2,
-          )
-        ],
+      child: InkWell(
+        onTap: ontap,
+        child: Column(
+          children: [
+            Table(
+              children: [
+                TableRow(
+                  children: [
+                    Text(
+                      title1,
+                      style: blackRegulerTextStyle.copyWith(color: blackColor),
+                    ),
+                    Text(
+                      title2,
+                      style: grenTextStyle.copyWith(
+                          fontSize: 15,
+                          color: textColor,
+                          fontWeight: fontWeight),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            const Divider(
+              thickness: 2,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -252,6 +260,58 @@ class TetxtInfomasi extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class HasilKonsultasiWidgets extends StatelessWidget {
+  final String namaObat;
+  final String? berapaBayak;
+  const HasilKonsultasiWidgets({
+    super.key,
+    required this.namaObat,
+    this.berapaBayak = '',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 10, top: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'R/',
+                style: blackRegulerTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                namaObat,
+                style: grenTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              const Spacer(),
+              berapaBayak != ''
+                  ? Text(
+                      berapaBayak.toString(),
+                      style: blackRegulerTextStyle.copyWith(
+                        fontSize: 13,
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
+          const SizedBox(
+            height: 13,
+          ),
+          dividergrey(),
+        ],
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class _BalasanCepatPageState extends State<BalasanCepatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
         title: Padding(
           padding: const EdgeInsets.only(left: 6),

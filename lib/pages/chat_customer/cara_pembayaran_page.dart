@@ -16,26 +16,12 @@ class _CaraPembyaranPageState extends State<CaraPembyaranPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            Text(
-              'Cara Pembayaran',
-              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-            ),
-            const Spacer(),
-          ],
+        title: Text(
+          'Cara Pembayaran',
+          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
         ),
       ),
       body: SingleChildScrollView(

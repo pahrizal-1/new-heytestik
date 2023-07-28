@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../controller/doctor/chat/chat_controller.dart';
+// import '../controller/doctor/chat/chat_controller.dart';
+import '../controller/doctor/consultation/consultation_controller.dart';
 
 class CameraViewPage extends StatelessWidget {
   const CameraViewPage({
@@ -25,7 +26,7 @@ class CameraViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DoctorChatController state = Get.put(DoctorChatController());
+    final DoctorConsultationController state = Get.put(DoctorConsultationController());
 
     // var listImage = Get.arguments();
     return Scaffold(
@@ -150,7 +151,7 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DoctorChatController state = Get.put(DoctorChatController());
+    final DoctorConsultationController state = Get.put(DoctorConsultationController());
 
     // var listImage = Get.arguments();
     return Scaffold(

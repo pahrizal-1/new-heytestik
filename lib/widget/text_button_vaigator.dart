@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 
-import '../controller/doctor/chat/chat_controller.dart';
+// import '../controller/doctor/chat/chat_controller.dart';
+import '../controller/doctor/consultation/consultation_controller.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import '../theme/theme.dart';
@@ -213,12 +214,12 @@ class ChatBottomNavigator extends StatelessWidget {
                   ),
                   onChanged: (value) async {
                     if (textC.text == '/') {
-                      Get.put(DoctorChatController()).isSuggestion.value = true;
+                      Get.put(DoctorConsultationController()).isSuggestion.value = true;
                       showBottomSheet(
                         context: context,
                         builder: (builder) => Obx(
                           () => Visibility(
-                            visible: Get.put(DoctorChatController())
+                            visible: Get.put(DoctorConsultationController())
                                 .isSuggestion
                                 .value,
                             child: Container(
@@ -229,17 +230,17 @@ class ChatBottomNavigator extends StatelessWidget {
                               ),
                               child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: Get.put(DoctorChatController())
+                                  itemCount: Get.put(DoctorConsultationController())
                                       .quickReplyChat
                                       .length,
                                   itemBuilder: ((context, index) {
                                     return GestureDetector(
                                       onTap: () async {
                                         String desc =
-                                            Get.put(DoctorChatController())
+                                            Get.put(DoctorConsultationController())
                                                     .quickReplyChat[index]
                                                 ['message'];
-                                        await Get.put(DoctorChatController())
+                                        await Get.put(DoctorConsultationController())
                                             .sendMessage(
                                           roomId!,
                                           roomId!,
@@ -249,14 +250,14 @@ class ChatBottomNavigator extends StatelessWidget {
                                           desc,
                                         );
                                         Get.back();
-                                        Get.put(DoctorChatController())
+                                        Get.put(DoctorConsultationController())
                                             .isSuggestion
                                             .value = false;
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                            Get.put(DoctorChatController())
+                                            Get.put(DoctorConsultationController())
                                                     .quickReplyChat[index]
                                                 ['shortcut']),
                                       ),
@@ -268,7 +269,7 @@ class ChatBottomNavigator extends StatelessWidget {
                       );
                     } else if (textC.text.isEmpty) {
                       Get.back();
-                      Get.put(DoctorChatController()).isSuggestion.value =
+                      Get.put(DoctorConsultationController()).isSuggestion.value =
                           false;
                     }
                   },
@@ -276,7 +277,7 @@ class ChatBottomNavigator extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Get.put(DoctorChatController()).sendMessage(
+                  Get.put(DoctorConsultationController()).sendMessage(
                     roomId!,
                     roomId!,
                     senderId!,

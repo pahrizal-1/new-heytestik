@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../widget/button_widget.dart';
@@ -26,12 +23,7 @@ class TambahBankPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                RekeningBankPage()),
-                      );
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       Icons.arrow_back,

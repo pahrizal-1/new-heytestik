@@ -36,14 +36,14 @@ class Produkheight extends StatelessWidget {
             border: Border.all(color: borderColor, width: 0.2),
             borderRadius: BorderRadius.circular(7),
           ),
-          width: 164,
+          width: 150,
           child: Column(
             children: [
               Container(
                 height: 135,
                 width: 164,
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(urlImg))),
+                    image: DecorationImage(image: NetworkImage(urlImg))),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 11, right: 10),
@@ -87,7 +87,7 @@ class Produkheight extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          'Rp$hargaDiskon',
+                          hargaDiskon,
                           style: subGreyTextStyle.copyWith(
                             fontSize: 12,
                             decoration: TextDecoration.lineThrough,
@@ -98,7 +98,7 @@ class Produkheight extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      'Rp$harga',
+                      harga,
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     const SizedBox(

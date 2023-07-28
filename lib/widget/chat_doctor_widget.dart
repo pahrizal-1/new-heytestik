@@ -1,58 +1,49 @@
 import 'package:flutter/material.dart';
-
 import 'package:heystetik_mobileapps/theme/theme.dart';
-
-import '../pages/chat_customer/onboarding_chat2_page.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 
 class ChatAktif extends StatelessWidget {
-  final String nametile;
-  final String? subNameTitle;
-  final String topic;
-  final String sendBy;
+  final String customerName;
+  final String subNameTitle;
+  // final String topic;
 
-  final String category;
-  final String menit;
+  // final String category;
+  final String time;
   final String chat;
-  final int? pesanChat;
-  final String roomCode;
-  final int roomId;
-  final int senderId;
-  final int receiverId;
-
+  final String? valueChat;
+  final bool seen;
+  final bool isMe;
+  final String img;
   const ChatAktif({
     super.key,
-    required this.nametile,
-    this.subNameTitle,
-    required this.topic,
-    required this.sendBy,
-    required this.menit,
+    required this.customerName,
+    required this.subNameTitle,
+    // required this.topic,
+    required this.time,
     required this.chat,
-    required this.category,
-    this.pesanChat,
-    required this.roomCode,
-    required this.roomId,
-    required this.senderId,
-    required this.receiverId,
+    required this.seen,
+    // required this.category,
+    this.valueChat = '',
+    required this.isMe,
+    required this.img,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatDoctorPage(
-              roomCode: roomCode,
-              sendBy: sendBy,
-              receiverBy: nametile,
-              roomId: roomId,
-              senderId: senderId,
-              receiverId: receiverId,
-            ),
-          ),
-        );
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => ChatDoctorPage(
+        //         roomCode: roomCode,
+        //         sendBy: sendBy,
+        //         receiverBy: nametile,
+        //         roomId: roomId,
+        //         senderId: senderId,
+        //         receiverId: receiverId,
+        //       ),
+        //     ));
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 25),
@@ -63,7 +54,7 @@ class ChatAktif extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/icons/logo.png',
+                  img,
                   width: 39,
                 ),
                 const SizedBox(
@@ -75,11 +66,11 @@ class ChatAktif extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        nametile,
+                        customerName,
                         style: blackTextStyle.copyWith(fontSize: 15),
                       ),
                       Text(
-                        subNameTitle!,
+                        subNameTitle,
                         style: subTitleTextStyle.copyWith(fontSize: 10),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -98,29 +89,37 @@ class ChatAktif extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        menit,
+                        time,
                         style: subTitleTextStyle,
                         softWrap: false,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
-                      pesanChat != ''
-                          ? Container(
-                              height: 20,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                  color: greenColor, shape: BoxShape.circle),
-                              child: Center(
-                                child: Text(
-                                  pesanChat.toString(),
-                                  style: whiteTextStyle,
-                                ),
-                              ),
+                      isMe
+                          ? Image.asset(
+                              'assets/images/logo_cheac_wa.png',
+                              width: 20,
+                              color: seen ? null : greyColor,
                             )
-                          : Container(),
+                          : seen
+                              ? Container()
+                              : Container(
+                                  height: 20,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    color: greenColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      valueChat.toString(),
+                                      style: whiteTextStyle,
+                                    ),
+                                  ),
+                                ),
                     ]),
               ],
             ),

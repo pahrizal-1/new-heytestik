@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/account_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 import '../tabbar/tabbar_customer.dart';
 
 class AkunHomePage extends StatelessWidget {
-  const AkunHomePage({super.key});
+  AkunHomePage({super.key});
+  final AccountController state = Get.put(AccountController());
 
   @override
   Widget build(BuildContext context) {
+    state.init();
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -90,9 +96,12 @@ class AkunHomePage extends StatelessWidget {
                             const SizedBox(
                               width: 9,
                             ),
-                            Text(
-                              'Rina Rasmalina',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18),
+                            Obx(
+                              () => Text(
+                                state.fullName.value,
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
                             ),
                           ],
                         ),
@@ -117,12 +126,7 @@ class AkunHomePage extends StatelessWidget {
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SetingsAkunPage(),
-                          ),
-                        );
+                        Get.to(const SetingsAkunPage());
                       },
                       child: Image.asset(
                         'assets/icons/setings-icons.png',
@@ -204,81 +208,213 @@ class AkunHomePage extends StatelessWidget {
               ],
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 25),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 5),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 24),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Row(
+          FutureBuilder(
+            future: state.getMyActivity(context),
+            builder: (context,
+                AsyncSnapshot<TransactionHistoryConsultationModel?> snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        Image.asset(
-                          'assets/icons/chat.png',
-                          width: 18,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Aktif',
-                              style: grenTextStyle.copyWith(fontSize: 12),
+                        shimmerWidget(
+                          child: Container(
+                            width: 100,
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 24),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              border: Border.all(color: borderColor),
+                              borderRadius: BorderRadius.circular(7),
                             ),
-                            Text(
-                              'Konsultasi Bekas Jerawat',
-                              style: blackHigtTextStyle.copyWith(fontSize: 13),
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            width: 100,
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 24),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              border: Border.all(color: borderColor),
+                              borderRadius: BorderRadius.circular(7),
                             ),
-                          ],
-                        )
+                          ),
+                        ),
+                        shimmerWidget(
+                          child: Container(
+                            width: 100,
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 24),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              border: Border.all(color: borderColor),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 5),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/penting1.png',
-                          width: 59,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Diproses',
-                              style: grenTextStyle.copyWith(fontSize: 12),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  return snapshot.data!.data!.data!.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Belum ada aktivitas',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
                             ),
-                            Text(
-                              'Teenderm Hydra 40ml',
-                              style: blackHigtTextStyle.copyWith(fontSize: 13),
-                            ),
-                          ],
+                          ),
                         )
-                      ],
+                      : SizedBox(
+                          height: 70,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.data?.data?.length,
+                            itemBuilder: (BuildContext context, index) {
+                              // JANGAN TAMPILKAN YG STATUSNYA SELESAI
+                              if (snapshot.data!.data?.data?[index].status !=
+                                  'SELESAI') {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 25,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/chat.png',
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data!.data?.data?[index]
+                                                          .status ==
+                                                      'MENUNGGU_PEMBAYARAN'
+                                                  ? 'Menunggu Pembayaran'
+                                                  : snapshot
+                                                              .data!
+                                                              .data
+                                                              ?.data?[index]
+                                                              .status ==
+                                                          'READY'
+                                                      ? 'Ready'
+                                                      : snapshot
+                                                                  .data!
+                                                                  .data
+                                                                  ?.data?[index]
+                                                                  .status ==
+                                                              'REVIEW'
+                                                          ? 'Review'
+                                                          : snapshot
+                                                                      .data!
+                                                                      .data
+                                                                      ?.data?[
+                                                                          index]
+                                                                      .status ==
+                                                                  'AKTIF'
+                                                              ? 'Aktif'
+                                                              : 'Selesai',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 12,
+                                                color: snapshot
+                                                            .data!
+                                                            .data
+                                                            ?.data?[index]
+                                                            .status ==
+                                                        'MENUNGGU_PEMBAYARAN'
+                                                    ? const Color.fromARGB(
+                                                        255, 255, 102, 0)
+                                                    : snapshot
+                                                                .data!
+                                                                .data
+                                                                ?.data?[index]
+                                                                .status ==
+                                                            'READY'
+                                                        ? const Color.fromARGB(
+                                                            255, 255, 102, 0)
+                                                        : snapshot
+                                                                    .data!
+                                                                    .data
+                                                                    ?.data?[
+                                                                        index]
+                                                                    .status ==
+                                                                'REVIEW'
+                                                            ? const Color.fromARGB(
+                                                                255, 255, 102, 0)
+                                                            : snapshot
+                                                                        .data!
+                                                                        .data
+                                                                        ?.data?[index]
+                                                                        .status ==
+                                                                    'AKTIF'
+                                                                ? greenColor
+                                                                : greenColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Konsultasi Bekas Jerawat',
+                                              style:
+                                                  blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
+                        );
+                } else {
+                  return Center(
+                    child: Text(
+                      'Belum ada aktivitas',
+                      style: TextStyle(
+                        fontWeight: bold,
+                        fontFamily: 'ProximaNova',
+                        fontSize: 15,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  );
+                }
+              } else {
+                return Text('Connection State: ${snapshot.connectionState}');
+              }
+            },
           ),
           const SizedBox(
             height: 17,
@@ -293,7 +429,7 @@ class AkunHomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DaftarTransaksiPage(),
+                        builder: (context) => DaftarTransaksiPage(),
                       ),
                     );
                   },

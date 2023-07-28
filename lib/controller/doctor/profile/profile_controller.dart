@@ -58,7 +58,7 @@ class DoctorProfileController extends StateClass {
   logout(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       await LocalStorage().removeAccessToken();
-      Get.off(() => const LoginPage());
+      Get.offAll(() => const LoginPage());
       print('logout dokter');
     });
   }

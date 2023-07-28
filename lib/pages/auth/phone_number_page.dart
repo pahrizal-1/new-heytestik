@@ -44,22 +44,38 @@ class PhoneNumberPage extends StatelessWidget {
               height: 35,
             ),
             Text(
-              'Nomer Telepon',
+              'Nomor Handphone',
               style: blackTextStyle,
             ),
             const SizedBox(
               height: 6,
             ),
             IntlPhoneField(
+              dropdownIconPosition: IconPosition.trailing,
+              dropdownIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: blackColor,
+              ),
               disableLengthCheck: true,
               onChanged: (value) {
                 state.phoneNumber = "${value.countryCode}${value.number}";
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                focusColor: greenColor,
-                labelText: 'Nomor Telepon',
-              ),
+                  contentPadding: const EdgeInsets.only(top: 4),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  focusColor: greenColor,
+                  labelText: 'Nomor Telepon',
+                  labelStyle:
+                      greyTextStyle.copyWith(fontSize: 12, fontWeight: medium)),
             ),
             const Spacer(),
             ButtonGreenWidget(

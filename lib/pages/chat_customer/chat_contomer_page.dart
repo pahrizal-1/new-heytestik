@@ -126,6 +126,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                             state.fileImage = [];
                             state.leaveRoom(widget.roomCode);
                             state.close();
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => SelesaiPembayaranPage(),
+                            //   ),
+                            // );
                           },
                           child: Icon(Icons.arrow_back)),
                       const SizedBox(

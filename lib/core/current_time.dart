@@ -28,4 +28,14 @@ class CurrenctTime {
     print('akhir $value');
     return value;
   }
+
+  static timeChat(String value) {
+    print('heheh $value');
+    final DateTime now = DateTime.parse(value);
+    final DateFormat formatter = DateFormat('HH:mm');
+    final String formatted = formatter.format(now);
+    print('heheh $formatted');
+
+    return formatted;
+  }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class TextFormWidget extends StatelessWidget {
@@ -272,6 +273,174 @@ class PeryataanUmumTextFrom extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+//////////////////////////////////////////////////////
+class TetxFromProfilEdit extends StatefulWidget {
+  final String title1;
+  final TextEditingController? controller;
+  final IconData icon;
+  const TetxFromProfilEdit(
+      {super.key,
+      required this.title1,
+      required this.controller,
+      required this.icon});
+
+  @override
+  State<TetxFromProfilEdit> createState() => _TetxFromProfilEditState();
+}
+
+class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
+  bool _isEnable = false;
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 130,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(
+                  widget.title1,
+                  style: TextStyle(
+                    fontFamily: 'ProximaNova',
+                    fontSize: 13,
+                    letterSpacing: 0.5,
+                    color: fromCssColor('#999999'),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: Expanded(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 2, vertical: 2),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                                width: 2,
+                              ),
+                            ),
+                            border: isSelected
+                                ? OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: greenColor,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  )
+                                : InputBorder.none),
+                        controller: widget.controller,
+                        enabled: _isEnable,
+                        style: blackTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          _isEnable = !_isEnable;
+                          isSelected = !isSelected;
+                        });
+                      },
+                      child: isSelected
+                          ? Icon(Icons.check, size: 20, color: greenColor)
+                          : Icon(widget.icon,
+                              size: 20, color: fromCssColor('#999999'))),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 35,
+          child: Center(
+            child: Divider(
+              thickness: 1,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TextFormpollPostingan extends StatelessWidget {
+  final String title;
+
+  const TextFormpollPostingan({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.only(bottom: 11),
+            width: 296,
+            child: TextFormField(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: title,
+                hintStyle: subTitleTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelStyle: TextStyle(
+                  color: fromCssColor('#A3A3A3'),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Container(
+          width: 24,
+          height: 24,
+          margin: EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+          child: Icon(
+            Icons.add,
+            color: whiteColor,
+            size: 20,
+          ),
+        )
+      ],
     );
   }
 }

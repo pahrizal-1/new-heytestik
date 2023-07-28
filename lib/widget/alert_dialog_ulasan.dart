@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -90,6 +92,68 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                         'CANCEL',
                         style: blackRegulerTextStyle.copyWith(
                             fontSize: 15, color: blackColor),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+  }
+}
+
+class AlertDialogLogout extends StatelessWidget {
+  AlertDialogLogout({super.key});
+
+  final DoctorProfileController stateDoctor =
+      Get.put(DoctorProfileController());
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0.1),
+      content: Container(
+          height: 176,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Apakah Anda Akan Keluar?',
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 17, color: blackColor),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Tidak',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(width: 30),
+                    InkWell(
+                      onTap: () async {
+                        await stateDoctor.logout(context);
+                      },
+                      child: Text(
+                        'Ya',
+                        style: grenTextStyle.copyWith(fontSize: 15),
                       ),
                     ),
                   ],

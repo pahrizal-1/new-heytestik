@@ -26,18 +26,24 @@ class TambahBalasanPage extends StatelessWidget {
                     state.messageController.text = '';
                     Navigator.pop(context);
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back,
-                    color: whiteColor,
+                    size: 22,
                   ),
                 ),
                 const SizedBox(
-                  width: 11,
+                  width: 5,
                 ),
                 Text(
                   'Tambah Balasan Cepat',
-                  style: whiteTextStyle.copyWith(fontSize: 20),
-                )
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ],
             ),
             InkWell(
@@ -50,7 +56,7 @@ class TambahBalasanPage extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'ProximaNova',
                   fontWeight: bold,
-                  fontSize: 14,
+                  fontSize: 15,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -71,47 +77,66 @@ class TambahBalasanPage extends StatelessWidget {
               maxLines: 5,
               controller: state.shortcutController,
             ),
-            SizedBox(height: 10),
-            Text('Balasan Cepat'),
-            SizedBox(height: 7),
             TextFormField(
-              keyboardType: TextInputType.multiline,
-              minLines: 1, //Normal textInputField will be displayed
-              maxLines: null,
-              controller: state.messageController,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+                focusedBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+              ),
             ),
-            // Row(
-            //   children: [
-            //     Container(
-            //       width: 284,
-            //       child: TextFormField(
-            //         maxLines: 6,
-            //         minLines: 1,
-            //         decoration: InputDecoration(
-            //           focusColor: greenColor,
-            //           fillColor: greenColor,
-            //           hoverColor: greenColor,
-            //         ),
-            //         style: blackTextStyle.copyWith(
-            //             fontSize: 15,
-            //             color: Color(0Xff323232),
-            //             fontWeight: regular),
-            //       ),
-            //     ),
-            //     Spacer(),
-            //     Image.asset(
-            //       'assets/icons/onlyCamaera.png',
-            //       width: 22,
-            //     )
-            //   ],
-            // ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            // Text(
-            //   'Masukkan teks atau pilih media',
-            //   style: subTitleTextStyle,
-            // )
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Kata-kata yang akan mengambil balasan ini',
+              style: subTitleTextStyle,
+            ),
+            const SizedBox(
+              height: 58,
+            ),
+            Text(
+              'Pesan Balasan',
+              style: subTitleTextStyle,
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 284,
+                  child: TextFormField(
+                    maxLines: 6,
+                    minLines: 1,
+                    decoration: InputDecoration(
+                      focusColor: greenColor,
+                      fillColor: greenColor,
+                      hoverColor: greenColor,
+                    ),
+                    style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        color: Color(0Xff323232),
+                        fontWeight: regular),
+                  ),
+                ),
+                Spacer(),
+                Image.asset(
+                  'assets/icons/onlyCamaera.png',
+                  width: 22,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Masukkan teks atau pilih media',
+              style: subTitleTextStyle,
+            )
           ],
         ),
       ),

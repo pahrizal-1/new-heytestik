@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
 import '../theme/theme.dart';
 
@@ -34,12 +33,12 @@ class ProdukKeranjang extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DetailSkinCarePage(),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const DetailSkinCarePage(),
+          //   ),
+          // );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -300,7 +299,7 @@ class ProdukTreatment extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       margin: const EdgeInsets.only(right: 7),
-      width: 164,
+      width: 150,
       child: InkWell(
         onTap: () {
           Navigator.push(context,

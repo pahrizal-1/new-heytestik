@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
-import '../pages/chat_customer/chat_contomer_page.dart';
 import '../theme/theme.dart';
 
-class BankMoreDialog extends StatefulWidget {
-  const BankMoreDialog({super.key});
-
-  @override
-  State<BankMoreDialog> createState() => _BankMoreDialogState();
-}
-
-class _BankMoreDialogState extends State<BankMoreDialog> {
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     const Duration(seconds: 1),
-  //     () => Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const AuthPage(),
-  //       ),
-  //     ),
-  //   );
-  // }
+class BankMoreDialog extends StatelessWidget {
+  BankMoreDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,15 +60,9 @@ class _BankMoreDialogState extends State<BankMoreDialog> {
                             height: 12,
                           ),
                           ButtonGreenWidget(
-                            title: 'Chat Dokter',
-                            onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         const ChatCostomerPage(),
-                              //   ),
-                              // );
+                            title: 'Kembali',
+                            onPressed: () async {
+                              Get.back();
                             },
                           )
                         ],
@@ -99,14 +75,6 @@ class _BankMoreDialogState extends State<BankMoreDialog> {
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const AuthPage(),
-                //     ),
-                //   );
-                // },
                 child: Container(
                   height: 45,
                   width: 45,

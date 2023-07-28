@@ -5,14 +5,16 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../../../core/global.dart';
 
@@ -37,133 +39,179 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: greenColor,
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Akun Saya',
-            style: TextStyle(
-              fontFamily: 'ProximaNova',
-              fontWeight: bold,
-              color: whiteColor,
-              fontSize: 20,
-              letterSpacing: 1,
-            ),
+      appBar: AppBar(
+        backgroundColor: greenColor,
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Akun Saya',
+          style: TextStyle(
+            fontFamily: 'ProximaNova',
+            fontWeight: bold,
+            color: whiteColor,
+            fontSize: 20,
+            letterSpacing: 1,
           ),
-          elevation: 0,
         ),
-        body: Obx(() {
-          if (state.isLoading.value == false) {
-            const Center(child: CircularProgressIndicator());
-          }
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                  color: greenColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        elevation: 0,
+      ),
+      body: Obx(() {
+        if (state.isLoading.value == false) {
+          const Center(child: CircularProgressIndicator());
+        }
+        return SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              color: greenColor,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Obx(
-                              () => Container(
-                                height: 65,
-                                width: 65,
-                                child: CircleAvatar(
-                                  backgroundImage: state
-                                              .profileData.value.data !=
-                                          null
-                                      ? NetworkImage(
-                                          'https://heystetik.ahrulsyamil.com/files/' +
-                                              state
-                                                  .profileData
-                                                  .value
-                                                  .data!
-                                                  .mediaUserProfilePicture!
-                                                  .media!
-                                                  .path
-                                                  .toString()) as ImageProvider
-                                      : AssetImage('assets/images/doctor1.png'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Obx(
-                              () => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    state.profileData.value.data != null
-                                        ? state
-                                            .profileData.value.data!.fullname!
-                                            .toString()
-                                        : 'Oscar',
-                                    style: TextStyle(
-                                      fontWeight: bold,
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    state.profileData.value.data?.specialist !=
-                                            null
-                                        ? state
-                                            .profileData.value.data!.specialist
-                                            .toString()
-                                        : "-",
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EditProfilePage()),
-                            );
-                          },
-                          child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/edit.png',
-                                ),
-                              ),
+                        Obx(
+                          () => Container(
+                            height: 65,
+                            width: 65,
+                            child: CircleAvatar(
+                              backgroundImage: state.profileData.value.data !=
+                                      null
+                                  ? NetworkImage(
+                                      'https://heystetik.ahrulsyamil.com/files/' +
+                                          state
+                                              .profileData
+                                              .value
+                                              .data!
+                                              .mediaUserProfilePicture!
+                                              .media!
+                                              .path
+                                              .toString()) as ImageProvider
+                                  : AssetImage('assets/images/doctor1.png'),
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                state.profileData.value.data != null
+                                    ? state.profileData.value.data!.fullname!
+                                        .toString()
+                                    : 'Oscar',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                state.profileData.value.data?.specialist != null
+                                    ? state.profileData.value.data!.specialist
+                                        .toString()
+                                    : "-",
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EditProfilePage()),
+                        );
+                      },
+                      child: Container(
+                        height: 20,
+                        width: 20,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/icons/edit.png',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 30, bottom: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 30, bottom: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total Statistik Saya',
+                        style: TextStyle(
+                          fontFamily: 'Proximanova',
+                          fontSize: 18,
+                          letterSpacing: 0.5,
+                          fontWeight: bold,
+                          color: blackColor,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          customeshomodal(context, BottomSheetProfile());
+                        },
+                        child: Container(
+                          height: 25,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 0.5),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.commit_sharp,
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Text(
+                                'Filter',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'ProximaNova',
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -576,7 +624,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PinPage(),
+                                builder: (context) => PinPageLamaDoctor(),
                               ),
                             );
                           },
@@ -620,66 +668,181 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          );
-        }));
-  }
-}
-
-class BottomSheetProfile extends StatelessWidget {
-  const BottomSheetProfile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-      child: Container(
-        height: 400,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          // color: Colors.lightGreenAccent[100],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: blackColor,
-                        size: 24,
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SaldoProfilPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: greenColor,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Filter Statistik Saya',
-                        style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 20,
-                          fontWeight: bold,
-                          letterSpacing: 1,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Saldo Saya',
+                              style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 15,
+                                  color: whiteColor),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              'Rp5.000.000',
+                              style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 20,
+                                  fontWeight: bold,
+                                  color: whiteColor),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'Keamanan',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontWeight: bold,
+                        fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PinPageLamaDoctor(),
+                          ),
+                        );
+                      },
+                      child: const ContainerSettings(
+                        title: 'Ubah Kata Sandi',
+                      )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'Aplikasi Heystetik',
+                    style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontWeight: bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const ContainerSettings(title: 'Notifikasi'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const ContainerSettings(title: 'Tentang Heystetik'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const ContainerSettings(title: 'Update App'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      // await state.logout(context);
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialogLogout(),
+                      );
+                    },
+                    child: const ContainerSettings(
+                      title: 'Log-Out',
+                      isLogout: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
+        );
+      }),
+    );
+  }
+}
+
+class BottomSheetProfile extends StatefulWidget {
+  const BottomSheetProfile({super.key});
+
+  @override
+  State<BottomSheetProfile> createState() => _BottomSheetProfileState();
+}
+
+class _BottomSheetProfileState extends State<BottomSheetProfile> {
+  int isSelected = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 30, right: 30, bottom: 20, top: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: blackColor,
+                      size: 24,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Filter Statistik Saya',
+                      style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 20,
+                        fontWeight: bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 0;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -709,21 +872,28 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
+                    Icon(
+                      isSelected == 0
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 0 ? greenColor : blackColor,
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Row(
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 1;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -753,21 +923,29 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
+                    const Spacer(),
+                    Icon(
+                      isSelected == 1
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 1 ? greenColor : blackColor,
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Row(
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 2;
+                  });
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -797,110 +975,109 @@ class BottomSheetProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 22,
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Custom Tanggal',
-                      style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 15,
-                        fontWeight: bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const InkWell(
-                      child: Icon(
-                        Icons.circle_outlined,
-                        size: 0.2,
-                      ),
+                    const Spacer(),
+                    Icon(
+                      isSelected == 2
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 2 ? greenColor : blackColor,
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
+              ),
+              const SizedBox(
+                height: 22,
+                child: Divider(
+                  thickness: 1,
                 ),
-                Container(
-                  height: 35,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 0.5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Custom Tanggal',
+                    style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontSize: 15,
+                      fontWeight: bold,
+                      letterSpacing: 0.5,
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.date_range_outlined,
+                  Icon(
+                    Icons.circle_outlined,
+                    size: 0.2,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 35,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.date_range_outlined,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '17 Agu 2023 - 17 Nov 2023',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'ProximaNova',
+                          letterSpacing: 0.5,
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '17 Agu 2023 - 17 Nov 2023',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'ProximaNova',
-                            letterSpacing: 0.5,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Jenis Pertanyaan',
+                style: TextStyle(
+                  fontFamily: 'ProximaNova',
+                  fontSize: 15,
+                  fontWeight: bold,
+                  letterSpacing: 0.5,
                 ),
-                Text(
-                  'Jenis Pertanyaan',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontSize: 15,
-                    fontWeight: bold,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardFilter(title: 'Chat yang selesai'),
-                    CardFilter(title: 'Chat yang selesai')
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ButtonGreenWidget(
-                  title: 'Tampilkan',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CardFilter(title: 'Chat yang selesai'),
+                  CardFilter(title: 'Chat yang selesai')
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ButtonGreenWidget(
+                title: 'Tampilkan',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

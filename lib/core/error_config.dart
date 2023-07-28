@@ -5,8 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class ErrorConfig implements Exception {
   String cause;
@@ -69,6 +71,7 @@ class ErrorConfig implements Exception {
             cause: ErrorConfig.networkRequest400,
             message: message ?? 'Bad Request');
       case 401:
+        LocalStorage().removeAccessToken();
         return ErrorConfig(
             cause: ErrorConfig.networkRequest401,
             message: message ?? 'Network request error without any response');
@@ -155,10 +158,12 @@ ErrorConfig handleError(
 
     switch ((error as ErrorConfig).cause) {
       case ErrorConfig.userInput:
-        showDialog(
-          context: context,
-          builder: (context) => AlertWidget(subtitle: error.message),
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertWidget(subtitle: error.message),
+        // );
+
+        SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
         break;
       case ErrorConfig.userUnauthorized:
         // go to login page when user unauthorized

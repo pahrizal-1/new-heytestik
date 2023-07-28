@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/appbar_widget.dart';
 import 'camera_ktp_setings_page.dart';
 
 class VerifikasiKtpPage extends StatelessWidget {
@@ -13,33 +14,13 @@ class VerifikasiKtpPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Expanded(
-                child: Text(
-                  'Verifikasi Data Diri ',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-              )
-            ],
+        title: Text(
+          'Verifikasi Data Diri ',
+          style: blackTextStyle.copyWith(
+            fontSize: 20,
           ),
         ),
         actions: [
@@ -74,7 +55,7 @@ class VerifikasiKtpPage extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 111, left: 83, right: 83),
+            padding: const EdgeInsets.only(top: 50, left: 83, right: 83),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

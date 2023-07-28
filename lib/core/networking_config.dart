@@ -10,7 +10,7 @@ class NetworkingConfig {
   }
 
   final String baseUrl;
-  String auth = "";
+  String auth = '';
 
   late Dio dio;
 
@@ -32,16 +32,24 @@ class NetworkingConfig {
         queryParameters: params,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
+          //   if (statusCode == 400) {
+          //     // your http status code
+
+          //     // for payment
+          //     debugPrint('status code 400');
+          //     return true;
+          //   } else {
+          //     debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //     return statusCode >= 200 && statusCode < 300;
+          //   }
+          // },
         ),
       );
       return response.data;
@@ -71,8 +79,16 @@ class NetworkingConfig {
               return false;
             }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
+            if (statusCode == 400) {
+              // your http status code
+
+              // for payment
+              debugPrint('status code 400');
+              return true;
+            } else {
+              debugPrint('status code statusCode >= 200 && statusCode < 300');
+              return statusCode >= 200 && statusCode < 300;
+            }
           },
         ),
       );
@@ -178,6 +194,37 @@ class NetworkingConfig {
 
   doUpload(String endpoint) {}
 
+  doPatch(String endpoint,
+      {dynamic data,
+      Map<String, dynamic> params = const {},
+      Map<String, dynamic> headers = const {},
+      bool checkLogin = true}) async {
+    try {
+      await preparation();
+      var response = await dio.patch(
+        endpoint,
+        queryParameters: params,
+        data: data,
+        options: Options(
+          headers: headers,
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
+
+          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //   return statusCode >= 200 && statusCode < 300;
+          // },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  }
+
   doDelete(String endpoint,
       {dynamic data,
       Map<String, dynamic> params = const {},
@@ -191,16 +238,16 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
+          // validateStatus: (statusCode) {
+          //   debugPrint('status code $statusCode');
+          //   if (statusCode == null) {
+          //     debugPrint('status code null');
+          //     return false;
+          //   }
 
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
+          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
+          //   return statusCode >= 200 && statusCode < 300;
+          // },
         ),
       );
       return response.data;

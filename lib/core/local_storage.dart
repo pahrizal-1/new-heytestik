@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -61,5 +63,22 @@ class LocalStorage {
   Future<int?> getRoleID() async {
     SharedPreferences prefs = await getPrefs();
     return prefs.getInt('role_id');
+  }
+
+  // LOCATION
+  Future<void> setLocation({required dynamic location}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('location', jsonEncode(location));
+  }
+
+  Future<dynamic> getLocation() async {
+    SharedPreferences prefs = await getPrefs();
+    var data = prefs.getString('location')?.trim() ?? '';
+
+    if (data.isEmpty) {
+      return '';
+    }
+    var result = jsonDecode(data);
+    return result;
   }
 }

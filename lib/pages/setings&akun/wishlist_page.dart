@@ -6,6 +6,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 
+import '../../widget/appbar_widget.dart';
 import '../../widget/produk_wishlist._widgets.dart';
 import '../solution/keranjang_page.dart';
 
@@ -24,33 +25,13 @@ class _WishListPageState extends State<WishListPage> {
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Expanded(
-                child: Text(
-                  'Wishlist',
-                  style: blackTextStyle.copyWith(
-                      fontSize: 20, overflow: TextOverflow.ellipsis),
-                ),
-              )
-            ],
-          ),
+        title: Text(
+          'Wishlist',
+          style: blackTextStyle.copyWith(
+              fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
         actions: [
           InkWell(
@@ -69,10 +50,8 @@ class _WishListPageState extends State<WishListPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',

@@ -1,13 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../widget/appar_cutome.dart';
+
 class ChatPage extends StatefulWidget {
-  final int? id;
-  const ChatPage({super.key, required this.id});
+  final int? interestConditionId;
+  const ChatPage({super.key, required this.interestConditionId});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -25,23 +28,11 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0XfFFFFFFf),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            const Text('Bekas Jerawat'),
-          ],
-        ),
+      appBar: AppBarCustome(
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        title: 'Bekas Jerawat',
+        bgColor: greenColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -298,13 +289,8 @@ class _ChatPageState extends State<ChatPage> {
                   ButtonGreenWidget(
                     title: 'Konsul Sekarang',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              PertanyaanAwalPage(id: widget.id),
-                        ),
-                      );
+                      Get.to(PertanyaanAwalPage(
+                          interestConditionId: widget.interestConditionId));
                     },
                   ),
                   const SizedBox(

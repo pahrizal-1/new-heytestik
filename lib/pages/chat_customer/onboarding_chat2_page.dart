@@ -92,7 +92,7 @@ class OnboardingChat2 extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AkunHomePage(),
+                  builder: (context) => AkunHomePage(),
                 ),
               );
             },
