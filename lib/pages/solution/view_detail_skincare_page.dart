@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
@@ -32,6 +33,7 @@ class DetailSkinCarePage extends StatefulWidget {
 class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
+  final CartController cart = Get.put(CartController());
   bool isVisibelity = true;
   @override
   void initState() {
@@ -349,13 +351,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     TitleDetail(
                       ontap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategorySkinCare(
-                              category: state.skincareDetail.value.category
-                                  .toString(),
-                            ),
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.category.toString(),
                           ),
                         );
                       },
@@ -364,6 +363,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       textColor: greenColor,
                     ),
                     TitleDetail(
+                      ontap: () {
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.display.toString(),
+                          ),
+                        );
+                      },
                       title1: 'Etalase Skincare',
                       title2: '${state.skincareDetail.value.display}',
                       textColor: greenColor,
@@ -1033,27 +1040,32 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 const SizedBox(
                   width: 6,
                 ),
-                Container(
-                  height: 40,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    border: Border.all(color: borderColor),
-                  ),
-                  child: Row(
-                    // ignore: prefer_const_constructors
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: greenColor,
-                        size: 17,
-                      ),
-                      SvgPicture.asset(
-                        'assets/icons/trello-icons.svg',
-                        width: 17,
-                      ),
-                    ],
+                InkWell(
+                  onTap: () async {
+                    await cart.addCart(context, widget.productId, 1, '');
+                  },
+                  child: Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Row(
+                      // ignore: prefer_const_constructors
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: greenColor,
+                          size: 17,
+                        ),
+                        SvgPicture.asset(
+                          'assets/icons/trello-icons.svg',
+                          width: 17,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
