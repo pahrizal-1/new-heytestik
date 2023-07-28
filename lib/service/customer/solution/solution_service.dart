@@ -2,6 +2,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
@@ -41,5 +42,16 @@ class SolutionService extends ProviderClass {
     );
 
     return LookupModel.fromJson(response);
+  }
+
+  Future<ConcernModel> getConcern() async {
+    var response = await networkingConfig.doGet(
+      '/concern?page=1&take=100&order=asc&search=',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+
+    return ConcernModel.fromJson(response);
   }
 }
