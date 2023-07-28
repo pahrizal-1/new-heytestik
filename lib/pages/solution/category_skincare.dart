@@ -530,6 +530,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                       ));
                                     },
                                     child: Produkheight(
+                                      produkId: e.id!.toInt(),
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
