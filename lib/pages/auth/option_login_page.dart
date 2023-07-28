@@ -11,6 +11,7 @@ class OptionLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -52,7 +53,7 @@ class OptionLoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign In",
+                    'Sign In',
                     style: blackHigtTextStyle,
                     textAlign: TextAlign.left,
                   ),

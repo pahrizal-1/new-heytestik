@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/controller/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
@@ -54,8 +54,8 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
-                  width: 18,
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -66,7 +66,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   isLast: false,
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
-                  width: 30,
+                  width: 25,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -76,8 +76,8 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
-                  width: 20,
+                  img: 'assets/images/iphone1.png',
+                  width: 25,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -88,7 +88,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   isLast: false,
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeLineIdicatorPage(
@@ -99,7 +99,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   isLast: true,
                   title: 'Skin Goals',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
               ],

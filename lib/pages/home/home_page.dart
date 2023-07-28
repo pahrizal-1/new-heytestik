@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:heystetik_mobileapps/pages/home/header_page.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:heystetik_mobileapps/service/slideshow/slideshow_service.dart';
-import 'package:heystetik_mobileapps/service/sniptips/sniptips_controller.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
+import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../setings&akun/akun_home_page.dart';
 
-import '../chat_customer/onboarding_chat_page.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomepageCutomer extends StatefulWidget {
+  const HomepageCutomer({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomepageCutomer> createState() => _HomepageCutomerState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomepageCutomerState extends State<HomepageCutomer> {
+  final HomeController state = Get.put(HomeController());
+
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse)) {
@@ -26,58 +30,171 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    state.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: whiteColor,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilCustomerPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        image: AssetImage('assets/images/profiledummy.png')),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Hai, ',
+                style: blackRegulerTextStyle.copyWith(fontSize: 18),
+              ),
+              Obx(
+                () => Text(
+                  state.username.value,
+                  style: blackTextStyle.copyWith(fontSize: 18),
+                ),
+              )
+            ],
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotifikasionPage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/notification-dot-black.svg',
+            ),
+          ),
+          const SizedBox(
+            width: 21,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AkunHomePage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
+          ),
+          const SizedBox(
+            width: 26,
+          ),
+        ],
+      ),
       body: ListView(
         children: [
-          const HeaderPage(),
           FutureBuilder(
-            future: SlideShowService().getSlideShow(),
-            builder: (context, AsyncSnapshot snapshot) {
+            future: state.getSlideShow(context),
+            builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
               print(snapshot.data);
               if (!snapshot.hasData) {
-                return Center(
-                  child: SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      color: greenColor,
-                    ),
+                return shimmerWidget(
+                  child: CarouselSlider(
+                    options: CarouselOptions(height: 184.0),
+                    items: [1, 2, 3, 4, 5].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(7)),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
                 );
               }
 
-              return CarouselSlider(
-                options: CarouselOptions(
-                  height: 170,
-                  autoPlay: false,
-                  initialPage: 2,
-                  autoPlayAnimationDuration: const Duration(seconds: 3),
-                ),
-                items: snapshot.data['data'].map<Widget>((value) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return InkWell(
-                        onTap: () {
-                          _launchURL(value['link']);
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home1.png'),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              );
+              return snapshot.data!.data!.isEmpty
+                  ? shimmerWidget(
+                      child: CarouselSlider(
+                        options: CarouselOptions(height: 184.0),
+                        items: [1, 2, 3, 4, 5].map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.circular(7)),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  : CarouselSlider(
+                      options: CarouselOptions(
+                        height: 170,
+                        autoPlay: false,
+                        initialPage: 2,
+                        autoPlayAnimationDuration: const Duration(seconds: 3),
+                      ),
+                      items: snapshot.data!.data!.map<Widget>((value) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return InkWell(
+                              onTap: () {
+                                _launchURL(value.link.toString());
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage('assets/images/home1.png'),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
             },
           ),
           const SizedBox(
@@ -377,206 +494,169 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     'Weekly Snips - Tips',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'See More',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                    style: blackHigtTextStyle.copyWith(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 16,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, top: 8),
               child: FutureBuilder(
-                  future: SnipTipsService().getSnipTips(),
-                  builder: (context, AsyncSnapshot snapshot) {
+                  future: state.getSnipsTips(context),
+                  builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
                     print(snapshot.data);
 
                     if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator(
-                            color: greenColor,
+                      return shimmerWidget(
+                          child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: greyColor.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 100,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: greyColor.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
+                      ));
                     }
-                    return Row(
-                      children: snapshot.data['data'].map<Widget>((value) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  fromCssColor('#8FC5BC'),
-                                  fromCssColor('#A8EBEB')
+                    return snapshot.data!.data!.isEmpty
+                        ? shimmerWidget(
+                            child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, top: 5, bottom: 5),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: greyColor.withOpacity(0.9),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: greyColor.withOpacity(0.9),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            width: 300,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15, left: 15, right: 15),
-                                  child: Text(
-                                    value['tips'],
-                                    style: const TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 13,
-                                    ),
-                                    strutStyle: const StrutStyle(
-                                      height: 0.5,
-                                      leading: 0.5,
+                          ))
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: snapshot.data!.data!.map<Widget>((value) {
+                              return Container(
+                                margin: const EdgeInsets.only(right: 5),
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 16, bottom: 17),
+                                height: 130,
+                                width: 315,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/icons/bg_wekkly.png',
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
-                                    children: [
-                                      const CircleAvatar(
-                                        maxRadius: 17,
-                                        backgroundImage: AssetImage(
-                                            'assets/images/profiledummy.png'),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      value.tips ?? '-',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: whiteColor,
+                                        fontWeight: regular,
+                                        fontSize: 13,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, bottom: 5),
-                                            child: Text(
-                                              value['doctor']['fullname'],
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14,
-                                                  fontFamily: 'ProximaNova'),
-                                            ),
+                                      softWrap: false,
+                                      maxLines: 3,
+                                      strutStyle: const StrutStyle(
+                                        height: 0.5,
+                                        leading: 0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const CircleAvatar(
+                                          maxRadius: 17,
+                                          backgroundImage: AssetImage(
+                                            'assets/images/profiledummy.png',
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              value['doctor_title'],
+                                        ),
+                                        const SizedBox(
+                                          width: 11,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              value.doctor?.fullname ?? '-',
                                               style: TextStyle(
-                                                fontSize: 11,
-                                                color:
-                                                    fromCssColor('#231F2080'),
+                                                fontWeight: FontWeight.w700,
+                                                color: whiteColor,
+                                                fontSize: 14,
+                                                fontFamily: 'ProximaNova',
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    );
+                                            Text(
+                                              value.doctorTitle ?? '-',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: whiteColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          );
                   }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: SizedBox(
-              height: 30,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Skincare and Treatment',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'See More',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 300,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/home2.png'))),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
           Padding(
@@ -587,32 +667,30 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Article',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
+                    'Cek artikel yang kamu sukai, yuk!',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 16,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      'See More',
+                      'Liat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                          color: greenColor),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: Row(
                 children: [
                   Padding(
@@ -834,32 +912,30 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Article News',
-                    style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fromCssColor('#231F20B2')),
+                    'Hot News 🔥',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 16,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
                     child: Text(
-                      'See More',
+                      'Liat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: fromCssColor('#466762')),
+                          color: greenColor),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: Row(
                 children: [
                   Padding(
@@ -1074,62 +1150,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          selectedItemColor: fromCssColor('#6DC0B3'),
-          unselectedItemColor: fromCssColor('#616161'),
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: SvgPicture.asset('assets/icons/icon_home.svg'),
-                ),
-                label: 'Home'),
-            BottomNavigationBarItem(
-                icon: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OnboardingChat(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: SvgPicture.asset('assets/icons/icon_chat.svg'),
-                  ),
-                ),
-                label: 'Chat'),
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: SvgPicture.asset('assets/icons/icon_stream.svg'),
-                ),
-                label: 'Stream'),
-            BottomNavigationBarItem(
-                icon: Container(
-                  height: 30,
-                  width: 30,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: Image.asset('assets/images/jpgsolutions.jpg'),
-                    // child: Icon(Icons.health_and_safety_outlined, size: 26),
-                  ),
-                ),
-                label: 'Solutions'),
-          ],
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class TambahBalasanPage extends StatelessWidget {
@@ -9,28 +8,51 @@ class TambahBalasanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Tambah Balasan Cepat'),
-            Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Tambah Balasan Cepat',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => BalasanCepatPage()),
-                );
-              },
               child: Text(
-                'Simpan',
-                style: whiteTextStyle.copyWith(fontSize: 15),
+                'SIMPAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'ProximaNova',
+                  fontWeight: bold,
+                  fontSize: 15,
+                  letterSpacing: 0.5,
+                ),
               ),
-            )
+            ),
           ],
         ),
-        backgroundColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, top: 19, right: 20),
@@ -41,15 +63,22 @@ class TambahBalasanPage extends StatelessWidget {
               'Shortcut',
               style: subTitleTextStyle,
             ),
-            const SizedBox(
+            TextFormField(
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+                focusedBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+              ),
+            ),
+            SizedBox(
               height: 10,
-            ),
-            Text(
-              'Definisi Jerawat',
-              style: blackTextStyle.copyWith(fontSize: 15),
-            ),
-            const Divider(
-              thickness: 2,
             ),
             Text(
               'Kata-kata yang akan mengambil balasan ini',

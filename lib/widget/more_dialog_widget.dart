@@ -69,8 +69,8 @@ class MoreDialog extends StatelessWidget {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
-                  width: 18,
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeMoreDialogPage(
@@ -81,8 +81,8 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
-                  width: 30,
-                  iconimg: "assets/images/Vector.png",
+                  width: 25,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -91,9 +91,9 @@ class MoreDialog extends StatelessWidget {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
-                  width: 20,
-                  iconimg: "assets/images/Vector.png",
+                  img: 'assets/images/iphone1.png',
+                  width: 25,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -103,8 +103,8 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
-                  iconimg: "assets/images/Vector.png",
+                  width: 20,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -114,7 +114,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: true,
                   title: 'Skin Goals',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
               ],
@@ -147,9 +147,9 @@ class TextMoreDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(10),
+      insetPadding: const EdgeInsets.all(10),
       content: Container(
-        padding: EdgeInsets.only(left: 39, right: 39, top: 39),
+        padding: const EdgeInsets.only(left: 39, right: 39, top: 39),
         height: 210,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -242,10 +242,10 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
                     height: 200,
                     width: 240,
                     transform: Matrix4.translationValues(10, -60, 0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/more-image.png",
+                          'assets/images/more-image.png',
                         ),
                         fit: BoxFit.fill,
                       ),
@@ -286,7 +286,7 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
                 child: Container(
                   height: 45,
                   width: 45,
-                  child: Icon(
+                  child: const Icon(
                     Icons.close,
                     color: Colors.grey,
                     size: 30,
@@ -308,9 +308,9 @@ class DetailMoreDialogFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(0.1),
+      insetPadding: const EdgeInsets.all(0.1),
       content: Container(
-        height: 356,
+        height: 380,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,
@@ -341,39 +341,40 @@ class DetailMoreDialogFilter extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextBoldSpacebetwen(
+                      const TextBoldSpacebetwen(
                         title1: '',
                         title: 'Durasi Perawatan',
                         title2: '15 Menit',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 11,
                       ),
-                      TextBoldSpacebetwen(
+                      const TextBoldSpacebetwen(
                         title1: '',
                         title: 'Masa Pemulihan',
                         title2: '2-4 Hari',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 11,
                       ),
-                      TextBoldSpacebetwen(
+                      const TextBoldSpacebetwen(
                         title1: '',
                         title: 'Tipe',
                         title2: 'Non- Surgical',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 34,
                       ),
                       Text(
                         'Detail Perawatan',
                         style: TextStyle(color: blackColor, fontSize: 15),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -384,7 +385,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: blackColor, shape: BoxShape.circle),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(
@@ -393,7 +394,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -404,7 +405,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: blackColor, shape: BoxShape.circle),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(
@@ -413,7 +414,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -424,7 +425,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: blackColor, shape: BoxShape.circle),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(

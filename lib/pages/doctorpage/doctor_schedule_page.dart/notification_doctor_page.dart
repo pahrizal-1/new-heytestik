@@ -15,7 +15,8 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: fromCssColor('#6DC0B3'),
+        titleSpacing: 0,
+        backgroundColor: greenColor,
         title: Text(
           "Notifikasi",
           style: TextStyle(

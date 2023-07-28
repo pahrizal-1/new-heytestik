@@ -46,7 +46,7 @@ class ChatLeft extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(0),
                 topRight: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -120,7 +120,7 @@ class ChatRight extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(0),
                 bottomRight: Radius.circular(10),
@@ -162,11 +162,14 @@ class TextChat extends StatelessWidget {
   final String timetitle;
   final String title;
   final Color color;
+
+  final String? image;
   const TextChat({
     Key? key,
     required this.timetitle,
     required this.title,
     required this.color,
+    this.image = "",
   }) : super(key: key);
 
   @override
@@ -191,16 +194,19 @@ class TextChat extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
+          // 'assets/images/logo_cheac_wa.png',
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset(
-                'assets/images/logo_cheac_wa.png',
-                width: 14,
-              ),
+              image != ""
+                  ? Image.asset(
+                      image.toString(),
+                      width: 14,
+                    )
+                  : Container(),
               const SizedBox(
                 width: 2,
               ),

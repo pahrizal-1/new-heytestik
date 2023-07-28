@@ -14,6 +14,7 @@ class PengaturanPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Text(

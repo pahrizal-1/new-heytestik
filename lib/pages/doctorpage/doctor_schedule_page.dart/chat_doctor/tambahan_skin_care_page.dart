@@ -31,20 +31,26 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-            color: blackColor,
-          ),
-        ),
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: blackColor,
+                size: 24,
+              ),
+            ),
+            const SizedBox(
+              width: 9,
+            ),
             Text(
               'TAMBAH SKINCARE',
               style: blackHigtTextStyle.copyWith(fontSize: 20),
@@ -79,21 +85,26 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: const Color(0xFFF1F1F1),
-                            borderRadius: BorderRadius.circular(7)),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            fillColor: Color(0xfff1f1f1),
-                            hintText: 'Indikasi',
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          isDense: true,
+                          fillColor: Color(0xffF1F1F1),
+                          filled: true,
+                          contentPadding: EdgeInsets.only(right: 18),
+                          hintText: 'Indikasi',
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: greyColor,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      width: 12,
                     ),
                     InkWell(
                       onTap: () {
@@ -107,6 +118,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                       child: Image.asset(
                         'assets/icons/corong.png',
                         width: 20,
+                        height: 18,
                       ),
                     ),
                   ],
@@ -114,10 +126,13 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                 const SizedBox(
                   height: 12,
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     CardSearch(
                       title: 'Jerawat',
+                    ),
+                    SizedBox(
+                      width: 11,
                     ),
                     CardSearch(
                       title: 'Kulit Kusam',
@@ -155,7 +170,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 17,
                 ),
               ],
@@ -183,7 +198,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                       shrinkWrap: true,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (BuildContext context, int index) {
                         return CardSkincarePrice(
@@ -205,7 +220,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                       shrinkWrap: true,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (BuildContext context, int index) {
                         return CardSkincarePrice(

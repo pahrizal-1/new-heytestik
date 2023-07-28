@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -44,38 +44,52 @@ class PhoneNumberPage extends StatelessWidget {
               height: 35,
             ),
             Text(
-              'Nomer Telepon',
+              'Nomor Handphone',
               style: blackTextStyle,
             ),
             const SizedBox(
               height: 6,
             ),
             IntlPhoneField(
+              dropdownIconPosition: IconPosition.trailing,
+              dropdownIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: blackColor,
+              ),
               disableLengthCheck: true,
               onChanged: (value) {
                 state.phoneNumber = "${value.countryCode}${value.number}";
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                focusColor: greenColor,
-                labelText: 'Nomor Telepon',
-              ),
+                  contentPadding: const EdgeInsets.only(top: 4),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greyColor),
+                  ),
+                  focusColor: greenColor,
+                  labelText: 'Nomor Telepon',
+                  labelStyle:
+                      greyTextStyle.copyWith(fontSize: 12, fontWeight: medium)),
             ),
             const Spacer(),
             ButtonGreenWidget(
               title: 'Kirim Kode Verifikasi',
               onPressed: () async {
-                if (state.phoneNumber != null) {
-                  await state.registerPhoneNumber(context, doInPost: () async {
-                    print("INI KESINI BISA HARUSNYA");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const VerificationPage(),
-                      ),
-                    );
-                  });
-                }
+                await state.registerPhoneNumber(context, doInPost: () async {
+                  print('INI KESINI BISA HARUSNYA');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerificationPage(),
+                    ),
+                  );
+                });
               },
             ),
             const SizedBox(

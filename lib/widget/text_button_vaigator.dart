@@ -44,6 +44,8 @@ class ChatBottomNavigator extends StatelessWidget {
                           itemBuilder: (context) => [
                             PopupMenuItem(
                                 child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
                               height: 100,
                               child: Column(
                                 children: [
@@ -59,15 +61,19 @@ class ChatBottomNavigator extends StatelessWidget {
                                     },
                                     child: Row(
                                       children: [
-                                        Text('Balasan Cepat'),
-                                        SizedBox(
+                                        Text(
+                                          'Balasan Cepat',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
+                                        ),
+                                        const SizedBox(
                                           width: 10,
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 15),
                                           decoration: BoxDecoration(
                                               color: greenColor,
@@ -80,7 +86,7 @@ class ChatBottomNavigator extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   InkWell(
@@ -95,22 +101,25 @@ class ChatBottomNavigator extends StatelessWidget {
                                     },
                                     child: Row(
                                       children: [
-                                        Text('Catatan Dokter &\nRekomendasi'),
-                                        SizedBox(
+                                        Text(
+                                          'Catatan Dokter &\nRekomendasi',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
+                                        ),
+                                        const SizedBox(
                                           width: 10,
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 15),
                                           decoration: BoxDecoration(
                                               color: greenColor,
                                               shape: BoxShape.circle),
                                           child: Image.asset(
-                                            'assets/icons/book.png',
-                                            color: whiteColor,
+                                            'assets/icons/book1.png',
                                           ),
                                         )
                                       ],
@@ -121,6 +130,57 @@ class ChatBottomNavigator extends StatelessWidget {
                             ))
                           ],
                         )),
+                    hintStyle: subGreyTextStyle,
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/icons/Group 461.png',
+                width: 40,
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+class ChatBottomCostomer extends StatelessWidget {
+  const ChatBottomCostomer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  maxLines: 6,
+                  minLines: 1,
+                  decoration: InputDecoration(
+                    filled: true,
+                    isDense: true,
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10000)),
+                      borderSide: BorderSide(
+                        style: BorderStyle.none,
+                        width: 0,
+                      ),
+                    ),
+                    fillColor: whiteColor,
+                    hintText: 'Messeges',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Image.asset(
+                        'assets/icons/plus-icosn.png',
+                        width: 16,
+                      ),
+                    ),
                     hintStyle: subGreyTextStyle,
                   ),
                 ),

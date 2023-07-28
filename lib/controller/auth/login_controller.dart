@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/service/auth/login_service.dart';
 
 class LoginController extends StateClass {
@@ -11,7 +14,7 @@ class LoginController extends StateClass {
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
   logIn(BuildContext context, {required Function() doInPost}) async {
-    loadingTrue();
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text.isEmpty) {
         throw ErrorConfig(
@@ -39,16 +42,41 @@ class LoginController extends StateClass {
       var loginResponse = await LoginService().login(data);
       print(loginResponse);
       print(loginResponse['data']['token']);
-      print(loginResponse['data']['data']['fullname']);
-      print(loginResponse['data']['data']['roleId']);
-      LocalStorage().setAccessToken(token: loginResponse['data']['token']);
-      LocalStorage()
-          .setUsername(username: loginResponse['data']['data']['fullname']);
-      LocalStorage().setRoleID(roleID: loginResponse['data']['data']['roleId']);
-
+      print(loginResponse['data']['user']['fullname']);
+      print(loginResponse['data']['user']['roleId']);
+      print(loginResponse['data']['user']['id']);
+      await LocalStorage()
+          .setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage()
+          .setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage()
+          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage()
+          .setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
+      clear();
     });
-    loadingFalse();
+    isLoading.value = false;
+  }
+
+  clear() {
+    email.clear();
+    password.clear();
+  }
+
+  redirectTo() async {
+    int? roleId = await LocalStorage().getRoleID();
+    if (roleId == 2) {
+      print('masuk ke doctor');
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Get.off(() => const TabBarDoctor());
+      });
+    } else if (roleId == 3) {
+      print('masuk ke customer');
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Get.off(() => const TabBarCustomer());
+      });
+    }
   }
 
   loginWithGoogle(BuildContext context, {required Function() doInPost}) async {

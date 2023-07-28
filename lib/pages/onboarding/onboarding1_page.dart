@@ -17,7 +17,7 @@ class _OnBoarding1PageState extends State<OnBoarding1Page> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        // width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/onboarding1-new.png'),
@@ -55,7 +55,7 @@ class _OnBoarding1PageState extends State<OnBoarding1Page> {
                           );
                         },
                         child: Text(
-                          "Lanjut",
+                          'Lanjut',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',

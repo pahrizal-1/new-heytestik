@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis7_page.dart';
+
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -20,7 +20,7 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: appBarRiwayat(context),
       body: ListView(
         children: [
           Container(
@@ -96,6 +96,7 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             color: isIconSelected1
                                 ? fromCssColor('#24A7A0')
                                 : Colors.transparent,
@@ -147,6 +148,7 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
                         child: Container(
                           height: 150,
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             border: Border.all(
                               color: fromCssColor('#CCCCCC'),
                               width: 1,
@@ -180,6 +182,7 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
                             color: isIconSelected2
                                 ? fromCssColor('#24A7A0')
                                 : Colors.transparent,
@@ -229,20 +232,19 @@ class _RiwayatMedis6PageState extends State<RiwayatMedis6Page> {
               ],
             ),
           ),
-          SizedBox(
-            height: 80,
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 25, left: 25),
             child: ButtonGreenWidget(
               title: 'Simpan & Lanjut',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RiwayatMedis7Page(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RiwayatMedis7Page(
+                //       interestConditionId: null,
+                //     ),
+                //   ),
+                // );
               },
             ),
           ),

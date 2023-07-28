@@ -32,7 +32,7 @@ class PromoVocer extends StatelessWidget {
             title,
             style: blackTextStyle.copyWith(fontSize: 15),
           ),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Row(
@@ -42,14 +42,14 @@ class PromoVocer extends StatelessWidget {
                 width: 10,
                 color: greyColor,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 2,
               ),
               Text.rich(
                 TextSpan(
                   text: subTitle,
                   style: greyTextStyle.copyWith(
-                      fontSize: 13, color: Color(0xff9B9B9B)),
+                      fontSize: 13, color: const Color(0xff9B9B9B)),
                   children: [
                     TextSpan(
                         text: 'Lihat detail',

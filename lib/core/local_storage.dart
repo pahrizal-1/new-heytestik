@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -14,16 +16,21 @@ class LocalStorage {
     return prefs.getString('jwtToken') ?? '-';
   }
 
-  // REFRESH TOKEN
-  Future<void> setRefreshToken({required String token}) async {
+  Future removeAccessToken() async {
     SharedPreferences prefs = await getPrefs();
-    prefs.setString('refresh_token', token);
+    prefs.remove('jwtToken');
   }
 
-  Future<String> getRefreshToken() async {
-    SharedPreferences prefs = await getPrefs();
-    return prefs.getString('refresh_token') ?? '-';
-  }
+  // REFRESH TOKEN
+  // Future<void> setRefreshToken({required String token}) async {
+  //   SharedPreferences prefs = await getPrefs();
+  //   prefs.setString('refresh_token', token);
+  // }
+
+  // Future<String> getRefreshToken() async {
+  //   SharedPreferences prefs = await getPrefs();
+  //   return prefs.getString('refresh_token') ?? '-';
+  // }
 
   // USER ID
   Future<void> setUserID({required int userID}) async {
@@ -37,14 +44,14 @@ class LocalStorage {
   }
 
   // USERNAME
-  Future<void> setUsername({required String username}) async {
+  Future<void> setFullName({required String fullName}) async {
     SharedPreferences prefs = await getPrefs();
-    prefs.setString('username', username);
+    prefs.setString('full_name', fullName);
   }
 
-  Future<String> getUsername() async {
+  Future<String> getFullName() async {
     SharedPreferences prefs = await getPrefs();
-    return prefs.getString('username') ?? '-';
+    return prefs.getString('full_name') ?? '-';
   }
 
   // ROLE
@@ -56,5 +63,22 @@ class LocalStorage {
   Future<int?> getRoleID() async {
     SharedPreferences prefs = await getPrefs();
     return prefs.getInt('role_id');
+  }
+
+  // LOCATION
+  Future<void> setLocation({required dynamic location}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('location', jsonEncode(location));
+  }
+
+  Future<dynamic> getLocation() async {
+    SharedPreferences prefs = await getPrefs();
+    var data = prefs.getString('location')?.trim() ?? '';
+
+    if (data.isEmpty) {
+      return '';
+    }
+    var result = jsonDecode(data);
+    return result;
   }
 }

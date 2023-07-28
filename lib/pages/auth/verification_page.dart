@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/pages/auth/personal_data_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/register_controller.dart';
+import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
 
 class VerificationPage extends StatelessWidget {
@@ -51,10 +51,12 @@ class VerificationPage extends StatelessWidget {
             // const OtpWidget(),
             OtpTextField(
               numberOfFields: 5,
-              fieldWidth: 60,
-              borderColor: Color(0xFF512DA8),
+              fieldWidth: 50,
+              borderColor: greenColor,
               showFieldAsBox: true,
-              onCodeChanged: (String code) {},
+              onCodeChanged: (String code) {
+                print('code otp $code');
+              },
               onSubmit: (String verificationCode) {
                 state.code = verificationCode;
               }, // end onSubmit

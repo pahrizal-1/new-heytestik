@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:from_css_color/from_css_color.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
+import '../home/notifikasion_page.dart';
+import '../setings&akun/akun_home_page.dart';
+import 'keranjang_page.dart';
 
 class ObatSolutionsPage extends StatelessWidget {
   const ObatSolutionsPage({super.key});
@@ -32,45 +37,73 @@ class ObatSolutionsPage extends StatelessWidget {
               ),
               Text(
                 'Obat Resep',
-                style: blackTextStyle.copyWith(fontSize: 20),
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
           ),
         ),
         actions: [
-          Image.asset(
-            'assets/icons/icon-home.png',
-            width: 18,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotifikasionPage()));
+            },
+            child: Image.asset(
+              'assets/icons/icon-home.png',
+              width: 18,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/trello1.png',
-            width: 21,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const KeranjangPage(),
+                ),
+              );
+            },
+            child: Image.asset(
+              'assets/icons/trello1.png',
+              width: 21,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          Image.asset(
-            'assets/icons/humberger.png',
-            width: 19,
-            color: blackColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AkunHomePage(),
+                ),
+              );
+            },
+            child: Image.asset(
+              'assets/icons/humberger.png',
+              width: 19,
+              color: blackColor,
+            ),
           ),
           const SizedBox(
             width: 26,
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(56.0),
+          preferredSize: const Size.fromHeight(56.0),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: Container(
-              height: 40,
+              height: 60,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: fromCssColor("#CCCCCC"),
@@ -85,13 +118,13 @@ class ObatSolutionsPage extends StatelessWidget {
                     right: 10,
                   ),
                   child: Image.asset(
-                    "assets/icons/search1.png",
+                    'assets/icons/search1.png',
                     width: 10,
                   ),
                 ),
                 Container(
                   transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 280),
+                  constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
                         fontSize: 15, fontFamily: "ProximaNova"),
@@ -141,21 +174,18 @@ class ObatSolutionsPage extends StatelessWidget {
                 ],
               ),
             ),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.only(right: 20, left: 25),
+                padding: EdgeInsets.only(right: 20, left: 25),
                 child: Row(
-                  children: const [
+                  children: [
                     ProdukObat(
                         namaBrand: 'Noroid Soothing Cream 200ml',
                         harga: 'Rp152.500',
                         urlImg: 'assets/images/noroid1.png'),
-                    SizedBox(
-                      width: 12,
-                    ),
                     ProdukObat(
-                        namaBrand: 'Digenta Cream 10g\n ',
+                        namaBrand: 'Digenta Cream 10g\n',
                         harga: 'Rp152.500',
                         urlImg: 'assets/images/digentasalep.png')
                   ],
@@ -165,136 +195,152 @@ class ObatSolutionsPage extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            Container(
-              height: 34,
-              width: 258,
-              padding: const EdgeInsets.only(
-                top: 8,
-                left: 25,
-                bottom: 7,
-              ),
-              decoration: BoxDecoration(
-                  color: greenColor,
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-              child: Text(
-                'Obat berdasarkan Concern',
-                style: whiteTextStyle.copyWith(fontSize: 16),
-              ),
-            ),
-            const SizedBox(
-              height: 22,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Row(
-                  children: const [
-                    CirkelCategory(
-                      title: 'Lihat\nSemua',
-                      img: 'assets/images/lainnya.png',
+            StickyHeader(
+              header: Container(
+                color: const Color(0xFFFFFFFF),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 34,
+                      width: 258,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        left: 25,
+                        bottom: 7,
+                      ),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20))),
+                      child: Text(
+                        'Obat berdasarkan Concern',
+                        style: whiteTextStyle.copyWith(fontSize: 16),
+                      ),
                     ),
-                    CirkelCategory(
-                      title: 'Jerawat',
-                      img: 'assets/images/jerawat.png',
+                    const SizedBox(
+                      height: 22,
                     ),
-                    CirkelCategory(
-                      title: 'Rambut\nRontok',
-                      img: 'assets/images/rambutrontok.png',
+                    const SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CirkelCategory(
+                              title: 'Lihat\nSemua',
+                              img: 'assets/images/lainnya.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Jerawat',
+                              img: 'assets/images/jerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Rambut\nRontok',
+                              img: 'assets/images/rambutrontok.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kerutan',
+                              img: 'assets/images/kerutan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/bekasjerawat.png',
+                            ),
+                            CirkelCategory(
+                              title: 'ketombe',
+                              img: 'assets/images/ketombe.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kebotakan',
+                              img: 'assets/images/kebotakan.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Bekas\nJerawat',
+                              img: 'assets/images/dagu.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Kulit\nKusam',
+                              img: 'assets/images/kulitkusam.png',
+                            ),
+                            CirkelCategory(
+                              title: 'Skin\nGoals',
+                              img: 'assets/images/skingoals.png',
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    CirkelCategory(
-                      title: 'Kerutan',
-                      img: 'assets/images/kerutan.png',
+                    const SizedBox(
+                      height: 7,
                     ),
-                    CirkelCategory(
-                      title: 'Bekas\nJerawat',
-                      img: 'assets/images/bekasjerawat.png',
+                    const Divider(
+                      thickness: 1,
                     ),
-                    CirkelCategory(
-                      title: 'ketombe',
-                      img: 'assets/images/ketombe.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Kebotakan',
-                      img: 'assets/images/kebotakan.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Bekas\nJerawat',
-                      img: 'assets/images/dagu.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Kulit\nKusam',
-                      img: 'assets/images/kulitkusam.png',
-                    ),
-                    CirkelCategory(
-                      title: 'Skin\nGoals',
-                      img: 'assets/images/skingoals.png',
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, top: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Jerawat',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Image.asset(
+                            'assets/icons/filters.png',
+                            width: 78,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            const Divider(
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, top: 26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Jerawat',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Image.asset(
-                    'assets/icons/filters.png',
-                    width: 78,
-                  ),
-                  Wrap(
-                    spacing: 2,
-                    runSpacing: 2,
-                    children: const [
-                      KonsultasProduk(
-                        harga: 'Rp200.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp1,522.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp1,522.500',
-                        title: 'Noroid Soothing Cream 80ml',
-                        imgUrl: 'assets/images/noroid.png',
-                      ),
-                      KonsultasProduk(
-                        harga: 'Rp152.500',
-                        title: 'Digenta Cream 10g\n',
-                        imgUrl: 'assets/images/digenta.png',
-                      ),
-                    ],
-                  )
-                ],
+              content: const Center(
+                child: Wrap(
+                  spacing: 15,
+                  runSpacing: 12,
+                  children: [
+                    KonsultasProduk(
+                      harga: 'Rp200.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp1,522.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp1,522.500',
+                      title: 'Noroid Soothing Cream 80ml',
+                      imgUrl: 'assets/images/noroid.png',
+                    ),
+                    KonsultasProduk(
+                      harga: 'Rp152.500',
+                      title: 'Digenta Cream 10g\n',
+                      imgUrl: 'assets/images/digenta.png',
+                    ),
+                  ],
+                ),
               ),
             )
           ],
@@ -319,6 +365,7 @@ class KonsultasProduk extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        border: Border.all(color: borderColor, width: 0.2),
         borderRadius: BorderRadius.circular(7),
       ),
       width: 164,
@@ -329,6 +376,7 @@ class KonsultasProduk extends StatelessWidget {
           Container(
             height: 164,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
               image:
                   DecorationImage(image: AssetImage(imgUrl), fit: BoxFit.cover),
             ),
@@ -337,7 +385,7 @@ class KonsultasProduk extends StatelessWidget {
             height: 5,
           ),
           Container(
-            padding: const EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.only(left: 11, bottom: 11, right: 11),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -378,20 +426,16 @@ class KonsultasProduk extends StatelessWidget {
                   height: 12,
                 ),
                 Container(
-                  height: 30,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                   decoration: BoxDecoration(
                       border: Border.all(color: greenColor),
                       borderRadius: BorderRadius.circular(7)),
-                  child: Center(
-                    child: Text(
-                      'Harus Dengan Resep Dokter',
-                      style: grenTextStyle.copyWith(fontSize: 10),
-                    ),
+                  child: Text(
+                    'Harus Dengan Resep Dokter',
+                    style: grenTextStyle.copyWith(fontSize: 10),
                   ),
                 ),
-                SizedBox(
-                  height: 29,
-                )
               ],
             ),
           ),
@@ -425,7 +469,7 @@ class CirkelCategory extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 image: DecorationImage(image: AssetImage(img))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
