@@ -154,16 +154,21 @@ class DoctorConsultationController extends StateClass {
   }
 
   Future getListRecentChat() async {
-    isLoading.value = true;
-    var response = await RecentChatService().getRecentChat();
-    listRecentChat.value = response;
+    try {
+      isLoading.value = true;
+      var response = await RecentChatService().getRecentChat();
+      listRecentChat.value = response;
+      print('list ' + listRecentChat.toString());
 
-    // for (var i in response) {
-    //   log('print ' + i['last_chat']['message'].toString());
-    //   listLastChat.add(i['last_chat']);
-    //   log('brapa ' + listLastChat.length.toString());
-    // }
-    isLoading.value = false;
+      // for (var i in response) {
+      //   log('print ' + i['last_chat']['message'].toString());
+      //   listLastChat.add(i['last_chat']);
+      //   log('brapa ' + listLastChat.length.toString());
+      // }
+      isLoading.value = false;
+    } on Exception catch (e) {
+      print('e ${e}');
+    }
   }
 
   Future getRequest(String roomCode) async {
