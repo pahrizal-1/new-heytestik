@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
@@ -29,13 +30,10 @@ class SolutionPage extends StatefulWidget {
 
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
 
   int activeIndex = 0;
-  final images = [
-    'assets/images/bg-solutions1.png',
-    'assets/images/bg-solutions2.png',
-    'assets/images/bg-solutions3.png'
-  ];
+  final images = ['assets/images/bg-solutions1.png', 'assets/images/bg-solutions2.png', 'assets/images/bg-solutions3.png'];
   int currentIndex = 0;
 
   @override
@@ -43,6 +41,7 @@ class _SolutionPageState extends State<SolutionPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.initgetCurrentPosition(context);
+      stateTreatment.getTreatment(context);
     });
   }
 
@@ -84,21 +83,15 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                   Text(
                     'Cari',
-                    style: subGreyTextStyle.copyWith(
-                        color: const Color(0Xff9B9B9B), fontSize: 15),
+                    style: subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B), fontSize: 15),
                   ),
                   Text(
                     "'Solution'",
-                    style: subGreyTextStyle.copyWith(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 15,
-                        color: const Color(0Xff9B9B9B),
-                        fontWeight: bold),
+                    style: subGreyTextStyle.copyWith(fontStyle: FontStyle.italic, fontSize: 15, color: const Color(0Xff9B9B9B), fontWeight: bold),
                   ),
                   Text(
                     '-mu disini',
-                    style: subGreyTextStyle.copyWith(
-                        color: const Color(0Xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B)),
                   ),
                 ],
               ),
@@ -109,9 +102,11 @@ class _SolutionPageState extends State<SolutionPage> {
           InkWell(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotifikasionPage()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotifikasionPage(),
+                ),
+              );
             },
             child: SvgPicture.asset(
               color: whiteColor,
@@ -123,10 +118,7 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const KeranjangPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const KeranjangPage()));
             },
             child: SvgPicture.asset(
               color: whiteColor,
@@ -138,8 +130,7 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AkunHomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -166,8 +157,7 @@ class _SolutionPageState extends State<SolutionPage> {
                 options: CarouselOptions(
                   height: 210,
                   viewportFraction: 1,
-                  onPageChanged: (index, reason) =>
-                      setState(() => activeIndex = index),
+                  onPageChanged: (index, reason) => setState(() => activeIndex = index),
                 ),
               ),
               const SizedBox(
@@ -177,19 +167,14 @@ class _SolutionPageState extends State<SolutionPage> {
                 child: AnimatedSmoothIndicator(
                   activeIndex: activeIndex,
                   count: images.length,
-                  effect: ScaleEffect(
-                      activeDotColor: greenColor,
-                      dotColor: const Color(0xffD9D9D9),
-                      dotWidth: 6,
-                      dotHeight: 6),
+                  effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -199,8 +184,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ObatSolutionsPage(),
+                                  builder: (context) => const ObatSolutionsPage(),
                                 ),
                               );
                             },
@@ -218,8 +202,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionSkincare1Page(),
+                                  builder: (context) => const SolutionSkincare1Page(),
                                 ),
                               );
                             },
@@ -237,8 +220,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionsTreatment1Page(),
+                                  builder: (context) => const SolutionsTreatment1Page(),
                                 ),
                               );
                             },
@@ -256,8 +238,7 @@ class _SolutionPageState extends State<SolutionPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     child: Container(
-                      padding: const EdgeInsets.only(
-                          left: 14, top: 8, bottom: 7, right: 14),
+                      padding: const EdgeInsets.only(left: 14, top: 8, bottom: 7, right: 14),
                       width: 340,
                       height: 35,
                       decoration: BoxDecoration(
@@ -273,8 +254,7 @@ class _SolutionPageState extends State<SolutionPage> {
                           Obx(
                             () => Text(
                               state.city.value,
-                              style:
-                                  blackTextStyle.copyWith(fontWeight: regular),
+                              style: blackTextStyle.copyWith(fontWeight: regular),
                             ),
                           ),
                           const Spacer(),
@@ -331,8 +311,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               margin: const EdgeInsets.only(right: 12),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
-                                border: Border.all(
-                                    color: subwhiteColor, width: 0.6),
+                                border: Border.all(color: subwhiteColor, width: 0.6),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -342,10 +321,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                     height: 135,
                                     width: 120,
                                     decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/noroid.png'),
-                                          fit: BoxFit.cover),
+                                      image: DecorationImage(image: AssetImage('assets/images/noroid.png'), fit: BoxFit.cover),
                                     ),
                                   ),
                                   const SizedBox(
@@ -357,33 +333,27 @@ class _SolutionPageState extends State<SolutionPage> {
                                       right: 8,
                                       bottom: 10,
                                     ),
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 130),
+                                    constraints: const BoxConstraints(maxWidth: 130),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Noroid Soothing Cream 80ml',
-                                          style: blackRegulerTextStyle.copyWith(
-                                              fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
                                         ),
                                         const SizedBox(
                                           height: 3,
                                         ),
                                         Text(
                                           'Rp152.500',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 15),
+                                          style: blackHigtTextStyle.copyWith(fontSize: 15),
                                         ),
                                         const SizedBox(
                                           height: 4,
                                         ),
                                         Text(
                                           'Per Tube',
-                                          style: subGreyTextStyle.copyWith(
-                                              fontSize: 12,
-                                              color: const Color(0xFF9B9B9B)),
+                                          style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
                                         ),
                                         const SizedBox(
                                           height: 4,
@@ -402,21 +372,15 @@ class _SolutionPageState extends State<SolutionPage> {
                                         InkWell(
                                           onTap: () {},
                                           child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                bottom: 5,
-                                                top: 5),
+                                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
+                                              borderRadius: BorderRadius.circular(3),
                                               color: greenColor,
                                             ),
                                             child: Center(
                                               child: Text(
                                                 '+ Keranjang',
-                                                style: whiteTextStyle.copyWith(
-                                                    fontSize: 12),
+                                                style: whiteTextStyle.copyWith(fontSize: 12),
                                               ),
                                             ),
                                           ),
@@ -453,8 +417,7 @@ class _SolutionPageState extends State<SolutionPage> {
                         ),
                         Text(
                           'skin goals-mu!',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 15, fontStyle: FontStyle.italic),
+                          style: blackHigtTextStyle.copyWith(fontSize: 15, fontStyle: FontStyle.italic),
                         ),
                         const Spacer(),
                         Text(
@@ -512,8 +475,7 @@ class _SolutionPageState extends State<SolutionPage> {
                           ),
                           ProdukKeranjang(
                             namaBrand: 'CANTABRIA',
-                            namaProduk:
-                                'Neoretin Discrom Control Pigment Neutralizer Serum',
+                            namaProduk: 'Neoretin Discrom Control Pigment Neutralizer Serum',
                             diskonProduk: '20%',
                             hargaDiskon: 'Rp500.000',
                             harga: 'Rp200.000',
@@ -555,19 +517,25 @@ class _SolutionPageState extends State<SolutionPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25),
-                      child: Row(
-                        children: [
-                          InkWell(
+                  SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: stateTreatment.treatment.length,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 16.0,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 25),
+                          child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PeelinngTraetmentPage(),
+                                  builder: (context) => const PeelinngTraetmentPage(),
                                 ),
                               );
                             },
@@ -576,104 +544,35 @@ class _SolutionPageState extends State<SolutionPage> {
                               height: 222,
                               width: 127,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/Peliing.png'),
-                                  ),
-                                  borderRadius: BorderRadius.circular(7)),
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/images/Peliing.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   gradient: LinearGradient(
-                                      colors: [
-                                        blackColor.withOpacity(0.5),
-                                        Colors.transparent
-                                      ],
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.center),
+                                    colors: [blackColor.withOpacity(0.5), Colors.transparent],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.center,
+                                  ),
                                 ),
                                 child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 11),
-                                      child: Text(
-                                        'PEELING',
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 18, fontWeight: bold),
-                                      ),
-                                    )),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            height: 222,
-                            width: 127,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                  image: AssetImage('assets/images/IPL.png'),
-                                ),
-                                borderRadius: BorderRadius.circular(7)),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                gradient: LinearGradient(
-                                    colors: [
-                                      blackColor.withOpacity(0.5),
-                                      Colors.transparent
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.center),
-                              ),
-                              child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 11),
                                     child: Text(
-                                      'IPL',
-                                      style: whiteTextStyle.copyWith(
-                                          fontSize: 18, fontWeight: bold),
+                                      stateTreatment.treatment[index].treatmentType,
+                                      style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
                                     ),
-                                  )),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            height: 222,
-                            width: 127,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/Laser.png'),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(7)),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                gradient: LinearGradient(
-                                    colors: [
-                                      blackColor.withOpacity(0.5),
-                                      Colors.transparent
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.center),
-                              ),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 11),
-                                  child: Text(
-                                    'LASER',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 18, fontWeight: bold),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(
