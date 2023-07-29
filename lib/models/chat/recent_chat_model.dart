@@ -40,6 +40,7 @@ class Data {
   dynamic deletedAt;
   Doctor? doctor;
   Doctor? customer;
+  Consultation? consultation;
   LastChat? lastChat;
   int? unseenCount;
 
@@ -56,6 +57,7 @@ class Data {
       this.deletedAt,
       this.doctor,
       this.customer,
+      this.consultation,
       this.lastChat,
       this.unseenCount});
 
@@ -73,6 +75,9 @@ class Data {
     doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
     customer =
         json['customer'] != null ? Doctor.fromJson(json['customer']) : null;
+    consultation = json['consultation'] != null
+        ? Consultation.fromJson(json['consultation'])
+        : null;
     lastChat =
         json['last_chat'] != null ? LastChat.fromJson(json['last_chat']) : null;
     unseenCount = json['unseen_count'];
@@ -95,6 +100,9 @@ class Data {
     }
     if (customer != null) {
       data['customer'] = customer!.toJson();
+    }
+    if (consultation != null) {
+      data['consultation'] = consultation!.toJson();
     }
     if (lastChat != null) {
       data['last_chat'] = lastChat!.toJson();
@@ -265,6 +273,22 @@ class Doctor {
   }
 }
 
+class Consultation {
+  int? id;
+
+  Consultation({this.id});
+
+  Consultation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
+}
+
 class LastChat {
   int? id;
   int? chatRoomId;
@@ -277,7 +301,7 @@ class LastChat {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
-  List<dynamic>? mediaChatMessages;
+  List<MediaChatMessages>? mediaChatMessages;
 
   LastChat(
       {this.id,
@@ -305,12 +329,12 @@ class LastChat {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    // if (json['media_chat_messages'] != null) {
-    //   mediaChatMessages = <Null>[];
-    //   json['media_chat_messages'].forEach((v) {
-    //     mediaChatMessages!.add(Null.fromJson(v));
-    //   });
-    // }
+    if (json['media_chat_messages'] != null) {
+      mediaChatMessages = <MediaChatMessages>[];
+      json['media_chat_messages'].forEach((v) {
+        mediaChatMessages!.add(MediaChatMessages.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -326,10 +350,122 @@ class LastChat {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
-    // if (mediaChatMessages != null) {
-    //   data['media_chat_messages'] =
-    //       mediaChatMessages!.map((v) => v.toJson()).toList();
-    // }
+    if (mediaChatMessages != null) {
+      data['media_chat_messages'] =
+          mediaChatMessages!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MediaChatMessages {
+  int? id;
+  int? mediaId;
+  int? chatMessageId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaChatMessages(
+      {this.id,
+      this.mediaId,
+      this.chatMessageId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaChatMessages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    chatMessageId = json['chat_message_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['chat_message_id'] = chatMessageId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Media(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
