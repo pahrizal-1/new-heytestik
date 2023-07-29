@@ -355,7 +355,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             child: SingleChildScrollView(
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
-                                height: 250,
+                                height: 300,
                                 child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   gridDelegate:

@@ -72,24 +72,26 @@ class VerifikasiDataScan extends StatelessWidget {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 60, left: 81, right: 81),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/sca-poto.png',
-                  width: 240,
-                  height: 210,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  'Scan wajah kamu',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-              ],
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/sca-poto.png',
+                    width: 240,
+                    height: 210,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    'Scan wajah kamu',
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
@@ -109,6 +111,7 @@ class VerifikasiDataScan extends StatelessWidget {
                   height: 30,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.circle,
@@ -117,12 +120,17 @@ class VerifikasiDataScan extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      'Jangan pakai aksesoris yang menutupi wajahmu.',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
+                    Expanded(
+                      child: Text(
+                        'Jangan pakai aksesoris yang menutupi wajahmu.',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      ),
                     )
                   ],
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Row(
                   children: [

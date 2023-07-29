@@ -178,6 +178,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                   height: 26,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       children: [
@@ -195,7 +196,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       ],
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Container(
                       width: 0.4,
@@ -203,7 +204,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       color: blackColor,
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Column(
                       children: [
@@ -221,7 +222,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       ],
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Container(
                       width: 0.4,
@@ -229,7 +230,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       color: blackColor,
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Column(
                       children: [
@@ -247,7 +248,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       ],
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Container(
                       width: 0.4,
@@ -255,7 +256,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       color: blackColor,
                     ),
                     const SizedBox(
-                      width: 24,
+                      width: 15,
                     ),
                     Column(
                       children: [
@@ -306,7 +307,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       ),
                       Container(
                         height: 2,
-                        width: 170,
+                        width: 150,
                         decoration: BoxDecoration(
                             color: iSelected == 0 ? greenColor : subTitleColor),
                       )
@@ -333,7 +334,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       ),
                       Container(
                         height: 2,
-                        width: 170,
+                        width: 150,
                         decoration: BoxDecoration(
                           color: iSelected == 1 ? greenColor : subTitleColor,
                         ),

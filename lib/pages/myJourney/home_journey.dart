@@ -230,7 +230,7 @@ class HomeMyjourney extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                   decoration: BoxDecoration(
                       border: Border.all(color: borderColor),
                       borderRadius: BorderRadius.circular(10)),
@@ -247,7 +247,7 @@ class HomeMyjourney extends StatelessWidget {
                             height: 5,
                           ),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 height: 35,
@@ -284,6 +284,7 @@ class HomeMyjourney extends StatelessWidget {
                       ),
                       const Spacer(),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             decoration: BoxDecoration(
@@ -327,7 +328,7 @@ class HomeMyjourney extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(color: borderColor),
                       borderRadius: BorderRadius.circular(10)),
@@ -481,7 +482,7 @@ class HomeMyjourney extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(color: borderColor),
                       borderRadius: BorderRadius.circular(10)),
@@ -598,7 +599,7 @@ class HomeMyjourney extends StatelessWidget {
                   Text(
                     'Artikel ini mungkin relate buat kamu',
                     style: blackHigtTextStyle.copyWith(
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                   InkWell(
