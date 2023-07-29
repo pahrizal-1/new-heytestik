@@ -246,54 +246,80 @@ class _KeranjangPageState extends State<KeranjangPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 25,
-        ),
-        height: 150,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+        child: Wrap(
           children: [
-            Text(
-              'Total Perawatan',
-              style: blackRegulerTextStyle,
-            ),
-            const SizedBox(
-              height: 4,
-            ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Rp0',
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Tagihan',
+                      style: blackRegulerTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Rp0',
+                          style: blackHigtTextStyle.copyWith(fontSize: 20),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        const Icon(Icons.keyboard_arrow_down)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 12,
+                SizedBox(
+                  width: 65,
                 ),
-                const Icon(Icons.keyboard_arrow_down)
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ButtonGreenWidget(
-              title: 'Bayar',
-              onPressed: () {
-                showModalBottomSheet(
-                  isDismissible: false,
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(25),
-                      topStart: Radius.circular(25),
+                Expanded(
+                  child: SizedBox(
+                    height: 50,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/check_button.png',
+                            width: 17,
+                            height: 19,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Bayar',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: whiteColor,
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  builder: (context) => PesananMoreDialog(),
-                );
-              },
-            )
+                )
+              ],
+            ),
           ],
         ),
       ),
