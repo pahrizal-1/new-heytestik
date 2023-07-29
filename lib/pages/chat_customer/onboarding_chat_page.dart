@@ -35,6 +35,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: greenColor,
         title: Padding(
