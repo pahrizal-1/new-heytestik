@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/produk_height_widget,.dart';
+import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -355,7 +355,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             child: SingleChildScrollView(
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
-                                height: 250,
+                                height: 300,
                                 child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   gridDelegate:
@@ -500,6 +500,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                       ));
                                     },
                                     child: Produkheight(
+                                      produkId: e.id!.toInt(),
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
@@ -10,6 +11,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -32,6 +34,7 @@ class DetailSkinCarePage extends StatefulWidget {
 class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
+  final CartController cart = Get.put(CartController());
   bool isVisibelity = true;
   @override
   void initState() {
@@ -67,11 +70,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: 11,
               ),
               Expanded(
-                child: Text(
-                  '${state.skincareDetail.value.skincareDetail?.brand}',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                    overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  () => Text(
+                    '${state.skincareDetail.value.skincareDetail?.brand}',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 20,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               )
@@ -349,13 +354,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     TitleDetail(
                       ontap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategorySkinCare(
-                              category: state.skincareDetail.value.category
-                                  .toString(),
-                            ),
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.category.toString(),
                           ),
                         );
                       },
@@ -364,6 +366,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       textColor: greenColor,
                     ),
                     TitleDetail(
+                      ontap: () {
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.display.toString(),
+                          ),
+                        );
+                      },
                       title1: 'Etalase Skincare',
                       title2: '${state.skincareDetail.value.display}',
                       textColor: greenColor,
@@ -1013,7 +1023,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReservasiPage(),
+                          ));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -1033,27 +1047,32 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 const SizedBox(
                   width: 6,
                 ),
-                Container(
-                  height: 40,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    border: Border.all(color: borderColor),
-                  ),
-                  child: Row(
-                    // ignore: prefer_const_constructors
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: greenColor,
-                        size: 17,
-                      ),
-                      SvgPicture.asset(
-                        'assets/icons/trello-icons.svg',
-                        width: 17,
-                      ),
-                    ],
+                InkWell(
+                  onTap: () async {
+                    await cart.addCart(context, widget.productId, 1, '');
+                  },
+                  child: Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Row(
+                      // ignore: prefer_const_constructors
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: greenColor,
+                          size: 17,
+                        ),
+                        SvgPicture.asset(
+                          'assets/icons/trello-icons.svg',
+                          width: 17,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

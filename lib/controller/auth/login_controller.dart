@@ -40,15 +40,27 @@ class LoginController extends StateClass {
       };
 
       var loginResponse = await LoginService().login(data);
+
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
       print(loginResponse);
       print(loginResponse['data']['token']);
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
-      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
+      await LocalStorage()
+          .setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage()
+          .setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage()
+          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage()
+          .setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
       clear();
     });
@@ -93,10 +105,10 @@ class LoginController extends StateClass {
 
         _googleSignIn.onCurrentUserChanged
             .listen((GoogleSignInAccount? account) async {
-              print(account);
+          print(account);
         });
 
-          print("DISINI");
+        print("DISINI");
         print(await _googleSignIn.isSignedIn());
 
         if (await _googleSignIn.isSignedIn()) {
@@ -107,7 +119,7 @@ class LoginController extends StateClass {
         doInPost();
       });
       isLoading.value = false;
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }

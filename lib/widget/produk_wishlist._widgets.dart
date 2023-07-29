@@ -101,7 +101,7 @@ class ProdukWitlist extends StatelessWidget {
                 ],
               ),
               Text(
-                'Rp$harga',
+                harga,
                 style: blackHigtTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(

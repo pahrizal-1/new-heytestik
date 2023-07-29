@@ -33,24 +33,22 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
               top: 35,
               bottom: 42,
             ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategotyBuarty(
-                    icon: 'assets/icons/icons_concenr.png',
-                    titile: 'Concern',
-                  ),
-                  CategotyBuarty(
-                    icon: 'assets/icons/skincare-corcrn.png',
-                    titile: 'Skincare',
-                  ),
-                  CategotyBuarty(
-                    icon: 'assets/icons/treatmen-cornern.png',
-                    titile: 'Treatment',
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CategotyBuarty(
+                  icon: 'assets/icons/icons_concenr.png',
+                  titile: 'Concern',
+                ),
+                CategotyBuarty(
+                  icon: 'assets/icons/skincare-corcrn.png',
+                  titile: 'Skincare',
+                ),
+                CategotyBuarty(
+                  icon: 'assets/icons/treatmen-cornern.png',
+                  titile: 'Treatment',
+                ),
+              ],
             ),
           ),
           CarouselSlider.builder(
@@ -188,17 +186,17 @@ class CategotyBuarty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-      margin: const EdgeInsets.only(right: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        border: Border.all(
-          color: borderColor,
-          width: 0.4,
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 9),
+        margin: const EdgeInsets.only(right: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(
+            color: borderColor,
+            width: 0.4,
+          ),
         ),
-      ),
-      child: Center(
         child: Row(
           children: [
             Image.asset(
