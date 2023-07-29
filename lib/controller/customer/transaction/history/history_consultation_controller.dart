@@ -15,16 +15,13 @@ import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
 class HistoryConsultationController extends StateClass {
-  Rx<TransactionHistoryConsultationModel> data =
-      TransactionHistoryConsultationModel().obs;
+  Rx<TransactionHistoryConsultationModel> data = TransactionHistoryConsultationModel().obs;
   List<Data2>? paymentPending = [];
   RxInt totalPendingPayment = 0.obs;
 
-  Rx<TransactionStatusModel> transactionStatus =
-      TransactionStatusModel.fromJson({}).obs;
+  Rx<TransactionStatusModel> transactionStatus = TransactionStatusModel.fromJson({}).obs;
 
-  Future<TransactionHistoryConsultationModel?> getHistoryConsultation(
-      BuildContext context) async {
+  Future<TransactionHistoryConsultationModel?> getHistoryConsultation(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalPendingPayment.value = 0;
       data.value = await TransactionService().historyConsultation();
@@ -62,25 +59,19 @@ class HistoryConsultationController extends StateClass {
   getTransactionStatus(BuildContext context, String orderId) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      transactionStatus.value =
-          await TransactionService().transactionStatus(orderId);
+      transactionStatus.value = await TransactionService().transactionStatus(orderId);
 
-      if (transactionStatus.value.success! &&
-          transactionStatus.value.message == 'Success') {
+      if (transactionStatus.value.success! && transactionStatus.value.message == 'Success') {
         bank.value = transactionStatus.value.data?.vaNumbers?[0].bank ?? '-';
-        virtualAccount.value =
-            transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
+        virtualAccount.value = transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
         expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
         grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
-        statusTransaction.value =
-            transactionStatus.value.data?.transactionStatus ?? '-';
+        statusTransaction.value = transactionStatus.value.data?.transactionStatus ?? '-';
 
         if (statusTransaction.value == 'pending') {
           showDialog(
             context: context,
-            builder: (context) => AlertWidget(
-                subtitle:
-                    'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
+            builder: (context) => AlertWidget(subtitle: 'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
           );
           return;
         }

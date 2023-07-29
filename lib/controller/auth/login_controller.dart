@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
@@ -56,6 +57,7 @@ class LoginController extends StateClass {
       await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
       await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
       await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
+      await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
       doInPost();
       clear();
     });
