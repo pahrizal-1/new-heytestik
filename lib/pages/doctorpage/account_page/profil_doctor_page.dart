@@ -599,10 +599,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       fontSize: 20,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const ContainerSettings(title: 'Notifikasi'),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // const ContainerSettings(title: 'Notifikasi'),
                   const SizedBox(
                     height: 10,
                   ),
