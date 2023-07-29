@@ -63,6 +63,7 @@ class Data2 {
   String? updatedAt;
   dynamic deletedAt;
   TransactionConsultation? transactionConsultation;
+  Customer? customer;
 
   Data2(
       {this.id,
@@ -76,7 +77,8 @@ class Data2 {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.transactionConsultation});
+      this.transactionConsultation,
+      this.customer});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -93,6 +95,8 @@ class Data2 {
     transactionConsultation = json['transaction_consultation'] != null
         ? TransactionConsultation.fromJson(json['transaction_consultation'])
         : null;
+    customer =
+        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -111,6 +115,9 @@ class Data2 {
     if (transactionConsultation != null) {
       data['transaction_consultation'] = transactionConsultation!.toJson();
     }
+    if (customer != null) {
+      data['customer'] = customer!.toJson();
+    }
     return data;
   }
 }
@@ -124,6 +131,7 @@ class TransactionConsultation {
   int? totalDiscount;
   int? totalPaid;
   int? paymentMethodId;
+  String? orderId;
   String? paymentStatus;
   String? status;
   dynamic createdBy;
@@ -142,6 +150,7 @@ class TransactionConsultation {
       this.totalDiscount,
       this.totalPaid,
       this.paymentMethodId,
+      this.orderId,
       this.paymentStatus,
       this.status,
       this.createdBy,
@@ -160,6 +169,7 @@ class TransactionConsultation {
     totalDiscount = json['total_discount'];
     totalPaid = json['total_paid'];
     paymentMethodId = json['payment_method_id'];
+    orderId = json['order_id'];
     paymentStatus = json['payment_status'];
     status = json['status'];
     createdBy = json['created_by'];
@@ -182,6 +192,7 @@ class TransactionConsultation {
     data['total_discount'] = totalDiscount;
     data['total_paid'] = totalPaid;
     data['payment_method_id'] = paymentMethodId;
+    data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
     data['status'] = status;
     data['created_by'] = createdBy;
@@ -258,6 +269,7 @@ class InterestCondition {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  Category? category;
 
   InterestCondition(
       {this.id,
@@ -267,7 +279,8 @@ class InterestCondition {
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
-      this.deletedAt});
+      this.deletedAt,
+      this.category});
 
   InterestCondition.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -278,6 +291,8 @@ class InterestCondition {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -290,6 +305,211 @@ class InterestCondition {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (category != null) {
+      data['category'] = category!.toJson();
+    }
+    return data;
+  }
+}
+
+class Category {
+  int? id;
+  String? name;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Category(
+      {this.id,
+      this.name,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class Customer {
+  int? id;
+  String? fullname;
+  String? email;
+  String? password;
+  String? noPhone;
+  String? gender;
+  String? address;
+  String? photoProfile;
+  String? referralCode;
+  dynamic userCode;
+  int? roleId;
+  dynamic verificationCodePhone;
+  dynamic verificationCodeEmail;
+  dynamic provinceId;
+  dynamic cityId;
+  dynamic education;
+  dynamic practiceLocation;
+  dynamic joinDate;
+  dynamic title;
+  dynamic sip;
+  dynamic str;
+  dynamic ktpNo;
+  dynamic ktpImage;
+  dynamic npwpNo;
+  dynamic npwpImage;
+  dynamic specialist;
+  dynamic dob;
+  int? rating;
+  dynamic statusSchedule;
+  dynamic since;
+  dynamic start;
+  dynamic until;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  dynamic refreshToken;
+
+  Customer(
+      {this.id,
+      this.fullname,
+      this.email,
+      this.password,
+      this.noPhone,
+      this.gender,
+      this.address,
+      this.photoProfile,
+      this.referralCode,
+      this.userCode,
+      this.roleId,
+      this.verificationCodePhone,
+      this.verificationCodeEmail,
+      this.provinceId,
+      this.cityId,
+      this.education,
+      this.practiceLocation,
+      this.joinDate,
+      this.title,
+      this.sip,
+      this.str,
+      this.ktpNo,
+      this.ktpImage,
+      this.npwpNo,
+      this.npwpImage,
+      this.specialist,
+      this.dob,
+      this.rating,
+      this.statusSchedule,
+      this.since,
+      this.start,
+      this.until,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.refreshToken});
+
+  Customer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullname = json['fullname'];
+    email = json['email'];
+    password = json['password'];
+    noPhone = json['no_phone'];
+    gender = json['gender'];
+    address = json['address'];
+    photoProfile = json['photo_profile'];
+    referralCode = json['referral_code'];
+    userCode = json['user_code'];
+    roleId = json['roleId'];
+    verificationCodePhone = json['verification_code_phone'];
+    verificationCodeEmail = json['verification_code_email'];
+    provinceId = json['provinceId'];
+    cityId = json['cityId'];
+    education = json['education'];
+    practiceLocation = json['practice_location'];
+    joinDate = json['join_date'];
+    title = json['title'];
+    sip = json['sip'];
+    str = json['str'];
+    ktpNo = json['ktp_no'];
+    ktpImage = json['ktp_image'];
+    npwpNo = json['npwp_no'];
+    npwpImage = json['npwp_image'];
+    specialist = json['specialist'];
+    dob = json['dob'];
+    rating = json['rating'];
+    statusSchedule = json['status_schedule'];
+    since = json['since'];
+    start = json['start'];
+    until = json['until'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    refreshToken = json['refresh_token'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
     return data;
   }
 }
