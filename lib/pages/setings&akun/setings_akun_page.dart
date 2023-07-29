@@ -121,21 +121,21 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                       title: 'Keamanan Akun',
                       title1: 'Kata sandi, PIN, dan verifikasi data diri',
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    ListTitleAkun(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const NotifikasionPage()));
-                      },
-                      iconUrl: 'assets/icons/notification-logo-blak.png',
-                      title: 'Notifikasi',
-                      title1: 'Atur segala jenis pesan notifikasi',
-                    ),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // ListTitleAkun(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) =>
+                    //                 const NotifikasionPage()));
+                    //   },
+                    //   iconUrl: 'assets/icons/notification-logo-blak.png',
+                    //   title: 'Notifikasi',
+                    //   title1: 'Atur segala jenis pesan notifikasi',
+                    // ),
                     const SizedBox(
                       height: 25,
                     ),

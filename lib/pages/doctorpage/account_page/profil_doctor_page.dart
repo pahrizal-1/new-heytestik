@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tentang_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
@@ -598,14 +599,19 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                       fontSize: 20,
                     ),
                   ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // const ContainerSettings(title: 'Notifikasi'),
                   const SizedBox(
                     height: 10,
                   ),
-                  const ContainerSettings(title: 'Notifikasi'),
-                  const SizedBox(
-                    height: 10,
+                  InkWell(
+                    onTap: () async {
+                      Get.to(TentangPage());
+                    },
+                    child: const ContainerSettings(title: 'Tentang Heystetik'),
                   ),
-                  const ContainerSettings(title: 'Tentang Heystetik'),
                   const SizedBox(
                     height: 10,
                   ),
