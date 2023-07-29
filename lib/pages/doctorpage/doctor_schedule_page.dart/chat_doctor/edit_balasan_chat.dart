@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../../controller/doctor/settings/setting_controller.dart';
 import '../../../../theme/theme.dart';
 
-class EditBalasanChat extends StatelessWidget {
-  const EditBalasanChat({super.key});
+class EditBalasanChat extends StatefulWidget {
+  final int id;
+  const EditBalasanChat({
+    super.key,
+    required this.id,
+  });
+
+  @override
+  State<EditBalasanChat> createState() => _EditBalasanChatState();
+}
+
+class _EditBalasanChatState extends State<EditBalasanChat> {
+  final SettingController state = Get.put(SettingController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.finReply(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +60,9 @@ class EditBalasanChat extends StatelessWidget {
               ],
             ),
             InkWell(
+              onTap: (){
+                state.updateQuickChat(context, widget.id);
+              },
               child: Text(
                 'SIMPAN',
                 style: TextStyle(
@@ -64,6 +87,7 @@ class EditBalasanChat extends StatelessWidget {
               style: subTitleTextStyle,
             ),
             TextFormField(
+              controller: state.shortcutController,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.only(top: 10, bottom: 10),
@@ -96,6 +120,7 @@ class EditBalasanChat extends StatelessWidget {
                 Container(
                   width: 284,
                   child: TextFormField(
+                    controller: state.messageController,
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(

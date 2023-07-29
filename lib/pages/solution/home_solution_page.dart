@@ -467,7 +467,7 @@ class _SolutionPageState extends State<SolutionPage> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: EdgeInsets.only(left: 25),
@@ -495,7 +495,7 @@ class _SolutionPageState extends State<SolutionPage> {
                   const SizedBox(
                     height: 17,
                   ),
-                  const SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: EdgeInsets.only(left: 25),

@@ -26,7 +26,7 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
     return Scaffold(
       body: ListView(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(
               left: 20,
               right: 20,
@@ -146,7 +146,7 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                   dotHeight: 4),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20, right: 54, top: 50),
             child: Column(
               children: [

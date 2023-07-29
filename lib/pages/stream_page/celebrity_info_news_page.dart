@@ -125,7 +125,7 @@ class _CelebrityNewsPageState extends State<CelebrityNewsPage> {
                   dotHeight: 4),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20, right: 54, top: 50),
             child: Column(
               children: [

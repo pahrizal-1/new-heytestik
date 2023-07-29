@@ -126,7 +126,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                 const SizedBox(
                   height: 12,
                 ),
-                const Row(
+                Row(
                   children: [
                     CardSearch(
                       title: 'Jerawat',

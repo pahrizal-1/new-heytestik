@@ -8,6 +8,8 @@ import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
+import 'chat_contomer_page.dart';
+
 class ListChatPage extends StatefulWidget {
   RecentChatModel? recentChat;
   ListChatPage({required this.recentChat, super.key});
@@ -45,7 +47,37 @@ class _ListChatPageState extends State<ListChatPage> {
                   itemBuilder: (BuildContext context, int i) {
                     return DoctorChat(
                       ontap: () {
-                        print(state.recentChat.value!.data![i].code);
+                        print(state
+                            .recentChat.value!.data![i].lastChat!.senderId!);
+                        print(state
+                            .recentChat.value!.data![i].lastChat!.receiverId!);
+                        print(state
+                            .recentChat.value!.data![i].customer!.fullname);
+                        print(
+                            state.recentChat.value!.data![i].doctor!.fullname);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => ChatCostomerPage(
+                                  roomId: state.recentChat.value!.data![i].id!
+                                      .toInt(),
+                                  roomCode: state
+                                      .recentChat.value!.data![i].code
+                                      .toString(),
+                                  senderId: state.recentChat.value!.data![i]
+                                      .customerId!.toInt(),
+                                  receiverId: state.recentChat.value!.data![i]
+                                      .doctorId!
+                                      .toInt(),
+                                  sendBy: state.recentChat.value!.data![i]
+                                      .customer!.fullname
+                                      .toString(),
+                                  receiverBy: state.recentChat.value!.data![i]
+                                      .doctor!.fullname
+                                      .toString(),
+                                )),
+                          ),
+                        );
                       },
                       // doctorId:
                       //     state.recentChat.value!.data![i].doctorId!.toInt(),

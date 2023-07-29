@@ -174,7 +174,7 @@ class ObatSolutionsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SingleChildScrollView(
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding: EdgeInsets.only(right: 20, left: 25),
@@ -222,7 +222,7 @@ class ObatSolutionsPage extends StatelessWidget {
                     const SizedBox(
                       height: 22,
                     ),
-                    const SingleChildScrollView(
+                    SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
                         padding: EdgeInsets.only(left: 20),
@@ -304,7 +304,7 @@ class ObatSolutionsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              content: const Center(
+              content: Center(
                 child: Wrap(
                   spacing: 15,
                   runSpacing: 12,

@@ -116,7 +116,7 @@ class _TambahTreatmentState extends State<TambahTreatment> {
                 const SizedBox(
                   height: 12,
                 ),
-                const Row(
+                Row(
                   children: [
                     CardSearch(
                       title: 'Jerawat',

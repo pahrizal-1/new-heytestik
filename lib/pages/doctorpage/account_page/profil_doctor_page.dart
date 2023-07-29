@@ -15,6 +15,10 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
+import '../../../core/global.dart';
 
 class ProfilDoctorPage extends StatefulWidget {
   const ProfilDoctorPage({super.key});
@@ -25,6 +29,15 @@ class ProfilDoctorPage extends StatefulWidget {
 
 class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
   final DoctorProfileController state = Get.put(DoctorProfileController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.getProfile();
+    state.getUserBalance();
+    state.getFilterStatistic();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +57,12 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
         ),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+      body: Obx(() {
+        if (state.isLoading.value == false) {
+          const Center(child: CircularProgressIndicator());
+        }
+        return SingleChildScrollView(
+          child: Column(children: [
             Container(
               height: 100,
               width: MediaQuery.of(context).size.width,
@@ -58,42 +74,63 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                   children: [
                     Row(
                       children: [
-                        Container(
-                          height: 65,
-                          width: 65,
-                          child: const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/doctor1.png'),
+                        Obx(
+                          () => Container(
+                            height: 65,
+                            width: 65,
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  state.profileData.value.data != null
+                                      ? NetworkImage(
+                                          'http://192.168.0.118:8193/files/' +
+                                              state
+                                                  .profileData
+                                                  .value
+                                                  .data!
+                                                  .mediaUserProfilePicture!
+                                                  .media!
+                                                  .path
+                                                  .toString()) as ImageProvider
+                                      : AssetImage('assets/images/doctor1.png'),
+                            ),
                           ),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'dr. Risty Hafinah, Sp.DV',
-                              style: TextStyle(
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                                fontSize: 16,
-                                color: Colors.white,
+                        Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                state.profileData.value.data != null
+                                    ? state.profileData.value.data!.fullname!
+                                        .toString()
+                                    : 'Oscar',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            const Text(
-                              'Dokter Spesialis Kulit',
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                fontSize: 13,
-                                color: Colors.white,
+                              const SizedBox(
+                                height: 3,
                               ),
-                            ),
-                          ],
+                              Text(
+                                state.profileData.value.data?.specialist != null
+                                    ? state.profileData.value.data!.specialist
+                                        .toString()
+                                    : "-",
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -151,7 +188,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
@@ -179,281 +216,301 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                   ),
                   Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
                         children: [
-                          Container(
-                            height: 65,
-                            width: 155,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: const Offset(0, 0),
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/komen.png',
-                                        ),
-                                      ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 65,
+                                width: 155,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 0),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
+                                  ],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 12, top: 15),
+                                  child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '122K',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontWeight: bold,
-                                          fontSize: 20,
-                                          letterSpacing: 0.2,
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'assets/icons/komen.png',
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(
-                                        height: 3,
+                                        width: 10,
                                       ),
-                                      Text(
-                                        'Konsultasi',
-                                        style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 13,
-                                            color: fromCssColor('#A3A3A3')),
-                                      )
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Obx(() => Text(
+                                                state.consultation.value
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            'Konsultasi',
+                                            style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                                color: fromCssColor('#A3A3A3')),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                height: 65,
+                                width: 155,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 0),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 12, top: 15),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 26,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'assets/icons/onoff.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Obx(() => Text(
+                                                state.activeDay.value
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            'Hari Aktif',
+                                            style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                                color: fromCssColor('#A3A3A3')),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            height: 65,
-                            width: 155,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: const Offset(0, 0),
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 20,
-                                    width: 26,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/onoff.png',
-                                        ),
-                                      ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 65,
+                                width: 155,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 0),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
+                                  ],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 12, top: 15),
+                                  child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '500',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontWeight: bold,
-                                          fontSize: 20,
-                                          letterSpacing: 0.2,
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'assets/icons/love.png',
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(
-                                        height: 3,
+                                        width: 10,
                                       ),
-                                      Text(
-                                        'Hari Aktif',
-                                        style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 13,
-                                            color: fromCssColor('#A3A3A3')),
-                                      )
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Obx(() => Text(
+                                                state.likes.value.toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            'Disukai',
+                                            style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                                color: fromCssColor('#A3A3A3')),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const RatingPage(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  height: 65,
+                                  width: 155,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 0),
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 12, top: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 20,
+                                          width: 20,
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                'assets/icons/fav.png',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Obx(() => Text(
+                                                  state.rating.value.toString(),
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    fontWeight: bold,
+                                                    fontSize: 20,
+                                                    letterSpacing: 0.2,
+                                                  ),
+                                                )),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            Text(
+                                              'Pasien Puas',
+                                              style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 13,
+                                                  color:
+                                                      fromCssColor('#A3A3A3')),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                       const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 155,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: const Offset(0, 0),
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/love.png',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '102K',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontWeight: bold,
-                                          fontSize: 20,
-                                          letterSpacing: 0.2,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text(
-                                        'Disukai',
-                                        style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 13,
-                                            color: fromCssColor('#A3A3A3')),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RatingPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 65,
-                              width: 155,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 12, top: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/icons/fav.png',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '98%',
-                                          style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontWeight: bold,
-                                            fontSize: 20,
-                                            letterSpacing: 0.2,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          'Pasien Puas',
-                                          style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 13,
-                                              color: fromCssColor('#A3A3A3')),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        height: 30,
                       ),
                     ],
                   ),
@@ -490,13 +547,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             const SizedBox(
                               height: 3,
                             ),
-                            Text(
-                              'Rp5.000.000',
-                              style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                  fontWeight: bold,
-                                  color: whiteColor),
+                            Obx(
+                              () => Text(
+                                'Rp ' + state.saldo.value.balance.toString(),
+                                style: TextStyle(
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                    color: whiteColor),
+                              ),
                             ),
                           ],
                         ),
@@ -570,9 +629,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          ]),
+        );
+      }),
     );
   }
 }
@@ -585,6 +644,7 @@ class BottomSheetProfile extends StatefulWidget {
 }
 
 class _BottomSheetProfileState extends State<BottomSheetProfile> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
@@ -626,11 +686,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 0;
-                  });
-                },
+                onTap: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -803,6 +859,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
               ),
               Container(
                 height: 35,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.grey,
@@ -810,26 +867,75 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.date_range_outlined,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '17 Agu 2023 - 17 Nov 2023',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontFamily: 'ProximaNova',
-                          letterSpacing: 0.5,
+                  child: InkWell(
+                      child: Obx(
+                        () => Text(
+                          state.startPeriod.value +
+                              ' - ' +
+                              state.endPeriod.value,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                      onTap: () {
+                        showDialog<Widget>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              color: Colors.white,
+                              child: SfDateRangePicker(
+                                showActionButtons: true,
+                                onSelectionChanged: state.onSelectionChanged,
+                                selectionMode:
+                                    DateRangePickerSelectionMode.range,
+                                initialSelectedRange: PickerDateRange(
+                                    DateTime.now()
+                                        .subtract(const Duration(days: 4)),
+                                    DateTime.now()
+                                        .add(const Duration(days: 3))),
+                                onSubmit: (value) {
+                                  Get.back();
+                                },
+                              ),
+                              // SfDateRangePicker(
+                              //   // onSelectionChanged: state.onSelectionChanged,
+                              //   selectionMode:
+                              //       DateRangePickerSelectionMode.range,
+                              //   showActionButtons: true,
+                              //   onSubmit: (value) {
+                              //     state.range.value = DateFormat('dd/MM/yyyy').format(PickerDateRange.value.startDate);
+                              //     // state.onSelectionChanged;
+                              //     print('value ' + value.toString());
+                              //     Navigator.pop(context);
+                              //   },
+                              //   onCancel: () {
+                              //     Navigator.pop(context);
+                              //   },
+                              // ),
+                            );
+                          },
+                        );
+                      }),
+                  //  Row(
+                  //   children: [
+                  //     Icon(
+                  //       Icons.date_range_outlined,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     Text(
+                  //       '17 Agu 2023 - 17 Nov 2023',
+                  //       style: TextStyle(
+                  //         fontSize: 13,
+                  //         fontFamily: 'ProximaNova',
+                  //         letterSpacing: 0.5,
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                 ),
               ),
               const SizedBox(
@@ -847,7 +953,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
               const SizedBox(
                 height: 20,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CardFilter(title: 'Chat yang selesai'),
@@ -860,9 +966,13 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
               ButtonGreenWidget(
                 title: 'Tampilkan',
                 onPressed: () {
+                  state.getFilterStatistic();
                   Navigator.pop(context);
                 },
-              )
+              ),
+              const SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
