@@ -95,42 +95,43 @@ class ChatAktif extends StatelessWidget {
                 ),
                 const Spacer(),
                 Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        time,
-                        style: subTitleTextStyle,
-                        softWrap: false,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      isMe
-                          ? Image.asset(
-                              'assets/images/logo_cheac_wa.png',
-                              width: 20,
-                              color: seen ? null : greyColor,
-                            )
-                          : seen
-                              ? Container()
-                              : Container(
-                                  height: 20,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    color: greenColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      valueChat.toString(),
-                                      style: whiteTextStyle,
-                                    ),
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      time,
+                      style: subTitleTextStyle,
+                      softWrap: false,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    isMe
+                        ? Image.asset(
+                            'assets/images/logo_cheac_wa.png',
+                            width: 20,
+                            color: seen ? null : greyColor,
+                          )
+                        : seen
+                            ? Container()
+                            : Container(
+                                height: 20,
+                                width: 25,
+                                decoration: BoxDecoration(
+                                  color: greenColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    valueChat.toString(),
+                                    style: whiteTextStyle,
                                   ),
                                 ),
-                    ]),
+                              ),
+                  ],
+                ),
               ],
             ),
           ],

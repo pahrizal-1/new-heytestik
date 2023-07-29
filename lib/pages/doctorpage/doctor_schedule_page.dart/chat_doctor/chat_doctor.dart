@@ -17,8 +17,6 @@ import '../../../../core/local_storage.dart';
 import '../../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widget/preview_widget.dart';
-import '../../../../widget/rekomedasi_chat_widget.dart';
-import '../../../../widget/shimmer_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -133,7 +131,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       for (var i = 0; i < selectedMultipleImage.length; i++) {
         final bytes = File(selectedMultipleImage[i].path).readAsBytesSync();
         String img64 = base64Encode(bytes);
-        String baseImg64 = "data:/png;base64," + img64;
+        String baseImg64 = "data:/png;base64,$img64";
         fileImage.add(baseImg64);
       }
     }
@@ -171,7 +169,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       setState(() {
         msglist?.add(result);
       });
-      print('hey ' + result.toString());
+      print('hey $result');
 
       // setState(() {
       //   msglist?.add(result);
@@ -187,7 +185,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     setState(() {
       msglist = result.data?.data;
     });
-    print('msg ' + response.toString());
+    print('msg $response');
 
     // listLastChat.value = response;
     // isLoading.value = false;
@@ -311,7 +309,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     // setState(() {
     //   isSuggestion = false;
     // });
-    print('list mesage' + msglist.toString());
+    print('list mesage$msglist');
   }
 
   // EVENT TYPING INDICATOR (udah dipanggil)
@@ -437,9 +435,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               setState(() {
                 clik = !clik;
               });
-              print('test room code' + widget.roomCode.toString());
-              print('test sender id' + widget.senderId.toString());
-              print('test receiver id' + widget.receiverId.toString());
+              print('test room code${widget.roomCode}');
+              print('test sender id${widget.senderId}');
+              print('test receiver id${widget.receiverId}');
             },
             child: Padding(
               padding: lsymetric,
@@ -540,7 +538,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             children: [
               InkWell(
                 onTap: () {
-                  print('hey' + state.listLastChat.toString());
+                  print('hey${state.listLastChat}');
                 },
                 child: Container(
                   height: 20,
@@ -604,9 +602,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                               var dateFormatted =
                                   DateFormat("yyyy-MM-dd-HH:mm:ss")
                                       .format(DateTime.now());
-                              print('hsail date ' + dateFormatted.toString());
-                              print('hsail format ' +
-                                  dateTime.timeZoneOffset.toString());
+                              print('hsail date $dateFormatted');
+                              print('hsail format ${dateTime.timeZoneOffset}');
                             },
                             child: msglist![index].mediaChatMessages!.length ==
                                     1
@@ -669,11 +666,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   (BuildContext context,
                                                       count) {
                                                 return Image.network(
-                                                  'http://192.168.0.118:8193/files/' +
-                                                      msglist![index]
-                                                          .mediaChatMessages![0]
-                                                          .media!
-                                                          .path!,
+                                                  'http://192.168.0.118:8193/files/${msglist![index].mediaChatMessages![0].media!.path!}',
                                                 );
                                               },
                                             ),
@@ -778,12 +771,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                           (BuildContext context,
                                                               count) {
                                                         return Image.network(
-                                                          'http://192.168.0.118:8193/files/' +
-                                                              msglist![index]
-                                                                  .mediaChatMessages![
-                                                                      count]
-                                                                  .media!
-                                                                  .path!,
+                                                          'http://192.168.0.118:8193/files/${msglist![index].mediaChatMessages![count].media!.path!}',
                                                         );
                                                       },
                                                     ),

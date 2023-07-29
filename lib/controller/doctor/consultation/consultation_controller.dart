@@ -19,11 +19,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/local_storage.dart';
-import '../../../models/doctor/recent_chat_model.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-import '../../../widget/preview_widget.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
 class DoctorConsultationController extends StateClass {
@@ -155,12 +153,12 @@ class DoctorConsultationController extends StateClass {
     return currentSchedule.value;
   }
 
-  Future getListRecentChat() async {
-    try {
-      // isLoading.value = true;
-      // var response = await RecentChatService().getRecentChat();
-      // listRecentChat.value = response;
-      // print('list ' + listRecentChat.toString());
+  Future getListRecentChat(BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      totalRecentChatActive.value = 0;
+      totalRecentChatDone.value = 0;
+      recentChatActive.clear();
+      recentChatDone.clear();
 
       doctorId.value = (await LocalStorage().getUserID())!;
 
@@ -175,9 +173,8 @@ class DoctorConsultationController extends StateClass {
         );
       }
 
-      /// heheh
       for (int i = 0; i < recentChat.value!.data!.length; i++) {
-        if (recentChat.value!.data![i].ended!) {
+        if (recentChat.value!.data![i].doctor!.isActive!) {
           // ADD RECENT CHAT ACTIVE
           recentChatActive.add(recentChat.value!.data![i]);
         } else {
@@ -191,16 +188,8 @@ class DoctorConsultationController extends StateClass {
 
       // SET TOTAL RECENT CHAT DONE
       totalRecentChatDone.value = recentChatDone.length;
-
-      // for (var i in response) {
-      //   log('print ' + i['last_chat']['message'].toString());
-      //   listLastChat.add(i['last_chat']);
-      //   log('brapa ' + listLastChat.length.toString());
-      // }
-      isLoading.value = false;
-    } on Exception catch (e) {
-      print('e ${e}');
-    }
+    });
+    isLoading.value = false;
   }
 
   Future quickReply() async {
