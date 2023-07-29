@@ -26,7 +26,9 @@ class RecentChatService extends ProviderClass {
 
 class QuickReplyChat extends ProviderClass {
   QuickReplyChat()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),);
+      : super(
+          networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),
+        );
 
   Future getQuickReply() async {
     var response = await networkingConfig.doGet(
@@ -41,36 +43,21 @@ class QuickReplyChat extends ProviderClass {
   }
 }
 
-class FetchMessageByRoom extends ProviderClass {
-  FetchMessageByRoom()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),);
+class ChatOpeningService extends ProviderClass {
+  ChatOpeningService()
+      : super(
+          networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),
+        );
 
-  Future getFetchMessage(String roomCode, int take) async {
-    var response = await networkingConfig.doGet(
-      '/chat/message/${roomCode}?page=1&take=${take}&search&order=asc',
+  Future postChatOpening(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/chat/opening',
+      data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
       },
     );
     var jsonResponse = response;
-    // var jsonResponse = response['data']['data'];
-
-    return jsonResponse;
-  }
-}
-
-class LastChatService extends ProviderClass {
-  LastChatService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
-
-  Future getLastChat() async {
-    var response = await networkingConfig.doGet(
-      '/chat/recent',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      },
-    );
-    var jsonResponse = response['data'];
 
     return jsonResponse;
   }

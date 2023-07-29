@@ -5,11 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../core/state_class.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../../../models/doctor/list_message_model.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../widget/preview_widget.dart';
 
@@ -25,6 +27,7 @@ class CustomerChatController extends StateClass {
   IO.Socket? _socket;
   RxBool isOnline = false.obs;
   RxBool isTyping = false.obs;
+  List<Data2>? msglist = [];
 
   TextEditingController messageController = TextEditingController();
 
@@ -75,24 +78,28 @@ class CustomerChatController extends StateClass {
     int userId,
     int receiverId,
     String roomCode,
+    String senderBy,
+    String receiverBy,
   ) async {
     final List<XFile>? selectImage = await ImagePicker().pickMultiImage();
     if (selectImage! != null) {
       selectedMultipleImage.addAll(selectImage);
       print('awal$selectedMultipleImage');
-      Navigator.push(
-        Get.context!,
-        MaterialPageRoute(
-          builder: (context) => CameraViewPage(
-            path: selectedMultipleImage,
-            idRoom: idRoom,
-            chatRoomId: chatRoomId,
-            userId: userId,
-            receiverId: receiverId,
-            roomCode: roomCode,
-          ),
-        ),
-      );
+      // Navigator.push(
+      //   Get.context!,
+      //   MaterialPageRoute(
+      //     builder: (context) => CameraViewPage(
+      //       path: selectedMultipleImage,
+      //       idRoom: idRoom,
+      //       chatRoomId: chatRoomId,
+      //       userId: userId,
+      //       receiverId: receiverId,
+      //       roomCode: roomCode,
+      //       senderBy: senderBy,
+      //       receiverBy: receiverBy,
+      //     ),
+      //   ),
+      // );
       for (var i = 0; i < selectedMultipleImage.length; i++) {
         final bytes = File(selectedMultipleImage[i].path).readAsBytesSync();
         String img64 = base64Encode(bytes);
@@ -129,10 +136,10 @@ class CustomerChatController extends StateClass {
       print("newMessage $newMessage");
       print("message ${newMessage['message']}");
       print("message ${newMessage['sender']['fullname']}");
-      var result = json.decode(newMessage);
+      // var result = json.decode(newMessage);
+      Data2 result = Data2.fromJson(newMessage);
+      msglist?.add(result);
       print('hey ' + result.toString());
-
-      listLastChat.add(result);
 
       // setState(() {
       //   msglist?.add(result);
@@ -149,13 +156,15 @@ class CustomerChatController extends StateClass {
   }
 
   Future getRequest(String roomCode) async {
-    isLoading.value = true;
+    // isLoading.value = true;
     //replace your restFull API here.
     var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
-    listLastChat.value = response;
+    ListMessageModel result = ListMessageModel.fromJson(response);
+    msglist = result.data?.data;
+    print('msg ' + response.toString());
 
-    log('print ' + listLastChat.toString());
-    isLoading.value = false;
+    // listLastChat.value = response;
+    // isLoading.value = false;
   }
 
   // EVENT TYPING INDICATOR (udah dipanggil)
@@ -222,7 +231,8 @@ class CustomerChatController extends StateClass {
     int receiverId,
     String roomCode,
     String textMessage,
-    // String fullName,
+    String senderBy,
+    String receiverBy,
   ) {
     print('sendMessage $textMessage');
 
@@ -240,48 +250,52 @@ class CustomerChatController extends StateClass {
       };
       _socket?.emit('sendMessage', data);
     }
-    // var data = {
-    //   "room": roomCode,
-    //   "message": textMessage,
-    // };
-    // _socket?.emit('sendMessage', data);
 
-    // print('filesImage' + fileImg64.toString());
     final dateTime = DateTime.now();
     final stringDateTime = dateTime.toIso8601String();
     final parsedDateTime = DateTime.parse(stringDateTime);
+    var dateFormatted =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
 
     var newMes = {
-      "id": idRoom,
-      "chat_room_id": chatRoomId,
+      "id": 24,
+      "chat_room_id": 2,
       "sender_id": userId,
       "receiver_id": receiverId,
       "message": textMessage,
       "seen": false,
       "created_by": null,
       "updated_by": null,
-      "created_at": parsedDateTime,
-      "updated_at": parsedDateTime,
+      "created_at": "2023-07-04T12:35:06.173Z",
+      "updated_at": "2023-07-04T12:35:06.173Z",
       "deleted_at": null,
-      "media_chat_messages": [
-        if (fileImage != null) {for (var i in fileImage) fileImg64 = i}
-      ]
+      "sender": {
+        "fullname": senderBy,
+      },
+      "receiver": {
+        "fullname": receiverBy,
+      }
     };
-    listLastChat.add(newMes);
+    // listLastChat.add(newMes);
+    Data2 result = Data2.fromJson(newMes);
+    msglist?.add(result);
     messageController.clear();
+    selectedMultipleImage = [];
 
     // setState(() {
     //   isSuggestion = false;
     // });
-    print('list mesage' + listLastChat.toString());
+    print('list mesage' + msglist.toString());
   }
 
   // EVENT TYPING INDICATOR (udah dipanggil)
-  recentChat() {
+  recentChatt() {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
-      print("recentChat $recentChat");
-      listLastChat.add(recentChat['last_chat']);
+      log("recentChat $recentChat");
+      msglist?.add(recentChat['last_chat']['message']);
+      // listLastChat.add(recentChat['last_chat']);
+      log("de $listLastChat");
 
       // await NotificationService().notifChat(
       //   1,
@@ -297,7 +311,7 @@ class CustomerChatController extends StateClass {
   connectSocket(BuildContext context, String receiver) async {
     try {
       _socket = IO.io(
-        'http://117.53.46.208:8192/socket',
+        'http://192.168.0.118:8193/socket',
         // 'wss://heystetik.ahrulsyamil.com/socket',
         // 'ws://101.255.117.74:8192/chat',
         IO.OptionBuilder()
@@ -318,7 +332,7 @@ class CustomerChatController extends StateClass {
         await newMessage();
         await typingIndicator();
         await infoLog();
-        await recentChat();
+        await recentChatt();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');

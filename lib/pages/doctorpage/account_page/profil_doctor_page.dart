@@ -15,6 +15,8 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../core/global.dart';
 
@@ -34,6 +36,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
     super.initState();
     state.getProfile();
     state.getUserBalance();
+    state.getFilterStatistic();
   }
 
   @override
@@ -76,19 +79,19 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             height: 65,
                             width: 65,
                             child: CircleAvatar(
-                              backgroundImage: state.profileData.value.data !=
-                                      null
-                                  ? NetworkImage(
-                                      'https://heystetik.ahrulsyamil.com/files/' +
-                                          state
-                                              .profileData
-                                              .value
-                                              .data!
-                                              .mediaUserProfilePicture!
-                                              .media!
-                                              .path
-                                              .toString()) as ImageProvider
-                                  : AssetImage('assets/images/doctor1.png'),
+                              backgroundImage:
+                                  state.profileData.value.data != null
+                                      ? NetworkImage(
+                                          'http://192.168.0.118:8193/files/' +
+                                              state
+                                                  .profileData
+                                                  .value
+                                                  .data!
+                                                  .mediaUserProfilePicture!
+                                                  .media!
+                                                  .path
+                                                  .toString()) as ImageProvider
+                                      : AssetImage('assets/images/doctor1.png'),
                             ),
                           ),
                         ),
@@ -261,15 +264,16 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            '122K',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontWeight: bold,
-                                              fontSize: 20,
-                                              letterSpacing: 0.2,
-                                            ),
-                                          ),
+                                          Obx(() => Text(
+                                                state.consultation.value
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
                                           const SizedBox(
                                             height: 3,
                                           ),
@@ -326,15 +330,16 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            '500',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontWeight: bold,
-                                              fontSize: 20,
-                                              letterSpacing: 0.2,
-                                            ),
-                                          ),
+                                          Obx(() => Text(
+                                                state.activeDay.value
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
                                           const SizedBox(
                                             height: 3,
                                           ),
@@ -399,15 +404,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            '102K',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontWeight: bold,
-                                              fontSize: 20,
-                                              letterSpacing: 0.2,
-                                            ),
-                                          ),
+                                          Obx(() => Text(
+                                                state.likes.value.toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontWeight: bold,
+                                                  fontSize: 20,
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              )),
                                           const SizedBox(
                                             height: 3,
                                           ),
@@ -473,15 +478,15 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '98%',
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                fontWeight: bold,
-                                                fontSize: 20,
-                                                letterSpacing: 0.2,
-                                              ),
-                                            ),
+                                            Obx(() => Text(
+                                                  state.rating.value.toString(),
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    fontWeight: bold,
+                                                    fontSize: 20,
+                                                    letterSpacing: 0.2,
+                                                  ),
+                                                )),
                                             const SizedBox(
                                               height: 3,
                                             ),
@@ -639,6 +644,7 @@ class BottomSheetProfile extends StatefulWidget {
 }
 
 class _BottomSheetProfileState extends State<BottomSheetProfile> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
@@ -680,11 +686,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 0;
-                  });
-                },
+                onTap: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -857,6 +859,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
               ),
               Container(
                 height: 35,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.grey,
@@ -866,24 +869,73 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.date_range_outlined,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '17 Agu 2023 - 17 Nov 2023',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontFamily: 'ProximaNova',
-                          letterSpacing: 0.5,
+                  child: InkWell(
+                      child: Obx(
+                        () => Text(
+                          state.startPeriod.value +
+                              ' - ' +
+                              state.endPeriod.value,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                      onTap: () {
+                        showDialog<Widget>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              color: Colors.white,
+                              child: SfDateRangePicker(
+                                showActionButtons: true,
+                                onSelectionChanged: state.onSelectionChanged,
+                                selectionMode:
+                                    DateRangePickerSelectionMode.range,
+                                initialSelectedRange: PickerDateRange(
+                                    DateTime.now()
+                                        .subtract(const Duration(days: 4)),
+                                    DateTime.now()
+                                        .add(const Duration(days: 3))),
+                                onSubmit: (value) {
+                                  Get.back();
+                                },
+                              ),
+                              // SfDateRangePicker(
+                              //   // onSelectionChanged: state.onSelectionChanged,
+                              //   selectionMode:
+                              //       DateRangePickerSelectionMode.range,
+                              //   showActionButtons: true,
+                              //   onSubmit: (value) {
+                              //     state.range.value = DateFormat('dd/MM/yyyy').format(PickerDateRange.value.startDate);
+                              //     // state.onSelectionChanged;
+                              //     print('value ' + value.toString());
+                              //     Navigator.pop(context);
+                              //   },
+                              //   onCancel: () {
+                              //     Navigator.pop(context);
+                              //   },
+                              // ),
+                            );
+                          },
+                        );
+                      }),
+                  //  Row(
+                  //   children: [
+                  //     Icon(
+                  //       Icons.date_range_outlined,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     Text(
+                  //       '17 Agu 2023 - 17 Nov 2023',
+                  //       style: TextStyle(
+                  //         fontSize: 13,
+                  //         fontFamily: 'ProximaNova',
+                  //         letterSpacing: 0.5,
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                 ),
               ),
               const SizedBox(
@@ -914,9 +966,13 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
               ButtonGreenWidget(
                 title: 'Tampilkan',
                 onPressed: () {
+                  state.getFilterStatistic();
                   Navigator.pop(context);
                 },
-              )
+              ),
+              const SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),

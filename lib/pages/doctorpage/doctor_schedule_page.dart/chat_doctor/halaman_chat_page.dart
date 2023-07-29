@@ -93,89 +93,89 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                             ),
                           );
                         }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return Positioned(
-                              left: 20,
-                              right: 20,
-                              top: 112,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                // height: 140,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  color: whiteColor,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 18),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Jadwal Saya hari ini',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 15),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            'Atur Jadwal',
-                                            style: grenTextStyle.copyWith(
-                                                fontSize: 15),
-                                          ),
-                                          Icon(
-                                            Icons.keyboard_arrow_right,
-                                            color: greenColor,
-                                            size: 30,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Obx(
-                                        () => currentSchedule(
-                                          state.isFirstSchedule.value,
-                                          state.isFirstSchedule.value
-                                              ? 'Online'
-                                              : 'Jam pertama',
-                                          state.startTime.value,
-                                        ),
-                                      ),
-                                      const Divider(
-                                        thickness: 1,
-                                      ),
-                                      Obx(
-                                        () => currentSchedule(
-                                          state.isSecondSchedule.value,
-                                          state.isSecondSchedule.value
-                                              ? 'Online'
-                                              : 'Jam berikutnya',
-                                          state.endTime.value,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return Center(
-                              child: Text(
-                                'Tidak ada jadwal',
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 15,
-                                ),
-                              ),
-                            );
-                          }
-                        } else {
-                          return Text(
-                              'Connection State: ${snapshot.connectionState}');
-                        }
+                        // if (snapshot.connectionState == ConnectionState.done) {
+                        //   if (snapshot.hasData) {
+                        //     return Positioned(
+                        //       left: 20,
+                        //       right: 20,
+                        //       top: 112,
+                        //       child: Container(
+                        //         width: MediaQuery.of(context).size.width,
+                        //         // height: 140,
+                        //         decoration: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(7),
+                        //           color: whiteColor,
+                        //         ),
+                        //         child: Padding(
+                        //           padding: const EdgeInsets.symmetric(
+                        //               horizontal: 16, vertical: 18),
+                        //           child: Column(
+                        //             children: [
+                        //               Row(
+                        //                 children: [
+                        //                   Text(
+                        //                     'Jadwal Saya hari ini',
+                        //                     style: blackHigtTextStyle.copyWith(
+                        //                         fontSize: 15),
+                        //                   ),
+                        //                   const Spacer(),
+                        //                   Text(
+                        //                     'Atur Jadwal',
+                        //                     style: grenTextStyle.copyWith(
+                        //                         fontSize: 15),
+                        //                   ),
+                        //                   Icon(
+                        //                     Icons.keyboard_arrow_right,
+                        //                     color: greenColor,
+                        //                     size: 30,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               const SizedBox(
+                        //                 height: 20,
+                        //               ),
+                        //               Obx(
+                        //                 () => currentSchedule(
+                        //                   state.isFirstSchedule.value,
+                        //                   state.isFirstSchedule.value
+                        //                       ? 'Online'
+                        //                       : 'Jam pertama',
+                        //                   state.startTime.value,
+                        //                 ),
+                        //               ),
+                        //               const Divider(
+                        //                 thickness: 1,
+                        //               ),
+                        //               Obx(
+                        //                 () => currentSchedule(
+                        //                   state.isSecondSchedule.value,
+                        //                   state.isSecondSchedule.value
+                        //                       ? 'Online'
+                        //                       : 'Jam berikutnya',
+                        //                   state.endTime.value,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     return Center(
+                        //       child: Text(
+                        //         'Tidak ada jadwal',
+                        //         style: TextStyle(
+                        //           fontWeight: bold,
+                        //           fontFamily: 'ProximaNova',
+                        //           fontSize: 15,
+                        //         ),
+                        //       ),
+                        //     );
+                        //   }
+                        // } else {
+                        //   return Text(
+                        //       'Connection State: ${snapshot.connectionState}');
+                        // }
                       },
                     ),
                   ],
@@ -398,7 +398,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       customerName:
                           state.recentChatActive[i].customer!.fullname ?? '-',
                       doctorName:
-                          state.recentChatDone[i].doctor!.fullname ?? '-',
+                          state.recentChatActive[i].doctor!.fullname ?? '-',
                       subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
                       img: 'assets/images/doctor-img.png',
                       time: CurrenctTime.timeChat(state
@@ -412,11 +412,8 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               state.doctorId.value
                           ? true
                           : false,
-                      senderId:
-                          state.recentChatActive[i].lastChat!.senderId!.toInt(),
-                      receiverId: state
-                          .recentChatActive[i].lastChat!.receiverId!
-                          .toInt(),
+                      senderId: state.recentChatActive[i].doctorId!.toInt(),
+                      receiverId: state.recentChatActive[i].customerId!.toInt(),
                     ),
                   );
                 },
@@ -464,8 +461,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       roomId: state.recentChatActive[i].id!.toInt(),
                       customerName:
                           state.recentChatDone[i].customer!.fullname ?? '-',
-                      doctorName:
-                          state.recentChatDone[i].doctor!.fullname ?? '-',
+                      doctorName: '',
                       subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
                       img: 'assets/icons/logo.png',
                       chat: state.recentChatDone[i].lastChat!.message ?? '-',

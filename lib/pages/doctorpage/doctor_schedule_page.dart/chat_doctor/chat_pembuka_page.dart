@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+
+import '../../../../controller/doctor/settings/setting_controller.dart';
 
 class ChatPembukaPage extends StatefulWidget {
   const ChatPembukaPage({super.key});
@@ -10,6 +13,7 @@ class ChatPembukaPage extends StatefulWidget {
 }
 
 class _ChatPembukaPageState extends State<ChatPembukaPage> {
+  final SettingController state = Get.put(SettingController());
   bool isSwitch = false;
   bool isSelected = true;
   @override
@@ -29,9 +33,14 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
                     padding: const EdgeInsets.only(right: 20, top: 2),
                     child: Row(
                       children: [
-                        Text(
-                          'Simpan',
-                          style: whiteTextStyle.copyWith(fontSize: 15),
+                        InkWell(
+                          onTap:(){
+                            state.postChatOP(context);
+                          },
+                          child: Text(
+                            'Simpan',
+                            style: whiteTextStyle.copyWith(fontSize: 15),
+                          ),
                         ),
                         const SizedBox(
                           width: 31,
@@ -88,10 +97,10 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
                     Switch(
                       focusColor: greenColor,
                       activeColor: greenColor,
-                      value: isSwitch,
+                      value: state.isActive.value,
                       onChanged: (value) {
                         setState(() {
-                          isSwitch = value;
+                          state.isActive.value = value;
                         });
                       },
                     ),
@@ -110,6 +119,7 @@ class _ChatPembukaPageState extends State<ChatPembukaPage> {
                 TextFormField(
                   maxLines: 6,
                   minLines: 1,
+                  controller: state.messageOpController,
                   decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         //<-- SEE HERE

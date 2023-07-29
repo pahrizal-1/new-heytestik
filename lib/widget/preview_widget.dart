@@ -16,6 +16,9 @@ class CameraViewPage extends StatelessWidget {
     required this.userId,
     required this.receiverId,
     required this.roomCode,
+    required this.senderBy,
+    required this.receiverBy,
+    required this.sendMsg,
   }) : super(key: key);
   final List<XFile>? path;
   final int idRoom;
@@ -23,10 +26,14 @@ class CameraViewPage extends StatelessWidget {
   final int userId;
   final int receiverId;
   final String roomCode;
+  final String senderBy;
+  final String receiverBy;
+  final void Function()? sendMsg;
 
   @override
   Widget build(BuildContext context) {
-    final DoctorConsultationController state = Get.put(DoctorConsultationController());
+    final DoctorConsultationController state =
+        Get.put(DoctorConsultationController());
 
     // var listImage = Get.arguments();
     return Scaffold(
@@ -107,19 +114,22 @@ class CameraViewPage extends StatelessWidget {
                         fontSize: 17,
                       ),
                       suffixIcon: GestureDetector(
-                        onTap: () {
-                          // print('tes' + state.fileImage.toString());
-                          state.sendMessage(
-                            idRoom,
-                            chatRoomId,
-                            userId,
-                            receiverId,
-                            roomCode,
-                            state.messageController.text,
-                          );
-                          state.selectedMultipleImage = [];
-                          Get.back();
-                        },
+                        onTap: sendMsg,
+                        // () {
+                        // print('tes' + state.fileImage.toString());
+                        // state.sendMessage(
+                        //   idRoom,
+                        //   chatRoomId,
+                        //   userId,
+                        //   receiverId,
+                        //   roomCode,
+                        //   state.messageController.text,
+                        //   senderBy,
+                        //   receiverBy,
+                        // );
+                        // state.selectedMultipleImage = [];
+                        // Get.back();
+                        // },
                         child: CircleAvatar(
                           radius: 27,
                           backgroundColor: Colors.tealAccent[700],
@@ -151,14 +161,18 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DoctorConsultationController state = Get.put(DoctorConsultationController());
+    final DoctorConsultationController state =
+        Get.put(DoctorConsultationController());
 
     // var listImage = Get.arguments();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(senderId, style: TextStyle(color: Colors.white),),
+        title: Text(
+          senderId,
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [],
       ),
       body: Container(
@@ -174,8 +188,8 @@ class PreviewImage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: path!.length,
                 itemBuilder: ((context, index) {
-                  return Image.network('http://117.53.46.208:8192/files/' +
-                      path![index]['media']['path']);
+                  return Image.network('http://192.168.0.118:8193/files/' +
+                      path![index].media.path);
                 }),
               ),
             ),

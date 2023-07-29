@@ -133,6 +133,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
               ? const BelumKonsultasiChat()
               : ListChatPage(
                   recentChat: state.recentChat.value,
+                  
                 ),
         ),
       ),

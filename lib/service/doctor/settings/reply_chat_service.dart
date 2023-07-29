@@ -26,14 +26,35 @@ class ReplyChatService extends ProviderClass {
   }
 
   Future postReplyChat(dynamic data) async {
-    var response = await networkingConfig.doPostByMap(
-      '/chat/quick-reply',
+    var response = await networkingConfig.doPostByMap('/chat/quick-reply',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        });
+
+    return response;
+  }
+
+  Future updateReplyChat(dynamic data, int id) async {
+    var response = await networkingConfig.doUpdateByMap(
+      '/chat/quick-reply/${id}',
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      }
+      },
     );
 
     return response;
+  }
+
+  Future getFindReplyChat(int id) async {
+    var response = await networkingConfig.doGet(
+      '/chat/quick-reply/${id}',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    var jsonResponse = response['data'];
+    return jsonResponse;
   }
 }

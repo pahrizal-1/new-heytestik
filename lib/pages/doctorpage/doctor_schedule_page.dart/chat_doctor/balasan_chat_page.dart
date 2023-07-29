@@ -128,6 +128,7 @@ class _BalasanCepatPageState extends State<BalasanCepatPage> {
                       return CardTambhan(
                         title: state.quickListChat[index]['shortcut'],
                         subTitle: state.quickListChat[index]['message'],
+                        id: state.quickListChat[index]['id'],
                       );
                     }),
               ),
@@ -164,8 +165,14 @@ class _BalasanCepatPageState extends State<BalasanCepatPage> {
 class CardTambhan extends StatelessWidget {
   final String title;
   final String subTitle;
+  final int? id;
 
-  const CardTambhan({super.key, required this.title, required this.subTitle});
+  const CardTambhan({
+    super.key,
+    required this.title,
+    required this.subTitle,
+    this.id
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +193,7 @@ class CardTambhan extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const EditBalasanChat(),
+                builder: (context) => EditBalasanChat(id: id!),
               ),
             );
           },

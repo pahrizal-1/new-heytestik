@@ -13,7 +13,10 @@ class ChatBottomNavigator extends StatelessWidget {
   final void Function()? onCamera;
   final void Function()? onGallery;
   final int? roomId, senderId, receiverId;
-  final String? roomCode;
+  final String? roomCode, senderBy, receiverBy;
+  final void Function()? sendMsg;
+  // final void Function()? sendMsgQuick;
+  final void Function(String)? onChanged;
 
   const ChatBottomNavigator({
     Key? key,
@@ -24,6 +27,10 @@ class ChatBottomNavigator extends StatelessWidget {
     this.senderId,
     this.receiverId,
     this.roomCode,
+    this.senderBy,
+    this.receiverBy,
+    this.sendMsg,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -212,80 +219,77 @@ class ChatBottomNavigator extends StatelessWidget {
                         )),
                     hintStyle: subGreyTextStyle,
                   ),
-                  onChanged: (value) async {
-                    if (textC.text == '/') {
-                      Get.put(DoctorConsultationController()).isSuggestion.value = true;
-                      showBottomSheet(
-                        context: context,
-                        builder: (builder) => Obx(
-                          () => Visibility(
-                            visible: Get.put(DoctorConsultationController())
-                                .isSuggestion
-                                .value,
-                            child: Container(
-                              height: 150,
-                              width: 420,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                              ),
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: Get.put(DoctorConsultationController())
-                                      .quickReplyChat
-                                      .length,
-                                  itemBuilder: ((context, index) {
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        String desc =
-                                            Get.put(DoctorConsultationController())
-                                                    .quickReplyChat[index]
-                                                ['message'];
-                                        await Get.put(DoctorConsultationController())
-                                            .sendMessage(
-                                          roomId!,
-                                          roomId!,
-                                          senderId!,
-                                          receiverId!,
-                                          roomCode!,
-                                          desc,
-                                        );
-                                        Get.back();
-                                        Get.put(DoctorConsultationController())
-                                            .isSuggestion
-                                            .value = false;
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            Get.put(DoctorConsultationController())
-                                                    .quickReplyChat[index]
-                                                ['shortcut']),
-                                      ),
-                                    );
-                                  })),
-                            ),
-                          ),
-                        ),
-                      );
-                    } else if (textC.text.isEmpty) {
-                      Get.back();
-                      Get.put(DoctorConsultationController()).isSuggestion.value =
-                          false;
-                    }
-                  },
+                  onChanged: onChanged
+                  // (value) async {
+                  //   if (textC.text == '/') {
+                  //     Get.put(DoctorConsultationController())
+                  //         .isSuggestion
+                  //         .value = true;
+                  //     showBottomSheet(
+                  //       context: context,
+                  //       builder: (builder) => Obx(
+                  //         () => Visibility(
+                  //           visible: Get.put(DoctorConsultationController())
+                  //               .isSuggestion
+                  //               .value,
+                  //           child: Container(
+                  //             height: 150,
+                  //             width: 420,
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.grey[300],
+                  //             ),
+                  //             child: ListView.builder(
+                  //                 shrinkWrap: true,
+                  //                 itemCount:
+                  //                     Get.put(DoctorConsultationController())
+                  //                         .quickReplyChat
+                  //                         .length,
+                  //                 itemBuilder: ((context, index) {
+                  //                   return GestureDetector(
+                  //                     // onTap: () async {
+                  //                     //   String desc = Get.put(
+                  //                     //           DoctorConsultationController())
+                  //                     //       .quickReplyChat[index]['message'];
+                  //                     //     await sendMsg
+                  //                     //   // await Get.put(
+                  //                     //   //         DoctorConsultationController())
+                  //                     //   //     .sendMessage(
+                  //                     //   //         roomId!,
+                  //                     //   //         roomId!,
+                  //                     //   //         senderId!,
+                  //                     //   //         receiverId!,
+                  //                     //   //         roomCode!,
+                  //                     //   //         desc,
+                  //                     //   //         senderBy!,
+                  //                     //   //         receiverBy!);
+                  //                     //   Get.back();
+                  //                     //   Get.put(DoctorConsultationController())
+                  //                     //       .isSuggestion
+                  //                     //       .value = false;
+                  //                     // },
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.all(8.0),
+                  //                       child: Text(Get.put(
+                  //                               DoctorConsultationController())
+                  //                           .quickReplyChat[index]['shortcut']),
+                  //                     ),
+                  //                   );
+                  //                 })),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     );
+                  //   } else if (textC.text.isEmpty) {
+                  //     Get.back();
+                  //     Get.put(DoctorConsultationController())
+                  //         .isSuggestion
+                  //         .value = false;
+                  //   }
+                  // },
                 ),
               ),
               InkWell(
-                onTap: () {
-                  Get.put(DoctorConsultationController()).sendMessage(
-                    roomId!,
-                    roomId!,
-                    senderId!,
-                    receiverId!,
-                    roomCode!,
-                    textC.text,
-                  );
-                },
+                onTap: sendMsg,
                 child: Image.asset(
                   'assets/icons/Group 461.png',
                   width: 40,
@@ -301,6 +305,8 @@ class ChatBottomCostomer extends StatelessWidget {
   final TextEditingController textC;
   final int? roomId, senderId, receiverId;
   final String? roomCode;
+  final String? senderBy;
+  final String? receiverBy;
   const ChatBottomCostomer({
     Key? key,
     required this.textC,
@@ -308,6 +314,8 @@ class ChatBottomCostomer extends StatelessWidget {
     this.senderId,
     this.receiverId,
     this.roomCode,
+    this.senderBy,
+    this.receiverBy,
   }) : super(key: key);
 
   @override
@@ -361,13 +369,14 @@ class ChatBottomCostomer extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.put(CustomerChatController()).sendMessage(
-                    roomId!,
-                    roomId!,
-                    senderId!,
-                    receiverId!,
-                    roomCode!,
-                    textC.text,
-                  );
+                      roomId!,
+                      roomId!,
+                      senderId!,
+                      receiverId!,
+                      roomCode!,
+                      textC.text,
+                      senderBy!,
+                      receiverBy!);
                 },
                 child: Image.asset(
                   'assets/icons/Group 461.png',

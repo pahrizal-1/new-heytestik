@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/rendering.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'local_storage.dart';
 
@@ -130,6 +131,35 @@ class NetworkingConfig {
     }
   }
 
+  doUpdateByMap(
+    String endpoint, {
+    dynamic data,
+    Map<String, dynamic> headers = const {},
+  }) async {
+    try {
+      await preparation();
+      var response = await dio.patch(
+        Uri.encodeFull(Global.BASE_API + endpoint),
+        data: FormData.fromMap(data),
+        options: Options(
+          headers: headers,
+          validateStatus: (statusCode) {
+            debugPrint('status code $statusCode');
+            if (statusCode == null) {
+              debugPrint('status code null');
+              return false;
+            }
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
+          },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  }
+
   doUpdate(
     String endpoint,
     dynamic data,
@@ -137,7 +167,7 @@ class NetworkingConfig {
     try {
       await preparation();
       var response = await dio.patch(
-        Uri.encodeFull('https://heystetik.ahrulsyamil.com${endpoint}'),
+        Uri.encodeFull(Global.BASE_API + endpoint),
         data: data,
         options: Options(
           headers: {
