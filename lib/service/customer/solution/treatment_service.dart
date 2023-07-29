@@ -2,6 +2,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 
@@ -31,6 +32,23 @@ class TreatmentService extends ProviderClass {
     } catch (error) {
       print(error);
       return [];
+    }
+  }
+
+  Future<TreatmentModel> getAllTreatment(int page) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment',
+        params: {
+          "page": page,
+          "take": 10,
+        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+      );
+      return TreatmentModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return TreatmentModel();
     }
   }
 }

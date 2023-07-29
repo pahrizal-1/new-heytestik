@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/customer/notification.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
@@ -13,7 +15,7 @@ import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_pa
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
@@ -28,6 +30,9 @@ class SolutionsTreatment1Page extends StatefulWidget {
 class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   final LocationController state = Get.put(LocationController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
+  int page = 1;
+  List<Data2> treatments = [];
 
   int activeIndex = 0;
   final List<String> images = [
@@ -41,9 +46,23 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
       stateTreatment.getTopTreatment(context);
+      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+            setState(() {});
+          });
+        }
+      }
     });
   }
 
@@ -192,6 +211,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
           title: 'Mencari lokasi ...',
           isLoading: state.isLoading.value,
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Column(
               children: [
                 Padding(
@@ -449,7 +469,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             padding: EdgeInsets.only(left: 20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: const [
                                 CirkelCategory(
                                   title: 'Lihat\nSemua',
                                   img: 'assets/images/lainnya.png',
@@ -534,74 +554,19 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         child: Wrap(
                           spacing: 15,
                           runSpacing: 12,
-                          children: [
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: 'Rp250.000',
-                              harga: 'Rp200.000',
-                              urlImg: 'assets/images/lheatea.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'ZAP Plaza Senayan',
-                              namaTreatmen: 'Toning Laser',
-                              diskonProduk: '20',
-                              hargaDiskon: '1,250.000',
-                              harga: '1,200.000',
-                              urlImg: 'assets/images/zap-senayan.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'ZAP Plaza Senayan',
-                              namaTreatmen: 'IPL Rejuvenation',
-                              diskonProduk: '20',
-                              hargaDiskon: '100,000.000',
-                              harga: '10,200.000',
-                              urlImg: 'assets/images/Ipl1.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/laser1.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/laser2.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/lheatea.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                          ],
+                          children: treatments.map((element) {
+                            return ProdukTreatment(
+                              namaKlinik: element.clinic!.name!,
+                              namaTreatmen: element.name!,
+                              diskonProduk: '0',
+                              hargaDiskon: '0',
+                              harga: element.price!.toString(),
+                              urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                              rating: '${element.rating} (120k)',
+                              km: '${element.distance}',
+                              lokasiKlinik: element.clinic!.city!.name!,
+                            );
+                          }).toList(),
                         ),
                       )
                     ],

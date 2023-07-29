@@ -35,10 +35,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   void initState() {
     super.initState();
     state.init();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      stateNotification.getNotification(context, 1);
-      setState(() {});
-    });
   }
 
   @override
