@@ -5,7 +5,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 
 import 'package:provider/provider.dart';
@@ -116,7 +115,7 @@ class MyApp extends StatelessWidget {
         title: 'Heystetik Aplication',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
-        home: const EditProfilePage(),
+        home: const SplashScreenPage(),
       ),
     );
   }
