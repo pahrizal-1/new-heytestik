@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
@@ -58,29 +59,39 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
               width: 11,
             ),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(left: 13, right: 14),
-                height: 35,
-                decoration: BoxDecoration(
-                  color: subwhiteColor,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Center(
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/search1.png',
-                        width: 10,
-                        color: blackColor,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Cari Skincare',
-                        style: blackRegulerTextStyle,
-                      ),
-                    ],
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PencarianPageWidget(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(left: 13, right: 14),
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: subwhiteColor,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
+                          color: blackColor,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Cari Skincare',
+                          style: blackRegulerTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -478,9 +489,11 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${state.filterData.length} Produk',
-                          style: greyTextStyle.copyWith(fontSize: 15),
+                        Obx(
+                          () => Text(
+                            '${state.filterData.length} Produk',
+                            style: greyTextStyle.copyWith(fontSize: 15),
+                          ),
                         ),
                         InkWell(
                           onTap: () {
@@ -514,42 +527,52 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                     child: Obx(
                       () => LoadingWidget(
                         isLoading: state.isLoadingSkincare.value,
-                        child: Center(
-                          child: Wrap(
-                            spacing: 23,
-                            runSpacing: 12,
-                            children: state.filterData
-                                .map(
-                                  (e) => InkWell(
-                                    onTap: () {
-                                      Get.to(DetailSkinCarePage(
-                                        id: e.id!.toInt(),
-                                        productId: e
-                                            .mediaProducts![0].productId!
-                                            .toInt(),
-                                      ));
-                                    },
-                                    child: Produkheight(
-                                      produkId: e.id!.toInt(),
-                                      namaBrand:
-                                          e.skincareDetail!.brand.toString(),
-                                      namaProduk: e.name.toString(),
-                                      diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      harga: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      urlImg:
-                                          '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                      // rating: '4.9 (120k)',
-                                      rating: e.rating.toString(),
-                                      kota: 'Amerika Serikat',
-                                    ),
+                        child: state.filterData.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'Belum ada data',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 15,
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ),
+                                ),
+                              )
+                            : Wrap(
+                                spacing: 23,
+                                runSpacing: 12,
+                                children: state.filterData
+                                    .map(
+                                      (e) => InkWell(
+                                        onTap: () {
+                                          Get.to(DetailSkinCarePage(
+                                            id: e.id!.toInt(),
+                                            productId: e
+                                                .mediaProducts![0].productId!
+                                                .toInt(),
+                                          ));
+                                        },
+                                        child: Produkheight(
+                                          produkId: e.id!.toInt(),
+                                          namaBrand: e.skincareDetail!.brand
+                                              .toString(),
+                                          namaProduk: e.name.toString(),
+                                          diskonProduk: '20',
+                                          hargaDiskon:
+                                              CurrencyFormat.convertToIdr(
+                                                  e.price, 0),
+                                          harga: CurrencyFormat.convertToIdr(
+                                              e.price, 0),
+                                          urlImg:
+                                              '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                          // rating: '4.9 (120k)',
+                                          rating: e.rating.toString(),
+                                          kota: 'Amerika Serikat',
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                       ),
                     ),
                   )
