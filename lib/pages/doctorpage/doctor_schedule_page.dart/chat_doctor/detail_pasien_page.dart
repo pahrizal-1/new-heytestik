@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../../../controller/doctor/consultation/consultation_controller.dart';
+import '../../../../core/convert_date.dart';
 import '../../../../widget/Text_widget.dart';
+import '../../../../widget/loading_widget.dart';
 import '../../../../widget/text_form_widget.dart';
 
-class DetailPasienPage extends StatelessWidget {
-  const DetailPasienPage({super.key});
+class DetailPasienPage extends StatefulWidget {
+  final int id;
+  const DetailPasienPage({
+    super.key,
+    required this.id,
+  });
+
+  @override
+  State<DetailPasienPage> createState() => _DetailPasienPageState();
+}
+
+class _DetailPasienPageState extends State<DetailPasienPage> {
+  final DoctorConsultationController state =
+      Get.put(DoctorConsultationController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getDetailConsltation(context, widget.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,324 +53,287 @@ class DetailPasienPage extends StatelessWidget {
             const SizedBox(
               width: 11,
             ),
-            Text(
-              'Detail Pasien',
-              style: whiteTextStyle.copyWith(fontSize: 20),
+            InkWell(
+              onTap: () {
+                var a = state.listDetailConsultation.value.data!.id;
+                state.listDetailConsultation.value.data!.id = widget.id;
+                String b = a.toString();
+                print('id ' +
+                    state.listDetailConsultation.value.data!.id.toString());
+                print('rom ' + widget.id.toString());
+                print('b ' + b.toString());
+              },
+              child: Text(
+                'Detail Pasien',
+                style: whiteTextStyle.copyWith(fontSize: 20),
+              ),
             )
           ],
         ),
         backgroundColor: greenColor,
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: lsymetric.copyWith(top: 25, bottom: 46),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Info Konsultasi',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 9,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: state.listDetailConsultation.value.data!.id == widget.id
+              ? ListView(
                   children: [
-                    Text(
-                      'Status Konsultasi',
-                      style: subGreyTextStyle,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 30,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          color: orangeColor,
-                          borderRadius: BorderRadius.circular(42),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Review',
-                            style: whiteTextStyle,
+                    Padding(
+                      padding: lsymetric.copyWith(top: 25, bottom: 46),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Info Konsultasi',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Status Konsultasi',
+                                style: subGreyTextStyle,
+                              ),
+                              Container(
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: state.listDetailConsultation.value.data
+                                              ?.status ==
+                                          'AKTIF'
+                                      ? greenColor
+                                      : orangeColor,
+                                  borderRadius: BorderRadius.circular(42),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${state.listDetailConsultation.value.data!.status}',
+                                    style: whiteTextStyle,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TextBoldSpacebetwen(
+                            title: 'ID Konsultasi',
+                            title2:
+                                '${state.listDetailConsultation.value.data!.code}',
+                            title1: '',
+                          ),
+                          TextBoldSpacebetwen(
+                            title: 'Tanggal',
+                            title2: ConvertDate.defaultDate(
+                              '${state.listDetailConsultation.value.data!.createdAt}',
+                            ),
+                            title1: '',
+                          ),
+                          TextBoldSpacebetwen(
+                            title: 'Masa Aktif',
+                            title2:
+                                '${state.listDetailConsultation.value.data!.duration}',
+                            title1: '',
+                          ),
+                          const SizedBox(
+                            height: 46,
+                          ),
+                          Text(
+                            'Info Pasien',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                          TextBoldSpacebetwen(
+                            title: 'Nama Pasien',
+                            title2:
+                                '${state.listDetailConsultation.value.data!.customer!.fullname}',
+                            title1: '',
+                          ),
+                          TextBoldSpacebetwen(
+                            title: 'Topik Keluhan',
+                            title2:
+                                '${state.listDetailConsultation.value.data!.medicalHistory!.interestCondition!.name}',
+                            title1: '',
+                          ),
+                        ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 19),
+                      child: Text(
+                        'Pre-Assessment',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 200),
+                    //   child: Container(
+                    //     height: 34,
+                    //     width: 1,
+                    //     padding: const EdgeInsets.only(
+                    //         top: 8, left: 25, bottom: 11, right: 19),
+                    //     decoration: BoxDecoration(
+                    //         color: greenColor,
+                    //         borderRadius: const BorderRadius.only(
+                    //             topRight: Radius.circular(20),
+                    //             bottomRight: Radius.circular(20))),
+                    //     child: Text(
+                    //       'Pertanyaan Umum',
+                    //       style: whiteTextStyle.copyWith(fontSize: 16),
+                    //     ),
+                    //   ),
+                    // ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            // height: Get.height,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state
+                                    .listDetailConsultation
+                                    .value
+                                    .data!
+                                    .medicalHistory!
+                                    .medicalHistoryItems!
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      PeryataanUmumTextFrom(
+                                        pernyattan:
+                                            '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.id}' +
+                                                '. ' +
+                                                '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.name!}',
+                                        jawaban:
+                                            '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsAnswer!.name!}',
+                                      ),
+                                    ],
+                                  );
+                                })),
+                      ],
+                    ),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Foto Kondisi Pasien',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Container(
+                              height: 110,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: state
+                                      .listDetailConsultation
+                                      .value
+                                      .data!
+                                      .medicalHistory!
+                                      .mediaMedicalHistories!
+                                      .length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 80,
+                                      margin: EdgeInsets.only(
+                                        right: 8,
+                                      ),
+                                      child: Image.network(
+                                        'http://192.168.0.118:8193/files/' +
+                                            '${state.listDetailConsultation.value.data!.medicalHistory!.mediaMedicalHistories![index].media!.path!}',
+                                      ),
+                                    );
+                                  })),
+                          Text(
+                            '*Klik foto untuk memperbesar',
+                            style: greyTextStyle.copyWith(
+                                fontStyle: FontStyle.italic),
+                          ),
+                          const SizedBox(
+                            height: 37,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: TextButton(
+                              onPressed: () {
+                                state.listDetailConsultation.value.data
+                                            ?.status ==
+                                        'AKTIF'
+                                    ? null
+                                    : state.postFinish(context, widget.id);
+
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const TambahanSkinCare()));
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: state.listDetailConsultation
+                                            .value.data?.status ==
+                                        'AKTIF'
+                                    ? greyColor
+                                    : greenColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text('Pre-Assessment Review Selesai',
+                                  style: whiteTextStyle.copyWith(
+                                      fontStyle: FontStyle.italic)),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          state.listDetailConsultation.value.data?.status ==
+                                  'AKTIF'
+                              ? SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 45,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CatatanDocter()));
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: greenColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text('Catatan Doktor',
+                                        style: whiteTextStyle.copyWith(
+                                            fontStyle: FontStyle.italic)),
+                                  ),
+                                )
+                              : Container(),
+                          SizedBox(height: 10),
+                        ],
+                      ),
+                    )
                   ],
-                ),
-                const TextBoldSpacebetwen(
-                  title: 'ID Konsultasi',
-                  title2: 'K1Z4DWJST',
-                  title1: '',
-                ),
-                const TextBoldSpacebetwen(
-                  title: 'Tanggal',
-                  title2: '13 Mei 2023',
-                  title1: '',
-                ),
-                const TextBoldSpacebetwen(
-                  title: 'Masa Aktif',
-                  title2: 'K1Z4DWJST',
-                  title1: '',
-                ),
-                const SizedBox(
-                  height: 46,
-                ),
-                Text(
-                  'Info Pasien',
-                  style: blackHigtTextStyle.copyWith(fontSize: 15),
-                ),
-                const TextBoldSpacebetwen(
-                  title: 'Nama Pasien',
-                  title2: 'Rina Rasmalina',
-                  title1: '',
-                ),
-                const TextBoldSpacebetwen(
-                  title: 'Topik Keluhan',
-                  title2: 'Bekas Jerawat',
-                  title1: '',
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 19),
-            child: Text(
-              'Pre-Assessment',
-              style: blackHigtTextStyle.copyWith(fontSize: 18),
-            ),
-          ),
-          const SizedBox(
-            height: 9,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 200),
-            child: Container(
-              height: 34,
-              width: 1,
-              padding: const EdgeInsets.only(
-                  top: 8, left: 25, bottom: 11, right: 19),
-              decoration: BoxDecoration(
-                  color: greenColor,
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-              child: Text(
-                'Pertanyaan Umum',
-                style: whiteTextStyle.copyWith(fontSize: 16),
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '1 .Menurutmu, kulit wajahmu termasuk tipe yang mana?',
-                jawaban: 'Kombinasi',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan: '2 .Apakah kamu mempunyai kulit yang sensitif?',
-                jawaban: 'Kombinasi',
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 200),
-            child: Container(
-              height: 34,
-              width: 1,
-              padding: const EdgeInsets.only(
-                  top: 8, left: 25, bottom: 11, right: 19),
-              decoration: BoxDecoration(
-                  color: greenColor,
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-              child: Text(
-                'Riwayat Medis',
-                style: whiteTextStyle.copyWith(fontSize: 16),
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PeryataanUmumTextFrom(
-                pernyattan: '1 .Area mana yang terdapat acne/jerawat?',
-                jawaban: 'Dagu, Pipi ',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '2 .Apakah kamu selalu pakai full make up setiap hari?',
-                jawaban: 'Ya',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan: '3 .Seberapa sering beraktifitas dibawah matahari?',
-                jawaban: 'Ya',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '4 .Apakah ada produk skincare yang rutin kamu gunakan untuk wajahmu??',
-                jawaban: 'Ya',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan: '5 .Apakah punya riwayat alergi?',
-                jawaban: 'Ya, Alergi udang',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan: '6 .Pilih tipe perawatan yang kamu inginkan',
-                jawaban:
-                    'Pilihan lengkan & terbaik, hasil cepat terlihat (Rp250.000 - Rp450.000 per 4-5 produk)',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '7 .Apakah ada kondisi medis/penyakit yang kamu miliki?',
-                jawaban: 'Tidak',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '8 .Apakah ada obat-obatan yang rutin dikonsumsi saat ini?',
-                jawaban: 'Ya',
-              ),
-              PeryataanUmumTextFrom(
-                pernyattan:
-                    '9 .Apakah ada obat-obatan yang rutin dikonsumsi saat ini?',
-                jawaban: 'Lebih dari 6 bulan',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Foto Kondisi Pasien',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 110,
-                        width: 80,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/tampak-depan.png'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        height: 110,
-                        width: 80,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/images/zoom1.png'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        height: 110,
-                        width: 80,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/images/kanan1.png'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        height: 110,
-                        width: 80,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/images/kiri1.png'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  '*Klik foto untuk memperbesar',
-                  style: greyTextStyle.copyWith(fontStyle: FontStyle.italic),
-                ),
-                const SizedBox(
-                  height: 37,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 45,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const TambahanSkinCare()));
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: greenColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text('Pre-Assessment Review Selesai',
-                        style: whiteTextStyle.copyWith(
-                            fontStyle: FontStyle.italic)),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+                )
+              : Container(),
+        ),
       ),
     );
   }

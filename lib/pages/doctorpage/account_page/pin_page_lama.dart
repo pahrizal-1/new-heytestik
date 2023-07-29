@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_baru.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
+import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/costoum_pin_widgets.dart';
 
 class PinPageLamaDoctor extends StatefulWidget {
@@ -14,41 +16,37 @@ class PinPageLamaDoctor extends StatefulWidget {
 
 class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
   final TextEditingController pinController = TextEditingController(text: '');
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
   String pin = '123456';
   bool isErr = false;
 
   addPin(String number) {
     print('number $number');
-    if (pinController.text.length < 6) {
+    if (state.pinOldController.text.length < 6) {
       setState(() {
-        pinController.text = pinController.text + number;
+        state.pinOldController.text = state.pinOldController.text + number;
       });
     }
 
-    if (pinController.text.length == 6) {
-      if (pinController.text == pin) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PinPageBaruDoctor()));
-        print('pin');
-      } else {
-        print('Password salah');
-        isErr = true;
-        Text(
-          'Password anda salah',
-          style: blackTextStyle.copyWith(color: redColor),
-        );
-      }
+    if (state.pinOldController.text.length == 6) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PinPageBaruDoctor(
+            pinOld: state.pinOldController.text,
+          ),
+        ),
+      );
     }
-
-    print('pinController ${pinController.text}');
   }
 
   deletedPin() {
-    if (pinController.text.isNotEmpty) {
+    if (state.pinOldController.text.isNotEmpty) {
       setState(() {
         isErr = false;
-        pinController.text =
-            pinController.text.substring(0, pinController.text.length - 1);
+        state.pinOldController.text = state.pinOldController.text
+            .substring(0, state.pinOldController.text.length - 1);
       });
     }
   }
@@ -64,6 +62,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
               padding: const EdgeInsets.only(left: 21, top: 50),
               child: InkWell(
                   onTap: () {
+                    state.pinOldController.text ='';
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -101,7 +100,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 1)
+                          (state.pinOldController.text.length >= 1)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           size: 15,
@@ -111,7 +110,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 2)
+                          (state.pinOldController.text.length >= 2)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -121,7 +120,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 3)
+                          (state.pinOldController.text.length >= 3)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -131,7 +130,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 4)
+                          (state.pinOldController.text.length >= 4)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -141,7 +140,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 5)
+                          (state.pinOldController.text.length >= 5)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -151,7 +150,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length == 6)
+                          (state.pinOldController.text.length == 6)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,

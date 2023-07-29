@@ -43,16 +43,16 @@ class DoctorProfileController extends StateClass {
   var changePasswordService = ChangePasswordService();
   String? gender = 'male';
 
-  Future getProfile() async {
+  Future getProfile(BuildContext context) async {
     isLoading.value = true;
-    var response = await profileService.getProfile();
-    profileData.value = response;
-    print('GetUserInfoDataDompet : ' +
-        profileData.value.data!.fullname.toString());
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await profileService.getProfile();
+      profileData.value = response;
 
-    nama.text = profileData.value.data!.fullname.toString();
-    email.text = profileData.value.data!.email.toString();
-    noHp.text = profileData.value.data!.noPhone.toString();
+      nama.text = profileData.value.data!.fullname.toString();
+      email.text = profileData.value.data!.email.toString();
+      noHp.text = profileData.value.data!.noPhone.toString();
+    });
     isLoading.value = false;
   }
 

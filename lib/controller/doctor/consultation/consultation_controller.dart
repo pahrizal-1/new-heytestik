@@ -19,6 +19,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/local_storage.dart';
+import '../../../models/doctor/detail_constultation_model.dart'
+    as DetailConstultaion;
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -44,6 +46,7 @@ class DoctorConsultationController extends StateClass {
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
+  RxString dateStr = ''.obs;
 
   File? imagePath;
   RxString mediaImg = ''.obs;
@@ -54,10 +57,16 @@ class DoctorConsultationController extends StateClass {
 
   Rx<RecentChat.RecentChatModel?> recentChat =
       RecentChat.RecentChatModel.fromJson({}).obs;
+  Rx<DetailConstultaion.ConsultationDetailModel?> constultaionDetail =
+      DetailConstultaion.ConsultationDetailModel.fromJson({}).obs;
   RxInt totalRecentChatActive = 0.obs;
   RxInt totalRecentChatDone = 0.obs;
   List<RecentChat.Data> recentChatActive = [];
   List<RecentChat.Data> recentChatDone = [];
+  // List<DetailConstultaion.Data> listDetailConsultation = [];
+  Rx<DetailConstultaion.ConsultationDetailModel> listDetailConsultation =
+      DetailConstultaion.ConsultationDetailModel().obs;
+
   List<Data2>? msglist = [];
 
   IO.Socket? _socket;
@@ -174,7 +183,7 @@ class DoctorConsultationController extends StateClass {
       }
 
       for (int i = 0; i < recentChat.value!.data!.length; i++) {
-        if (recentChat.value!.data![i].doctor!.isActive!) {
+        if (recentChat.value!.data![i].ended == false) {
           // ADD RECENT CHAT ACTIVE
           recentChatActive.add(recentChat.value!.data![i]);
         } else {
@@ -225,6 +234,30 @@ class DoctorConsultationController extends StateClass {
     } else {
       print("image not selected");
     }
+  }
+
+  Future getDetailConsltation(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response =
+          await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
+
+      listDetailConsultation.value = response;
+
+      log('resp  ' +
+          listDetailConsultation.value.data!.customer!.fullname.toString());
+    });
+    isLoading.value = false;
+  }
+
+  postFinish(BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await ConsultationDoctorScheduleServices().postFinishReview(id);
+      print('res' + res.toString());
+      Navigator.pop(context);
+      isLoading.value = false;
+    });
   }
 
   // image multiple

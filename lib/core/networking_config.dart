@@ -190,6 +190,34 @@ class NetworkingConfig {
     }
   }
 
+  doUpdateFinish(
+    String endpoint,
+  ) async {
+    try {
+      await preparation();
+      var response = await dio.patch(
+        Uri.encodeFull(Global.BASE_API + endpoint),
+        options: Options(
+          headers: {
+            'authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          },
+          validateStatus: (statusCode) {
+            debugPrint('status code $statusCode');
+            if (statusCode == null) {
+              debugPrint('status code null');
+              return false;
+            }
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
+          },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  }
+
   // doUpdate(
   //   String endpoint, {
   //   dynamic data,
