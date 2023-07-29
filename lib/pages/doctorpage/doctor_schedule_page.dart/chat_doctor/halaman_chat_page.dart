@@ -365,7 +365,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
                       // topic: 'Licorice',
                       img: 'assets/images/doctor-img.png',
-                      time: CurrenctTime.timeChat(state
+                      time: CurrentTime.timeChat(state
                           .recentChatActive[i].lastChat!.createdAt
                           .toString()),
                       valueChat:
@@ -448,7 +448,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                       img: 'assets/icons/logo.png',
                       chat: state.recentChatDone[i].lastChat!.message ?? '-',
                       // topic: 'Licorice',
-                      time: CurrenctTime.timeChat(
+                      time: CurrentTime.timeChat(
                           state.recentChatActive[i].createdAt.toString()),
 
                       seen: state.recentChatActive[i].lastChat!.seen ?? false,

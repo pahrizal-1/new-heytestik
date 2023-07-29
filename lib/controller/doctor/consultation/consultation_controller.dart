@@ -60,12 +60,12 @@ class DoctorConsultationController extends StateClass {
           // if (startTime.value.isNotEmpty ||
           //     startTime.value != '-' ||
           //     startTime.value != '') {
-          startTime1.value = CurrenctTime.getFirstTime(
+          startTime1.value = CurrentTime.getFirstTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
           print('startTime1 ${startTime1.value}');
 
-          startTime2.value = CurrenctTime.getLastTime(
+          startTime2.value = CurrentTime.getLastTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
           print('startTime2 ${startTime2.value}');
@@ -79,12 +79,12 @@ class DoctorConsultationController extends StateClass {
           // if (endTime.value.isNotEmpty ||
           //     endTime.value != '-' ||
           //     endTime.value != '') {
-          endTime1.value = CurrenctTime.getFirstTime(
+          endTime1.value = CurrentTime.getFirstTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
           print('endTime1 ${startTime2.value}');
 
-          endTime2.value = CurrenctTime.getLastTime(
+          endTime2.value = CurrentTime.getLastTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
           print('endTime2 ${startTime2.value}');

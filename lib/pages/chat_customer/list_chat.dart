@@ -56,7 +56,7 @@ class _ListChatPageState extends State<ListChatPage> {
                           state.recentChat.value!.data?[i].lastChat?.message ??
                               '',
                       img: 'assets/images/doctor-img.png',
-                      time: CurrenctTime.timeChat(
+                      time: CurrentTime.timeChat(
                         state.recentChat.value!.data![i].lastChat!.createdAt
                             .toString(),
                       ),
