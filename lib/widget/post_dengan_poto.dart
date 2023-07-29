@@ -98,7 +98,7 @@ class PostDenganPoto extends StatelessWidget {
                 children: [
                   const PotoJourney(),
                   Container(
-                    height: 100,
+                    height: 90,
                     width: 2,
                     color: whiteColor,
                   ),

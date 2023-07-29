@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class CurrenctTime {
+class CurrentTime {
   DateTime datetime = DateTime.now();
 
   String timeNow() {

@@ -55,7 +55,7 @@ class VerifikasiKtpPage extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 50, left: 83, right: 83),
+            padding: const EdgeInsets.only(top: 60, left: 75, right: 25),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

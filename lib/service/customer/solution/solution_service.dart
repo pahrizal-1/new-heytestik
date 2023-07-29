@@ -22,6 +22,17 @@ class SolutionService extends ProviderClass {
     return SkincareModel.fromJson(response);
   }
 
+  Future<SkincareModel> getSkincareByCategory(String category) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=asc',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+
+    return SkincareModel.fromJson(response);
+  }
+
   Future<DetailSkincareSolutionModel> detailSkincare(int id) async {
     var response = await networkingConfig.doGet(
       '/solution/skincare/$id',

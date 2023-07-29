@@ -20,8 +20,7 @@ class HomeStreamPage extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 17, top: 16, bottom: 18),
+                padding: const EdgeInsets.only(left: 20, right: 17, top: 16, bottom: 18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -34,8 +33,7 @@ class HomeStreamPage extends StatelessWidget {
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/profiledummy.png'),
+                              image: AssetImage('assets/images/profiledummy.png'),
                             ),
                           ),
                         ),
@@ -132,8 +130,7 @@ class HomeStreamPage extends StatelessWidget {
                               width: 21,
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/icons/bookmark-icons.png'),
+                                  image: AssetImage('assets/icons/bookmark-icons.png'),
                                 ),
                               ),
                             ),
@@ -144,8 +141,7 @@ class HomeStreamPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const KomentarStreamPage(),
+                                builder: (context) => const KomentarStreamPage(),
                               ),
                             );
                           },
@@ -153,11 +149,7 @@ class HomeStreamPage extends StatelessWidget {
                             children: [
                               Text(
                                 '13',
-                                style: TextStyle(
-                                    color: greyColor,
-                                    fontSize: 14,
-                                    fontWeight: bold,
-                                    fontFamily: 'ProximaNova'),
+                                style: TextStyle(color: greyColor, fontSize: 14, fontWeight: bold, fontFamily: 'ProximaNova'),
                               ),
                               const SizedBox(
                                 width: 5,
@@ -167,8 +159,7 @@ class HomeStreamPage extends StatelessWidget {
                                 width: 20,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/icons/komen1.png'),
+                                    image: AssetImage('assets/icons/komen1.png'),
                                   ),
                                 ),
                               )

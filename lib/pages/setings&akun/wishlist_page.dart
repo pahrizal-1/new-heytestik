@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
@@ -18,7 +23,17 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
+  final WishlistController state = Get.put(WishlistController());
+
   bool isSelecteTampilan = true;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getWistlist(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +108,10 @@ class _WishListPageState extends State<WishListPage> {
                     transform: Matrix4.translationValues(0, -3, 0),
                     constraints: const BoxConstraints(maxWidth: 300),
                     child: TextFormField(
+                      controller: state.searchController,
+                      onChanged: (value) {
+                        state.onChangeFilterText(value);
+                      },
                       style: const TextStyle(
                           fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
@@ -113,120 +132,124 @@ class _WishListPageState extends State<WishListPage> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          StickyHeader(
-              header: Container(
-                padding: const EdgeInsets.only(top: 10, bottom: 9),
-                color: whiteColor,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: lsymetric,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '4 Produk',
-                            style: blackTextStyle.copyWith(
-                                color: const Color(0xff6B6B6B), fontSize: 15),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isSelecteTampilan = !isSelecteTampilan;
-                              });
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Tampilan',
-                                  style: blackTextStyle.copyWith(
-                                      color: const Color(0xff6B6B6B),
-                                      fontSize: 15),
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                isSelecteTampilan
-                                    ? SvgPicture.asset(
-                                        'assets/icons/tampilan1.svg',
-                                        width: 12,
-                                        height: 12,
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/icons/tampillan2.svg',
-                                        width: 12,
-                                        height: 12,
-                                      )
-                              ],
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: ListView(
+            children: [
+              StickyHeader(
+                header: Container(
+                  padding: const EdgeInsets.only(top: 10, bottom: 9),
+                  color: whiteColor,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: lsymetric,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${state.filterData.length} Produk',
+                              style: blackTextStyle.copyWith(
+                                  color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
-                          )
-                        ],
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isSelecteTampilan = !isSelecteTampilan;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Tampilan',
+                                    style: blackTextStyle.copyWith(
+                                        color: const Color(0xff6B6B6B),
+                                        fontSize: 15),
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  isSelecteTampilan
+                                      ? SvgPicture.asset(
+                                          'assets/icons/tampilan1.svg',
+                                          width: 12,
+                                          height: 12,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/icons/tampillan2.svg',
+                                          width: 12,
+                                          height: 12,
+                                        )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 13,
+                      ),
+                    ],
+                  ),
+                ),
+                content: Padding(
+                  padding: lsymetric,
+                  child: state.filterData.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Belum ada wishlist',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 18,
+                            ),
+                          ),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical, // use it
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 0.5,
+                          ),
+                          itemCount: state.filterData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ProdukWitlist(
+                              id: state.filterData[index].id!.toInt(),
+                              namaBrand: state.filterData[index].product!
+                                      .skincareDetail?.brand ??
+                                  '-',
+                              namaProduk:
+                                  state.filterData[index].product?.name ?? '-',
+                              diskonProduk: '20',
+                              hargaDiskon: CurrencyFormat.convertToIdr(
+                                state.filterData[index].product?.price,
+                                0,
+                              ),
+                              harga: CurrencyFormat.convertToIdr(
+                                state.filterData[index].product?.price,
+                                0,
+                              ),
+                              urlImg:
+                                  '${Global.FILE}/${state.filterData[index].product?.mediaProducts?[0].media?.path}',
+                              rating:
+                                  '${state.filterData[index].product?.rating} (120k)',
+                              kota: 'Amerika Serikat',
+                            );
+                          },
+                        ),
                 ),
               ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 25,
-                    ),
-                    child: Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: [
-                        ProdukWitlist(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20',
-                            hargaDiskon: '250.000',
-                            harga: '200.000',
-                            urlImg: 'assets/images/edocare.png',
-                            rating: '4.9 (120k)',
-                            kota: 'Amerika Serikat'),
-                        ProdukWitlist(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20',
-                            hargaDiskon: '250.000',
-                            harga: '200.000',
-                            urlImg: 'assets/images/edocare.png',
-                            rating: '4.9 (120k)',
-                            kota: 'Amerika Serikat'),
-                        ProdukWitlist(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20',
-                            hargaDiskon: '250.000',
-                            harga: '200.000',
-                            urlImg: 'assets/images/edocare.png',
-                            rating: '4.9 (120k)',
-                            kota: 'Amerika Serikat'),
-                        ProdukWitlist(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20',
-                            hargaDiskon: '250.000',
-                            harga: '200.000',
-                            urlImg: 'assets/images/edocare.png',
-                            rating: '4.9 (120k)',
-                            kota: 'Amerika Serikat'),
-                      ],
-                    ),
-                  )
-                ],
-              )),
-          const SizedBox(
-            height: 14,
+              const SizedBox(
+                height: 14,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

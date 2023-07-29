@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
@@ -39,19 +40,22 @@ class LoginController extends StateClass {
       };
 
       var loginResponse = await LoginService().login(data);
+
+      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
       print(loginResponse);
       print(loginResponse['data']['token']);
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
-      await LocalStorage()
-          .setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage()
-          .setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage()
-          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage()
-          .setUserID(userID: loginResponse['data']['user']['id']);
+      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
       clear();
     });
@@ -75,6 +79,42 @@ class LoginController extends StateClass {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Get.off(() => const TabBarCustomer());
       });
+    }
+  }
+
+  loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
+    try {
+      isLoading.value = true;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        const List<String> scopes = <String>[
+          'email',
+        ];
+
+        GoogleSignIn _googleSignIn = GoogleSignIn(
+          scopes: scopes,
+        );
+
+        print("DISINI");
+        await _googleSignIn.signIn();
+        // await _googleSignIn.requestScopes(scopes);
+
+        _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
+          print(account);
+        });
+
+        print("DISINI");
+        print(await _googleSignIn.isSignedIn());
+
+        if (await _googleSignIn.isSignedIn()) {
+          final googleAuth = await _googleSignIn.currentUser?.authentication;
+          print(googleAuth!.accessToken);
+        }
+
+        doInPost();
+      });
+      isLoading.value = false;
+    } catch (error) {
+      print(error);
     }
   }
 }

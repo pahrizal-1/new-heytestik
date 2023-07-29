@@ -260,9 +260,28 @@ class DetailObatPage extends StatelessWidget {
                   height: 12,
                 ),
                 TitleDetail(
-                  title1: 'Jenis Obat',
-                  title2: 'Topikal',
+                  ontap: () {},
+                  title1: 'Concern',
+                  title2: 'Bekas Jerawat, Kulit Kering',
+                  textColor: greenColor,
+                ),
+                TitleDetail(
+                  title1: 'Bentuk Obat',
+                  title2: 'Krim',
                   textColor: blackColor,
+                  fontWeight: regular,
+                ),
+                TitleDetail(
+                  title1: 'No. BPOM',
+                  title2: 'DKL8817605529A1',
+                  textColor: blackColor,
+                  fontWeight: regular,
+                ),
+                TitleDetail(
+                  title1: 'Manufaktur',
+                  title2: 'Interbat',
+                  textColor: blackColor,
+                  fontWeight: regular,
                 ),
                 const SizedBox(
                   height: 16,

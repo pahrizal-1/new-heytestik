@@ -164,3 +164,63 @@ class AlertDialogLogout extends StatelessWidget {
     );
   }
 }
+
+class AlertInfomasi extends StatelessWidget {
+  Function function;
+  AlertInfomasi({required this.function, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0.1),
+      content: Container(
+          height: 176,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Apakah Anda Akan Hapus?',
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 17, color: blackColor),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Tidak',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(width: 30),
+                    InkWell(
+                      onTap: () async {
+                        await function();
+                      },
+                      child: Text(
+                        'Ya',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+  }
+}

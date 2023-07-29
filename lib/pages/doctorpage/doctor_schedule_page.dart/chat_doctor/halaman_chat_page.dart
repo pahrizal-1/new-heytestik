@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -19,13 +20,12 @@ class HalamanChatPage extends StatefulWidget {
 class _HalamanChatPageState extends State<HalamanChatPage> {
   final DoctorConsultationController state =
       Get.put(DoctorConsultationController());
-  int _wigetIndex = 0;
   bool isSelcted = false;
 
   @override
   void initState() {
     super.initState();
-    state.getListRecentChat();
+    state.getListRecentChat(context);
   }
 
   @override
@@ -35,48 +35,111 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                state.getListRecentChat();
-              },
-              child: Container(
-                height: 275,
-                color: whiteColor,
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      height: 156,
-                      color: greenColor,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/logoheystetik.png',
-                            width: 122,
-                          ),
-                        ],
-                      ),
+            Container(
+              height: 275,
+              color: whiteColor,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    height: 156,
+                    color: greenColor,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/logoheystetik.png',
+                          width: 122,
+                        ),
+                      ],
                     ),
-                    FutureBuilder(
-                      future: state.getCurrentDoctorSchedule(context),
-                      builder: (context,
-                          AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
-                        print(snapshot.connectionState);
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                  ),
+                  FutureBuilder(
+                    future: state.getCurrentDoctorSchedule(context),
+                    builder: (context,
+                        AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
+                      print(snapshot.connectionState);
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Positioned(
+                          left: 20,
+                          right: 20,
+                          top: 112,
+                          child: shimmerWidget(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: whiteColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
                           return Positioned(
                             left: 20,
                             right: 20,
                             top: 112,
-                            child: shimmerWidget(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  color: whiteColor,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              // height: 140,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: whiteColor,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 18),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Jadwal Saya hari ini',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 15),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          'Atur Jadwal',
+                                          style: grenTextStyle.copyWith(
+                                              fontSize: 15),
+                                        ),
+                                        Icon(
+                                          Icons.keyboard_arrow_right,
+                                          color: greenColor,
+                                          size: 30,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Obx(
+                                      () => currentSchedule(
+                                        state.isFirstSchedule.value,
+                                        state.isFirstSchedule.value
+                                            ? 'Online'
+                                            : 'Jam pertama',
+                                        state.startTime.value,
+                                      ),
+                                    ),
+                                    const Divider(
+                                      thickness: 1,
+                                    ),
+                                    Obx(
+                                      () => currentSchedule(
+                                        state.isSecondSchedule.value,
+                                        state.isSecondSchedule.value
+                                            ? 'Online'
+                                            : 'Jam berikutnya',
+                                        state.endTime.value,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -88,98 +151,18 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               style: TextStyle(
                                 fontWeight: bold,
                                 fontFamily: 'ProximaNova',
-                                fontSize: 20,
+                                fontSize: 15,
                               ),
                             ),
                           );
                         }
-                        // if (snapshot.connectionState == ConnectionState.done) {
-                        //   if (snapshot.hasData) {
-                        //     return Positioned(
-                        //       left: 20,
-                        //       right: 20,
-                        //       top: 112,
-                        //       child: Container(
-                        //         width: MediaQuery.of(context).size.width,
-                        //         // height: 140,
-                        //         decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(7),
-                        //           color: whiteColor,
-                        //         ),
-                        //         child: Padding(
-                        //           padding: const EdgeInsets.symmetric(
-                        //               horizontal: 16, vertical: 18),
-                        //           child: Column(
-                        //             children: [
-                        //               Row(
-                        //                 children: [
-                        //                   Text(
-                        //                     'Jadwal Saya hari ini',
-                        //                     style: blackHigtTextStyle.copyWith(
-                        //                         fontSize: 15),
-                        //                   ),
-                        //                   const Spacer(),
-                        //                   Text(
-                        //                     'Atur Jadwal',
-                        //                     style: grenTextStyle.copyWith(
-                        //                         fontSize: 15),
-                        //                   ),
-                        //                   Icon(
-                        //                     Icons.keyboard_arrow_right,
-                        //                     color: greenColor,
-                        //                     size: 30,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               const SizedBox(
-                        //                 height: 20,
-                        //               ),
-                        //               Obx(
-                        //                 () => currentSchedule(
-                        //                   state.isFirstSchedule.value,
-                        //                   state.isFirstSchedule.value
-                        //                       ? 'Online'
-                        //                       : 'Jam pertama',
-                        //                   state.startTime.value,
-                        //                 ),
-                        //               ),
-                        //               const Divider(
-                        //                 thickness: 1,
-                        //               ),
-                        //               Obx(
-                        //                 () => currentSchedule(
-                        //                   state.isSecondSchedule.value,
-                        //                   state.isSecondSchedule.value
-                        //                       ? 'Online'
-                        //                       : 'Jam berikutnya',
-                        //                   state.endTime.value,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     );
-                        //   } else {
-                        //     return Center(
-                        //       child: Text(
-                        //         'Tidak ada jadwal',
-                        //         style: TextStyle(
-                        //           fontWeight: bold,
-                        //           fontFamily: 'ProximaNova',
-                        //           fontSize: 15,
-                        //         ),
-                        //       ),
-                        //     );
-                        //   }
-                        // } else {
-                        //   return Text(
-                        //       'Connection State: ${snapshot.connectionState}');
-                        // }
-                      },
-                    ),
-                  ],
-                ),
+                      } else {
+                        return Text(
+                            'Connection State: ${snapshot.connectionState}');
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -268,52 +251,6 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    // Obx(() {
-                    //   // if (state.isLoading.value == false) {
-                    //   //   return Positioned(
-                    //   //     left: 20,
-                    //   //     right: 20,
-                    //   //     top: 112,
-                    //   //     child: shimmerWidget(
-                    //   //       child: Container(
-                    //   //         width: MediaQuery.of(context).size.width,
-                    //   //         height: 140,
-                    //   //         decoration: BoxDecoration(
-                    //   //           borderRadius: BorderRadius.circular(7),
-                    //   //           color: whiteColor,
-                    //   //         ),
-                    //   //       ),
-                    //   //     ),
-                    //   //   );
-                    //   // }
-                    //   return Container(
-                    //     height: Get.height,
-                    //     child: ListView.builder(
-                    //         shrinkWrap: true,
-                    //         itemCount: state.listRecentChat.length,
-                    //         itemBuilder: (context, index) {
-                    //           return ChatAktif(
-                    //             nametile: state.listRecentChat[index]['customer']['fullname'],
-                    //             subNameTitle:
-                    //                 '22 tahun; Korektif Wajah - Bekas Jerawat',
-                    //             topic: 'Licorice',
-                    //             sendBy: state.listRecentChat[index]['doctor']['fullname'],
-                    //             menit: '11:30 PM',
-                    //             pesanChat: state.listRecentChat[index]['unseen_count'],
-                    //             chat: state.listRecentChat[index]['last_chat']['message'],
-                    //             category: 'Skin Care',
-                    //             roomCode: state.listRecentChat[index]['code'],
-                    //             roomId: state.listRecentChat[index]['id'],
-                    //             senderId: state.listRecentChat[index]['doctor']['id'],
-                    //             receiverId: state.listRecentChat[index]['customer']['id'],
-                    //           );
-                    //         }),
-                    //   );
-                    // })
-                    // Column(
-                    // const SizedBox(
-                    //   height: 24,
-                    // ),
                     Obx(
                       () => state.wigetIndex.value == 0 ? isActive() : isDone(),
                     ),
@@ -385,36 +322,30 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.totalRecentChatActive.value,
                 itemBuilder: (BuildContext context, int i) {
-                  return InkWell(
-                    onTap: () {
-                      print(state.recentChatActive[i].code);
-                      // Get.to(
-                      //   const ChatDoctorPage(),
-                      // );
-                    },
-                    child: ChatAktif(
-                      roomCode: state.recentChatActive[i].code.toString(),
-                      roomId: state.recentChatActive[i].id!.toInt(),
-                      customerName:
-                          state.recentChatActive[i].customer!.fullname ?? '-',
-                      doctorName:
-                          state.recentChatActive[i].doctor!.fullname ?? '-',
-                      subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                      img: 'assets/images/doctor-img.png',
-                      time: CurrenctTime.timeChat(state
-                          .recentChatActive[i].lastChat!.createdAt
-                          .toString()),
-                      valueChat:
-                          state.recentChatActive[i].unseenCount.toString(),
-                      chat: state.recentChatActive[i].lastChat!.message ?? '-',
-                      seen: state.recentChatActive[i].lastChat!.seen ?? false,
-                      isMe: state.recentChatActive[i].lastChat!.senderId ==
-                              state.doctorId.value
-                          ? true
-                          : false,
-                      senderId: state.recentChatActive[i].doctorId!.toInt(),
-                      receiverId: state.recentChatActive[i].customerId!.toInt(),
-                    ),
+                  return ChatAktif(
+                    roomCode: state.recentChatActive[i].code.toString(),
+                    roomId: state.recentChatActive[i].id!.toInt(),
+                    customerName:
+                        state.recentChatActive[i].customer!.fullname ?? '-',
+                    doctorName:
+                        state.recentChatActive[i].doctor!.fullname ?? '-',
+                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                    img: 'assets/images/doctor-img.png',
+                    // img:
+                    //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
+                    time: CurrentTime.timeChat(state
+                        .recentChatActive[i].lastChat!.createdAt
+                        .toString()),
+                    valueChat: state.recentChatActive[i].unseenCount.toString(),
+                    chat: state.recentChatActive[i].lastChat!.message ?? '-',
+                    seen: state.recentChatActive[i].lastChat!.seen ?? false,
+                    isMe: state.recentChatActive[i].lastChat!.senderId ==
+                                state.doctorId.value ||
+                            state.recentChatActive[i].lastChat!.senderId == 0
+                        ? true
+                        : false,
+                    senderId: state.recentChatActive[i].doctorId!.toInt(),
+                    receiverId: state.recentChatActive[i].customerId!.toInt(),
                   );
                 },
               ),
@@ -449,38 +380,32 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.totalRecentChatDone.value,
                 itemBuilder: (BuildContext context, int i) {
-                  return InkWell(
-                    onTap: () {
-                      print(state.recentChatActive[i].code);
-                      // Get.to(
-                      //   const ChatDoctorPage(),
-                      // );
-                    },
-                    child: ChatAktif(
-                      roomCode: state.recentChatActive[i].code.toString(),
-                      roomId: state.recentChatActive[i].id!.toInt(),
-                      customerName:
-                          state.recentChatDone[i].customer!.fullname ?? '-',
-                      doctorName: '',
-                      subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                      img: 'assets/icons/logo.png',
-                      chat: state.recentChatDone[i].lastChat!.message ?? '-',
-                      // topic: 'Licorice',
-                      time: CurrenctTime.timeChat(
-                          state.recentChatActive[i].createdAt.toString()),
+                  return ChatAktif(
+                    roomCode: state.recentChatDone[i].code.toString(),
+                    roomId: state.recentChatDone[i].id!.toInt(),
+                    customerName:
+                        state.recentChatDone[i].customer!.fullname ?? '-',
+                    doctorName: '',
+                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                    img: 'assets/icons/logo.png',
+                    // img:
+                    //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
+                    chat: state.recentChatDone[i].lastChat!.message ?? '-',
+                    // topic: 'Licorice',
+                    time: CurrentTime.timeChat(
+                        state.recentChatDone[i].createdAt.toString()),
 
-                      seen: state.recentChatActive[i].lastChat!.seen ?? false,
-                      valueChat: state.recentChatDone[i].unseenCount.toString(),
-                      isMe: state.recentChatActive[i].lastChat!.senderId ==
-                              state.doctorId.value
-                          ? true
-                          : false,
-                      senderId:
-                          state.recentChatActive[i].lastChat!.senderId!.toInt(),
-                      receiverId: state
-                          .recentChatActive[i].lastChat!.receiverId!
-                          .toInt(),
-                    ),
+                    seen: state.recentChatDone[i].lastChat!.seen ?? false,
+                    valueChat: state.recentChatDone[i].unseenCount.toString(),
+                    isMe: state.recentChatDone[i].lastChat!.senderId ==
+                                state.doctorId.value ||
+                            state.recentChatDone[i].lastChat!.senderId == 0
+                        ? true
+                        : false,
+                    senderId:
+                        state.recentChatDone[i].lastChat!.senderId!.toInt(),
+                    receiverId:
+                        state.recentChatDone[i].lastChat!.receiverId!.toInt(),
                   );
                 },
               ),

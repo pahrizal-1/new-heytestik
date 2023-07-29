@@ -99,11 +99,7 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
             });
           },
           child: Container(
-            decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                    color: isIconSelected1 ? greenColor : whiteColor)),
+            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(10), border: Border.all(color: isIconSelected1 ? greenColor : whiteColor)),
             height: 50,
             child: Center(
               child: Padding(
@@ -112,21 +108,14 @@ class _SkinGoalsFromState extends State<SkinGoalsFrom> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      isIconSelected1
-                          ? Icons.check_circle_rounded
-                          : Icons.add_circle,
+                      isIconSelected1 ? Icons.check_circle_rounded : Icons.add_circle,
                       size: 18,
                       color: isIconSelected1 ? greenColor : greyColor,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       'Acne',
-                      style: TextStyle(
-                          letterSpacing: 0.5,
-                          fontSize: 12,
-                          fontFamily: 'ProximaNova',
-                          color: isIconSelected1 ? greenColor : greyColor,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(letterSpacing: 0.5, fontSize: 12, fontFamily: 'ProximaNova', color: isIconSelected1 ? greenColor : greyColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -185,9 +174,7 @@ class TextFromPerawat extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         height: 50,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
-            border: Border.all(color: const Color(0xFFCCCCCC))),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), border: Border.all(color: const Color(0xFFCCCCCC))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -264,8 +251,7 @@ class PeryataanUmumTextFrom extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(7)),
             padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
-            margin:
-                const EdgeInsets.only(left: 7, right: 7, top: 8, bottom: 15),
+            margin: const EdgeInsets.only(left: 7, right: 7, top: 8, bottom: 15),
             child: Text(
               jawaban,
               style: blackTextStyle.copyWith(fontSize: 13),
@@ -282,11 +268,7 @@ class TetxFromProfilEdit extends StatefulWidget {
   final String title1;
   final TextEditingController? controller;
   final IconData icon;
-  const TetxFromProfilEdit(
-      {super.key,
-      required this.title1,
-      required this.controller,
-      required this.icon});
+  const TetxFromProfilEdit({super.key, required this.title1, required this.controller, required this.icon});
 
   @override
   State<TetxFromProfilEdit> createState() => _TetxFromProfilEditState();
@@ -326,8 +308,7 @@ class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
                       child: TextFormField(
                         decoration: InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 2),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -357,10 +338,7 @@ class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
                           isSelected = !isSelected;
                         });
                       },
-                      child: isSelected
-                          ? Icon(Icons.check, size: 20, color: greenColor)
-                          : Icon(widget.icon,
-                              size: 20, color: fromCssColor('#999999'))),
+                      child: isSelected ? Icon(Icons.check, size: 20, color: greenColor) : Icon(widget.icon, size: 20, color: fromCssColor('#999999'))),
                 ],
               ),
             ),
@@ -379,12 +357,16 @@ class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
   }
 }
 
-class TextFormpollPostingan extends StatelessWidget {
+class TextFormPollPosition extends StatelessWidget {
   final String title;
+  final bool isLastElement;
+  final TextEditingController controller;
 
-  const TextFormpollPostingan({
+  const TextFormPollPosition({
     super.key,
     required this.title,
+    required this.isLastElement,
+    required this.controller,
   });
 
   @override
@@ -397,6 +379,7 @@ class TextFormpollPostingan extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 11),
             width: 296,
             child: TextFormField(
+              controller: controller,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
@@ -414,8 +397,7 @@ class TextFormpollPostingan extends StatelessWidget {
                 hintStyle: subTitleTextStyle.copyWith(
                   fontSize: 14,
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -426,20 +408,6 @@ class TextFormpollPostingan extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          width: 8,
-        ),
-        Container(
-          width: 24,
-          height: 24,
-          margin: EdgeInsets.only(bottom: 14),
-          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
-          child: Icon(
-            Icons.add,
-            color: whiteColor,
-            size: 20,
-          ),
-        )
       ],
     );
   }

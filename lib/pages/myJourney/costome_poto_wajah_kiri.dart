@@ -44,135 +44,133 @@ class _CustomeCameaPotoWajahKiriState extends State<CustomeCameaPotoWajahKiri> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              // ignore: sized_box_for_whitespace
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: controller == null
-                    ? Center(
-                        child: Text(
-                          'Loading Camera...',
-                          style: whiteTextStyle.copyWith(fontSize: 10),
-                        ),
-                      )
-                    : !controller!.value.isInitialized
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : CameraPreview(controller!),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      'assets/icons/poto-bagian-kanan.png',
-                    ),
-                    fit: BoxFit.cover,
+        body: Stack(
+          children: [
+            // ignore: sized_box_for_whitespace
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: controller == null
+                  ? Center(
+                      child: Text(
+                        'Loading Camera...',
+                        style: whiteTextStyle.copyWith(fontSize: 10),
+                      ),
+                    )
+                  : !controller!.value.isInitialized
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : CameraPreview(controller!),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/icons/poto-bagian-kanan.png',
                   ),
+                  fit: BoxFit.cover,
                 ),
               ),
-              Positioned(
-                top: 20,
-                left: 130,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: Colors.transparent,
+                  ),
+                  Text(
+                    'Wajah Kiri',
+                    style: whiteTextStyle.copyWith(fontSize: 18),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 18,
+                      height: 18,
+                      color: whiteColor,
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50, left: 25, right: 25),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Sisi Wajah Kiri',
-                      style: whiteTextStyle.copyWith(fontSize: 18),
+                    Image.asset(
+                      'assets/icons/my-journey.png',
+                      width: 30,
+                      height: 30,
                     ),
                     SizedBox(
-                      width: 95,
+                      width: 61,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        try {
+                          if (controller != null) {
+                            //check if contrller is not null
+                            if (controller!.value.isInitialized) {
+                              //check if controller is initialized
+                              image = await controller!
+                                  .takePicture(); //capture image
+                              setState(() {
+                                //update UI
+                              });
+                            }
+                          }
+                        } catch (e) {
+                          print(e); //show error
+                        }
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PotoBagianWajahKiri()));
+                      },
+                      child: Image.asset(
+                        'assets/icons/button-camera.png',
+                        width: 70,
+                        height: 70,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 61,
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        setState(() {
+                          setState(() {
+                            direction = direction == 0 ? 1 : 0;
+                            loadCamera(direction);
+                          });
+                        });
                       },
                       child: Image.asset(
-                        'assets/icons/danger-icons.png',
-                        width: 18,
-                        height: 18,
-                        color: whiteColor,
+                        'assets/icons/refresh-icons.png',
+                        width: 29,
+                        height: 20,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              Positioned(
-                top: 660,
-                left: 70,
-                child: Center(
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/my-journey.png',
-                        width: 30,
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 61,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          try {
-                            if (controller != null) {
-                              //check if contrller is not null
-                              if (controller!.value.isInitialized) {
-                                //check if controller is initialized
-                                image = await controller!
-                                    .takePicture(); //capture image
-                                setState(() {
-                                  //update UI
-                                });
-                              }
-                            }
-                          } catch (e) {
-                            print(e); //show error
-                          }
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PotoBagianWajahKiri()));
-                        },
-                        child: Image.asset(
-                          'assets/icons/button-camera.png',
-                          width: 70,
-                          height: 70,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 61,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            setState(() {
-                              direction = direction == 0 ? 1 : 0;
-                              loadCamera(direction);
-                            });
-                          });
-                        },
-                        child: Image.asset(
-                          'assets/icons/refresh-icons.png',
-                          width: 29,
-                          height: 20,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 70,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

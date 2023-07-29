@@ -73,7 +73,7 @@ class RekeningBankSettings extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/images/logo-bca.png',
-                  width: 70,
+                  width: 50,
                 ),
                 const SizedBox(
                   width: 14,
@@ -96,7 +96,11 @@ class RekeningBankSettings extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Expanded(child: Image.asset('assets/icons/trash.png'))
+                Image.asset(
+                  'assets/icons/trash.png',
+                  width: 20,
+                  height: 20,
+                )
               ],
             ),
             const Spacer(),

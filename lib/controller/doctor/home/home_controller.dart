@@ -45,6 +45,13 @@ class DoctorHomeController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       currentSchedule.value =
           await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
+      if (currentSchedule.value?.success != true &&
+          currentSchedule.value?.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: currentSchedule.value!.message.toString(),
+        );
+      }
       if (currentSchedule.value!.success!) {
         today.value = currentSchedule.value!.data!.date ?? '-';
         currentScheduleId.value = currentSchedule.value!.data!.id ?? 0;
@@ -67,12 +74,12 @@ class DoctorHomeController extends StateClass {
           // if (startTime.value.isNotEmpty ||
           //     startTime.value != '-' ||
           //     startTime.value != '') {
-          startTime1.value = CurrenctTime.getFirstTime(
+          startTime1.value = CurrentTime.getFirstTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
           print('startTime1 ${startTime1.value}');
 
-          startTime2.value = CurrenctTime.getLastTime(
+          startTime2.value = CurrentTime.getLastTime(
             currentSchedule.value!.data!.firstSchedule.toString(),
           );
           print('startTime2 ${startTime2.value}');
@@ -87,12 +94,12 @@ class DoctorHomeController extends StateClass {
           // if (endTime.value.isNotEmpty ||
           //     endTime.value != '-' ||
           //     endTime.value != '') {
-          endTime1.value = CurrenctTime.getFirstTime(
+          endTime1.value = CurrentTime.getFirstTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
           print('endTime1 ${startTime2.value}');
 
-          endTime2.value = CurrenctTime.getLastTime(
+          endTime2.value = CurrentTime.getLastTime(
             currentSchedule.value!.data!.lastSchdule.toString(),
           );
           print('endTime2 ${startTime2.value}');
@@ -128,18 +135,28 @@ class DoctorHomeController extends StateClass {
   getDoctorSchedule(BuildContext context) async {
     // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("hahahahhhhhhhhhhhhhhhhh");
-      print("startTime");
-      print(startTime);
-      print("endTime");
-      print(endTime);
+      var start = '';
+      var end = '';
+      if (isFirstSchedule.value = true) {
+        start = startTime1.value;
+        end = startTime2.value;
+      } else if (isSecondSchedule.value = true) {
+        start = endTime1.value;
+        end = endTime2.value;
+      }
       findSchedule.value =
           await ConsultationDoctorScheduleServices().getDoctorSchedule(
         currentScheduleId.toInt(),
-        startTime.toString(),
-        endTime.toString(),
+        start,
+        end,
       );
-
+      if (findSchedule.value?.success != true &&
+          findSchedule.value?.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: findSchedule.value!.message.toString(),
+        );
+      }
       // SET TOTAL totalFindSchedule
       totalFindSchedule.value = findSchedule.value!.data!.data!.length;
     });

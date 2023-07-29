@@ -3,11 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -19,8 +23,9 @@ import '../../widget/Text_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class DetailSkinCarePage extends StatefulWidget {
+  int productId;
   int id;
-  DetailSkinCarePage({required this.id, super.key});
+  DetailSkinCarePage({required this.productId, required this.id, super.key});
 
   @override
   State<DetailSkinCarePage> createState() => _DetailSkinCarePageState();
@@ -28,7 +33,8 @@ class DetailSkinCarePage extends StatefulWidget {
 
 class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
-
+  final WishlistController wishlist = Get.put(WishlistController());
+  final CartController cart = Get.put(CartController());
   bool isVisibelity = true;
   @override
   void initState() {
@@ -64,11 +70,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: 11,
               ),
               Expanded(
-                child: Text(
-                  '${state.skincareDetail.value.skincareDetail?.specificationIngredients}',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                    overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  () => Text(
+                    '${state.skincareDetail.value.skincareDetail?.brand}',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 20,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               )
@@ -144,16 +152,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingDetailSkincare.value,
           child: ListView(
             children: [
               Container(
                 height: 375,
                 width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(
-                        'assets/images/view-bg-skincare.png',
+                      image: NetworkImage(
+                        '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
                       ),
                       fit: BoxFit.cover),
                 ),
@@ -207,8 +215,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         const Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/love-icons.svg',
+                        InkWell(
+                          onTap: () async {
+                            await wishlist.addWishlist(
+                                context, widget.productId);
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/love-icons.svg',
+                          ),
                         ),
                       ],
                     ),
@@ -216,11 +230,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       height: 15,
                     ),
                     Text(
-                      '${state.skincareDetail.value.name}',
+                      '${state.skincareDetail.value.skincareDetail?.brand}',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     Text(
-                      '${state.skincareDetail.value.category}',
+                      '${state.skincareDetail.value.name}',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     Text(
@@ -340,17 +354,26 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     TitleDetail(
                       ontap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const CategorySkinCare()));
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.category.toString(),
+                          ),
+                        );
                       },
                       title1: 'Kategori',
                       title2: '${state.skincareDetail.value.category}',
                       textColor: greenColor,
                     ),
                     TitleDetail(
+                      ontap: () {
+                        Get.to(
+                          CategorySkinCare(
+                            category:
+                                state.skincareDetail.value.display.toString(),
+                          ),
+                        );
+                      },
                       title1: 'Etalase Skincare',
                       title2: '${state.skincareDetail.value.display}',
                       textColor: greenColor,
@@ -1000,7 +1023,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReservasiPage(),
+                          ));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -1020,27 +1047,32 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 const SizedBox(
                   width: 6,
                 ),
-                Container(
-                  height: 40,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    border: Border.all(color: borderColor),
-                  ),
-                  child: Row(
-                    // ignore: prefer_const_constructors
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: greenColor,
-                        size: 17,
-                      ),
-                      SvgPicture.asset(
-                        'assets/icons/trello-icons.svg',
-                        width: 17,
-                      ),
-                    ],
+                InkWell(
+                  onTap: () async {
+                    await cart.addCart(context, widget.productId, 1, '');
+                  },
+                  child: Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Row(
+                      // ignore: prefer_const_constructors
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: greenColor,
+                          size: 17,
+                        ),
+                        SvgPicture.asset(
+                          'assets/icons/trello-icons.svg',
+                          width: 17,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
