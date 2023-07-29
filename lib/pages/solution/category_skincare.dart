@@ -13,7 +13,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/filter_tap_widget.dart';
-import '../../widget/produk_height_widget,.dart';
+import '../../widget/produk_height_widget.dart';
 import 'view_detail_skincare_page.dart';
 
 class CategorySkinCare extends StatefulWidget {
