@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/account_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/home_journey.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
@@ -14,9 +15,16 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import '../../theme/theme.dart';
 import '../tabbar/tabbar_customer.dart';
 
-class AkunHomePage extends StatelessWidget {
+class AkunHomePage extends StatefulWidget {
   AkunHomePage({super.key});
+
+  @override
+  State<AkunHomePage> createState() => _AkunHomePageState();
+}
+
+class _AkunHomePageState extends State<AkunHomePage> {
   final AccountController state = Get.put(AccountController());
+  bool isSelcted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -139,26 +147,102 @@ class AkunHomePage extends StatelessWidget {
                 const SizedBox(
                   height: 14,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 15),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: const Color(0xFFCCCCCC))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'My Journey',
-                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                isSelcted
+                    ? Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, top: 16, bottom: 17),
+                        decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'My Journey',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: whiteColor,
+                                    fontSize: 18,
+                                    fontFamily: 'ProximaNova',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  'Dokumentasikan progres kulitmu setiap hari dalam penggunaan obat/skincare/treatment dan lihat perubahan yang terjadi pada kulitmu.',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: whiteColor,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(HomeMyjourney());
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Cobain yuk!',
+                                        style: whiteTextStyle.copyWith(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        color: whiteColor,
+                                        size: 15,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () {
+                          setState(() {
+                            isSelcted = !isSelcted;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 15),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              border:
+                                  Border.all(color: const Color(0xFFCCCCCC))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'My Journey',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 15),
+                              ),
+                              const Icon(
+                                Icons.keyboard_arrow_right,
+                                size: 30,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      const Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(
                   height: 14,
                 ),

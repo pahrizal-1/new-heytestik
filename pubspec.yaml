@@ -74,6 +74,7 @@ dependencies:
   permission_handler: ^10.4.3
   date_time_picker: ^2.1.0
   syncfusion_flutter_datepicker: ^20.4.54
+  timeago: ^3.3.0
   # permission_handler: ^10.2.0
 dev_dependencies:
   flutter_test:

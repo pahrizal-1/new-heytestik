@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tentang_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
@@ -655,335 +656,334 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 30, right: 30, bottom: 20, top: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: blackColor,
-                      size: 24,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: blackColor,
+                        size: 24,
+                      ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        'Filter Statistik Saya',
+                        style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 20,
+                          fontWeight: bold,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hari Ini (Real Time)',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
+                              fontWeight: bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            '16 November (00.00-09.00)',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 12,
+                              fontWeight: bold,
+                              color: fromCssColor('#9B9B9B'),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        isSelected == 0
+                            ? Icons.radio_button_on
+                            : Icons.circle_outlined,
+                        color: isSelected == 0 ? greenColor : blackColor,
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      'Filter Statistik Saya',
+                ),
+                const SizedBox(
+                  height: 22,
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 1;
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '7 Hari Terakhir',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
+                              fontWeight: bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            '09 - 15 Nov 2023',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 12,
+                              fontWeight: bold,
+                              color: fromCssColor('#9B9B9B'),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      Icon(
+                        isSelected == 1
+                            ? Icons.radio_button_on
+                            : Icons.circle_outlined,
+                        color: isSelected == 1 ? greenColor : blackColor,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 22,
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 2;
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '30 Hari Terakhir',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
+                              fontWeight: bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            '17 Okt - 15 Nov 2023',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 12,
+                              fontWeight: bold,
+                              color: fromCssColor('#9B9B9B'),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      Icon(
+                        isSelected == 2
+                            ? Icons.radio_button_on
+                            : Icons.circle_outlined,
+                        color: isSelected == 2 ? greenColor : blackColor,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 22,
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Custom Tanggal',
                       style: TextStyle(
                         fontFamily: 'ProximaNova',
-                        fontSize: 20,
+                        fontSize: 15,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hari Ini (Real Time)',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 15,
-                            fontWeight: bold,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          '16 November (00.00-09.00)',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 12,
-                            fontWeight: bold,
-                            color: fromCssColor('#9B9B9B'),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
                     Icon(
-                      isSelected == 0
-                          ? Icons.radio_button_on
-                          : Icons.circle_outlined,
-                      color: isSelected == 0 ? greenColor : blackColor,
+                      Icons.circle_outlined,
+                      size: 0.2,
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 22,
-                child: Divider(
-                  thickness: 1,
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 1;
-                  });
-                },
-                child: Row(
+                Container(
+                  height: 35,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                    child: InkWell(
+                        child: Obx(
+                          () => Text(
+                            state.startPeriod.value +
+                                ' - ' +
+                                state.endPeriod.value,
+                          ),
+                        ),
+                        onTap: () {
+                          showDialog<Widget>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                color: Colors.white,
+                                child: SfDateRangePicker(
+                                  showActionButtons: true,
+                                  onSelectionChanged: state.onSelectionChanged,
+                                  selectionMode:
+                                      DateRangePickerSelectionMode.range,
+                                  initialSelectedRange: PickerDateRange(
+                                      DateTime.now()
+                                          .subtract(const Duration(days: 4)),
+                                      DateTime.now()
+                                          .add(const Duration(days: 3))),
+                                  onSubmit: (value) {
+                                    Get.back();
+                                  },
+                                ),
+                                // SfDateRangePicker(
+                                //   // onSelectionChanged: state.onSelectionChanged,
+                                //   selectionMode:
+                                //       DateRangePickerSelectionMode.range,
+                                //   showActionButtons: true,
+                                //   onSubmit: (value) {
+                                //     state.range.value = DateFormat('dd/MM/yyyy').format(PickerDateRange.value.startDate);
+                                //     // state.onSelectionChanged;
+                                //     print('value ' + value.toString());
+                                //     Navigator.pop(context);
+                                //   },
+                                //   onCancel: () {
+                                //     Navigator.pop(context);
+                                //   },
+                                // ),
+                              );
+                            },
+                          );
+                        }),
+                    //  Row(
+                    //   children: [
+                    //     Icon(
+                    //       Icons.date_range_outlined,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     Text(
+                    //       '17 Agu 2023 - 17 Nov 2023',
+                    //       style: TextStyle(
+                    //         fontSize: 13,
+                    //         fontFamily: 'ProximaNova',
+                    //         letterSpacing: 0.5,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Jenis Pertanyaan',
+                  style: TextStyle(
+                    fontFamily: 'ProximaNova',
+                    fontSize: 15,
+                    fontWeight: bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '7 Hari Terakhir',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 15,
-                            fontWeight: bold,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          '09 - 15 Nov 2023',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 12,
-                            fontWeight: bold,
-                            color: fromCssColor('#9B9B9B'),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Icon(
-                      isSelected == 1
-                          ? Icons.radio_button_on
-                          : Icons.circle_outlined,
-                      color: isSelected == 1 ? greenColor : blackColor,
-                    ),
+                    CardFilter(title: 'Chat yang selesai'),
+                    CardFilter(title: 'Chat yang selesai')
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 22,
-                child: Divider(
-                  thickness: 1,
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 2;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '30 Hari Terakhir',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 15,
-                            fontWeight: bold,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          '17 Okt - 15 Nov 2023',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 12,
-                            fontWeight: bold,
-                            color: fromCssColor('#9B9B9B'),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Icon(
-                      isSelected == 2
-                          ? Icons.radio_button_on
-                          : Icons.circle_outlined,
-                      color: isSelected == 2 ? greenColor : blackColor,
-                    ),
-                  ],
+                ButtonGreenWidget(
+                  title: 'Tampilkan',
+                  onPressed: () {
+                    state.getFilterStatistic();
+                    Navigator.pop(context);
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 22,
-                child: Divider(
-                  thickness: 1,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Custom Tanggal',
-                    style: TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontSize: 15,
-                      fontWeight: bold,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Icon(
-                    Icons.circle_outlined,
-                    size: 0.2,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 35,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                  child: InkWell(
-                      child: Obx(
-                        () => Text(
-                          state.startPeriod.value +
-                              ' - ' +
-                              state.endPeriod.value,
-                        ),
-                      ),
-                      onTap: () {
-                        showDialog<Widget>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                              color: Colors.white,
-                              child: SfDateRangePicker(
-                                showActionButtons: true,
-                                onSelectionChanged: state.onSelectionChanged,
-                                selectionMode:
-                                    DateRangePickerSelectionMode.range,
-                                initialSelectedRange: PickerDateRange(
-                                    DateTime.now()
-                                        .subtract(const Duration(days: 4)),
-                                    DateTime.now()
-                                        .add(const Duration(days: 3))),
-                                onSubmit: (value) {
-                                  Get.back();
-                                },
-                              ),
-                              // SfDateRangePicker(
-                              //   // onSelectionChanged: state.onSelectionChanged,
-                              //   selectionMode:
-                              //       DateRangePickerSelectionMode.range,
-                              //   showActionButtons: true,
-                              //   onSubmit: (value) {
-                              //     state.range.value = DateFormat('dd/MM/yyyy').format(PickerDateRange.value.startDate);
-                              //     // state.onSelectionChanged;
-                              //     print('value ' + value.toString());
-                              //     Navigator.pop(context);
-                              //   },
-                              //   onCancel: () {
-                              //     Navigator.pop(context);
-                              //   },
-                              // ),
-                            );
-                          },
-                        );
-                      }),
-                  //  Row(
-                  //   children: [
-                  //     Icon(
-                  //       Icons.date_range_outlined,
-                  //     ),
-                  //     SizedBox(
-                  //       width: 5,
-                  //     ),
-                  //     Text(
-                  //       '17 Agu 2023 - 17 Nov 2023',
-                  //       style: TextStyle(
-                  //         fontSize: 13,
-                  //         fontFamily: 'ProximaNova',
-                  //         letterSpacing: 0.5,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Jenis Pertanyaan',
-                style: TextStyle(
-                  fontFamily: 'ProximaNova',
-                  fontSize: 15,
-                  fontWeight: bold,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CardFilter(title: 'Chat yang selesai'),
-                  CardFilter(title: 'Chat yang selesai')
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ButtonGreenWidget(
-                title: 'Tampilkan',
-                onPressed: () {
-                  state.getFilterStatistic();
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -118,7 +118,7 @@ class RekeningBankSettings extends StatelessWidget {
                     ),
                   ),
                   builder: (context) => SingleChildScrollView(
-                    child: Wrap(
+                    child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
