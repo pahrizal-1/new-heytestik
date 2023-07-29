@@ -11,6 +11,7 @@ import 'appbar_widget.dart';
 class ProdukCardWidget extends StatefulWidget {
   final int cartId;
   final int productId;
+  final int qty;
   final String imageProduk;
   final String namaProdik;
   final String merkProduk;
@@ -35,6 +36,7 @@ class ProdukCardWidget extends StatefulWidget {
     required this.packagingType,
     required this.netto,
     required this.nettoType,
+    required this.qty,
   }) : super(key: key);
 
   @override
@@ -153,22 +155,26 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        constraints:
-                                            const BoxConstraints(maxWidth: 300),
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text: widget.merkProduk,
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              color: greenColor,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1.1,
-                                            ),
-                                          ),
-                                        ),
+                                      Text(
+                                        widget.merkProduk,
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 10,
+                                            overflow: TextOverflow.ellipsis),
+                                        maxLines: 1,
+                                        softWrap: true,
                                       ),
+                                      // RichText(
+                                      //   text: TextSpan(
+                                      //     text: widget.merkProduk,
+                                      //     style: TextStyle(
+                                      //       fontFamily: 'ProximaNova',
+                                      //       color: greenColor,
+                                      //       fontSize: 12,
+                                      //       fontWeight: FontWeight.bold,
+                                      //       height: 1.1,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       const SizedBox(
                                         height: 5,
                                       ),
@@ -275,6 +281,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                     ),
                   ),
                   TextFormField(
+                    // controller: state.notes,
                     maxLines: 6,
                     minLines: 1,
                     maxLength: 114,
@@ -354,7 +361,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                             const SizedBox(
                               width: 21,
                             ),
-                            const Text('1'),
+                            Text('${widget.qty}'),
                             const SizedBox(
                               width: 21,
                             ),
