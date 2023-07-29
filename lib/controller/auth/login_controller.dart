@@ -41,8 +41,7 @@ class LoginController extends StateClass {
 
       var loginResponse = await LoginService().login(data);
 
-      if (loginResponse['success'] != true &&
-          loginResponse['message'] != 'Success') {
+      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: loginResponse['message'],
@@ -53,14 +52,10 @@ class LoginController extends StateClass {
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
-      await LocalStorage()
-          .setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage()
-          .setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage()
-          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage()
-          .setUserID(userID: loginResponse['data']['user']['id']);
+      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
       doInPost();
       clear();
     });
@@ -103,8 +98,7 @@ class LoginController extends StateClass {
         await _googleSignIn.signIn();
         // await _googleSignIn.requestScopes(scopes);
 
-        _googleSignIn.onCurrentUserChanged
-            .listen((GoogleSignInAccount? account) async {
+        _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
           print(account);
         });
 

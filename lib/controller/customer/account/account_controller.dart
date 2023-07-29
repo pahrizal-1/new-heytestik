@@ -10,15 +10,13 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 
 class AccountController extends StateClass {
   RxString fullName = '-'.obs;
-  Rx<TransactionHistoryConsultationModel> data =
-      TransactionHistoryConsultationModel().obs;
+  Rx<TransactionHistoryConsultationModel> data = TransactionHistoryConsultationModel().obs;
 
   init() async {
     fullName.value = await LocalStorage().getFullName();
   }
 
-  Future<TransactionHistoryConsultationModel?> getMyActivity(
-      BuildContext context) async {
+  Future<TransactionHistoryConsultationModel?> getMyActivity(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data.value = await TransactionService().historyConsultation();
       print(data.value.data!.data?.length);

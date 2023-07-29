@@ -43,8 +43,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
                   height: 30,
                   width: 30,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png')),
+                    image: const DecorationImage(image: AssetImage('assets/images/profiledummy.png')),
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
@@ -120,8 +119,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(
-                      left: 65, right: 72, top: 9, bottom: 8),
+                  padding: const EdgeInsets.only(left: 65, right: 72, top: 9, bottom: 8),
                   decoration: BoxDecoration(
                     color: whiteColor,
                     borderRadius: BorderRadius.circular(7),
@@ -145,9 +143,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
                         },
                         child: Text(
                           'Stream',
-                          style: index == 0
-                              ? grenTextStyle.copyWith(fontSize: 15)
-                              : blackTextStyle.copyWith(fontSize: 15),
+                          style: index == 0 ? grenTextStyle.copyWith(fontSize: 15) : blackTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                       Container(
@@ -163,9 +159,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
                         },
                         child: Text(
                           'News',
-                          style: index == 1
-                              ? grenTextStyle.copyWith(fontSize: 15)
-                              : blackTextStyle.copyWith(fontSize: 15),
+                          style: index == 1 ? grenTextStyle.copyWith(fontSize: 15) : blackTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                     ],
@@ -180,8 +174,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
           Padding(
             padding: const EdgeInsets.only(top: 63),
             child: Center(
-              child:
-                  index == 0 ? const AllInfoStreamPage() : const NewsHomePage(),
+              child: index == 0 ? const AllInfoStreamPage() : const NewsHomePage(),
             ),
           ),
         ],
