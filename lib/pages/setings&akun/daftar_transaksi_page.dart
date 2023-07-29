@@ -304,43 +304,64 @@ class DaftarTransaksiPage extends StatelessWidget {
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.data?.data?.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return TransaksiKonsultan(
-                            namaDokter: 'dr. Risty Hafinah, Sp.DV',
-                            tanggal: ConvertDate.defaultDate(
-                                snapshot.data!.data?.data?[index].createdAt ??
-                                    '-'),
-                            pesanan: 'Konsultasi',
-                            progres: snapshot.data!.data?.data?[index].status ==
-                                    'MENUNGGU_PEMBAYARAN'
-                                ? 'Menunggu Pembayaran'
-                                : snapshot.data!.data?.data?[index].status ==
-                                        'READY'
-                                    ? 'Ready'
-                                    : snapshot.data!.data?.data?[index]
-                                                .status ==
-                                            'REVIEW'
-                                        ? 'Review'
-                                        : snapshot.data!.data?.data?[index]
-                                                    .status ==
-                                                'AKTIF'
-                                            ? 'Aktif'
-                                            : snapshot.data!.data?.data?[index]
-                                                        .status ==
-                                                    'SELESAI'
-                                                ? 'Selesai'
-                                                : '-',
-                            keluhan: 'Bekas Jerawat',
-                            harga: CurrencyFormat.convertToIdr(
-                                snapshot.data!.data?.data?[index].totalPaid, 0),
-                            img: 'assets/images/doctor-img.png',
-                          );
-                        },
-                      );
+                      return snapshot.data!.data!.data!.isEmpty
+                          ? Center(
+                              child: Text(
+                                'Belum ada transaksi',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.data?.data?.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return TransaksiKonsultan(
+                                  namaDokter: 'dr. Risty Hafinah, Sp.DV',
+                                  tanggal: ConvertDate.defaultDate(snapshot
+                                          .data!.data?.data?[index].createdAt ??
+                                      '-'),
+                                  pesanan: 'Konsultasi',
+                                  progres: snapshot.data!.data?.data?[index]
+                                              .status ==
+                                          'MENUNGGU_PEMBAYARAN'
+                                      ? 'Menunggu Pembayaran'
+                                      : snapshot.data!.data?.data?[index]
+                                                  .status ==
+                                              'READY'
+                                          ? 'Ready'
+                                          : snapshot.data!.data?.data?[index]
+                                                      .status ==
+                                                  'REVIEW'
+                                              ? 'Review'
+                                              : snapshot
+                                                          .data!
+                                                          .data
+                                                          ?.data?[index]
+                                                          .status ==
+                                                      'AKTIF'
+                                                  ? 'Aktif'
+                                                  : snapshot
+                                                              .data!
+                                                              .data
+                                                              ?.data?[index]
+                                                              .status ==
+                                                          'SELESAI'
+                                                      ? 'Selesai'
+                                                      : '-',
+                                  keluhan: 'Bekas Jerawat',
+                                  harga: CurrencyFormat.convertToIdr(
+                                      snapshot
+                                          .data!.data?.data?[index].totalPaid,
+                                      0),
+                                  img: 'assets/images/doctor-img.png',
+                                );
+                              },
+                            );
                     } else {
                       return Center(
                         child: Text(
