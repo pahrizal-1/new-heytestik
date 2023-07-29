@@ -66,15 +66,15 @@ class _CustomeCameaPotoWajahBermasalahState
 
             Positioned(
               top: 20,
-              left: 95,
+              left: 70,
               child: Row(
                 children: [
                   Text(
                     'Zoom Bagian Bermasalah',
                     style: whiteTextStyle.copyWith(fontSize: 18),
                   ),
-                  const SizedBox(
-                    width: 43,
+                  SizedBox(
+                    width: 40,
                   ),
                   InkWell(
                     onTap: () {
@@ -90,11 +90,12 @@ class _CustomeCameaPotoWajahBermasalahState
                 ],
               ),
             ),
-            Positioned(
-              top: 660,
-              left: 70,
-              child: Center(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50, left: 25, right: 25),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
                       'assets/icons/my-journey.png',
@@ -151,9 +152,6 @@ class _CustomeCameaPotoWajahBermasalahState
                         width: 29,
                         height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      width: 70,
                     ),
                   ],
                 ),
