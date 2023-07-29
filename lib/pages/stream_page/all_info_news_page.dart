@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
+import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -23,7 +24,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
   final images = [
     'assets/images/Berjemur1-Stream.png',
     'assets/images/Berjemur1-Stream.png',
-    'assets/images/Berjemur1-Stream.png'
+    'assets/images/Berjemur1-Stream.png',
   ];
   int currentIndex = 0;
 
@@ -122,8 +123,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
             options: CarouselOptions(
               height: 300,
               viewportFraction: 1,
-              onPageChanged: (index, reason) =>
-                  setState(() => activeIndex = index),
+              onPageChanged: (index, reason) => setState(() => activeIndex = index),
             ),
           ),
           const SizedBox(
@@ -158,8 +158,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.only(right: 5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: borderColor),
@@ -174,8 +173,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.only(right: 5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: borderColor),
@@ -190,8 +188,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.only(right: 5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: borderColor),
@@ -216,17 +213,17 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                             ),
                           )
                         : SizedBox(
-                            height: 70,
+                            width: MediaQuery.of(context).size.width,
                             child: ListView.builder(
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
+                              // scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data!.record!.length,
+                              // physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, index) {
                                 return const CorcernCardWidgets(
                                   img: 'assets/images/keriput-Banner.png',
                                   category: 'BEAUTY / CONCERN',
-                                  judul:
-                                      '3 Penyebab Keriput Di Tangan & Cara Mengatasinya',
+                                  judul: '3 Penyebab Keriput Di Tangan & Cara Mengatasinya',
                                   tanggal: '05 April 2022',
                                   pembuat: 'Nadira Maurizka',
                                   minute: '2 Mins',
@@ -251,26 +248,6 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                 }
               },
             ),
-            // child: Column(
-            //   children: [
-            //     CorcernCardWidgets(
-            //       img: 'assets/images/keriput-Banner.png',
-            //       category: 'BEAUTY / CONCERN',
-            //       judul: '3 Penyebab Keriput Di Tangan & Cara Mengatasinya',
-            //       tanggal: '05 April 2022',
-            //       pembuat: 'Nadira Maurizka',
-            //       minute: '2 Mins',
-            //     ),
-            //     CorcernCardWidgets(
-            //       img: 'assets/images/keriput-Banner.png',
-            //       category: 'BEAUTY / CONCERN',
-            //       judul: '3 Penyebab Keriput Di Tangan & Cara Mengatasinya',
-            //       tanggal: '05 April 2022',
-            //       pembuat: 'Nadira Maurizka',
-            //       minute: '2 Mins',
-            //     ),
-            //   ],
-            // ),
           )
         ],
       ),

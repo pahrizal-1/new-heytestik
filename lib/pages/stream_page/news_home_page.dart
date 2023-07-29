@@ -44,7 +44,7 @@ class NewsHomePage extends StatelessWidget {
                     text: 'Semua',
                   ),
                   Tab(
-                    text: 'Beautyt',
+                    text: 'Beauty',
                   ),
                   Tab(
                     text: 'Trend & Lifestyle',

@@ -13,10 +13,20 @@ class TreatmentController extends StateClass {
   void getTreatment(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      treatment.value = await TreatmentService().getTreatment();
-
-      print("heheh ${treatment.length}");
+      List<TreatmentRecommendationModel> data = await TreatmentService().getTreatmentRecommendation();
+      treatment.value = data;
     });
+    isLoading.value = false;
+  }
+
+  void getTopTreatment(BuildContext context) async {
     isLoading.value = true;
+
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      List<TreatmentRecommendationModel> data = await TreatmentService().getTopTreatment();
+      treatment.value = data;
+    });
+
+    isLoading.value = false;
   }
 }

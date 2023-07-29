@@ -36,12 +36,18 @@ class _SolutionPageState extends State<SolutionPage> {
   final images = ['assets/images/bg-solutions1.png', 'assets/images/bg-solutions2.png', 'assets/images/bg-solutions3.png'];
   int currentIndex = 0;
 
+  List<String> asset = [
+    'Peliing.png',
+    'IPL.png',
+    'Laser.png',
+  ];
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.initgetCurrentPosition(context);
       stateTreatment.getTreatment(context);
+      state.initgetCurrentPosition(context);
     });
   }
 
@@ -518,15 +524,10 @@ class _SolutionPageState extends State<SolutionPage> {
                     height: 15,
                   ),
                   SizedBox(
-                    height: 100,
-                    child: ListView.separated(
+                    height: 222,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: stateTreatment.treatment.length,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 16.0,
-                        );
-                      },
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(left: 25),
@@ -542,10 +543,11 @@ class _SolutionPageState extends State<SolutionPage> {
                             child: Container(
                               margin: const EdgeInsets.only(right: 8),
                               height: 222,
-                              width: 127,
+                              width: 150,
                               decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                  image: AssetImage('assets/images/Peliing.png'),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/${asset[index % 3]}'),
+                                  fit: BoxFit.fill,
                                 ),
                                 borderRadius: BorderRadius.circular(7),
                               ),

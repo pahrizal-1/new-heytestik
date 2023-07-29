@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 
+import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
 
-class PeelinngTraetmentPage extends StatelessWidget {
+class PeelinngTraetmentPage extends StatefulWidget {
   const PeelinngTraetmentPage({super.key});
+
+  @override
+  State<PeelinngTraetmentPage> createState() => _PeelinngTraetmentPageState();
+}
+
+class _PeelinngTraetmentPageState extends State<PeelinngTraetmentPage> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      stateTreatment.getTopTreatment(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

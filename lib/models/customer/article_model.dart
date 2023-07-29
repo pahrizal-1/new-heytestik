@@ -7,26 +7,27 @@ class ArticleModel {
   int? jumlahHalaman;
   List<Record>? record;
 
-  ArticleModel(
-      {this.statusCode,
-      this.statusMessage,
-      this.totalrecord,
-      this.itemPerPage,
-      this.halaman,
-      this.jumlahHalaman,
-      this.record});
+  ArticleModel({
+    this.statusCode,
+    this.statusMessage,
+    this.totalrecord,
+    this.itemPerPage,
+    this.halaman,
+    this.jumlahHalaman,
+    this.record,
+  });
 
   ArticleModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     statusMessage = json['status_message'];
     totalrecord = json['totalrecord'];
     itemPerPage = json['item_per_page'];
-    halaman = json['halaman'];
+    halaman = int.parse(json['halaman']);
     jumlahHalaman = json['jumlah_halaman'];
     if (json['record'] != null) {
       record = <Record>[];
       json['record'].forEach((v) {
-        record!.add(Record.fromJson(v));
+        record?.add(Record.fromJson(v));
       });
     }
   }
@@ -61,20 +62,21 @@ class Record {
   String? link;
   List<Tag>? tag;
 
-  Record(
-      {this.id,
-      this.newscategoryId,
-      this.newsDate,
-      this.title,
-      this.seoTitle,
-      this.author,
-      this.description,
-      this.image,
-      this.thumb,
-      this.imageLink,
-      this.thumbLink,
-      this.link,
-      this.tag});
+  Record({
+    this.id,
+    this.newscategoryId,
+    this.newsDate,
+    this.title,
+    this.seoTitle,
+    this.author,
+    this.description,
+    this.image,
+    this.thumb,
+    this.imageLink,
+    this.thumbLink,
+    this.link,
+    this.tag,
+  });
 
   Record.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -123,7 +125,11 @@ class Tag {
   String? tagName;
   String? seoTag;
 
-  Tag({this.id, this.tagName, this.seoTag});
+  Tag({
+    this.id,
+    this.tagName,
+    this.seoTag,
+  });
 
   Tag.fromJson(Map<String, dynamic> json) {
     id = json['id'];
