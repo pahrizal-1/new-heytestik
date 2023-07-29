@@ -70,11 +70,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: 11,
               ),
               Expanded(
-                child: Text(
-                  '${state.skincareDetail.value.skincareDetail?.brand}',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                    overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  () => Text(
+                    '${state.skincareDetail.value.skincareDetail?.brand}',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 20,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               )
