@@ -36,9 +36,11 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    state.getProfile(context);
-    state.getUserBalance();
-    state.getFilterStatistic();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getProfile(context);
+      state.getUserBalance();
+      state.getFilterStatistic();
+    });
   }
 
   @override
@@ -106,7 +108,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               children: [
                                 Text(
                                   state.profileData.value.data != null
-                                      ? state.profileData.value.data!.fullname!
+                                      ? state.profileData.value.data!.fullname
                                           .toString()
                                       : 'Oscar',
                                   style: TextStyle(
@@ -120,9 +122,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   height: 3,
                                 ),
                                 Text(
-                                  state.profileData.value.data?.specialist !=
-                                          null
-                                      ? state.profileData.value.data!.specialist
+                                  state.profileData.value.data != null
+                                      ? state
+                                          .profileData.value.data!.specialist
                                           .toString()
                                       : "-",
                                   style: TextStyle(

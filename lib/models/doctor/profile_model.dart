@@ -1,14 +1,14 @@
 class ProfileModel {
   bool? success;
   String? message;
-  DataProfile? data;
+  Data? data;
 
   ProfileModel({this.success, this.message, this.data});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new DataProfile.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,19 +22,19 @@ class ProfileModel {
   }
 }
 
-class DataProfile {
+class Data {
   String? fullname;
   String? specialist;
   String? email;
   String? noPhone;
   String? gender;
   Null? dob;
-  Null? sip;
-  Null? str;
-  Null? practiceLocation;
+  String? sip;
+  String? str;
+  String? practiceLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
 
-  DataProfile(
+  Data(
       {this.fullname,
       this.specialist,
       this.email,
@@ -46,7 +46,7 @@ class DataProfile {
       this.practiceLocation,
       this.mediaUserProfilePicture});
 
-  DataProfile.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
     specialist = json['specialist'];
     email = json['email'];
