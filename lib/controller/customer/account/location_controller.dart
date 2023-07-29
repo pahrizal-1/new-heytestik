@@ -59,7 +59,7 @@ class LocationController extends StateClass {
 
       getAddressFromLatLng(context, position);
     }).catchError((e) {
-      debugPrint('error euy $e');
+      debugPrint('error euy getCurrentPosition $e');
     });
     isLoading.value = false;
   }
@@ -80,7 +80,7 @@ class LocationController extends StateClass {
 
       createLocation(context);
     }).catchError((e) {
-      debugPrint('error euy $e');
+      debugPrint('error euy getAddressFromLatLng $e');
     });
   }
 
