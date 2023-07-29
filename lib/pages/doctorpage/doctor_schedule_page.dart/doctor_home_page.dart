@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
-import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
+import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomePageDoctor extends StatefulWidget {
   const HomePageDoctor({
@@ -28,7 +25,6 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
     state.init(context);
   }
 
-  // home dokter ubah jangan pake future builder
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -127,124 +123,6 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                   ),
                 ),
               ),
-              // FutureBuilder(
-              //   future: state.getCurrentDoctorSchedule(context),
-              //   builder: (context,
-              //       AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
-              //     print(snapshot.connectionState);
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return Padding(
-              //         padding: const EdgeInsets.symmetric(horizontal: 20),
-              //         child: shimmerWidget(
-              //           child: Container(
-              //             transform: Matrix4.translationValues(0, -45, 0),
-              //             width: MediaQuery.of(context).size.width,
-              //             height: 140,
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(15),
-              //               color: baseColor,
-              //               boxShadow: [
-              //                 BoxShadow(
-              //                   color: Colors.grey.withOpacity(0.5),
-              //                   spreadRadius: 0.1,
-              //                   blurRadius: 2,
-              //                   offset: const Offset(0, 1),
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //       );
-              //     }
-              //     if (snapshot.connectionState == ConnectionState.done) {
-              //       if (snapshot.hasData) {
-              //         return Padding(
-              //           padding: const EdgeInsets.symmetric(horizontal: 20),
-              //           child: Container(
-              //             transform: Matrix4.translationValues(0, -45, 0),
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(15),
-              //               color: Colors.white,
-              //               boxShadow: [
-              //                 BoxShadow(
-              //                   color: Colors.grey.withOpacity(0.5),
-              //                   spreadRadius: 0.1,
-              //                   blurRadius: 2,
-              //                   offset: const Offset(0, 1),
-              //                 ),
-              //               ],
-              //             ),
-              //             child: Padding(
-              //               padding: const EdgeInsets.only(
-              //                   top: paddingL, bottom: paddingL),
-              //               child: Center(
-              //                 child: state.startTime.value.isEmpty
-              //                     ? Text(
-              //                         'Tidak ada jadwal',
-              //                         style: TextStyle(
-              //                           fontWeight: bold,
-              //                           color: fromCssColor('#6B6B6B'),
-              //                           fontSize: 20,
-              //                           fontFamily: 'ProximaNova,',
-              //                         ),
-              //                       )
-              //                     : Column(
-              //                         crossAxisAlignment:
-              //                             CrossAxisAlignment.center,
-              //                         children: [
-              //                           Obx(
-              //                             () => Text(
-              //                               'Jadwal Hari ini, ${state.today.value}',
-              //                               style: TextStyle(
-              //                                 fontWeight: bold,
-              //                                 color: fromCssColor('#6B6B6B'),
-              //                                 fontSize: 16,
-              //                                 fontFamily: 'ProximaNova,',
-              //                               ),
-              //                             ),
-              //                           ),
-              //                           const SizedBox(
-              //                             height: 5,
-              //                           ),
-              //                           Obx(
-              //                             () => Text(
-              //                               state.isFirstSchedule.value
-              //                                   ? state.startTime.value
-              //                                   : state.isSecondSchedule.value
-              //                                       ? state.endTime.value
-              //                                       : 'Istirahat',
-              //                               style: TextStyle(
-              //                                 fontWeight: bold,
-              //                                 fontSize: paddingL,
-              //                                 color: fromCssColor('#5DA89C'),
-              //                                 fontFamily: 'ProximaNova,',
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ],
-              //                       ),
-              //               ),
-              //             ),
-              //           ),
-              //         );
-              //       } else {
-              //         return Center(
-              //           child: Text(
-              //             'Tidak ada jadwal',
-              //             style: TextStyle(
-              //               fontWeight: bold,
-              //               fontFamily: 'ProximaNova',
-              //               fontSize: 20,
-              //             ),
-              //           ),
-              //         );
-              //       }
-              //     } else {
-              //       return Text(
-              //           'Connection State: ${snapshot.connectionState}');
-              //     }
-              //   },
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
@@ -353,167 +231,152 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.totalFindSchedule.value,
                       itemBuilder: (BuildContext context, int i) {
-                        return ContainerSchedule;
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${state.findSchedule.value?.data!.data?[i].customer?.fullname}',
+                                      style: TextStyle(
+                                        color: fromCssColor('#323232'),
+                                        fontWeight: bold,
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: fromCssColor('#1ACE42'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
+                                              style: TextStyle(
+                                                color: fromCssColor('#6B6B6B'),
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.category?.name}',
+                                        style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 11,
+                                            color: fromCssColor('#A3A3A3')),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.name}',
+                                      style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 11,
+                                          color: fromCssColor('#A3A3A3')),
+                                    ),
+                                  ],
+                                ),
+                                state.findSchedule.value!.data!.data![i]
+                                            .status ==
+                                        'PENDING'
+                                    ? InkWell(
+                                        child: Container(
+                                          height: 35,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: fromCssColor('#5DA89C'),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'Terima',
+                                              style: TextStyle(
+                                                fontWeight: bold,
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : state.findSchedule.value!.data!.data![i]
+                                                .status ==
+                                            'DIAMBIL'
+                                        ? InkWell(
+                                            child: Container(
+                                              height: 35,
+                                              width: 80,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: fromCssColor('#FFC36A'),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Diambil',
+                                                  style: TextStyle(
+                                                    fontWeight: bold,
+                                                    fontFamily: 'ProximaNova',
+                                                    fontSize: 13,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            height: 35,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: fromCssColor('#6B6B6B'),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Expire',
+                                                style: TextStyle(
+                                                  fontWeight: bold,
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 13,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                              ],
+                            ),
+                          ),
+                        );
                       },
                     ),
-                    // FutureBuilder(
-                    //   future: state.getDoctorSchedule(context),
-                    //   builder: (context, AsyncSnapshot snapshot) {
-                    //     print(snapshot.connectionState);
-                    //     if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return Shimmer.fromColors(
-                    //         baseColor: greyColor.withOpacity(0.25),
-                    //         highlightColor: whiteColor.withOpacity(0.6),
-                    //         child: Column(
-                    //           children: [
-                    //             ContainerSchedule,
-                    //             const SizedBox(
-                    //               height: spaceHeigt,
-                    //             ),
-                    //             ContainerSchedule,
-                    //             const SizedBox(
-                    //               height: spaceHeigt,
-                    //             ),
-                    //             ContainerSchedule,
-                    //           ],
-                    //         ),
-                    //       );
-                    //     } else if (snapshot.connectionState ==
-                    //         ConnectionState.done) {
-                    //       if (snapshot.hasError) {
-                    //         return const Text('Error');
-                    //       } else if (snapshot.hasData) {
-                    //         return ContainerSchedule;
-                    //       } else {
-                    //         return Center(
-                    //           child: Text(
-                    //             'Belum ada jadwal',
-                    //             style: TextStyle(
-                    //               fontWeight: bold,
-                    //               fontFamily: 'ProximaNova',
-                    //               fontSize: 15,
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }
-                    //     } else {
-                    //       return Text(
-                    //           'Connection State: ${snapshot.connectionState}');
-                    //     }
-                    //   },
-                    // ),
-
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(15),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       children: [
-                    //         Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text(
-                    //               'Dila Btw',
-                    //               style: TextStyle(
-                    //                 color: fromCssColor('#323232'),
-                    //                 fontWeight: bold,
-                    //                 fontFamily: 'ProximaNova',
-                    //                 fontSize: 15,
-                    //               ),
-                    //             ),
-                    //             Padding(
-                    //               padding:
-                    //                   const EdgeInsets.symmetric(vertical: 10),
-                    //               child: Row(
-                    //                 children: [
-                    //                   Container(
-                    //                     height: 10,
-                    //                     width: 10,
-                    //                     decoration: BoxDecoration(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(5),
-                    //                       color: fromCssColor('#1ACE42'),
-                    //                     ),
-                    //                   ),
-                    //                   Padding(
-                    //                     padding: const EdgeInsets.only(left: 5),
-                    //                     child: Text(
-                    //                       '10:00 WIB',
-                    //                       style: TextStyle(
-                    //                         color: fromCssColor('#6B6B6B'),
-                    //                         fontFamily: 'ProximaNova',
-                    //                         fontSize: 13,
-                    //                       ),
-                    //                     ),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             Padding(
-                    //               padding: const EdgeInsets.only(bottom: 5),
-                    //               child: Text(
-                    //                 'Category: Face Concerns',
-                    //                 style: TextStyle(
-                    //                     fontFamily: 'ProximaNova',
-                    //                     fontSize: 11,
-                    //                     color: fromCssColor('#A3A3A3')),
-                    //               ),
-                    //             ),
-                    //             Text(
-                    //               'Topic: Acne Scars (Bopeng bekas jerawat)',
-                    //               style: TextStyle(
-                    //                   fontFamily: 'ProximaNova',
-                    //                   fontSize: 11,
-                    //                   color: fromCssColor('#A3A3A3')),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         InkWell(
-                    //           child: Container(
-                    //             height: 35,
-                    //             width: 80,
-                    //             decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.circular(10),
-                    //               color: fromCssColor('#FFC36A'),
-                    //             ),
-                    //             child: Center(
-                    //               child: Text(
-                    //                 'Diambil',
-                    //                 style: TextStyle(
-                    //                   fontWeight: bold,
-                    //                   fontFamily: 'ProximaNova',
-                    //                   fontSize: 13,
-                    //                   color: Colors.white,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // ContainerSchedule,
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // ContainerSchedule,
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // ContainerSchedule,
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // ContainerSchedule
                   ],
                 ),
               ),
