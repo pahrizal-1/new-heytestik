@@ -57,13 +57,14 @@ class DataNotificationCustomerModel {
   });
 
   factory DataNotificationCustomerModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     return DataNotificationCustomerModel(
       id: json['id'],
       recipientId: json['recipient_id'],
       type: json['type'],
       title: json['title'],
       body: json['body'],
-      data: json['data'],
+      data: json['type'] == "GENERAL" ? {} : json['data'],
       sender: SenderModel.fromJson(json['sender']),
       createdAt: json['created_at'],
     );

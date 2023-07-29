@@ -1,6 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -43,39 +45,32 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
               children: [
                 Text(
                   'Tambahkan gambar',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 20, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 Text(
                   'Kamera',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 15, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 Text(
                   'Dari galeri',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 15, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GaleryMyJourney()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const GaleryMyJourney()));
                   },
                   child: Text(
                     'Dari galeri ‘My Journey’',
-                    style: blackRegulerTextStyle.copyWith(
-                        fontSize: 15, color: blackColor),
+                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                   ),
                 ),
                 const SizedBox(
@@ -90,8 +85,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                       },
                       child: Text(
                         'CANCEL',
-                        style: blackRegulerTextStyle.copyWith(
-                            fontSize: 15, color: blackColor),
+                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                       ),
                     ),
                   ],
@@ -106,8 +100,7 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
 class AlertDialogLogout extends StatelessWidget {
   AlertDialogLogout({super.key});
 
-  final DoctorProfileController stateDoctor =
-      Get.put(DoctorProfileController());
+  final DoctorProfileController stateDoctor = Get.put(DoctorProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -128,8 +121,7 @@ class AlertDialogLogout extends StatelessWidget {
               children: [
                 Text(
                   'Apakah Anda Akan Keluar?',
-                  style: subGreyTextStyle.copyWith(
-                      fontSize: 17, color: blackColor),
+                  style: subGreyTextStyle.copyWith(fontSize: 17, color: blackColor),
                 ),
                 const SizedBox(
                   height: 50,
@@ -149,7 +141,12 @@ class AlertDialogLogout extends StatelessWidget {
                     const SizedBox(width: 30),
                     InkWell(
                       onTap: () async {
-                        await stateDoctor.logout(context);
+                        int userID = await LocalStorage().getUserID() ?? 0;
+                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                          await stateDoctor.logout(context);
+                          await FirebaseMessaging.instance.unsubscribeFromTopic('all');
+                          await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+                        });
                       },
                       child: Text(
                         'Ya',
@@ -188,8 +185,7 @@ class AlertInfomasi extends StatelessWidget {
               children: [
                 Text(
                   'Apakah Anda Akan Hapus?',
-                  style: subGreyTextStyle.copyWith(
-                      fontSize: 17, color: blackColor),
+                  style: subGreyTextStyle.copyWith(fontSize: 17, color: blackColor),
                 ),
                 const SizedBox(
                   height: 50,

@@ -96,17 +96,8 @@ class LoginController extends StateClass {
           scopes: scopes,
         );
 
-        print("DISINI");
-        await _googleSignIn.signIn();
-        // await _googleSignIn.requestScopes(scopes);
-
-        _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
-          print(account);
-        });
-
-        print("DISINI");
-        print(await _googleSignIn.isSignedIn());
-
+        GoogleSignInAccount? user = await _googleSignIn.signIn();
+        print(user);
         if (await _googleSignIn.isSignedIn()) {
           final googleAuth = await _googleSignIn.currentUser?.authentication;
           print(googleAuth!.accessToken);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
@@ -18,11 +19,15 @@ class HomePageDoctor extends StatefulWidget {
 
 class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
+  final NotificationCustomerController stateNotification = Get.put(NotificationCustomerController());
 
   @override
   void initState() {
     super.initState();
     state.init(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      stateNotification.getNotification(context, 1);
+    });
   }
 
   @override
@@ -57,14 +62,12 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                 width: 50,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/doctor1.png'),
+                                    image: AssetImage('assets/images/doctor1.png'),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, left: 15),
+                                padding: const EdgeInsets.only(top: 15, left: 15),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -97,11 +100,11 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                           ),
                           InkWell(
                             onTap: () {
+                              stateNotification.getNotification(context, 1);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NotificationDoctorPage(),
+                                  builder: (context) => const NotificationDoctorPage(),
                                 ),
                               );
                             },
@@ -140,8 +143,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     ],
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: paddingL, bottom: paddingL),
+                    padding: const EdgeInsets.only(top: paddingL, bottom: paddingL),
                     child: Center(
                       child: state.startTime.value.isEmpty
                           ? Text(
@@ -203,8 +205,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                           width: paddingL,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  AssetImage('assets/icons/calender-logo.png'),
+                              image: AssetImage('assets/icons/calender-logo.png'),
                             ),
                           ),
                         ),
@@ -226,8 +227,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.totalFindSchedule.value,
                       itemBuilder: (BuildContext context, int i) {
@@ -254,22 +254,19 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
                                       child: Row(
                                         children: [
                                           Container(
                                             height: 10,
                                             width: 10,
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
+                                              borderRadius: BorderRadius.circular(5),
                                               color: fromCssColor('#1ACE42'),
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 5),
+                                            padding: const EdgeInsets.only(left: 5),
                                             child: Text(
                                               '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
                                               style: TextStyle(
@@ -286,31 +283,22 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                       padding: const EdgeInsets.only(bottom: 5),
                                       child: Text(
                                         'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.category?.name}',
-                                        style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 11,
-                                            color: fromCssColor('#A3A3A3')),
+                                        style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
                                       ),
                                     ),
                                     Text(
                                       'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.name}',
-                                      style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 11,
-                                          color: fromCssColor('#A3A3A3')),
+                                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
                                     ),
                                   ],
                                 ),
-                                state.findSchedule.value!.data!.data![i]
-                                            .status ==
-                                        'PENDING'
+                                state.findSchedule.value!.data!.data![i].status == 'PENDING'
                                     ? InkWell(
                                         child: Container(
                                           height: 35,
                                           width: 80,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: fromCssColor('#5DA89C'),
                                           ),
                                           child: Center(
@@ -326,16 +314,13 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                           ),
                                         ),
                                       )
-                                    : state.findSchedule.value!.data!.data![i]
-                                                .status ==
-                                            'DIAMBIL'
+                                    : state.findSchedule.value!.data!.data![i].status == 'DIAMBIL'
                                         ? InkWell(
                                             child: Container(
                                               height: 35,
                                               width: 80,
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                borderRadius: BorderRadius.circular(10),
                                                 color: fromCssColor('#FFC36A'),
                                               ),
                                               child: Center(
@@ -355,8 +340,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                             height: 35,
                                             width: 80,
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                               color: fromCssColor('#6B6B6B'),
                                             ),
                                             child: Center(

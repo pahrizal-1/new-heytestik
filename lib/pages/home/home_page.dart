@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/customer/notification/notification_controller.dart';
 import '../setings&akun/akun_home_page.dart';
 
 class HomepageCutomer extends StatefulWidget {
@@ -21,6 +22,7 @@ class HomepageCutomer extends StatefulWidget {
 
 class _HomepageCutomerState extends State<HomepageCutomer> {
   final HomeController state = Get.put(HomeController());
+  final NotificationCustomerController stateNotification = Get.put(NotificationCustomerController());
 
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
@@ -33,6 +35,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   void initState() {
     super.initState();
     state.init();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      stateNotification.getNotification(context, 1);
+      setState(() {});
+    });
   }
 
   @override

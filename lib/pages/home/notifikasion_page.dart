@@ -28,9 +28,6 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
         }
       }
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.getNotification(context, 1);
-    });
     super.initState();
   }
 
@@ -56,6 +53,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
           return Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, top: 27),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -97,6 +95,70 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                 const SizedBox(
                   height: 22,
                 ),
+                if (state.notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || state.notifications[index].type == 'CHAT')
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF24A7A0),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 8.0,
+                    ),
+                    child: Text(
+                      "Chat Dokter",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                if (state.notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.05),
+                          blurRadius: 10,
+                        )
+                      ]
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text("Category : ${state.notifications[index].data['category']}"),
+                              Text("Topic : ${state.notifications[index].data['topic']}"),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFF24A7A0),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                          child: Text(
+                            "Terima",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if(state.notifications[index].type != "GENERAL")
+                  const SizedBox(
+                    height: 16.0,
+                  ),
                 dividergrey(),
               ],
             ),
