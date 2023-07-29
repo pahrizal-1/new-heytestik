@@ -158,6 +158,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                         return ProdukCardWidget(
                           cartId: state.filterData[i].id!.toInt(),
                           productId: state.filterData[i].productId!.toInt(),
+                          qty: state.filterData[i].qty!.toInt(),
                           imageProduk:
                               '${Global.FILE}/${state.filterData[i].product!.mediaProducts?[0].media?.path}',
                           merkProduk: '${state.filterData[i].product?.name}',
