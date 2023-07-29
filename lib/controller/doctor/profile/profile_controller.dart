@@ -33,9 +33,15 @@ class DoctorProfileController extends StateClass {
   Rx<ProfileModel> profileData = ProfileModel().obs;
   final TextEditingController pinOldController = TextEditingController();
   final TextEditingController pinNewController = TextEditingController();
+  final TextEditingController nama = TextEditingController();
+  final TextEditingController spesialisasi = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController noHp = TextEditingController();
+  final TextEditingController jenisKelamin = TextEditingController();
   var userBalanceService = UserBalanceService();
   var profileService = ProfileService();
   var changePasswordService = ChangePasswordService();
+  String? gender = 'male';
 
   Future getProfile() async {
     isLoading.value = true;
@@ -44,6 +50,9 @@ class DoctorProfileController extends StateClass {
     print('GetUserInfoDataDompet : ' +
         profileData.value.data!.fullname.toString());
 
+    nama.text = profileData.value.data!.fullname.toString();
+    email.text = profileData.value.data!.email.toString();
+    noHp.text = profileData.value.data!.noPhone.toString();
     isLoading.value = false;
   }
 

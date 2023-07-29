@@ -777,13 +777,17 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                       itemBuilder:
                                                           (BuildContext context,
                                                               count) {
-                                                        return Image.network(
-                                                          'http://192.168.0.118:8193/files/' +
-                                                              msglist![index]
-                                                                  .mediaChatMessages![
-                                                                      count]
-                                                                  .media!
-                                                                  .path!,
+                                                        return Builder(
+                                                          builder: (context) {
+                                                            return Image.network(
+                                                              'http://192.168.0.118:8193/files/' +
+                                                                  msglist![index]
+                                                                      .mediaChatMessages![
+                                                                          count]
+                                                                      .media!
+                                                                      .path!,
+                                                            );
+                                                          }
                                                         );
                                                       },
                                                     ),

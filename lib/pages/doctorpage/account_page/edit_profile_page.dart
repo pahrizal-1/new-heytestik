@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/text_form_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -12,18 +14,16 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final TextEditingController _nama =
-      TextEditingController(text: 'dr. Risty Hafinah, Sp.DV');
-  final TextEditingController _spesialisasi =
-      TextEditingController(text: 'Spesialis Kulit');
-  final TextEditingController _email =
-      TextEditingController(text: 'ristyhafinah@gmail.com');
-  final TextEditingController _no_hp =
-      TextEditingController(text: '085211341645');
-  final TextEditingController _jenis_kelamin =
-      TextEditingController(text: '085211341645');
-
   bool isSelected = false;
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.getProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,22 +126,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     TetxFromProfilEdit(
                       title1: 'Nama Lengkap',
-                      controller: _nama,
+                      controller: state.nama,
                       icon: Icons.person,
                     ),
                     TetxFromProfilEdit(
                       title1: 'Spesialisasi',
-                      controller: _spesialisasi,
+                      controller: state.spesialisasi,
                       icon: Icons.edit,
                     ),
                     TetxFromProfilEdit(
                       title1: 'email',
-                      controller: _email,
+                      controller: state.email,
                       icon: Icons.email,
                     ),
                     TetxFromProfilEdit(
                       title1: 'No. Handphone',
-                      controller: _no_hp,
+                      controller: state.noHp,
                       icon: Icons.call,
                     ),
                     Row(
