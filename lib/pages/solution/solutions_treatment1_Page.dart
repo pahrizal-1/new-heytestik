@@ -536,7 +536,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         const SizedBox(
                           height: 17,
                         ),
-                        const SingleChildScrollView(
+                        SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Padding(
                             padding: EdgeInsets.only(left: 20),

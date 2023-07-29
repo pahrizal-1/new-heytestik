@@ -11,6 +11,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
+import '../../controller/customer/chat/chat_controller.dart';
+import '../../widget/chat_doctor_widget.dart';
 import '../../widget/pencarian_search_widget.dart';
 import '../home/notifikasion_page.dart';
 import '../setings&akun/akun_home_page.dart';
@@ -132,6 +134,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
               ? const BelumKonsultasiChat()
               : ListChatPage(
                   recentChat: state.recentChat.value,
+                  
                 ),
         ),
       ),

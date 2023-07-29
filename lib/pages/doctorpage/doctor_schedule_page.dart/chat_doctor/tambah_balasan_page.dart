@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+
+import '../../../../controller/doctor/settings/setting_controller.dart';
 
 class TambahBalasanPage extends StatelessWidget {
   const TambahBalasanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SettingController state = Get.put(SettingController());
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -17,6 +22,8 @@ class TambahBalasanPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    state.shortcutController.text = '';
+                    state.messageController.text = '';
                     Navigator.pop(context);
                   },
                   child: const Icon(
@@ -40,6 +47,9 @@ class TambahBalasanPage extends StatelessWidget {
               ],
             ),
             InkWell(
+              onTap: () {
+                state.postQuickChat(context);
+              },
               child: Text(
                 'SIMPAN',
                 style: TextStyle(
@@ -59,23 +69,13 @@ class TambahBalasanPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Shortcut',
-              style: subTitleTextStyle,
-            ),
+            Text('Shortcut'),
+            SizedBox(height: 7),
             TextFormField(
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
-                focusedBorder: UnderlineInputBorder(
-                  //<-- SEE HERE
-                  borderSide: BorderSide(width: 1, color: subgreyColor),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  //<-- SEE HERE
-                  borderSide: BorderSide(width: 1, color: subgreyColor),
-                ),
-              ),
+              keyboardType: TextInputType.multiline,
+              minLines: 1, //Normal textInputField will be displayed
+              maxLines: 5,
+              controller: state.shortcutController,
             ),
             SizedBox(
               height: 10,
@@ -96,6 +96,7 @@ class TambahBalasanPage extends StatelessWidget {
                 Container(
                   width: 284,
                   child: TextFormField(
+                    controller: state.messageController,
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(

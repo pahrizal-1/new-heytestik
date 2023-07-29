@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
+import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/costoum_pin_widgets.dart';
 
 class PinPageBaruDoctor extends StatefulWidget {
@@ -12,44 +14,41 @@ class PinPageBaruDoctor extends StatefulWidget {
 }
 
 class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
   final TextEditingController pinController = TextEditingController(text: '');
   String pin = '123456';
   bool isErr = false;
 
   addPin(String number) {
     print('number $number');
-    if (pinController.text.length < 6) {
+    if (state.pinOldController.text.length < 6) {
       setState(() {
-        pinController.text = pinController.text + number;
+        state.pinOldController.text = state.pinOldController.text + number;
       });
     }
 
-    if (pinController.text.length == 6) {
-      if (pinController.text == pin) {
-        showDialog(
-          context: context,
-          builder: (context) => const MoreDialogPassword(),
-        );
-        print('pin');
-      } else {
-        print('Password salah');
-        isErr = true;
-        Text(
-          'Password anda salah',
-          style: blackTextStyle.copyWith(color: redColor),
-        );
-      }
-    }
+    // if (pinController.text.length == 6) {
+    //   if (pinController.text == pin) {
+    //     showDialog(
+    //     print('pin');()
+    //   } else {
+    //     print('Password salah');
+    //     isErr = true;
+    //     Text(
+    //       'Password anda salah',
+    //       style: blackTextStyle.copyWith(color: redColor),
+    //     );
+    //   }
+    // }
 
     print('pinController ${pinController.text}');
   }
 
   deletedPin() {
-    if (pinController.text.isNotEmpty) {
+    if (state.pinOldController.text.isNotEmpty) {
       setState(() {
-        isErr = false;
-        pinController.text =
-            pinController.text.substring(0, pinController.text.length - 1);
+        state.pinOldController.text = state.pinOldController.text
+            .substring(0, state.pinOldController.text.length - 1);
       });
     }
   }
@@ -85,7 +84,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                     height: 100,
                   ),
                   Text(
-                    'Masukkan Kata Sandi\nBaru Anda',
+                    'Masukkan Kata Sandi\nLama Anda',
                     style: whiteTextStyle.copyWith(
                       fontWeight: bold,
                       fontSize: 20,
@@ -102,7 +101,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 1)
+                          (state.pinOldController.text.length >= 1)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           size: 15,
@@ -112,7 +111,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 2)
+                          (state.pinOldController.text.length >= 2)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -122,7 +121,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 3)
+                          (state.pinOldController.text.length >= 3)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -132,7 +131,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 4)
+                          (state.pinOldController.text.length >= 4)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -142,7 +141,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 5)
+                          (state.pinOldController.text.length >= 5)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -152,7 +151,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length == 6)
+                          (state.pinOldController.text.length == 6)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -357,10 +356,8 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          deletedPin();
-                        },
+                      InkWell(
+                        onTap: () {},
                         child: InkWell(
                           onTap: () {
                             showDialog(

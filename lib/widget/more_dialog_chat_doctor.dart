@@ -168,12 +168,12 @@ class _MoreDialogChatDoctorState extends State<MoreDialogChatDoctor> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChatDoctorPage(),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const ChatDoctorPage(),
+                        //   ),
+                        // );
                       },
                       child: Container(
                         height: 34,

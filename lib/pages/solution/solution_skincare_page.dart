@@ -233,7 +233,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                       const SizedBox(
                         height: 15,
                       ),
-                      const SingleChildScrollView(
+                      SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Padding(
                           padding: EdgeInsets.only(left: 25),

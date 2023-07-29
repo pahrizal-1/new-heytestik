@@ -26,7 +26,7 @@ class RekeningBankPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('PT. BCA (BANK CENTRAL ASIA) TBK'),
