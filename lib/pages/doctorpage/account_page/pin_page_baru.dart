@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/costoum_pin_widgets.dart';

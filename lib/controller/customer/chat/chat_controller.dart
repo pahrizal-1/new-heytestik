@@ -13,7 +13,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../models/doctor/list_message_model.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
-import '../../../widget/preview_widget.dart';
 
 class CustomerChatController extends StateClass {
   RxList listRecentChat = [].obs;

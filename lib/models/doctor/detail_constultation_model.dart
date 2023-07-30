@@ -8,13 +8,13 @@ class ConsultationDetailModel {
   ConsultationDetailModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,13 +31,13 @@ class Data {
   int? medicalHistoryId;
   String? code;
   int? duration;
-  Null? startDate;
+  dynamic startDate;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Customer? customer;
   Doctor? doctor;
   ChatRoom? chatRoom;
@@ -80,47 +80,44 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
-        : null;
-    doctor =
-        json['doctor'] != null ? new Doctor.fromJson(json['doctor']) : null;
-    chatRoom = json['chat_room'] != null
-        ? new ChatRoom.fromJson(json['chat_room'])
-        : null;
+    customer =
+        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
+    doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
+    chatRoom =
+        json['chat_room'] != null ? ChatRoom.fromJson(json['chat_room']) : null;
     medicalHistory = json['medical_history'] != null
-        ? new MedicalHistory.fromJson(json['medical_history'])
+        ? MedicalHistory.fromJson(json['medical_history'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['customer_id'] = this.customerId;
-    data['transaction_consultation_id'] = this.transactionConsultationId;
-    data['consultation_doctor_schedule_id'] = this.consultationDoctorScheduleId;
-    data['medical_history_id'] = this.medicalHistoryId;
-    data['code'] = this.code;
-    data['duration'] = this.duration;
-    data['start_date'] = this.startDate;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['customer_id'] = customerId;
+    data['transaction_consultation_id'] = transactionConsultationId;
+    data['consultation_doctor_schedule_id'] = consultationDoctorScheduleId;
+    data['medical_history_id'] = medicalHistoryId;
+    data['code'] = code;
+    data['duration'] = duration;
+    data['start_date'] = startDate;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (customer != null) {
+      data['customer'] = customer!.toJson();
     }
-    if (this.doctor != null) {
-      data['doctor'] = this.doctor!.toJson();
+    if (doctor != null) {
+      data['doctor'] = doctor!.toJson();
     }
-    if (this.chatRoom != null) {
-      data['chat_room'] = this.chatRoom!.toJson();
+    if (chatRoom != null) {
+      data['chat_room'] = chatRoom!.toJson();
     }
-    if (this.medicalHistory != null) {
-      data['medical_history'] = this.medicalHistory!.toJson();
+    if (medicalHistory != null) {
+      data['medical_history'] = medicalHistory!.toJson();
     }
     return data;
   }
@@ -136,34 +133,34 @@ class Customer {
   String? address;
   String? photoProfile;
   String? referralCode;
-  Null? userCode;
+  dynamic userCode;
   int? roleId;
-  Null? verificationCodePhone;
-  Null? verificationCodeEmail;
-  Null? provinceId;
-  Null? cityId;
-  Null? education;
-  Null? practiceLocation;
-  Null? joinDate;
-  Null? title;
-  Null? sip;
-  Null? str;
-  Null? ktpNo;
-  Null? ktpImage;
-  Null? npwpNo;
-  Null? npwpImage;
-  Null? specialist;
-  Null? dob;
+  dynamic verificationCodePhone;
+  dynamic verificationCodeEmail;
+  dynamic provinceId;
+  dynamic cityId;
+  dynamic education;
+  dynamic practiceLocation;
+  dynamic joinDate;
+  dynamic title;
+  dynamic sip;
+  dynamic str;
+  dynamic ktpNo;
+  dynamic ktpImage;
+  dynamic npwpNo;
+  dynamic npwpImage;
+  dynamic specialist;
+  dynamic dob;
   int? rating;
-  Null? statusSchedule;
-  Null? since;
-  Null? start;
-  Null? until;
+  dynamic statusSchedule;
+  dynamic since;
+  dynamic start;
+  dynamic until;
   bool? isActive;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
-  Null? refreshToken;
+  dynamic deletedAt;
+  dynamic refreshToken;
 
   Customer(
       {this.id,
@@ -245,44 +242,44 @@ class Customer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullname'] = this.fullname;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['no_phone'] = this.noPhone;
-    data['gender'] = this.gender;
-    data['address'] = this.address;
-    data['photo_profile'] = this.photoProfile;
-    data['referral_code'] = this.referralCode;
-    data['user_code'] = this.userCode;
-    data['roleId'] = this.roleId;
-    data['verification_code_phone'] = this.verificationCodePhone;
-    data['verification_code_email'] = this.verificationCodeEmail;
-    data['provinceId'] = this.provinceId;
-    data['cityId'] = this.cityId;
-    data['education'] = this.education;
-    data['practice_location'] = this.practiceLocation;
-    data['join_date'] = this.joinDate;
-    data['title'] = this.title;
-    data['sip'] = this.sip;
-    data['str'] = this.str;
-    data['ktp_no'] = this.ktpNo;
-    data['ktp_image'] = this.ktpImage;
-    data['npwp_no'] = this.npwpNo;
-    data['npwp_image'] = this.npwpImage;
-    data['specialist'] = this.specialist;
-    data['dob'] = this.dob;
-    data['rating'] = this.rating;
-    data['status_schedule'] = this.statusSchedule;
-    data['since'] = this.since;
-    data['start'] = this.start;
-    data['until'] = this.until;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['refresh_token'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
     return data;
   }
 }
@@ -297,34 +294,34 @@ class Doctor {
   String? address;
   String? photoProfile;
   String? referralCode;
-  Null? userCode;
+  dynamic userCode;
   int? roleId;
-  Null? verificationCodePhone;
-  Null? verificationCodeEmail;
-  Null? provinceId;
-  Null? cityId;
+  dynamic verificationCodePhone;
+  dynamic verificationCodeEmail;
+  dynamic provinceId;
+  dynamic cityId;
   String? education;
   String? practiceLocation;
-  Null? joinDate;
-  Null? title;
+  dynamic joinDate;
+  dynamic title;
   String? sip;
   String? str;
-  Null? ktpNo;
-  Null? ktpImage;
-  Null? npwpNo;
-  Null? npwpImage;
+  dynamic ktpNo;
+  dynamic ktpImage;
+  dynamic npwpNo;
+  dynamic npwpImage;
   String? specialist;
-  Null? dob;
+  dynamic dob;
   int? rating;
-  Null? statusSchedule;
-  Null? since;
-  Null? start;
-  Null? until;
+  dynamic statusSchedule;
+  dynamic since;
+  dynamic start;
+  dynamic until;
   bool? isActive;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
-  Null? refreshToken;
+  dynamic deletedAt;
+  dynamic refreshToken;
 
   Doctor(
       {this.id,
@@ -406,44 +403,44 @@ class Doctor {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullname'] = this.fullname;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['no_phone'] = this.noPhone;
-    data['gender'] = this.gender;
-    data['address'] = this.address;
-    data['photo_profile'] = this.photoProfile;
-    data['referral_code'] = this.referralCode;
-    data['user_code'] = this.userCode;
-    data['roleId'] = this.roleId;
-    data['verification_code_phone'] = this.verificationCodePhone;
-    data['verification_code_email'] = this.verificationCodeEmail;
-    data['provinceId'] = this.provinceId;
-    data['cityId'] = this.cityId;
-    data['education'] = this.education;
-    data['practice_location'] = this.practiceLocation;
-    data['join_date'] = this.joinDate;
-    data['title'] = this.title;
-    data['sip'] = this.sip;
-    data['str'] = this.str;
-    data['ktp_no'] = this.ktpNo;
-    data['ktp_image'] = this.ktpImage;
-    data['npwp_no'] = this.npwpNo;
-    data['npwp_image'] = this.npwpImage;
-    data['specialist'] = this.specialist;
-    data['dob'] = this.dob;
-    data['rating'] = this.rating;
-    data['status_schedule'] = this.statusSchedule;
-    data['since'] = this.since;
-    data['start'] = this.start;
-    data['until'] = this.until;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['refresh_token'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
     return data;
   }
 }
@@ -454,11 +451,11 @@ class ChatRoom {
   int? customerId;
   String? code;
   bool? ended;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   ChatRoom(
       {this.id,
@@ -486,17 +483,17 @@ class ChatRoom {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['customer_id'] = this.customerId;
-    data['code'] = this.code;
-    data['ended'] = this.ended;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['customer_id'] = customerId;
+    data['code'] = code;
+    data['ended'] = ended;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -505,11 +502,11 @@ class MedicalHistory {
   int? id;
   int? customerId;
   int? interestConditionId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   List<MediaMedicalHistories>? mediaMedicalHistories;
   InterestCondition? interestCondition;
   List<MedicalHistoryItems>? medicalHistoryItems;
@@ -539,40 +536,40 @@ class MedicalHistory {
     if (json['media_medical_histories'] != null) {
       mediaMedicalHistories = <MediaMedicalHistories>[];
       json['media_medical_histories'].forEach((v) {
-        mediaMedicalHistories!.add(new MediaMedicalHistories.fromJson(v));
+        mediaMedicalHistories!.add(MediaMedicalHistories.fromJson(v));
       });
     }
     interestCondition = json['interest_condition'] != null
-        ? new InterestCondition.fromJson(json['interest_condition'])
+        ? InterestCondition.fromJson(json['interest_condition'])
         : null;
     if (json['medical_history_items'] != null) {
       medicalHistoryItems = <MedicalHistoryItems>[];
       json['medical_history_items'].forEach((v) {
-        medicalHistoryItems!.add(new MedicalHistoryItems.fromJson(v));
+        medicalHistoryItems!.add(MedicalHistoryItems.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['customer_id'] = this.customerId;
-    data['interest_condition_id'] = this.interestConditionId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.mediaMedicalHistories != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['interest_condition_id'] = interestConditionId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (mediaMedicalHistories != null) {
       data['media_medical_histories'] =
-          this.mediaMedicalHistories!.map((v) => v.toJson()).toList();
+          mediaMedicalHistories!.map((v) => v.toJson()).toList();
     }
-    if (this.interestCondition != null) {
-      data['interest_condition'] = this.interestCondition!.toJson();
+    if (interestCondition != null) {
+      data['interest_condition'] = interestCondition!.toJson();
     }
-    if (this.medicalHistoryItems != null) {
+    if (medicalHistoryItems != null) {
       data['medical_history_items'] =
-          this.medicalHistoryItems!.map((v) => v.toJson()).toList();
+          medicalHistoryItems!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -582,11 +579,11 @@ class MediaMedicalHistories {
   int? id;
   int? mediaId;
   int? medicalHistoryId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Media? media;
 
   MediaMedicalHistories(
@@ -609,21 +606,21 @@ class MediaMedicalHistories {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    media = json['media'] != null ? new Media.fromJson(json['media']) : null;
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media_id'] = this.mediaId;
-    data['medical_history_id'] = this.medicalHistoryId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.media != null) {
-      data['media'] = this.media!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['medical_history_id'] = medicalHistoryId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
     }
     return data;
   }
@@ -637,11 +634,11 @@ class Media {
   String? mime;
   String? path;
   String? destination;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Media(
       {this.id,
@@ -673,19 +670,19 @@ class Media {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['filename'] = this.filename;
-    data['ext'] = this.ext;
-    data['size'] = this.size;
-    data['mime'] = this.mime;
-    data['path'] = this.path;
-    data['destination'] = this.destination;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -694,11 +691,11 @@ class InterestCondition {
   int? id;
   int? interestConditionsCategoryId;
   String? name;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Category? category;
 
   InterestCondition(
@@ -721,23 +718,22 @@ class InterestCondition {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['interest_conditions_category_id'] = this.interestConditionsCategoryId;
-    data['name'] = this.name;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['interest_conditions_category_id'] = interestConditionsCategoryId;
+    data['name'] = name;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -746,11 +742,11 @@ class InterestCondition {
 class Category {
   int? id;
   String? name;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Category(
       {this.id,
@@ -772,14 +768,14 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -789,12 +785,12 @@ class MedicalHistoryItems {
   int? medicalHistoryId;
   int? interestConditionQuestionId;
   int? interestConditionAnswerId;
-  Null? answerDescription;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic answerDescription;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   InterestConditionsAnswer? interestConditionsAnswer;
   InterestConditionsQuestion? interestConditionsQuestion;
 
@@ -824,34 +820,32 @@ class MedicalHistoryItems {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     interestConditionsAnswer = json['interest_conditions_answer'] != null
-        ? new InterestConditionsAnswer.fromJson(
-            json['interest_conditions_answer'])
+        ? InterestConditionsAnswer.fromJson(json['interest_conditions_answer'])
         : null;
     interestConditionsQuestion = json['interest_conditions_question'] != null
-        ? new InterestConditionsQuestion.fromJson(
+        ? InterestConditionsQuestion.fromJson(
             json['interest_conditions_question'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['medical_history_id'] = this.medicalHistoryId;
-    data['interest_condition_question_id'] = this.interestConditionQuestionId;
-    data['interest_condition_answer_id'] = this.interestConditionAnswerId;
-    data['answer_description'] = this.answerDescription;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.interestConditionsAnswer != null) {
-      data['interest_conditions_answer'] =
-          this.interestConditionsAnswer!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['medical_history_id'] = medicalHistoryId;
+    data['interest_condition_question_id'] = interestConditionQuestionId;
+    data['interest_condition_answer_id'] = interestConditionAnswerId;
+    data['answer_description'] = answerDescription;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (interestConditionsAnswer != null) {
+      data['interest_conditions_answer'] = interestConditionsAnswer!.toJson();
     }
-    if (this.interestConditionsQuestion != null) {
+    if (interestConditionsQuestion != null) {
       data['interest_conditions_question'] =
-          this.interestConditionsQuestion!.toJson();
+          interestConditionsQuestion!.toJson();
     }
     return data;
   }
@@ -861,11 +855,11 @@ class InterestConditionsAnswer {
   int? id;
   String? name;
   int? position;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   int? interestConditionsQuestionId;
 
   InterestConditionsAnswer(
@@ -892,16 +886,16 @@ class InterestConditionsAnswer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['position'] = this.position;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['interest_conditions_question_id'] = this.interestConditionsQuestionId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['position'] = position;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['interest_conditions_question_id'] = interestConditionsQuestionId;
     return data;
   }
 }
@@ -912,11 +906,11 @@ class InterestConditionsQuestion {
   String? type;
   String? typeAnswer;
   int? interestConditionsId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   InterestConditionsQuestion(
       {this.id,
@@ -944,17 +938,17 @@ class InterestConditionsQuestion {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['type'] = this.type;
-    data['type_answer'] = this.typeAnswer;
-    data['interest_conditions_id'] = this.interestConditionsId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['type'] = type;
+    data['type_answer'] = typeAnswer;
+    data['interest_conditions_id'] = interestConditionsId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

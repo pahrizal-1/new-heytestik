@@ -19,7 +19,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/convert_date.dart';
-import '../../../core/local_storage.dart';
 import '../../../models/doctor/detail_constultation_model.dart'
     as DetailConstultaion;
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
@@ -263,7 +262,8 @@ class DoctorConsultationController extends StateClass {
         endDate.value = i['end_date'] ?? '-';
         pasienName.value = i['customer']['fullname'];
         topic.value = i['medical_history']['interest_condition']['name'];
-        log('data  ' + i['medical_history']['medical_history_items'].toString());
+        log('data  ' +
+            i['medical_history']['medical_history_items'].toString());
       }
       log('resp  ' + listConstulDetail.toString());
     });

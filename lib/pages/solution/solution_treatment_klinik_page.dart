@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 
-import '../../controller/doctor/treatment/treatment_controller.dart';
+import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/clinic.dart';
 
 class TreatmentKlink extends StatefulWidget {
@@ -87,8 +87,9 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
       body: ListView.builder(
         itemCount: stateTreatment.dataClinic.length,
         itemBuilder: (context, index) {
-          return  CardKlinik(
-            namaKlink: '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
+          return CardKlinik(
+            namaKlink:
+                '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
             rating: '${stateTreatment.dataClinic[index].rating} (120k)',
             km: stateTreatment.dataClinic[index].distance,
             urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",

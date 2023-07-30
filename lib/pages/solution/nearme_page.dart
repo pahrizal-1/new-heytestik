@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
-import '../../controller/doctor/treatment/treatment_controller.dart';
+import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
@@ -37,7 +37,8 @@ class _NearMePageState extends State<NearMePage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+            treatments
+                .addAll(await stateTreatment.getAllTreatment(context, page));
             setState(() {});
           });
         }
@@ -108,7 +109,8 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 13, vertical: 13),
                         height: 40,
                         decoration: BoxDecoration(
                           color: const Color(0xffF1F1F1),
@@ -116,13 +118,15 @@ class _NearMePageState extends State<NearMePage> {
                         ),
                         child: Row(
                           children: [
-                            Image.asset('assets/icons/search1.png', width: 20, color: const Color(0xff9B9B9B)),
+                            Image.asset('assets/icons/search1.png',
+                                width: 20, color: const Color(0xff9B9B9B)),
                             const SizedBox(
                               width: 10,
                             ),
                             Text(
                               'Cari Treatment',
-                              style: subGreyTextStyle.copyWith(color: const Color(0xff9B9B9B)),
+                              style: subGreyTextStyle.copyWith(
+                                  color: const Color(0xff9B9B9B)),
                             )
                           ],
                         ),
@@ -155,7 +159,8 @@ class _NearMePageState extends State<NearMePage> {
                       children: [
                         Text(
                           'Tampilan',
-                          style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
+                          style: subTitleTextStyle.copyWith(
+                              color: const Color(0xff6B6B6B)),
                         ),
                         const SizedBox(
                           width: 4,
@@ -185,7 +190,8 @@ class _NearMePageState extends State<NearMePage> {
                         diskonProduk: '0',
                         hargaDiskon: '',
                         harga: element.price.toString(),
-                        urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                        urlImg:
+                            "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                         rating: '${element.rating} (120k)',
                         km: element.distance!,
                         lokasiKlinik: element.clinic!.city!.name!,
@@ -194,7 +200,8 @@ class _NearMePageState extends State<NearMePage> {
                     }).toList(),
                   )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 19),
                     child: Column(
                         children: treatments
                             .map(

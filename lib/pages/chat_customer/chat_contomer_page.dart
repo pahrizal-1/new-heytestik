@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 
-import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/tab_bar_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +17,6 @@ import '../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../theme/theme.dart';
 import '../../widget/chat_widget.dart';
 import '../../widget/preview_widget.dart';
-import '../../widget/rekomedasi_chat_widget.dart';
 import '../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
