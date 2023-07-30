@@ -45,32 +45,39 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
               children: [
                 Text(
                   'Tambahkan gambar',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 20, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 Text(
                   'Kamera',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 15, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 Text(
                   'Dari galeri',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 15, color: blackColor),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const GaleryMyJourney()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GaleryMyJourney()));
                   },
                   child: Text(
                     'Dari galeri ‘My Journey’',
-                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                    style: blackRegulerTextStyle.copyWith(
+                        fontSize: 15, color: blackColor),
                   ),
                 ),
                 const SizedBox(
@@ -85,7 +92,8 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                       },
                       child: Text(
                         'CANCEL',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       ),
                     ),
                   ],
@@ -100,7 +108,8 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
 class AlertDialogLogout extends StatelessWidget {
   AlertDialogLogout({super.key});
 
-  final DoctorProfileController stateDoctor = Get.put(DoctorProfileController());
+  final DoctorProfileController stateDoctor =
+      Get.put(DoctorProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +130,8 @@ class AlertDialogLogout extends StatelessWidget {
               children: [
                 Text(
                   'Apakah Anda Akan Keluar?',
-                  style: subGreyTextStyle.copyWith(fontSize: 17, color: blackColor),
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 17, color: blackColor),
                 ),
                 const SizedBox(
                   height: 50,
@@ -142,14 +152,68 @@ class AlertDialogLogout extends StatelessWidget {
                     InkWell(
                       onTap: () async {
                         int userID = await LocalStorage().getUserID() ?? 0;
-                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        WidgetsBinding.instance
+                            .addPostFrameCallback((timeStamp) async {
                           await stateDoctor.logout(context);
-                          await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-                          await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+                          await FirebaseMessaging.instance
+                              .unsubscribeFromTopic('all');
+                          await FirebaseMessaging.instance
+                              .unsubscribeFromTopic(userID.toString());
                         });
                       },
                       child: Text(
                         'Ya',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+  }
+}
+
+class AletDialogCache extends StatelessWidget {
+  const AletDialogCache({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0.1),
+      content: Container(
+          height: 176,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Cache Telah Dibersihkan',
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 17, color: blackColor),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Oke',
                         style: grenTextStyle.copyWith(fontSize: 15),
                       ),
                     ),
@@ -185,7 +249,8 @@ class AlertInfomasi extends StatelessWidget {
               children: [
                 Text(
                   'Apakah Anda Akan Hapus?',
-                  style: subGreyTextStyle.copyWith(fontSize: 17, color: blackColor),
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 17, color: blackColor),
                 ),
                 const SizedBox(
                   height: 50,
