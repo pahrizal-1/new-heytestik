@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi2_page.dart';
 
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../theme/theme.dart';
 
-class ReservasiPage extends StatelessWidget {
-  const ReservasiPage({super.key});
+class ReservasiPage extends StatefulWidget {
+  final Data2 treatment;
+  const ReservasiPage({required this.treatment, super.key});
+
+  @override
+  State<ReservasiPage> createState() => _ReservasiPageState();
+}
+
+class _ReservasiPageState extends State<ReservasiPage> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
+
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +72,10 @@ class ReservasiPage extends StatelessWidget {
                       height: 72,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/Ipl1.png'))),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                            "${Global.FILE}/${widget.treatment.mediaTreatments![0].media!.path}",
+                          ))),
                     ),
                     const SizedBox(
                       height: 3,
@@ -66,7 +91,7 @@ class ReservasiPage extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
-                          text: 'Peeling TCA Ringan',
+                          text: "${widget.treatment.clinic?.name}",
                           style: blackHigtTextStyle.copyWith(
                             fontSize: 15,
                           ),
@@ -115,7 +140,7 @@ class ReservasiPage extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Rp290.400',
+                  CurrencyFormat.convertToIdr(widget.treatment.price, 0),
                   style: grenTextStyle.copyWith(fontSize: 13),
                 ),
                 const Spacer(),
@@ -154,12 +179,13 @@ class ReservasiPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'Rp290.400',
+                  CurrencyFormat.convertToIdr(widget.treatment.price, 0),
                   style: blackTextStyle.copyWith(fontSize: 13),
                 ),
                 const Icon(Icons.keyboard_arrow_down)
               ],
             ),
+            // baru nampikan data reservasi
             const SizedBox(
               height: 85,
             ),
