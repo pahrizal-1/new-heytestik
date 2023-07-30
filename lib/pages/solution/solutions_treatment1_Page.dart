@@ -12,6 +12,8 @@ import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
+import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -49,7 +51,6 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
-      stateTreatment.getTopTreatment(context);
       treatments.addAll(await stateTreatment.getAllTreatment(context, page));
       setState(() {});
     });
@@ -359,8 +360,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/icons/nearme_icons.png')),
+                                  image: AssetImage('assets/icons/nearme_icons.png'),
+                                ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
                               ),
@@ -375,28 +376,38 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           )
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 75,
-                            width: 75,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/icons/trending_icons.png')),
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(7),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TrendingTreatment(),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            'Trending',
-                            style: blackTextStyle.copyWith(fontSize: 13),
-                          )
-                        ],
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 75,
+                              width: 75,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/icons/trending_icons.png'),
+                                ),
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Text(
+                              'Trending',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            )
+                          ],
+                        ),
                       ),
                       InkWell(
                         onTap: () {
@@ -415,8 +426,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/icons/klnik_icons.png')),
+                                  image: AssetImage('assets/icons/klnik_icons.png'),
+                                ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
                               ),
@@ -431,29 +442,38 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           ],
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 75,
-                            width: 75,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image:
-                                    AssetImage('assets/icons/top_rating.png'),
-                              ),
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(7),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TopRatingTreatment(),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            'TOP Rating!',
-                            style: blackTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 75,
+                              width: 75,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/icons/top_rating.png'),
+                                ),
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Text(
+                              'TOP Rating!',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -554,8 +574,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     context: context,
                                     backgroundColor: Colors.white,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.only(
+                                      borderRadius: BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
                                       ),

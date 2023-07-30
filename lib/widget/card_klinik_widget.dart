@@ -8,6 +8,7 @@ class CardKlinik extends StatelessWidget {
   final String rating;
   final String km;
   final String? buttonTitle;
+  final int price;
   const CardKlinik({
     super.key,
     required this.namaKlink,
@@ -15,6 +16,7 @@ class CardKlinik extends StatelessWidget {
     required this.km,
     this.buttonTitle = '',
     required this.urlImg,
+    required this.price,
   });
 
   @override
@@ -32,7 +34,7 @@ class CardKlinik extends StatelessWidget {
               height: 93,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(urlImg),
+                  image: NetworkImage(urlImg),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -53,7 +55,20 @@ class CardKlinik extends StatelessWidget {
                     const SizedBox(
                       height: 3,
                     ),
-                    Image.asset('assets/icons/dolar.png'),
+                    SizedBox(
+                      height: 15,
+                      child: ListView.builder(
+                        itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Icon(
+                            Icons.attach_money,
+                            size: 13,
+                            color: price > (100000 * (index + 1)) ? Colors.black : Colors.grey,
+                          );
+                        },
+                      ),
+                    ),
                     const SizedBox(
                       height: 6,
                     ),
@@ -66,8 +81,7 @@ class CardKlinik extends StatelessWidget {
                         ),
                         Text(
                           rating,
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                         const SizedBox(
                           width: 6,
@@ -77,9 +91,8 @@ class CardKlinik extends StatelessWidget {
                           width: 9,
                         ),
                         Text(
-                          ' $km KM',
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                          ' $km',
+                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                       ],
                     ),
@@ -92,8 +105,7 @@ class CardKlinik extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CabangKlinikPage(),
+                                  builder: (context) => const CabangKlinikPage(),
                                 ),
                               );
                             },

@@ -120,7 +120,7 @@ class Data2 {
         mediaTreatments!.add(MediaTreatments.fromJson(v));
       });
     }
-    distance = json['distance'];
+    distance = json['distance'] ?? "0 km";
   }
 
   Map<String, dynamic> toJson() {

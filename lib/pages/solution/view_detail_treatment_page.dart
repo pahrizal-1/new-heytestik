@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
@@ -12,6 +13,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/text_form_widget.dart';
@@ -30,6 +32,8 @@ class BokingTreatment extends StatefulWidget {
 }
 
 class _BokingTreatmentState extends State<BokingTreatment> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+
   int activeIndex = 0;
   final images = [
     'assets/images/boking_image.png',
@@ -63,9 +67,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset(
-            'assets/icons/love-grey.svg',
-            color: whiteColor,
+          GestureDetector(
+            onTap: () {
+              stateTreatment.userWishlistTreatment(context, widget.treatment.id!);
+            },
+            child: Icon(Icons.favorite_border),
           ),
           const SizedBox(
             width: 21,

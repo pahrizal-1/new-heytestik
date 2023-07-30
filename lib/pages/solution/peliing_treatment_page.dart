@@ -20,9 +20,6 @@ class _PeelinngTraetmentPageState extends State<PeelinngTraetmentPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      stateTreatment.getTopTreatment(context);
-    });
   }
 
   @override

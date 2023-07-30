@@ -1,10 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 
-class TreatmentKlink extends StatelessWidget {
+import '../../controller/doctor/treatment/treatment_controller.dart';
+import '../../models/clinic.dart';
+
+class TreatmentKlink extends StatefulWidget {
   const TreatmentKlink({super.key});
+
+  @override
+  State<TreatmentKlink> createState() => _TreatmentKlinkState();
+}
+
+class _TreatmentKlinkState extends State<TreatmentKlink> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
+  int page = 1;
+  List<ClinicDataModel> clinics = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      clinics.addAll(await stateTreatment.getClinic(context, page));
+      setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            clinics.addAll(await stateTreatment.getClinic(context, page));
+            setState(() {});
+          });
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,49 +84,17 @@ class TreatmentKlink extends StatelessWidget {
           child: FilterTreatment(),
         ),
       ),
-      body: ListView(
-        children: const [
-          CardKlinik(
-            namaKlink: 'Klinik Utama Lithea, Jakarta Selatan',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/litheapoto.png',
-            buttonTitle: 'Lihat semua cabang klinik',
-          ),
-          CardKlinik(
-            namaKlink: 'ZAP, Plaza Senayan',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/zapklinik.png',
-          ),
-          CardKlinik(
-            namaKlink: 'SOZO Clinic, Bekasi',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/sozoklink.png',
-            buttonTitle: 'Lihat semua cabang klinik',
-          ),
-          CardKlinik(
-            namaKlink: 'MS Glow Clinic, Jakarta Selatan',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/msglowklik.png',
-          ),
-          CardKlinik(
-            namaKlink: 'Bening’s Clinic, Kebayoran Lama',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/bennigklink.png',
-            buttonTitle: 'Lihat semua cabang klinik',
-          ),
-          CardKlinik(
-            namaKlink: 'eMGlow Clinic, Bekasi',
-            rating: '4.9 (120k)',
-            km: '4,5',
-            urlImg: 'assets/images/emglowklinil.png',
-            buttonTitle: 'Lihat semua cabang klinik',
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: stateTreatment.dataClinic.length,
+        itemBuilder: (context, index) {
+          return  CardKlinik(
+            namaKlink: '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
+            rating: '${stateTreatment.dataClinic[index].rating} (120k)',
+            km: stateTreatment.dataClinic[index].distance,
+            urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",
+            price: stateTreatment.dataClinic[index].price,
+          );
+        },
       ),
     );
   }

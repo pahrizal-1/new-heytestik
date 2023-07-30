@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
+import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
 class NearMePage extends StatefulWidget {
   const NearMePage({super.key});
@@ -14,8 +18,34 @@ class NearMePage extends StatefulWidget {
 }
 
 class _NearMePageState extends State<NearMePage> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
+  int page = 1;
+  List<Data2> treatments = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+            setState(() {});
+          });
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,8 +108,7 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 13, vertical: 13),
+                        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                         height: 40,
                         decoration: BoxDecoration(
                           color: const Color(0xffF1F1F1),
@@ -87,15 +116,13 @@ class _NearMePageState extends State<NearMePage> {
                         ),
                         child: Row(
                           children: [
-                            Image.asset('assets/icons/search1.png',
-                                width: 20, color: const Color(0xff9B9B9B)),
+                            Image.asset('assets/icons/search1.png', width: 20, color: const Color(0xff9B9B9B)),
                             const SizedBox(
                               width: 10,
                             ),
                             Text(
                               'Cari Treatment',
-                              style: subGreyTextStyle.copyWith(
-                                  color: const Color(0xff9B9B9B)),
+                              style: subGreyTextStyle.copyWith(color: const Color(0xff9B9B9B)),
                             )
                           ],
                         ),
@@ -128,8 +155,7 @@ class _NearMePageState extends State<NearMePage> {
                       children: [
                         Text(
                           'Tampilan',
-                          style: subTitleTextStyle.copyWith(
-                              color: const Color(0xff6B6B6B)),
+                          style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
                         ),
                         const SizedBox(
                           width: 4,
@@ -149,81 +175,32 @@ class _NearMePageState extends State<NearMePage> {
               ),
             ),
             isSelecteTampilan
-                ? Container()
-            // Wrap(
-                //     runSpacing: 12,
-                //     spacing: 12,
-                //     children: [
-                //       ProdukTreatment(
-                //         namaKlinik: 'Klinik Utama Lithea',
-                //         namaTreatmen: 'Radiant Glow Peeling',
-                //         diskonProduk: '20',
-                //         hargaDiskon: 'Rp250.000',
-                //         harga: 'Rp200.000',
-                //         urlImg: 'assets/images/lheatea.png',
-                //         rating: '4.9 (120k)',
-                //         km: '80',
-                //         lokasiKlinik: 'Bogor Timur',
-                //       ),
-                //       ProdukTreatment(
-                //         namaKlinik: 'Klinik Utama Lithea',
-                //         namaTreatmen: 'Radiant Glow Peeling',
-                //         diskonProduk: '20',
-                //         hargaDiskon: 'Rp250.000',
-                //         harga: 'Rp200.000',
-                //         urlImg: 'assets/images/lheatea.png',
-                //         rating: '4.9 (120k)',
-                //         km: '80',
-                //         lokasiKlinik: 'Bogor Timur',
-                //       ),
-                //       ProdukTreatment(
-                //         namaKlinik: 'Klinik Utama Lithea',
-                //         namaTreatmen: 'Radiant Glow Peeling',
-                //         diskonProduk: '20',
-                //         hargaDiskon: 'Rp250.000',
-                //         harga: 'Rp200.000',
-                //         urlImg: 'assets/images/lheatea.png',
-                //         rating: '4.9 (120k)',
-                //         km: '80',
-                //         lokasiKlinik: 'Bogor Timur',
-                //       ),
-                //       ProdukTreatment(
-                //         namaKlinik: 'Klinik Utama Lithea',
-                //         namaTreatmen: 'Radiant Glow Peeling',
-                //         diskonProduk: '20',
-                //         hargaDiskon: 'Rp250.000',
-                //         harga: 'Rp200.000',
-                //         urlImg: 'assets/images/lheatea.png',
-                //         rating: '4.9 (120k)',
-                //         km: '80',
-                //         lokasiKlinik: 'Bogor Timur',
-                //       ),
-                //       ProdukTreatment(
-                //         namaKlinik: 'Klinik Utama Lithea',
-                //         namaTreatmen: 'Radiant Glow Peeling',
-                //         diskonProduk: '20',
-                //         hargaDiskon: 'Rp250.000',
-                //         harga: 'Rp200.000',
-                //         urlImg: 'assets/images/lheatea.png',
-                //         rating: '4.9 (120k)',
-                //         km: '80',
-                //         lokasiKlinik: 'Bogor Timur',
-                //       ),
-                //     ],
-                //   )
+                ? Wrap(
+                    runSpacing: 12,
+                    spacing: 12,
+                    children: treatments.map((element) {
+                      return ProdukTreatment(
+                        namaKlinik: element.clinic!.name!,
+                        namaTreatmen: element.name!,
+                        diskonProduk: '0',
+                        hargaDiskon: '',
+                        harga: element.price.toString(),
+                        urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                        rating: '${element.rating} (120k)',
+                        km: element.distance!,
+                        lokasiKlinik: element.clinic!.city!.name!,
+                        treatmentData: element,
+                      );
+                    }).toList(),
+                  )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 19),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
                     child: Column(
-                      children: const [
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                      ],
-                    ),
+                        children: treatments
+                            .map(
+                              (e) => TampilanRight(treatment: e),
+                            )
+                            .toList()),
                   ),
           ],
         ),

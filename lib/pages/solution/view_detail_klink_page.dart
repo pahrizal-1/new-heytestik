@@ -882,22 +882,23 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                       )
                     ],
                   )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 19,
-                    ),
-                    child: Column(
-                      children: const [
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                        TampilanRight(),
-                      ],
-                    ),
-                  ),
+                : Container()
+            // Padding(
+            //         padding: const EdgeInsets.symmetric(
+            //           horizontal: 25,
+            //           vertical: 19,
+            //         ),
+            //         child: Column(
+            //           children: const [
+            //             TampilanRight(),
+            //             TampilanRight(),
+            //             TampilanRight(),
+            //             TampilanRight(),
+            //             TampilanRight(),
+            //             TampilanRight(),
+            //           ],
+            //         ),
+            //       ),
           ),
           const SizedBox(
             height: 14,
