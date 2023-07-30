@@ -2,11 +2,12 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart' as TreatmentModel;
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 
 import '../../../models/clinic.dart';
+import '../../../models/treatment_detail.dart';
 
 class TreatmentService extends ProviderClass {
   TreatmentService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
@@ -24,7 +25,7 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel> getTopTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/top',
@@ -37,14 +38,14 @@ class TreatmentService extends ProviderClass {
 
       print(response);
 
-      return  TreatmentModel.fromJson(response);
+      return  TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
-      return TreatmentModel();
+      return TreatmentModel.TreatmentModel();
     }
   }
 
-  Future<TreatmentModel> getTrendingTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/trending',
@@ -57,14 +58,14 @@ class TreatmentService extends ProviderClass {
 
       print(response);
 
-      return TreatmentModel.fromJson(response);
+      return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
-      return TreatmentModel();
+      return TreatmentModel.TreatmentModel();
     }
   }
 
-  Future<TreatmentModel> getTopRatingTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/top-rating',
@@ -77,10 +78,24 @@ class TreatmentService extends ProviderClass {
 
       print(response);
 
-      return TreatmentModel.fromJson(response);
+      return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
-      return TreatmentModel();
+      return TreatmentModel.TreatmentModel();
+    }
+  }
+
+  Future<TreatmentDetailModel> getTreatmentDetail(int treatmentID) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment/$treatmentID',
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+      );
+
+      return TreatmentDetailModel.fromJson(response['data']);
+    } catch (error) {
+      print(error);
+      return TreatmentDetailModel();
     }
   }
 
@@ -121,7 +136,7 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel> getNearTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getNearTreatment(int page) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/near-me',
@@ -131,15 +146,15 @@ class TreatmentService extends ProviderClass {
         },
         headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
-      return TreatmentModel.fromJson(response);
+      return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
-      return TreatmentModel();
+      return TreatmentModel.TreatmentModel();
     }
   }
 
 
-  Future<TreatmentModel> getAllTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getAllTreatment(int page) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment',
@@ -149,10 +164,10 @@ class TreatmentService extends ProviderClass {
         },
         headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
-      return TreatmentModel.fromJson(response);
+      return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
-      return TreatmentModel();
+      return TreatmentModel.TreatmentModel();
     }
   }
 }
