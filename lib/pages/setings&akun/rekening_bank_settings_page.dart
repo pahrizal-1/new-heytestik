@@ -185,13 +185,11 @@ class _RekeningBankSettingsState extends State<RekeningBankSettings> {
                                             InkWell(
                                               onTap: () async {
                                                 Get.to(TambahBankCustomerPage(
+                                                  id: state
+                                                      .filterData[index].id!
+                                                      .toInt(),
                                                   isUpdate: true,
                                                 ));
-                                                await state.findBank(
-                                                  context,
-                                                  state.filterData[index].id!
-                                                      .toInt(),
-                                                );
                                               },
                                               child: Image.asset(
                                                 'assets/icons/edit.png',

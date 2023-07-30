@@ -7,10 +7,26 @@ import 'package:heystetik_mobileapps/widget/pilih_bank_widgets.dart';
 
 import '../../../widget/button_widget.dart';
 
-class TambahBankCustomerPage extends StatelessWidget {
+class TambahBankCustomerPage extends StatefulWidget {
+  final int id;
   final bool isUpdate;
-  TambahBankCustomerPage({this.isUpdate = false, super.key});
+  TambahBankCustomerPage({this.id = 0, this.isUpdate = false, super.key});
+
+  @override
+  State<TambahBankCustomerPage> createState() => _TambahBankCustomerPageState();
+}
+
+class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
   final BankController state = Get.put(BankController());
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isUpdate) {
+      state.findBank(context, widget.id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +57,7 @@ class TambahBankCustomerPage extends StatelessWidget {
                       width: 18,
                     ),
                     Text(
-                      isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
+                      widget.isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
                       style: blackHigtTextStyle.copyWith(fontSize: 20),
                     ),
                   ],
@@ -216,10 +232,10 @@ class TambahBankCustomerPage extends StatelessWidget {
                   () => LoadingWidget(
                     isLoading: state.isLoading.value,
                     child: ButtonGreenWidget(
-                      title: isUpdate ? 'Ubah' : 'Simpan',
+                      title: widget.isUpdate ? 'Ubah' : 'Simpan',
                       onPressed: () async {
-                        if (isUpdate) {
-                          await state.updateBank(context, state.bankId.value);
+                        if (widget.isUpdate) {
+                          await state.updateBank(context, widget.id);
                         } else {
                           await state.saveBank(context);
                         }

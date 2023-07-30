@@ -22,7 +22,9 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
   @override
   void initState() {
     super.initState();
-    state.findBank(context, widget.id);
+    if (widget.isUpdate) {
+      state.findBank(context, widget.id);
+    }
   }
 
   @override
