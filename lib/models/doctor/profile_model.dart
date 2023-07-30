@@ -28,10 +28,10 @@ class DataProfile {
   String? email;
   String? noPhone;
   String? gender;
-  Null? dob;
-  Null? sip;
-  Null? str;
-  Null? practiceLocation;
+  dynamic dob;
+  dynamic sip;
+  dynamic str;
+  dynamic practiceLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
 
   DataProfile(
@@ -83,11 +83,11 @@ class MediaUserProfilePicture {
   int? id;
   int? mediaId;
   int? userId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Media? media;
 
   MediaUserProfilePicture(
@@ -138,11 +138,11 @@ class Media {
   String? mime;
   String? path;
   String? destination;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Media(
       {this.id,
