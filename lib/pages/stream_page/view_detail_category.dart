@@ -13,10 +13,11 @@ import '../../widget/artikel_views_widgets.dart';
 import '../../widget/pencarian_search_widget.dart';
 import 'vies_detail_beauty_stream_page.dart';
 
-class ViewDetailTags extends StatelessWidget {
+class ViewDetailCategoryNews extends StatelessWidget {
   String tagName;
   String tagId;
-  ViewDetailTags({required this.tagName, required this.tagId, super.key});
+  ViewDetailCategoryNews(
+      {required this.tagName, required this.tagId, super.key});
   final NewsController state = Get.put(NewsController());
 
   @override
@@ -78,7 +79,7 @@ class ViewDetailTags extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Tags',
+                'Category',
                 style: grenTextStyle.copyWith(fontSize: 20),
               ),
               const SizedBox(
