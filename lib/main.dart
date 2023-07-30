@@ -84,7 +84,7 @@ void main() async {
             channelDescription: channel.description,
             importance: Importance.max,
             priority: Priority.max,
-            icon: android?.smallIcon,
+            icon: android.smallIcon,
             // other properties...
           ),
         ),

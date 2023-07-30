@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../../../theme/theme.dart';
+import 'chat_doctor.dart';
 
 class HalamanChatPage extends StatefulWidget {
   const HalamanChatPage({super.key});
@@ -322,30 +323,57 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.totalRecentChatActive.value,
                 itemBuilder: (BuildContext context, int i) {
-                  return ChatAktif(
-                    roomCode: state.recentChatActive[i].code.toString(),
-                    roomId: state.recentChatActive[i].id!.toInt(),
-                    customerName:
-                        state.recentChatActive[i].customer!.fullname ?? '-',
-                    doctorName:
-                        state.recentChatActive[i].doctor!.fullname ?? '-',
-                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                    img: 'assets/images/doctor-img.png',
-                    // img:
-                    //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
-                    time: CurrentTime.timeChat(state
-                        .recentChatActive[i].lastChat!.createdAt
-                        .toString()),
-                    valueChat: state.recentChatActive[i].unseenCount.toString(),
-                    chat: state.recentChatActive[i].lastChat!.message ?? '-',
-                    seen: state.recentChatActive[i].lastChat!.seen ?? false,
-                    isMe: state.recentChatActive[i].lastChat!.senderId ==
-                                state.doctorId.value ||
-                            state.recentChatActive[i].lastChat!.senderId == 0
-                        ? true
-                        : false,
-                    senderId: state.recentChatActive[i].doctorId!.toInt(),
-                    receiverId: state.recentChatActive[i].customerId!.toInt(),
+                  return InkWell(
+                    onTap: () {
+                      print('per ' + state.recentChatActive[i].id.toString());
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatDoctorPage(
+                              roomCode:
+                                  state.recentChatActive[i].code.toString(),
+                              senderBy:
+                                  state.recentChatActive[i].doctor!.fullname ??
+                                      '-',
+                              receiverBy: state
+                                      .recentChatActive[i].customer!.fullname ??
+                                  '-',
+                              roomId: state.recentChatActive[i].id!.toInt(),
+                              senderId:
+                                  state.recentChatActive[i].doctorId!.toInt(),
+                              receiverId:
+                                  state.recentChatActive[i].customerId!.toInt(),
+                              id: state.recentChatActive[i].id!.toInt(),
+                            ),
+                          ));
+                    },
+                    child: ChatAktif(
+                      id: state.recentChatActive[i].id!.toInt(),
+                      roomCode: state.recentChatActive[i].code.toString(),
+                      roomId: state.recentChatActive[i].id!.toInt(),
+                      customerName:
+                          state.recentChatActive[i].customer!.fullname ?? '-',
+                      doctorName:
+                          state.recentChatActive[i].doctor!.fullname ?? '-',
+                      subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                      img: 'assets/images/doctor-img.png',
+                      // img:
+                      //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
+                      time: CurrentTime.timeChat(state
+                          .recentChatActive[i].lastChat!.createdAt
+                          .toString()),
+                      valueChat:
+                          state.recentChatActive[i].unseenCount.toString(),
+                      chat: state.recentChatActive[i].lastChat!.message ?? '-',
+                      seen: state.recentChatActive[i].lastChat!.seen ?? false,
+                      isMe: state.recentChatActive[i].lastChat!.senderId ==
+                                  state.doctorId.value ||
+                              state.recentChatActive[i].lastChat!.senderId == 0
+                          ? true
+                          : false,
+                      senderId: state.recentChatActive[i].doctorId!.toInt(),
+                      receiverId: state.recentChatActive[i].customerId!.toInt(),
+                    ),
                   );
                 },
               ),
@@ -381,6 +409,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                 itemCount: state.totalRecentChatDone.value,
                 itemBuilder: (BuildContext context, int i) {
                   return ChatAktif(
+                    id: state.recentChatActive[i].id!.toInt(),
                     roomCode: state.recentChatDone[i].code.toString(),
                     roomId: state.recentChatDone[i].id!.toInt(),
                     customerName:

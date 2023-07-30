@@ -1,14 +1,18 @@
 class ProfileModel {
   bool? success;
   String? message;
-  DataProfile? data;
+  Data? data;
 
   ProfileModel({this.success, this.message, this.data});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
+<<<<<<< HEAD
     data = json['data'] != null ? DataProfile.fromJson(json['data']) : null;
+=======
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+>>>>>>> 6dc075f7d7be190179435517a39e368582f31dbb
   }
 
   Map<String, dynamic> toJson() {
@@ -22,19 +26,27 @@ class ProfileModel {
   }
 }
 
-class DataProfile {
+class Data {
   String? fullname;
   String? specialist;
   String? email;
   String? noPhone;
   String? gender;
+<<<<<<< HEAD
   dynamic dob;
   dynamic sip;
   dynamic str;
   dynamic practiceLocation;
+=======
+  Null? dob;
+  String? sip;
+  String? str;
+  String? education;
+  String? practiceLocation;
+>>>>>>> 6dc075f7d7be190179435517a39e368582f31dbb
   MediaUserProfilePicture? mediaUserProfilePicture;
 
-  DataProfile(
+  Data(
       {this.fullname,
       this.specialist,
       this.email,
@@ -43,10 +55,11 @@ class DataProfile {
       this.dob,
       this.sip,
       this.str,
+      this.education,
       this.practiceLocation,
       this.mediaUserProfilePicture});
 
-  DataProfile.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
     specialist = json['specialist'];
     email = json['email'];
@@ -55,6 +68,7 @@ class DataProfile {
     dob = json['dob'];
     sip = json['sip'];
     str = json['str'];
+    education = json['education'];
     practiceLocation = json['practice_location'];
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
         ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
@@ -62,6 +76,7 @@ class DataProfile {
   }
 
   Map<String, dynamic> toJson() {
+<<<<<<< HEAD
     final Map<String, dynamic> data = <String, dynamic>{};
     data['fullname'] = fullname;
     data['specialist'] = specialist;
@@ -74,6 +89,22 @@ class DataProfile {
     data['practice_location'] = practiceLocation;
     if (mediaUserProfilePicture != null) {
       data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
+=======
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['fullname'] = this.fullname;
+    data['specialist'] = this.specialist;
+    data['email'] = this.email;
+    data['no_phone'] = this.noPhone;
+    data['gender'] = this.gender;
+    data['dob'] = this.dob;
+    data['sip'] = this.sip;
+    data['str'] = this.str;
+    data['education'] = this.education;
+    data['practice_location'] = this.practiceLocation;
+    if (this.mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] =
+          this.mediaUserProfilePicture!.toJson();
+>>>>>>> 6dc075f7d7be190179435517a39e368582f31dbb
     }
     return data;
   }

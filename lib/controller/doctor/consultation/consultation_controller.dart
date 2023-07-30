@@ -18,7 +18,10 @@ import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/convert_date.dart';
 import '../../../core/local_storage.dart';
+import '../../../models/doctor/detail_constultation_model.dart'
+    as DetailConstultaion;
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -44,6 +47,7 @@ class DoctorConsultationController extends StateClass {
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
+  RxString dateStr = ''.obs;
 
   File? imagePath;
   RxString mediaImg = ''.obs;
@@ -54,10 +58,13 @@ class DoctorConsultationController extends StateClass {
 
   Rx<RecentChat.RecentChatModel?> recentChat =
       RecentChat.RecentChatModel.fromJson({}).obs;
+  Rx<DetailConstultaion.ConsultationDetailModel?> constultaionDetail =
+      DetailConstultaion.ConsultationDetailModel.fromJson({}).obs;
   RxInt totalRecentChatActive = 0.obs;
   RxInt totalRecentChatDone = 0.obs;
   List<RecentChat.Data> recentChatActive = [];
   List<RecentChat.Data> recentChatDone = [];
+
   List<Data2>? msglist = [];
 
   IO.Socket? _socket;
@@ -68,6 +75,21 @@ class DoctorConsultationController extends StateClass {
   RxInt itemCount = 1.obs;
 
   TextEditingController messageController = TextEditingController();
+  TextEditingController indicationController = TextEditingController();
+  TextEditingController diagnosisPossibilityController =
+      TextEditingController();
+  TextEditingController diagnosisSecondaryController = TextEditingController();
+  TextEditingController suggestionController = TextEditingController();
+
+  RxList diagnosisPossibility = [].obs;
+  RxList diagnosisSecondary = [].obs;
+  RxList listConstulDetail = [].obs;
+  RxString idConsultation = ''.obs;
+  RxString status = ''.obs;
+  RxString dateConsultation = ''.obs;
+  RxString endDate = ''.obs;
+  RxString pasienName = ''.obs;
+  RxString topic = ''.obs;
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -174,7 +196,7 @@ class DoctorConsultationController extends StateClass {
       }
 
       for (int i = 0; i < recentChat.value!.data!.length; i++) {
-        if (recentChat.value!.data![i].doctor!.isActive!) {
+        if (recentChat.value!.data![i].ended == false) {
           // ADD RECENT CHAT ACTIVE
           recentChatActive.add(recentChat.value!.data![i]);
         } else {
@@ -225,6 +247,85 @@ class DoctorConsultationController extends StateClass {
     } else {
       print("image not selected");
     }
+  }
+
+  Future getDetailConsltation(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response =
+          await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
+
+      listConstulDetail.add(response);
+      for (var i in listConstulDetail) {
+        idConsultation.value = i['code'];
+        status.value = i['status'];
+        dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
+        endDate.value = i['end_date'] ?? '-';
+        pasienName.value = i['customer']['fullname'];
+        topic.value = i['medical_history']['interest_condition']['name'];
+        log('data  ' + i['medical_history']['medical_history_items'].toString());
+      }
+      log('resp  ' + listConstulDetail.toString());
+    });
+    isLoading.value = false;
+  }
+
+  postFinish(BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await ConsultationDoctorScheduleServices().postFinishReview(id);
+      print('res' + res.toString());
+      Navigator.pop(context);
+      isLoading.value = false;
+    });
+  }
+
+  postDoctorNote(
+    BuildContext context,
+    int id,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (indicationController.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Gejala harus diisi',
+        );
+      }
+
+      // if (diagnosisPossibilityController.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Diagnosis harus diisi',
+      //   );
+      // }
+
+      // if (diagnosisSecondaryController.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Diagnosis harus diisi',
+      //   );
+      // }
+
+      var data = {
+        'consultation_id': id,
+        'indication': indicationController.text,
+        'diagnosis_possibility': diagnosisPossibility,
+        'diagnosis_secondary': diagnosisSecondary,
+        'suggestion': suggestionController.text,
+      };
+
+      var postNote =
+          await ConsultationDoctorScheduleServices().postDoctorNote(data);
+
+      if (postNote['success'] != true && postNote['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: postNote['message'],
+        );
+      }
+    });
+    isLoading.value = false;
   }
 
   // image multiple

@@ -159,7 +159,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            const Row(
+                                            Row(
                                               children: [
                                                 CardSearch(
                                                   title: 'Promo',
@@ -423,7 +423,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(color: borderColor),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -458,7 +458,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(color: borderColor),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [

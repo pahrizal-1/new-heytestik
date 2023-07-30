@@ -5,7 +5,6 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 
 import '../../../models/doctor/profile_model.dart';
 
-
 class ProfileService extends ProviderClass {
   ProfileService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
@@ -19,5 +18,16 @@ class ProfileService extends ProviderClass {
     );
     var jsonResponse = ProfileModel.fromJson(response);
     return jsonResponse;
+  }
+
+  Future updateProfile(dynamic data) async {
+    var response = await networkingConfig.doUpdateByMap(
+      '/profile/doctor',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return response;
   }
 }
