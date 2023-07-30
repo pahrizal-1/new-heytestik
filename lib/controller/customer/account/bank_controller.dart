@@ -162,7 +162,7 @@ class BankController extends StateClass {
       }
 
       var req = {
-        'bank_id': id,
+        'bank_id': bankId.value,
         'name': name.text,
         'account_number': accountNumber.text,
       };
