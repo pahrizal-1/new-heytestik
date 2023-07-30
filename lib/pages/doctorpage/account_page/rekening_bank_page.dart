@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_doctor_page.dart';
+
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../../controller/customer/account/bank_controller.dart';
 import '../../../theme/theme.dart';
+import '../../../widget/pilih_bank_widgets.dart';
+import '../../setings&akun/tambah_bank_customer.dart';
 
-class RekeningBankPage extends StatelessWidget {
+class RekeningBankPage extends StatefulWidget {
   const RekeningBankPage({super.key});
+
+  @override
+  State<RekeningBankPage> createState() => _RekeningBankPageState();
+}
+
+class _RekeningBankPageState extends State<RekeningBankPage> {
+  final BankController state = Get.put(BankController());
+  @override
+  void initState() {
+    super.initState();
+    state.selectListBank(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,154 +106,12 @@ class RekeningBankPage extends StatelessWidget {
             const Spacer(),
             ButtonGreenWidget(
               title: 'Tambah Rekening Lain',
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(25),
-                      topStart: Radius.circular(25),
-                    ),
-                  ),
-                  builder: (context) => SingleChildScrollView(
-                    child: Wrap(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 60, left: 33, right: 33),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Image.asset(
-                                      'assets/icons/danger-icons.png',
-                                      width: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 17,
-                                  ),
-                                  Text(
-                                    'Pilih Nama Bank',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 22,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: Container(
-                                      height: 12,
-                                      width: 12,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/icons/search1.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 280),
-                                    child: TextFormField(
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'ProximaNova'),
-                                      decoration: InputDecoration(
-                                        hintText: 'Cari Nama Bank',
-                                        border: InputBorder.none,
-                                        hintStyle: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          color: fromCssColor(
-                                            '#9B9B9B',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                keyboardDismissBehavior:
-                                    ScrollViewKeyboardDismissBehavior.onDrag,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 10,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              isScrollControlled: true,
-                                              context: context,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadiusDirectional
-                                                        .only(
-                                                  topEnd: Radius.circular(25),
-                                                  topStart: Radius.circular(25),
-                                                ),
-                                              ),
-                                              builder: (context) =>
-                                                  const TambahBankPage());
-                                        },
-                                        child: Text(
-                                          'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 16,
-                                      ),
-                                      const Divider(
-                                        thickness: 2,
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+              onPressed: () async {
+                // clear search
+                state.clearForm();
+                Get.to(TambahBankDoctorPage());
               },
-            )
+            ),
           ],
         ),
       ),
