@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/bank_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/bank_doctor_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/pilih_bank_widgets.dart';
+import 'package:heystetik_mobileapps/widget/pilih_bank_doctor_widgets.dart';
 
 import '../../../widget/button_widget.dart';
 
-class TambahBankDoctorPage extends StatelessWidget {
+class TambahBankDoctorPage extends StatefulWidget {
+  final int id;
   final bool isUpdate;
-  TambahBankDoctorPage({this.isUpdate = false, super.key});
-  final BankController state = Get.put(BankController());
+  TambahBankDoctorPage({this.id = 0, this.isUpdate = false, super.key});
+
+  @override
+  State<TambahBankDoctorPage> createState() => _TambahBankDoctorPageState();
+}
+
+class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
+  final BankDoctorController state = Get.put(BankDoctorController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.findBank(context, widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +55,7 @@ class TambahBankDoctorPage extends StatelessWidget {
                       width: 18,
                     ),
                     Text(
-                      isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
+                      widget.isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
                       style: blackHigtTextStyle.copyWith(fontSize: 20),
                     ),
                   ],
@@ -91,7 +105,7 @@ class TambahBankDoctorPage extends StatelessWidget {
                                 minChildSize: 1, //set this as you want
                                 expand: true,
                                 builder: (context, scrollController) {
-                                  return FilterTambahbank(); //whatever you're returning, does not have to be a Container
+                                  return FilterTambahBankDoctor(); //whatever you're returning, does not have to be a Container
                                 });
                           },
                         );
@@ -107,7 +121,9 @@ class TambahBankDoctorPage extends StatelessWidget {
                           child: Text(
                             'Pilih',
                             style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: const Color(0xfF6B6B6B)),
+                              fontSize: 13,
+                              color: const Color(0xfF6B6B6B),
+                            ),
                           ),
                         ),
                       ),
@@ -222,10 +238,10 @@ class TambahBankDoctorPage extends StatelessWidget {
                   () => LoadingWidget(
                     isLoading: state.isLoading.value,
                     child: ButtonGreenWidget(
-                      title: isUpdate ? 'Ubah' : 'Simpan',
+                      title: widget.isUpdate ? 'Ubah' : 'Simpan',
                       onPressed: () async {
-                        if (isUpdate) {
-                          await state.updateBank(context, state.bankId.value);
+                        if (widget.isUpdate) {
+                          await state.updateBank(context, widget.id);
                         } else {
                           await state.saveBank(context);
                         }
