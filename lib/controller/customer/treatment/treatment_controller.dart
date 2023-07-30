@@ -35,7 +35,8 @@ class TreatmentController extends StateClass {
     return responseClinic.value.data!;
   }
 
-  void userWishlistTreatment(BuildContext context, int treatmentID, bool wishlist) async {
+  void userWishlistTreatment(
+      BuildContext context, int treatmentID, bool wishlist) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentService().userWishlistTreatment(treatmentID, wishlist);
@@ -53,12 +54,13 @@ class TreatmentController extends StateClass {
     isLoading.value = false;
   }
 
-
-  Future<List<Data2>> getTreatmentFromSameClinic(BuildContext context, int page, int clinicID) async {
+  Future<List<Data2>> getTreatmentFromSameClinic(
+      BuildContext context, int page, int clinicID) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
+      TreatmentModel data =
+          await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
@@ -68,11 +70,12 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<Map<String, dynamic>> getTreatmentOverview(BuildContext context, int treatmentID) async {
+  Future<Map<String, dynamic>> getTreatmentOverview(
+      BuildContext context, int treatmentID) async {
     isLoading.value = true;
     Map<String, dynamic> data = {};
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-       data = await TreatmentService().getOverview(treatmentID);
+      data = await TreatmentService().getOverview(treatmentID);
     });
 
     isLoading.value = false;
