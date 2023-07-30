@@ -98,6 +98,29 @@ class TreatmentService extends ProviderClass {
     }
   }
 
+  Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(
+      int page, int clinicID) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment/clinic/$clinicID',
+        params: {
+          "page": page,
+          "take": 10,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        },
+      );
+
+      print(response);
+
+      return TreatmentModel.TreatmentModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return TreatmentModel.TreatmentModel();
+    }
+  }
+
   Future<TreatmentDetailModel> getTreatmentDetail(int treatmentID) async {
     try {
       var response = await networkingConfig.doGet(
@@ -137,19 +160,30 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  void userWishlistTreatment(int treatmentID) async {
+  void userWishlistTreatment(int treatmentID, bool wishlist) async {
     try {
-      var response = await networkingConfig.doPost(
-        '/user-wishlist-treatment',
-        data: {
-          "treatment_id": treatmentID,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
-      );
+      if (wishlist) {
+        var response = await networkingConfig.doPost(
+          '/user-wishlist-treatment',
+          data: {
+            "treatment_id": treatmentID,
+          },
+          headers: {
+            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          },
+        );
 
-      print(response);
+        print(response);
+      } else {
+        var response = await networkingConfig.doDelete(
+          '/user-wishlist-treatment/$treatmentID',
+          headers: {
+            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          },
+        );
+
+        print(response);
+      }
     } catch (error) {
       print(error);
     }

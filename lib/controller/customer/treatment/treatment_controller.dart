@@ -35,10 +35,10 @@ class TreatmentController extends StateClass {
     return responseClinic.value.data!;
   }
 
-  void userWishlistTreatment(BuildContext context, int treatmentID) async {
+  void userWishlistTreatment(BuildContext context, int treatmentID, bool wishlist) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentService().userWishlistTreatment(treatmentID);
+      TreatmentService().userWishlistTreatment(treatmentID, wishlist);
     });
     isLoading.value = false;
   }
@@ -51,6 +51,21 @@ class TreatmentController extends StateClass {
     });
 
     isLoading.value = false;
+  }
+
+
+  Future<List<Data2>> getTreatmentFromSameClinic(BuildContext context, int page, int clinicID) async {
+    isLoading.value = true;
+
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      TreatmentModel data = await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
+      responseTreatment.value = data;
+      dataTreatment.value.addAll(responseTreatment.value.data!.data!);
+    });
+
+    isLoading.value = false;
+
+    return responseTreatment.value.data!.data!;
   }
 
   void getTreatment(BuildContext context) async {
