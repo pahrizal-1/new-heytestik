@@ -1,159 +1,234 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/bank_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/pilih_bank_widgets.dart';
 
 import '../../../widget/button_widget.dart';
 
 class TambahBankCustomerPage extends StatelessWidget {
-  const TambahBankCustomerPage({super.key});
-
+  final bool isUpdate;
+  TambahBankCustomerPage({this.isUpdate = false, super.key});
+  final BankController state = Get.put(BankController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 32,
-          right: 33,
-          top: 65,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Text(
-                    'Tambah Rekening',
-                    style: blackHigtTextStyle.copyWith(fontSize: 20),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 37,
-              ),
-              Text(
-                'Nama Bank',
-                style: subTitleTextStyle.copyWith(fontSize: 12),
-              ),
-              const SizedBox(
-                height: 9,
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 1.5, color: Color(0xFFCCCCCC)),
-                  ),
-                ),
-                child: Row(
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 32,
+              right: 33,
+              top: 65,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',
-                      style: blackHigtTextStyle.copyWith(fontSize: 13),
-                    ),
-                    const Spacer(),
                     InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(Icons.keyboard_arrow_down))
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Text(
+                      isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
+                      style: blackHigtTextStyle.copyWith(fontSize: 20),
+                    ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Nomor Rekening',
-                style: subTitleTextStyle.copyWith(fontSize: 12),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                      child: Container(
-                          child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      fillColor: greenColor,
-                      hoverColor: greenColor,
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: greenColor),
-                      ),
-                    ),
-                  ))),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, bottom: 7, top: 7),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: subgreyColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Periksa',
-                        style: blackHigtTextStyle.copyWith(
-                            fontSize: 13, color: const Color(0xfF6B6B6B)),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 390,
-              ),
-              Text.rich(
-                TextSpan(
-                  text: 'Dengan klik “Simpan”, kamu menyetujui',
-                  style: greyTextStyle.copyWith(fontSize: 13),
+                const SizedBox(
+                  height: 37,
+                ),
+                Text(
+                  'Nama Bank',
+                  style: subTitleTextStyle.copyWith(fontSize: 12),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    TextSpan(
-                      text: " Kebijakan Privasi",
-                      style: grenTextStyle.copyWith(
-                        fontSize: 13,
+                    Expanded(
+                      child: Container(
+                        child: TextFormField(
+                          controller: state.bankName,
+                          readOnly: true,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            fillColor: greenColor,
+                            hoverColor: greenColor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: greenColor),
+                            ),
+                          ),
+                        ),
                       ),
-                      children: [
-                        TextSpan(
-                            text: " dan",
-                            style: greyTextStyle.copyWith(fontSize: 13),
-                            children: [
-                              TextSpan(
-                                  text: " Syarat dan Ketentuan",
-                                  style: grenTextStyle.copyWith(fontSize: 13))
-                            ]),
-                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.white,
+                          context: context,
+                          isScrollControlled: true,
+                          isDismissible: true,
+                          builder: (BuildContext context) {
+                            return DraggableScrollableSheet(
+                                initialChildSize: 1, //set this as you want
+                                maxChildSize: 1, //set this as you want
+                                minChildSize: 1, //set this as you want
+                                expand: true,
+                                builder: (context, scrollController) {
+                                  return FilterTambahbank(); //whatever you're returning, does not have to be a Container
+                                });
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8, bottom: 7, top: 7),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: subgreyColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Pilih',
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 13, color: const Color(0xfF6B6B6B)),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Nomor Rekening',
+                  style: subTitleTextStyle.copyWith(fontSize: 12),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: TextFormField(
+                          controller: state.accountNumber,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            fillColor: greenColor,
+                            hoverColor: greenColor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: greenColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 8, bottom: 7, top: 7),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: subgreyColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Periksa',
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 13, color: const Color(0xfF6B6B6B)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Nama Rekening',
+                  style: subTitleTextStyle.copyWith(fontSize: 12),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: TextFormField(
+                          controller: state.name,
+                          decoration: InputDecoration(
+                            fillColor: greenColor,
+                            hoverColor: greenColor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: greenColor),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ButtonGreenWidget(
-                title: 'Simpan',
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (BuildContext context) => RekeningBankPage()),
-                  // );
-                },
-              ),
-            ],
+                Spacer(),
+                Text.rich(
+                  TextSpan(
+                    text: 'Dengan klik “Simpan”, kamu menyetujui',
+                    style: greyTextStyle.copyWith(fontSize: 13),
+                    children: [
+                      TextSpan(
+                        text: " Kebijakan Privasi",
+                        style: grenTextStyle.copyWith(
+                          fontSize: 13,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: " dan",
+                              style: greyTextStyle.copyWith(fontSize: 13),
+                              children: [
+                                TextSpan(
+                                    text: " Syarat dan Ketentuan",
+                                    style: grenTextStyle.copyWith(fontSize: 13))
+                              ]),
+                        ],
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => LoadingWidget(
+                    isLoading: state.isLoading.value,
+                    child: ButtonGreenWidget(
+                      title: isUpdate ? 'Ubah' : 'Simpan',
+                      onPressed: () async {
+                        if (isUpdate) {
+                          await state.updateBank(context, state.bankId.value);
+                        } else {
+                          await state.saveBank(context);
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
