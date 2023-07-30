@@ -33,7 +33,7 @@ class ArtikelNews extends StatelessWidget {
                 width: 123,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(img),
+                    image: NetworkImage(img),
                     fit: BoxFit.cover,
                   ),
                 ),

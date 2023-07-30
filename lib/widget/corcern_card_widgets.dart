@@ -31,11 +31,12 @@ class CorcernCardWidgets extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 60,
+                height: 80,
                 width: 110,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(img),
+                    image: NetworkImage(img),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -71,7 +72,7 @@ class CorcernCardWidgets extends StatelessWidget {
                       children: [
                         Image.asset(
                           'assets/icons/book-menu.png',
-                          color: const Color(0xffFA3A3A3),
+                          color: const Color(0xfffa3a3a3),
                           width: 8.445,
                         ),
                         Text(

@@ -1,16 +1,39 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
 
-import 'package:heystetik_mobileapps/widget/artikel_views_widgets.dart';
+import 'package:heystetik_mobileapps/widget/corcern_card_widgets.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/tags.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/pencarian_search_widget.dart';
 
-class ViewDetailBeutyStreamPage extends StatelessWidget {
-  const ViewDetailBeutyStreamPage({super.key});
+class ViewDetailBeutyStreamPage extends StatefulWidget {
+  String categoryId;
+  String category;
+  Record detailNews;
+  ViewDetailBeutyStreamPage(
+      {required this.categoryId,
+      required this.category,
+      required this.detailNews,
+      super.key});
+
+  @override
+  State<ViewDetailBeutyStreamPage> createState() =>
+      _ViewDetailBeutyStreamPageState();
+}
+
+class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
+  final NewsController state = Get.put(NewsController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +99,7 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    'BEAUTY / CONCERN',
+                    'Beauty / ${widget.category}',
                     style: grenTextStyle.copyWith(fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
@@ -85,7 +108,7 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  'Berjemur Berlebihan Sebabkan Kerusakan Kulit?',
+                  '${widget.detailNews.title}',
                   style: blackTextStyle.copyWith(
                     fontSize: 20,
                   ),
@@ -110,7 +133,7 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                         style: subTitleTextStyle.copyWith(fontSize: 12),
                         children: [
                           TextSpan(
-                            text: ' Nadira Maurizka',
+                            text: '${widget.detailNews.author}',
                             style: blackRegulerTextStyle.copyWith(
                               color: blackColor,
                               fontSize: 12,
@@ -148,7 +171,9 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '25 Januari 2022  | ',
+                      '${ConvertDate.defaultDate(
+                        '${widget.detailNews.newsDate}',
+                      )} | ',
                       style: subTitleTextStyle.copyWith(
                         fontSize: 12,
                       ),
@@ -169,8 +194,8 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                 const SizedBox(
                   height: 17,
                 ),
-                Image.asset(
-                  'assets/images/Berjemur1-Stream.png',
+                Image.network(
+                  '${widget.detailNews.thumbLink}',
                   height: 166.908,
                   width: 350,
                   fit: BoxFit.cover,
@@ -178,63 +203,8 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                RichText(
-                  text: TextSpan(
-                    text:
-                        'Hal yang tidak bisa kamu sangkal, bahwa berjemur dibawah sinar matahari pagi sebenarnya memiliki banyak manfaat. Terlebih saat ini kondisi pandemi covid-19 yang tidak kunjung reda sehingga dianjurkan untuk rutin berjemur di pagi hari. Manfaatnya sendiri karena mampu meningkatkan imun tubuh, mengurangi resiko terkena kanker, dan menghilangkan stress. Selain itu, manfaat vitamin D bekerja lebih optimal diserap tubuh saat berjemur di pagi hari, dan sekaligus sangat berguna untuk memperkuat tulang dan memiliki khasiat yang bagus untuk kulit.\n\n\n',
-                    style: blackRegulerTextStyle.copyWith(
-                        fontSize: 14,
-                        letterSpacing: 0.5,
-                        wordSpacing: 1,
-                        height: 1.6,
-                        color: blackColor),
-                    children: [
-                      TextSpan(
-                        text:
-                            'Berjemur yang aman bisa dilakukan sekitar 3 kali seminggu tiap pukul 9 pagi untuk durasi berjemur sekitar 5 - 15 menit. Dengan begitu, vitamin D bisa diproduksi secara efektif dengan bantuan sinar ultraviolet dari pancaran matahari. Namun jika dilakukan terlalu sering atau dengan durasi terlalu lama, tentu akan berakibat tidak baik untuk tubuh.\n\n\n',
-                        style: blackRegulerTextStyle.copyWith(
-                            fontSize: 14,
-                            letterSpacing: 0.5,
-                            wordSpacing: 1,
-                            height: 1.6,
-                            color: blackColor),
-                        children: [
-                          TextSpan(
-                            text: 'Baca Juga:',
-                            style: blackTextStyle.copyWith(fontSize: 14),
-                            children: [
-                              TextSpan(
-                                text:
-                                    ' Benarkah Skin Fasting Dapat Mendetoks Kulit?\n\n\n',
-                                style: grenTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              )
-                            ],
-                          ),
-                          TextSpan(
-                            text:
-                                'Apa Akibat Berjemur Terlalu Lama Bagi Kulit?\n\n',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                            children: [
-                              TextSpan(
-                                text:
-                                    'Sesuatu yang dilakukan secara berlebihan memang tidaklah baik, salah satunya berjemur dibawah sinar matahari secara berlebihan. Hal ini tentu mampu memicu kerusakan kulit yang disebabkan oleh sinar ultraviolet matahari pada siang hari menjadi tidak terkontrol. Selain itu kulit yang terpanggang dalam waktu yang lama akan mengakibatkan berbagai masalah dibawah ini, seperti:',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 14,
-                                  letterSpacing: 0.5,
-                                  wordSpacing: 1,
-                                  height: 1.6,
-                                  color: blackColor,
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                Html(
+                  data: '${widget.detailNews.description}',
                 ),
                 const SizedBox(
                   height: 20,
@@ -247,31 +217,23 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
                   height: 10,
                 ),
                 Wrap(
-                  children: [
-                    TagsNews(
-                      title: 'Tanda Penuaan',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ViewDetailTags(),
+                  children: widget.detailNews.tag!
+                      .map(
+                        (e) => InkWell(
+                          onTap: () {
+                            Get.to(
+                              ViewDetailTags(
+                                tagName: e.tagName.toString(),
+                                tagId: e.id.toString(),
+                              ),
+                            );
+                          },
+                          child: TagsNews(
+                            title: e.tagName.toString(),
                           ),
-                        );
-                      },
-                    ),
-                    const TagsNews(
-                      title: 'Mengendur',
-                    ),
-                    const TagsNews(
-                      title: 'Kusam',
-                    ),
-                    const TagsNews(
-                      title: 'Keriput',
-                    ),
-                    const TagsNews(
-                      title: 'Tabir Surya',
-                    ),
-                  ],
+                        ),
+                      )
+                      .toList(),
                 ),
                 const SizedBox(
                   height: 38,
@@ -367,38 +329,134 @@ class ViewDetailBeutyStreamPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 26, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Baca artikel lainnya juga, yuk!',
-                  style: blackTextStyle.copyWith(fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                const ArtikelNews(
-                  img: 'assets/icons/artikerl-panda.png',
-                  category: 'BEAUTY / CONCERN',
-                  judul: 'Cara Atasi Mata Panda dengan Tepat',
-                  penerbit: '22 September 2022 | Nadira Maura',
-                  menit: '2',
-                ),
-                const ArtikelNews(
-                  img: 'assets/icons/artikerl-panda.png',
-                  category: 'BEAUTY / CONCERN',
-                  judul: 'Cara Atasi Mata Panda dengan Tepat',
-                  penerbit: '22 September 2022 | Nadira Maura',
-                  menit: '2',
-                ),
-                const ArtikelNews(
-                  img: 'assets/icons/artikerl-panda.png',
-                  category: 'BEAUTY / CONCERN',
-                  judul: 'Cara Atasi Mata Panda dengan Tepat',
-                  penerbit: '22 September 2022 | Nadira Maura',
-                  menit: '2',
-                ),
-              ],
+            child: FutureBuilder(
+              future: state.getArticle(context, widget.categoryId, ''),
+              builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                print(snapshot.connectionState);
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      shimmerWidget(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: borderColor),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: spaceHeigt,
+                      ),
+                      shimmerWidget(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: borderColor),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: spaceHeigt,
+                      ),
+                      shimmerWidget(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: borderColor),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return snapshot.data!.record!.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Belum ada berita',
+                              style: TextStyle(
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                                fontSize: 15,
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.record!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      ViewDetailBeutyStreamPage(
+                                        categoryId: widget.categoryId,
+                                        category: state
+                                            .categoryArticle[index].category
+                                            .toString(),
+                                        detailNews:
+                                            snapshot.data!.record![index],
+                                      ),
+                                    );
+                                  },
+                                  child: CorcernCardWidgets(
+                                    img: snapshot.data!.record![index].thumbLink
+                                        .toString(),
+                                    category:
+                                        'Beauty / ${state.categoryArticle[index].category}',
+                                    judul: snapshot.data!.record![index].title
+                                        .toString(),
+                                    tanggal: ConvertDate.defaultDate(
+                                      snapshot.data!.record![index].newsDate
+                                          .toString(),
+                                    ),
+                                    pembuat: snapshot
+                                        .data!.record![index].author
+                                        .toString(),
+                                    minute: '2 Mins',
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'Belum ada berita',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  }
+                } else {
+                  return Text('Connection State: ${snapshot.connectionState}');
+                }
+              },
             ),
           ),
         ],
