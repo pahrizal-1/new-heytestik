@@ -19,15 +19,11 @@ class HomePageDoctor extends StatefulWidget {
 
 class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
-  final NotificationCustomerController stateNotification = Get.put(NotificationCustomerController());
 
   @override
   void initState() {
     super.initState();
     state.init(context);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      stateNotification.getNotification(context, 1);
-    });
   }
 
   @override
@@ -100,7 +96,6 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                           ),
                           InkWell(
                             onTap: () {
-                              stateNotification.getNotification(context, 1);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

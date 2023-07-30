@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import '../../models/customer/notification.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 
@@ -15,16 +16,25 @@ class NotifikasionPage extends StatefulWidget {
 class _NotifikasionPageState extends State<NotifikasionPage> {
   final NotificationCustomerController state = Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
+  int page = 1;
+  List<DataNotificationCustomerModel> notifications = [];
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      notifications.addAll(await state.getNotification(context, page));
+      setState(() {});
+    });
+
     controller.addListener(() {
       if (controller.position.atEdge) {
         bool isTop = controller.position.pixels == 0;
         if (!isTop) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            state.getNotification(context, 1);
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            notifications.addAll(await state.getNotification(context, page));
           });
+          setState(() {});
         }
       }
     });
@@ -47,7 +57,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: state.notifications.length,
+        itemCount: notifications.length,
         controller: controller,
         itemBuilder: (context, index) {
           return Padding(
@@ -62,7 +72,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            state.notifications[index].title,
+                            notifications[index].title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
@@ -72,7 +82,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                             height: 8.0,
                           ),
                           Text(
-                            state.notifications[index].body,
+                            notifications[index].body,
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -84,7 +94,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       width: 8.0,
                     ),
                     Text(
-                      timeago.format(DateTime.parse(state.notifications[index].createdAt)),
+                      timeago.format(DateTime.parse(notifications[index].createdAt)),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
@@ -95,7 +105,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                 const SizedBox(
                   height: 22,
                 ),
-                if (state.notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || state.notifications[index].type == 'CHAT')
+                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF24A7A0),
@@ -112,24 +122,21 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       ),
                     ),
                   ),
-                if (state.notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
+                if (notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.05),
-                          blurRadius: 10,
-                        )
-                      ]
-                    ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.05),
+                        blurRadius: 10,
+                      )
+                    ]),
                     child: Row(
                       children: [
                         Expanded(
                           child: Column(
                             children: [
-                              Text("Category : ${state.notifications[index].data['category']}"),
-                              Text("Topic : ${state.notifications[index].data['topic']}"),
+                              Text("Category : ${notifications[index].data['category']}"),
+                              Text("Topic : ${notifications[index].data['topic']}"),
                             ],
                           ),
                         ),
@@ -155,7 +162,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       ],
                     ),
                   ),
-                if(state.notifications[index].type != "GENERAL")
+                if (notifications[index].type != "GENERAL")
                   const SizedBox(
                     height: 16.0,
                   ),

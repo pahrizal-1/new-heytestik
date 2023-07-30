@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/customer/notification.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
@@ -13,7 +15,8 @@ import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_pa
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -21,25 +24,45 @@ class SolutionsTreatment1Page extends StatefulWidget {
   const SolutionsTreatment1Page({super.key});
 
   @override
-  State<SolutionsTreatment1Page> createState() =>
-      _SolutionsTreatment1PageState();
+  State<SolutionsTreatment1Page> createState() => _SolutionsTreatment1PageState();
 }
 
 class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   final LocationController state = Get.put(LocationController());
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
+  int page = 1;
+  List<Data2> treatments = [];
 
   int activeIndex = 0;
-  final images = [
+  final List<String> images = [
     'assets/images/bg-buy-get1.png',
     'assets/images/bg-buy-get1.png',
     'assets/images/bg-buy-get1.png',
   ];
 
+  final List<String> asset = ['assets/images/Peliing.png', 'assets/images/IPL.png', 'assets/images/Laser.png'];
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
+      stateTreatment.getTopTreatment(context);
+      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+            setState(() {});
+          });
+        }
+      }
     });
   }
 
@@ -75,8 +98,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         children: [
                           Text(
                             'Lokasimu',
-                            style: blackTextStyle.copyWith(
-                                fontSize: 13, fontWeight: regular),
+                            style: blackTextStyle.copyWith(fontSize: 13, fontWeight: regular),
                           ),
                           const SizedBox(
                             width: 7,
@@ -108,10 +130,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const NotifikasionPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NotifikasionPage()));
                   },
                   child: SvgPicture.asset(
                     'assets/icons/notif-icons.svg',
@@ -143,8 +162,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: Container(
               height: 40,
@@ -154,8 +172,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 ),
                 borderRadius: BorderRadius.circular(35),
               ),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -171,7 +188,9 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: TextFormField(
                     style: const TextStyle(
-                        fontSize: 15, fontFamily: 'ProximaNova'),
+                      fontSize: 15,
+                      fontFamily: 'ProximaNova',
+                    ),
                     decoration: InputDecoration(
                       hintText: 'Cari Treatment',
                       border: InputBorder.none,
@@ -192,11 +211,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
           title: 'Mencari lokasi ...',
           isLoading: state.isLoading.value,
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -219,14 +238,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           Container(
                             width: 111,
                             height: 28,
-                            decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(24)),
+                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(24)),
                             child: Center(
                               child: Text(
                                 'Bekas Jerawat',
-                                style: whiteTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: whiteTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           ),
@@ -234,18 +250,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             width: 8,
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 16),
-                            decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(24),
-                                border:
-                                    Border.all(color: const Color(0xffcccccc))),
+                            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xffcccccc))),
                             child: Center(
                               child: Text(
                                 'Jerawat',
-                                style: blackTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           )
@@ -257,126 +267,48 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PeelinngTraetmentPage(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            height: 222,
-                            width: 164,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/Peliing.png',
-                                    ),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(7)),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                gradient: LinearGradient(
-                                    colors: [
-                                      blackColor.withOpacity(0.5),
-                                      Colors.transparent
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.center),
-                              ),
-                              child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 11),
-                                    child: Text(
-                                      'PEELING',
-                                      style: whiteTextStyle.copyWith(
-                                          fontSize: 18, fontWeight: bold),
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ),
-                        Container(
+                SizedBox(
+                  height: 222,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: stateTreatment.treatment.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Container(
                           margin: const EdgeInsets.only(right: 8),
                           height: 222,
                           width: 164,
                           decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/IPL.png',
-                                  ),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              gradient: LinearGradient(
-                                  colors: [
-                                    blackColor.withOpacity(0.5),
-                                    Colors.transparent
-                                  ],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.center),
+                            image: DecorationImage(
+                              image: AssetImage(asset[index % 3]),
+                              fit: BoxFit.cover,
                             ),
-                            child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 11),
-                                  child: Text(
-                                    'IPL',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 18, fontWeight: bold),
-                                  ),
-                                )),
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 8),
-                          height: 222,
-                          width: 164,
-                          decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage('assets/images/Laser.png'),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(7)),
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
                               gradient: LinearGradient(
-                                  colors: [
-                                    blackColor.withOpacity(0.5),
-                                    Colors.transparent
-                                  ],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.center),
+                                colors: [blackColor.withOpacity(0.5), Colors.transparent],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.center,
+                              ),
                             ),
                             child: Align(
                               alignment: Alignment.bottomCenter,
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 11),
                                 child: Text(
-                                  'LASER',
-                                  style: whiteTextStyle.copyWith(
-                                      fontSize: 18, fontWeight: bold),
+                                  stateTreatment.treatment[index].treatmentType,
+                                  style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -391,8 +323,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   },
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    onPageChanged: (index, reason) =>
-                        setState(() => activeIndex = index),
+                    onPageChanged: (index, reason) => setState(() => activeIndex = index),
                   ),
                 ),
                 const SizedBox(
@@ -402,11 +333,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   child: AnimatedSmoothIndicator(
                     activeIndex: activeIndex,
                     count: images.length,
-                    effect: ScaleEffect(
-                        activeDotColor: greenColor,
-                        dotColor: const Color(0xffD9D9D9),
-                        dotWidth: 6,
-                        dotHeight: 6),
+                    effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
                   ),
                 ),
                 Padding(
@@ -542,7 +469,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             padding: EdgeInsets.only(left: 20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: const [
                                 CirkelCategory(
                                   title: 'Lihat\nSemua',
                                   img: 'assets/images/lainnya.png',
@@ -601,8 +528,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             children: [
                               Text(
                                 'Semua Treatment',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                                style: blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 height: 9,
@@ -628,74 +554,19 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         child: Wrap(
                           spacing: 15,
                           runSpacing: 12,
-                          children: [
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: 'Rp250.000',
-                              harga: 'Rp200.000',
-                              urlImg: 'assets/images/lheatea.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'ZAP Plaza Senayan',
-                              namaTreatmen: 'Toning Laser',
-                              diskonProduk: '20',
-                              hargaDiskon: '1,250.000',
-                              harga: '1,200.000',
-                              urlImg: 'assets/images/zap-senayan.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'ZAP Plaza Senayan',
-                              namaTreatmen: 'IPL Rejuvenation',
-                              diskonProduk: '20',
-                              hargaDiskon: '100,000.000',
-                              harga: '10,200.000',
-                              urlImg: 'assets/images/Ipl1.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/laser1.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/laser2.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                            ProdukTreatment(
-                              namaKlinik: 'Klinik Utama Lithea',
-                              namaTreatmen: 'Radiant Glow Peeling',
-                              diskonProduk: '20',
-                              hargaDiskon: '250.000',
-                              harga: '200.000',
-                              urlImg: 'assets/images/lheatea.png',
-                              rating: '4.9 (120k)',
-                              km: '80',
-                              lokasiKlinik: 'Bogor Timur',
-                            ),
-                          ],
+                          children: treatments.map((element) {
+                            return ProdukTreatment(
+                              namaKlinik: element.clinic!.name!,
+                              namaTreatmen: element.name!,
+                              diskonProduk: '0',
+                              hargaDiskon: '0',
+                              harga: element.price!.toString(),
+                              urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                              rating: '${element.rating} (120k)',
+                              km: '${element.distance}',
+                              lokasiKlinik: element.clinic!.city!.name!,
+                            );
+                          }).toList(),
                         ),
                       )
                     ],

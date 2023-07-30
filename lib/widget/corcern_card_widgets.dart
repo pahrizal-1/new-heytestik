@@ -24,13 +24,14 @@ class CorcernCardWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
+        Container(
+          width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.only(top: 11),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 77,
+                height: 60,
                 width: 110,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -49,9 +50,12 @@ class CorcernCardWidgets extends StatelessWidget {
                       category,
                       style: grenTextStyle.copyWith(fontSize: 10),
                     ),
-                    Text(
-                      judul,
-                      style: blackTextStyle.copyWith(fontSize: 14),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Text(
+                        judul,
+                        style: blackTextStyle.copyWith(fontSize: 14),
+                      ),
                     ),
                     const SizedBox(
                       height: 5,

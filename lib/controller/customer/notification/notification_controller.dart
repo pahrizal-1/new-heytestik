@@ -7,13 +7,13 @@ import '../../../service/customer/notification/notification_services.dart';
 
 class NotificationCustomerController extends StateClass {
   Rx<NotificationCustomerModel> data = NotificationCustomerModel().obs;
-  RxList<DataNotificationCustomerModel> notifications = List<DataNotificationCustomerModel>.empty().obs;
+  RxList<DataNotificationCustomerModel> notifications = List<DataNotificationCustomerModel>.empty(growable: true).obs;
 
-  Future<NotificationCustomerModel?> getNotification(BuildContext context, int page) async {
+  Future<List<DataNotificationCustomerModel>> getNotification(BuildContext context, int page) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data.value = await NotificationCustomerServices().listNotification(page);
-      notifications.value = data.value.data!.data;
+      notifications.value.addAll(data.value.data!.data);
     });
-    return data.value;
+    return data.value.data!.data;
   }
 }

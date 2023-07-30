@@ -1,11 +1,11 @@
-class TreatmetModel {
+class TreatmentModel {
   bool? success;
   String? message;
   Data? data;
 
-  TreatmetModel({this.success, this.message, this.data});
+  TreatmentModel({this.success, this.message, this.data});
 
-  TreatmetModel.fromJson(Map<String, dynamic> json) {
+  TreatmentModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -72,27 +72,28 @@ class Data2 {
   List<MediaTreatments>? mediaTreatments;
   String? distance;
 
-  Data2(
-      {this.id,
-      this.clinicId,
-      this.name,
-      this.category,
-      this.description,
-      this.duration,
-      this.downtime,
-      this.treatmentType,
-      this.treatmentStep,
-      this.price,
-      this.isActive,
-      this.rating,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.clinic,
-      this.mediaTreatments,
-      this.distance});
+  Data2({
+    this.id,
+    this.clinicId,
+    this.name,
+    this.category,
+    this.description,
+    this.duration,
+    this.downtime,
+    this.treatmentType,
+    this.treatmentStep,
+    this.price,
+    this.isActive,
+    this.rating,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.clinic,
+    this.mediaTreatments,
+    this.distance,
+  });
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -145,8 +146,7 @@ class Data2 {
       data['clinic'] = this.clinic!.toJson();
     }
     if (this.mediaTreatments != null) {
-      data['media_treatments'] =
-          this.mediaTreatments!.map((v) => v.toJson()).toList();
+      data['media_treatments'] = this.mediaTreatments!.map((v) => v.toJson()).toList();
     }
     data['distance'] = this.distance;
     return data;
@@ -186,38 +186,39 @@ class Clinic {
   Province? province;
   City? city;
 
-  Clinic(
-      {this.id,
-      this.name,
-      this.address,
-      this.pinpointLatitude,
-      this.pinpointLongitude,
-      this.pinpointAddress,
-      this.provinceId,
-      this.cityId,
-      this.postalCode,
-      this.registrationNumber,
-      this.phone,
-      this.email,
-      this.description,
-      this.companyName,
-      this.companyAddress,
-      this.companyCityId,
-      this.companyProvinceId,
-      this.companyPostalCode,
-      this.npwp,
-      this.picName,
-      this.picPhone,
-      this.contractExpiredDate,
-      this.status,
-      this.rating,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.province,
-      this.city});
+  Clinic({
+    this.id,
+    this.name,
+    this.address,
+    this.pinpointLatitude,
+    this.pinpointLongitude,
+    this.pinpointAddress,
+    this.provinceId,
+    this.cityId,
+    this.postalCode,
+    this.registrationNumber,
+    this.phone,
+    this.email,
+    this.description,
+    this.companyName,
+    this.companyAddress,
+    this.companyCityId,
+    this.companyProvinceId,
+    this.companyPostalCode,
+    this.npwp,
+    this.picName,
+    this.picPhone,
+    this.contractExpiredDate,
+    this.status,
+    this.rating,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.province,
+    this.city,
+  });
 
   Clinic.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -249,8 +250,7 @@ class Clinic {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    province =
-        json['province'] != null ? Province.fromJson(json['province']) : null;
+    province = json['province'] != null ? Province.fromJson(json['province']) : null;
     city = json['city'] != null ? City.fromJson(json['city']) : null;
   }
 
@@ -302,8 +302,13 @@ class Province {
   String? updatedAt;
   dynamic deletedAt;
 
-  Province(
-      {this.id, this.name, this.createdAt, this.updatedAt, this.deletedAt});
+  Province({
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
 
   Province.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -332,13 +337,14 @@ class City {
   String? updatedAt;
   dynamic deletedAt;
 
-  City(
-      {this.id,
-      this.name,
-      this.provincesId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  City({
+    this.id,
+    this.name,
+    this.provincesId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
 
   City.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -372,16 +378,17 @@ class MediaTreatments {
   dynamic deletedAt;
   Media? media;
 
-  MediaTreatments(
-      {this.id,
-      this.mediaId,
-      this.treatmentId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaTreatments({
+    this.id,
+    this.mediaId,
+    this.treatmentId,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.media,
+  });
 
   MediaTreatments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -426,19 +433,20 @@ class Media {
   String? updatedAt;
   dynamic deletedAt;
 
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.destination,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Media({
+    this.id,
+    this.filename,
+    this.ext,
+    this.size,
+    this.mime,
+    this.path,
+    this.destination,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -481,13 +489,14 @@ class Meta {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Meta(
-      {this.page,
-      this.take,
-      this.itemCount,
-      this.pageCount,
-      this.hasPreviousPage,
-      this.hasNextPage});
+  Meta({
+    this.page,
+    this.take,
+    this.itemCount,
+    this.pageCount,
+    this.hasPreviousPage,
+    this.hasNextPage,
+  });
 
   Meta.fromJson(Map<String, dynamic> json) {
     page = json['page'];
