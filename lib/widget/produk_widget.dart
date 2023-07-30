@@ -439,9 +439,13 @@ class ProdukTreatment extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ReservasiPage()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReservasiPage(
+                            treatment: treatmentData,
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       height: 25,
