@@ -68,6 +68,17 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
+  Future<Map<String, dynamic>> getTreatmentOverview(BuildContext context, int treatmentID) async {
+    isLoading.value = true;
+    Map<String, dynamic> data = {};
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+       data = await TreatmentService().getOverview(treatmentID);
+    });
+
+    isLoading.value = false;
+    return data;
+  }
+
   void getTreatment(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {

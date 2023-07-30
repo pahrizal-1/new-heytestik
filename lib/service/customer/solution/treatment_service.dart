@@ -2,8 +2,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as TreatmentModel;
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart' as TreatmentModel;
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 
@@ -11,21 +10,15 @@ import '../../../models/clinic.dart';
 import '../../../models/treatment_detail.dart';
 
 class TreatmentService extends ProviderClass {
-  TreatmentService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  TreatmentService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<List<TreatmentRecommendationModel>>
-      getTreatmentRecommendation() async {
+  Future<List<TreatmentRecommendationModel>> getTreatmentRecommendation() async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/recomendation',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
-      return (response['data'] as List)
-          .map((e) => TreatmentRecommendationModel.fromJson(e))
-          .toList();
+      return (response['data'] as List).map((e) => TreatmentRecommendationModel.fromJson(e)).toList();
     } catch (error) {
       print(error);
       return [];
@@ -40,9 +33,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
@@ -62,9 +53,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
@@ -84,9 +73,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
@@ -98,8 +85,23 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(
-      int page, int clinicID) async {
+  Future<Map<String, dynamic>> getOverview(int treatmentID) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment-review/$treatmentID/overview',
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+      );
+
+      print(response);
+
+      return response;
+    } catch (error) {
+      print(error);
+      return {};
+    }
+  }
+
+  Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(int page, int clinicID) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/clinic/$clinicID',
@@ -107,9 +109,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
@@ -125,9 +125,7 @@ class TreatmentService extends ProviderClass {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/$treatmentID',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       return TreatmentDetailModel.fromJson(response['data']);
@@ -146,9 +144,7 @@ class TreatmentService extends ProviderClass {
           "take": 10,
           "search": search ?? "",
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
@@ -168,18 +164,14 @@ class TreatmentService extends ProviderClass {
           data: {
             "treatment_id": treatmentID,
           },
-          headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-          },
+          headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
         );
 
         print(response);
       } else {
         var response = await networkingConfig.doDelete(
           '/user-wishlist-treatment/$treatmentID',
-          headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-          },
+          headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
         );
 
         print(response);
@@ -197,9 +189,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
       return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
@@ -216,9 +206,7 @@ class TreatmentService extends ProviderClass {
           "page": page,
           "take": 10,
         },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
       return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
