@@ -13,7 +13,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../controller/doctor/treatment/treatment_controller.dart';
+import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';

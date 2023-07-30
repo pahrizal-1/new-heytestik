@@ -38,7 +38,7 @@ class TreatmentService extends ProviderClass {
 
       print(response);
 
-      return  TreatmentModel.TreatmentModel.fromJson(response);
+      return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);
       return TreatmentModel.TreatmentModel();
@@ -101,7 +101,6 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-
   Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(int page, int clinicID) async {
     try {
       var response = await networkingConfig.doGet(
@@ -159,7 +158,7 @@ class TreatmentService extends ProviderClass {
 
   void userWishlistTreatment(int treatmentID, bool wishlist) async {
     try {
-      if(wishlist) {
+      if (wishlist) {
         var response = await networkingConfig.doPost(
           '/user-wishlist-treatment',
           data: {
@@ -177,7 +176,7 @@ class TreatmentService extends ProviderClass {
 
         print(response);
       }
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -198,7 +197,6 @@ class TreatmentService extends ProviderClass {
       return TreatmentModel.TreatmentModel();
     }
   }
-
 
   Future<TreatmentModel.TreatmentModel> getAllTreatment(int page) async {
     try {

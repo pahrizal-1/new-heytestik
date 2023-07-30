@@ -56,12 +56,12 @@ class DataDatum {
   String? shortcut;
   String? message;
   bool? isActive;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
-  List<Null>? mediaChatQuickReplies;
+  dynamic deletedAt;
+  List<dynamic>? mediaChatQuickReplies;
 
   DataDatum(
       {this.id,

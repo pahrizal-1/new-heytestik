@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rating_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/saldo_profil_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tentang_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
@@ -16,10 +15,8 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../core/global.dart';
 import '../../../widget/loading_widget.dart';
 
 class ProfilDoctorPage extends StatefulWidget {
@@ -123,8 +120,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                 ),
                                 Text(
                                   state.profileData.value.data != null
-                                      ? state
-                                          .profileData.value.data!.specialist
+                                      ? state.profileData.value.data!.specialist
                                           .toString()
                                       : "-",
                                   style: TextStyle(

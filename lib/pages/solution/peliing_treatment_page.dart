@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 
-import '../../controller/doctor/treatment/treatment_controller.dart';
+import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
 
 class PeelinngTraetmentPage extends StatefulWidget {

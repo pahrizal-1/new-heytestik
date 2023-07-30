@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 
 import '../../../core/error_config.dart';
-import '../../../models/doctor/reply_chat_model.dart';
-import '../../../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import '../../../pages/tabbar/tabbar_doctor.dart';
 import '../../../service/doctor/chat-opening/chat_opening_service.dart';
 import '../../../service/doctor/settings/reply_chat_service.dart';
@@ -24,7 +22,7 @@ class SettingController extends StateClass {
     var response = await replyChatService.getReplyChat();
     // quickReplyChat.add(response);
     quickListChat.value = response;
-    print('GetUserInfoDataDompet : ' + quickListChat.toString());
+    print('GetUserInfoDataDompet : $quickListChat');
 
     isLoading.value = false;
   }
@@ -66,7 +64,7 @@ class SettingController extends StateClass {
       };
 
       var res = await replyChatService.postReplyChat(data);
-      print('res' + res.toString());
+      print('res$res');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -101,7 +99,7 @@ class SettingController extends StateClass {
       };
 
       var res = await replyChatService.updateReplyChat(data, id);
-      print('res' + res.toString());
+      print('res$res');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -125,7 +123,7 @@ class SettingController extends StateClass {
       };
 
       var res = await ChatOpeningService().postChatOpening(data);
-      print('res' + res.toString());
+      print('res$res');
       Navigator.push(
         context,
         MaterialPageRoute(

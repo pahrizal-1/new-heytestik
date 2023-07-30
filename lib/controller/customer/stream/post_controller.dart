@@ -1,16 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
-import 'package:heystetik_mobileapps/service/customer/stream/news_service.dart';
 import 'package:heystetik_mobileapps/service/customer/stream/post.dart';
 
 class PostController extends StateClass {
-  Future<dynamic> postPolling(BuildContext context, StreamPostModel postModel, {required Function() doInPost}) async {
+  Future<dynamic> postPolling(BuildContext context, StreamPostModel postModel,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {

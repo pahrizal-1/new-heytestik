@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_contomer_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
@@ -219,10 +218,11 @@ class DoctorChat extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  menit,
-                  style: grenTextStyle.copyWith(
-                      fontSize: 12, fontWeight: regular, color: subgreyColor)),
+                Text(menit,
+                    style: grenTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: regular,
+                        color: subgreyColor)),
                 SizedBox(
                   height: 9,
                 ),
