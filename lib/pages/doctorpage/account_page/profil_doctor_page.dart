@@ -654,8 +654,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
+    return SingleChildScrollView(
       child: Wrap(
         children: [
           Padding(
@@ -825,6 +824,16 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                               letterSpacing: 0.5,
                             ),
                           ),
+                          Text(
+                            '17 Okt - 15 Nov 2023',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 12,
+                              fontWeight: bold,
+                              color: fromCssColor('#9B9B9B'),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
                         ],
                       ),
                       const Spacer(),
@@ -970,12 +979,15 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                 const SizedBox(
                   height: 15,
                 ),
-                ButtonGreenWidget(
-                  title: 'Tampilkan',
-                  onPressed: () {
-                    state.getFilterStatistic();
-                    Navigator.pop(context);
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: ButtonGreenWidget(
+                    title: 'Tampilkan',
+                    onPressed: () {
+                      state.getFilterStatistic();
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ],
             ),
