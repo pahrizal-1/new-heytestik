@@ -23,12 +23,12 @@ class ProdukSearcWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BokingTreatment(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const BokingTreatment(),
+        //   ),
+        // );
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

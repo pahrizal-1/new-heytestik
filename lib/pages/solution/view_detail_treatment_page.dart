@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 
@@ -13,9 +15,15 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/text_form_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
 class BokingTreatment extends StatefulWidget {
-  const BokingTreatment({super.key});
+  final Data2 treatment;
+
+  const BokingTreatment({
+    super.key,
+    required this.treatment,
+  });
 
   @override
   State<BokingTreatment> createState() => _BokingTreatmentState();
@@ -92,17 +100,16 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           Stack(
             children: [
               CarouselSlider.builder(
-                itemCount: images.length,
+                itemCount: widget.treatment.mediaTreatments!.length,
                 itemBuilder: (context, index, realIndex) {
-                  final imge = images[index];
+                  final imge = widget.treatment.mediaTreatments![index].media!.path!;
 
                   return buildImage(imge, index);
                 },
                 options: CarouselOptions(
                   height: 390,
                   viewportFraction: 1,
-                  onPageChanged: (index, reason) =>
-                      setState(() => activeIndex = index),
+                  onPageChanged: (index, reason) => setState(() => activeIndex = index),
                 ),
               ),
               Positioned(
@@ -110,12 +117,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 bottom: 5,
                 child: AnimatedSmoothIndicator(
                   activeIndex: activeIndex,
-                  count: images.length,
+                  count: widget.treatment.mediaTreatments!.length,
                   effect: JumpingDotEffect(
-                      activeDotColor: greenColor,
-                      dotColor: whiteColor,
-                      dotWidth: 10,
-                      dotHeight: 10),
+                    activeDotColor: greenColor,
+                    dotColor: whiteColor,
+                    dotWidth: 10,
+                    dotHeight: 10,
+                  ),
                 ),
               ),
             ],
@@ -143,11 +151,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Klinik Utama Lithea',
+                          widget.treatment.clinic!.name!,
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         Text(
-                          'DKI Jakarta, Jakarta Selatan',
+                          widget.treatment.clinic!.city!.name!,
                           style: subTitleTextStyle.copyWith(fontSize: 12),
                         ),
                         const SizedBox(
@@ -161,14 +169,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   height: 27,
                 ),
                 Text(
-                  'Peeling TCA Ringan',
+                  widget.treatment.name!,
                   style: blackTextStyle.copyWith(fontWeight: medium),
                 ),
                 const SizedBox(
                   height: 6,
                 ),
                 Text(
-                  'Tindakan menggunakan cairan peeling yang oleskan ke area tertentu. Pemilihan cairan peeling disesuaikan dengan jenis kulit (Berjerawat, flek hitam, bekas jerawat). Berfungsi untuk mengangkat sel-sel kulit mati, mengatasi jerawat, mencerahkan dan meremajakan kulit.',
+                  widget.treatment.description!,
                   style: TextStyle(color: subTitleColor, fontSize: 12),
                   textAlign: TextAlign.start,
                 ),
@@ -176,28 +184,27 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   height: 6,
                 ),
                 Text(
-                  'Rp363.000',
-                  style: subGreyTextStyle.copyWith(
-                    fontSize: 12,
-                    decoration: TextDecoration.lineThrough,
+                  CurrencyFormat.convertToIdr(widget.treatment.price, 2),
+                  style: blackTextStyle.copyWith(
+                    fontSize: 18,
                     decorationThickness: 2,
-                    color: const Color(0xff9B9B9B),
                   ),
                 ),
-                Text.rich(
-                  TextSpan(
-                    text: '20%',
-                    style: grenTextStyle.copyWith(fontSize: 18),
-                    children: [
-                      TextSpan(
-                        text: ' Rp.290.400',
-                        style: blackHigtTextStyle.copyWith(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                //
+                // Text.rich(
+                //   TextSpan(
+                //     text: '20%',
+                //     style: grenTextStyle.copyWith(fontSize: 18),
+                //     children: [
+                //       TextSpan(
+                //         text: ' Rp.290.400',
+                //         style: blackHigtTextStyle.copyWith(
+                //           fontSize: 18,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 6,
                 ),
@@ -213,8 +220,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       child: Center(
                         child: Text(
                           'Dapat Refund',
-                          style: blackTextStyle.copyWith(
-                              fontWeight: regular, fontSize: 10),
+                          style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 10),
                         ),
                       ),
                     ),
@@ -230,45 +236,41 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       ),
                       child: Center(
                         child: Text(
-                          'Dapat Refund',
-                          style: blackTextStyle.copyWith(
-                              fontWeight: regular, fontSize: 10),
+                          'Termasuk Pajak',
+                          style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 10),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 23,
-                ),
-                Container(
-                  height: 37,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                      color: const Color.fromRGBO(36, 167, 160, 0.2),
-                      borderRadius: BorderRadius.circular(7)),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/persen_icons.png',
-                        width: 25,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'Periode Promo',
-                        style: grenTextStyle.copyWith(fontSize: 13),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '01 Mei 2023 - 30 Juni 2023',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 13, color: const Color(0xff323232)),
-                      ),
-                    ],
-                  ),
-                ),
+                // const SizedBox(
+                //   height: 23,
+                // ),
+                // Container(
+                //   height: 37,
+                //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                //   decoration: BoxDecoration(color: const Color.fromRGBO(36, 167, 160, 0.2), borderRadius: BorderRadius.circular(7)),
+                //   child: Row(
+                //     children: [
+                //       Image.asset(
+                //         'assets/icons/persen_icons.png',
+                //         width: 25,
+                //       ),
+                //       const SizedBox(
+                //         width: 5,
+                //       ),
+                //       Text(
+                //         'Periode Promo',
+                //         style: grenTextStyle.copyWith(fontSize: 13),
+                //       ),
+                //       const Spacer(),
+                //       Text(
+                //         '01 Mei 2023 - 30 Juni 2023',
+                //         style: subTitleTextStyle.copyWith(fontSize: 13, color: const Color(0xff323232)),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 29,
                 ),
@@ -277,7 +279,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const DetailMoreDialogFilter(),
+                      builder: (context) => DetailMoreDialogFilter(
+                        treatmentData: widget.treatment,
+                      ),
                     );
                   },
                 ),
@@ -324,8 +328,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Text(
                       '/5.0',
-                      style: subGreyTextStyle.copyWith(
-                          fontSize: 12, color: const Color(0XffCCCCCC)),
+                      style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0XffCCCCCC)),
                     ),
                     const SizedBox(
                       width: 16,
@@ -337,8 +340,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           children: [
                             Text(
                               '99% Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 12, fontStyle: FontStyle.italic),
+                              style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
                             ),
                             Text(
                               ' merasa puas',
@@ -351,8 +353,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           children: [
                             Text(
                               '110 rating',
-                              style: blackTextStyle.copyWith(
-                                  fontSize: 12, fontWeight: regular),
+                              style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                             ),
                             const SizedBox(
                               width: 5,
@@ -366,8 +367,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             ),
                             Text(
                               '100 ulasan',
-                              style: blackTextStyle.copyWith(
-                                  fontSize: 12, fontWeight: regular),
+                              style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                             ),
                           ],
                         ),
@@ -383,8 +383,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -406,13 +405,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               children: [
                                 Text(
                                   'Perawatan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                 ),
                                 Text(
                                   '54 ulasan',
-                                  style: subTitleTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                  style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             )
@@ -422,8 +419,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -445,13 +441,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               children: [
                                 Text(
                                   'Pelayanan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                 ),
                                 Text(
                                   '16 ulasan',
-                                  style: subTitleTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                  style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             )
@@ -461,8 +455,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -484,13 +477,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               children: [
                                 Text(
                                   'Manajemen',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                 ),
                                 Text(
                                   '54 ulasan',
-                                  style: subTitleTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                  style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             )
@@ -513,18 +504,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Text(
                           ' Sobat Hey',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 18, fontStyle: FontStyle.italic),
+                          style: blackHigtTextStyle.copyWith(fontSize: 18, fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UlasanPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UlasanPage()));
                       },
                       child: Text(
                         'Lihat Semua',
@@ -554,8 +541,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Text(
                           'Perawatan Peeling TCA Ringan',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 13, fontWeight: regular),
+                          style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
                         ),
                       ],
                     ),
@@ -598,8 +584,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Text(
                       '1 Bulan Yang lalu',
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 12, fontWeight: regular),
+                      style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                     )
                   ],
                 ),
@@ -608,8 +593,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 ),
                 Text(
                   'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                  style: greyTextStyle.copyWith(
-                      fontSize: 13, color: const Color(0xff6B6B6B)),
+                  style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
                 ),
                 const SizedBox(
                   height: 13,
@@ -641,106 +625,101 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           const SizedBox(
             height: 17,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: lsymetric,
-              child: Row(
-                children: const [
-                  ProdukTreatment(
-                    namaKlinik: 'Klinik Utama Lithea',
-                    namaTreatmen: 'Radiant Glow Peeling',
-                    diskonProduk: '20',
-                    hargaDiskon: 'Rp250.000',
-                    harga: '200.000',
-                    urlImg: 'assets/images/lheatea.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                  ProdukTreatment(
-                    namaKlinik: 'ZAP Plaza Senayan',
-                    namaTreatmen: 'Toning Laser',
-                    diskonProduk: '20',
-                    hargaDiskon: '1,250.000',
-                    harga: '1,200.000',
-                    urlImg: 'assets/images/zap-senayan.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                  ProdukTreatment(
-                    namaKlinik: 'ZAP Plaza Senayan',
-                    namaTreatmen: 'IPL Rejuvenation',
-                    diskonProduk: '20',
-                    hargaDiskon: '100,000.000',
-                    harga: '10,200.000',
-                    urlImg: 'assets/images/Ipl1.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                  ProdukTreatment(
-                    namaKlinik: 'Klinik Utama Lithea',
-                    namaTreatmen: 'Radiant Glow Peeling',
-                    diskonProduk: '20',
-                    hargaDiskon: '250.000',
-                    harga: '200.000',
-                    urlImg: 'assets/images/laser1.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                  ProdukTreatment(
-                    namaKlinik: 'Klinik Utama Lithea',
-                    namaTreatmen: 'Radiant Glow Peeling',
-                    diskonProduk: '20',
-                    hargaDiskon: '250.000',
-                    harga: '200.000',
-                    urlImg: 'assets/images/laser2.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                  ProdukTreatment(
-                    namaKlinik: 'Klinik Utama Lithea',
-                    namaTreatmen: 'Radiant Glow Peeling',
-                    diskonProduk: '20',
-                    hargaDiskon: '250.000',
-                    harga: '200.000',
-                    urlImg: 'assets/images/lheatea.png',
-                    rating: '4.9 (120k)',
-                    km: '80',
-                    lokasiKlinik: 'Bogor Timur',
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Padding(
+          //     padding: lsymetric,
+          //     child: Row(
+          //       children: const [
+          //         ProdukTreatment(
+          //           namaKlinik: 'Klinik Utama Lithea',
+          //           namaTreatmen: 'Radiant Glow Peeling',
+          //           diskonProduk: '20',
+          //           hargaDiskon: 'Rp250.000',
+          //           harga: '200.000',
+          //           urlImg: 'assets/images/lheatea.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //         ProdukTreatment(
+          //           namaKlinik: 'ZAP Plaza Senayan',
+          //           namaTreatmen: 'Toning Laser',
+          //           diskonProduk: '20',
+          //           hargaDiskon: '1,250.000',
+          //           harga: '1,200.000',
+          //           urlImg: 'assets/images/zap-senayan.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //         ProdukTreatment(
+          //           namaKlinik: 'ZAP Plaza Senayan',
+          //           namaTreatmen: 'IPL Rejuvenation',
+          //           diskonProduk: '20',
+          //           hargaDiskon: '100,000.000',
+          //           harga: '10,200.000',
+          //           urlImg: 'assets/images/Ipl1.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //         ProdukTreatment(
+          //           namaKlinik: 'Klinik Utama Lithea',
+          //           namaTreatmen: 'Radiant Glow Peeling',
+          //           diskonProduk: '20',
+          //           hargaDiskon: '250.000',
+          //           harga: '200.000',
+          //           urlImg: 'assets/images/laser1.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //         ProdukTreatment(
+          //           namaKlinik: 'Klinik Utama Lithea',
+          //           namaTreatmen: 'Radiant Glow Peeling',
+          //           diskonProduk: '20',
+          //           hargaDiskon: '250.000',
+          //           harga: '200.000',
+          //           urlImg: 'assets/images/laser2.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //         ProdukTreatment(
+          //           namaKlinik: 'Klinik Utama Lithea',
+          //           namaTreatmen: 'Radiant Glow Peeling',
+          //           diskonProduk: '20',
+          //           hargaDiskon: '250.000',
+          //           harga: '200.000',
+          //           urlImg: 'assets/images/lheatea.png',
+          //           rating: '4.9 (120k)',
+          //           km: '80',
+          //           lokasiKlinik: 'Bogor Timur',
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: Wrap(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
             child: Row(
               children: [
                 Expanded(
                   child: InkWell(
                     onTap: () {},
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           'Konsultasi',
-                          style: grenTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
+                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
@@ -752,25 +731,17 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ReservasiPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ReservasiPage()));
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       width: 142,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           'Reservasi',
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
+                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
@@ -785,7 +756,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   }
 }
 
-Widget buildImage(String images, int index) => Image.asset(
-      images,
+Widget buildImage(String images, int index) => Image.network(
+      "${Global.FILE}/$images",
       fit: BoxFit.cover,
     );

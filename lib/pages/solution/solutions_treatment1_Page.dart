@@ -556,6 +556,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           runSpacing: 12,
                           children: treatments.map((element) {
                             return ProdukTreatment(
+                              treatmentData: element,
                               namaKlinik: element.clinic!.name!,
                               namaTreatmen: element.name!,
                               diskonProduk: '0',

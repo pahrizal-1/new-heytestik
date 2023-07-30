@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 
+import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
 class ProdukKeranjang extends StatelessWidget {
   final String namaBrand;
@@ -265,6 +268,7 @@ class ProdukTreatment extends StatelessWidget {
   final String urlImg;
   final String rating;
   final String km;
+  final Data2 treatmentData;
   const ProdukTreatment({
     Key? key,
     required this.namaKlinik,
@@ -276,6 +280,7 @@ class ProdukTreatment extends StatelessWidget {
     required this.rating,
     required this.km,
     required this.lokasiKlinik,
+    required this.treatmentData,
   }) : super(key: key);
 
   @override
@@ -291,7 +296,14 @@ class ProdukTreatment extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 2.3,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const BokingTreatment()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BokingTreatment(
+                treatment: treatmentData,
+              ),
+            ),
+          );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -359,7 +371,7 @@ class ProdukTreatment extends StatelessWidget {
                       ],
                     ),
                   Text(
-                    'Rp$harga',
+                    CurrencyFormat.convertToIdr(int.parse(harga), 2),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(
@@ -403,7 +415,9 @@ class ProdukTreatment extends StatelessWidget {
                     height: 13,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ReservasiPage()));
+                    },
                     child: Container(
                       height: 25,
                       decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(3)),

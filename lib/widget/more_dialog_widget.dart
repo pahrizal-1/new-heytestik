@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/timeline_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
 class MoreDialog extends StatelessWidget {
   const MoreDialog({super.key});
@@ -302,7 +303,12 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
 }
 
 class DetailMoreDialogFilter extends StatelessWidget {
-  const DetailMoreDialogFilter({super.key});
+  final Data2 treatmentData;
+
+  const DetailMoreDialogFilter({
+    super.key,
+    required this.treatmentData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -341,100 +347,44 @@ class DetailMoreDialogFilter extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextBoldSpacebetwen(
-                        title1: '',
-                        title: 'Durasi Perawatan',
-                        title2: '15 Menit',
-                      ),
-                      const SizedBox(
-                        height: 11,
-                      ),
-                      const TextBoldSpacebetwen(
-                        title1: '',
-                        title: 'Masa Pemulihan',
-                        title2: '2-4 Hari',
-                      ),
-                      const SizedBox(
-                        height: 11,
-                      ),
-                      const TextBoldSpacebetwen(
-                        title1: '',
-                        title: 'Tipe',
-                        title2: 'Non- Surgical',
-                      ),
-                      const SizedBox(
-                        height: 34,
-                      ),
-                      Text(
-                        'Detail Perawatan',
-                        style: TextStyle(color: blackColor, fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Cleasing',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Foto Befoer-After',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Diberikan Cairan Felling',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
-                      )
-                    ]),
+                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  TextBoldSpacebetwen(
+                    title1: '',
+                    title: 'Durasi Perawatan',
+                    title2: treatmentData.duration!,
+                  ),
+                  const SizedBox(
+                    height: 11,
+                  ),
+                  TextBoldSpacebetwen(
+                    title1: '',
+                    title: 'Masa Pemulihan',
+                    title2: treatmentData.downtime!,
+                  ),
+                  const SizedBox(
+                    height: 11,
+                  ),
+                  TextBoldSpacebetwen(
+                    title1: '',
+                    title: 'Tipe',
+                    title2: treatmentData.category!,
+                  ),
+                  const SizedBox(
+                    height: 34,
+                  ),
+                  Text(
+                    'Detail Perawatan',
+                    style: TextStyle(color: blackColor, fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    treatmentData.treatmentStep!,
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                ]),
               ),
             ],
           ),
