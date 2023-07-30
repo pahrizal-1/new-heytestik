@@ -8,13 +8,13 @@ class ReplyChatModel {
   ReplyChatModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,19 +32,19 @@ class Data {
     if (json['data'] != null) {
       dataDatum = <DataDatum>[];
       json['data'].forEach((v) {
-        dataDatum!.add(new DataDatum.fromJson(v));
+        dataDatum!.add(DataDatum.fromJson(v));
       });
     }
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> dataDatum = new Map<String, dynamic>();
+    final Map<String, dynamic> dataDatum = <String, dynamic>{};
     if (this.dataDatum != null) {
       dataDatum['data'] = this.dataDatum!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      dataDatum['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      dataDatum['meta'] = meta!.toJson();
     }
     return dataDatum;
   }
@@ -96,18 +96,18 @@ class DataDatum {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['shortcut'] = this.shortcut;
-    data['message'] = this.message;
-    data['is_active'] = this.isActive;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.mediaChatQuickReplies != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['shortcut'] = shortcut;
+    data['message'] = message;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (mediaChatQuickReplies != null) {
       // data['media_chat_quick_replies'] =
       //     this.mediaChatQuickReplies!.map((v) => v.toJson()).toList();
     }
@@ -141,13 +141,13 @@ class Meta {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    data['take'] = this.take;
-    data['itemCount'] = this.itemCount;
-    data['pageCount'] = this.pageCount;
-    data['hasPreviousPage'] = this.hasPreviousPage;
-    data['hasNextPage'] = this.hasNextPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    data['take'] = take;
+    data['itemCount'] = itemCount;
+    data['pageCount'] = pageCount;
+    data['hasPreviousPage'] = hasPreviousPage;
+    data['hasNextPage'] = hasNextPage;
     return data;
   }
 }
