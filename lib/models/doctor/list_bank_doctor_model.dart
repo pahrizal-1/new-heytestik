@@ -1,11 +1,11 @@
-class ReplyChatModel {
+class ListBankDoctorModel {
   bool? success;
   String? message;
   Data? data;
 
-  ReplyChatModel({this.success, this.message, this.data});
+  ListBankDoctorModel({this.success, this.message, this.data});
 
-  ReplyChatModel.fromJson(Map<String, dynamic> json) {
+  ListBankDoctorModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -23,94 +23,78 @@ class ReplyChatModel {
 }
 
 class Data {
-  List<DataDatum>? dataDatum;
+  List<Data2>? data;
   Meta? meta;
 
-  Data({this.dataDatum, this.meta});
+  Data({this.data, this.meta});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      dataDatum = <DataDatum>[];
+      data = <Data2>[];
       json['data'].forEach((v) {
-        dataDatum!.add(DataDatum.fromJson(v));
+        data!.add(Data2.fromJson(v));
       });
     }
     meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> dataDatum = <String, dynamic>{};
-    if (this.dataDatum != null) {
-      dataDatum['data'] = this.dataDatum!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     if (meta != null) {
-      dataDatum['meta'] = meta!.toJson();
+      data['meta'] = meta!.toJson();
     }
-    return dataDatum;
+    return data;
   }
 }
 
-class DataDatum {
+class Data2 {
   int? id;
-  int? doctorId;
-  String? shortcut;
-  String? message;
+  String? name;
+  String? code;
   bool? isActive;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
-  List<Null>? mediaChatQuickReplies;
+  dynamic deletedAt;
 
-  DataDatum(
+  Data2(
       {this.id,
-      this.doctorId,
-      this.shortcut,
-      this.message,
+      this.name,
+      this.code,
       this.isActive,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
-      this.deletedAt,
-      this.mediaChatQuickReplies});
+      this.deletedAt});
 
-  DataDatum.fromJson(Map<String, dynamic> json) {
+  Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    doctorId = json['doctor_id'];
-    shortcut = json['shortcut'];
-    message = json['message'];
+    name = json['name'];
+    code = json['code'];
     isActive = json['is_active'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    if (json['media_chat_quick_replies'] != null) {
-      mediaChatQuickReplies = <Null>[];
-      // json['media_chat_quick_replies'].forEach((v) {
-      //   mediaChatQuickReplies!.add(new Null.fromJson(v));
-      // });
-    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['doctor_id'] = doctorId;
-    data['shortcut'] = shortcut;
-    data['message'] = message;
+    data['name'] = name;
+    data['code'] = code;
     data['is_active'] = isActive;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
-    if (mediaChatQuickReplies != null) {
-      // data['media_chat_quick_replies'] =
-      //     this.mediaChatQuickReplies!.map((v) => v.toJson()).toList();
-    }
     return data;
   }
 }

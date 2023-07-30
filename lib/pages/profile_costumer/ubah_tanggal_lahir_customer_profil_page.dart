@@ -81,6 +81,7 @@ class _UbahTanggalLahirProfilCustomerState
               decoration: InputDecoration(
                 suffixIcon: Icon(
                   Icons.keyboard_arrow_down,
+                  
                   color: greyColor,
                 ),
                 labelText: 'Tanggal Lahir',

@@ -11,15 +11,15 @@ class RecentChatModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -70,38 +70,36 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    doctor =
-        json['doctor'] != null ? new Doctor.fromJson(json['doctor']) : null;
+    doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
     customer =
-        json['customer'] != null ? new Doctor.fromJson(json['customer']) : null;
-    lastChat = json['last_chat'] != null
-        ? new LastChat.fromJson(json['last_chat'])
-        : null;
+        json['customer'] != null ? Doctor.fromJson(json['customer']) : null;
+    lastChat =
+        json['last_chat'] != null ? LastChat.fromJson(json['last_chat']) : null;
     unseenCount = json['unseen_count'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['customer_id'] = this.customerId;
-    data['code'] = this.code;
-    data['ended'] = this.ended;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.doctor != null) {
-      data['doctor'] = this.doctor!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['customer_id'] = customerId;
+    data['code'] = code;
+    data['ended'] = ended;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (doctor != null) {
+      data['doctor'] = doctor!.toJson();
     }
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
+    if (customer != null) {
+      data['customer'] = customer!.toJson();
     }
-    if (this.lastChat != null) {
-      data['last_chat'] = this.lastChat!.toJson();
+    if (lastChat != null) {
+      data['last_chat'] = lastChat!.toJson();
     }
-    data['unseen_count'] = this.unseenCount;
+    data['unseen_count'] = unseenCount;
     return data;
   }
 }
@@ -225,44 +223,44 @@ class Doctor {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullname'] = this.fullname;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['no_phone'] = this.noPhone;
-    data['gender'] = this.gender;
-    data['address'] = this.address;
-    data['photo_profile'] = this.photoProfile;
-    data['referral_code'] = this.referralCode;
-    data['user_code'] = this.userCode;
-    data['roleId'] = this.roleId;
-    data['verification_code_phone'] = this.verificationCodePhone;
-    data['verification_code_email'] = this.verificationCodeEmail;
-    data['provinceId'] = this.provinceId;
-    data['cityId'] = this.cityId;
-    data['education'] = this.education;
-    data['practice_location'] = this.practiceLocation;
-    data['join_date'] = this.joinDate;
-    data['title'] = this.title;
-    data['sip'] = this.sip;
-    data['str'] = this.str;
-    data['ktp_no'] = this.ktpNo;
-    data['ktp_image'] = this.ktpImage;
-    data['npwp_no'] = this.npwpNo;
-    data['npwp_image'] = this.npwpImage;
-    data['specialist'] = this.specialist;
-    data['dob'] = this.dob;
-    data['rating'] = this.rating;
-    data['status_schedule'] = this.statusSchedule;
-    data['since'] = this.since;
-    data['start'] = this.start;
-    data['until'] = this.until;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['refresh_token'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
     return data;
   }
 }
@@ -316,21 +314,21 @@ class LastChat {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['chat_room_id'] = this.chatRoomId;
-    data['sender_id'] = this.senderId;
-    data['receiver_id'] = this.receiverId;
-    data['message'] = this.message;
-    data['seen'] = this.seen;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.mediaChatMessages != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['chat_room_id'] = chatRoomId;
+    data['sender_id'] = senderId;
+    data['receiver_id'] = receiverId;
+    data['message'] = message;
+    data['seen'] = seen;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (mediaChatMessages != null) {
       // data['media_chat_messages'] =
-          // this.mediaChatMessages!.map((v) => v.toJson()).toList();
+      // this.mediaChatMessages!.map((v) => v.toJson()).toList();
     }
     return data;
   }

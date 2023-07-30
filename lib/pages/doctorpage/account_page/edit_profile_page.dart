@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../../widget/text_form_widget.dart';
 
@@ -21,7 +22,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _no_hp =
       TextEditingController(text: '085211341645');
   final TextEditingController _jenis_kelamin =
-      TextEditingController(text: '085211341645');
+      TextEditingController(text: 'Wanita');
+  TextEditingController _dateController = TextEditingController();
+  List<String> items = [
+    'Laki - Laki',
+    'Perempuan',
+  ];
+  String dropdownValue = 'Laki - Laki';
+
+  _dateString() {
+    if (_date == null) {
+      return 'Edit Tanggal Lahir';
+    } else {
+      return '${_date?.day} -${_date?.month}- ${_date?.year} ';
+    }
+  }
+
+  DateTime? _date;
 
   bool isSelected = false;
   @override
@@ -144,45 +161,46 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       controller: _no_hp,
                       icon: Icons.call,
                     ),
+                    TetxFromProfilEdit(
+                      title1: 'No. Handphone',
+                      controller: _no_hp,
+                      icon: Icons.call,
+                    ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 130,
-                          child: Text(
-                            'Jenis kelamin',
-                            style: TextStyle(
-                              fontFamily: 'ProximaNova',
-                              fontSize: 13,
-                              letterSpacing: 0.5,
-                              color: fromCssColor('#999999'),
-                            ),
-                          ),
+                        Text(
+                          'Jenis Kelamin',
+                          style: subTitleTextStyle,
                         ),
-                        Container(
-                          constraints: const BoxConstraints(maxWidth: 170),
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Wanita',
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                color: fromCssColor('#323232'),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        DropdownButton<String>(
+                          value: dropdownValue,
+                          padding: EdgeInsets.zero,
+                          underline: Container(),
+                          items: items
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: blackTextStyle.copyWith(fontSize: 13),
+                                ));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue ?? '';
+                            });
+                          },
+                        ),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.transparent,
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 35,
-                      child: Center(
-                        child: Divider(
-                          thickness: 1,
-                        ),
-                      ),
-                    ),
+                    dividergrey(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -204,7 +222,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               width: 130,
                               child: RichText(
                                 text: TextSpan(
-                                  text: '17 Agustus 1980',
+                                  text: _dateString(),
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     color: fromCssColor('#323232'),
@@ -216,10 +234,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                           ],
                         ),
-                        Icon(
-                          Icons.date_range_outlined,
-                          color: fromCssColor('#999999'),
-                          size: 20,
+                        InkWell(
+                          onTap: () async {
+                            final ressult = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100));
+                            if (ressult != null) {
+                              setState(() {
+                                _date = ressult;
+                              });
+                            }
+                            ;
+                          },
+                          child: Icon(
+                            Icons.date_range_outlined,
+                            color: fromCssColor('#999999'),
+                            size: 20,
+                          ),
                         )
                       ],
                     ),

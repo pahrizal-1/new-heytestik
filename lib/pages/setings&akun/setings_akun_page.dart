@@ -99,8 +99,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const RekeningBankSettings()));
+                                builder: (context) => RekeningBankSettings()));
                       },
                       iconUrl: 'assets/icons/credit-card.png',
                       title: 'Rekening Bank',

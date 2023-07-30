@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/bank_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/bank_doctor_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/pilih_bank_widgets.dart';
+import 'package:heystetik_mobileapps/widget/pilih_bank_doctor_widgets.dart';
 
 import '../../../widget/button_widget.dart';
 
-class TambahBankCustomerPage extends StatefulWidget {
+class TambahBankDoctorPage extends StatefulWidget {
   final int id;
   final bool isUpdate;
-  TambahBankCustomerPage({this.id = 0, this.isUpdate = false, super.key});
+  TambahBankDoctorPage({this.id = 0, this.isUpdate = false, super.key});
 
   @override
-  State<TambahBankCustomerPage> createState() => _TambahBankCustomerPageState();
+  State<TambahBankDoctorPage> createState() => _TambahBankDoctorPageState();
 }
 
-class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
-  final BankController state = Get.put(BankController());
+class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
+  final BankDoctorController state = Get.put(BankDoctorController());
 
   @override
   void initState() {
@@ -79,6 +79,8 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                           readOnly: true,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 5, right: 5, bottom: 5),
                             fillColor: greenColor,
                             hoverColor: greenColor,
                             focusedBorder: UnderlineInputBorder(
@@ -105,7 +107,7 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                                 minChildSize: 1, //set this as you want
                                 expand: true,
                                 builder: (context, scrollController) {
-                                  return FilterTambahbank(); //whatever you're returning, does not have to be a Container
+                                  return FilterTambahBankDoctor(); //whatever you're returning, does not have to be a Container
                                 });
                           },
                         );
@@ -121,7 +123,9 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                           child: Text(
                             'Pilih',
                             style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: const Color(0xfF6B6B6B)),
+                              fontSize: 13,
+                              color: const Color(0xfF6B6B6B),
+                            ),
                           ),
                         ),
                       ),
@@ -144,6 +148,8 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                           controller: state.accountNumber,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(right: 5, bottom: 2, top: 0),
                             fillColor: greenColor,
                             hoverColor: greenColor,
                             focusedBorder: UnderlineInputBorder(
@@ -188,6 +194,8 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                         child: TextFormField(
                           controller: state.name,
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(right: 5, bottom: 2, top: 0),
                             fillColor: greenColor,
                             hoverColor: greenColor,
                             focusedBorder: UnderlineInputBorder(
@@ -242,6 +250,9 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
                       },
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
               ],
             ),
