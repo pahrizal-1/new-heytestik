@@ -860,9 +860,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ReservasiPage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReservasiPage(
+                                treatment: widget.treatment,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
