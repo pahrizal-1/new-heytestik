@@ -8,13 +8,13 @@ class ProfileModel {
   ProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new DataProfile.fromJson(json['data']) : null;
+    data = json['data'] != null ? DataProfile.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -57,25 +57,23 @@ class DataProfile {
     str = json['str'];
     practiceLocation = json['practice_location'];
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? new MediaUserProfilePicture.fromJson(
-            json['media_user_profile_picture'])
+        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['fullname'] = this.fullname;
-    data['specialist'] = this.specialist;
-    data['email'] = this.email;
-    data['no_phone'] = this.noPhone;
-    data['gender'] = this.gender;
-    data['dob'] = this.dob;
-    data['sip'] = this.sip;
-    data['str'] = this.str;
-    data['practice_location'] = this.practiceLocation;
-    if (this.mediaUserProfilePicture != null) {
-      data['media_user_profile_picture'] =
-          this.mediaUserProfilePicture!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['fullname'] = fullname;
+    data['specialist'] = specialist;
+    data['email'] = email;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['practice_location'] = practiceLocation;
+    if (mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
     }
     return data;
   }
@@ -112,21 +110,21 @@ class MediaUserProfilePicture {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    media = json['media'] != null ? new Media.fromJson(json['media']) : null;
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media_id'] = this.mediaId;
-    data['user_id'] = this.userId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.media != null) {
-      data['media'] = this.media!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['user_id'] = userId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
     }
     return data;
   }
@@ -176,19 +174,19 @@ class Media {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['filename'] = this.filename;
-    data['ext'] = this.ext;
-    data['size'] = this.size;
-    data['mime'] = this.mime;
-    data['path'] = this.path;
-    data['destination'] = this.destination;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
