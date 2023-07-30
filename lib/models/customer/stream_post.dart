@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class StreamPostModel {
   final String content;
   final String type;
