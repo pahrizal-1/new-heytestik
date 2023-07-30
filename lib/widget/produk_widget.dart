@@ -72,7 +72,10 @@ class ProdukKeranjang extends StatelessWidget {
                     ),
                     Text(
                       namaProduk,
-                      style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+                      style: blackHigtTextStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: regular,
+                          overflow: TextOverflow.ellipsis),
                     ),
                     const SizedBox(
                       height: 6,
@@ -82,11 +85,14 @@ class ProdukKeranjang extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               diskonProduk,
-                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -120,7 +126,8 @@ class ProdukKeranjang extends StatelessWidget {
                         ),
                         Text(
                           rating,
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         )
                       ],
                     ),
@@ -130,7 +137,8 @@ class ProdukKeranjang extends StatelessWidget {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(3),
                           color: greenColor,
@@ -169,7 +177,8 @@ class ProdukObat extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailObatPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DetailObatPage()));
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -189,7 +198,8 @@ class ProdukObat extends StatelessWidget {
                   width: 164,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 11, right: 10, bottom: 10),
+                  padding:
+                      const EdgeInsets.only(left: 11, right: 10, bottom: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -212,7 +222,8 @@ class ProdukObat extends StatelessWidget {
                       ),
                       Text(
                         'Per Tube',
-                        style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 12, color: const Color(0xFF9B9B9B)),
                       ),
                       const SizedBox(
                         height: 4,
@@ -335,11 +346,15 @@ class ProdukTreatment extends StatelessWidget {
                 children: [
                   Text(
                     namaKlinik,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13, overflow: TextOverflow.ellipsis),
                   ),
                   Text(
                     namaTreatmen,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: regular,
+                        overflow: TextOverflow.ellipsis),
                   ),
                   const SizedBox(
                     height: 6,
@@ -350,11 +365,14 @@ class ProdukTreatment extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               '$diskonProduk%',
-                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -398,7 +416,8 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         rating,
-                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                       const SizedBox(
                         width: 6,
@@ -409,7 +428,8 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         ' $km',
-                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                     ],
                   ),
@@ -418,11 +438,16 @@ class ProdukTreatment extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ReservasiPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ReservasiPage()));
                     },
                     child: Container(
                       height: 25,
-                      decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(3)),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(3)),
                       child: Center(
                         child: Text(
                           'Reservasi',
