@@ -14,10 +14,10 @@ import '../../widget/pencarian_search_widget.dart';
 import 'vies_detail_beauty_stream_page.dart';
 
 class ViewDetailCategoryNews extends StatelessWidget {
-  String tagName;
-  String tagId;
+  String category;
+  String categoryId;
   ViewDetailCategoryNews(
-      {required this.tagName, required this.tagId, super.key});
+      {required this.category, required this.categoryId, super.key});
   final NewsController state = Get.put(NewsController());
 
   @override
@@ -86,14 +86,14 @@ class ViewDetailCategoryNews extends StatelessWidget {
                 height: 6,
               ),
               Text(
-                tagName,
+                category,
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
                 height: 44,
               ),
               FutureBuilder(
-                future: state.getArticle(context, '', tagId),
+                future: state.getArticle(context, categoryId, ''),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   print(snapshot.connectionState);
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -163,44 +163,40 @@ class ViewDetailCategoryNews extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                // scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data!.record!.length,
-                                // physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Get.to(
-                                        ViewDetailBeutyStreamPage(
-                                          categoryId: '',
-                                          category: state
-                                              .categoryArticle[index].category
-                                              .toString(),
-                                          detailNews:
-                                              snapshot.data!.record![index],
-                                        ),
-                                      );
-                                    },
-                                    child: ArtikelNews(
-                                      img: snapshot
-                                          .data!.record![index].thumbLink
-                                          .toString(),
-                                      category:
-                                          'Beauty / ${state.categoryArticle[index].category}',
-                                      judul: snapshot.data!.record![index].title
-                                          .toString(),
-                                      penerbit: '${ConvertDate.defaultDate(
-                                        snapshot.data!.record![index].newsDate
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.record!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      ViewDetailBeutyStreamPage(
+                                        categoryId: '',
+                                        category: state
+                                            .categoryArticle[index].category
                                             .toString(),
-                                      )}| ${snapshot.data!.record![index].author.toString()}',
-                                      menit: '2',
-                                    ),
-                                  );
-                                },
-                              ),
+                                        detailNews:
+                                            snapshot.data!.record![index],
+                                      ),
+                                    );
+                                  },
+                                  child: ArtikelNews(
+                                    img: snapshot.data!.record![index].thumbLink
+                                        .toString(),
+                                    category:
+                                        'Beauty / ${state.categoryArticle[index].category}',
+                                    judul: snapshot.data!.record![index].title
+                                        .toString(),
+                                    penerbit: '${ConvertDate.defaultDate(
+                                      snapshot.data!.record![index].newsDate
+                                          .toString(),
+                                    )}| ${snapshot.data!.record![index].author.toString()}',
+                                    menit: '2',
+                                  ),
+                                );
+                              },
                             );
                     } else {
                       return Center(

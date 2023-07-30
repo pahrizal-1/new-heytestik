@@ -46,8 +46,12 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(ViewDetailCategoryNews(
-                        tagName: 'tagName', tagId: 'tagId'));
+                    Get.to(
+                      ViewDetailCategoryNews(
+                        categoryId: '3',
+                        category: 'Concern',
+                      ),
+                    );
                   },
                   child: CategotyBuarty(
                     icon: 'assets/icons/icons_concenr.png',
@@ -55,14 +59,28 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(
+                      ViewDetailCategoryNews(
+                        categoryId: '2',
+                        category: 'Skincare',
+                      ),
+                    );
+                  },
                   child: CategotyBuarty(
                     icon: 'assets/icons/skincare-corcrn.png',
                     titile: 'Skincare',
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(
+                      ViewDetailCategoryNews(
+                        categoryId: '1',
+                        category: 'Treatment',
+                      ),
+                    );
+                  },
                   child: CategotyBuarty(
                     icon: 'assets/icons/treatmen-cornern.png',
                     titile: 'Treatment',
