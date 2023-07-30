@@ -316,7 +316,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(0.1),
       content: Container(
-        height: 380,
+        // height: 380,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,
@@ -347,44 +347,47 @@ class DetailMoreDialogFilter extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Durasi Perawatan',
-                    title2: treatmentData.duration!,
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Masa Pemulihan',
-                    title2: treatmentData.downtime!,
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Tipe',
-                    title2: treatmentData.category!,
-                  ),
-                  const SizedBox(
-                    height: 34,
-                  ),
-                  Text(
-                    'Detail Perawatan',
-                    style: TextStyle(color: blackColor, fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    treatmentData.treatmentStep!,
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                ]),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Durasi Perawatan',
+                        title2: treatmentData.duration!,
+                      ),
+                      const SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Masa Pemulihan',
+                        title2: treatmentData.downtime!,
+                      ),
+                      const SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Tipe',
+                        title2: treatmentData.category!,
+                      ),
+                      const SizedBox(
+                        height: 34,
+                      ),
+                      Text(
+                        'Detail Perawatan',
+                        style: TextStyle(color: blackColor, fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        treatmentData.treatmentStep!,
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ]),
               ),
             ],
           ),
