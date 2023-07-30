@@ -237,8 +237,8 @@ class _RekeningBankSettingsState extends State<RekeningBankSettings> {
               },
             ),
             const SizedBox(
-              height: 36,
-            )
+              height: 30,
+            ),
           ],
         ),
       ),

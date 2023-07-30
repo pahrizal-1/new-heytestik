@@ -92,7 +92,7 @@ class _TabBarDoctorState extends State<TabBarDoctor> {
                   //   color: greenColor,
                   // ),
                   child: Icon(
-                    Icons.person_add_outlined,
+                    Icons.person_outline,
                     size: 26,
                     color: myIndex == 3 ? greenColor : greyColor,
                   ),

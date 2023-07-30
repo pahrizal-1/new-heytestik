@@ -18,6 +18,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/doctor/treatment/treatment_controller.dart';
 import '../../theme/theme.dart';
+import '../../widget/filter_all_widgets.dart';
 import '../../widget/produk_widget.dart';
 
 class SolutionsTreatment1Page extends StatefulWidget {
@@ -357,7 +358,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               height: 75,
                               width: 75,
                               decoration: BoxDecoration(
-                                color: const Color(0XFFD9D9D9),
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/icons/nearme_icons.png')),
+                                color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -378,7 +382,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             height: 75,
                             width: 75,
                             decoration: BoxDecoration(
-                              color: const Color(0XFFD9D9D9),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/icons/trending_icons.png')),
+                              color: whiteColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -407,7 +414,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               height: 75,
                               width: 75,
                               decoration: BoxDecoration(
-                                color: const Color(0XFFD9D9D9),
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/icons/klnik_icons.png')),
+                                color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -428,7 +438,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             height: 75,
                             width: 75,
                             decoration: BoxDecoration(
-                              color: const Color(0XFFD9D9D9),
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/icons/top_rating.png'),
+                              ),
+                              color: whiteColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -533,9 +547,26 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               const SizedBox(
                                 height: 9,
                               ),
-                              Image.asset(
-                                'assets/icons/filters.png',
-                                width: 78,
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
+                                        topEnd: Radius.circular(25),
+                                        topStart: Radius.circular(25),
+                                      ),
+                                    ),
+                                    builder: (context) => FilterAll(),
+                                  );
+                                },
+                                child: Image.asset(
+                                  'assets/icons/filters.png',
+                                  width: 78,
+                                ),
                               ),
                               const SizedBox(
                                 height: 15,
