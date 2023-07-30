@@ -7,7 +7,11 @@ import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/costoum_pin_widgets.dart';
 
 class PinPageBaruDoctor extends StatefulWidget {
-  const PinPageBaruDoctor({super.key});
+  final String pinOld;
+  const PinPageBaruDoctor({
+    super.key,
+    required this.pinOld,
+  });
 
   @override
   State<PinPageBaruDoctor> createState() => _PinPageBaruDoctorState();
@@ -21,34 +25,18 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
 
   addPin(String number) {
     print('number $number');
-    if (state.pinOldController.text.length < 6) {
+    if (state.pinNewController.text.length < 6) {
       setState(() {
-        state.pinOldController.text = state.pinOldController.text + number;
+        state.pinNewController.text = state.pinNewController.text + number;
       });
     }
-
-    // if (pinController.text.length == 6) {
-    //   if (pinController.text == pin) {
-    //     showDialog(
-    //     print('pin');()
-    //   } else {
-    //     print('Password salah');
-    //     isErr = true;
-    //     Text(
-    //       'Password anda salah',
-    //       style: blackTextStyle.copyWith(color: redColor),
-    //     );
-    //   }
-    // }
-
-    print('pinController ${pinController.text}');
   }
 
   deletedPin() {
-    if (state.pinOldController.text.isNotEmpty) {
+    if (state.pinNewController.text.isNotEmpty) {
       setState(() {
-        state.pinOldController.text = state.pinOldController.text
-            .substring(0, state.pinOldController.text.length - 1);
+        state.pinNewController.text = state.pinNewController.text
+            .substring(0, state.pinNewController.text.length - 1);
       });
     }
   }
@@ -64,6 +52,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
               padding: const EdgeInsets.only(left: 21, top: 50),
               child: InkWell(
                   onTap: () {
+                    state.pinNewController.text = '';
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -84,7 +73,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                     height: 100,
                   ),
                   Text(
-                    'Masukkan Kata Sandi\nLama Anda',
+                    'Masukkan Kata Sandi\nBaru Anda',
                     style: whiteTextStyle.copyWith(
                       fontWeight: bold,
                       fontSize: 20,
@@ -101,7 +90,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 1)
+                          (state.pinNewController.text.length >= 1)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           size: 15,
@@ -111,7 +100,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 2)
+                          (state.pinNewController.text.length >= 2)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -121,7 +110,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 3)
+                          (state.pinNewController.text.length >= 3)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -131,7 +120,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 4)
+                          (state.pinNewController.text.length >= 4)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -141,7 +130,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 5)
+                          (state.pinNewController.text.length >= 5)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -151,7 +140,7 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length == 6)
+                          (state.pinNewController.text.length == 6)
                               ? Icons.circle
                               : Icons.circle_outlined,
                           color: whiteColor,
@@ -162,122 +151,6 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                   ),
                   const SizedBox(
                     height: 80,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.only(
-                              topEnd: Radius.circular(25),
-                              topStart: Radius.circular(25),
-                            ),
-                          ),
-                          context: context,
-                          builder: (context) => Container(
-                                height: 246,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 33, top: 47, right: 45),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Lupa Kata Sandi?',
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 20),
-                                      ),
-                                      const SizedBox(
-                                        height: 28,
-                                      ),
-                                      Text(
-                                        'Kami akan kirimkan Kata Sandi Anda\nke email yang terdaftar di akun Heystetik.',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontWeight: regular, fontSize: 15),
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                // Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //     builder: (context) => const SearchKlinkPage(),
-                                                //   ),
-                                                // );
-                                              },
-                                              child: Container(
-                                                height: 34,
-                                                // width: MediaQuery.of(context).size.width,
-                                                decoration: BoxDecoration(
-                                                  color: whiteColor,
-                                                  border: Border.all(
-                                                      color: greenColor),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                ),
-                                                child: Center(
-                                                  child: Text('Batal',
-                                                      style: TextStyle(
-                                                          color: greenColor,
-                                                          fontSize: 15)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                // Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //     builder: (context) => const SearchKlinkPage(),
-                                                //   ),
-                                                // );
-                                              },
-                                              child: Container(
-                                                height: 34,
-                                                // width: MediaQuery.of(context).size.width,
-                                                decoration: BoxDecoration(
-                                                  color: greenColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    'Lanjut',
-                                                    style: TextStyle(
-                                                        color: whiteColor,
-                                                        fontSize: 15),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ));
-                    },
-                    child: Text(
-                      'Lupa Kata Sandi?',
-                      style: whiteTextStyle.copyWith(
-                        fontWeight: bold,
-                        fontSize: 20,
-                      ),
-                    ),
                   ),
                   // ignore: prefer_const_constructors
                   SizedBox(
@@ -360,10 +233,12 @@ class _PinPageBaruDoctorState extends State<PinPageBaruDoctor> {
                         onTap: () {},
                         child: InkWell(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const MoreDialogPassword(),
-                            );
+                            state.updatePassword(context, widget.pinOld,
+                                state.pinNewController.text);
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => const MoreDialogPassword(),
+                            // );
                           },
                           child: Container(
                             width: 73,

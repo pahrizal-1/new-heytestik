@@ -680,22 +680,21 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   itemCount: treatments.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(
-                        left: index == 0 ? 16 : 0,
-                      ),
-                      child: ProdukTreatment(
-                        namaKlinik: treatments[index].clinic!.name!,
-                        namaTreatmen: treatments[index].name!,
-                        diskonProduk: '0',
-                        hargaDiskon: '',
-                        harga: treatments[index].price.toString(),
-                        urlImg: "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
-                        rating: "${treatments[index].rating}",
-                        km: treatments[index].distance!,
-                        lokasiKlinik: treatments[index].clinic!.city!.name!,
-                        treatmentData: treatments[index],
-                      )
-                    );
+                        padding: EdgeInsets.only(
+                          left: index == 0 ? 16 : 0,
+                        ),
+                        child: ProdukTreatment(
+                          namaKlinik: treatments[index].clinic!.name!,
+                          namaTreatmen: treatments[index].name!,
+                          diskonProduk: '0',
+                          hargaDiskon: '',
+                          harga: treatments[index].price.toString(),
+                          urlImg: "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
+                          rating: "${treatments[index].rating}",
+                          km: treatments[index].distance!,
+                          lokasiKlinik: treatments[index].clinic!.city!.name!,
+                          treatmentData: treatments[index],
+                        ));
                   },
                 ),
               ),

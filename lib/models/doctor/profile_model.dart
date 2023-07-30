@@ -1,14 +1,14 @@
 class ProfileModel {
   bool? success;
   String? message;
-  DataProfile? data;
+  Data? data;
 
   ProfileModel({this.success, this.message, this.data});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? DataProfile.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,19 +22,20 @@ class ProfileModel {
   }
 }
 
-class DataProfile {
+class Data {
   String? fullname;
   String? specialist;
   String? email;
   String? noPhone;
   String? gender;
   dynamic dob;
-  dynamic sip;
-  dynamic str;
-  dynamic practiceLocation;
+  String? sip;
+  String? str;
+  String? education;
+  String? practiceLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
 
-  DataProfile(
+  Data(
       {this.fullname,
       this.specialist,
       this.email,
@@ -43,10 +44,11 @@ class DataProfile {
       this.dob,
       this.sip,
       this.str,
+      this.education,
       this.practiceLocation,
       this.mediaUserProfilePicture});
 
-  DataProfile.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
     specialist = json['specialist'];
     email = json['email'];
@@ -55,6 +57,7 @@ class DataProfile {
     dob = json['dob'];
     sip = json['sip'];
     str = json['str'];
+    education = json['education'];
     practiceLocation = json['practice_location'];
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
         ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
@@ -71,6 +74,7 @@ class DataProfile {
     data['dob'] = dob;
     data['sip'] = sip;
     data['str'] = str;
+    data['education'] = education;
     data['practice_location'] = practiceLocation;
     if (mediaUserProfilePicture != null) {
       data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();

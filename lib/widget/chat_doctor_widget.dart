@@ -19,6 +19,7 @@ class ChatAktif extends StatelessWidget {
   final int roomId;
   final int senderId;
   final int receiverId;
+  final int id;
   const ChatAktif({
     super.key,
     required this.customerName,
@@ -36,106 +37,92 @@ class ChatAktif extends StatelessWidget {
     required this.roomId,
     required this.senderId,
     required this.receiverId,
+    required this.id,
+
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatDoctorPage(
-                roomCode: roomCode,
-                senderBy: doctorName,
-                receiverBy: customerName,
-                roomId: roomId,
-                senderId: senderId,
-                receiverId: receiverId,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                img,
+                width: 39,
               ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  img,
-                  width: 39,
-                ),
-                const SizedBox(
-                  width: 11,
-                ),
-                Container(
-                  constraints: const BoxConstraints(maxWidth: 180),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        customerName,
-                        style: blackTextStyle.copyWith(fontSize: 15),
-                      ),
-                      Text(
-                        subNameTitle,
-                        style: subTitleTextStyle.copyWith(fontSize: 10),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        chat,
-                        style: blackTextStyle.copyWith(
-                            fontSize: 14, fontWeight: regular),
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+              const SizedBox(
+                width: 11,
+              ),
+              Container(
+                constraints: const BoxConstraints(maxWidth: 180),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      time,
-                      style: subTitleTextStyle,
-                      softWrap: false,
-                      maxLines: 2,
+                      customerName,
+                      style: blackTextStyle.copyWith(fontSize: 15),
+                    ),
+                    Text(
+                      subNameTitle,
+                      style: subTitleTextStyle.copyWith(fontSize: 10),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    isMe
-                        ? Image.asset(
-                            'assets/images/logo_cheac_wa.png',
-                            width: 20,
-                            color: seen ? null : greyColor,
-                          )
-                        : seen
-                            ? Container()
-                            : Container(
-                                height: 20,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                  color: greenColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    valueChat.toString(),
-                                    style: whiteTextStyle,
-                                  ),
-                                ),
-                              ),
+                    Text(
+                      chat,
+                      style: blackTextStyle.copyWith(
+                          fontSize: 14, fontWeight: regular),
+                      overflow: TextOverflow.ellipsis,
+                    )
                   ],
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    time,
+                    style: subTitleTextStyle,
+                    softWrap: false,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  isMe
+                      ? Image.asset(
+                          'assets/images/logo_cheac_wa.png',
+                          width: 20,
+                          color: seen ? null : greyColor,
+                        )
+                      : seen
+                          ? Container()
+                          : Container(
+                              height: 20,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                color: greenColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  valueChat.toString(),
+                                  style: whiteTextStyle,
+                                ),
+                              ),
+                            ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
