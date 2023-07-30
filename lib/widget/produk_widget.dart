@@ -269,6 +269,7 @@ class ProdukTreatment extends StatelessWidget {
   final String rating;
   final String km;
   final Data2 treatmentData;
+  final double? width;
   const ProdukTreatment({
     Key? key,
     required this.namaKlinik,
@@ -281,6 +282,7 @@ class ProdukTreatment extends StatelessWidget {
     required this.km,
     required this.lokasiKlinik,
     required this.treatmentData,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -293,7 +295,7 @@ class ProdukTreatment extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       margin: const EdgeInsets.only(right: 7),
-      width: MediaQuery.of(context).size.width / 2.3,
+      width: width ?? (MediaQuery.of(context).size.width / 2.3),
       child: InkWell(
         onTap: () {
           Navigator.push(

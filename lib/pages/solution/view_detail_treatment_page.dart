@@ -34,6 +34,7 @@ class BokingTreatment extends StatefulWidget {
 
 class _BokingTreatmentState extends State<BokingTreatment> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
 
   int activeIndex = 0;
   final images = [
@@ -42,11 +43,28 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   ];
   int currentIndex = 0;
   bool? isFavourite;
+  int page = 1;
+
+  List<Data2> treatments = [];
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
+      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
+      setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
+            setState(() {});
+          });
+        }
+      }
     });
     super.initState();
   }
@@ -84,11 +102,15 @@ class _BokingTreatmentState extends State<BokingTreatment> {
               Obx(
                 () => GestureDetector(
                   onTap: () {
-                    stateTreatment.userWishlistTreatment(context, widget.treatment.id!);
                     setState(() {
                       isFavourite = (stateTreatment.treatmentDetail.value.wishlist ?? false);
                       isFavourite = !isFavourite!;
                     });
+
+                    print(widget.treatment.id!);
+                    print(isFavourite);
+
+                    stateTreatment.userWishlistTreatment(context, widget.treatment.id!, isFavourite!);
                   },
                   child: (isFavourite == null ? stateTreatment.treatmentDetail.value.wishlist! : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
                 ),
@@ -646,6 +668,35 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 child: Text(
                   'Perawatan lain di Klinik Utama Lithea',
                   style: blackTextStyle.copyWith(fontSize: 15),
+                ),
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: treatments.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: index == 0 ? 16 : 0,
+                      ),
+                      child: ProdukTreatment(
+                        namaKlinik: treatments[index].clinic!.name!,
+                        namaTreatmen: treatments[index].name!,
+                        diskonProduk: '0',
+                        hargaDiskon: '',
+                        harga: treatments[index].price.toString(),
+                        urlImg: "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
+                        rating: "${treatments[index].rating}",
+                        km: treatments[index].distance!,
+                        lokasiKlinik: treatments[index].clinic!.city!.name!,
+                        treatmentData: treatments[index],
+                      )
+                    );
+                  },
                 ),
               ),
               const SizedBox(
