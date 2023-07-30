@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/alert_dialog.dart';
 import '../../widget/alert_dialog_ulasan.dart';
 
 class SetingsAkunPage extends StatefulWidget {
@@ -22,6 +25,7 @@ class SetingsAkunPage extends StatefulWidget {
 
 class _SetingsAkunPageState extends State<SetingsAkunPage> {
   final LocationController state = Get.put(LocationController());
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -190,11 +194,37 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const ListTitleAkun(
-                      iconUrl: 'assets/icons/bersihkan-icons.png',
-                      title: 'Bersihkan Cache',
-                      title1: 'Solusi cepat untuk atasi masalah aplikasi',
-                    ),
+                    isLoading
+                        ? Center(
+                            child: SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(
+                                color: greenColor,
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await Future.delayed(Duration(seconds: 5));
+                              setState(() {
+                                isLoading = false;
+                              });
+                              showDialog(
+                                context: context,
+                                builder: (context) => AletDialogCache(),
+                              );
+                            },
+                            child: const ListTitleAkun(
+                              iconUrl: 'assets/icons/bersihkan-icons.png',
+                              title: 'Bersihkan Cache',
+                              title1:
+                                  'Solusi cepat untuk atasi masalah aplikasi',
+                            ),
+                          ),
                     const SizedBox(
                       height: 24,
                     ),
