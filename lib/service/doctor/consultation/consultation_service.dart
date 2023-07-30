@@ -48,7 +48,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     return RecentChatModel.fromJson(response);
   }
 
-  Future<ConsultationDetailModel> getDetailConstultaion(int id) async {
+  Future<dynamic> getDetailConstultaion(int id) async {
     var response = await networkingConfig.doGet(
       '/consultation/${id}/detail',
       headers: {
@@ -56,7 +56,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
       },
     );
 
-    var jsonResponse = ConsultationDetailModel.fromJson(response);
+    var jsonResponse = response['data'];
 
     return jsonResponse;
   }
@@ -64,6 +64,18 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
   Future<dynamic> postFinishReview(int id) async {
     var response = await networkingConfig.doUpdateFinish(
       '/consultation/${id}/finish-review',
+    );
+
+    return response;
+  }
+
+  Future<dynamic> postDoctorNote(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/consultation/doctor-note',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
     );
 
     return response;

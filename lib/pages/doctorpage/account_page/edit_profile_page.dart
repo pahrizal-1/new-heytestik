@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
+import '../../../core/convert_date.dart';
 import '../../../widget/loading_widget.dart';
 import '../../../widget/text_form_widget.dart';
 
@@ -220,7 +221,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       const BoxConstraints(maxWidth: 170),
                                   child: RichText(
                                     text: TextSpan(
-                                      text: state.dateString(),
+                                      text: ConvertDate.defaultDate(state.date.toString()),
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         color: fromCssColor('#323232'),
@@ -367,7 +368,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    print('print ' + state.date!.toIso8601String());
                   },
                   child: Container(
                     color: Colors.white,

@@ -961,6 +961,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         roomCode: widget.roomCode,
         senderBy: widget.senderBy,
         receiverBy: widget.receiverBy,
+        id: widget.id,
         sendMsg: () {
           sendMessage(
             widget.roomId,

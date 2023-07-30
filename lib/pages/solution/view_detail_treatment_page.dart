@@ -723,32 +723,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+                const EdgeInsets.only(left: 25, right: 25, bottom: 15, top: 15),
             child: Row(
               children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          'Konsultasi',
-                          style: grenTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 6,
-                ),
+              
+               
                 Expanded(
                   child: InkWell(
                     onTap: () {
@@ -765,7 +744,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           color: greenColor,
                           border: Border.all(color: greenColor),
                           borderRadius: BorderRadius.circular(7)),
-                      height: 40,
+                      height: 50,
                       child: Center(
                         child: Text(
                           'Reservasi',

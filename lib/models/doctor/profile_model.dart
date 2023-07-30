@@ -31,6 +31,7 @@ class Data {
   Null? dob;
   String? sip;
   String? str;
+  String? education;
   String? practiceLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
 
@@ -43,6 +44,7 @@ class Data {
       this.dob,
       this.sip,
       this.str,
+      this.education,
       this.practiceLocation,
       this.mediaUserProfilePicture});
 
@@ -55,6 +57,7 @@ class Data {
     dob = json['dob'];
     sip = json['sip'];
     str = json['str'];
+    education = json['education'];
     practiceLocation = json['practice_location'];
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
         ? new MediaUserProfilePicture.fromJson(
@@ -72,6 +75,7 @@ class Data {
     data['dob'] = this.dob;
     data['sip'] = this.sip;
     data['str'] = this.str;
+    data['education'] = this.education;
     data['practice_location'] = this.practiceLocation;
     if (this.mediaUserProfilePicture != null) {
       data['media_user_profile_picture'] =

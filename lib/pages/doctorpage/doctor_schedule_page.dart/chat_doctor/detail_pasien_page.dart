@@ -27,7 +27,6 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.getDetailConsltation(context, widget.id);
@@ -44,6 +43,12 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
           children: [
             InkWell(
               onTap: () {
+                state.idConsultation.value = '';
+                state.status.value = '';
+                state.dateConsultation.value = '';
+                state.endDate.value = '';
+                state.pasienName.value = '';
+                state.topic.value = '';
                 Navigator.pop(context);
               },
               child: const Icon(
@@ -90,16 +95,14 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                             height: 30,
                             width: 80,
                             decoration: BoxDecoration(
-                              color: state.listDetailConsultation.value.data
-                                          ?.status ==
-                                      'AKTIF'
+                              color: state.status.value == 'AKTIF'
                                   ? greenColor
                                   : orangeColor,
                               borderRadius: BorderRadius.circular(42),
                             ),
                             child: Center(
                               child: Text(
-                                '${state.listDetailConsultation.value.data!.status}',
+                                state.status.value,
                                 style: whiteTextStyle,
                               ),
                             ),
@@ -110,22 +113,18 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                     Obx(
                       () => TextBoldSpacebetwen(
                         title: 'ID Konsultasi',
-                        title2:
-                            '${state.listDetailConsultation.value.data!.code}',
+                        title2: state.idConsultation.value,
                         title1: '',
                       ),
                     ),
                     Obx(() => TextBoldSpacebetwen(
                           title: 'Tanggal',
-                          title2: ConvertDate.defaultDate(
-                            '${state.listDetailConsultation.value.data!.createdAt}',
-                          ),
+                          title2: state.dateConsultation.value,
                           title1: '',
                         )),
                     Obx(() => TextBoldSpacebetwen(
                           title: 'Masa Aktif',
-                          title2:
-                              '${state.listDetailConsultation.value.data!.duration}',
+                          title2: state.endDate.value,
                           title1: '',
                         )),
                     const SizedBox(
@@ -138,16 +137,14 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                     Obx(
                       () => TextBoldSpacebetwen(
                         title: 'Nama Pasien',
-                        title2:
-                            '${state.listDetailConsultation.value.data!.customer!.fullname}',
+                        title2: state.pasienName.value,
                         title1: '',
                       ),
                     ),
                     Obx(
                       () => TextBoldSpacebetwen(
                         title: 'Topik Keluhan',
-                        title2:
-                            '${state.listDetailConsultation.value.data!.medicalHistory!.interestCondition!.name}',
+                        title2: state.topic.value,
                         title1: '',
                       ),
                     ),
@@ -182,35 +179,35 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
               //     ),
               //   ),
               // ),
-              Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        // height: Get.height,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: state.listDetailConsultation.value.data!
-                                .medicalHistory!.medicalHistoryItems!.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  PeryataanUmumTextFrom(
-                                    pernyattan:
-                                        '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.id}' +
-                                            '. ' +
-                                            '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.name!}',
-                                    jawaban:
-                                        '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsAnswer!.name!}',
-                                  ),
-                                ],
-                              );
-                            })),
-                  ],
-                ),
-              ),
+
+              // Obx(
+              //   () => Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Container(
+              //           // height: Get.height,
+              //           child: ListView.builder(
+              //               shrinkWrap: true,
+              //               physics: NeverScrollableScrollPhysics(),
+              //               itemCount: state.listConstulDetail.length,
+              //               itemBuilder: (context, index) {
+              //                 return Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     PeryataanUmumTextFrom(
+              //                       pernyattan:
+              //                           '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.id}' +
+              //                               '. ' +
+              //                               '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.name!}',
+              //                       jawaban:
+              //                           '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsAnswer!.name!}',
+              //                     ),
+              //                   ],
+              //                 );
+              //               })),
+              //     ],
+              //   ),
+              // ),
 
               const SizedBox(
                 height: 30,
@@ -227,29 +224,29 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                     const SizedBox(
                       height: 14,
                     ),
-                    Obx(
-                      () => Container(
-                        height: 110,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.listDetailConsultation.value.data!
-                                .medicalHistory!.mediaMedicalHistories!.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 80,
-                                margin: EdgeInsets.only(
-                                  right: 8,
-                                ),
-                                child: Image.network(
-                                  'http://192.168.0.118:8193/files/' +
-                                      '${state.listDetailConsultation.value.data!.medicalHistory!.mediaMedicalHistories![index].media!.path!}',
-                                ),
-                              );
-                            }),
-                      ),
-                    ),
+                    // Obx(
+                    //   () => Container(
+                    //     height: 110,
+                    //     width: MediaQuery.of(context).size.width,
+                    //     child: ListView.builder(
+                    //         shrinkWrap: true,
+                    //         scrollDirection: Axis.horizontal,
+                    //         itemCount: state.listDetailConsultation.value.data!
+                    //             .medicalHistory!.mediaMedicalHistories!.length,
+                    //         itemBuilder: (context, index) {
+                    //           return Container(
+                    //             height: 80,
+                    //             margin: EdgeInsets.only(
+                    //               right: 8,
+                    //             ),
+                    //             child: Image.network(
+                    //               'http://192.168.0.118:8193/files/' +
+                    //                   '${state.listDetailConsultation.value.data!.medicalHistory!.mediaMedicalHistories![index].media!.path!}',
+                    //             ),
+                    //           );
+                    //         }),
+                    //   ),
+                    // ),
                     Text(
                       '*Klik foto untuk memperbesar',
                       style:
@@ -263,8 +260,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                       height: 45,
                       child: TextButton(
                         onPressed: () {
-                          state.listDetailConsultation.value.data?.status ==
-                                  'AKTIF'
+                          state.status.value == 'AKTIF'
                               ? null
                               : state.postFinish(context, widget.id);
 
@@ -275,11 +271,9 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                           //             const TambahanSkinCare()));
                         },
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              state.listDetailConsultation.value.data?.status ==
-                                      'AKTIF'
-                                  ? greyColor
-                                  : greenColor,
+                          backgroundColor: state.status.value == 'AKTIF'
+                              ? greyColor
+                              : greenColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -290,7 +284,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    state.listDetailConsultation.value.data?.status == 'AKTIF'
+                    state.status.value == 'AKTIF'
                         ? SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 45,

@@ -18,6 +18,7 @@ import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/convert_date.dart';
 import '../../../core/local_storage.dart';
 import '../../../models/doctor/detail_constultation_model.dart'
     as DetailConstultaion;
@@ -63,9 +64,6 @@ class DoctorConsultationController extends StateClass {
   RxInt totalRecentChatDone = 0.obs;
   List<RecentChat.Data> recentChatActive = [];
   List<RecentChat.Data> recentChatDone = [];
-  // List<DetailConstultaion.Data> listDetailConsultation = [];
-  Rx<DetailConstultaion.ConsultationDetailModel> listDetailConsultation =
-      DetailConstultaion.ConsultationDetailModel().obs;
 
   List<Data2>? msglist = [];
 
@@ -77,6 +75,21 @@ class DoctorConsultationController extends StateClass {
   RxInt itemCount = 1.obs;
 
   TextEditingController messageController = TextEditingController();
+  TextEditingController indicationController = TextEditingController();
+  TextEditingController diagnosisPossibilityController =
+      TextEditingController();
+  TextEditingController diagnosisSecondaryController = TextEditingController();
+  TextEditingController suggestionController = TextEditingController();
+
+  RxList diagnosisPossibility = [].obs;
+  RxList diagnosisSecondary = [].obs;
+  RxList listConstulDetail = [].obs;
+  RxString idConsultation = ''.obs;
+  RxString status = ''.obs;
+  RxString dateConsultation = ''.obs;
+  RxString endDate = ''.obs;
+  RxString pasienName = ''.obs;
+  RxString topic = ''.obs;
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -242,10 +255,17 @@ class DoctorConsultationController extends StateClass {
       var response =
           await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
 
-      listDetailConsultation.value = response;
-
-      log('resp  ' +
-          listDetailConsultation.value.data!.customer!.fullname.toString());
+      listConstulDetail.add(response);
+      for (var i in listConstulDetail) {
+        idConsultation.value = i['code'];
+        status.value = i['status'];
+        dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
+        endDate.value = i['end_date'] ?? '-';
+        pasienName.value = i['customer']['fullname'];
+        topic.value = i['medical_history']['interest_condition']['name'];
+        log('data  ' + i['medical_history']['medical_history_items'].toString());
+      }
+      log('resp  ' + listConstulDetail.toString());
     });
     isLoading.value = false;
   }
@@ -258,6 +278,54 @@ class DoctorConsultationController extends StateClass {
       Navigator.pop(context);
       isLoading.value = false;
     });
+  }
+
+  postDoctorNote(
+    BuildContext context,
+    int id,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (indicationController.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Gejala harus diisi',
+        );
+      }
+
+      // if (diagnosisPossibilityController.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Diagnosis harus diisi',
+      //   );
+      // }
+
+      // if (diagnosisSecondaryController.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Diagnosis harus diisi',
+      //   );
+      // }
+
+      var data = {
+        'consultation_id': id,
+        'indication': indicationController.text,
+        'diagnosis_possibility': diagnosisPossibility,
+        'diagnosis_secondary': diagnosisSecondary,
+        'suggestion': suggestionController.text,
+      };
+
+      var postNote =
+          await ConsultationDoctorScheduleServices().postDoctorNote(data);
+
+      if (postNote['success'] != true && postNote['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: postNote['message'],
+        );
+      }
+    });
+    isLoading.value = false;
   }
 
   // image multiple

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
@@ -70,6 +71,9 @@ class DoctorProfileController extends StateClass {
       nomorsip.text = profileData.value.data!.sip ?? '';
       nomorstr.text = profileData.value.data!.str ?? '';
       dropdownValue.value = profileData.value.data!.gender.toString();
+      pendidikanAkhir.text = profileData.value.data!.education ?? '';
+      date = profileData.value.data!.dob;
+      tempatpraktek.text = profileData.value.data!.practiceLocation ?? '';
     });
     isLoading.value = false;
   }
@@ -149,7 +153,7 @@ class DoctorProfileController extends StateClass {
         'specialist': spesialisasi.text,
         'no_phone': noHp.text,
         'gender': dropdownValue.value,
-        // 'dob': dateString(),
+        'dob': date!.toIso8601String(),
         'sip': nomorsip.text,
         'str': nomorstr.text,
         'education': pendidikanAkhir.text,
