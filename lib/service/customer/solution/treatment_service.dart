@@ -85,6 +85,23 @@ class TreatmentService extends ProviderClass {
     }
   }
 
+  Future<Map<String, dynamic>> getOverview(int treatmentID) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment-review/$treatmentID/overview',
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+      );
+
+      print(response);
+
+      return response;
+    } catch (error) {
+      print(error);
+      return {};
+    }
+  }
+
+
   Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(int page, int clinicID) async {
     try {
       var response = await networkingConfig.doGet(

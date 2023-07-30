@@ -45,6 +45,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   bool? isFavourite;
   int page = 1;
 
+  Map<String, dynamic> dataOverview = {};
   List<Data2> treatments = [];
 
   @override
@@ -52,8 +53,10 @@ class _BokingTreatmentState extends State<BokingTreatment> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
       treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
+      dataOverview = await stateTreatment.getTreatmentOverview(context, widget.treatment.id!);
       setState(() {});
     });
+
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
@@ -371,7 +374,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           width: 6,
                         ),
                         Text(
-                          '5.0',
+                          '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_rating']}',
                           style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
@@ -387,7 +390,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             Row(
                               children: [
                                 Text(
-                                  '99% Sobat Hey',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
                                   style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
                                 ),
                                 Text(
@@ -400,7 +403,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             Row(
                               children: [
                                 Text(
-                                  '110 rating',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
                                   style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
@@ -414,7 +417,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                   width: 5,
                                 ),
                                 Text(
-                                  '100 ulasan',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
                                   style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                               ],
@@ -442,7 +445,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             child: Row(
                               children: [
                                 Text(
-                                  '5.0',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
                                   style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
@@ -456,7 +459,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                       style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '54 ulasan',
+                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
                                       style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
@@ -478,7 +481,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             child: Row(
                               children: [
                                 Text(
-                                  '5.0',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
                                   style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
@@ -492,7 +495,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                       style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '16 ulasan',
+                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
                                       style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
@@ -514,7 +517,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             child: Row(
                               children: [
                                 Text(
-                                  '5.0',
+                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
                                   style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
@@ -528,7 +531,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                       style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '54 ulasan',
+                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
                                       style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
