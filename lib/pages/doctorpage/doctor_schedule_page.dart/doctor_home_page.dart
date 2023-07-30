@@ -58,12 +58,14 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                 width: 50,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage('assets/images/doctor1.png'),
+                                    image:
+                                        AssetImage('assets/images/doctor1.png'),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 15, left: 15),
+                                padding:
+                                    const EdgeInsets.only(top: 15, left: 15),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -99,7 +101,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const NotificationDoctorPage(),
+                                  builder: (context) =>
+                                      const NotificationDoctorPage(),
                                 ),
                               );
                             },
@@ -138,7 +141,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: paddingL, bottom: paddingL),
+                    padding:
+                        const EdgeInsets.only(top: paddingL, bottom: paddingL),
                     child: Center(
                       child: state.startTime.value.isEmpty
                           ? Text(
@@ -200,7 +204,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                           width: paddingL,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/icons/calender-logo.png'),
+                              image:
+                                  AssetImage('assets/icons/calender-logo.png'),
                             ),
                           ),
                         ),
@@ -220,142 +225,192 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     const SizedBox(
                       height: spaceHeigt,
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.totalFindSchedule.value,
-                      itemBuilder: (BuildContext context, int i) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${state.findSchedule.value?.data!.data?[i].customer?.fullname}',
-                                      style: TextStyle(
-                                        color: fromCssColor('#323232'),
-                                        fontWeight: bold,
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      child: Row(
+                    state.totalFindSchedule.value == 0
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Tidak ada jadwal',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  color: fromCssColor('#6B6B6B'),
+                                  fontSize: 20,
+                                  fontFamily: 'ProximaNova,',
+                                ),
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.totalFindSchedule.value,
+                            itemBuilder: (BuildContext context, int i) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: fromCssColor('#1ACE42'),
+                                          Text(
+                                            '${state.findSchedule.value?.data!.data?[i].customer?.fullname}',
+                                            style: TextStyle(
+                                              color: fromCssColor('#323232'),
+                                              fontWeight: bold,
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 15,
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
-                                              style: TextStyle(
-                                                color: fromCssColor('#6B6B6B'),
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 13,
-                                              ),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: 10,
+                                                  width: 10,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color:
+                                                        fromCssColor('#1ACE42'),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
+                                                  child: Text(
+                                                    '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
+                                                    style: TextStyle(
+                                                      color: fromCssColor(
+                                                          '#6B6B6B'),
+                                                      fontFamily: 'ProximaNova',
+                                                      fontSize: 13,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 5),
+                                            child: Text(
+                                              'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.category?.name}',
+                                              style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 11,
+                                                  color:
+                                                      fromCssColor('#A3A3A3')),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.name}',
+                                            style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 11,
+                                                color: fromCssColor('#A3A3A3')),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 5),
-                                      child: Text(
-                                        'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.category?.name}',
-                                        style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.name}',
-                                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
-                                    ),
-                                  ],
-                                ),
-                                state.findSchedule.value!.data!.data![i].status == 'PENDING'
-                                    ? InkWell(
-                                        child: Container(
-                                          height: 35,
-                                          width: 80,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: fromCssColor('#5DA89C'),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              'Terima',
-                                              style: TextStyle(
-                                                fontWeight: bold,
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 13,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : state.findSchedule.value!.data!.data![i].status == 'DIAMBIL'
-                                        ? InkWell(
-                                            child: Container(
-                                              height: 35,
-                                              width: 80,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                                color: fromCssColor('#FFC36A'),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Diambil',
-                                                  style: TextStyle(
-                                                    fontWeight: bold,
-                                                    fontFamily: 'ProximaNova',
-                                                    fontSize: 13,
-                                                    color: Colors.white,
+                                      state.findSchedule.value!.data!.data![i]
+                                                  .status ==
+                                              'PENDING'
+                                          ? InkWell(
+                                              child: Container(
+                                                height: 35,
+                                                width: 80,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color:
+                                                      fromCssColor('#5DA89C'),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Terima',
+                                                    style: TextStyle(
+                                                      fontWeight: bold,
+                                                      fontFamily: 'ProximaNova',
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: 35,
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10),
-                                              color: fromCssColor('#6B6B6B'),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'Expire',
-                                                style: TextStyle(
-                                                  fontWeight: bold,
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 13,
-                                                  color: Colors.white,
+                                            )
+                                          : state.findSchedule.value!.data!
+                                                      .data![i].status ==
+                                                  'DIAMBIL'
+                                              ? InkWell(
+                                                  child: Container(
+                                                    height: 35,
+                                                    width: 80,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: fromCssColor(
+                                                          '#FFC36A'),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Diambil',
+                                                        style: TextStyle(
+                                                          fontWeight: bold,
+                                                          fontFamily:
+                                                              'ProximaNova',
+                                                          fontSize: 13,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  height: 35,
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color:
+                                                        fromCssColor('#6B6B6B'),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Expire',
+                                                      style: TextStyle(
+                                                        fontWeight: bold,
+                                                        fontFamily:
+                                                            'ProximaNova',
+                                                        fontSize: 13,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
