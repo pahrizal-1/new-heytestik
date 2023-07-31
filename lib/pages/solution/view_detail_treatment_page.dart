@@ -14,6 +14,7 @@ import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../models/treatment_review.dart';
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
@@ -47,12 +48,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
 
   Map<String, dynamic> dataOverview = {};
   List<Data2> treatments = [];
+  List<TreatmentReviewModel> reviews = [];
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
       treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
+      reviews.addAll(await stateTreatment.getTreatmentReview(context, page, widget.treatment.id!));
       dataOverview = await stateTreatment.getTreatmentOverview(context, widget.treatment.id!);
       setState(() {});
     });
@@ -115,7 +118,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
 
                     stateTreatment.userWishlistTreatment(context, widget.treatment.id!, isFavourite!);
                   },
-                  child: (isFavourite == null ? stateTreatment.treatmentDetail.value.wishlist! : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+                  child: (isFavourite == null ? (stateTreatment.treatmentDetail.value.wishlist ?? false) : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
                 ),
               ),
               const SizedBox(
@@ -241,21 +244,6 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         decorationThickness: 2,
                       ),
                     ),
-                    //
-                    // Text.rich(
-                    //   TextSpan(
-                    //     text: '20%',
-                    //     style: grenTextStyle.copyWith(fontSize: 18),
-                    //     children: [
-                    //       TextSpan(
-                    //         text: ' Rp.290.400',
-                    //         style: blackHigtTextStyle.copyWith(
-                    //           fontSize: 18,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     const SizedBox(
                       height: 6,
                     ),
@@ -294,34 +282,6 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                       ],
                     ),
-                    // const SizedBox(
-                    //   height: 23,
-                    // ),
-                    // Container(
-                    //   height: 37,
-                    //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                    //   decoration: BoxDecoration(color: const Color.fromRGBO(36, 167, 160, 0.2), borderRadius: BorderRadius.circular(7)),
-                    //   child: Row(
-                    //     children: [
-                    //       Image.asset(
-                    //         'assets/icons/persen_icons.png',
-                    //         width: 25,
-                    //       ),
-                    //       const SizedBox(
-                    //         width: 5,
-                    //       ),
-                    //       Text(
-                    //         'Periode Promo',
-                    //         style: grenTextStyle.copyWith(fontSize: 13),
-                    //       ),
-                    //       const Spacer(),
-                    //       Text(
-                    //         '01 Mei 2023 - 30 Juni 2023',
-                    //         style: subTitleTextStyle.copyWith(fontSize: 13, color: const Color(0xff323232)),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     const SizedBox(
                       height: 29,
                     ),
@@ -571,91 +531,106 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 11,
-                    ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/doctor1.png',
-                          width: 40,
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Jessy',
-                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    if (reviews.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 11,
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/doctor1.png',
+                                width: 40,
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Jessy',
+                                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                  ),
+                                  Text(
+                                    'Perawatan Peeling TCA Ringan',
+                                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              const Icon(Icons.more_vert)
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                         SizedBox(
+                           width: MediaQuery.of(context).size.width,
+                           child:  Row(
+                             children: [
+                               SizedBox(
+                                 height: 20,
+                                 width: 60,
+                                 child: ListView.builder(
+                                   scrollDirection: Axis.horizontal,
+                                   physics: const NeverScrollableScrollPhysics(),
+                                   itemCount: 6,
+                                   itemBuilder: (context, index) {
+                                     return Icon(
+                                       Icons.star,
+                                       size: 12,
+                                       color: reviews[0].averageRating.toInt() > index ? Color(0xffFFC36A) : Colors.grey,
+                                     );
+                                   },
+                                 ),
+                               ),
+                               const SizedBox(
+                                 width: 12,
+                               ),
+                               Text(
+                                 '1 Bulan Yang lalu',
+                                 style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                               )
+                             ],
+                           ),
+                         ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          Text(
+                            reviews[0].review,
+                            style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                          ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          SizedBox(
+                            height: 100,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: reviews[0].media.length,
+                              itemBuilder: (context, index) {
+                                return Image.network(
+                                  '${Global.FILE}/${reviews[0].media[index].path}',
+                                  // width: 100,
+                                  fit: BoxFit.fill,
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  width: 16.0,
+                                );
+                              },
                             ),
-                            Text(
-                              'Perawatan Peeling TCA Ringan',
-                              style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        const Icon(Icons.more_vert)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Text(
-                          '1 Bulan Yang lalu',
-                          style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Text(
-                      'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                      style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Image.asset(
-                      'assets/images/review-wajah.png',
-                      width: 72,
-                    ),
-                    const SizedBox(
-                      height: 22,
-                    ),
+                          ),
+                          const SizedBox(
+                            height: 22,
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
