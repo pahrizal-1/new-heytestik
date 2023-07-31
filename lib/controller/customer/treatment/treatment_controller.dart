@@ -16,6 +16,7 @@ class TreatmentController extends StateClass {
   RxList<Data2> dataTreatment = List<Data2>.empty(growable: true).obs;
   Rx<TreatmentDetailModel> treatmentDetail = TreatmentDetailModel().obs;
   RxInt index = 0.obs;
+  RxInt pax = 0.obs;
 
   Rx<ClinicModel> responseClinic = ClinicModel().obs;
   RxList<ClinicDataModel> dataClinic =
@@ -166,7 +167,8 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<TreatmentReviewModel>> getTreatmentReview(BuildContext context, int page, int treatmentID) async {
+  Future<List<TreatmentReviewModel>> getTreatmentReview(
+      BuildContext context, int page, int treatmentID) async {
     isLoading.value = true;
     List<TreatmentReviewModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
