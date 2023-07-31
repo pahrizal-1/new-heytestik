@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/models/customer/order_consultation_model.da
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 
 class TransactionService extends ProviderClass {
@@ -52,7 +53,8 @@ class TransactionService extends ProviderClass {
     return OrderTreatmentModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatus(String orderId) async {
+  Future<TransactionStatusModel> transactionStatusConsultation(
+      String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/CONSULTATION.$orderId/status',
       headers: {
@@ -70,5 +72,26 @@ class TransactionService extends ProviderClass {
       },
     );
     return TransactionHistoryConsultationModel.fromJson(response);
+  }
+
+  Future<TransactionStatusModel> transactionStatusTreatment(
+      String orderId) async {
+    var response = await networkingConfig.doGet(
+      '/transaction/TREATMENT.$orderId/status',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return TransactionStatusModel.fromJson(response);
+  }
+
+  Future<TransactionHistoryTreatmentModel> historyTreatment() async {
+    var response = await networkingConfig.doGet(
+      '/transaction/treatment?page=1&take=100&order=desc&search',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return TransactionHistoryTreatmentModel.fromJson(response);
   }
 }
