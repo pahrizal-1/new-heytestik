@@ -193,9 +193,13 @@ class _ReservasiPageState extends State<ReservasiPage> {
                     style: blackRegulerTextStyle.copyWith(color: blackColor),
                   ),
                   const Spacer(),
-                  Text(
-                    CurrencyFormat.convertToIdr(widget.treatment.price, 0),
-                    style: blackTextStyle.copyWith(fontSize: 13),
+                  Obx(
+                    () => Text(
+                      CurrencyFormat.convertToIdr(
+                          widget.treatment.price! * stateTreatment.pax.value,
+                          0),
+                      style: blackTextStyle.copyWith(fontSize: 13),
+                    ),
                   ),
                   const Icon(Icons.keyboard_arrow_down)
                 ],
