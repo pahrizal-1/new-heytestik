@@ -312,6 +312,8 @@ class ChatBottomCostomer extends StatelessWidget {
   final String? roomCode;
   final String? senderBy;
   final String? receiverBy;
+  final void Function()? sendMsg;
+
   const ChatBottomCostomer({
     Key? key,
     required this.textC,
@@ -321,6 +323,7 @@ class ChatBottomCostomer extends StatelessWidget {
     this.roomCode,
     this.senderBy,
     this.receiverBy,
+    this.sendMsg,
   }) : super(key: key);
 
   @override
@@ -372,17 +375,7 @@ class ChatBottomCostomer extends StatelessWidget {
                     }),
               ),
               InkWell(
-                onTap: () {
-                  Get.put(CustomerChatController()).sendMessage(
-                      roomId!,
-                      roomId!,
-                      senderId!,
-                      receiverId!,
-                      roomCode!,
-                      textC.text,
-                      senderBy!,
-                      receiverBy!);
-                },
+                onTap: sendMsg,
                 child: Image.asset(
                   'assets/icons/Group 461.png',
                   width: 40,

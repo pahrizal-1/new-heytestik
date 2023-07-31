@@ -166,21 +166,21 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                state.filterData[index].name ?? '-',
+                state.filterData[index].title ?? '-',
                 style: TextStyle(
                     fontWeight: bold,
                     fontFamily: 'ProximaNova',
                     fontSize: 15,
                     letterSpacing: 0.5),
               ),
-              // Text(
-              //   'Teenderm hydra',
-              //   style: TextStyle(
-              //       fontFamily: 'ProximaNova',
-              //       fontSize: 12,
-              //       color: fromCssColor('#A3A3A3'),
-              //       letterSpacing: 0.5),
-              // ),
+              Text(
+                state.filterData[index].subtitle ?? '-',
+                style: TextStyle(
+                    fontFamily: 'ProximaNova',
+                    fontSize: 12,
+                    color: fromCssColor('#A3A3A3'),
+                    letterSpacing: 0.5),
+              ),
             ],
           ),
         ),

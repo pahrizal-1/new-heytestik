@@ -1050,6 +1050,18 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         roomCode: widget.roomCode,
         senderBy: widget.sendBy,
         receiverBy: widget.receiverBy,
+        sendMsg: () {
+          sendMessage(
+            widget.roomId,
+            widget.roomId,
+            widget.senderId,
+            widget.receiverId,
+            widget.roomCode,
+            state.messageController.text,
+            widget.sendBy,
+            widget.receiverBy,
+          );
+        },
       ),
     );
   }
