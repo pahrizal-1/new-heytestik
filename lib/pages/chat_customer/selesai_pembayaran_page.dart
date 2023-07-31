@@ -119,7 +119,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
           title: Row(
             children: [
               Text(
-                widget.bank,
+                state.bank.value,
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
