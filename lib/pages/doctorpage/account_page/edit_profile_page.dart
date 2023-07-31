@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/convert_date.dart';
+import '../../../core/global.dart';
 import '../../../widget/loading_widget.dart';
 import '../../../widget/text_form_widget.dart';
 
@@ -93,7 +94,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         .mediaUserProfilePicture !=
                                     null
                                 ? NetworkImage(
-                                    'http://192.168.0.118:8193/files/' +
+                                    '${Global.FILE}' +
                                         state
                                             .profileData
                                             .value

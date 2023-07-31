@@ -242,7 +242,7 @@ class _CardBankState extends State<CardBank> {
                         Row(
                           children: [
                             Image.network(
-                              '${Global.BASE_API}/files/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
                               width: 40,
                               height: 35,
                             ),

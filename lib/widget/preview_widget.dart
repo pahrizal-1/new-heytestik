@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 // import '../controller/doctor/chat/chat_controller.dart';
 import '../controller/doctor/consultation/consultation_controller.dart';
+import '../core/global.dart';
 
 class CameraViewPage extends StatelessWidget {
   const CameraViewPage({
@@ -188,7 +189,7 @@ class PreviewImage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: path!.length,
                 itemBuilder: ((context, index) {
-                  return Image.network('http://192.168.0.118:8193/files/' +
+                  return Image.network('${Global.FILE}/' +
                       path![index].media.path);
                 }),
               ),
