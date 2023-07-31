@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../controller/customer/chat/chat_controller.dart';
+import '../../core/global.dart';
 import '../../core/local_storage.dart';
 import '../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../theme/theme.dart';
@@ -268,7 +269,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   connectSocket(BuildContext context, String receiver) async {
     try {
       _socket = IO.io(
-        'http://192.168.0.118:8193/socket',
+        '${Global.BASE_API}/socket',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .enableForceNew()
@@ -584,7 +585,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                           itemBuilder:
                                               (BuildContext context, count) {
                                             return Image.network(
-                                              'http://117.53.46.208:8192/files/' +
+                                              '${Global.FILE}/' +
                                                   msglist![index]
                                                       .mediaChatMessages![0]
                                                       .media!
@@ -660,7 +661,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                       (BuildContext context,
                                                           count) {
                                                     return Image.network(
-                                                      'http://117.53.46.208:8192/files/' +
+                                                      '${Global.FILE}' +
                                                           msglist![index]
                                                               .mediaChatMessages![
                                                                   count]
@@ -804,7 +805,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                   (BuildContext context,
                                                       count) {
                                                 return Image.network(
-                                                  'http://192.168.0.118:8193/files/' +
+                                                  '${Global.FILE}/' +
                                                       msglist![index]
                                                           .mediaChatMessages![0]
                                                           .media!
@@ -910,7 +911,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                           (BuildContext context,
                                                               count) {
                                                         return Image.network(
-                                                          'http://192.168.0.118:8193/files/' +
+                                                          '${Global.FILE}/' +
                                                               msglist![index]
                                                                   .mediaChatMessages![
                                                                       count]
