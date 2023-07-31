@@ -241,20 +241,23 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                 const SizedBox(
                   height: 6,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/alert.png',
-                      width: 15,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      'Tanggal dan waktu mengikuti zona waktu klinik',
-                      style: subTitleTextStyle,
-                    )
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/alert.png',
+                        width: 15,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Tanggal dan waktu mengikuti zona waktu klinik',
+                        style: subTitleTextStyle,
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -266,37 +269,36 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                 SizedBox(
                   height: 10,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            stateOrder.selectDate(context);
-                          },
-                          child: Image.asset(
-                            'assets/icons/calender-logo.png',
-                            color: greenColor,
-                            width: 20,
-                          ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          stateOrder.selectDate(context);
+                        },
+                        child: Image.asset(
+                          'assets/icons/calender-logo.png',
+                          color: greenColor,
+                          width: 20,
                         ),
-                        SizedBox(
-                          width: 5,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Obx(
+                        () => Text(
+                          stateOrder.arrivalDate.value != ''
+                              ? ConvertDate.normalDate(
+                                  stateOrder.arrivalDate.value)
+                              : 'Atur tanggal terlebih dahulu',
+                          style: blackTextStyle.copyWith(fontSize: 14),
                         ),
-                        Obx(
-                          () => Text(
-                            stateOrder.arrivalDate.value != ''
-                                ? ConvertDate.normalDate(
-                                    stateOrder.arrivalDate.value)
-                                : 'Atur tanggal terlebih dahulu',
-                            style: blackTextStyle.copyWith(fontSize: 14),
-                          ),
-                        )
-                      ],
-                    ),
-                    dividergrey(),
-                  ],
+                      )
+                    ],
+                  ),
                 ),
+                dividergrey(),
                 SizedBox(
                   height: 10,
                 ),

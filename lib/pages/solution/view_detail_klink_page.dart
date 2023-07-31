@@ -596,310 +596,311 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
             ),
           ),
           StickyHeader(
-            header: Container(
-              padding: lsymetric.copyWith(top: 15, bottom: 9),
-              color: whiteColor,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Semua Treatment',
-                        style: blackHigtTextStyle.copyWith(fontSize: 18),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isSelecteTampilan = !isSelecteTampilan;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              'Tampilan',
-                              style: subTitleTextStyle.copyWith(
-                                  color: const Color(0xff6B6B6B)),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            isSelecteTampilan
-                                ? SvgPicture.asset('assets/icons/tampilan1.svg')
-                                : SvgPicture.asset(
-                                    'assets/icons/tampillan2.svg')
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              header: Container(
+                padding: lsymetric.copyWith(top: 15, bottom: 9),
+                color: whiteColor,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
-                                ),
-                              ),
-                              builder: (context) => FilterShowModal(),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/icons/filters.png',
-                            width: 78,
-                          ),
+                        Text(
+                          'Semua Treatment',
+                          style: blackHigtTextStyle.copyWith(fontSize: 18),
                         ),
                         InkWell(
                           onTap: () {
-                            showModalBottomSheet(
-                              isDismissible: false,
-                              context: context,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
-                                ),
-                              ),
-                              builder: (context) => Wrap(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 25,
-                                        right: 25,
-                                        top: 36,
-                                        bottom: 20),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Image.asset(
-                                                'assets/icons/danger-icons.png',
-                                                width: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 22,
-                                            ),
-                                            Text(
-                                              'Filter',
-                                              style: blackHigtTextStyle
-                                                  .copyWith(fontSize: 20),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 31,
-                                        ),
-                                        const FilterTapTreatment(
-                                          title: 'Rating Tertinggi',
-                                        ),
-                                        const SizedBox(
-                                          height: 18,
-                                        ),
-                                        const FilterTapTreatment(
-                                          title: 'Ulasan Terbanyaki',
-                                        ),
-                                        const SizedBox(
-                                          height: 18,
-                                        ),
-                                        const FilterTapTreatment(
-                                          title: 'Treatment Terlaris',
-                                        ),
-                                        const SizedBox(
-                                          height: 29,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                            setState(() {
+                              isSelecteTampilan = !isSelecteTampilan;
+                            });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 9),
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 6, bottom: 6),
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              border: Border.all(color: borderColor),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Text('Urutkan'),
-                                SizedBox(
-                                  width: 9,
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 15,
-                                )
-                              ],
-                            ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Tampilan',
+                                style: subTitleTextStyle.copyWith(
+                                    color: const Color(0xff6B6B6B)),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              isSelecteTampilan
+                                  ? SvgPicture.asset(
+                                      'assets/icons/tampilan1.svg')
+                                  : SvgPicture.asset(
+                                      'assets/icons/tampillan2.svg')
+                            ],
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EtalaseTreatMentPage()),
-                            );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 9),
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 6, bottom: 6),
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              border: Border.all(color: borderColor),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Text('Retalase Treatment'),
-                                SizedBox(
-                                  width: 9,
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 15,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 17,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
+                                  ),
+                                ),
+                                builder: (context) => FilterShowModal(),
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/icons/filters.png',
+                              width: 78,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                isDismissible: false,
+                                context: context,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
+                                  ),
+                                ),
+                                builder: (context) => Wrap(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25,
+                                          right: 25,
+                                          top: 36,
+                                          bottom: 20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Image.asset(
+                                                  'assets/icons/danger-icons.png',
+                                                  width: 14,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 22,
+                                              ),
+                                              Text(
+                                                'Filter',
+                                                style: blackHigtTextStyle
+                                                    .copyWith(fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 31,
+                                          ),
+                                          const FilterTapTreatment(
+                                            title: 'Rating Tertinggi',
+                                          ),
+                                          const SizedBox(
+                                            height: 18,
+                                          ),
+                                          const FilterTapTreatment(
+                                            title: 'Ulasan Terbanyaki',
+                                          ),
+                                          const SizedBox(
+                                            height: 18,
+                                          ),
+                                          const FilterTapTreatment(
+                                            title: 'Treatment Terlaris',
+                                          ),
+                                          const SizedBox(
+                                            height: 29,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 9),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 6, bottom: 6),
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(color: borderColor),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const [
+                                  Text('Urutkan'),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 15,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EtalaseTreatMentPage()),
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 9),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 6, bottom: 6),
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(color: borderColor),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const [
+                                  Text('Retalase Treatment'),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 15,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            content: isSelecteTampilan
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25, top: 19),
-                        child: Wrap(
-                          spacing: 12,
-                          runSpacing: 12,
-                          children: const [
-                            // ProdukTreatment(
-                            //   namaKlinik: 'Klinik Utama Lithea',
-                            //   namaTreatmen: 'Radiant Glow Peeling',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: 'Rp250.000',
-                            //   harga: 'Rp200.000',
-                            //   urlImg: 'assets/images/lheatea.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                            // ProdukTreatment(
-                            //   namaKlinik: 'ZAP Plaza Senayan',
-                            //   namaTreatmen: 'Toning Laser',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: '1,250.000',
-                            //   harga: '1,200.000',
-                            //   urlImg: 'assets/images/zap-senayan.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                            // ProdukTreatment(
-                            //   namaKlinik: 'ZAP Plaza Senayan',
-                            //   namaTreatmen: 'IPL Rejuvenation',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: '100,000.000',
-                            //   harga: '10,200.000',
-                            //   urlImg: 'assets/images/Ipl1.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                            // ProdukTreatment(
-                            //   namaKlinik: 'Klinik Utama Lithea',
-                            //   namaTreatmen: 'Radiant Glow Peeling',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: '250.000',
-                            //   harga: '200.000',
-                            //   urlImg: 'assets/images/laser1.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                            // ProdukTreatment(
-                            //   namaKlinik: 'Klinik Utama Lithea',
-                            //   namaTreatmen: 'Radiant Glow Peeling',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: '250.000',
-                            //   harga: '200.000',
-                            //   urlImg: 'assets/images/laser2.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                            // ProdukTreatment(
-                            //   namaKlinik: 'Klinik Utama Lithea',
-                            //   namaTreatmen: 'Radiant Glow Peeling',
-                            //   diskonProduk: '20',
-                            //   hargaDiskon: '250.000',
-                            //   harga: '200.000',
-                            //   urlImg: 'assets/images/lheatea.png',
-                            //   rating: '4.9 (120k)',
-                            //   km: '80',
-                            //   lokasiKlinik: 'Bogor Timur',
-                            // ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                : Container()
-            // Padding(
-            //         padding: const EdgeInsets.symmetric(
-            //           horizontal: 25,
-            //           vertical: 19,
-            //         ),
-            //         child: Column(
-            //           children: const [
-            //             TampilanRight(),
-            //             TampilanRight(),
-            //             TampilanRight(),
-            //             TampilanRight(),
-            //             TampilanRight(),
-            //             TampilanRight(),
-            //           ],
-            //         ),
-            //       ),
-          ),
+              content: isSelecteTampilan
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25, top: 19),
+                          child: Wrap(
+                            spacing: 12,
+                            runSpacing: 12,
+                            children: const [
+                              // ProdukTreatment(
+                              //   namaKlinik: 'Klinik Utama Lithea',
+                              //   namaTreatmen: 'Radiant Glow Peeling',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: 'Rp250.000',
+                              //   harga: 'Rp200.000',
+                              //   urlImg: 'assets/images/lheatea.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                              // ProdukTreatment(
+                              //   namaKlinik: 'ZAP Plaza Senayan',
+                              //   namaTreatmen: 'Toning Laser',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: '1,250.000',
+                              //   harga: '1,200.000',
+                              //   urlImg: 'assets/images/zap-senayan.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                              // ProdukTreatment(
+                              //   namaKlinik: 'ZAP Plaza Senayan',
+                              //   namaTreatmen: 'IPL Rejuvenation',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: '100,000.000',
+                              //   harga: '10,200.000',
+                              //   urlImg: 'assets/images/Ipl1.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                              // ProdukTreatment(
+                              //   namaKlinik: 'Klinik Utama Lithea',
+                              //   namaTreatmen: 'Radiant Glow Peeling',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: '250.000',
+                              //   harga: '200.000',
+                              //   urlImg: 'assets/images/laser1.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                              // ProdukTreatment(
+                              //   namaKlinik: 'Klinik Utama Lithea',
+                              //   namaTreatmen: 'Radiant Glow Peeling',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: '250.000',
+                              //   harga: '200.000',
+                              //   urlImg: 'assets/images/laser2.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                              // ProdukTreatment(
+                              //   namaKlinik: 'Klinik Utama Lithea',
+                              //   namaTreatmen: 'Radiant Glow Peeling',
+                              //   diskonProduk: '20',
+                              //   hargaDiskon: '250.000',
+                              //   harga: '200.000',
+                              //   urlImg: 'assets/images/lheatea.png',
+                              //   rating: '4.9 (120k)',
+                              //   km: '80',
+                              //   lokasiKlinik: 'Bogor Timur',
+                              // ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  : Container()
+              // Padding(
+              //         padding: const EdgeInsets.symmetric(
+              //           horizontal: 25,
+              //           vertical: 19,
+              //         ),
+              //         child: Column(
+              //           children: const [
+              //             TampilanRight(),
+              //             TampilanRight(),
+              //             TampilanRight(),
+              //             TampilanRight(),
+              //             TampilanRight(),
+              //             TampilanRight(),
+              //           ],
+              //         ),
+              //       ),
+              ),
           const SizedBox(
             height: 14,
           ),
