@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart' as TreatmentModel;
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
+import 'package:heystetik_mobileapps/models/treatment_review.dart';
 
 import '../../../models/clinic.dart';
 import '../../../models/treatment_detail.dart';
@@ -196,6 +197,29 @@ class TreatmentService extends ProviderClass {
       print(error);
       return TreatmentModel.TreatmentModel();
     }
+  }
+
+  Future<List<TreatmentReviewModel>> getTreatmentReview(int page, int treatmentID) async {
+   try {
+     var response = await networkingConfig.doGet(
+       '/solution/treatment-review',
+       params: {
+         "page": page,
+         "take": 10,
+         "treatment_id": treatmentID,
+       },
+       headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+     );
+
+     var dataBaru = (response['data']['data'] as List).map((docs) => TreatmentReviewModel.fromJson(docs)).toList();
+     print("INI DATA BARU");
+     print(dataBaru);
+
+     return dataBaru;
+   } catch(error) {
+     print(error);
+     throw error;
+   }
   }
 
   Future<TreatmentModel.TreatmentModel> getAllTreatment(int page) async {

@@ -62,7 +62,7 @@ class Data2 {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -107,7 +107,7 @@ class Data2 {
     treatmentStep = json['treatment_step'];
     price = json['price'];
     isActive = json['is_active'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -177,7 +177,7 @@ class Clinic {
   String? picPhone;
   String? contractExpiredDate;
   dynamic status;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -244,7 +244,7 @@ class Clinic {
     picPhone = json['pic_phone'];
     contractExpiredDate = json['contract_expired_date'];
     status = json['status'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
