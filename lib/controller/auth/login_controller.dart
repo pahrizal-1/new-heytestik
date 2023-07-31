@@ -42,7 +42,8 @@ class LoginController extends StateClass {
 
       var loginResponse = await LoginService().login(data);
 
-      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: loginResponse['message'],
@@ -53,11 +54,16 @@ class LoginController extends StateClass {
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
-      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
-      await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
+      await LocalStorage()
+          .setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage()
+          .setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage()
+          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage()
+          .setUserID(userID: loginResponse['data']['user']['id']);
+      await FirebaseMessaging.instance
+          .subscribeToTopic(loginResponse['data']['user']['id'].toString());
       doInPost();
       clear();
     });
@@ -85,29 +91,38 @@ class LoginController extends StateClass {
   }
 
   loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
-    try {
-      isLoading.value = true;
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
         const List<String> scopes = <String>[
           'email',
         ];
+        print('scopes scopes $scopes');
 
         GoogleSignIn _googleSignIn = GoogleSignIn(
           scopes: scopes,
         );
-
+        print('_googleSignIn _googleSignIn $_googleSignIn');
         GoogleSignInAccount? user = await _googleSignIn.signIn();
+        print('user user $user');
         print(user);
         if (await _googleSignIn.isSignedIn()) {
           final googleAuth = await _googleSignIn.currentUser?.authentication;
-          print(googleAuth!.accessToken);
+          print('access token ${googleAuth!.accessToken}');
         }
 
         doInPost();
-      });
-      isLoading.value = false;
-    } catch (error) {
-      print(error);
-    }
+      } catch (error) {
+        print('error heheh $error');
+      }
+    });
+    isLoading.value = false;
+  }
+
+  logout() async {
+    final _googleSignIn = GoogleSignIn();
+    GoogleSignInAccount? googleSignInAccount;
+    googleSignInAccount = await _googleSignIn.signOut();
+    print("googleSignInAccount ${googleSignInAccount?.id}");
   }
 }

@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "891210093671-54ep9ufclt7sqi6iqsi3fd1ja6kmrpt7.apps.googleusercontent.com",
+          "client_id": "891210093671-t02nn8g6mrdk5vh38thj2c1h1edm510l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.heystetik_mobileapps",
+            "certificate_hash": "dabb5422b26ab251d05da926ba7106f9a0673355"
+          }
+        },
+        {
+          "client_id": "891210093671-k6kk4mlg6l943u01l5i66v4cl20p5c6u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

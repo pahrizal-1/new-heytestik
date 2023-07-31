@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi3_page.dart';
 
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../theme/theme.dart';
 
 class Reservasi2Page extends StatelessWidget {
-  const Reservasi2Page({super.key});
-
+  final Data2 treatment;
+  Reservasi2Page({required this.treatment, super.key});
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +67,7 @@ class Reservasi2Page extends StatelessWidget {
                     Container(
                         constraints: const BoxConstraints(maxWidth: 150),
                         child: Text(
-                          'Klinik Utama Lithea Jakarta Selatan',
+                          '${treatment.clinic?.name} ${treatment.clinic?.city?.name}',
                           style: blackHigtTextStyle.copyWith(fontSize: 15),
                         )),
                     const SizedBox(
@@ -84,9 +88,11 @@ class Reservasi2Page extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                Text(
-                  '1 pax',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                Obx(
+                  () => Text(
+                    '${stateTreatment.pax.value} pax',
+                    style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                  ),
                 ),
                 const SizedBox(
                   height: 17,
@@ -223,6 +229,64 @@ class Reservasi2Page extends StatelessWidget {
                       style: subTitleTextStyle,
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Jam Kedatangan',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Image.asset(
+                            'assets/icons/calender-logo.png',
+                            color: greenColor,
+                            width: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Selasa, 14 Mei 2023',
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        )
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/logojam.png',
+                          color: greenColor,
+                          width: 23,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '15:00-18:00',
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        )
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
                 )
               ],
             ),
@@ -251,7 +315,7 @@ class Reservasi2Page extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Rp290.400',
+                  CurrencyFormat.convertToIdr(treatment.price, 0),
                   style: blackHigtTextStyle.copyWith(fontSize: 20),
                 ),
                 const SizedBox(

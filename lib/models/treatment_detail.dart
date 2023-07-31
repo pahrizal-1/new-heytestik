@@ -12,7 +12,7 @@ class TreatmentDetailModel {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -59,7 +59,7 @@ class TreatmentDetailModel {
     treatmentStep = json['treatment_step'];
     price = json['price'];
     isActive = json['is_active'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];

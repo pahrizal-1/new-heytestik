@@ -79,6 +79,8 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
@@ -88,7 +90,7 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                               '${state.filterData[index].bank?.name}',
                                             ),
                                             Text(
-                                              '${state.filterData[index].accountNumber}\n ${state.filterData[index].name?.toUpperCase()}',
+                                              '${state.filterData[index].accountNumber}\n${state.filterData[index].name?.toUpperCase()}',
                                             )
                                           ],
                                         ),
