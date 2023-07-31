@@ -118,7 +118,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
 
                     stateTreatment.userWishlistTreatment(context, widget.treatment.id!, isFavourite!);
                   },
-                  child: (isFavourite == null ? (stateTreatment.treatmentDetail.value.wishlist ?? false) : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+                  child: (isFavourite == null ? stateTreatment.treatmentDetail.value.wishlist! : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
                 ),
               ),
               const SizedBox(
@@ -567,36 +567,36 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           const SizedBox(
                             height: 13,
                           ),
-                         SizedBox(
-                           width: MediaQuery.of(context).size.width,
-                           child:  Row(
-                             children: [
-                               SizedBox(
-                                 height: 20,
-                                 width: 60,
-                                 child: ListView.builder(
-                                   scrollDirection: Axis.horizontal,
-                                   physics: const NeverScrollableScrollPhysics(),
-                                   itemCount: 6,
-                                   itemBuilder: (context, index) {
-                                     return Icon(
-                                       Icons.star,
-                                       size: 12,
-                                       color: reviews[0].averageRating.toInt() > index ? Color(0xffFFC36A) : Colors.grey,
-                                     );
-                                   },
-                                 ),
-                               ),
-                               const SizedBox(
-                                 width: 12,
-                               ),
-                               Text(
-                                 '1 Bulan Yang lalu',
-                                 style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
-                               )
-                             ],
-                           ),
-                         ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                  width: 60,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: 6,
+                                    itemBuilder: (context, index) {
+                                      return Icon(
+                                        Icons.star,
+                                        size: 12,
+                                        color: reviews[0].averageRating.toInt() > index ? Color(0xffFFC36A) : Colors.grey,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Text(
+                                  '1 Bulan Yang lalu',
+                                  style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                )
+                              ],
+                            ),
+                          ),
                           const SizedBox(
                             height: 13,
                           ),
@@ -629,8 +629,70 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           const SizedBox(
                             height: 22,
                           ),
+                          Text(
+                            'Perawatan Peeling TCA Ringan',
+                            style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                          ),
+                          const Spacer(),
+                          const Icon(Icons.more_vert)
                         ],
                       ),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Color(0xffFFC36A),
+                        ),
+                        const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Color(0xffFFC36A),
+                        ),
+                        const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Color(0xffFFC36A),
+                        ),
+                        const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Color(0xffFFC36A),
+                        ),
+                        const Icon(
+                          Icons.star,
+                          size: 12,
+                          color: Color(0xffFFC36A),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(
+                          '1 Bulan Yang lalu',
+                          style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    Text(
+                      'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
+                      style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                    ),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    Image.asset(
+                      'assets/images/review-wajah.png',
+                      width: 72,
+                    ),
+                    const SizedBox(
+                      height: 22,
+                    ),
                   ],
                 ),
               ),
@@ -785,7 +847,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ReservasiPage()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReservasiPage(
+                                treatment: widget.treatment,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
