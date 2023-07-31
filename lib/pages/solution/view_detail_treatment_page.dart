@@ -240,7 +240,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Text(
                       widget.treatment.name!,
-                      style: blackTextStyle.copyWith(fontWeight: medium),
+                      style: blackTextStyle.copyWith(
+                          fontWeight: medium, fontSize: 15),
                     ),
                     const SizedBox(
                       height: 6,

@@ -14,6 +14,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/more_dialog_transaksi_widget.dart';
 
 class SelesaiPembayaranPage extends StatefulWidget {
   String bank;
@@ -303,9 +304,24 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                     ],
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    'Lihat Detail',
-                                    style: grenTextStyle.copyWith(fontSize: 14),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                        ),
+                                        builder: (context) =>
+                                            const TransaksiMoreDialog(),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Lihat Detail',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,
