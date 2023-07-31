@@ -630,7 +630,22 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                 const SizedBox(
                   width: 12,
                 ),
-                const Icon(Icons.keyboard_arrow_down)
+                InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        isDismissible: false,
+                        context: context,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(25),
+                            topStart: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (context) => PesananMoreDialog(),
+                      );
+                    },
+                    child: Icon(Icons.keyboard_arrow_down))
               ],
             ),
             const SizedBox(

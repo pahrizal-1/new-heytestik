@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
 
@@ -11,6 +12,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
@@ -54,9 +56,12 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
-      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
-      reviews.addAll(await stateTreatment.getTreatmentReview(context, page, widget.treatment.id!));
-      dataOverview = await stateTreatment.getTreatmentOverview(context, widget.treatment.id!);
+      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
+          context, page, widget.treatment.clinic!.id!));
+      reviews.addAll(await stateTreatment.getTreatmentReview(
+          context, page, widget.treatment.id!));
+      dataOverview = await stateTreatment.getTreatmentOverview(
+          context, widget.treatment.id!);
       setState(() {});
     });
 
@@ -66,7 +71,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(context, page, widget.treatment.clinic!.id!));
+            treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
+                context, page, widget.treatment.clinic!.id!));
             setState(() {});
           });
         }
@@ -109,16 +115,24 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 () => GestureDetector(
                   onTap: () {
                     setState(() {
-                      isFavourite = (stateTreatment.treatmentDetail.value.wishlist ?? false);
+                      isFavourite =
+                          (stateTreatment.treatmentDetail.value.wishlist ??
+                              false);
                       isFavourite = !isFavourite!;
                     });
 
                     print(widget.treatment.id!);
                     print(isFavourite);
 
-                    stateTreatment.userWishlistTreatment(context, widget.treatment.id!, isFavourite!);
+                    stateTreatment.userWishlistTreatment(
+                        context, widget.treatment.id!, isFavourite!);
                   },
-                  child: (isFavourite == null ? stateTreatment.treatmentDetail.value.wishlist! : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+                  child: (isFavourite == null
+                              ? stateTreatment.treatmentDetail.value.wishlist!
+                              : isFavourite!) ==
+                          false
+                      ? Icon(Icons.favorite_border)
+                      : Icon(Icons.favorite),
                 ),
               ),
               const SizedBox(
@@ -156,14 +170,16 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                   CarouselSlider.builder(
                     itemCount: widget.treatment.mediaTreatments!.length,
                     itemBuilder: (context, index, realIndex) {
-                      final imge = widget.treatment.mediaTreatments![index].media!.path!;
+                      final imge =
+                          widget.treatment.mediaTreatments![index].media!.path!;
 
                       return buildImage(imge, index);
                     },
                     options: CarouselOptions(
                       height: 390,
                       viewportFraction: 1,
-                      onPageChanged: (index, reason) => setState(() => activeIndex = index),
+                      onPageChanged: (index, reason) =>
+                          setState(() => activeIndex = index),
                     ),
                   ),
                   Positioned(
@@ -259,7 +275,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           child: Center(
                             child: Text(
                               'Dapat Refund',
-                              style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 10),
+                              style: blackTextStyle.copyWith(
+                                  fontWeight: regular, fontSize: 10),
                             ),
                           ),
                         ),
@@ -276,7 +293,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           child: Center(
                             child: Text(
                               'Termasuk Pajak',
-                              style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 10),
+                              style: blackTextStyle.copyWith(
+                                  fontWeight: regular, fontSize: 10),
                             ),
                           ),
                         ),
@@ -288,9 +306,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     TextFromPerawat(
                       title: 'Detail Perawatan',
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => DetailMoreDialogFilter(
+                        customeshomodal(
+                          context,
+                          DetailMoreDialogFilter(
                             treatmentData: widget.treatment,
                           ),
                         );
@@ -339,7 +357,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Text(
                           '/5.0',
-                          style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0XffCCCCCC)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 12, color: const Color(0XffCCCCCC)),
                         ),
                         const SizedBox(
                           width: 16,
@@ -351,11 +370,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic),
                                 ),
                                 Text(
                                   ' merasa puas',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const Icon(Icons.keyboard_arrow_right)
                               ],
@@ -364,7 +386,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
-                                  style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -378,7 +401,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                 ),
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
-                                  style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -394,19 +418,22 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -416,11 +443,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                   children: [
                                     Text(
                                       'Perawatan',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -430,19 +459,22 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -452,11 +484,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                   children: [
                                     Text(
                                       'Pelayanan',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -466,19 +500,22 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -488,11 +525,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                   children: [
                                     Text(
                                       'Manajemen',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -515,14 +554,18 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             ),
                             Text(
                               ' Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18, fontStyle: FontStyle.italic),
+                              style: blackHigtTextStyle.copyWith(
+                                  fontSize: 18, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
                         const Spacer(),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => UlasanPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UlasanPage()));
                           },
                           child: Text(
                             'Lihat Semua',
@@ -552,11 +595,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                 children: [
                                   Text(
                                     'Jessy',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 15),
                                   ),
                                   Text(
                                     'Perawatan Peeling TCA Ringan',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 13, fontWeight: regular),
                                   ),
                                 ],
                               ),
@@ -576,13 +621,18 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                   width: 60,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: 6,
                                     itemBuilder: (context, index) {
                                       return Icon(
                                         Icons.star,
                                         size: 12,
-                                        color: reviews[0].averageRating.toInt() > index ? Color(0xffFFC36A) : Colors.grey,
+                                        color:
+                                            reviews[0].averageRating.toInt() >
+                                                    index
+                                                ? Color(0xffFFC36A)
+                                                : Colors.grey,
                                       );
                                     },
                                   ),
@@ -592,7 +642,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                 ),
                                 Text(
                                   '1 Bulan Yang lalu',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 )
                               ],
                             ),
@@ -602,7 +653,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           ),
                           Text(
                             reviews[0].review,
-                            style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                            style: greyTextStyle.copyWith(
+                                fontSize: 13, color: const Color(0xff6B6B6B)),
                           ),
                           const SizedBox(
                             height: 13,
@@ -631,7 +683,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           ),
                           Text(
                             'Perawatan Peeling TCA Ringan',
-                            style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 13, fontWeight: regular),
                           ),
                           const Spacer(),
                           const Icon(Icons.more_vert)
@@ -672,7 +725,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                         Text(
                           '1 Bulan Yang lalu',
-                          style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular),
                         )
                       ],
                     ),
@@ -681,7 +735,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     ),
                     Text(
                       'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                      style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                      style: greyTextStyle.copyWith(
+                          fontSize: 13, color: const Color(0xff6B6B6B)),
                     ),
                     const SizedBox(
                       height: 13,
@@ -729,7 +784,8 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           diskonProduk: '0',
                           hargaDiskon: '',
                           harga: treatments[index].price.toString(),
-                          urlImg: "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
+                          urlImg:
+                              "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
                           rating: "${treatments[index].rating}",
                           km: treatments[index].distance!,
                           lokasiKlinik: treatments[index].clinic!.city!.name!,
@@ -822,20 +878,27 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           bottomNavigationBar: Wrap(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, bottom: 11, top: 11),
                 child: Row(
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(SelectConditionsPage());
+                        },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                          decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7)),
                           height: 40,
                           child: Center(
                             child: Text(
                               'Konsultasi',
-                              style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                              style: grenTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: bold),
                             ),
                           ),
                         ),
@@ -857,14 +920,19 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           );
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           width: 142,
-                          decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                          decoration: BoxDecoration(
+                              color: greenColor,
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7)),
                           height: 40,
                           child: Center(
                             child: Text(
                               'Reservasi',
-                              style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                              style: whiteTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: bold),
                             ),
                           ),
                         ),
