@@ -122,15 +122,11 @@ class PesananMoreDialog extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SelesaiPembayaranSolusionPage()));
+                      Navigator.pop(context);
                     },
                     child: Image.asset(
                       'assets/icons/danger-icons.png',
-                      width: 14,
+                      width: 20,
                     ),
                   ),
                   const SizedBox(

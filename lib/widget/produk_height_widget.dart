@@ -10,7 +10,7 @@ class Produkheight extends StatelessWidget {
   final String namaProduk;
   final String diskonProduk;
   final String hargaDiskon;
-  final String kota;
+  final String? kota;
 
   final String harga;
   final String urlImg;
@@ -25,7 +25,7 @@ class Produkheight extends StatelessWidget {
     required this.harga,
     required this.urlImg,
     required this.rating,
-    required this.kota,
+    this.kota = '',
   });
   final CartController cart = Get.put(CartController());
   @override
@@ -108,7 +108,9 @@ class Produkheight extends StatelessWidget {
                     const SizedBox(
                       height: 3,
                     ),
-                    Text(kota, style: subTitleTextStyle),
+                    kota != ''
+                        ? Text(kota.toString(), style: subTitleTextStyle)
+                        : Container(),
                     const SizedBox(
                       height: 3,
                     ),

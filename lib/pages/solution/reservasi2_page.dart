@@ -229,6 +229,64 @@ class Reservasi2Page extends StatelessWidget {
                       style: subTitleTextStyle,
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Jam Kedatangan',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Image.asset(
+                            'assets/icons/calender-logo.png',
+                            color: greenColor,
+                            width: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Selasa, 14 Mei 2023',
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        )
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/logojam.png',
+                          color: greenColor,
+                          width: 23,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '15:00-18:00',
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        )
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
                 )
               ],
             ),

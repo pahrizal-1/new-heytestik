@@ -12,13 +12,18 @@ import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart'
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../controller/customer/solution/skincare_controller.dart';
+import '../../core/currency_format.dart';
+import '../../core/global.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/pencarian_search_widget.dart';
+import '../../widget/produk_height_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class SolutionPage extends StatefulWidget {
@@ -31,6 +36,7 @@ class SolutionPage extends StatefulWidget {
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final SkincareController stateSkincare = Get.put(SkincareController());
 
   int activeIndex = 0;
   final images = [
@@ -510,46 +516,46 @@ class _SolutionPageState extends State<SolutionPage> {
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: EdgeInsets.only(left: 25),
-                      child: Row(
-                        children: [
-                          ProdukKeranjang(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20%',
-                            hargaDiskon: 'Rp1,100,00',
-                            harga: 'Rp900.000',
-                            urlImg: 'assets/images/plasma.png',
-                            rating: '4.9 (120k)',
+                      child: Obx(
+                        () => LoadingWidget(
+                          isLoading: stateSkincare.isLoadingSkincare.value,
+                          child: Center(
+                            child: Wrap(
+                              spacing: 23,
+                              runSpacing: 12,
+                              children: stateSkincare.skincare
+                                  .map(
+                                    (e) => InkWell(
+                                      onTap: () {
+                                        Get.to(DetailSkinCarePage(
+                                          id: e.id!.toInt(),
+                                          productId: e
+                                              .mediaProducts![0].productId!
+                                              .toInt(),
+                                        ));
+                                      },
+                                      child: Produkheight(
+                                        produkId: e.id!.toInt(),
+                                        namaBrand:
+                                            e.skincareDetail!.brand.toString(),
+                                        namaProduk: e.name.toString(),
+                                        diskonProduk: '20',
+                                        hargaDiskon:
+                                            CurrencyFormat.convertToIdr(
+                                                e.price, 0),
+                                        harga: CurrencyFormat.convertToIdr(
+                                            e.price, 0),
+                                        urlImg:
+                                            '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                        // rating: '4.9 (120k)',
+                                        rating: e.rating.toString(),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
                           ),
-                          ProdukKeranjang(
-                            namaBrand: 'CANTABRIA',
-                            namaProduk:
-                                'Neoretin Discrom Control Pigment Neutralizer Serum',
-                            diskonProduk: '20%',
-                            hargaDiskon: 'Rp500.000',
-                            harga: 'Rp200.000',
-                            urlImg: 'assets/images/catabria.png',
-                            rating: '4.9 (120k)',
-                          ),
-                          ProdukKeranjang(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Teenderm Gel',
-                            diskonProduk: '20%',
-                            hargaDiskon: 'Rp250.000',
-                            harga: 'Rp200.000',
-                            urlImg: 'assets/images/catabria2.png',
-                            rating: '4.9 (120k)',
-                          ),
-                          ProdukKeranjang(
-                            namaBrand: 'ISISPHARMA',
-                            namaProduk: 'Endocare Tensage Cream',
-                            diskonProduk: '20%',
-                            hargaDiskon: 'Rp250.000',
-                            harga: 'Rp200.000',
-                            urlImg: 'assets/images/catabria.png',
-                            rating: '4.9 (120k)',
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

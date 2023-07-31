@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_solustion_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -637,18 +639,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
             ButtonGreenWidget(
               title: 'Bayar',
               onPressed: () {
-                showModalBottomSheet(
-                  isDismissible: false,
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(25),
-                      topStart: Radius.circular(25),
-                    ),
-                  ),
-                  builder: (context) => PesananMoreDialog(),
-                );
+                Get.to(SelesaiPembayaranSolusionPage());
               },
             )
           ],

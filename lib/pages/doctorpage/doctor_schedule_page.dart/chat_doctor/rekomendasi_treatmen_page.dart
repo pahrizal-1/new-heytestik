@@ -111,7 +111,7 @@ class RekomendasiTreatmen2Page extends StatelessWidget {
                   height: 20,
                 ),
                 ButtonGreenWidget(
-                  title: '+ Tambah Skincare',
+                  title: '+ Tambah Treatment',
                   onPressed: () {
                     Navigator.push(
                       context,
