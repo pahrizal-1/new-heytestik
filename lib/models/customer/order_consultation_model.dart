@@ -1,11 +1,11 @@
-class OrderModel {
+class OrderConsultationModel {
   bool? success;
   String? message;
   Data? data;
 
-  OrderModel({this.success, this.message, this.data});
+  OrderConsultationModel({this.success, this.message, this.data});
 
-  OrderModel.fromJson(Map<String, dynamic> json) {
+  OrderConsultationModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
