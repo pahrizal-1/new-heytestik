@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -22,7 +22,8 @@ class RiwayatMedis7Page extends StatefulWidget {
 }
 
 class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
-  final OrderController state = Get.put(OrderController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
   File? imagePathCamera;
   File? imagePathGallery;
   List listShowImage = [];

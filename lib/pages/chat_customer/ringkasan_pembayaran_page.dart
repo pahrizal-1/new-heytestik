@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -25,7 +25,8 @@ class RingkasanPembayaranPage extends StatefulWidget {
 }
 
 class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
-  final OrderController state = Get.put(OrderController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
   @override
   void initState() {
     super.initState();

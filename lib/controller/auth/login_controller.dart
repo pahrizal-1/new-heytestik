@@ -54,6 +54,9 @@ class LoginController extends StateClass {
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
+
+      // SAVE DATA USER
+      await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
       await LocalStorage()
           .setAccessToken(token: loginResponse['data']['token']);
       await LocalStorage()
