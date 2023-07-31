@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
+import '../../widget/show_dialog_sousions_payment.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
 class SelesaiPembayaranSolusionPage extends StatelessWidget {
@@ -200,9 +201,25 @@ class SelesaiPembayaranSolusionPage extends StatelessWidget {
                               ],
                             ),
                             const Spacer(),
-                            Text(
-                              'Lihat Detail',
-                              style: grenTextStyle.copyWith(fontSize: 14),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  isDismissible: false,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) => PesananMoreDialog(),
+                                );
+                              },
+                              child: Text(
+                                'Lihat Detail',
+                                style: grenTextStyle.copyWith(fontSize: 14),
+                              ),
                             ),
                             const SizedBox(
                               width: 8,
