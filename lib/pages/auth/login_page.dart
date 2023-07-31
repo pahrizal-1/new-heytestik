@@ -121,13 +121,16 @@ class _LoginPageState extends State<LoginPage> {
                 height: 20,
               ),
               Obx(
-                () => ButtonGreenWidget(
-                  title: 'Sign In',
-                  onPressed: () async {
-                    await state.logIn(context, doInPost: () async {
-                      await state.redirectTo();
-                    });
-                  },
+                () => LoadingWidget(
+                  isLoading: state.isLoading.value,
+                  child: ButtonGreenWidget(
+                    title: 'Sign In',
+                    onPressed: () async {
+                      await state.logIn(context, doInPost: () async {
+                        await state.redirectTo();
+                      });
+                    },
+                  ),
                 ),
               ),
               const SizedBox(
