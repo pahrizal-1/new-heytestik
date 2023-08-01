@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
   SolutionService()
@@ -15,7 +16,8 @@ class SolutionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/solution/skincare?page=1&search=&take=100&order=asc',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -26,7 +28,8 @@ class SolutionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/solution/skincare?page=1&search=&category[]=$category&take=100&order=asc',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -37,7 +40,8 @@ class SolutionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/solution/skincare/$id',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -48,7 +52,8 @@ class SolutionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/lookup?page=1&take=100&order=asc&category[]=SKINCARE_CATEGORY&search=',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -59,7 +64,8 @@ class SolutionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/concern?page=1&take=100&order=asc&search=',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 

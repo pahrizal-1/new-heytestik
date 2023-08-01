@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/bank_by_id_doctor_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/bank_doctor_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_bank_doctor_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class BankDoctorService extends ProviderClass {
   BankDoctorService()
@@ -14,7 +15,8 @@ class BankDoctorService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/user-bank-account',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return BankDoctorModel.fromJson(response);
@@ -26,6 +28,7 @@ class BankDoctorService extends ProviderClass {
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return BankByIdDoctorModel.fromJson(response);
@@ -36,6 +39,7 @@ class BankDoctorService extends ProviderClass {
       '/user-bank-account/$id',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return BankByIdDoctorModel.fromJson(response);
@@ -45,7 +49,8 @@ class BankDoctorService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/bank?page=1&take=100&search&order=asc',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return ListBankDoctorModel.fromJson(response);
@@ -57,6 +62,7 @@ class BankDoctorService extends ProviderClass {
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return BankByIdDoctorModel.fromJson(response);
@@ -66,7 +72,8 @@ class BankDoctorService extends ProviderClass {
     var response = await networkingConfig.doDelete(
       '/user-bank-account/$id',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return BankByIdDoctorModel.fromJson(response);

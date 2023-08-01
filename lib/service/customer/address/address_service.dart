@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/address_by_id_model.dart';
 import 'package:heystetik_mobileapps/models/customer/customer_location_model.dart';
 import 'package:heystetik_mobileapps/models/customer/list_address_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class AddressService extends ProviderClass {
   AddressService()
@@ -14,7 +15,8 @@ class AddressService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/user-address',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return ListAddressModel.fromJson(response);
@@ -26,6 +28,7 @@ class AddressService extends ProviderClass {
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return AddressByIdModel.fromJson(response);
@@ -36,6 +39,7 @@ class AddressService extends ProviderClass {
       '/user-address/$id',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return AddressByIdModel.fromJson(response);
@@ -47,6 +51,7 @@ class AddressService extends ProviderClass {
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return AddressByIdModel.fromJson(response);
@@ -56,7 +61,8 @@ class AddressService extends ProviderClass {
     var response = await networkingConfig.doDelete(
       '/user-address/$id',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return AddressByIdModel.fromJson(response);
@@ -67,7 +73,8 @@ class AddressService extends ProviderClass {
       '/user-location',
       data: data,
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return CustomerLocationModel.fromJson(response);
@@ -77,7 +84,8 @@ class AddressService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/user-location',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return CustomerLocationModel.fromJson(response);

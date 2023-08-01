@@ -1,6 +1,7 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class LoginService extends ProviderClass {
   LoginService()
@@ -10,9 +11,9 @@ class LoginService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/login',
       data: data,
-      // headers: {
-      //   'User-Agent': '',
-      // },
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;

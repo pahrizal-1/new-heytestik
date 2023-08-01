@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/intiate_chat_model.dart';
 import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class ConsultationService extends ProviderClass {
   ConsultationService()
@@ -13,7 +14,8 @@ class ConsultationService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/consultation/initiate/$orderId',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -24,7 +26,8 @@ class ConsultationService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/chat/recent',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 

@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class WishlistService extends ProviderClass {
   WishlistService()
@@ -12,7 +13,8 @@ class WishlistService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/user-wishlist?page=1&take=100&order=asc',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -24,7 +26,8 @@ class WishlistService extends ProviderClass {
       '/user-wishlist',
       data: data,
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -35,7 +38,8 @@ class WishlistService extends ProviderClass {
     var response = await networkingConfig.doDelete(
       '/user-wishlist/$id',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 

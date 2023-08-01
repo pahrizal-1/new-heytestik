@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/rendering.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-
+import 'package:ua_client_hints/ua_client_hints.dart';
 import 'local_storage.dart';
 
 class NetworkingConfig {
@@ -172,6 +172,7 @@ class NetworkingConfig {
         options: Options(
           headers: {
             'authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+            'User-Agent': await userAgent(),
           },
           validateStatus: (statusCode) {
             debugPrint('status code $statusCode');
@@ -200,6 +201,7 @@ class NetworkingConfig {
         options: Options(
           headers: {
             'authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+            'User-Agent': await userAgent(),
           },
           validateStatus: (statusCode) {
             debugPrint('status code $statusCode');
