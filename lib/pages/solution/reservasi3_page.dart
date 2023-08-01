@@ -116,15 +116,15 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: 72,
-                          height: 72,
+                          width: 50,
+                          height: 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(
-                                "${Global.FILE}/${widget.treatment.mediaTreatments![0].media!.path}",
-                              ),
-                            ),
+                                image: NetworkImage(
+                                  "${Global.FILE}/${widget.treatment.mediaTreatments![0].media!.path}",
+                                ),
+                                fit: BoxFit.cover),
                           ),
                         ),
                         const SizedBox(
@@ -212,7 +212,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                         children: [
                           Text(
                             'Belum ada voucher yang tersedia',
-                            style: blackTextStyle.copyWith(fontSize: 15),
+                            style: blackTextStyle.copyWith(fontSize: 11),
                           ),
                           Text(
                             '0 voucher dipakai',
