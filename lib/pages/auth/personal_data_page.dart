@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -259,16 +261,22 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        ButtonGreenWidget(
-                          title: 'Daftar',
-                          onPressed: () async {
-                            await state.register(context, doInPost: () async {
-                              showDialog(
-                                context: context,
-                                builder: (context) => const MoreDialog(),
-                              );
-                            });
-                          },
+                        Obx(
+                          () => LoadingWidget(
+                            isLoading: state.isLoading.value,
+                            child: ButtonGreenWidget(
+                              title: 'Daftar',
+                              onPressed: () async {
+                                await state.register(context,
+                                    doInPost: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => const MoreDialog(),
+                                  );
+                                });
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
