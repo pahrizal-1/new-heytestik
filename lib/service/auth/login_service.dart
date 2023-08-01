@@ -10,6 +10,9 @@ class LoginService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/login',
       data: data,
+      // headers: {
+      //   'User-Agent': '',
+      // },
     );
 
     return response;
