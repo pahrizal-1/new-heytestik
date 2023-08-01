@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../models/doctor/reply_chat_model.dart';
 
@@ -15,22 +16,23 @@ class ReplyChatService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/chat/quick-reply',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     var jsonResponse = response['data']['data'];
 
-    print('res ' + jsonResponse.toString());
+    print('res $jsonResponse');
 
     return jsonResponse;
   }
 
   Future postReplyChat(dynamic data) async {
-    var response = await networkingConfig.doPostByMap('/chat/quick-reply',
-        data: data,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        });
+    var response = await networkingConfig
+        .doPostByMap('/chat/quick-reply', data: data, headers: {
+      'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+      'User-Agent': await userAgent(),
+    });
 
     return response;
   }
@@ -40,7 +42,8 @@ class ReplyChatService extends ProviderClass {
       '/chat/quick-reply/${id}',
       data: data,
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -51,7 +54,8 @@ class ReplyChatService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/chat/quick-reply/${id}',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     var jsonResponse = response['data'];

@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class ConsultationDoctorScheduleServices extends ProviderClass {
   ConsultationDoctorScheduleServices()
@@ -14,7 +15,8 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/consultation/current-schedule',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -26,7 +28,8 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/consultation/doctor-schedule/$currentScheduleId?start_time=$startTime&end_time=$endTime',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -37,7 +40,8 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/chat/recent',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -48,7 +52,8 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/consultation/${id}/detail',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 
@@ -70,7 +75,8 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
       '/consultation/doctor-note',
       data: data,
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
 

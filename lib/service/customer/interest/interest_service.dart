@@ -1,6 +1,7 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class InterestService extends ProviderClass {
   InterestService()
@@ -10,6 +11,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/register/info-personal',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -19,6 +23,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/interest_beauty_profile',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -28,6 +35,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/interest_face_corrective_skin_goals',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -37,6 +47,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/interest_body_corrective_skin_goals',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -46,6 +59,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/interest_history_treatment_skin_goals',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -55,6 +71,9 @@ class InterestService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/interest_budget_skin_goals',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;

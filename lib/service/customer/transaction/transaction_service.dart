@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class TransactionService extends ProviderClass {
   TransactionService()
@@ -18,7 +19,8 @@ class TransactionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/payment-method',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return PaymentMethodModel.fromJson(response);
@@ -36,7 +38,8 @@ class TransactionService extends ProviderClass {
       data: formData,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'Content-type': 'multipart/form-data'
+        'Content-type': 'multipart/form-data',
+        'User-Agent': await userAgent(),
       },
     );
     return OrderConsultationModel.fromJson(response);
@@ -48,6 +51,7 @@ class TransactionService extends ProviderClass {
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return OrderTreatmentModel.fromJson(response);
@@ -58,7 +62,8 @@ class TransactionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/transaction/CONSULTATION.$orderId/status',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return TransactionStatusModel.fromJson(response);
@@ -68,7 +73,8 @@ class TransactionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/transaction/consultation?page=1&take=100&order=desc&search',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return TransactionHistoryConsultationModel.fromJson(response);
@@ -79,7 +85,8 @@ class TransactionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/transaction/TREATMENT.$orderId/status',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return TransactionStatusModel.fromJson(response);
@@ -89,7 +96,8 @@ class TransactionService extends ProviderClass {
     var response = await networkingConfig.doGet(
       '/transaction/treatment?page=1&take=100&order=desc&search',
       headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
       },
     );
     return TransactionHistoryTreatmentModel.fromJson(response);

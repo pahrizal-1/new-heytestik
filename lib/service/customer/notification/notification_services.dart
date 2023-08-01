@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class NotificationCustomerServices extends ProviderClass {
   NotificationCustomerServices()
@@ -19,7 +20,8 @@ class NotificationCustomerServices extends ProviderClass {
           "order": "asc",
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 

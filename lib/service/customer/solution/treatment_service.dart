@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as TreatmentModel;
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../models/clinic.dart';
 import '../../../models/treatment_detail.dart';
@@ -20,7 +21,8 @@ class TreatmentService extends ProviderClass {
       var response = await networkingConfig.doGet(
         '/solution/treatment/recomendation',
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
       return (response['data'] as List)
@@ -41,7 +43,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -63,7 +66,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -85,7 +89,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -103,7 +108,8 @@ class TreatmentService extends ProviderClass {
       var response = await networkingConfig.doGet(
         '/solution/treatment-review/$treatmentID/overview',
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -126,7 +132,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -144,7 +151,8 @@ class TreatmentService extends ProviderClass {
       var response = await networkingConfig.doGet(
         '/solution/treatment/$treatmentID',
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -165,7 +173,8 @@ class TreatmentService extends ProviderClass {
           "search": search ?? "",
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -187,7 +196,8 @@ class TreatmentService extends ProviderClass {
             "treatment_id": treatmentID,
           },
           headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+            'User-Agent': await userAgent(),
           },
         );
 
@@ -196,7 +206,8 @@ class TreatmentService extends ProviderClass {
         var response = await networkingConfig.doDelete(
           '/user-wishlist-treatment/$treatmentID',
           headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+            'User-Agent': await userAgent(),
           },
         );
 
@@ -216,7 +227,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
       return TreatmentModel.TreatmentModel.fromJson(response);
@@ -237,7 +249,8 @@ class TreatmentService extends ProviderClass {
           "treatment_id": treatmentID,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
 
@@ -263,7 +276,8 @@ class TreatmentService extends ProviderClass {
           "take": 10,
         },
         headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
         },
       );
       return TreatmentModel.TreatmentModel.fromJson(response);

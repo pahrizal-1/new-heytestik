@@ -43,6 +43,8 @@ class RegisterController extends StateClass {
         'no_phone': phoneNumber,
       };
 
+      print(data);
+
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
       LocalStorage().setUserID(userID: loginResponse['data']['id']);
@@ -139,9 +141,9 @@ class RegisterController extends StateClass {
       var data = {
         'userId': await LocalStorage().getUserID(),
         'verify_type': 'phone',
-        'code': code,
+        'code': int.parse(code.toString()),
       };
-
+      print(data);
       var loginResponse = await RegisterService().phoneVerify(data);
       print(loginResponse);
       doInPost();
@@ -188,10 +190,10 @@ class RegisterController extends StateClass {
         'status': true
       };
 
-      print(data);
-
+      print('data $data');
+      // return;
       var res = await RegisterService().register(data);
-      print('data $res');
+      print('res $res');
       doInPost();
     });
     isLoading.value = false;

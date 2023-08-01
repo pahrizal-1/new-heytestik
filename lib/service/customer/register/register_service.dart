@@ -1,6 +1,7 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
 class RegisterService extends ProviderClass {
   RegisterService()
@@ -10,6 +11,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/info-personal',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -19,6 +23,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/phone',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -28,6 +35,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/verify',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -37,6 +47,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/verify',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -46,6 +59,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/resend-code',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;
@@ -55,6 +71,9 @@ class RegisterService extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/auth/register/email',
       data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
     );
 
     return response;

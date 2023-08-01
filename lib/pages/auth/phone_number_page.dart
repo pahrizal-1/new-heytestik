@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
@@ -78,19 +80,25 @@ class PhoneNumberPage extends StatelessWidget {
                       greyTextStyle.copyWith(fontSize: 12, fontWeight: medium)),
             ),
             const Spacer(),
-            ButtonGreenWidget(
-              title: 'Kirim Kode Verifikasi',
-              onPressed: () async {
-                await state.registerPhoneNumber(context, doInPost: () async {
-                  print('INI KESINI BISA HARUSNYA');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const VerificationPage(),
-                    ),
-                  );
-                });
-              },
+            Obx(
+              () => LoadingWidget(
+                isLoading: state.isLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Kirim Kode Verifikasi',
+                  onPressed: () async {
+                    await state.registerPhoneNumber(context,
+                        doInPost: () async {
+                      print('INI KESINI BISA HARUSNYA');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const VerificationPage(),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(
               height: 72,

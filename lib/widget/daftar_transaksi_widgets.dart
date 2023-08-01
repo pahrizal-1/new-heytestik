@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 
+import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 
 class TransaksiKonsultan extends StatelessWidget {
@@ -150,17 +151,22 @@ class TransaksiKonsultan extends StatelessWidget {
               ),
               const Spacer(),
               progres == 'Aktif' || progres == 'Selesai'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: greenColor,
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Ulas',
-                          style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(UlasanSetingsPage());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 22, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Ulas',
+                            style: whiteTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )

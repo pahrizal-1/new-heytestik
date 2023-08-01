@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
@@ -20,10 +21,7 @@ class GaleryMyJourney extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TulisUlasan2Page()));
+                  Get.back();
                 },
                 child: Icon(
                   Icons.arrow_back,

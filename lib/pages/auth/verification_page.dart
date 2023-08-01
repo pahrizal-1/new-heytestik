@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
 
 import 'package:heystetik_mobileapps/pages/auth/personal_data_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/customer/register/register_controller.dart';
@@ -50,10 +52,12 @@ class VerificationPage extends StatelessWidget {
             ),
             // const OtpWidget(),
             OtpTextField(
+              focusedBorderColor: greenColor,
               numberOfFields: 5,
               fieldWidth: 50,
               borderColor: greenColor,
               showFieldAsBox: true,
+
               onCodeChanged: (String code) {
                 print('code otp $code');
               },
@@ -78,18 +82,23 @@ class VerificationPage extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            ButtonGreenWidget(
-              title: 'Konfimasi',
-              onPressed: () async {
-                await state.verifyPhoneNumber(context, doInPost: () async {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PersonalDataPage(),
-                    ),
-                  );
-                });
-              },
+            Obx(
+              () => LoadingWidget(
+                isLoading: state.isLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Konfimasi',
+                  onPressed: () async {
+                    await state.verifyPhoneNumber(context, doInPost: () async {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PersonalDataPage(),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(
               height: 72,
