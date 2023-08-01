@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +9,8 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/service/auth/login_service.dart';
+
+import '../../core/global.dart';
 
 class LoginController extends StateClass {
   TextEditingController email = TextEditingController();
@@ -76,6 +79,15 @@ class LoginController extends StateClass {
   clear() {
     email.clear();
     password.clear();
+  }
+
+  getUrl() async {
+    try {
+      var response =
+          await Dio().get('https://77fa-103-19-109-1.ngrok-free.app');
+      BaseOptions(headers: {"Content-Type": "application/json"});
+      print('respons ' + response.toString());
+    } catch (error) {}
   }
 
   redirectTo() async {
