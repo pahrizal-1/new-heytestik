@@ -15,10 +15,11 @@ class SkincareRecommendationController extends StateClass {
   Rx<SkincareRecommendationModel> skincare = SkincareRecommendationModel().obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
   List<Skincare.Data2> solutionSkincare = [];
-  RxList dataSkincare = [].obs;
+  List dataSkincare = [].obs;
   RxBool isLoadingSkincare = false.obs;
-
-
+  List<TextEditingController> notesController = [];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController subtitleController = TextEditingController();
 
   getSkincareRecommendation(BuildContext context) async {
     isLoading.value = true;
@@ -51,5 +52,35 @@ class SkincareRecommendationController extends StateClass {
       solutionSkincare = res.data!.data!;
     });
     isLoadingSkincare.value = false;
+  }
+
+  postSkincare(
+    BuildContext context,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "title": titleController.text,
+        "subtitle": subtitleController.text,
+        "recipe_recomendation_skincare_items": [
+          for (var i = 0; i < dataSkincare.length; i++)
+            {
+              "skincare_id": dataSkincare[i]['id'],
+              "notes": notesController[i].text,
+              "qty": 1
+            }
+        ]
+      };
+      var response = await SkincareRecommendationService()
+          .postSkincareRecommendation(data);
+
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+    });
+    isLoading.value = false;
   }
 }

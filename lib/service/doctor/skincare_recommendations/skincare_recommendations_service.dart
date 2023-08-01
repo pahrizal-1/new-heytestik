@@ -17,4 +17,15 @@ class SkincareRecommendationService extends ProviderClass {
     );
     return SkincareRecommendationModel.fromJson(response);
   }
+
+  Future<dynamic> postSkincareRecommendation(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/recipe/recomendation/skincare',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return response;
+  }
 }
