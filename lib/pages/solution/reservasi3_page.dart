@@ -10,12 +10,13 @@ import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
+
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
 
+// ignore: must_be_immutable
 class Resevasi3Page extends StatefulWidget {
   int pax;
   String tgl;
@@ -133,9 +134,12 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.treatment.clinic?.name} ${widget.treatment.clinic?.city?.name}',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 12, letterSpacing: 0.4),
+                              '${widget.treatment.clinic?.name}',
+                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                            ),
+                            Text(
+                              '${widget.treatment.clinic?.city?.name}',
+                              style: blackHigtTextStyle.copyWith(fontSize: 12),
                             ),
                             Text(
                               widget.tgl,
@@ -442,7 +446,22 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                 const SizedBox(
                   width: 12,
                 ),
-                const Icon(Icons.keyboard_arrow_down)
+                InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        isDismissible: false,
+                        context: context,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(25),
+                            topStart: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (context) => PesananMoreDialog(),
+                      );
+                    },
+                    child: Icon(Icons.keyboard_arrow_down))
               ],
             ),
             const SizedBox(

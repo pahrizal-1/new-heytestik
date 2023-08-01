@@ -14,6 +14,7 @@ import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
+// ignore: must_be_immutable
 class SelesaiPembayaranSolusionPage extends StatefulWidget {
   String bank;
   String orderId;
@@ -177,9 +178,8 @@ class _SelesaiPembayaranSolusionPageState
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 105,
-                            height: 23,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
                               color: const Color(0xffA72424),
                               borderRadius: BorderRadius.circular(25),
