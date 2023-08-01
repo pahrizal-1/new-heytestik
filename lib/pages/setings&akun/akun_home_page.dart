@@ -49,7 +49,7 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 ),
               ),
               const SizedBox(
-                width: 11,
+                width: 18,
               ),
               Text(
                 'Menu Utama',

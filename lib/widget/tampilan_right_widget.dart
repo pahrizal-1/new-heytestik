@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
+import '../pages/solution/reservasi_page.dart';
+
 class TampilanRight extends StatelessWidget {
   final Data2 treatment;
-
+  final String urlImg;
   const TampilanRight({
     super.key,
     required this.treatment,
+    required this.urlImg,
   });
 
   @override
@@ -32,14 +33,12 @@ class TampilanRight extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 110,
-              height: 110,
+              width: 93,
+              height: 93,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/lheatea1.png'),
-                  fit: BoxFit.fill,
-                ),
+                image: DecorationImage(
+                    image: NetworkImage(urlImg), fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
@@ -57,7 +56,8 @@ class TampilanRight extends StatelessWidget {
                     ),
                     Text(
                       treatment.name!,
-                      style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 12),
+                      style: blackRegulerTextStyle.copyWith(
+                          color: blackColor, fontSize: 12),
                     ),
                     const SizedBox(
                       height: 3,
@@ -111,7 +111,8 @@ class TampilanRight extends StatelessWidget {
                         ),
                         Text(
                           '${treatment.rating} (120k)',
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                         const SizedBox(
                           width: 4,
@@ -125,7 +126,8 @@ class TampilanRight extends StatelessWidget {
                         ),
                         Text(
                           treatment.distance!,
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                       ],
                     ),
@@ -134,17 +136,29 @@ class TampilanRight extends StatelessWidget {
                     ),
                     Text(
                       treatment.clinic!.city!.name!,
-                      style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                      style: subGreyTextStyle.copyWith(
+                          fontSize: 11, color: const Color(0xff9B9B9B)),
                     ),
                     SizedBox(
                       height: 8.0,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReservasiPage(
+                              treatment: treatment,
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 47),
                         height: 25,
-                        decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(3)),
+                        decoration: BoxDecoration(
+                            color: greenColor,
+                            borderRadius: BorderRadius.circular(3)),
                         child: Center(
                           child: Text(
                             'Resevasi',

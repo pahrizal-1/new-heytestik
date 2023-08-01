@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/pencarian_search_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../home/notifikasion_page.dart';
 import '../setings&akun/akun_home_page.dart';
@@ -102,45 +104,37 @@ class ObatSolutionsPage extends StatelessWidget {
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: fromCssColor("#CCCCCC"),
-                ),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 10,
+            child: InkWell(
+              onTap: () {
+                Get.to(PencarianPageWidget());
+              },
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: fromCssColor('#CCCCCC'),
                   ),
-                  child: Image.asset(
-                    'assets/icons/search1.png',
-                    width: 10,
-                  ),
+                  borderRadius: BorderRadius.circular(35),
                 ),
-                Container(
-                  transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 250),
-                  child: TextFormField(
-                    style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
-                    decoration: InputDecoration(
-                      hintText: "Cari Treatment",
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: "ProximaNova",
-                        color: fromCssColor(
-                          '#9B9B9B',
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 10,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              ]),
+                      Text(
+                        'Cari Obat',
+                        style: subTitleTextStyle,
+                      )
+                    ]),
+              ),
             ),
           ),
         ),

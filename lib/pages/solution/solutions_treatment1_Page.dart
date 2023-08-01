@@ -5,16 +5,15 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/models/customer/notification.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
@@ -177,45 +176,37 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: fromCssColor('#CCCCCC'),
-                ),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 10,
+            child: InkWell(
+              onTap: () {
+                Get.to(PencarianPageWidget());
+              },
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: fromCssColor('#CCCCCC'),
                   ),
-                  child: Image.asset(
-                    'assets/icons/search1.png',
-                    width: 10,
-                  ),
+                  borderRadius: BorderRadius.circular(35),
                 ),
-                Container(
-                  transform: Matrix4.translationValues(0, -3, 0),
-                  constraints: const BoxConstraints(maxWidth: 250),
-                  child: TextFormField(
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'ProximaNova',
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Cari Treatment',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        color: fromCssColor('#9B9B9B'),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 10,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ]),
+                      Text(
+                        'Cari Treatment',
+                        style: subTitleTextStyle,
+                      )
+                    ]),
+              ),
             ),
           ),
         ),

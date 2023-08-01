@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_mode
 import 'package:heystetik_mobileapps/models/treatment_detail.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
-import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 
 class TreatmentController extends StateClass {
   RxList<TreatmentRecommendationModel> treatment =

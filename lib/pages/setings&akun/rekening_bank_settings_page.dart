@@ -7,7 +7,7 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/text_form_widget.dart';
+import '../../widget/appbar_widget.dart';
 
 class RekeningBankSettings extends StatefulWidget {
   RekeningBankSettings({super.key});
@@ -29,33 +29,13 @@ class _RekeningBankSettingsState extends State<RekeningBankSettings> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Expanded(
-                child: Text(
-                  'Rekening Bank',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-              )
-            ],
+        title: Text(
+          'Keamanan Akun',
+          style: blackTextStyle.copyWith(
+            fontSize: 20,
           ),
         ),
         actions: [

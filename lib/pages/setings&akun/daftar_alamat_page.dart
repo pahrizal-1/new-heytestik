@@ -21,43 +21,31 @@ class DaftarAlamatPage extends StatelessWidget {
       key: UniqueKey(),
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6, right: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
+        title: Row(
+          children: [
+            Text(
+              'Daftar Alamat',
+              style: blackTextStyle.copyWith(
+                fontSize: 20,
               ),
-              const SizedBox(
-                width: 11,
+            ),
+            Spacer(),
+            InkWell(
+              onTap: () {
+                Get.to(Alamatpage());
+              },
+              child: Text(
+                'Tambah Alamat',
+                style: grenTextStyle.copyWith(fontSize: 15),
               ),
-              Expanded(
-                child: Text(
-                  'Daftar Alamat',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(Alamatpage());
-                },
-                child: Text(
-                  'Tambah Alamat',
-                  style: grenTextStyle.copyWith(fontSize: 15),
-                ),
-              )
-            ],
-          ),
+            ),
+            SizedBox(
+              width: 25,
+            )
+          ],
         ),
       ),
       body: Padding(
