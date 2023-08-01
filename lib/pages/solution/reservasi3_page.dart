@@ -1,24 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_solustion_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
 
 class Resevasi3Page extends StatefulWidget {
-  const Resevasi3Page({super.key});
+  int pax;
+  String tgl;
+  final Data2 treatment;
+  Resevasi3Page(
+      {required this.pax,
+      required this.tgl,
+      required this.treatment,
+      super.key});
 
   @override
   State<Resevasi3Page> createState() => _Resevasi3PageState();
 }
 
 class _Resevasi3PageState extends State<Resevasi3Page> {
-  int isSelected = 0;
+  final OrderTreatmentController state = Get.put(OrderTreatmentController());
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.initPayment(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,566 +65,356 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: lsymetric.copyWith(top: 25, bottom: 24),
-            child: Column(
-              children: [
-                Row(
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: ListView(
+            children: [
+              Padding(
+                padding: lsymetric.copyWith(top: 25, bottom: 24),
+                child: Column(
                   children: [
-                    Text(
-                      'Selesaikan dalam',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      width: 105,
-                      height: 23,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffA72424),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/logojam.png',
-                            width: 10,
-                            color: whiteColor,
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            '17 : 12 : 00',
-                            style: whiteTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/Ipl1.png'))),
-                    ),
-                    const SizedBox(
-                      width: 13,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    // Row(
+                    //   children: [
+                    //     Text(
+                    //       'Selesaikan dalam',
+                    //       style: blackHigtTextStyle.copyWith(fontSize: 18),
+                    //     ),
+                    //     const Spacer(),
+                    //     Container(
+                    //       padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //       width: 105,
+                    //       height: 23,
+                    //       decoration: BoxDecoration(
+                    //         color: const Color(0xffA72424),
+                    //         borderRadius: BorderRadius.circular(25),
+                    //       ),
+                    //       child: Row(
+                    //         children: [
+                    //           Image.asset(
+                    //             'assets/icons/logojam.png',
+                    //             width: 10,
+                    //             color: whiteColor,
+                    //           ),
+                    //           const SizedBox(
+                    //             width: 7,
+                    //           ),
+                    //           Text(
+                    //             '17 : 12 : 00',
+                    //             style: whiteTextStyle.copyWith(fontSize: 13),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // const SizedBox(
+                    //   height: 16,
+                    // ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Klinik Utama Lithea Jakarta Selatan',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 12, letterSpacing: 0.4),
-                        ),
-                        Text(
-                          'Selasa, 16 Mei 2023',
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 12,
-                            letterSpacing: 0.4,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          isDismissible: false,
-                          context: context,
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.only(
-                              topEnd: Radius.circular(25),
-                              topStart: Radius.circular(25),
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                "${Global.FILE}/${widget.treatment.mediaTreatments![0].media!.path}",
+                              ),
                             ),
                           ),
-                          builder: (context) => OrderanMoreDialog(),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.keyboard_arrow_down,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PromoPage(),
-                ),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
-              padding: const EdgeInsets.only(
-                top: 15,
-                bottom: 15,
-                left: 14,
-                right: 14,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor),
-                borderRadius: BorderRadius.circular(7),
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/icons/persen_icons.png',
-                    width: 25,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Kamu bisa hemat Rp 25.000',
-                        style: blackTextStyle.copyWith(fontSize: 15),
-                      ),
-                      Text(
-                        '1 voucher dipakai',
-                        style: subTitleTextStyle,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.keyboard_arrow_right)
-                ],
-              ),
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 17, left: 25, right: 25, bottom: 17),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pilih Metode Pembayaran',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 27,
-                ),
-                Text(
-                  'Pembayaran Instan',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 0;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/gopay-blue-icons.png',
-                        width: 47,
-                      ),
-                      const SizedBox(
-                        width: 23,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Gopay',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            'Tidak tersedia untuk transaksi ini',
-                            style: subTitleTextStyle,
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      Icon(
-                        isSelected == 0
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
-                        size: 23,
-                        color: isSelected == 0 ? greenColor : blackColor,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: lsymetric.copyWith(top: 22, bottom: 22),
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(
-                      () {
-                        isSelected = 1;
-                      },
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/logo-bca.png',
-                        width: 52,
-                      ),
-                      const SizedBox(
-                        width: 23,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'BCA Virtual Account',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            'Biaya Pembayaran Rp3.000',
-                            style: subTitleTextStyle,
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      Icon(
-                        isSelected == 1
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
-                        size: 23,
-                        color: isSelected == 1 ? greenColor : blackColor,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 23,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 2;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/logo-bni.png',
-                        width: 52,
-                      ),
-                      const SizedBox(
-                        width: 23,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'BNI Virtual Account',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            'Tidak tersedia untuk transaksi ini',
-                            style: subTitleTextStyle,
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      Icon(
-                        isSelected == 2
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
-                        size: 23,
-                        color: isSelected == 2 ? greenColor : blackColor,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 23,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 3;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/logo-bri.png',
-                        width: 52,
-                      ),
-                      const SizedBox(
-                        width: 23,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'BRI Virtual Account',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            'Tidak tersedia untuk transaksi ini',
-                            style: subTitleTextStyle,
-                          )
-                        ],
-                      ),
-                      const Spacer(),
-                      Icon(
-                        isSelected == 3
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
-                        size: 23,
-                        color: isSelected == 3 ? greenColor : blackColor,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: lsymetric.copyWith(top: 22, bottom: 22),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Tranfer Bank (Verifikasi Manual)',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 27,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/mandiri-icons.png',
-                      color: blackColor,
-                      width: 52,
-                    ),
-                    const SizedBox(
-                      width: 23,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'BRI Virtual Account',
-                          style: blackTextStyle.copyWith(fontSize: 15),
                         ),
-                        Text(
-                          'Tidak tersedia untuk transaksi ini',
-                          style: subTitleTextStyle,
-                        )
+                        const SizedBox(
+                          width: 13,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${widget.treatment.clinic?.name} ${widget.treatment.clinic?.city?.name}',
+                              style: blackHigtTextStyle.copyWith(
+                                  fontSize: 12, letterSpacing: 0.4),
+                            ),
+                            Text(
+                              widget.tgl,
+                              style: subTitleTextStyle.copyWith(
+                                fontSize: 12,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              isDismissible: false,
+                              context: context,
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadiusDirectional.only(
+                                  topEnd: Radius.circular(25),
+                                  topStart: Radius.circular(25),
+                                ),
+                              ),
+                              builder: (context) => OrderanMoreDialog(),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.keyboard_arrow_down,
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: lsymetric.copyWith(top: 22, bottom: 22),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ringkasan Pembayaran',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 27,
-                ),
-                const TextSpaceBetween(
-                  title: 'Total Perawatan',
-                  title2: 'Rp290.400',
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Biaya Jasa Aplikasi',
-                      style: subGreyTextStyle.copyWith(
-                          fontSize: 14,
-                          color: const Color(0XFF323232),
-                          fontWeight: regular),
+              ),
+              const dividergreen(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PromoPage(),
                     ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Image.asset(
-                      'assets/icons/alert.png',
-                      width: 11,
-                    ),
-                    const Spacer(),
-                    Text(
-                      'Rp0',
-                      style: subGreyTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                const TextSpaceBetween(
-                  title: 'Biaya Pembayaran',
-                  title2: 'Rp3.000',
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 15),
-            color: subwhiteColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ringkasan Pembayaran',
-                  style: blackTextStyle.copyWith(fontSize: 15),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Icon(
-                        Icons.circle,
-                        size: 7,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Hanya berlaku dengan menggunakan akun BCA. Pembayaran dengan akun bank lain tidak akan diproses.',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Icon(
-                        Icons.circle,
-                        size: 7,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Pastikan nomor Virtual Account kamu sesuai dengan instruksi pembayaran.',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Icon(
-                        Icons.circle,
-                        size: 7,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Pastikan kembali nominal pembayaran sesuai dengan pemesanan yang kamu lakukan.',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: lsymetric.copyWith(top: 22, bottom: 22),
-            child: Column(
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: 'Dengan menekan tombol bayar, kamu menyetujui',
-                    style: greyTextStyle.copyWith(fontSize: 12),
+                  );
+                },
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
+                  padding: const EdgeInsets.only(
+                    top: 15,
+                    bottom: 15,
+                    left: 14,
+                    right: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: borderColor),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Row(
                     children: [
+                      Image.asset(
+                        'assets/icons/persen_icons.png',
+                        width: 25,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Belum ada voucher yang tersedia',
+                            style: blackTextStyle.copyWith(fontSize: 15),
+                          ),
+                          Text(
+                            '0 voucher dipakai',
+                            style: subTitleTextStyle,
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              const dividergreen(),
+              Padding(
+                padding: lsymetric.copyWith(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pilih Metode Pembayaran',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
+                    ),
+                    CardTreatmentBank(),
+                  ],
+                ),
+              ),
+              const dividergreen(),
+              Padding(
+                padding: lsymetric.copyWith(top: 22, bottom: 22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ringkasan Pembayaran',
+                      style: blackTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 27,
+                    ),
+                    TextSpaceBetween(
+                      title: 'Total Perawatan',
+                      title2: CurrencyFormat.convertToIdr(
+                          widget.treatment.price! * widget.pax, 0),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Biaya Jasa Aplikasi',
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 14,
+                              color: const Color(0XFF323232),
+                              fontWeight: regular),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Image.asset(
+                          'assets/icons/alert.png',
+                          width: 11,
+                        ),
+                        const Spacer(),
+                        Text(
+                          'Rp0',
+                          style: subGreyTextStyle.copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    const TextSpaceBetween(
+                      title: 'Biaya Pembayaran',
+                      title2: 'Rp0',
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 23, vertical: 15),
+                color: subwhiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ringkasan Pembayaran',
+                      style: blackTextStyle.copyWith(fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Icon(
+                            Icons.circle,
+                            size: 7,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                            child: Text(
+                          'Hanya berlaku dengan menggunakan akun BCA. Pembayaran dengan akun bank lain tidak akan diproses.',
+                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Icon(
+                            Icons.circle,
+                            size: 7,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                            child: Text(
+                          'Pastikan nomor Virtual Account kamu sesuai dengan instruksi pembayaran.',
+                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Icon(
+                            Icons.circle,
+                            size: 7,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Pastikan kembali nominal pembayaran sesuai dengan pemesanan yang kamu lakukan.',
+                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: lsymetric.copyWith(top: 22, bottom: 22),
+                child: Column(
+                  children: [
+                    Text.rich(
                       TextSpan(
-                        text: ' Syarat & Ketentuan',
-                        style: grenTextStyle.copyWith(fontSize: 13),
+                        text: 'Dengan menekan tombol bayar, kamu menyetujui',
+                        style: greyTextStyle.copyWith(fontSize: 12),
                         children: [
                           TextSpan(
-                            text: ' dan',
-                            style: greyTextStyle.copyWith(fontSize: 12),
+                            text: ' Syarat & Ketentuan',
+                            style: grenTextStyle.copyWith(fontSize: 13),
                             children: [
                               TextSpan(
-                                  text: ' Kebijakan Privasi',
-                                  style: grenTextStyle.copyWith(fontSize: 13),
-                                  children: [
-                                    TextSpan(
-                                      text: ' Heystetik.',
+                                text: ' dan',
+                                style: greyTextStyle.copyWith(fontSize: 12),
+                                children: [
+                                  TextSpan(
+                                      text: ' Kebijakan Privasi',
                                       style:
-                                          greyTextStyle.copyWith(fontSize: 12),
-                                    )
-                                  ]),
+                                          grenTextStyle.copyWith(fontSize: 13),
+                                      children: [
+                                        TextSpan(
+                                          text: ' Heystetik.',
+                                          style: greyTextStyle.copyWith(
+                                              fontSize: 12),
+                                        )
+                                      ]),
+                                ],
+                              ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(
@@ -624,7 +435,8 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
             Row(
               children: [
                 Text(
-                  'Rp290.400',
+                  CurrencyFormat.convertToIdr(
+                      widget.treatment.price! * widget.pax, 0),
                   style: blackHigtTextStyle.copyWith(fontSize: 20),
                 ),
                 const SizedBox(
@@ -651,15 +463,147 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
             const SizedBox(
               height: 16,
             ),
-            ButtonGreenWidget(
-              title: 'Bayar',
-              onPressed: () {
-                Get.to(SelesaiPembayaranSolusionPage());
-              },
+            Obx(
+              () => LoadingWidget(
+                isLoading: state.isMinorLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Bayar',
+                  onPressed: () async {
+                    if (state.paymentMethod.isEmpty ||
+                        state.paymentType.isEmpty) {
+                      return await showDialog(
+                        context: context,
+                        builder: (context) => AlertWidget(
+                          subtitle:
+                              'Harap pilih metode pembayaran terlebih dahulu',
+                        ),
+                      );
+                    }
+                    await state.orderTreatment(
+                      context,
+                      widget.treatment.id!.toInt(),
+                      widget.pax,
+                      doInPost: () async {
+                        Get.offAll(SelesaiPembayaranSolusionPage(
+                          treatment: widget.treatment,
+                          orderId: state.orderId.value,
+                          bank: state.bank.value,
+                          expireTime: state.expireTime.value,
+                        ));
+                      },
+                    );
+                  },
+                ),
+              ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class CardTreatmentBank extends StatelessWidget {
+  CardTreatmentBank({
+    super.key,
+  });
+
+  final OrderTreatmentController state = Get.put(OrderTreatmentController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: state.totalPaymentMethod.value == 0
+          ? Container()
+          : ListView.builder(
+              shrinkWrap: true,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.totalPaymentMethod.value,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    if (state.getPaymentMethod.value!.data![index].isActive !=
+                        false) {
+                      state.idPayment.value = state
+                          .getPaymentMethod.value!.data![index].id!
+                          .toInt();
+                      state.paymentMethod.value =
+                          state.getPaymentMethod.value!.data![index].method ??
+                              '-';
+                      state.paymentType.value =
+                          state.getPaymentMethod.value!.data![index].type ??
+                              '-';
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertWidget(
+                          subtitle:
+                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    height: 35,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Image.network(
+                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              width: 40,
+                              height: 35,
+                            ),
+                            const SizedBox(
+                              width: 19,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.getPaymentMethod.value!.data![index]
+                                          .name ??
+                                      '-',
+                                  style: blackTextStyle.copyWith(fontSize: 15),
+                                ),
+                                Text(
+                                  state.getPaymentMethod.value!.data![index]
+                                          .description ??
+                                      '-',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 12),
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            Obx(
+                              () => Icon(
+                                state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? Icons.radio_button_on
+                                    : Icons.circle_outlined,
+                                size: 23,
+                                color: state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? greenColor
+                                    : blackColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

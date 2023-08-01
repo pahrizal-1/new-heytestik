@@ -10,8 +10,10 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import '../../widget/button_widget.dart';
 
 class ExpiredPage extends StatefulWidget {
+  bool isNotConsultation;
   String message;
-  ExpiredPage({required this.message, super.key});
+  ExpiredPage(
+      {this.isNotConsultation = false, required this.message, super.key});
 
   @override
   State<ExpiredPage> createState() => _ExpiredPageState();
@@ -60,15 +62,17 @@ class _ExpiredPageState extends State<ExpiredPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                Padding(
-                  padding: lsymetric,
-                  child: ButtonWhiteWidget(
-                    title: 'Konsultasi Lagi',
-                    onPressed: () async {
-                      Get.to(const OnboardingChat());
-                    },
-                  ),
-                ),
+                widget.isNotConsultation
+                    ? Container()
+                    : Padding(
+                        padding: lsymetric,
+                        child: ButtonWhiteWidget(
+                          title: 'Konsultasi Lagi',
+                          onPressed: () async {
+                            Get.to(const OnboardingChat());
+                          },
+                        ),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),

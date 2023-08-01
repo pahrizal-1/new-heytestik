@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi3_page.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -308,7 +309,7 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                       children: [
                         InkWell(
                           onTap: () {
-                            stateOrder.selectDate(context);
+                            stateOrder.selectTime(context, '1');
                           },
                           child: Image.asset(
                             'assets/icons/logojam.png',
@@ -321,8 +322,41 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                         ),
                         Obx(
                           () => Text(
-                            stateOrder.arrivalTime.value != ''
-                                ? stateOrder.arrivalTime.value
+                            stateOrder.arrivalTimeFirst.value != ''
+                                ? stateOrder.arrivalTimeFirst.value
+                                : 'Atur jam terlebih dahulu',
+                            style: blackTextStyle.copyWith(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            stateOrder.selectTime(context, '2');
+                          },
+                          child: Image.asset(
+                            'assets/icons/logojam.png',
+                            color: greenColor,
+                            width: 23,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Obx(
+                          () => Text(
+                            stateOrder.arrivalTimeLast.value != ''
+                                ? stateOrder.arrivalTimeLast.value
                                 : 'Atur jam terlebih dahulu',
                             style: blackTextStyle.copyWith(fontSize: 14),
                           ),
@@ -375,10 +409,21 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
             ButtonGreenWidget(
               title: 'Lanjutkan Pembayaran',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Resevasi3Page(),
+                if (stateOrder.arrivalDate.value == '' ||
+                    stateOrder.arrivalTimeFirst.value == '' ||
+                    stateOrder.arrivalTimeLast.value == '') {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(
+                        subtitle: 'Tanggal dan Jam kedatangan harus diisi'),
+                  );
+                  return;
+                }
+                Get.to(
+                  Resevasi3Page(
+                    pax: stateTreatment.pax.value,
+                    tgl: ConvertDate.normalDate(stateOrder.arrivalDate.value),
+                    treatment: widget.treatment,
                   ),
                 );
               },

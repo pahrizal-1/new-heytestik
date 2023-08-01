@@ -1,43 +1,105 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:intl/intl.dart';
+import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
+    as PaymentMethod;
 
 class OrderTreatmentController extends StateClass {
-  RxString arrivalDate = 'Atur'.obs;
-  RxString arrivalTime = ''.obs;
+  RxString arrivalDate = ''.obs;
+  RxString arrivalTimeFirst = ''.obs;
+  RxString arrivalTimeLast = ''.obs;
+  RxInt totalPaymentMethod = 0.obs;
+  RxInt idPayment = 0.obs;
+  RxString paymentMethod = ''.obs;
+  RxString paymentType = ''.obs;
+  Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
+      PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxString orderId = ''.obs;
+  RxString bank = ''.obs;
+  RxString expireTime = ''.obs;
 
-  // RxString arrivalTimeFirst = ''.obs;
-  // RxString arrivalTimeLast = ''.obs;
-  orderTreatment(BuildContext context) async {
+  initPayment(BuildContext context) async {
     isLoading.value = true;
+    getPaymentMethod.value == null;
+    await getPaymentmethod(context);
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+    isLoading.value = false;
+  }
+
+  getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      getPaymentMethod.value = await TransactionService().paymentMethod();
+      totalPaymentMethod.value = getPaymentMethod.value!.data!.length;
+    });
+  }
+
+  clearVariabel() {
+    arrivalDate.value = '';
+    arrivalTimeFirst.value = '';
+    arrivalTimeLast.value = '';
+    totalPaymentMethod.value = 0;
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+    getPaymentMethod.value = null;
+    orderId.value = '';
+    bank.value = '';
+    expireTime.value = '';
+  }
+
+  orderTreatment(BuildContext context, int treatmentId, int pax,
+      {required Function() doInPost}) async {
+    isMinorLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // try {
+      orderId.value = '';
+      bank.value = '';
+      expireTime.value = '';
       var reqOrder = {
-        "schedule_date": "2023-07-30",
-        "schedule_time": "16:00-18:00",
+        "schedule_date": arrivalDate.value,
+        "schedule_time": "${arrivalTimeFirst.value}-${arrivalTimeLast.value}",
         "treatment_item": [
           {
-            "treatment_id": 1,
-            "pax": 1,
+            "treatment_id": treatmentId,
+            "pax": pax,
           }
         ],
-        "payment_method": "VIRTUAL_ACCOUNT",
-        "payment_type": "BCA"
+        "payment_method": paymentMethod.toString(),
+        "payment_type": paymentType.toString()
       };
       print("req order $reqOrder");
-
+      // return;
       var res = await TransactionService().orderTreatment(reqOrder);
-
+      print("req order ${jsonEncode(res)}");
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: res.message.toString(),
         );
       }
+      print("req order ${jsonEncode(res)}");
+      // JIKA SUKSES SET ORDER ID
+      orderId.value = res.data!.transaction!.id.toString();
+      // JIKA SUKSES SET bank
+      bank.value = bank.value;
+      // JIKA SUKSES SET expireTime
+      expireTime.value = res.data!.payment!.expiryTime.toString();
+      doInPost();
+      clearVariabel();
+      // } catch (e) {
+      //   print("heheh $e");
+      // }
     });
-    isLoading.value = false;
+    isMinorLoading.value = false;
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -50,23 +112,29 @@ class OrderTreatmentController extends StateClass {
     if (picked != null) {
       arrivalDate.value = picked.toString().split(" ")[0];
     }
+
+    print('arrivalDate ${arrivalDate.value}');
   }
 
-  selectTime(BuildContext context) async {
+  selectTime(BuildContext context, String cek) async {
     TimeOfDay? pickedTime = await showTimePicker(
       initialTime: TimeOfDay.now(),
-      context: context, //context of current state
+      context: context,
     );
 
     if (pickedTime != null) {
-      print(pickedTime.format(context)); //output 10:51 PM
+      print('hahah ${pickedTime.format(context)}');
       DateTime parsedTime =
           DateFormat.jm().parse(pickedTime.format(context).toString());
-      //converting to DateTime so that we can further format on different pattern.
-      print(parsedTime); //output 1970-01-01 22:53:00.000
-      String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
-      print(formattedTime); //output 14:59:00
-      //DateFormat() is from intl package, you can format the time on any pattern you need.
+      print('parsedTime $parsedTime');
+      String formattedTime = DateFormat('HH:mm').format(parsedTime);
+
+      print('formattedTime $formattedTime');
+      if (cek == '1') {
+        arrivalTimeFirst.value = formattedTime;
+      } else if (cek == '2') {
+        arrivalTimeLast.value = formattedTime;
+      }
     } else {
       print("Time is not selected");
     }
