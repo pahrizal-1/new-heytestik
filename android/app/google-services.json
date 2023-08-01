@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "891210093671",
+    "project_id": "heystetik-fae95",
+    "storage_bucket": "heystetik-fae95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891210093671:android:d00eee471c87204d42f0c2",
+        "android_client_info": {
+          "package_name": "com.example.heystetik_mobileapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891210093671-t02nn8g6mrdk5vh38thj2c1h1edm510l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.heystetik_mobileapps",
+            "certificate_hash": "dabb5422b26ab251d05da926ba7106f9a0673355"
+          }
+        },
+        {
+          "client_id": "891210093671-k6kk4mlg6l943u01l5i66v4cl20p5c6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGRmu-vCXOrWl_kwkdMWujPL1C_X_nIbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891210093671-54ep9ufclt7sqi6iqsi3fd1ja6kmrpt7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "891210093671-sqqjt2o67i0s7vpthsd3u3eg1bstu8ba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.desacode.heystetik"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

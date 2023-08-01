@@ -1,59 +1,85 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+import '../../widget/appar_cutome.dart';
 
+class ChatPage extends StatefulWidget {
+  final int? interestConditionId;
+  const ChatPage({super.key, required this.interestConditionId});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final images = [
+    'assets/images/bekas-jerawat1.png',
+    'assets/images/bekas-jerawat2.png',
+    'assets/images/bekas-jerawat3.png',
+    'assets/images/bekas-jerawat4.png',
+  ];
+  int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: greenColor,
-        elevation: 0,
-        title: Text(
-          "Bekas Jerawat",
-          style: TextStyle(
-            letterSpacing: 0.2,
-            fontWeight: bold,
-            fontFamily: "ProximaNova",
-            color: Colors.white,
-          ),
-        ),
+      backgroundColor: const Color(0XfFFFFFFf),
+      appBar: AppBarCustome(
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        title: 'Bekas Jerawat',
+        bgColor: greenColor,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 320,
-                initialPage: 0,
-                viewportFraction: 1,
-                autoPlay: true,
-                autoPlayAnimationDuration: Duration(seconds: 2),
-              ),
-              items: [
-                'assets/images/01.png',
-                'assets/images/02.png',
-                'assets/images/03.png',
-                'assets/images/04.png',
-              ].map((imagePath) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(imagePath),
-                        ),
+            Column(
+              children: [
+                Stack(
+                  children: [
+                    CarouselSlider.builder(
+                      itemCount: images.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final imge = images[index];
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(imge),
+                            ),
+                          ),
+                        );
+                      },
+                      options: CarouselOptions(
+                        height: 320,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        autoPlayAnimationDuration: const Duration(seconds: 2),
+                        onPageChanged: (index, reason) =>
+                            setState(() => activeIndex = index),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
+                    ),
+                    Positioned(
+                      left: 170,
+                      bottom: 25,
+                      child: AnimatedSmoothIndicator(
+                        activeIndex: activeIndex,
+                        count: images.length,
+                        effect: ScaleEffect(
+                            activeDotColor: greenColor,
+                            dotColor: whiteColor,
+                            dotWidth: 6,
+                            dotHeight: 6),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
@@ -71,8 +97,8 @@ class ChatPage extends StatelessWidget {
                             width: 280,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/linear.png"),
+                              image: const DecorationImage(
+                                image: AssetImage('assets/images/linear.png'),
                               ),
                             ),
                             child: Padding(
@@ -82,10 +108,10 @@ class ChatPage extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Hai kak :)",
+                                    const Text(
+                                      'Hai kak :)',
                                       style: TextStyle(
-                                        fontFamily: "ProximaNova",
+                                        fontFamily: 'ProximaNova',
                                         color: Colors.white,
                                         fontSize: 18,
                                         fontStyle: FontStyle.italic,
@@ -95,7 +121,7 @@ class ChatPage extends StatelessWidget {
                                       textAlign: TextAlign.left,
                                       text: TextSpan(
                                         text:
-                                            "Apakah gejalamu seperti gambar diatas?",
+                                            'Apakah gejalamu seperti gambar diatas?',
                                         style: TextStyle(
                                           fontFamily: 'ProximaNova',
                                           color: Colors.white,
@@ -117,7 +143,7 @@ class ChatPage extends StatelessWidget {
                               Container(
                                 transform: Matrix4.translationValues(15, -5, 0),
                                 width: 160,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     image: AssetImage(
                                         'assets/images/doctor_1.png'),
@@ -159,10 +185,10 @@ class ChatPage extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: bold,
                             fontSize: 20,
-                            fontFamily: "ProximaNova",
+                            fontFamily: 'ProximaNova',
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -170,26 +196,26 @@ class ChatPage extends StatelessWidget {
                             Container(
                               height: 22,
                               width: 26,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 25,
                             ),
-                            Text(
-                              "Timbul setelah jerawat mereda.",
+                            const Text(
+                              'Timbul setelah jerawat mereda.',
                               style: TextStyle(
-                                fontFamily: "ProximaNova",
+                                fontFamily: 'ProximaNova',
                                 fontSize: 16,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -197,25 +223,25 @@ class ChatPage extends StatelessWidget {
                             Container(
                               height: 22,
                               width: 26,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 25,
                             ),
                             Container(
                               // color: Colors.amberAccent,
-                              constraints: BoxConstraints(maxWidth: 240),
+                              constraints: const BoxConstraints(maxWidth: 240),
                               child: RichText(
                                 text: const TextSpan(
                                   text:
-                                      "Bekas bisa berwarna merah ataupun hitam.",
+                                      'Bekas bisa berwarna merah ataupun hitam.',
                                   style: TextStyle(
-                                      fontFamily: "ProximaNova",
+                                      fontFamily: 'ProximaNova',
                                       fontSize: 16,
                                       color: Colors.black),
                                 ),
@@ -223,7 +249,7 @@ class ChatPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -231,25 +257,25 @@ class ChatPage extends StatelessWidget {
                             Container(
                               height: 22,
                               width: 26,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/centang2.png'),
+                                      AssetImage('assets/icons/centang22.png'),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 25,
                             ),
                             Container(
                               // color: Colors.amberAccent,
-                              constraints: BoxConstraints(maxWidth: 240),
+                              constraints: const BoxConstraints(maxWidth: 240),
                               child: RichText(
                                 text: const TextSpan(
                                   text:
-                                      "Ada perubahan tekstur dan lekukan di kulit yang bersifat permanen.",
+                                      'Ada perubahan tekstur dan lekukan di kulit yang bersifat permanen.',
                                   style: TextStyle(
-                                      fontFamily: "ProximaNova",
+                                      fontFamily: 'ProximaNova',
                                       fontSize: 16,
                                       color: Colors.black),
                                 ),
@@ -261,16 +287,13 @@ class ChatPage extends StatelessWidget {
                     ),
                   ),
                   ButtonGreenWidget(
-                    title: "Konsul Sekarang",
+                    title: 'Konsul Sekarang',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PertanyaanAwalPage()),
-                      );
+                      Get.to(PertanyaanAwalPage(
+                          interestConditionId: widget.interestConditionId));
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
@@ -278,18 +301,19 @@ class ChatPage extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                         text:
-                            "Kalau kondisimu benar seperti yang disebutkan, yuk! Langsung konsul dengan Dokter sekarang.",
+                            'Kalau kondisimu benar seperti yang disebutkan, yuk! Langsung konsul dengan Dokter sekarang.',
                         style: TextStyle(
-                            fontFamily: "ProximaNova",
-                            fontWeight: bold,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 16,
-                            height: 1.2,
-                            color: Colors.black),
+                          fontFamily: 'ProximaNova',
+                          fontWeight: bold,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                 ],

@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/home/home_page.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/splash_screen.dart/splashscreen_controller.dart';
 import 'package:video_player/video_player.dart';
-import 'package:heystetik_mobileapps/pages/onboarding/onboarding1_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -14,6 +12,7 @@ class SplashScreenPage extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
   late VideoPlayerController controller;
+  final SplashScreenController state = Get.put(SplashScreenController());
 
   @override
   void initState() {
@@ -24,26 +23,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       ..initialize().then(
         (_) => controller.play(),
       );
-    Timer(const Duration(milliseconds: 5500), () async {
-      String? token = await LocalStorage().getAccessToken();
-      if (token == null || token == '') {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (BuildContext context) => const OnBoarding1Page(),
-            ),
-          );
-        });
-      } else {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (BuildContext context) => const HomePage(),
-            ),
-          );
-        });
-      }
-    });
+
+    state.init(context);
   }
 
   @override
@@ -58,8 +39,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          height: 140,
-          width: 250,
+          height: 100,
+          width: 200,
           child: VideoPlayer(controller),
         ),
       ),

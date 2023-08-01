@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import '../theme/theme.dart';
 
 class MoreDialogChatDoctor extends StatefulWidget {
@@ -168,12 +167,12 @@ class _MoreDialogChatDoctorState extends State<MoreDialogChatDoctor> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChatDoctorPage(),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const ChatDoctorPage(),
+                        //   ),
+                        // );
                       },
                       child: Container(
                         height: 34,

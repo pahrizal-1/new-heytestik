@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +9,6 @@ import '../../widget/button_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
   const VerificasionEmailPage({super.key});
-
-  get blackColor => null;
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +49,12 @@ class VerificasionEmailPage extends StatelessWidget {
             ),
             OtpTextField(
               numberOfFields: 5,
-              fieldWidth: 60,
-              borderColor: Color(0xFF512DA8),
+              fieldWidth: 50,
+              borderColor: greenColor,
               showFieldAsBox: true,
-              onCodeChanged: (String code) {},
+              onCodeChanged: (String code) {
+                print('code otp $code');
+              },
               onSubmit: (String verificationCode) {
                 state.code = verificationCode;
               }, // end onSubmit
