@@ -42,10 +42,8 @@ class _SelesaiPembayaranSolusionPageState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.bank.value = widget.bank;
-      state.expirytime.value = widget.expireTime;
-      state.getTransactionStatus(context, widget.orderId);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getTransactionStatus(context, widget.orderId);
       setTime();
       startTimer();
     });
@@ -118,19 +116,9 @@ class _SelesaiPembayaranSolusionPageState
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          automaticallyImplyLeading: false,
           backgroundColor: greenColor,
           title: Row(
             children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
               Text(
                 state.bank.value,
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
