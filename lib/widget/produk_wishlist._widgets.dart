@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
-import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../theme/theme.dart';

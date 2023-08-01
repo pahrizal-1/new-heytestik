@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/filter_tap_widget.dart';
 import 'package:heystetik_mobileapps/widget/treatment_widgets.dart';
 
-import 'card_widget.dart';
 import 'filter_all_widgets.dart';
 
 class FilterTreatment extends StatefulWidget {
