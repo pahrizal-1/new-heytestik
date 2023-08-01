@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_pool_page.dart';
+
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class BuatPostinganGeneral extends StatefulWidget {
@@ -93,8 +93,11 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         height: 2,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.42),
-                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5), borderRadius: BorderRadius.circular(17)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 4.42),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: borderColor, width: 1.5),
+                            borderRadius: BorderRadius.circular(17)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -136,7 +139,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Apa Yang kamu Post..',
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -169,7 +173,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     fontStyle: FontStyle.italic,
                     fontSize: 13,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

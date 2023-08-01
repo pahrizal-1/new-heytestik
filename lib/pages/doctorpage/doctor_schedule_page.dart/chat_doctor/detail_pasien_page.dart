@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
-import '../../../../core/convert_date.dart';
 import '../../../../core/global.dart';
 import '../../../../widget/Text_widget.dart';
 import '../../../../widget/loading_widget.dart';
@@ -241,7 +239,9 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                                   right: 8,
                                 ),
                                 child: Image.network(
-                                  '${Global.FILE}/' + state.listPreAssesmentImage[index]['media']['path'],
+                                  '${Global.FILE}/' +
+                                      state.listPreAssesmentImage[index]
+                                          ['media']['path'],
                                 ),
                               );
                             }),

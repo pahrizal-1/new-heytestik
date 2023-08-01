@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-
-import '../../../models/doctor/recent_chat_model.dart';
 
 class RecentChatService extends ProviderClass {
   RecentChatService()

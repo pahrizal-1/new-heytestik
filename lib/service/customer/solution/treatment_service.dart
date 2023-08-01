@@ -4,7 +4,6 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as TreatmentModel;
-import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
 

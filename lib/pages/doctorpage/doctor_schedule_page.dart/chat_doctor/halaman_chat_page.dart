@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
-import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../../../theme/theme.dart';
@@ -314,8 +312,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
             )
           : ListView.builder(
               shrinkWrap: true,
-              keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.only(top: 10),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.totalRecentChatActive.value,
@@ -327,14 +324,13 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatDoctorPage(
-                            roomCode:
-                                state.recentChatActive[i].code.toString(),
+                            roomCode: state.recentChatActive[i].code.toString(),
                             senderBy:
                                 state.recentChatActive[i].doctor!.fullname ??
                                     '-',
-                            receiverBy: state
-                                    .recentChatActive[i].customer!.fullname ??
-                                '-',
+                            receiverBy:
+                                state.recentChatActive[i].customer!.fullname ??
+                                    '-',
                             roomId: state.recentChatActive[i].id!.toInt(),
                             senderId:
                                 state.recentChatActive[i].doctorId!.toInt(),
@@ -359,8 +355,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                     time: CurrentTime.timeChat(state
                         .recentChatActive[i].lastChat!.createdAt
                         .toString()),
-                    valueChat:
-                        state.recentChatActive[i].unseenCount.toString(),
+                    valueChat: state.recentChatActive[i].unseenCount.toString(),
                     chat: state.recentChatActive[i].lastChat!.message ?? '-',
                     seen: state.recentChatActive[i].lastChat!.seen ?? false,
                     isMe: state.recentChatActive[i].lastChat!.senderId ==
@@ -395,8 +390,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
             )
           : ListView.builder(
               shrinkWrap: true,
-              keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.only(top: 10),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.totalRecentChatDone.value,
@@ -424,8 +418,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                           state.recentChatDone[i].lastChat!.senderId == 0
                       ? true
                       : false,
-                  senderId:
-                      state.recentChatDone[i].lastChat!.senderId!.toInt(),
+                  senderId: state.recentChatDone[i].lastChat!.senderId!.toInt(),
                   receiverId:
                       state.recentChatDone[i].lastChat!.receiverId!.toInt(),
                 );

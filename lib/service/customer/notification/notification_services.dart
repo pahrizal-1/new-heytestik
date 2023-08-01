@@ -2,13 +2,14 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-import 'package:heystetik_mobileapps/models/customer/list_address_model.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
 
 class NotificationCustomerServices extends ProviderClass {
-  NotificationCustomerServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  NotificationCustomerServices()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<NotificationCustomerModel> listNotification(int page, {int pageCount = 10}) async {
+  Future<NotificationCustomerModel> listNotification(int page,
+      {int pageCount = 10}) async {
     try {
       var response = await networkingConfig.doGet(
         '/notification',
@@ -17,11 +18,13 @@ class NotificationCustomerServices extends ProviderClass {
           "take": pageCount,
           "order": "asc",
         },
-        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+        },
       );
 
       return NotificationCustomerModel.fromJson(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
       return NotificationCustomerModel();
     }
