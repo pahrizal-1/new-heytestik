@@ -98,7 +98,10 @@ class HistoryTreatmentController extends StateClass {
           ));
           showDialog(
             context: context,
-            builder: (context) => BankMoreDialog(),
+            builder: (context) => AletTranSaksiTreatMent(
+              title1: 'Pembayaranmu Berhasil',
+              title2: 'Silakan tunggu konfirmasinya ya',
+            ),
           );
           return;
         }
