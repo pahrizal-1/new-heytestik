@@ -60,7 +60,6 @@ class OrderTreatmentController extends StateClass {
       {required Function() doInPost}) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
       orderId.value = '';
       bank.value = '';
       expireTime.value = '';
@@ -93,11 +92,11 @@ class OrderTreatmentController extends StateClass {
       bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
+      print('orderId ${orderId.value}');
+      print('bank ${bank.value}');
+      print('expireTime ${expireTime.value}');
       doInPost();
       clearVariabel();
-      // } catch (e) {
-      //   print("heheh $e");
-      // }
     });
     isMinorLoading.value = false;
   }
