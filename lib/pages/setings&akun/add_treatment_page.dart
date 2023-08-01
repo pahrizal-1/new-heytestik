@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/loading_widget.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class AddTreatmentPage extends StatefulWidget {
   const AddTreatmentPage({super.key});
