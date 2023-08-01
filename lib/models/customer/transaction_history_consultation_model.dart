@@ -70,6 +70,7 @@ class Data2 {
   PaymentMethod? paymentMethod;
   Consultation? consultation;
   dynamic consultationReview;
+  String? transactionType;
 
   Data2(
       {this.id,
@@ -90,7 +91,8 @@ class Data2 {
       this.deletedAt,
       this.paymentMethod,
       this.consultation,
-      this.consultationReview});
+      this.consultationReview,
+      this.transactionType});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -116,6 +118,7 @@ class Data2 {
         ? Consultation.fromJson(json['consultation'])
         : null;
     consultationReview = json['consultation_review'];
+    transactionType = json['transaction_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -143,6 +146,7 @@ class Data2 {
       data['consultation'] = consultation!.toJson();
     }
     data['consultation_review'] = consultationReview;
+    data['transaction_type'] = transactionType;
     return data;
   }
 }

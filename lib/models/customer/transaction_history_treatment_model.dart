@@ -67,6 +67,7 @@ class Data2 {
   dynamic deletedAt;
   PaymentMethod? paymentMethod;
   List<TransactionTreatmentItems>? transactionTreatmentItems;
+  String? transactionType;
 
   Data2(
       {this.id,
@@ -84,7 +85,8 @@ class Data2 {
       this.updatedAt,
       this.deletedAt,
       this.paymentMethod,
-      this.transactionTreatmentItems});
+      this.transactionTreatmentItems,
+      this.transactionType});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -110,6 +112,7 @@ class Data2 {
         transactionTreatmentItems!.add(TransactionTreatmentItems.fromJson(v));
       });
     }
+    transactionType = json['transaction_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -135,6 +138,7 @@ class Data2 {
       data['transaction_treatment_items'] =
           transactionTreatmentItems!.map((v) => v.toJson()).toList();
     }
+    data['transaction_type'] = transactionType;
     return data;
   }
 }
@@ -293,7 +297,7 @@ class Treatment {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  double? rating;
+  dynamic rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -384,8 +388,8 @@ class Clinic {
   int? id;
   String? name;
   String? address;
-  double? pinpointLatitude;
-  double? pinpointLongitude;
+  dynamic pinpointLatitude;
+  dynamic pinpointLongitude;
   String? pinpointAddress;
   int? provinceId;
   int? cityId;
@@ -629,7 +633,7 @@ class TreatmentReview {
   int? careRating;
   int? serviceRating;
   int? managementRating;
-  double? avgRating;
+  dynamic avgRating;
   String? review;
   dynamic replyReview;
   int? helpfulCount;
