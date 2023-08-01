@@ -122,7 +122,7 @@ class LoginController extends StateClass {
     isLoading.value = false;
   }
 
-  logout() async {
+  logoutWithGoogle() async {
     final _googleSignIn = GoogleSignIn();
     GoogleSignInAccount? googleSignInAccount;
     googleSignInAccount = await _googleSignIn.signOut();
