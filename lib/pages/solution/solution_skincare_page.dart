@@ -46,8 +46,10 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
   @override
   void initState() {
     super.initState();
-    state.getLookup(context);
-    state.getSkincare(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getLookup(context);
+      state.getSkincare(context);
+    });
   }
 
   @override
