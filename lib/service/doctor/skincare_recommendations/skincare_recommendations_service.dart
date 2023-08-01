@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/skincare_recommendations_model.dart';
+import 'package:dio/dio.dart';
 
 class SkincareRecommendationService extends ProviderClass {
   SkincareRecommendationService()
