@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
@@ -48,7 +50,7 @@ class DetailPerawatanPage extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 18,
+              height: 8,
             ),
             const TextBoldSpacebetwen(
               title: 'ID Konsultasi',
@@ -56,7 +58,53 @@ class DetailPerawatanPage extends StatelessWidget {
               title1: '',
             ),
             const SizedBox(
-              height: 18,
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'INV/20230513/KD',
+                      style: subGreyTextStyle.copyWith(
+                          fontSize: 15,
+                          color: const Color(0XFF323232),
+                          fontWeight: regular),
+                    ),
+                    SizedBox(
+                      width: 9,
+                    ),
+                    Image.asset(
+                      'assets/icons/salin_icons.png',
+                      width: 12,
+                      height: 12,
+                      color: blackColor,
+                    )
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.to(InvoiceHeystetikPage());
+                  },
+                  child: Text(
+                    'Lihat Invoice',
+                    style: grenTextStyle.copyWith(fontSize: 14),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            const TextBoldSpacebetwen(
+              title: 'ID Konsultasi',
+              title2: 'K1Z4DWJST',
+              title1: '',
+            ),
+            const SizedBox(
+              height: 8,
             ),
             const TextBoldSpacebetwen(
               title: 'Tanggal',
@@ -64,7 +112,7 @@ class DetailPerawatanPage extends StatelessWidget {
               title1: '',
             ),
             const SizedBox(
-              height: 18,
+              height: 8,
             ),
             const TextBoldSpacebetwen(
               title: 'Masa Aktif',
@@ -79,7 +127,7 @@ class DetailPerawatanPage extends StatelessWidget {
               style: blackHigtTextStyle.copyWith(fontSize: 15),
             ),
             const SizedBox(
-              height: 18,
+              height: 8,
             ),
             const TextBoldSpacebetwen(
               title: 'Nama Pasien',
@@ -87,7 +135,7 @@ class DetailPerawatanPage extends StatelessWidget {
               title1: '',
             ),
             const SizedBox(
-              height: 18,
+              height: 8,
             ),
             const TextBoldSpacebetwen(
               title: 'Topik Keluhan',

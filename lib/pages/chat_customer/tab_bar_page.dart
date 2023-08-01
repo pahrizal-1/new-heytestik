@@ -19,6 +19,7 @@ class _TabBarChatState extends State<TabBarChat> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          titleSpacing: 0,
           backgroundColor: fromCssColor('#24A7A0'),
           title: Text(
             "Detail Perawatan",
