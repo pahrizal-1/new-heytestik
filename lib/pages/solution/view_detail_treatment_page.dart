@@ -216,7 +216,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           width: 32,
                         ),
                         const SizedBox(
-                          width: 17,
+                          width: 13,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
