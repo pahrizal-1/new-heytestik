@@ -43,8 +43,8 @@ class Data {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
@@ -60,11 +60,11 @@ class Data2 {
   String? orderId;
   String? paymentStatus;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   PaymentMethod? paymentMethod;
   List<TransactionTreatmentItems>? transactionTreatmentItems;
 
@@ -144,15 +144,15 @@ class PaymentMethod {
   String? name;
   String? method;
   String? type;
-  Null? accountNumber;
+  dynamic accountNumber;
   String? segment;
   String? description;
   bool? isActive;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   PaymentMethod(
       {this.id,
@@ -212,12 +212,13 @@ class TransactionTreatmentItems {
   int? price;
   int? discount;
   int? subtotal;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Treatment? treatment;
+  TreatmentReview? treatmentReview;
 
   TransactionTreatmentItems(
       {this.id,
@@ -232,7 +233,8 @@ class TransactionTreatmentItems {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.treatment});
+      this.treatment,
+      this.treatmentReview});
 
   TransactionTreatmentItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -249,6 +251,9 @@ class TransactionTreatmentItems {
     deletedAt = json['deleted_at'];
     treatment = json['treatment'] != null
         ? Treatment.fromJson(json['treatment'])
+        : null;
+    treatmentReview = json['treatment_review'] != null
+        ? TreatmentReview.fromJson(json['treatment_review'])
         : null;
   }
 
@@ -269,6 +274,9 @@ class TransactionTreatmentItems {
     if (treatment != null) {
       data['treatment'] = treatment!.toJson();
     }
+    if (treatmentReview != null) {
+      data['treatment_review'] = treatmentReview!.toJson();
+    }
     return data;
   }
 }
@@ -286,11 +294,11 @@ class Treatment {
   int? price;
   bool? isActive;
   double? rating;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Clinic? clinic;
   List<MediaTreatments>? mediaTreatments;
 
@@ -395,13 +403,13 @@ class Clinic {
   String? picName;
   String? picPhone;
   String? contractExpiredDate;
-  Null? status;
+  dynamic status;
   int? rating;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Clinic(
       {this.id,
@@ -505,11 +513,11 @@ class MediaTreatments {
   int? id;
   int? mediaId;
   int? treatmentId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   Media? media;
 
   MediaTreatments(
@@ -560,11 +568,11 @@ class Media {
   String? mime;
   String? path;
   String? destination;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Media(
       {this.id,
@@ -604,6 +612,83 @@ class Media {
     data['mime'] = mime;
     data['path'] = path;
     data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class TreatmentReview {
+  int? id;
+  String? transactionTreatmentId;
+  int? transactionTreatmentItemId;
+  int? treatmentId;
+  int? careRating;
+  int? serviceRating;
+  int? managementRating;
+  double? avgRating;
+  String? review;
+  dynamic replyReview;
+  int? helpfulCount;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  TreatmentReview(
+      {this.id,
+      this.transactionTreatmentId,
+      this.transactionTreatmentItemId,
+      this.treatmentId,
+      this.careRating,
+      this.serviceRating,
+      this.managementRating,
+      this.avgRating,
+      this.review,
+      this.replyReview,
+      this.helpfulCount,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  TreatmentReview.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    transactionTreatmentItemId = json['transaction_treatment_item_id'];
+    treatmentId = json['treatment_id'];
+    careRating = json['care_rating'];
+    serviceRating = json['service_rating'];
+    managementRating = json['management_rating'];
+    avgRating = json['avg_rating'];
+    review = json['review'];
+    replyReview = json['reply_review'];
+    helpfulCount = json['helpful_count'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['transaction_treatment_id'] = transactionTreatmentId;
+    data['transaction_treatment_item_id'] = transactionTreatmentItemId;
+    data['treatment_id'] = treatmentId;
+    data['care_rating'] = careRating;
+    data['service_rating'] = serviceRating;
+    data['management_rating'] = managementRating;
+    data['avg_rating'] = avgRating;
+    data['review'] = review;
+    data['reply_review'] = replyReview;
+    data['helpful_count'] = helpfulCount;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

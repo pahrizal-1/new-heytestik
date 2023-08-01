@@ -59,6 +59,7 @@ class Data2 {
   int? totalDiscount;
   int? totalPaid;
   int? paymentMethodId;
+  String? orderId;
   String? paymentStatus;
   String? status;
   dynamic createdBy;
@@ -67,6 +68,8 @@ class Data2 {
   String? updatedAt;
   dynamic deletedAt;
   PaymentMethod? paymentMethod;
+  Consultation? consultation;
+  dynamic consultationReview;
 
   Data2(
       {this.id,
@@ -77,6 +80,7 @@ class Data2 {
       this.totalDiscount,
       this.totalPaid,
       this.paymentMethodId,
+      this.orderId,
       this.paymentStatus,
       this.status,
       this.createdBy,
@@ -84,7 +88,9 @@ class Data2 {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.paymentMethod});
+      this.paymentMethod,
+      this.consultation,
+      this.consultationReview});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -95,6 +101,7 @@ class Data2 {
     totalDiscount = json['total_discount'];
     totalPaid = json['total_paid'];
     paymentMethodId = json['payment_method_id'];
+    orderId = json['order_id'];
     paymentStatus = json['payment_status'];
     status = json['status'];
     createdBy = json['created_by'];
@@ -105,6 +112,10 @@ class Data2 {
     paymentMethod = json['payment_method'] != null
         ? PaymentMethod.fromJson(json['payment_method'])
         : null;
+    consultation = json['consultation'] != null
+        ? Consultation.fromJson(json['consultation'])
+        : null;
+    consultationReview = json['consultation_review'];
   }
 
   Map<String, dynamic> toJson() {
@@ -117,6 +128,7 @@ class Data2 {
     data['total_discount'] = totalDiscount;
     data['total_paid'] = totalPaid;
     data['payment_method_id'] = paymentMethodId;
+    data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
     data['status'] = status;
     data['created_by'] = createdBy;
@@ -127,6 +139,10 @@ class Data2 {
     if (paymentMethod != null) {
       data['payment_method'] = paymentMethod!.toJson();
     }
+    if (consultation != null) {
+      data['consultation'] = consultation!.toJson();
+    }
+    data['consultation_review'] = consultationReview;
     return data;
   }
 }
@@ -187,6 +203,370 @@ class PaymentMethod {
     data['segment'] = segment;
     data['description'] = description;
     data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class Consultation {
+  int? id;
+  int? doctorId;
+  int? customerId;
+  String? transactionConsultationId;
+  int? consultationDoctorScheduleId;
+  int? medicalHistoryId;
+  String? code;
+  int? duration;
+  dynamic endDate;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Doctor? doctor;
+
+  Consultation(
+      {this.id,
+      this.doctorId,
+      this.customerId,
+      this.transactionConsultationId,
+      this.consultationDoctorScheduleId,
+      this.medicalHistoryId,
+      this.code,
+      this.duration,
+      this.endDate,
+      this.status,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.doctor});
+
+  Consultation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    doctorId = json['doctor_id'];
+    customerId = json['customer_id'];
+    transactionConsultationId = json['transaction_consultation_id'];
+    consultationDoctorScheduleId = json['consultation_doctor_schedule_id'];
+    medicalHistoryId = json['medical_history_id'];
+    code = json['code'];
+    duration = json['duration'];
+    endDate = json['end_date'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['customer_id'] = customerId;
+    data['transaction_consultation_id'] = transactionConsultationId;
+    data['consultation_doctor_schedule_id'] = consultationDoctorScheduleId;
+    data['medical_history_id'] = medicalHistoryId;
+    data['code'] = code;
+    data['duration'] = duration;
+    data['end_date'] = endDate;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (doctor != null) {
+      data['doctor'] = doctor!.toJson();
+    }
+    return data;
+  }
+}
+
+class Doctor {
+  int? id;
+  String? fullname;
+  String? email;
+  String? password;
+  String? noPhone;
+  String? gender;
+  String? address;
+  String? photoProfile;
+  String? referralCode;
+  dynamic userCode;
+  int? roleId;
+  dynamic verificationCodePhone;
+  dynamic verificationCodeEmail;
+  dynamic provinceId;
+  dynamic cityId;
+  String? education;
+  String? practiceLocation;
+  dynamic joinDate;
+  dynamic title;
+  String? sip;
+  String? str;
+  dynamic ktpNo;
+  dynamic ktpImage;
+  dynamic npwpNo;
+  dynamic npwpImage;
+  String? specialist;
+  String? dob;
+  int? rating;
+  bool? finishRegister;
+  dynamic statusSchedule;
+  dynamic since;
+  dynamic start;
+  dynamic until;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  dynamic refreshToken;
+  MediaUserProfilePicture? mediaUserProfilePicture;
+
+  Doctor(
+      {this.id,
+      this.fullname,
+      this.email,
+      this.password,
+      this.noPhone,
+      this.gender,
+      this.address,
+      this.photoProfile,
+      this.referralCode,
+      this.userCode,
+      this.roleId,
+      this.verificationCodePhone,
+      this.verificationCodeEmail,
+      this.provinceId,
+      this.cityId,
+      this.education,
+      this.practiceLocation,
+      this.joinDate,
+      this.title,
+      this.sip,
+      this.str,
+      this.ktpNo,
+      this.ktpImage,
+      this.npwpNo,
+      this.npwpImage,
+      this.specialist,
+      this.dob,
+      this.rating,
+      this.finishRegister,
+      this.statusSchedule,
+      this.since,
+      this.start,
+      this.until,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.refreshToken,
+      this.mediaUserProfilePicture});
+
+  Doctor.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullname = json['fullname'];
+    email = json['email'];
+    password = json['password'];
+    noPhone = json['no_phone'];
+    gender = json['gender'];
+    address = json['address'];
+    photoProfile = json['photo_profile'];
+    referralCode = json['referral_code'];
+    userCode = json['user_code'];
+    roleId = json['roleId'];
+    verificationCodePhone = json['verification_code_phone'];
+    verificationCodeEmail = json['verification_code_email'];
+    provinceId = json['provinceId'];
+    cityId = json['cityId'];
+    education = json['education'];
+    practiceLocation = json['practice_location'];
+    joinDate = json['join_date'];
+    title = json['title'];
+    sip = json['sip'];
+    str = json['str'];
+    ktpNo = json['ktp_no'];
+    ktpImage = json['ktp_image'];
+    npwpNo = json['npwp_no'];
+    npwpImage = json['npwp_image'];
+    specialist = json['specialist'];
+    dob = json['dob'];
+    rating = json['rating'];
+    finishRegister = json['finish_register'];
+    statusSchedule = json['status_schedule'];
+    since = json['since'];
+    start = json['start'];
+    until = json['until'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    refreshToken = json['refresh_token'];
+    mediaUserProfilePicture = json['media_user_profile_picture'] != null
+        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['finish_register'] = finishRegister;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
+    if (mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfilePicture {
+  int? id;
+  int? mediaId;
+  int? userId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaUserProfilePicture(
+      {this.id,
+      this.mediaId,
+      this.userId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    userId = json['user_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['user_id'] = userId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Media(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
