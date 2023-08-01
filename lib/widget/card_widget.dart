@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -194,7 +194,8 @@ class CardBank extends StatefulWidget {
 }
 
 class _CardBankState extends State<CardBank> {
-  final OrderController state = Get.put(OrderController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   int isSelected = 0;
   @override
@@ -242,7 +243,7 @@ class _CardBankState extends State<CardBank> {
                         Row(
                           children: [
                             Image.network(
-                              '${Global.BASE_API}/files/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
                               width: 40,
                               height: 35,
                             ),

@@ -89,6 +89,8 @@ class DoctorConsultationController extends StateClass {
   RxString endDate = ''.obs;
   RxString pasienName = ''.obs;
   RxString topic = ''.obs;
+  RxList listPreAssesment = [].obs;
+  RxList listPreAssesmentImage = [].obs;
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -255,6 +257,8 @@ class DoctorConsultationController extends StateClass {
           await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
 
       listConstulDetail.add(response);
+      listPreAssesment.value = [];
+      listPreAssesmentImage.value = [];
       for (var i in listConstulDetail) {
         idConsultation.value = i['code'];
         status.value = i['status'];
@@ -262,8 +266,16 @@ class DoctorConsultationController extends StateClass {
         endDate.value = i['end_date'] ?? '-';
         pasienName.value = i['customer']['fullname'];
         topic.value = i['medical_history']['interest_condition']['name'];
-        log('data  ' +
-            i['medical_history']['medical_history_items'].toString());
+        listPreAssesment.value = [];
+        listPreAssesmentImage.value = [];
+        for (var e in i['medical_history']['medical_history_items']) {
+          listPreAssesment.add(e);
+          log('data  ' + listPreAssesment.toString());
+        }
+        for (var image in i['medical_history']['media_medical_histories']) {
+          listPreAssesmentImage.add(image);
+          log('data  ' + listPreAssesmentImage.toString());
+        }
       }
       log('resp  ' + listConstulDetail.toString());
     });

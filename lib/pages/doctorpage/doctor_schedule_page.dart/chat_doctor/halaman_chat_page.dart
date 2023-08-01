@@ -298,147 +298,139 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
 
   Widget isActive() {
     return Obx(
-      () => LoadingWidget(
-        top: 24,
-        isLoading: state.isLoading.value,
-        child: state.totalRecentChatActive.value == 0
-            ? Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: Center(
-                  child: Text(
-                    'Belum ada chat konsultasi aktif',
-                    style: TextStyle(
-                      fontWeight: bold,
-                      fontFamily: 'ProximaNova',
-                      fontSize: 15,
-                    ),
+      () => state.totalRecentChatActive.value == 0
+          ? Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Center(
+                child: Text(
+                  'Belum ada chat konsultasi aktif',
+                  style: TextStyle(
+                    fontWeight: bold,
+                    fontFamily: 'ProximaNova',
+                    fontSize: 15,
                   ),
                 ),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.only(top: 10),
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.totalRecentChatActive.value,
-                itemBuilder: (BuildContext context, int i) {
-                  return InkWell(
-                    onTap: () {
-                      print('per ' + state.recentChatActive[i].id.toString());
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatDoctorPage(
-                              roomCode:
-                                  state.recentChatActive[i].code.toString(),
-                              senderBy:
-                                  state.recentChatActive[i].doctor!.fullname ??
-                                      '-',
-                              receiverBy: state
-                                      .recentChatActive[i].customer!.fullname ??
-                                  '-',
-                              roomId: state.recentChatActive[i].id!.toInt(),
-                              senderId:
-                                  state.recentChatActive[i].doctorId!.toInt(),
-                              receiverId:
-                                  state.recentChatActive[i].customerId!.toInt(),
-                              id: state.recentChatActive[i].id!.toInt(),
-                            ),
-                          ));
-                    },
-                    child: ChatAktif(
-                      id: state.recentChatActive[i].id!.toInt(),
-                      roomCode: state.recentChatActive[i].code.toString(),
-                      roomId: state.recentChatActive[i].id!.toInt(),
-                      customerName:
-                          state.recentChatActive[i].customer!.fullname ?? '-',
-                      doctorName:
-                          state.recentChatActive[i].doctor!.fullname ?? '-',
-                      subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                      img: 'assets/images/doctor-img.png',
-                      // img:
-                      //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
-                      time: CurrentTime.timeChat(state
-                          .recentChatActive[i].lastChat!.createdAt
-                          .toString()),
-                      valueChat:
-                          state.recentChatActive[i].unseenCount.toString(),
-                      chat: state.recentChatActive[i].lastChat!.message ?? '-',
-                      seen: state.recentChatActive[i].lastChat!.seen ?? false,
-                      isMe: state.recentChatActive[i].lastChat!.senderId ==
-                                  state.doctorId.value ||
-                              state.recentChatActive[i].lastChat!.senderId == 0
-                          ? true
-                          : false,
-                      senderId: state.recentChatActive[i].doctorId!.toInt(),
-                      receiverId: state.recentChatActive[i].customerId!.toInt(),
-                    ),
-                  );
-                },
               ),
-      ),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              keyboardDismissBehavior:
+                  ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: const EdgeInsets.only(top: 10),
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.totalRecentChatActive.value,
+              itemBuilder: (BuildContext context, int i) {
+                return InkWell(
+                  onTap: () {
+                    print('per ' + state.recentChatActive[i].id.toString());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatDoctorPage(
+                            roomCode:
+                                state.recentChatActive[i].code.toString(),
+                            senderBy:
+                                state.recentChatActive[i].doctor!.fullname ??
+                                    '-',
+                            receiverBy: state
+                                    .recentChatActive[i].customer!.fullname ??
+                                '-',
+                            roomId: state.recentChatActive[i].id!.toInt(),
+                            senderId:
+                                state.recentChatActive[i].doctorId!.toInt(),
+                            receiverId:
+                                state.recentChatActive[i].customerId!.toInt(),
+                            id: state.recentChatActive[i].id!.toInt(),
+                          ),
+                        ));
+                  },
+                  child: ChatAktif(
+                    id: state.recentChatActive[i].id!.toInt(),
+                    roomCode: state.recentChatActive[i].code.toString(),
+                    roomId: state.recentChatActive[i].id!.toInt(),
+                    customerName:
+                        state.recentChatActive[i].customer!.fullname ?? '-',
+                    doctorName:
+                        state.recentChatActive[i].doctor!.fullname ?? '-',
+                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                    img: 'assets/images/doctor-img.png',
+                    // img:
+                    //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
+                    time: CurrentTime.timeChat(state
+                        .recentChatActive[i].lastChat!.createdAt
+                        .toString()),
+                    valueChat:
+                        state.recentChatActive[i].unseenCount.toString(),
+                    chat: state.recentChatActive[i].lastChat!.message ?? '-',
+                    seen: state.recentChatActive[i].lastChat!.seen ?? false,
+                    isMe: state.recentChatActive[i].lastChat!.senderId ==
+                                state.doctorId.value ||
+                            state.recentChatActive[i].lastChat!.senderId == 0
+                        ? true
+                        : false,
+                    senderId: state.recentChatActive[i].doctorId!.toInt(),
+                    receiverId: state.recentChatActive[i].customerId!.toInt(),
+                  ),
+                );
+              },
+            ),
     );
   }
 
   Widget isDone() {
     return Obx(
-      () => LoadingWidget(
-        top: 24,
-        isLoading: state.isLoading.value,
-        child: state.totalRecentChatDone.value == 0
-            ? Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: Center(
-                  child: Text(
-                    'Belum ada chat konsultasi yang selesai',
-                    style: TextStyle(
-                      fontWeight: bold,
-                      fontFamily: 'ProximaNova',
-                      fontSize: 15,
-                    ),
+      () => state.totalRecentChatDone.value == 0
+          ? Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Center(
+                child: Text(
+                  'Belum ada chat konsultasi yang selesai',
+                  style: TextStyle(
+                    fontWeight: bold,
+                    fontFamily: 'ProximaNova',
+                    fontSize: 15,
                   ),
                 ),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.only(top: 10),
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.totalRecentChatDone.value,
-                itemBuilder: (BuildContext context, int i) {
-                  return ChatAktif(
-                    id: state.recentChatActive[i].id!.toInt(),
-                    roomCode: state.recentChatDone[i].code.toString(),
-                    roomId: state.recentChatDone[i].id!.toInt(),
-                    customerName:
-                        state.recentChatDone[i].customer!.fullname ?? '-',
-                    doctorName: '',
-                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                    img: 'assets/icons/logo.png',
-                    // img:
-                    //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
-                    chat: state.recentChatDone[i].lastChat!.message ?? '-',
-                    // topic: 'Licorice',
-                    time: CurrentTime.timeChat(
-                        state.recentChatDone[i].createdAt.toString()),
-
-                    seen: state.recentChatDone[i].lastChat!.seen ?? false,
-                    valueChat: state.recentChatDone[i].unseenCount.toString(),
-                    isMe: state.recentChatDone[i].lastChat!.senderId ==
-                                state.doctorId.value ||
-                            state.recentChatDone[i].lastChat!.senderId == 0
-                        ? true
-                        : false,
-                    senderId:
-                        state.recentChatDone[i].lastChat!.senderId!.toInt(),
-                    receiverId:
-                        state.recentChatDone[i].lastChat!.receiverId!.toInt(),
-                  );
-                },
               ),
-      ),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              keyboardDismissBehavior:
+                  ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: const EdgeInsets.only(top: 10),
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.totalRecentChatDone.value,
+              itemBuilder: (BuildContext context, int i) {
+                return ChatAktif(
+                  id: state.recentChatActive[i].id!.toInt(),
+                  roomCode: state.recentChatDone[i].code.toString(),
+                  roomId: state.recentChatDone[i].id!.toInt(),
+                  customerName:
+                      state.recentChatDone[i].customer!.fullname ?? '-',
+                  doctorName: '',
+                  subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                  img: 'assets/icons/logo.png',
+                  // img:
+                  //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
+                  chat: state.recentChatDone[i].lastChat!.message ?? '-',
+                  // topic: 'Licorice',
+                  time: CurrentTime.timeChat(
+                      state.recentChatDone[i].createdAt.toString()),
+
+                  seen: state.recentChatDone[i].lastChat!.seen ?? false,
+                  valueChat: state.recentChatDone[i].unseenCount.toString(),
+                  isMe: state.recentChatDone[i].lastChat!.senderId ==
+                              state.doctorId.value ||
+                          state.recentChatDone[i].lastChat!.senderId == 0
+                      ? true
+                      : false,
+                  senderId:
+                      state.recentChatDone[i].lastChat!.senderId!.toInt(),
+                  receiverId:
+                      state.recentChatDone[i].lastChat!.receiverId!.toInt(),
+                );
+              },
+            ),
     );
   }
 }

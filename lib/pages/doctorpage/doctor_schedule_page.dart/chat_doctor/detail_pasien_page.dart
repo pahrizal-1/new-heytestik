@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../core/convert_date.dart';
+import '../../../../core/global.dart';
 import '../../../../widget/Text_widget.dart';
 import '../../../../widget/loading_widget.dart';
 import '../../../../widget/text_form_widget.dart';
@@ -49,6 +50,8 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                 state.endDate.value = '';
                 state.pasienName.value = '';
                 state.topic.value = '';
+                state.listPreAssesment.value = [];
+                state.listPreAssesmentImage.value = [];
                 Navigator.pop(context);
               },
               child: const Icon(
@@ -180,34 +183,33 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
               //   ),
               // ),
 
-              // Obx(
-              //   () => Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Container(
-              //           // height: Get.height,
-              //           child: ListView.builder(
-              //               shrinkWrap: true,
-              //               physics: NeverScrollableScrollPhysics(),
-              //               itemCount: state.listConstulDetail.length,
-              //               itemBuilder: (context, index) {
-              //                 return Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     PeryataanUmumTextFrom(
-              //                       pernyattan:
-              //                           '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.id}' +
-              //                               '. ' +
-              //                               '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsQuestion!.name!}',
-              //                       jawaban:
-              //                           '${state.listDetailConsultation.value.data!.medicalHistory!.medicalHistoryItems![index].interestConditionsAnswer!.name!}',
-              //                     ),
-              //                   ],
-              //                 );
-              //               })),
-              //     ],
-              //   ),
-              // ),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        // height: Get.height,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.listPreAssesment.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PeryataanUmumTextFrom(
+                                    pernyattan: state.listPreAssesment[index]
+                                            ['interest_conditions_question']
+                                        ['name'],
+                                    jawaban: state.listPreAssesment[index]
+                                        ['interest_conditions_answer']['name'],
+                                  ),
+                                ],
+                              );
+                            })),
+                  ],
+                ),
+              ),
 
               const SizedBox(
                 height: 30,
@@ -224,29 +226,27 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                     const SizedBox(
                       height: 14,
                     ),
-                    // Obx(
-                    //   () => Container(
-                    //     height: 110,
-                    //     width: MediaQuery.of(context).size.width,
-                    //     child: ListView.builder(
-                    //         shrinkWrap: true,
-                    //         scrollDirection: Axis.horizontal,
-                    //         itemCount: state.listDetailConsultation.value.data!
-                    //             .medicalHistory!.mediaMedicalHistories!.length,
-                    //         itemBuilder: (context, index) {
-                    //           return Container(
-                    //             height: 80,
-                    //             margin: EdgeInsets.only(
-                    //               right: 8,
-                    //             ),
-                    //             child: Image.network(
-                    //               'http://192.168.0.118:8193/files/' +
-                    //                   '${state.listDetailConsultation.value.data!.medicalHistory!.mediaMedicalHistories![index].media!.path!}',
-                    //             ),
-                    //           );
-                    //         }),
-                    //   ),
-                    // ),
+                    Obx(
+                      () => Container(
+                        height: 110,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.listPreAssesmentImage.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 80,
+                                margin: EdgeInsets.only(
+                                  right: 8,
+                                ),
+                                child: Image.network(
+                                  '${Global.FILE}/' + state.listPreAssesmentImage[index]['media']['path'],
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
                     Text(
                       '*Klik foto untuk memperbesar',
                       style:

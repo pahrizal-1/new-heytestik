@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatmetment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi3_page.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../theme/theme.dart';
 
-class Reservasi2Page extends StatelessWidget {
-  const Reservasi2Page({super.key});
+class Reservasi2Page extends StatefulWidget {
+  final Data2 treatment;
+  Reservasi2Page({required this.treatment, super.key});
+
+  @override
+  State<Reservasi2Page> createState() => _Reservasi2PageState();
+}
+
+class _Reservasi2PageState extends State<Reservasi2Page> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final OrderTreatmentController stateOrder =
+      Get.put(OrderTreatmentController());
+
+  @override
+  void initState() {
+    super.initState();
+    stateTreatment.getDataUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +74,13 @@ class Reservasi2Page extends StatelessWidget {
                           width: 72,
                           height: 72,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                  image: AssetImage('assets/images/Ipl1.png'))),
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                "${Global.FILE}/${widget.treatment.mediaTreatments![0].media!.path}",
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -63,7 +90,7 @@ class Reservasi2Page extends StatelessWidget {
                     Container(
                         constraints: const BoxConstraints(maxWidth: 150),
                         child: Text(
-                          'Klinik Utama Lithea Jakarta Selatan',
+                          '${widget.treatment.clinic?.name} ${widget.treatment.clinic?.city?.name}',
                           style: blackHigtTextStyle.copyWith(fontSize: 15),
                         )),
                     const SizedBox(
@@ -84,9 +111,11 @@ class Reservasi2Page extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                Text(
-                  '1 pax',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                Obx(
+                  () => Text(
+                    '${stateTreatment.pax.value} pax',
+                    style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                  ),
                 ),
                 const SizedBox(
                   height: 17,
@@ -174,9 +203,11 @@ class Reservasi2Page extends StatelessWidget {
                 const SizedBox(
                   height: 3,
                 ),
-                Text(
-                  'Rina Rasmalina',
-                  style: blackHigtTextStyle.copyWith(fontSize: 15),
+                Obx(
+                  () => Text(
+                    stateTreatment.fullName.value,
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
                 ),
                 dividergrey(),
                 const SizedBox(
@@ -188,9 +219,11 @@ class Reservasi2Page extends StatelessWidget {
                 const SizedBox(
                   height: 3,
                 ),
-                Text(
-                  '085211341755',
-                  style: blackHigtTextStyle.copyWith(fontSize: 15),
+                Obx(
+                  () => Text(
+                    stateTreatment.phone.value,
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
                 ),
                 dividergrey(),
               ],
@@ -223,6 +256,113 @@ class Reservasi2Page extends StatelessWidget {
                       style: subTitleTextStyle,
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Jam Kedatangan',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            stateOrder.selectDate(context);
+                          },
+                          child: Image.asset(
+                            'assets/icons/calender-logo.png',
+                            color: greenColor,
+                            width: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Obx(
+                          () => Text(
+                            stateOrder.arrivalDate.value != ''
+                                ? ConvertDate.normalDate(
+                                    stateOrder.arrivalDate.value)
+                                : 'Atur tanggal terlebih dahulu',
+                            style: blackTextStyle.copyWith(fontSize: 14),
+                          ),
+                        )
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            stateOrder.selectTime(context, '1');
+                          },
+                          child: Image.asset(
+                            'assets/icons/logojam.png',
+                            color: greenColor,
+                            width: 23,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Obx(
+                          () => Text(
+                            stateOrder.arrivalTimeFirst.value != ''
+                                ? stateOrder.arrivalTimeFirst.value
+                                : 'Atur jam terlebih dahulu',
+                            style: blackTextStyle.copyWith(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            stateOrder.selectTime(context, '2');
+                          },
+                          child: Image.asset(
+                            'assets/icons/logojam.png',
+                            color: greenColor,
+                            width: 23,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Obx(
+                          () => Text(
+                            stateOrder.arrivalTimeLast.value != ''
+                                ? stateOrder.arrivalTimeLast.value
+                                : 'Atur jam terlebih dahulu',
+                            style: blackTextStyle.copyWith(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    dividergrey(),
+                  ],
                 )
               ],
             ),
@@ -251,7 +391,8 @@ class Reservasi2Page extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Rp290.400',
+                  CurrencyFormat.convertToIdr(
+                      widget.treatment.price! * stateTreatment.pax.value, 0),
                   style: blackHigtTextStyle.copyWith(fontSize: 20),
                 ),
                 const SizedBox(
@@ -266,10 +407,21 @@ class Reservasi2Page extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Lanjutkan Pembayaran',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Resevasi3Page(),
+                if (stateOrder.arrivalDate.value == '' ||
+                    stateOrder.arrivalTimeFirst.value == '' ||
+                    stateOrder.arrivalTimeLast.value == '') {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(
+                        subtitle: 'Tanggal dan Jam kedatangan harus diisi'),
+                  );
+                  return;
+                }
+                Get.to(
+                  Resevasi3Page(
+                    pax: stateTreatment.pax.value,
+                    tgl: ConvertDate.normalDate(stateOrder.arrivalDate.value),
+                    treatment: widget.treatment,
                   ),
                 );
               },

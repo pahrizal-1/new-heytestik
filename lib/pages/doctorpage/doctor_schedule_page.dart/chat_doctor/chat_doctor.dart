@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 
 // import '../../../../controller/doctor/chat/chat_controller.dart';
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
+import '../../../../core/global.dart';
 import '../../../../core/local_storage.dart';
 import '../../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../../theme/theme.dart';
@@ -346,7 +347,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   connectSocket(BuildContext context, String receiver) async {
     try {
       _socket = IO.io(
-        'http://192.168.0.118:8193/socket',
+        '${Global.BASE_API}/socket',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .enableForceNew()
@@ -710,7 +711,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                   count) {
                                                             return Image
                                                                 .network(
-                                                              'http://192.168.0.118:8193/files/${msglist![index].mediaChatMessages![0].media!.path!}',
+                                                              '${Global.FILE}/${msglist![index].mediaChatMessages![0].media!.path!}',
                                                             );
                                                           },
                                                         ),
@@ -845,7 +846,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                           count) {
                                                                     return Image
                                                                         .network(
-                                                                      'http://192.168.0.118:8193/files/${msglist![index].mediaChatMessages![count].media!.path!}',
+                                                                      '${Global.FILE}/${msglist![index].mediaChatMessages![count].media!.path!}',
                                                                     );
                                                                   },
                                                                 ),

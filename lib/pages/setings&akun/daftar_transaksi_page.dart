@@ -5,7 +5,9 @@ import 'package:heystetik_mobileapps/controller/customer/transaction/history/his
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
@@ -27,6 +29,7 @@ class DaftarTransaksiPage extends StatelessWidget {
         elevation: 2,
         backgroundColor: whiteColor,
         title: Container(
+          margin: EdgeInsets.only(left: 20),
           height: 43,
           child: Center(
             child: TextFormField(
@@ -52,14 +55,24 @@ class DaftarTransaksiPage extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          SvgPicture.asset(
-            'assets/icons/trello-icons.svg',
+          InkWell(
+            onTap: () {
+              Get.to(KeranjangPage());
+            },
+            child: SvgPicture.asset(
+              'assets/icons/trello-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 14,
           ),
-          SvgPicture.asset(
-            'assets/icons/humberger-icons.svg',
+          InkWell(
+            onTap: () {
+              Get.to(AkunHomePage());
+            },
+            child: SvgPicture.asset(
+              'assets/icons/humberger-icons.svg',
+            ),
           ),
           const SizedBox(
             width: 26,

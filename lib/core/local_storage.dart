@@ -65,6 +65,26 @@ class LocalStorage {
     return prefs.getInt('role_id');
   }
 
+  // DATA USER
+  Future<void> setDataUser({required dynamic dataUser}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('data_user', jsonEncode(dataUser));
+  }
+
+  Future<dynamic> getDataUser() async {
+    SharedPreferences prefs = await getPrefs();
+    var data = prefs.getString('data_user')?.trim() ?? '';
+    print("data 123 $data");
+    if (data.isEmpty) {
+      return '';
+    }
+
+    var result = jsonDecode(data);
+    print("result 123 ${result['fullname']}");
+    print("result 123 $result");
+    return result;
+  }
+
   // LOCATION
   Future<void> setLocation({required dynamic location}) async {
     SharedPreferences prefs = await getPrefs();
