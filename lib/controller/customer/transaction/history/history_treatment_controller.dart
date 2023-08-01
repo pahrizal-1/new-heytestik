@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
@@ -14,20 +14,20 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
-class HistoryConsultationController extends StateClass {
-  Rx<TransactionHistoryConsultationModel> data =
-      TransactionHistoryConsultationModel().obs;
+class HistoryTreatmentController extends StateClass {
+  Rx<TransactionHistoryTreatmentModel> data =
+      TransactionHistoryTreatmentModel().obs;
   List<Data2>? paymentPending = [];
   RxInt totalPendingPayment = 0.obs;
 
   Rx<TransactionStatusModel> transactionStatus =
       TransactionStatusModel.fromJson({}).obs;
 
-  Future<TransactionHistoryConsultationModel?> getHistoryConsultation(
+  Future<TransactionHistoryTreatmentModel?> getHistoryConsultation(
       BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalPendingPayment.value = 0;
-      data.value = await TransactionService().historyConsultation();
+      data.value = await TransactionService().historyTreatment();
       for (int i = 0; i < data.value.data!.data!.length; i++) {
         if (data.value.data!.data![i].status == 'MENUNGGU_PEMBAYARAN') {
           totalPendingPayment.value += 1;
@@ -37,12 +37,12 @@ class HistoryConsultationController extends StateClass {
     return data.value;
   }
 
-  getHistoryConsultationPaymentpending(BuildContext context) async {
+  getHistoryTreatmentPaymentpending(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalPendingPayment.value = 0;
       paymentPending?.clear();
-      data.value = await TransactionService().historyConsultation();
+      data.value = await TransactionService().historyTreatment();
       for (int i = 0; i < data.value.data!.data!.length; i++) {
         if (data.value.data!.data![i].status == 'MENUNGGU_PEMBAYARAN') {
           totalPendingPayment.value += 1;
@@ -86,23 +86,29 @@ class HistoryConsultationController extends StateClass {
         }
         if (statusTransaction.value == 'expire') {
           Get.offAll(ExpiredPage(
+            isNotConsultation: true,
             message: '',
           ));
           return;
         }
         if (statusTransaction.value == 'settlement') {
           Get.offAll(SuccessPage(
+            isNotConsultation: true,
             orderId: orderId,
           ));
           showDialog(
             context: context,
-            builder: (context) => BankMoreDialog(),
+            builder: (context) => AletTranSaksiTreatMent(
+              title1: 'Pembayaranmu Berhasil',
+              title2: 'Silakan tunggu konfirmasinya ya',
+            ),
           );
           return;
         }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
         Get.offAll(ExpiredPage(
+          isNotConsultation: true,
           message: transactionStatus.value.message.toString(),
         ));
         return;

@@ -14,7 +14,7 @@ import 'package:heystetik_mobileapps/service/customer/interest_conditions/intere
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
-class OrderController extends StateClass {
+class OrderConsultationController extends StateClass {
   RxString fullName = ''.obs;
 
   TextEditingController searchController = TextEditingController();
@@ -216,7 +216,7 @@ class OrderController extends StateClass {
       print('paymentMethod $paymentMethod');
       print('listsAnswer $listsAnswer');
 
-      var res = await TransactionService().order(reqOrder);
+      var res = await TransactionService().orderConsultation(reqOrder);
 
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(

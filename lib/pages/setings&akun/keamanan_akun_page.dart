@@ -14,33 +14,13 @@ class KeamananAkunPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: blackColor,
-                ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Expanded(
-                child: Text(
-                  'Keamanan Akun',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-              )
-            ],
+        title: Text(
+          'Keamanan Akun',
+          style: blackTextStyle.copyWith(
+            fontSize: 20,
           ),
         ),
         actions: [

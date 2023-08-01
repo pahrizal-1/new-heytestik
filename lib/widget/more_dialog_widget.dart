@@ -312,17 +312,9 @@ class DetailMoreDialogFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(0.1),
-      content: Container(
-        // height: 380,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
+    return Wrap(
+      children: [
+        Padding(
           padding: const EdgeInsets.only(left: 21, top: 35, right: 21),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,7 +384,7 @@ class DetailMoreDialogFilter extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

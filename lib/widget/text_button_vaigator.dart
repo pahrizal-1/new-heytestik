@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 
 // import '../controller/doctor/chat/chat_controller.dart';
-import '../controller/doctor/consultation/consultation_controller.dart';
+
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
 import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import '../theme/theme.dart';

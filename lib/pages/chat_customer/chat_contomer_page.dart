@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/tab_bar_page.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -359,6 +361,14 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                 ],
               ),
         actions: [
+          TextButton(
+              onPressed: () {
+                customeshomodal(context, AkhiriConsultasi());
+              },
+              child: Text(
+                'Selesai',
+                style: whiteTextStyle.copyWith(fontSize: 18),
+              )),
           InkWell(
             onTap: () {
               setState(() {
@@ -785,6 +795,96 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
             widget.receiverBy,
           );
         },
+      ),
+    );
+  }
+}
+
+class AkhiriConsultasi extends StatelessWidget {
+  const AkhiriConsultasi({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 27),
+      child: Wrap(
+        children: [
+          Text(
+            'Akhiri Konsultasi ini?',
+            style: blackHigtTextStyle.copyWith(fontSize: 20),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Text(
+            'Kamu tidak dapat mengirimkan pesan ke dokter ini lagi.',
+            style: blackRegulerTextStyle.copyWith(fontSize: 15),
+          ),
+          SizedBox(
+            height: 60,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ButtonWhiteWidget(
+                  title: 'Kemabli',
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(
+                width: 14,
+              ),
+              Expanded(
+                child: ButtonGreenWidget(
+                  title: 'Ya, Akhiri',
+                  onPressed: () {
+                    customeshomodal(
+                        context,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 42, horizontal: 27),
+                          child: Wrap(
+                            children: [
+                              Text(
+                                'Akhiri Konsultasi ini?',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Kamu tidak dapat mengirimkan pesan ke dokter ini lagi.',
+                                style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 15),
+                              ),
+                              SizedBox(
+                                height: 60,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ButtonGreenWidget(
+                                      title: 'Oke',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 14,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ));
+                  },
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

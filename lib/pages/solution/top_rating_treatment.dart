@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
+
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
@@ -202,7 +202,10 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                     child: Column(
                         children: treatments
                             .map(
-                              (e) => TampilanRight(treatment: e),
+                              (e) => TampilanRight(
+                                  treatment: e,
+                                  urlImg:
+                                      "${Global.FILE}/${e.mediaTreatments![0].media!.path!}"),
                             )
                             .toList()),
                   ),

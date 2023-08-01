@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -20,6 +21,8 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   final ScrollController scrollController = ScrollController();
   int page = 1;
   List<ClinicDataModel> clinics = [];
+  bool isSelecteSearch = true;
+  bool isSelecteTampilan = true;
 
   @override
   void initState() {
@@ -51,33 +54,101 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 24,
-                  color: blackColor,
+          child: isSelecteSearch
+              ? Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 24,
+                        color: blackColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    Text(
+                      'Trending',
+                      style: blackTextStyle.copyWith(fontSize: 20),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelecteSearch = !isSelecteSearch;
+                        });
+                      },
+                      child: Image.asset(
+                        'assets/icons/search1.png',
+                        width: 18,
+                        color: blackColor,
+                      ),
+                    )
+                  ],
+                )
+              : Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 24,
+                        color: blackColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Expanded(
+                        child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Color(0xffF1F1F1),
+                        border: Border.all(
+                          color: fromCssColor("#CCCCCC"),
+                        ),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Image.asset(
+                                'assets/icons/search1.png',
+                                width: 10,
+                              ),
+                            ),
+                            Container(
+                              transform: Matrix4.translationValues(0, -2, 0),
+                              constraints: const BoxConstraints(maxWidth: 250),
+                              child: TextFormField(
+                                style: const TextStyle(
+                                    fontSize: 15, fontFamily: "ProximaNova"),
+                                decoration: InputDecoration(
+                                  hintText: "Cari Treatment",
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: fromCssColor(
+                                      '#9B9B9B',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                    )),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Klinik',
-                style: blackTextStyle.copyWith(fontSize: 20),
-              ),
-              const Spacer(),
-              Image.asset(
-                'assets/icons/search1.png',
-                width: 18,
-                color: blackColor,
-              )
-            ],
-          ),
         ),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),

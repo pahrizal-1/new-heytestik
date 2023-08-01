@@ -1,9 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../widget/corcern_card_widgets.dart';
 
 class CelebrityNewsPage extends StatefulWidget {
   const CelebrityNewsPage({super.key});

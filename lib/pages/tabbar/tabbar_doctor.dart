@@ -7,8 +7,6 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import '../../core/socket_class.dart';
-
 class TabBarDoctor extends StatefulWidget {
   const TabBarDoctor({super.key});
 

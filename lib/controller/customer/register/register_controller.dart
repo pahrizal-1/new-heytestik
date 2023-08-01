@@ -83,7 +83,7 @@ class RegisterController extends StateClass {
         'code': code
       };
 
-      var loginResponse = await RegisterService().registerPhone(data);
+      var loginResponse = await RegisterService().emailVerify(data);
       print(loginResponse);
       doInPost();
     });

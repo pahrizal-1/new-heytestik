@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import '../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import '../theme/theme.dart';
 
 class MoreDialogChatDoctor extends StatefulWidget {

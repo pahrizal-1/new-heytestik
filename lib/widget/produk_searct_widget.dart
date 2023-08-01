@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/solution/view_detail_treatment_page.dart';
+
 import '../theme/theme.dart';
 
 class ProdukSearcWidget extends StatelessWidget {

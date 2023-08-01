@@ -3,7 +3,6 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import '../../theme/theme.dart';

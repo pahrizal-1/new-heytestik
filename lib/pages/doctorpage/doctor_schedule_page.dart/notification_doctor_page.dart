@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -17,7 +15,8 @@ class NotificationDoctorPage extends StatefulWidget {
 }
 
 class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
-  final NotificationCustomerController state = Get.put(NotificationCustomerController());
+  final NotificationCustomerController state =
+      Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];
@@ -51,7 +50,11 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
         backgroundColor: greenColor,
         title: Text(
           "Notifikasi",
-          style: TextStyle(letterSpacing: 1.5, fontFamily: 'ProximaNova', fontWeight: bold, color: whiteColor),
+          style: TextStyle(
+              letterSpacing: 1.5,
+              fontFamily: 'ProximaNova',
+              fontWeight: bold,
+              color: whiteColor),
         ),
       ),
       body: ListView.builder(
@@ -92,7 +95,8 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                       width: 8.0,
                     ),
                     Text(
-                      timeago.format(DateTime.parse(notifications[index].createdAt)),
+                      timeago.format(
+                          DateTime.parse(notifications[index].createdAt)),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
@@ -100,7 +104,9 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                     ),
                   ],
                 ),
-                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
+                if (notifications[index].type ==
+                        "TRANSACTION_CONSULTATION_SUCCESS" ||
+                    notifications[index].type == 'CHAT')
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF24A7A0),

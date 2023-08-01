@@ -11,9 +11,11 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import '../../widget/button_widget.dart';
 
 class SuccessPage extends StatefulWidget {
+  bool isNotConsultation;
   String orderId;
 
-  SuccessPage({required this.orderId, super.key});
+  SuccessPage(
+      {this.isNotConsultation = false, required this.orderId, super.key});
 
   @override
   State<SuccessPage> createState() => _SuccessPageState();
@@ -62,29 +64,33 @@ class _SuccessPageState extends State<SuccessPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: lsymetric,
-                  child: ButtonGreenWidget(
-                    title: 'Yuk Konsultasi Chat Docter',
-                    onPressed: () async {
-                      Get.to(ApprovePage(
-                        orderId: widget.orderId,
-                      ));
-                    },
-                  ),
-                ),
+                widget.isNotConsultation
+                    ? Container()
+                    : Padding(
+                        padding: lsymetric,
+                        child: ButtonGreenWidget(
+                          title: 'Yuk Konsultasi Chat Docter',
+                          onPressed: () async {
+                            Get.to(ApprovePage(
+                              orderId: widget.orderId,
+                            ));
+                          },
+                        ),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: lsymetric,
-                  child: ButtonGreenWidget(
-                    title: 'Konsultasi Lagi',
-                    onPressed: () async {
-                      Get.to(const OnboardingChat());
-                    },
-                  ),
-                ),
+                widget.isNotConsultation
+                    ? Container()
+                    : Padding(
+                        padding: lsymetric,
+                        child: ButtonGreenWidget(
+                          title: 'Konsultasi Lagi',
+                          onPressed: () async {
+                            Get.to(const OnboardingChat());
+                          },
+                        ),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),

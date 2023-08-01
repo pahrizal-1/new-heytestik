@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/pilih_bank_widgets.dart';
 
 import '../../../widget/button_widget.dart';
+import '../../widget/appbar_widget.dart';
 
 class TambahBankCustomerPage extends StatefulWidget {
   final int id;
@@ -30,38 +31,28 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        titleSpacing: 0,
+        iconTheme: iconthemeblack(),
+        backgroundColor: Colors.transparent,
+        title: Text(
+          widget.isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
+          style: blackHigtTextStyle.copyWith(fontSize: 20),
+        ),
+      ),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
           child: Padding(
             padding: const EdgeInsets.only(
-              left: 32,
-              right: 33,
-              top: 65,
+              left: 25,
+              right: 25,
+              bottom: 36,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Text(
-                      widget.isUpdate ? 'Ubah Rekening' : 'Tambah Rekening',
-                      style: blackHigtTextStyle.copyWith(fontSize: 20),
-                    ),
-                  ],
-                ),
                 const SizedBox(
                   height: 37,
                 ),

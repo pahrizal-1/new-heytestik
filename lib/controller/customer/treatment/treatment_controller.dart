@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/clinic.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
@@ -17,10 +18,24 @@ class TreatmentController extends StateClass {
   Rx<TreatmentDetailModel> treatmentDetail = TreatmentDetailModel().obs;
   RxInt index = 0.obs;
   RxInt pax = 0.obs;
+  var dataUser;
+  RxString fullName = ''.obs;
+  RxString phone = ''.obs;
 
   Rx<ClinicModel> responseClinic = ClinicModel().obs;
   RxList<ClinicDataModel> dataClinic =
       List<ClinicDataModel>.empty(growable: true).obs;
+
+  getDataUser() async {
+    dataUser = await LocalStorage().getDataUser();
+
+    print('dataUser ${dataUser}');
+    print('fullname ${dataUser['fullname']}');
+    print('no_phone ${dataUser['no_phone']}');
+
+    fullName.value = dataUser['fullname'];
+    phone.value = dataUser['no_phone'];
+  }
 
   Future<List<ClinicDataModel>> getClinic(
       BuildContext context, int page) async {

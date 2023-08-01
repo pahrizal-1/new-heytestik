@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
-import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';
@@ -13,7 +13,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/alert_dialog.dart';
+
 import '../../widget/alert_dialog_ulasan.dart';
 
 class SetingsAkunPage extends StatefulWidget {
@@ -43,13 +43,10 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
         titleSpacing: 0,
         iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Text(
-            'Akun Saya',
-            style: blackTextStyle.copyWith(
-              fontSize: 20,
-            ),
+        title: Text(
+          'Akun Saya',
+          style: blackTextStyle.copyWith(
+            fontSize: 20,
           ),
         ),
         actions: [

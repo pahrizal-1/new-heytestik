@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
@@ -109,30 +109,48 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                       width: 7,
                     ),
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 13, vertical: 13),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffF1F1F1),
-                          borderRadius: BorderRadius.circular(7),
+                        child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Color(0xffF1F1F1),
+                        border: Border.all(
+                          color: fromCssColor("#CCCCCC"),
                         ),
-                        child: Row(
-                          children: [
-                            Image.asset('assets/icons/search1.png',
-                                width: 20, color: const Color(0xff9B9B9B)),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Cari Treatment',
-                              style: subGreyTextStyle.copyWith(
-                                  color: const Color(0xff9B9B9B)),
-                            )
-                          ],
-                        ),
+                        borderRadius: BorderRadius.circular(7),
                       ),
-                    )
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Image.asset(
+                                'assets/icons/search1.png',
+                                width: 10,
+                              ),
+                            ),
+                            Container(
+                              transform: Matrix4.translationValues(0, -2, 0),
+                              constraints: const BoxConstraints(maxWidth: 250),
+                              child: TextFormField(
+                                style: const TextStyle(
+                                    fontSize: 15, fontFamily: "ProximaNova"),
+                                decoration: InputDecoration(
+                                  hintText: "Cari Treatment",
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: fromCssColor(
+                                      '#9B9B9B',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                    )),
                   ],
                 ),
         ),
@@ -163,10 +181,8 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                           width: 4,
                         ),
                         isSelecteTampilan
-                            ? Image.asset(
-                                'assets/images/tampilan1.png',
-                              )
-                            : SvgPicture.asset('assets/icons/tampilan1.svg'),
+                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
+                            : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
@@ -202,7 +218,11 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                     child: Column(
                         children: treatments
                             .map(
-                              (e) => TampilanRight(treatment: e),
+                              (e) => TampilanRight(
+                                treatment: e,
+                                urlImg:
+                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                              ),
                             )
                             .toList()),
                   ),
