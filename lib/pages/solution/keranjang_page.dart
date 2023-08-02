@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
@@ -24,12 +27,13 @@ class KeranjangPage extends StatefulWidget {
 
 class _KeranjangPageState extends State<KeranjangPage> {
   final CartController state = Get.put(CartController());
-
+  final SkincareController stateSkincare = Get.put(SkincareController());
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.getCart(context);
+      stateSkincare.getSkincare(context);
     });
   }
 
@@ -196,50 +200,95 @@ class _KeranjangPageState extends State<KeranjangPage> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: lsymetric,
-                  child: Row(
-                    children: [
-                      const ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp1,100,00',
-                        harga: 'Rp900.000',
-                        urlImg: 'assets/images/plasma.png',
-                        rating: '4.9 (120k)',
+                  padding: EdgeInsets.only(left: 25),
+                  child: Obx(
+                    () => Center(
+                      child: LoadingWidget(
+                        isLoading: stateSkincare.isLoadingSkincare.value,
+                        child: Wrap(
+                          spacing: 23,
+                          runSpacing: 12,
+                          children: stateSkincare.skincare
+                              .map(
+                                (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(DetailSkinCarePage(
+                                      id: e.id!.toInt(),
+                                      productId: e.mediaProducts![0].productId!
+                                          .toInt(),
+                                    ));
+                                  },
+                                  child: Produkheight(
+                                    produkId: e.id!.toInt(),
+                                    namaBrand:
+                                        e.skincareDetail!.brand.toString(),
+                                    namaProduk: e.name.toString(),
+                                    diskonProduk: '20',
+                                    hargaDiskon:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg:
+                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    // rating: '4.9 (120k)',
+                                    rating: e.rating.toString(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
-                      const ProdukKeranjang(
-                        namaBrand: 'CANTABRIA',
-                        namaProduk:
-                            'Neoretin Discrom Control Pigment Neutralizer Serum',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp500.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      const ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/view-bg-skincare.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      const ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Endocare Tensage Cream',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Padding(
+              //     padding: lsymetric,
+              //     child: Row(
+              //       children: [
+              //         const ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp1,100,00',
+              //           harga: 'Rp900.000',
+              //           urlImg: 'assets/images/plasma.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         const ProdukKeranjang(
+              //           namaBrand: 'CANTABRIA',
+              //           namaProduk:
+              //               'Neoretin Discrom Control Pigment Neutralizer Serum',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp500.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         const ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/view-bg-skincare.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         const ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Endocare Tensage Cream',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
