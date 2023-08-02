@@ -1,64 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
-import '../../models/treatment_review.dart';
+import '../../widget/coment_ulasan_widgets.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
 
-class UlasanPage extends StatefulWidget {
-  const UlasanPage({
-    super.key,
-    required this.treatmentID,
-  });
-
-  final int treatmentID;
+class UlasanPageSkincare extends StatefulWidget {
+  const UlasanPageSkincare({super.key});
 
   @override
-  State<UlasanPage> createState() => _UlasanPageState();
+  State<UlasanPageSkincare> createState() => _UlasanPageSkincareState();
 }
 
-class _UlasanPageState extends State<UlasanPage> {
-  final ScrollController scrollController = ScrollController();
-  final TreatmentController treatmentController =
-      Get.put(TreatmentController());
-
-  int page = 1;
-  List<TreatmentReviewModel> reviews = [];
-  bool isVisibelity = true;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      reviews.addAll(await treatmentController.getTreatmentReview(
-          context, page, widget.treatmentID));
-
-      setState(() {});
-    });
-
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (!isTop) {
-          page += 1;
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            reviews.addAll(await treatmentController.getTreatmentReview(
-                context, page, widget.treatmentID));
-            setState(() {});
-          });
-        }
-      }
-    });
-
-    super.initState();
-  }
-
+class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -521,147 +480,29 @@ class _UlasanPageState extends State<UlasanPage> {
               ),
             ),
           ),
-          Padding(
-            padding: lsymetric.copyWith(top: 19),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 11,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/doctor1.png',
-                      width: 40,
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Jessy',
-                          style: blackHigtTextStyle.copyWith(fontSize: 15),
-                        ),
-                        Text(
-                          'Perawatan Peeling TCA Ringan',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 13, fontWeight: regular),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.more_vert)
-                  ],
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const Icon(
-                      Icons.star,
-                      size: 12,
-                      color: Color(0xffFFC36A),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Text(
-                      '1 Bulan Yang lalu',
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 12, fontWeight: regular),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                Text(
-                  'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                  style: greyTextStyle.copyWith(
-                      fontSize: 13, color: const Color(0xff6B6B6B)),
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                Image.asset(
-                  'assets/images/review-wajah.png',
-                  width: 72,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/like.png',
-                      width: 15,
-                    ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Text(
-                      'Membantu',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isVisibelity = !isVisibelity;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            'Liat Balesan',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xff6B6B6B),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
-            ),
+          ComentUlasanaCustomer(
+            namaUser: 'Singa',
+            namaProduk: 'Teenderm Gel 40ml',
+            bulan: '',
+            comentUser:
+                'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
+            balasanComent: 'Saran Beli Obat Kuat',
+            imgUser: 'assets/images/doctor-img.png',
+            like: '100',
+            namaBalasan: 'Udin',
           ),
-          const dividergreen(),
-          comentbalasan(),
-          const dividergreen(),
-          comentbalasan(),
+          ComentUlasanaCustomer(
+            namaUser: 'Singa',
+            namaProduk: 'Teenderm Gel 40ml',
+            bulan: '',
+            comentUser:
+                'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
+            balasanComent: 'Saran Beli Obat Kuat',
+            imgUser: 'assets/images/doctor-img.png',
+            like: '100',
+            comentImg: 'assets/images/treat1.png',
+            namaBalasan: 'Udin',
+          ),
         ],
       ),
       floatingActionButton: Padding(
@@ -672,186 +513,6 @@ class _UlasanPageState extends State<UlasanPage> {
           child: FloatingActionButton(
               onPressed: () {}, child: Image.asset('assets/icons/dowload.png')),
         ),
-      ),
-    );
-  }
-
-  Padding comentbalasan() {
-    return Padding(
-      padding: lsymetric.copyWith(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 11,
-          ),
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/doctor1.png',
-                width: 40,
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Jessy',
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                  Text(
-                    'Perawatan Peeling TCA Ringan',
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13, fontWeight: regular),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              const Icon(Icons.more_vert)
-            ],
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Row(
-            children: [
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Text(
-                '1 Bulan Yang lalu',
-                style: blackHigtTextStyle.copyWith(
-                    fontSize: 12, fontWeight: regular),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Text(
-            'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            style: greyTextStyle.copyWith(
-                fontSize: 13, color: const Color(0xff6B6B6B)),
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Row(
-            children: [
-              Image.asset(
-                'assets/icons/like.png',
-                width: 15,
-                color: greenColor,
-              ),
-              const SizedBox(
-                width: 7,
-              ),
-              Text(
-                '6 orang terbantu',
-                style:
-                    grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isVisibelity = !isVisibelity;
-                  });
-                },
-                child: Row(
-                  children: [
-                    isVisibelity
-                        ? Text(
-                            'Liat Balesan',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          )
-                        : Text(
-                            'Tutup Balasan',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Color(0xff6B6B6B),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Visibility(
-            visible: isVisibelity,
-            child: Row(
-              children: [
-                Container(
-                  height: 60,
-                  width: 2,
-                  decoration: BoxDecoration(color: greenColor),
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Klinik Utama Lithea',
-                            style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: subTitleColor),
-                          ),
-                          Text(
-                            ' 1 bulan lalu',
-                            style: blackRegulerTextStyle.copyWith(
-                                color: subTitleColor, fontSize: 13),
-                          )
-                        ],
-                      ),
-                      Text(
-                        'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
-                        style: subTitleTextStyle,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

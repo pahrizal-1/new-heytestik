@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -575,9 +575,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UlasanPage(
-                                      treatmentID: widget.treatment.id!,
-                                    )));
+                                    builder: (context) => UlasanTreatmentPage(
+                                          treatmentID: widget.treatment.id!,
+                                        )));
                           },
                           child: Text(
                             'Lihat Semua',
