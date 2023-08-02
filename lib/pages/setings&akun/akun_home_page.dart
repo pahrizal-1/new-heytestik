@@ -377,207 +377,215 @@ class _AkunHomePageState extends State<AkunHomePage> {
                             scrollDirection: Axis.horizontal,
                             itemCount: stateTransaction.activity.length,
                             itemBuilder: (BuildContext context, index) {
-                              // JANGAN TAMPILKAN YG STATUSNYA SELESAI
-                              if (stateTransaction.activity[index].status !=
-                                  'SELESAI') {
-                                if (stateTransaction
-                                        .activity[index].transactionType ==
-                                    'CONSULTATION') {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 25,
+                              if (stateTransaction
+                                      .activity[index].transactionType ==
+                                  'CONSULTATION') {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 25,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 16,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: borderColor),
-                                        borderRadius: BorderRadius.circular(7),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/icons/chat.png',
-                                            width: 18,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                stateTransaction.activity[index]
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/chat.png',
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              stateTransaction.activity[index]
+                                                          .status ==
+                                                      'MENUNGGU_PEMBAYARAN'
+                                                  ? 'Menunggu Pembayaran'
+                                                  : stateTransaction
+                                                              .activity[index]
+                                                              .status ==
+                                                          'READY'
+                                                      ? 'Ready'
+                                                      : stateTransaction
+                                                                  .activity[
+                                                                      index]
+                                                                  .status ==
+                                                              'REVIEW'
+                                                          ? 'Review'
+                                                          : stateTransaction
+                                                                      .activity[
+                                                                          index]
+                                                                      .status ==
+                                                                  'AKTIF'
+                                                              ? 'Aktif'
+                                                              : 'Selesai',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 12,
+                                                color: stateTransaction
+                                                            .activity[index]
                                                             .status ==
                                                         'MENUNGGU_PEMBAYARAN'
-                                                    ? 'Menunggu Pembayaran'
+                                                    ? const Color.fromARGB(
+                                                        255, 255, 102, 0)
                                                     : stateTransaction
                                                                 .activity[index]
                                                                 .status ==
                                                             'READY'
-                                                        ? 'Ready'
+                                                        ? const Color.fromARGB(
+                                                            255, 255, 102, 0)
                                                         : stateTransaction
                                                                     .activity[
                                                                         index]
                                                                     .status ==
                                                                 'REVIEW'
-                                                            ? 'Review'
+                                                            ? const Color.fromARGB(
+                                                                255,
+                                                                255,
+                                                                102,
+                                                                0)
                                                             : stateTransaction
-                                                                        .activity[
-                                                                            index]
+                                                                        .activity[index]
                                                                         .status ==
                                                                     'AKTIF'
-                                                                ? 'Aktif'
-                                                                : 'Selesai',
-                                                style: grenTextStyle.copyWith(
-                                                  fontSize: 12,
-                                                  color: stateTransaction
+                                                                ? greenColor
+                                                                : greenColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              stateTransaction.activity[index]
+                                                          .consultation ==
+                                                      null
+                                                  ? '-'
+                                                  : stateTransaction
+                                                      .activity[index]
+                                                      .consultation
+                                                      .medicalHistory
+                                                      .interestCondition
+                                                      .name,
+                                              style:
+                                                  blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              if (stateTransaction
+                                      .activity[index].transactionType ==
+                                  'TREATMENT') {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 25,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/treatmen-cornern.png',
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              stateTransaction.activity[index]
+                                                          .status ==
+                                                      'MENUNGGU_PEMBAYARAN'
+                                                  ? 'Menunggu Pembayaran'
+                                                  : stateTransaction
                                                               .activity[index]
                                                               .status ==
-                                                          'MENUNGGU_PEMBAYARAN'
-                                                      ? const Color.fromARGB(
-                                                          255, 255, 102, 0)
+                                                          'MENUNGGU_KONFIRMASI_KLINIK'
+                                                      ? 'Menunggu Konfirmasi Klinik'
                                                       : stateTransaction
                                                                   .activity[
                                                                       index]
                                                                   .status ==
-                                                              'READY'
-                                                          ? const Color.fromARGB(
-                                                              255, 255, 102, 0)
+                                                              'KLINIK_MENGKONFIRMASI'
+                                                          ? 'Klinik Mengkonfirmasi'
                                                           : stateTransaction
                                                                       .activity[
                                                                           index]
                                                                       .status ==
-                                                                  'REVIEW'
-                                                              ? const Color.fromARGB(
-                                                                  255, 255, 102, 0)
-                                                              : stateTransaction.activity[index].status ==
-                                                                      'AKTIF'
-                                                                  ? greenColor
-                                                                  : greenColor,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Konsultasi Bekas Jerawat',
-                                                style:
-                                                    blackHigtTextStyle.copyWith(
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-
-                                if (stateTransaction
-                                        .activity[index].transactionType ==
-                                    'TREATMENT') {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 25,
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 16,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: borderColor),
-                                        borderRadius: BorderRadius.circular(7),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/icons/treatmen-cornern.png',
-                                            width: 18,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                stateTransaction.activity[index]
+                                                                  'SELESAI'
+                                                              ? 'Selesai'
+                                                              : 'Selesai',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 12,
+                                                color: stateTransaction
+                                                            .activity[index]
                                                             .status ==
                                                         'MENUNGGU_PEMBAYARAN'
-                                                    ? 'Menunggu Pembayaran'
+                                                    ? const Color.fromARGB(
+                                                        255, 255, 102, 0)
                                                     : stateTransaction
                                                                 .activity[index]
                                                                 .status ==
                                                             'MENUNGGU_KONFIRMASI_KLINIK'
-                                                        ? 'Menunggu Konfirmasi Klinik'
+                                                        ? const Color.fromARGB(
+                                                            255, 255, 102, 0)
                                                         : stateTransaction
                                                                     .activity[
                                                                         index]
                                                                     .status ==
                                                                 'KLINIK_MENGKONFIRMASI'
-                                                            ? 'Klinik Mengkonfirmasi'
+                                                            ? greenColor
                                                             : stateTransaction
                                                                         .activity[
                                                                             index]
                                                                         .status ==
                                                                     'SELESAI'
-                                                                ? 'Selesai'
-                                                                : 'Selesai',
-                                                style: grenTextStyle.copyWith(
-                                                  fontSize: 12,
-                                                  color: stateTransaction
-                                                              .activity[index]
-                                                              .status ==
-                                                          'MENUNGGU_PEMBAYARAN'
-                                                      ? const Color.fromARGB(
-                                                          255, 255, 102, 0)
-                                                      : stateTransaction
-                                                                  .activity[
-                                                                      index]
-                                                                  .status ==
-                                                              'MENUNGGU_KONFIRMASI_KLINIK'
-                                                          ? const Color.fromARGB(
-                                                              255, 255, 102, 0)
-                                                          : stateTransaction
-                                                                      .activity[
-                                                                          index]
-                                                                      .status ==
-                                                                  'KLINIK_MENGKONFIRMASI'
-                                                              ? greenColor
-                                                              : stateTransaction
-                                                                          .activity[
-                                                                              index]
-                                                                          .status ==
-                                                                      'SELESAI'
-                                                                  ? greenColor
-                                                                  : greenColor,
-                                                ),
+                                                                ? greenColor
+                                                                : greenColor,
                                               ),
-                                              Text(
-                                                stateTransaction
-                                                    .activity[index]
-                                                    .transactionTreatmentItems[
-                                                        0]
-                                                    .treatment
-                                                    .name,
-                                                style:
-                                                    blackHigtTextStyle.copyWith(
-                                                  fontSize: 13,
-                                                ),
+                                            ),
+                                            Text(
+                                              stateTransaction
+                                                  .activity[index]
+                                                  .transactionTreatmentItems[0]
+                                                  .treatment
+                                                  .name,
+                                              style:
+                                                  blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
                                               ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  );
-                                }
+                                  ),
+                                );
                               }
-                              return Container();
+
+                              return null;
                             },
                           ),
                         );

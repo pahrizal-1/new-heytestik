@@ -40,7 +40,9 @@ class AllHistoryTransactionController extends StateClass {
       await getHistoryConsultation(context);
       print('consultation length ${consultation.value.data!.data!.length}');
       for (int i = 0; i < consultation.value.data!.data!.length; i++) {
-        activity.add(consultation.value.data!.data?[i]);
+        if (consultation.value.data!.data?[i].status != 'SELESAI') {
+          activity.add(consultation.value.data!.data?[i]);
+        }
       }
       print('consultation history ${activity.length}');
 
@@ -48,7 +50,9 @@ class AllHistoryTransactionController extends StateClass {
       await getHistoryTreatment(context);
       print('treatment length ${treatment.value.data!.data!.length}');
       for (int i = 0; i < treatment.value.data!.data!.length; i++) {
-        activity.add(treatment.value.data!.data?[i]);
+        if (treatment.value.data!.data?[i].status != 'SELESAI') {
+          activity.add(treatment.value.data!.data?[i]);
+        }
       }
       print('treatment history ${activity.length}');
 
