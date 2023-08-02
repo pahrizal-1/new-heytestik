@@ -1,23 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
+import '../../models/treatment_review.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
 
 class UlasanPage extends StatefulWidget {
-  const UlasanPage({super.key});
+  const UlasanPage({
+    super.key,
+    required this.treatmentID,
+  });
+
+  final int treatmentID;
 
   @override
   State<UlasanPage> createState() => _UlasanPageState();
 }
 
 class _UlasanPageState extends State<UlasanPage> {
+  final ScrollController scrollController = ScrollController();
+  final TreatmentController treatmentController =
+      Get.put(TreatmentController());
+
+  int page = 1;
+  List<TreatmentReviewModel> reviews = [];
   bool isVisibelity = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      reviews.addAll(await treatmentController.getTreatmentReview(
+          context, page, widget.treatmentID));
+
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            reviews.addAll(await treatmentController.getTreatmentReview(
+                context, page, widget.treatmentID));
+            setState(() {});
+          });
+        }
+      }
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

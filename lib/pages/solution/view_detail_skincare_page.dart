@@ -687,10 +687,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UlasanPage()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => const UlasanPage()));
                           },
                           child: Text(
                             '  Lihat Semua',

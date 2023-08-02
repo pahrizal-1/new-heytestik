@@ -575,7 +575,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UlasanPage()));
+                                    builder: (context) => UlasanPage(
+                                      treatmentID: widget.treatment.id!,
+                                    )));
                           },
                           child: Text(
                             'Lihat Semua',
