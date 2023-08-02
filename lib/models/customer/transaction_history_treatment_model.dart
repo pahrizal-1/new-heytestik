@@ -297,7 +297,7 @@ class Treatment {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  double? rating;
+  dynamic rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -388,8 +388,8 @@ class Clinic {
   int? id;
   String? name;
   String? address;
-  double? pinpointLatitude;
-  double? pinpointLongitude;
+  dynamic pinpointLatitude;
+  dynamic pinpointLongitude;
   String? pinpointAddress;
   int? provinceId;
   int? cityId;
@@ -633,7 +633,7 @@ class TreatmentReview {
   int? careRating;
   int? serviceRating;
   int? managementRating;
-  double? avgRating;
+  dynamic avgRating;
   String? review;
   dynamic replyReview;
   int? helpfulCount;
