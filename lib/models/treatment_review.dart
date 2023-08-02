@@ -37,7 +37,9 @@ class TreatmentReviewModel {
       averageRating: double.parse(json['avg_rating'].toString()),
       review: json['review'],
       helpfulCount: json['helpful_count'],
-      media: (json['media_treatment_reviews'] as List).map((document) => MediaTreatmentReviewModel.fromJson(document)).toList(),
+      media: (json['media_treatment_reviews'] as List)
+          .map((document) => MediaTreatmentReviewModel.fromJson(document))
+          .toList(),
     );
   }
 }
