@@ -216,7 +216,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           width: 32,
                         ),
                         const SizedBox(
-                          width: 17,
+                          width: 13,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,20 +229,19 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               widget.treatment.clinic!.city!.name!,
                               style: subTitleTextStyle.copyWith(fontSize: 12),
                             ),
-                            const SizedBox(
-                              width: 4,
-                            ),
                           ],
                         ),
                         Spacer(),
-                        IconButton(
-                            onPressed: () {
-                              Get.off(DetailKlnikPage());
-                            },
-                            icon: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: greenColor,
-                            ))
+                        Expanded(
+                          child: IconButton(
+                              onPressed: () {
+                                Get.off(DetailKlnikPage());
+                              },
+                              icon: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: greenColor,
+                              )),
+                        )
                       ],
                     ),
                     const SizedBox(
