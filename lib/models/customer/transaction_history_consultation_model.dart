@@ -61,6 +61,7 @@ class Data2 {
   int? paymentMethodId;
   String? orderId;
   String? paymentStatus;
+  String? paymentExpiryTime;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -83,6 +84,7 @@ class Data2 {
       this.paymentMethodId,
       this.orderId,
       this.paymentStatus,
+      this.paymentExpiryTime,
       this.status,
       this.createdBy,
       this.updatedBy,
@@ -105,6 +107,7 @@ class Data2 {
     paymentMethodId = json['payment_method_id'];
     orderId = json['order_id'];
     paymentStatus = json['payment_status'];
+    paymentExpiryTime = json['payment_expiry_time'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -133,6 +136,7 @@ class Data2 {
     data['payment_method_id'] = paymentMethodId;
     data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
+    data['payment_expiry_time'] = paymentExpiryTime;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
@@ -232,6 +236,7 @@ class Consultation {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  MedicalHistory? medicalHistory;
   Doctor? doctor;
 
   Consultation(
@@ -250,6 +255,7 @@ class Consultation {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.medicalHistory,
       this.doctor});
 
   Consultation.fromJson(Map<String, dynamic> json) {
@@ -268,6 +274,9 @@ class Consultation {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    medicalHistory = json['medical_history'] != null
+        ? MedicalHistory.fromJson(json['medical_history'])
+        : null;
     doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
   }
 
@@ -288,9 +297,110 @@ class Consultation {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (medicalHistory != null) {
+      data['medical_history'] = medicalHistory!.toJson();
+    }
     if (doctor != null) {
       data['doctor'] = doctor!.toJson();
     }
+    return data;
+  }
+}
+
+class MedicalHistory {
+  int? id;
+  int? customerId;
+  int? interestConditionId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  InterestCondition? interestCondition;
+
+  MedicalHistory(
+      {this.id,
+      this.customerId,
+      this.interestConditionId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.interestCondition});
+
+  MedicalHistory.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    interestConditionId = json['interest_condition_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    interestCondition = json['interest_condition'] != null
+        ? InterestCondition.fromJson(json['interest_condition'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['interest_condition_id'] = interestConditionId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (interestCondition != null) {
+      data['interest_condition'] = interestCondition!.toJson();
+    }
+    return data;
+  }
+}
+
+class InterestCondition {
+  int? id;
+  int? interestConditionsCategoryId;
+  String? name;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  InterestCondition(
+      {this.id,
+      this.interestConditionsCategoryId,
+      this.name,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  InterestCondition.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    interestConditionsCategoryId = json['interest_conditions_category_id'];
+    name = json['name'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['interest_conditions_category_id'] = interestConditionsCategoryId;
+    data['name'] = name;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

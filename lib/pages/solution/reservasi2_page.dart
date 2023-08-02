@@ -415,7 +415,8 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertWidget(
-                        subtitle: 'Tanggal dan Jam kedatangan harus diisi'),
+                        subtitle:
+                            'Atur Tanggal dan Jam kedatangan harus diisi'),
                   );
                   return;
                 }
