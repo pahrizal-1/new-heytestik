@@ -335,35 +335,33 @@ class CategotyBuarty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 9),
-        margin: const EdgeInsets.only(right: 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          border: Border.all(
-            color: borderColor,
-            width: 0.4,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 9),
+      margin: const EdgeInsets.only(right: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          color: borderColor,
+          width: 0.4,
+        ),
+      ),
+      child: Row(
+        children: [
+          Image.asset(
+            icon,
+            width: 25,
+            height: 25,
           ),
-        ),
-        child: Row(
-          children: [
-            Image.asset(
-              icon,
-              width: 25,
-              height: 25,
+          const SizedBox(
+            width: 6,
+          ),
+          Text(
+            titile,
+            style: blackTextStyle.copyWith(
+              fontSize: 13,
             ),
-            const SizedBox(
-              width: 6,
-            ),
-            Text(
-              titile,
-              style: blackTextStyle.copyWith(
-                fontSize: 13,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
