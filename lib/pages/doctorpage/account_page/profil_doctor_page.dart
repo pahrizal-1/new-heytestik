@@ -83,15 +83,8 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                 backgroundImage: state.profileData.value.data !=
                                         null
                                     ? NetworkImage(
-                                        '${Global.FILE}' + '/' +
-                                            state
-                                                .profileData
-                                                .value
-                                                .data!
-                                                .mediaUserProfilePicture!
-                                                .media!
-                                                .path
-                                                .toString()) as ImageProvider
+                                            '${Global.FILE}/${state.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
+                                        as ImageProvider
                                     : AssetImage('assets/images/doctor1.png'),
                               ),
                             ),
@@ -120,7 +113,8 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   height: 3,
                                 ),
                                 Text(
-                                  state.profileData.value.data!.specialist ?? '-',
+                                  state.profileData.value.data!.specialist ??
+                                      '-',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,
@@ -552,7 +546,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               ),
                               Obx(
                                 () => Text(
-                                  'Rp ' + state.saldo.value.balance.toString(),
+                                  'Rp ${state.saldo.value.balance}',
                                   style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 20,
@@ -618,10 +612,14 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        // await state.logout(context);
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialogLogout(),
+                          builder: (context) => AlertDialogLogout(
+                            title: 'Apakah kamu yakin ingin keluar?',
+                            function: () async {
+                              await state.logout(context);
+                            },
+                          ),
                         );
                       },
                       child: const ContainerSettings(
@@ -886,9 +884,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                     child: InkWell(
                         child: Obx(
                           () => Text(
-                            state.startPeriod.value +
-                                ' - ' +
-                                state.endPeriod.value,
+                            '${state.startPeriod.value} - ${state.endPeriod.value}',
                           ),
                         ),
                         onTap: () {

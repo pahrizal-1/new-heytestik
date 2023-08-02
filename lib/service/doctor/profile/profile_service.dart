@@ -58,7 +58,7 @@ class ProfileService extends ProviderClass {
 
   Future<dynamic> closedAccount() async {
     var response = await networkingConfig.doUpdateFinish(
-      '/profile/doctor/close-account',
+      '/profile/close-account',
     );
 
     return response;
