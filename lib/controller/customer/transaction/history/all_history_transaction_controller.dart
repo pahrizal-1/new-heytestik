@@ -13,6 +13,7 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 
 class AllHistoryTransactionController extends StateClass {
   // ALL
+  RxList activity = [].obs;
   RxList history = [].obs;
   RxList historyNotPending = [].obs;
   RxList historyPending = [].obs;
@@ -29,6 +30,39 @@ class AllHistoryTransactionController extends StateClass {
       Treatment.TransactionHistoryTreatmentModel().obs;
   List<Treatment.Data2>? pendingTreatment = [];
   RxInt totalPendingTreatment = 0.obs;
+
+  Future getMyActivity(BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // CLEAR
+      activity.clear();
+
+      // ================
+      await getHistoryConsultation(context);
+      print('consultation length ${consultation.value.data!.data!.length}');
+      for (int i = 0; i < consultation.value.data!.data!.length; i++) {
+        activity.add(consultation.value.data!.data?[i]);
+      }
+      print('consultation history ${activity.length}');
+
+      // ================
+      await getHistoryTreatment(context);
+      print('treatment length ${treatment.value.data!.data!.length}');
+      for (int i = 0; i < treatment.value.data!.data!.length; i++) {
+        activity.add(treatment.value.data!.data?[i]);
+      }
+      print('treatment history ${activity.length}');
+
+      // ================
+      print('history ${activity.length}');
+
+      activity.sort((a, b) {
+        return DateTime.parse(b.createdAt)
+            .compareTo(DateTime.parse(a.createdAt));
+      });
+    });
+
+    return activity;
+  }
 
   Future getAllHistory(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
