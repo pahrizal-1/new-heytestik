@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../../controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
+import '../../../../core/global.dart';
 
 class RekomendasiSkincare2Page extends StatefulWidget {
   const RekomendasiSkincare2Page({super.key});
@@ -45,6 +46,7 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                     state.subtitleController.clear();
                     state.dataSkincare = [];
                     state.notesController = [];
+                    state.itemCount = 0;
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -62,7 +64,7 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
               ],
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 state.postSkincare(context);
               },
               child: Text(
@@ -160,134 +162,171 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                           shrinkWrap: true,
                           itemCount: state.dataSkincare.length,
                           itemBuilder: (context, index) {
+                            List image = [];
+                            String img = '';
+                            for (var i in state.dataSkincare[index]
+                                ['media_products']) image.add(i);
+                            for (var imege in image) {
+                              img = imege['media']['path'];
+                            }
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 0.5,
-                                            color: fromCssColor('#E9E9E9')),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/produk1.png"),
+                                    InkWell(
+                                      onTap: () {
+                                        print('data' + image.toString());
+                                        for (var i in image) {
+                                          print('img ' +
+                                              i['media']['path'].toString());
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 0.5,
+                                              color: fromCssColor('#E9E9E9')),
+                                          image: DecorationImage(
+                                            image: state.dataSkincare[index]
+                                                        ['media_products'] !=
+                                                    null
+                                                ? NetworkImage(
+                                                        Global.FILE + '/' + img)
+                                                    as ImageProvider
+                                                : AssetImage(
+                                                    "assets/images/produk1.png"),
+                                          ),
                                         ),
                                       ),
                                     ),
                                     const SizedBox(
                                       width: 8,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          constraints: const BoxConstraints(
-                                              maxWidth: 200),
-                                          child: RichText(
-                                            text: TextSpan(
-                                              text: state.dataSkincare[index]
-                                                  ['name'],
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                color: greenColor,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1.1,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 200),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: state.dataSkincare[index]
+                                                    ['name'],
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  color: greenColor,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  height: 1.1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Penggunaan",
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 12,
-                                                height: 1.3,
-                                                letterSpacing: 0.5,
-                                                color: fromCssColor(
-                                                  '#9B9B9B',
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Penggunaan",
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 12,
+                                                  height: 1.3,
+                                                  letterSpacing: 0.5,
+                                                  color: fromCssColor(
+                                                    '#9B9B9B',
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  // color: Colors.amberAccent,
-                                                  constraints:
-                                                      const BoxConstraints(
-                                                          maxWidth: 80),
-                                                  child: Text(
-                                                    "Pagi & Malam",
-                                                    style: TextStyle(
-                                                      fontFamily: 'ProximaNova',
-                                                      fontSize: 12,
-                                                      height: 1.3,
-                                                      letterSpacing: 0.5,
-                                                      color: fromCssColor(
-                                                        '#9B9B9B',
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      // color: Colors.amberAccent,
+                                                      constraints:
+                                                          const BoxConstraints(
+                                                              maxWidth: 80),
+                                                      child: Text(
+                                                        "Pagi & Malam",
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'ProximaNova',
+                                                          fontSize: 12,
+                                                          height: 1.3,
+                                                          letterSpacing: 0.5,
+                                                          color: fromCssColor(
+                                                            '#9B9B9B',
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "2 kali / hari",
-                                                  style: TextStyle(
-                                                    fontFamily: 'ProximaNova',
-                                                    fontSize: 12,
-                                                    height: 1.3,
-                                                    letterSpacing: 0.5,
-                                                    color: fromCssColor(
-                                                      '#9B9B9B',
+                                                    Text(
+                                                      state.dataSkincare[index][
+                                                              'skincare_detail']
+                                                          [
+                                                          'specification_how_to_use'],
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'ProximaNova',
+                                                        fontSize: 12,
+                                                        height: 1.3,
+                                                        letterSpacing: 0.5,
+                                                        color: fromCssColor(
+                                                          '#9B9B9B',
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Rp250.000",
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 0.5,
-                                                color: fromCssColor(
-                                                  '#323232',
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 60,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Rp' +
+                                                    state.dataSkincare[index]
+                                                            ['price']
+                                                        .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.5,
+                                                  color: fromCssColor(
+                                                    '#323232',
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 60,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -359,30 +398,52 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "-",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: bold,
-                                                fontFamily: "ProximaNova",
-                                                color: fromCssColor("#A3A3A3"),
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (state.itemCount >= 1) {
+                                                    state.itemCount--;
+                                                  }
+                                                });
+                                              },
+                                              child: Text(
+                                                "-",
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: bold,
+                                                  fontFamily: "ProximaNova",
+                                                  color:
+                                                      fromCssColor("#A3A3A3"),
+                                                ),
                                               ),
                                             ),
                                             Text(
-                                              "1",
+                                              state.itemCount.toString(),
                                               style: TextStyle(
                                                 fontFamily: "ProximaNova",
                                                 fontSize: 13,
                                                 color: fromCssColor("#323232"),
                                               ),
                                             ),
-                                            Text(
-                                              "+",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: bold,
-                                                fontFamily: "ProximaNova",
-                                                color: greenColor,
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (state.itemCount >= 0) {
+                                                    state.itemCount++;
+                                                    print('stat' +
+                                                        state.itemCount
+                                                            .toString());
+                                                  }
+                                                });
+                                              },
+                                              child: Text(
+                                                "+",
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: bold,
+                                                  fontFamily: "ProximaNova",
+                                                  color: greenColor,
+                                                ),
                                               ),
                                             ),
                                           ],
