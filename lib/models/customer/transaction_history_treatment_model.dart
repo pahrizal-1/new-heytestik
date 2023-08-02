@@ -59,6 +59,7 @@ class Data2 {
   int? paymentMethodId;
   String? orderId;
   String? paymentStatus;
+  String? paymentExpiryTime;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -78,6 +79,7 @@ class Data2 {
       this.paymentMethodId,
       this.orderId,
       this.paymentStatus,
+      this.paymentExpiryTime,
       this.status,
       this.createdBy,
       this.updatedBy,
@@ -97,6 +99,7 @@ class Data2 {
     paymentMethodId = json['payment_method_id'];
     orderId = json['order_id'];
     paymentStatus = json['payment_status'];
+    paymentExpiryTime = json['payment_expiry_time'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -125,6 +128,7 @@ class Data2 {
     data['payment_method_id'] = paymentMethodId;
     data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
+    data['payment_expiry_time'] = paymentExpiryTime;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
@@ -388,8 +392,8 @@ class Clinic {
   int? id;
   String? name;
   String? address;
-  dynamic pinpointLatitude;
-  dynamic pinpointLongitude;
+  double? pinpointLatitude;
+  double? pinpointLongitude;
   String? pinpointAddress;
   int? provinceId;
   int? cityId;

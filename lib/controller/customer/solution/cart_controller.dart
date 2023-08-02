@@ -41,7 +41,7 @@ class CartController extends StateClass {
       }
 
       SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Produk ditambah ke keranjang');
+          context, 'Info', 'Produk ditambahkan ke keranjang');
     });
     isLoading.value = false;
   }

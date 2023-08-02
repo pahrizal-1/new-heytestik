@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
@@ -65,11 +67,13 @@ class TransaksiKonsultan extends StatelessWidget {
               const Spacer(),
               progres == 'Menunggu Pembayaran'
                   ? Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('Bayar Sebelum'),
                         Text(
                           expireDate,
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 255, 102, 0),
                           ),
                         ),
@@ -524,11 +528,13 @@ class TransaksiTreatment extends StatelessWidget {
               const Spacer(),
               progres == 'Menunggu Pembayaran'
                   ? Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('Bayar Sebelum'),
                         Text(
                           expireDate,
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 255, 102, 0),
                           ),
                         ),
@@ -626,17 +632,22 @@ class TransaksiTreatment extends StatelessWidget {
               ),
               const Spacer(),
               progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: greenColor,
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Ulas',
-                          style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(UlasanSetingsPage());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 22, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Ulas',
+                            style: whiteTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )
@@ -645,18 +656,23 @@ class TransaksiTreatment extends StatelessWidget {
                 width: 5,
               ),
               progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Reservasi lagi',
-                          style: grenTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(SolutionsTreatment1Page());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Reservasi lagi',
+                            style: grenTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:from_css_color/from_css_color.dart';
-
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import '../../controller/customer/stream/post_controller.dart';
+import '../../models/customer/stream_post.dart';
+import '../../widget/alert_dialog.dart';
 
 class BuatPostinganGeneral extends StatefulWidget {
   const BuatPostinganGeneral({super.key});
@@ -12,6 +14,10 @@ class BuatPostinganGeneral extends StatefulWidget {
 }
 
 class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
+  final PostController streamController = Get.put(PostController());
+  final TextEditingController hashTagController = TextEditingController();
+  final TextEditingController postDescController = TextEditingController();
+
   int iSelected = 0;
   @override
   Widget build(BuildContext context) {
@@ -41,20 +47,52 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 18,
-                  top: 5,
-                  bottom: 5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: greenColor,
-                ),
-                child: Text(
-                  'Posting',
-                  style: whiteTextStyle.copyWith(fontSize: 13),
+              GestureDetector(
+                onTap: () {
+                  RegExp hashtagRegExp = RegExp(r'\B#\w+');
+                  Iterable<Match> matches =
+                      hashtagRegExp.allMatches(hashTagController.text);
+                  List<String?> hashtags = matches.map((match) {
+                    String? hashtagText =
+                        match.group(0)?.substring(1); // Remove the '#' symbol
+                    return hashtagText?.replaceAll(' ', '');
+                  }).toList();
+
+                  if (hashtags.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          AlertWidget(subtitle: "Hastags Can't be Empty"),
+                    );
+                  } else {
+                    StreamPostModel postModel = StreamPostModel(
+                      content: postDescController.text,
+                      type: 'GENERAL',
+                      hashtags: hashtags,
+                      endTime: DateTime.now(),
+                      options: [],
+                    );
+                    streamController.postGeneral(context, postModel,
+                        doInPost: () {
+                      Navigator.of(context).pop();
+                    });
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 18,
+                    top: 5,
+                    bottom: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: greenColor,
+                  ),
+                  child: Text(
+                    'Posting',
+                    style: whiteTextStyle.copyWith(fontSize: 13),
+                  ),
                 ),
               ),
             ],
@@ -124,6 +162,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                 height: 17,
               ),
               TextFormField(
+                controller: postDescController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
@@ -154,6 +193,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                 height: 43,
               ),
               TextFormField(
+                controller: hashTagController,
                 maxLines: 2,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(

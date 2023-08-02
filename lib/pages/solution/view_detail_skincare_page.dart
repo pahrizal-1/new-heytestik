@@ -11,12 +11,14 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 
-import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
+import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 
 import '../../widget/Text_widget.dart';
@@ -42,6 +44,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.detailSkincare(context, widget.id);
+      state.getSkincare(context);
     });
   }
 
@@ -72,7 +75,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               Expanded(
                 child: Obx(
                   () => Text(
-                    '${state.skincareDetail.value.skincareDetail?.brand}',
+                    state.skincareDetail.value.skincareDetail?.brand ?? '',
                     style: blackTextStyle.copyWith(
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
@@ -686,9 +689,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UlasanPage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const UlasanPageSkincare(),
+                              ),
+                            );
                           },
                           child: Text(
                             '  Lihat Semua',
@@ -870,50 +876,95 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: lsymetric,
-                  child: Row(
-                    children: [
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp1,100,00',
-                        harga: 'Rp900.000',
-                        urlImg: 'assets/images/plasma.png',
-                        rating: '4.9 (120k)',
+                  padding: EdgeInsets.only(left: 25),
+                  child: Obx(
+                    () => Center(
+                      child: LoadingWidget(
+                        isLoading: state.isLoadingSkincare.value,
+                        child: Wrap(
+                          spacing: 23,
+                          runSpacing: 12,
+                          children: state.skincare
+                              .map(
+                                (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(DetailSkinCarePage(
+                                      id: e.id!.toInt(),
+                                      productId: e.mediaProducts![0].productId!
+                                          .toInt(),
+                                    ));
+                                  },
+                                  child: Produkheight(
+                                    produkId: e.id!.toInt(),
+                                    namaBrand:
+                                        e.skincareDetail!.brand.toString(),
+                                    namaProduk: e.name.toString(),
+                                    diskonProduk: '20',
+                                    hargaDiskon:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg:
+                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    // rating: '4.9 (120k)',
+                                    rating: e.rating.toString(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
-                      ProdukKeranjang(
-                        namaBrand: 'CANTABRIA',
-                        namaProduk:
-                            'Neoretin Discrom Control Pigment Neutralizer Serum',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp500.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/view-bg-skincare.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Endocare Tensage Cream',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Padding(
+              //     padding: lsymetric,
+              //     child: Row(
+              //       children: [
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp1,100,00',
+              //           harga: 'Rp900.000',
+              //           urlImg: 'assets/images/plasma.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'CANTABRIA',
+              //           namaProduk:
+              //               'Neoretin Discrom Control Pigment Neutralizer Serum',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp500.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/view-bg-skincare.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Endocare Tensage Cream',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 27,
               ),
@@ -942,50 +993,95 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: lsymetric,
-                  child: Row(
-                    children: [
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp1,100,00',
-                        harga: 'Rp900.000',
-                        urlImg: 'assets/images/plasma.png',
-                        rating: '4.9 (120k)',
+                  padding: EdgeInsets.only(left: 25),
+                  child: Obx(
+                    () => Center(
+                      child: LoadingWidget(
+                        isLoading: state.isLoadingSkincare.value,
+                        child: Wrap(
+                          spacing: 23,
+                          runSpacing: 12,
+                          children: state.skincare
+                              .map(
+                                (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(DetailSkinCarePage(
+                                      id: e.id!.toInt(),
+                                      productId: e.mediaProducts![0].productId!
+                                          .toInt(),
+                                    ));
+                                  },
+                                  child: Produkheight(
+                                    produkId: e.id!.toInt(),
+                                    namaBrand:
+                                        e.skincareDetail!.brand.toString(),
+                                    namaProduk: e.name.toString(),
+                                    diskonProduk: '20',
+                                    hargaDiskon:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg:
+                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    // rating: '4.9 (120k)',
+                                    rating: e.rating.toString(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
-                      ProdukKeranjang(
-                        namaBrand: 'CANTABRIA',
-                        namaProduk:
-                            'Neoretin Discrom Control Pigment Neutralizer Serum',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp500.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Teenderm Gel',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/view-bg-skincare.png',
-                        rating: '4.9 (120k)',
-                      ),
-                      ProdukKeranjang(
-                        namaBrand: 'ISISPHARMA',
-                        namaProduk: 'Endocare Tensage Cream',
-                        diskonProduk: '20%',
-                        hargaDiskon: 'Rp250.000',
-                        harga: 'Rp200.000',
-                        urlImg: 'assets/images/catabria.png',
-                        rating: '4.9 (120k)',
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Padding(
+              //     padding: lsymetric,
+              //     child: Row(
+              //       children: [
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp1,100,00',
+              //           harga: 'Rp900.000',
+              //           urlImg: 'assets/images/plasma.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'CANTABRIA',
+              //           namaProduk:
+              //               'Neoretin Discrom Control Pigment Neutralizer Serum',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp500.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Teenderm Gel',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/view-bg-skincare.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //         ProdukKeranjang(
+              //           namaBrand: 'ISISPHARMA',
+              //           namaProduk: 'Endocare Tensage Cream',
+              //           diskonProduk: '20%',
+              //           hargaDiskon: 'Rp250.000',
+              //           harga: 'Rp200.000',
+              //           urlImg: 'assets/images/catabria.png',
+              //           rating: '4.9 (120k)',
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

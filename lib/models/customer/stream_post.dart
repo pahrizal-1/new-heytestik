@@ -12,16 +12,4 @@ class StreamPostModel {
     required this.endTime,
     required this.options,
   });
-
-  toJson() {
-    return {
-      "content": content,
-      "type": type.toUpperCase(),
-      "hashtags": hashtags,
-      "stream_poll": {
-        "end_time": endTime.toString(),
-        "options": options,
-      }
-    };
-  }
 }

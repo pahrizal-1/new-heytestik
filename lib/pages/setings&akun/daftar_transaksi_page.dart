@@ -370,7 +370,16 @@ class DaftarTransaksiPage extends StatelessWidget {
                                                             'SELESAI'
                                                         ? 'Selesai'
                                                         : '-',
-                                    keluhan: 'Bekas Jerawat',
+                                    keluhan: state.historyNotPending[index]
+                                                .consultation ==
+                                            null
+                                        ? '-'
+                                        : state
+                                            .historyNotPending[index]
+                                            .consultation
+                                            .medicalHistory
+                                            .interestCondition
+                                            .name,
                                     harga: CurrencyFormat.convertToIdr(
                                         state
                                             .historyNotPending[index].totalPaid,

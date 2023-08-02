@@ -1,15 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../controller/customer/stream/post_controller.dart';
+import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/shere_link_stream.dart';
 
-class HomeStreamPage extends StatelessWidget {
+class HomeStreamPage extends StatefulWidget {
   const HomeStreamPage({
     super.key,
   });
+
+  @override
+  State<HomeStreamPage> createState() => _HomeStreamPageState();
+}
+
+class _HomeStreamPageState extends State<HomeStreamPage> {
+  final ScrollController scrollController = ScrollController();
+  final PostController postController = Get.put(PostController());
+
+  int page = 1;
+  List<StreamHomeModel> streams = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      streams.addAll(await postController.getStreamHomeModel(context, page));
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            streams
+                .addAll(await postController.getStreamHomeModel(context, page));
+          });
+          setState(() {});
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +57,12 @@ class HomeStreamPage extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 17, top: 16, bottom: 18),
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 17,
+                  top: 16,
+                  bottom: 18,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -33,7 +75,9 @@ class HomeStreamPage extends StatelessWidget {
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage('assets/images/profiledummy.png'),
+                              image: AssetImage(
+                                'assets/images/profiledummy.png',
+                              ),
                             ),
                           ),
                         ),
@@ -130,7 +174,8 @@ class HomeStreamPage extends StatelessWidget {
                               width: 21,
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage('assets/icons/bookmark-icons.png'),
+                                  image: AssetImage(
+                                      'assets/icons/bookmark-icons.png'),
                                 ),
                               ),
                             ),
@@ -141,7 +186,8 @@ class HomeStreamPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const KomentarStreamPage(),
+                                builder: (context) =>
+                                    const KomentarStreamPage(),
                               ),
                             );
                           },
@@ -149,7 +195,11 @@ class HomeStreamPage extends StatelessWidget {
                             children: [
                               Text(
                                 '13',
-                                style: TextStyle(color: greyColor, fontSize: 14, fontWeight: bold, fontFamily: 'ProximaNova'),
+                                style: TextStyle(
+                                    color: greyColor,
+                                    fontSize: 14,
+                                    fontWeight: bold,
+                                    fontFamily: 'ProximaNova'),
                               ),
                               const SizedBox(
                                 width: 5,
@@ -159,7 +209,8 @@ class HomeStreamPage extends StatelessWidget {
                                 width: 20,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage('assets/icons/komen1.png'),
+                                    image:
+                                        AssetImage('assets/icons/komen1.png'),
                                   ),
                                 ),
                               )

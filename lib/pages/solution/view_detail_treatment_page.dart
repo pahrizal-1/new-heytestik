@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -216,7 +216,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           width: 32,
                         ),
                         const SizedBox(
-                          width: 17,
+                          width: 13,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,20 +229,19 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               widget.treatment.clinic!.city!.name!,
                               style: subTitleTextStyle.copyWith(fontSize: 12),
                             ),
-                            const SizedBox(
-                              width: 4,
-                            ),
                           ],
                         ),
                         Spacer(),
-                        IconButton(
-                            onPressed: () {
-                              Get.off(DetailKlnikPage());
-                            },
-                            icon: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: greenColor,
-                            ))
+                        Expanded(
+                          child: IconButton(
+                              onPressed: () {
+                                Get.off(DetailKlnikPage());
+                              },
+                              icon: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: greenColor,
+                              )),
+                        )
                       ],
                     ),
                     const SizedBox(
@@ -576,7 +575,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UlasanPage()));
+                                    builder: (context) => UlasanTreatmentPage(
+                                          treatmentID: widget.treatment.id!,
+                                        )));
                           },
                           child: Text(
                             'Lihat Semua',

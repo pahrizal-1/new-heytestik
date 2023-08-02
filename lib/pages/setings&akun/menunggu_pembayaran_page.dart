@@ -97,6 +97,14 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                       ? '-'
                                       : state.historyPending[index].consultation
                                           .doctor.fullname,
+                              expireDate: state.historyPending[index]
+                                          .paymentExpiryTime ==
+                                      null
+                                  ? ''
+                                  : ConvertDate.payBefore(state
+                                          .historyPending[index]
+                                          .paymentExpiryTime ??
+                                      '-'),
                               tanggal: ConvertDate.defaultDate(
                                   state.historyPending[index].createdAt ?? '-'),
                               pesanan: 'Konsultasi',
@@ -118,7 +126,16 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                                       'SELESAI'
                                                   ? 'Selesai'
                                                   : '-',
-                              keluhan: 'Bekas Jerawat',
+                              keluhan:
+                                  state.historyPending[index].consultation ==
+                                          null
+                                      ? '-'
+                                      : state
+                                          .historyPending[index]
+                                          .consultation
+                                          .medicalHistory
+                                          .interestCondition
+                                          .name,
                               harga: CurrencyFormat.convertToIdr(
                                   state.historyPending[index].totalPaid, 0),
                               img: state.historyPending[index].consultation ==
@@ -135,7 +152,14 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                   .transactionTreatmentItems,
                               tanggal: ConvertDate.defaultDate(
                                   state.historyPending[index].createdAt ?? '-'),
-                              // expireDate: ,
+                              expireDate: state.historyPending[index]
+                                          .paymentExpiryTime ==
+                                      null
+                                  ? ''
+                                  : ConvertDate.payBefore(state
+                                          .historyPending[index]
+                                          .paymentExpiryTime ??
+                                      '-'),
                               pesanan: 'Treatment',
                               progres: state.historyPending[index].status ==
                                       'MENUNGGU_PEMBAYARAN'

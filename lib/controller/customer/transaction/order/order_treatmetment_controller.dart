@@ -123,17 +123,20 @@ class OrderTreatmentController extends StateClass {
 
     if (pickedTime != null) {
       print('hahah ${pickedTime.format(context)}');
-      // DateTime parsedTime =
-      //     DateFormat.jm().parse(pickedTime.format(context).toString());
-      // print('parsedTime $parsedTime');
-      // String formattedTime = DateFormat('HH:mm').format(parsedTime);
+      DateTime parsedTime =
+          DateFormat('HH:mm').parse(pickedTime.format(context));
+      print('parsedTime $parsedTime');
+      String formattedTime = DateFormat('HH:mm').format(parsedTime);
 
-      // print('formattedTime $formattedTime');
+      print('formattedTime $formattedTime');
       if (cek == '1') {
-        arrivalTimeFirst.value = pickedTime.format(context);
+        arrivalTimeFirst.value = formattedTime;
       } else if (cek == '2') {
-        arrivalTimeLast.value = pickedTime.format(context);
+        arrivalTimeLast.value = formattedTime;
       }
+
+      print("1111 ${arrivalTimeFirst.value}");
+      print("2222 ${arrivalTimeLast.value}");
     } else {
       print("Time is not selected");
     }
