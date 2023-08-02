@@ -45,7 +45,7 @@ class WishlistController extends StateClass {
       }
 
       SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Wishlist berhasil ditambah');
+          context, 'Info', 'Wishlist berhasil ditambahkan');
     });
     isLoading.value = false;
   }
