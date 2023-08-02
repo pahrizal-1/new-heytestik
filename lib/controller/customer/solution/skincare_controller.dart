@@ -57,6 +57,7 @@ class SkincareController extends StateClass {
   detailSkincare(BuildContext context, int id) async {
     isLoadingDetailSkincare.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      skincareDetail.value = DetailSkincare.Data.fromJson({});
       var res = await SolutionService().detailSkincare(id);
 
       if (res.success != true && res.message != 'Success') {
