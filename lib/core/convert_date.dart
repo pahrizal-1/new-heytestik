@@ -103,4 +103,12 @@ class ConvertDate {
     final String formatted = formatter.format(tdata);
     return '$hari, $formatted';
   }
+
+  static String payBefore(String value) {
+    DateTime tdata = DateTime.parse(value);
+    // '13 Mei, 17:12',
+    final DateFormat formatter = DateFormat('dd MMM, HH:mm');
+    final String formatted = formatter.format(tdata);
+    return formatted;
+  }
 }

@@ -67,11 +67,13 @@ class TransaksiKonsultan extends StatelessWidget {
               const Spacer(),
               progres == 'Menunggu Pembayaran'
                   ? Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('Bayar Sebelum'),
                         Text(
                           expireDate,
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 255, 102, 0),
                           ),
                         ),
@@ -526,11 +528,13 @@ class TransaksiTreatment extends StatelessWidget {
               const Spacer(),
               progres == 'Menunggu Pembayaran'
                   ? Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('Bayar Sebelum'),
                         Text(
                           expireDate,
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 255, 102, 0),
                           ),
                         ),
