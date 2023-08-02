@@ -11,8 +11,9 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 
-import 'package:heystetik_mobileapps/pages/solution/ulasan_solution_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -687,10 +688,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => const UlasanPage()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const UlasanPageSkincare(),
+                              ),
+                            );
                           },
                           child: Text(
                             '  Lihat Semua',
