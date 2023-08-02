@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -701,65 +703,79 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           const Spacer(),
                           const Icon(Icons.more_vert)
                         ],
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24),
+                        child: Center(
+                          child: Text(
+                            'Belum ada ulasan',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
                       ),
                     const SizedBox(
                       height: 13,
                     ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Text(
-                          '1 Bulan Yang lalu',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 12, fontWeight: regular),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Text(
-                      'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                      style: greyTextStyle.copyWith(
-                          fontSize: 13, color: const Color(0xff6B6B6B)),
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Image.asset(
-                      'assets/images/review-wajah.png',
-                      width: 72,
-                    ),
-                    const SizedBox(
-                      height: 22,
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Icon(
+                    //       Icons.star,
+                    //       size: 12,
+                    //       color: Color(0xffFFC36A),
+                    //     ),
+                    //     const Icon(
+                    //       Icons.star,
+                    //       size: 12,
+                    //       color: Color(0xffFFC36A),
+                    //     ),
+                    //     const Icon(
+                    //       Icons.star,
+                    //       size: 12,
+                    //       color: Color(0xffFFC36A),
+                    //     ),
+                    //     const Icon(
+                    //       Icons.star,
+                    //       size: 12,
+                    //       color: Color(0xffFFC36A),
+                    //     ),
+                    //     const Icon(
+                    //       Icons.star,
+                    //       size: 12,
+                    //       color: Color(0xffFFC36A),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 12,
+                    //     ),
+                    //     Text(
+                    //       '1 Bulan Yang lalu',
+                    //       style: blackHigtTextStyle.copyWith(
+                    //           fontSize: 12, fontWeight: regular),
+                    //     )
+                    //   ],
+                    // ),
+                    // const SizedBox(
+                    //   height: 13,
+                    // ),
+                    // Text(
+                    //   'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
+                    //   style: greyTextStyle.copyWith(
+                    //       fontSize: 13, color: const Color(0xff6B6B6B)),
+                    // ),
+                    // const SizedBox(
+                    //   height: 13,
+                    // ),
+                    // Image.asset(
+                    //   'assets/images/review-wajah.png',
+                    //   width: 72,
+                    // ),
+                    // const SizedBox(
+                    //   height: 22,
+                    // ),
                   ],
                 ),
               ),
@@ -773,7 +789,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
               Padding(
                 padding: lsymetric,
                 child: Text(
-                  'Perawatan lain di Klinik Utama Lithea',
+                  'Perawatan lain di ${widget.treatment.clinic!.name!}',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
               ),
