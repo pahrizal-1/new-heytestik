@@ -1,5 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 
 import '../pages/setings&akun/ulasan_settings_page.dart';
@@ -13,7 +16,7 @@ class TransaksiKonsultan extends StatelessWidget {
   final String img;
   final String keluhan;
   final String harga;
-
+  final String expireDate;
   const TransaksiKonsultan({
     super.key,
     required this.namaDokter,
@@ -23,6 +26,7 @@ class TransaksiKonsultan extends StatelessWidget {
     this.keluhan = '',
     required this.harga,
     required this.img,
+    this.expireDate = '',
   });
 
   @override
@@ -59,39 +63,52 @@ class TransaksiKonsultan extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                    color: progres == 'Menunggu Pembayaran'
-                        ? const Color.fromARGB(255, 255, 204, 170)
-                        : progres == 'Ready'
-                            ? const Color.fromARGB(255, 255, 204, 170)
-                            : progres == 'Review'
-                                ? const Color.fromARGB(255, 255, 204, 170)
-                                : progres == 'Aktif'
-                                    ? subgreenColor
-                                    : progres == 'Selesai'
-                                        ? subgreenColor
-                                        : subgreenColor,
-                    borderRadius: BorderRadius.circular(7)),
-                child: Text(
-                  progres,
-                  style: grenTextStyle.copyWith(
-                    fontSize: 10,
-                    color: progres == 'Menunggu Pembayaran'
-                        ? const Color.fromARGB(255, 255, 102, 0)
-                        : progres == 'Ready'
-                            ? const Color.fromARGB(255, 255, 102, 0)
-                            : progres == 'Review'
-                                ? const Color.fromARGB(255, 255, 102, 0)
-                                : progres == 'Aktif'
-                                    ? greenColor
-                                    : progres == 'Selesai'
-                                        ? greenColor
-                                        : greenColor,
-                  ),
-                ),
-              )
+              progres == 'Menunggu Pembayaran'
+                  ? Column(
+                      children: [
+                        Text('Bayar Sebelum'),
+                        Text(
+                          expireDate,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 102, 0),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 204, 170)
+                              : progres == 'Ready'
+                                  ? const Color.fromARGB(255, 255, 204, 170)
+                                  : progres == 'Review'
+                                      ? const Color.fromARGB(255, 255, 204, 170)
+                                      : progres == 'Aktif'
+                                          ? subgreenColor
+                                          : progres == 'Selesai'
+                                              ? subgreenColor
+                                              : subgreenColor,
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Text(
+                        progres,
+                        style: grenTextStyle.copyWith(
+                          fontSize: 10,
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 102, 0)
+                              : progres == 'Ready'
+                                  ? const Color.fromARGB(255, 255, 102, 0)
+                                  : progres == 'Review'
+                                      ? const Color.fromARGB(255, 255, 102, 0)
+                                      : progres == 'Aktif'
+                                          ? greenColor
+                                          : progres == 'Selesai'
+                                              ? greenColor
+                                              : greenColor,
+                        ),
+                      ),
+                    )
             ],
           ),
           const SizedBox(
@@ -110,7 +127,7 @@ class TransaksiKonsultan extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           image: DecorationImage(
-                              image: AssetImage(img), fit: BoxFit.cover)),
+                              image: NetworkImage(img), fit: BoxFit.cover)),
                     ),
                     const SizedBox(
                       width: 10,
@@ -445,25 +462,29 @@ class TransaksiProduk extends StatelessWidget {
 }
 
 class TransaksiTreatment extends StatelessWidget {
-  final String nameProduk;
+  dynamic item;
+  // final String nameProduk;
   final String tanggal;
+  final String expireDate;
   final String pesanan;
   final String progres;
-  final String img;
-  final String namaKlink;
+  // final String img;
+  // final String namaKlink;
 
   final String harga;
 
   final bool isConsultation;
-  const TransaksiTreatment({
+  TransaksiTreatment({
     super.key,
-    required this.nameProduk,
+    required this.item,
+    // required this.nameProduk,
     required this.tanggal,
+    this.expireDate = '',
     required this.pesanan,
     required this.progres,
-    this.namaKlink = '',
+    // required this.namaKlink,
     required this.harga,
-    required this.img,
+    // required this.img,
     this.isConsultation = false,
   });
 
@@ -501,68 +522,89 @@ class TransaksiTreatment extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                    color: progres == 'Menunggu Pembayaran'
-                        ? const Color.fromARGB(255, 255, 204, 170)
-                        : progres == 'Review'
-                            ? const Color.fromARGB(255, 255, 204, 170)
-                            : progres == 'Aktif'
-                                ? subgreenColor
-                                : progres == 'Selesai'
-                                    ? subgreenColor
-                                    : subgreenColor,
-                    borderRadius: BorderRadius.circular(7)),
-                child: Text(
-                  progres,
-                  style: grenTextStyle.copyWith(
-                    fontSize: 10,
-                    color: progres == 'Menunggu Pembayaran'
-                        ? const Color.fromARGB(255, 255, 102, 0)
-                        : progres == 'Review'
-                            ? const Color.fromARGB(255, 255, 102, 0)
-                            : progres == 'Aktif'
-                                ? greenColor
-                                : progres == 'Selesai'
-                                    ? greenColor
-                                    : greenColor,
-                  ),
-                ),
-              )
+              progres == 'Menunggu Pembayaran'
+                  ? Column(
+                      children: [
+                        Text('Bayar Sebelum'),
+                        Text(
+                          expireDate,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 102, 0),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 204, 170)
+                              : progres == 'Menunggu Konfirmasi Klinik'
+                                  ? const Color.fromARGB(255, 255, 204, 170)
+                                  : progres == 'Klinik Mengkonfirmasi'
+                                      ? subgreenColor
+                                      : progres == 'Selesai'
+                                          ? subgreenColor
+                                          : subgreenColor,
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Text(
+                        progres,
+                        style: grenTextStyle.copyWith(
+                          fontSize: 10,
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 102, 0)
+                              : progres == 'Menunggu Konfirmasi Klinik'
+                                  ? const Color.fromARGB(255, 255, 102, 0)
+                                  : progres == 'Klinik Mengkonfirmasi'
+                                      ? greenColor
+                                      : progres == 'Selesai'
+                                          ? greenColor
+                                          : greenColor,
+                        ),
+                      ),
+                    )
             ],
           ),
           const SizedBox(
             height: 7,
           ),
-          Row(
-            children: [
-              Container(
-                height: 37,
-                width: 37,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    image: DecorationImage(
-                        image: AssetImage(img), fit: BoxFit.cover)),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          for (int i = 0; i < item.length; i++)
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Row(
                 children: [
-                  Text(
-                    nameProduk,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
+                  Container(
+                    height: 37,
+                    width: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                            '${Global.FILE}/${item[i].treatment.mediaTreatments[0].media.path}',
+                          ),
+                          fit: BoxFit.cover),
+                    ),
                   ),
-                  Text(
-                    namaKlink,
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item[i].treatment.name,
+                        style: blackHigtTextStyle.copyWith(fontSize: 13),
+                      ),
+                      Text(
+                        item[i].treatment.clinic.name,
+                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
           const SizedBox(
             height: 14,
           ),
@@ -583,7 +625,7 @@ class TransaksiTreatment extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              progres == 'Aktif' || progres == 'Selesai'
+              progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 22, vertical: 5),
@@ -602,7 +644,7 @@ class TransaksiTreatment extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              progres == 'Aktif' || progres == 'Selesai'
+              progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
