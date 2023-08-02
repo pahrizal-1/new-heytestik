@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -52,6 +56,8 @@ class DoctorProfileController extends StateClass {
   var changePasswordService = ChangePasswordService();
   String? gender = 'male';
   DateTime? date;
+  File? imagePath;
+  String? fileImg64;
 
   Future getProfile(BuildContext context) async {
     isLoading.value = true;
@@ -131,33 +137,45 @@ class DoctorProfileController extends StateClass {
   updateProfile(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // if (shortcutController.text.isEmpty) {
-      //   throw ErrorConfig(
-      //     cause: ErrorConfig.userInput,
-      //     message: 'Shortcut harus diisi',
-      //   );
-      // }
+      // var data = {
+      //   'fullname': nama.text,
+      //   'email': email.text,
+      //   'specialist': spesialisasi.text,
+      //   'no_phone': noHp.text,
+      //   'gender': dropdownValue.value,
+      //   'dob': date!.toIso8601String(),
+      //   'sip': nomorsip.text,
+      //   'str': nomorstr.text,
+      //   'education': pendidikanAkhir.text,
+      //   'practice_location': tempatpraktek.text,
+      //   'files': fileImg64
+      // };
 
-      // if (messageController.text.isEmpty) {
-      //   throw ErrorConfig(
-      //     cause: ErrorConfig.userInput,
-      //     message: 'Message harus diisi',
-      //   );
-      // }
-      var data = {
-        'fullname': nama.text,
-        'email': email.text,
-        'specialist': spesialisasi.text,
-        'no_phone': noHp.text,
-        'gender': dropdownValue.value,
-        'dob': date!.toIso8601String(),
-        'sip': nomorsip.text,
-        'str': nomorstr.text,
-        'education': pendidikanAkhir.text,
-        'practice_location': tempatpraktek.text,
-      };
+      // //   String nama,
+      // // email,
+      // // spesialis,
+      // // noHp,
+      // // gender,
+      // // sip,
+      // // str,
+      // // education,
+      // // practice,
+      // // imgFile,
+      // // DateTime? date,
 
-      var res = await profileService.updateProfile(data);
+      var res = await profileService.updateProfile(
+        nama.text,
+        email.text,
+        spesialisasi.text,
+        noHp.text,
+        dropdownValue.value,
+        nomorsip.text,
+        nomorstr.text,
+        pendidikanAkhir.text,
+        tempatpraktek.text,
+        fileImg64,
+        date,
+      );
       print('res' + res.toString());
       Navigator.push(
         context,
@@ -182,6 +200,15 @@ class DoctorProfileController extends StateClass {
       print(response);
     });
     isLoading.value = false;
+  }
+
+  postCloseAccount(BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await profileService.closedAccount();
+      logout(context);
+      isLoading.value = false;
+    });
   }
 
   logout(BuildContext context) async {

@@ -332,13 +332,20 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trash.png"),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          state.dataTreatment.removeAt(index);
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/icons/trash.png"),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -382,7 +389,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                       ),
                     );
 
-                    if(refresh == 'refresh'){
+                    if (refresh == 'refresh') {
                       setState(() {
                         state.dataTreatmentItems;
                       });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skin3_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -135,7 +136,25 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.filterData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return tileWidget(index);
+                      return InkWell(
+                        onTap: () async {
+                          String refresh = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => RekomendasiSkincare3Page(
+                                    id: state.filterData[index].id!.toInt(),
+                                  )),
+                            ),
+                          );
+                          if (refresh == 'refresh') {
+                            setState(() {
+                              state.getSkincareRecommendation(context);
+                              state.filterData;
+                            });
+                          }
+                        },
+                        child: tileWidget(index),
+                      );
                     },
                   ),
                 ],
@@ -150,40 +169,55 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
   Widget tileWidget(int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Container(
-        height: 57,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: fromCssColor('#D9D9D9'),
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                state.filterData[index].title ?? '-',
-                style: TextStyle(
-                    fontWeight: bold,
-                    fontFamily: 'ProximaNova',
-                    fontSize: 15,
-                    letterSpacing: 0.5),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 57,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: fromCssColor('#D9D9D9'),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              Text(
-                state.filterData[index].subtitle ?? '-',
-                style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontSize: 12,
-                    color: fromCssColor('#A3A3A3'),
-                    letterSpacing: 0.5),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      state.filterData[index].title ?? '-',
+                      style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 15,
+                          letterSpacing: 0.5),
+                    ),
+                    Text(
+                      state.filterData[index].subtitle ?? '-',
+                      style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          fontSize: 12,
+                          color: fromCssColor('#A3A3A3'),
+                          letterSpacing: 0.5),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+          IconButton(
+            onPressed: () {
+              state.deleteTreatment(context, state.filterData[index].id!);
+              setState(() {
+                state.filterData;
+              });
+            },
+            icon: Icon(Icons.delete),
+          ),
+        ],
       ),
     );
   }

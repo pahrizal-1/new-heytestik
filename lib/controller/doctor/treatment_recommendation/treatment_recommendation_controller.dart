@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -21,7 +23,7 @@ class TreatmentRecommendationController extends StateClass {
   RxList<DataClinic> clinics = List<DataClinic>.empty().obs;
 
   RxList<Data2> treatmentDatas = List<Data2>.empty().obs;
-  RxList treatmentDatasById = [].obs;
+  List treatmentDatasById = [].obs;
   List dataTreatmentItems = [].obs;
   int data1 = 0;
 
@@ -53,6 +55,7 @@ class TreatmentRecommendationController extends StateClass {
 
       titleController.text = res['title'];
       subtitleController.text = res['subtitle'];
+      dataTreatmentItemsById = [];
       for (var a in res['recipe_recomendation_treatment_items']) {
         dataTreatmentItemsById.add(a);
       }
@@ -86,6 +89,59 @@ class TreatmentRecommendationController extends StateClass {
       dataTreatmentItems = [];
     });
     isLoading.value = false;
+  }
+
+  updateTreatment(
+    BuildContext context,
+    int id,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print('f');
+      var data = {
+        "title": titleController.text,
+        "subtitle": subtitleController.text,
+        "recipe_recomendation_treatment_items": [
+          for (var i in dataTreatmentItemsById)
+            {
+              'name': i['name'],
+              'cost': i['cost'],
+              'recovery_time': i['recovery_time'],
+              'type': i['type'],
+              'clinics': [
+                for (var clinic in i['clinics'])
+                  {
+                    'clinic_id': clinic['clinic']['id'],
+                  },
+              ],
+            }
+        ]
+      };
+      log('data' + data.toString());
+      var response =
+          await TreatmentServices().updateTreatmentRecommendation(data, id);
+
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+      Navigator.pop(context, 'refresh');
+      titleController.clear();
+      subtitleController.clear();
+      dataTreatmentItemsById = [];
+    });
+    isLoading.value = false;
+  }
+
+  deleteTreatment(BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await TreatmentServices().deleteTreatmentRecommendation(id);
+      getRecipeTreatement(context);
+      isLoading.value = false;
+    });
   }
 
   getClinick(BuildContext context) async {

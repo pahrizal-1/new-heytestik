@@ -371,13 +371,22 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trash.png"),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          state.dataSkincare.removeAt(index);
+                                        });
+                                        print('hey' +
+                                            state.dataSkincare.toString());
+                                      },
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/icons/trash.png"),
+                                          ),
                                         ),
                                       ),
                                     ),

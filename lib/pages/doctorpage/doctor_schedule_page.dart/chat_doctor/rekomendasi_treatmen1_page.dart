@@ -157,44 +157,70 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Container(
-                                height: 57,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: fromCssColor('#D9D9D9'),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 10, bottom: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.treatmentDatas[index].title ?? '',
-                                        style: TextStyle(
-                                            fontWeight: bold,
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 15,
-                                            letterSpacing: 0.5),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 57,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: fromCssColor('#D9D9D9'),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      Text(
-                                        state.treatmentDatas[index].subtitle ??
-                                            '',
-                                        style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 12,
-                                            color: fromCssColor('#A3A3A3'),
-                                            letterSpacing: 0.5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, top: 10, bottom: 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              state.treatmentDatas[index]
+                                                      .title ??
+                                                  '',
+                                              style: TextStyle(
+                                                  fontWeight: bold,
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 15,
+                                                  letterSpacing: 0.5),
+                                            ),
+                                            Text(
+                                              state.treatmentDatas[index]
+                                                      .subtitle ??
+                                                  '',
+                                              style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 12,
+                                                  color:
+                                                      fromCssColor('#A3A3A3'),
+                                                  letterSpacing: 0.5),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  IconButton(
+                                    onPressed: () {
+                                      // setState(() {
+                                      //   state.treatmentDatas.removeAt(index);
+                                      // });
+                                      state.deleteTreatment(context,
+                                          state.treatmentDatas[index].id!);
+                                      setState(() {
+                                        // state.getRecipeTreatement(context);
+                                        state.treatmentDatas;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );

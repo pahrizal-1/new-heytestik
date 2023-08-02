@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/convert_date.dart';
@@ -30,6 +34,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
   }
 
+  // image fromo gallery
+  Future openGallery() async {
+    final XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        state.imagePath = File(pickedImage.path);
+        final bytes = File(state.imagePath!.path).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        state.fileImg64 = "data:/png;base64,$img64";
+      });
+    } else {
+      print("image not selected");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +65,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 InkWell(
                   onTap: () {
+                    state.imagePath = null;
                     Navigator.pop(context);
                   },
                   child: const Icon(
@@ -90,11 +111,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           height: 65,
                           width: 65,
                           child: CircleAvatar(
-                            backgroundImage: state.profileData.value.data!
-                                        .mediaUserProfilePicture !=
-                                    null
-                                ? NetworkImage(
-                                    '${Global.FILE}' +
+                            backgroundImage: state.imagePath != null
+                                ? FileImage(File(state.imagePath!.path))
+                                    as ImageProvider
+                                : state.profileData.value.data!
+                                            .mediaUserProfilePicture !=
+                                        null
+                                    ? NetworkImage('${Global.FILE}' +
+                                        '/' +
                                         state
                                             .profileData
                                             .value
@@ -103,19 +127,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             .media!
                                             .path
                                             .toString()) as ImageProvider
-                                : AssetImage('assets/images/doctor1.png'),
+                                    : AssetImage('assets/images/doctor1.png'),
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          'Ubah Foto Profil',
-                          style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 13,
-                            fontWeight: bold,
-                            color: greenColor,
+                        InkWell(
+                          onTap: () {
+                            openGallery();
+                          },
+                          child: Text(
+                            'Ubah Foto Profil',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 13,
+                              fontWeight: bold,
+                              color: greenColor,
+                            ),
                           ),
                         ),
                       ],
@@ -222,7 +251,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       const BoxConstraints(maxWidth: 170),
                                   child: RichText(
                                     text: TextSpan(
-                                      text: ConvertDate.defaultDate(state.date.toString()),
+                                      text: state.date != null
+                                          ? ConvertDate.defaultDate(
+                                              state.date.toString())
+                                          : '',
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         color: fromCssColor('#323232'),
@@ -370,7 +402,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 InkWell(
                   onTap: () {
                     // Navigator.pop(context);
-                    print('print ' + state.date!.toIso8601String());
+                    state.postCloseAccount(context);
                   },
                   child: Container(
                     color: Colors.white,

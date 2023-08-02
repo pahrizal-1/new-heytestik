@@ -22,15 +22,45 @@ class ProfileService extends ProviderClass {
     return jsonResponse;
   }
 
-  Future updateProfile(dynamic data) async {
-    var response = await networkingConfig.doUpdateByMap(
+  Future updateProfile(
+    String nama,
+    email,
+    spesialis,
+    noHp,
+    gender,
+    sip,
+    str,
+    education,
+    practice,
+    imgFile,
+    DateTime? date,
+  ) async {
+    var response = await networkingConfig.doUpdateByMapWithFiles(
       '/profile/doctor',
-      data: data,
+      nama: nama,
+      email: email,
+      spesialis: spesialis,
+      noHp: noHp,
+      gender: gender,
+      sip: sip,
+      str: str,
+      education: education,
+      practice: practice,
+      imgFile: imgFile,
+      date: date,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
+    return response;
+  }
+
+  Future<dynamic> closedAccount() async {
+    var response = await networkingConfig.doUpdateFinish(
+      '/profile/doctor/close-account',
+    );
+
     return response;
   }
 }
