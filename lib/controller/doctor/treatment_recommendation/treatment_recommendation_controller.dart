@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -21,7 +23,7 @@ class TreatmentRecommendationController extends StateClass {
   RxList<DataClinic> clinics = List<DataClinic>.empty().obs;
 
   RxList<Data2> treatmentDatas = List<Data2>.empty().obs;
-  RxList treatmentDatasById = [].obs;
+  List treatmentDatasById = [].obs;
   List dataTreatmentItems = [].obs;
   int data1 = 0;
 
@@ -53,6 +55,7 @@ class TreatmentRecommendationController extends StateClass {
 
       titleController.text = res['title'];
       subtitleController.text = res['subtitle'];
+      dataTreatmentItemsById = [];
       for (var a in res['recipe_recomendation_treatment_items']) {
         dataTreatmentItemsById.add(a);
       }
@@ -84,6 +87,40 @@ class TreatmentRecommendationController extends StateClass {
       titleController.clear();
       subtitleController.clear();
       dataTreatmentItems = [];
+    });
+    isLoading.value = false;
+  }
+
+  updateTreatment(
+    BuildContext context,
+    int id,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "title": titleController.text,
+        "subtitle": subtitleController.text,
+        for (var i in dataTreatmentItemsById)
+          "recipe_recomendation_treatment_items": [
+            {
+              'name': i['name']
+            }
+          ]
+      };
+      log('print ' + data.toString());
+      // var response =
+      //     await TreatmentServices().updateTreatmentRecommendation(data, id);
+
+      // if (response['success'] != true && response['message'] != 'Success') {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.anotherUnknow,
+      //     message: response['message'],
+      //   );
+      // }
+      // Navigator.pop(context, 'refresh');
+      // titleController.clear();
+      // subtitleController.clear();
+      // dataTreatmentItemsById = [];
     });
     isLoading.value = false;
   }

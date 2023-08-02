@@ -61,6 +61,17 @@ class TreatmentServices extends ProviderClass {
     return response;
   }
 
+  Future<dynamic> updateTreatmentRecommendation(dynamic data, int id) async {
+    var response = await networkingConfig.doPatch(
+      '/recipe/recomendation/treatment/${id}',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return response;
+  }
+
   Future<ClinicForDoctorModel> getClinic() async {
     try {
       var response = await networkingConfig.doGet(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -32,8 +34,6 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.getRecipeTreatementById(context, widget.id);
     });
-    print('id ' + widget.id.toString());
-    print('id ' + state.titleController.text.toString());
   }
 
   @override
@@ -49,6 +49,7 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                 children: [
                   InkWell(
                     onTap: () {
+                      state.dataTreatmentItemsById = [];
                       Navigator.pop(context);
                     },
                     child: Icon(
@@ -72,6 +73,10 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                 ],
               ),
               InkWell(
+                onTap: () {
+                  log('3' + state.dataTreatmentItemsById.toString());
+                  state.updateTreatment(context, 1);
+                },
                 child: Text(
                   "SIMPAN",
                   style: TextStyle(
@@ -393,13 +398,19 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                       ),
                       ButtonGreenWidget(
                         title: "+ Tambah Treatment",
-                        onPressed: () {
-                          Navigator.push(
+                        onPressed: () async {
+                          String refresh = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AddTreatmentPage()),
+                              builder: (BuildContext context) =>
+                                  AddTreatmentPage(),
+                            ),
                           );
+                          if (refresh == 'refresh') {
+                            setState(() {
+                              state.dataTreatmentItemsById;
+                            });
+                          }
                         },
                       )
                     ],

@@ -16,7 +16,8 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
   final TreatmentRecommendationController state =
       Get.put(TreatmentRecommendationController());
 
-  var dataClinic;
+  List dataClinic = [];
+  var clinickName;
   String selectedText = "";
   List<dynamic> listOFSelectedItem = [];
 
@@ -47,7 +48,8 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                       state.costController.clear();
                       state.recoveryTimeController.clear();
                       state.typeController.clear();
-                      dataClinic = '';
+
+                      dataClinic = [];
                       Navigator.pop(context);
                     },
                     child: const Icon(
@@ -82,9 +84,24 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                         'recovery_time': state.recoveryTimeController.text,
                         'type': state.typeController.text,
                         'clinics': [
-                          {
-                            "clinic_id": dataClinic,
-                          }
+                          for (var i in dataClinic)
+                            {
+                              "clinic_id": i['id'],
+                            }
+                        ]
+                      },
+                    );
+                    state.dataTreatmentItemsById.add(
+                      {
+                        'name': state.nameController.text,
+                        'cost': state.costController.text,
+                        'recovery_time': state.recoveryTimeController.text,
+                        'type': state.typeController.text,
+                        'clinics': [
+                          for (var i in dataClinic)
+                            {
+                              "clinic_id": i['id'],
+                            }
                         ]
                       },
                     );
@@ -134,6 +151,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
+                              hintText: 'Peeling',
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -162,6 +180,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
+                              hintText: '100000 - 200000',
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -190,6 +209,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
+                              hintText: '2 - 3 hari',
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -218,6 +238,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
+                              hintText: 'Non Surgical',
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0)),
@@ -244,18 +265,58 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                           isExpanded: true,
                           items: state.clinics.map((value) {
                             return DropdownMenuItem(
-                              value: value.id,
+                              value: value,
                               child: Text(value.name ?? ''),
                             );
                           }).toList(),
                           hint: Text('Pilih Klinik'),
                           onChanged: (newVal) {
                             setState(() {
-                              dataClinic = newVal;
+                              dataClinic
+                                  .add({'id': newVal!.id, 'name': newVal.name});
+                              // for (var i in dataClinic) {
+                              //   setState(() {
+                              //     clinickName = i;
+                              //   });
+                              // }
                             });
+                            print('pra ' + dataClinic.toString());
+                            print('praaa ' + newVal!.id.toString());
                           },
-                          value: dataClinic,
+                          // value: dataClinic.map((e) {
+                          // value: dataClinic.map((e) => e['name']),
+                          //   clinickName = e;
+                          // }),
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          for (var i in dataClinic)
+                            Container(
+                              height: 90,
+                              // width: 107,
+                              margin: EdgeInsets.only(
+                                bottom: 10,
+                                right: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromRGBO(36, 167, 160, 0.1),
+                                  border: Border.all(
+                                    color: greenColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Center(
+                                child: Text(i['name']),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ],
