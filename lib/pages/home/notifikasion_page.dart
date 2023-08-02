@@ -14,7 +14,8 @@ class NotifikasionPage extends StatefulWidget {
 }
 
 class _NotifikasionPageState extends State<NotifikasionPage> {
-  final NotificationCustomerController state = Get.put(NotificationCustomerController());
+  final NotificationCustomerController state =
+      Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];
@@ -94,7 +95,8 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       width: 8.0,
                     ),
                     Text(
-                      timeago.format(DateTime.parse(notifications[index].createdAt)),
+                      timeago.format(
+                          DateTime.parse(notifications[index].createdAt)),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
@@ -105,7 +107,9 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                 const SizedBox(
                   height: 22,
                 ),
-                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
+                if (notifications[index].type ==
+                        "TRANSACTION_CONSULTATION_SUCCESS" ||
+                    notifications[index].type == 'CHAT')
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF24A7A0),
@@ -124,19 +128,23 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                   ),
                 if (notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.05),
-                        blurRadius: 10,
-                      )
-                    ]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.05),
+                            blurRadius: 10,
+                          )
+                        ]),
                     child: Row(
                       children: [
                         Expanded(
                           child: Column(
                             children: [
-                              Text("Category : ${notifications[index].data['category']}"),
-                              Text("Topic : ${notifications[index].data['topic']}"),
+                              Text(
+                                  "Category : ${notifications[index].data['category']}"),
+                              Text(
+                                  "Topic : ${notifications[index].data['topic']}"),
                             ],
                           ),
                         ),
