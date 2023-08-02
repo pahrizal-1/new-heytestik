@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -97,11 +99,13 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                         'cost': state.costController.text,
                         'recovery_time': state.recoveryTimeController.text,
                         'type': state.typeController.text,
-                        'clinics': [
+                        "clinics": [
                           for (var i in dataClinic)
                             {
-                              "clinic_id": i['id'],
-                            }
+                              'clinic': {
+                                'id': i['id'],
+                              }
+                            },
                         ]
                       },
                     );

@@ -97,32 +97,51 @@ class TreatmentRecommendationController extends StateClass {
   ) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print('f');
       var data = {
         "title": titleController.text,
         "subtitle": subtitleController.text,
-        for (var i in dataTreatmentItemsById)
-          "recipe_recomendation_treatment_items": [
+        "recipe_recomendation_treatment_items": [
+          for (var i in dataTreatmentItemsById)
             {
-              'name': i['name']
+              'name': i['name'],
+              'cost': i['cost'],
+              'recovery_time': i['recovery_time'],
+              'type': i['type'],
+              'clinics': [
+                for (var clinic in i['clinics'])
+                  {
+                    'clinic_id': clinic['clinic']['id'],
+                  },
+              ],
             }
-          ]
+        ]
       };
-      log('print ' + data.toString());
-      // var response =
-      //     await TreatmentServices().updateTreatmentRecommendation(data, id);
+      log('data' + data.toString());
+      var response =
+          await TreatmentServices().updateTreatmentRecommendation(data, id);
 
-      // if (response['success'] != true && response['message'] != 'Success') {
-      //   throw ErrorConfig(
-      //     cause: ErrorConfig.anotherUnknow,
-      //     message: response['message'],
-      //   );
-      // }
-      // Navigator.pop(context, 'refresh');
-      // titleController.clear();
-      // subtitleController.clear();
-      // dataTreatmentItemsById = [];
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+      Navigator.pop(context, 'refresh');
+      titleController.clear();
+      subtitleController.clear();
+      dataTreatmentItemsById = [];
     });
     isLoading.value = false;
+  }
+
+  deleteTreatment(BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await TreatmentServices().deleteTreatmentRecommendation(id);
+      getRecipeTreatement(context);
+      isLoading.value = false;
+    });
   }
 
   getClinick(BuildContext context) async {

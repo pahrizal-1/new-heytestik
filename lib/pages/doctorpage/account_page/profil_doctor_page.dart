@@ -17,6 +17,7 @@ import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../core/global.dart';
 import '../../../widget/loading_widget.dart';
 
 class ProfilDoctorPage extends StatefulWidget {
@@ -82,7 +83,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                 backgroundImage: state.profileData.value.data !=
                                         null
                                     ? NetworkImage(
-                                        'http://192.168.0.118:8193/files/' +
+                                        '${Global.FILE}' + '/' +
                                             state
                                                 .profileData
                                                 .value
@@ -119,10 +120,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   height: 3,
                                 ),
                                 Text(
-                                  state.profileData.value.data != null
-                                      ? state.profileData.value.data!.specialist
-                                          .toString()
-                                      : "-",
+                                  state.profileData.value.data!.specialist ?? '-',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,

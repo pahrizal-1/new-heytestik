@@ -75,7 +75,7 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
               InkWell(
                 onTap: () {
                   log('3' + state.dataTreatmentItemsById.toString());
-                  state.updateTreatment(context, 1);
+                  state.updateTreatment(context, widget.id);
                 },
                 child: Text(
                   "SIMPAN",
@@ -371,13 +371,20 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                                         // ),
                                       ],
                                     ),
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trash.png"),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          state.dataTreatmentItemsById.removeAt(index);
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/icons/trash.png"),
+                                          ),
                                         ),
                                       ),
                                     )

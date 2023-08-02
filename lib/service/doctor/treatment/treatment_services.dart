@@ -72,6 +72,17 @@ class TreatmentServices extends ProviderClass {
     return response;
   }
 
+  Future<dynamic> deleteTreatmentRecommendation(int id) async {
+    var response = await networkingConfig.doDelete(
+      '/recipe/recomendation/treatment/${id}',
+      // data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return response;
+  }
+
   Future<ClinicForDoctorModel> getClinic() async {
     try {
       var response = await networkingConfig.doGet(

@@ -20,10 +20,44 @@ class SkincareRecommendationService extends ProviderClass {
     return SkincareRecommendationModel.fromJson(response);
   }
 
+  Future getSkincareRecommendationById(int id) async {
+    var response = await networkingConfig.doGet(
+      '/recipe/recomendation/skincare/${id}',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response['data'];
+  }
+
   Future<dynamic> postSkincareRecommendation(dynamic data) async {
     var response = await networkingConfig.doPost(
       '/recipe/recomendation/skincare',
       data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
+
+  Future<dynamic> updateSkincareRecommendation(dynamic data, int id) async {
+    var response = await networkingConfig.doPatch(
+      '/recipe/recomendation/skincare/${id}',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
+
+  Future<dynamic> deleteSkincareRecommendation(int id) async {
+    var response = await networkingConfig.doDelete(
+      '/recipe/recomendation/skincare/${id}',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

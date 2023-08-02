@@ -160,6 +160,58 @@ class NetworkingConfig {
     }
   }
 
+  doUpdateByMapWithFiles(
+    String endpoint, {
+    dynamic data,
+    String? nama,
+    email,
+    spesialis,
+    noHp,
+    gender,
+    sip,
+    str,
+    education,
+    practice,
+    imgFile,
+    DateTime? date,
+    Map<String, dynamic> headers = const {},
+  }) async {
+    try {
+      await preparation();
+      var response = await dio.patch(
+        Uri.encodeFull(Global.BASE_API + endpoint),
+        data: FormData.fromMap({
+          'fullname': nama,
+          'email': email,
+          'specialist': spesialis,
+          'no_phone': noHp,
+          'gender': gender,
+          'dob': date!.toIso8601String(),
+          'sip': sip,
+          'str': str,
+          'education': education,
+          'practice_location': practice,
+          'files': await MultipartFile.fromFile(imgFile),
+        }),
+        options: Options(
+          headers: headers,
+          validateStatus: (statusCode) {
+            debugPrint('status code $statusCode');
+            if (statusCode == null) {
+              debugPrint('status code null');
+              return false;
+            }
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
+          },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  }
+
   doUpdate(
     String endpoint,
     dynamic data,
