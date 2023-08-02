@@ -15,12 +15,12 @@ class RekomendasiDokterWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             height: 43,
             width: 270,
             decoration: BoxDecoration(
                 color: greenColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10))),
             child: Text(
@@ -29,7 +29,7 @@ class RekomendasiDokterWidget extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
             height: 299,
             width: 270,
             color: whiteColor,
@@ -37,15 +37,15 @@ class RekomendasiDokterWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Skin Care',
                   style: TextStyle(fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,7 +62,7 @@ class RekomendasiDokterWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -78,7 +78,7 @@ class RekomendasiDokterWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -94,7 +94,7 @@ class RekomendasiDokterWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -110,24 +110,24 @@ class RekomendasiDokterWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 2,
                       ),
                     ],
                   ),
                 ),
-                Text(
+                const Text(
                   'Treatment',
                   style: TextStyle(fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -135,14 +135,14 @@ class RekomendasiDokterWidget extends StatelessWidget {
                         'Peeling',
                         style: grenTextStyle.copyWith(fontSize: 12),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
                         'Facial',
                         style: grenTextStyle.copyWith(fontSize: 12),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -152,10 +152,10 @@ class RekomendasiDokterWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                ButtonGreenWidget(title: 'Lihat Detail')
+                const ButtonGreenWidget(title: 'Lihat Detail')
               ],
             ),
           ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
@@ -10,7 +12,10 @@ class OptionLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LoginController stateRegis = Get.put(LoginController());
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -52,7 +57,7 @@ class OptionLoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign In",
+                    'Sign In',
                     style: blackHigtTextStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -86,7 +91,13 @@ class OptionLoginPage extends StatelessWidget {
               ),
               ButtonSignWidget(
                 img: 'assets/images/Frame 28.png',
-                onPressed: () {},
+                onPressed: () async {
+                  // await stateRegis.loginWithGoogle(context, doInPost: () async {
+                  //   print("masuk ke home home");
+                  // });
+                  // Get.to(LoginGooglePage());
+                  // await stateRegis.logoutWithGoogle();
+                },
               ),
               ButtonSignWidget(
                 img: 'assets/images/Frame 26.png',

@@ -16,11 +16,11 @@ class CustomInputButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(top: 10, bottom: 10),
+        margin: const EdgeInsets.only(top: 10, bottom: 10),
         width: 70,
         height: 70,
-        decoration:
-            BoxDecoration(shape: BoxShape.circle, color: Color(0xFF158880)),
+        decoration: const BoxDecoration(
+            shape: BoxShape.circle, color: Color.fromRGBO(21, 116, 111, 0.498)),
         child: Center(
           child: Text(
             title,

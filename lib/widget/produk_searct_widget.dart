@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/chat_customer/boking_trertment_page.dart';
+
 import '../theme/theme.dart';
 
 class ProdukSearcWidget extends StatelessWidget {
@@ -23,12 +23,12 @@ class ProdukSearcWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BokingTreatment(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const BokingTreatment(),
+        //   ),
+        // );
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class ProdukSearcWidget extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: greyColor, shape: BoxShape.circle),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(

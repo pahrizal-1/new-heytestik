@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/timeline_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
 class MoreDialog extends StatelessWidget {
   const MoreDialog({super.key});
@@ -69,8 +70,8 @@ class MoreDialog extends StatelessWidget {
                   bgcolor: greenColor,
                   isFirst: true,
                   title: 'Nomor Hanpone',
-                  img: "assets/images/iphone1.png",
-                  width: 18,
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
                   iconimg: 'assets/images/check.png',
                 ),
                 TimeMoreDialogPage(
@@ -81,8 +82,8 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Email',
                   img: 'assets/icons/email-icons.png',
-                  width: 30,
-                  iconimg: "assets/images/Vector.png",
+                  width: 25,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -91,9 +92,9 @@ class MoreDialog extends StatelessWidget {
                   isFirst: false,
                   isLast: false,
                   title: 'Info Personal',
-                  img: "assets/images/iphone1.png",
-                  width: 20,
-                  iconimg: "assets/images/Vector.png",
+                  img: 'assets/images/iphone1.png',
+                  width: 25,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -103,8 +104,8 @@ class MoreDialog extends StatelessWidget {
                   isLast: false,
                   title: 'Beauty Profile',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
-                  iconimg: "assets/images/Vector.png",
+                  width: 20,
+                  iconimg: 'assets/images/Vector.png',
                 ),
                 TimeMoreDialogPage(
                   iconColor: greenColor,
@@ -114,7 +115,7 @@ class MoreDialog extends StatelessWidget {
                   isLast: true,
                   title: 'Skin Goals',
                   img: 'assets/icons/logo-person.png',
-                  width: 25,
+                  width: 20,
                   iconimg: 'assets/images/Vector.png',
                 ),
               ],
@@ -147,9 +148,9 @@ class TextMoreDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(10),
+      insetPadding: const EdgeInsets.all(10),
       content: Container(
-        padding: EdgeInsets.only(left: 39, right: 39, top: 39),
+        padding: const EdgeInsets.only(left: 39, right: 39, top: 39),
         height: 210,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -242,10 +243,10 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
                     height: 200,
                     width: 240,
                     transform: Matrix4.translationValues(10, -60, 0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/more-image.png",
+                          'assets/images/more-image.png',
                         ),
                         fit: BoxFit.fill,
                       ),
@@ -286,7 +287,7 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
                 child: Container(
                   height: 45,
                   width: 45,
-                  child: Icon(
+                  child: const Icon(
                     Icons.close,
                     color: Colors.grey,
                     size: 30,
@@ -302,21 +303,18 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
 }
 
 class DetailMoreDialogFilter extends StatelessWidget {
-  const DetailMoreDialogFilter({super.key});
+  final Data2 treatmentData;
+
+  const DetailMoreDialogFilter({
+    super.key,
+    required this.treatmentData,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(0.1),
-      content: Container(
-        height: 356,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
+    return Wrap(
+      children: [
+        Padding(
           padding: const EdgeInsets.only(left: 21, top: 35, right: 21),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,104 +339,52 @@ class DetailMoreDialogFilter extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextBoldSpacebetwen(
                         title1: '',
                         title: 'Durasi Perawatan',
-                        title2: '15 Menit',
+                        title2: treatmentData.duration!,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 11,
                       ),
                       TextBoldSpacebetwen(
                         title1: '',
                         title: 'Masa Pemulihan',
-                        title2: '2-4 Hari',
+                        title2: treatmentData.downtime!,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 11,
                       ),
                       TextBoldSpacebetwen(
                         title1: '',
                         title: 'Tipe',
-                        title2: 'Non- Surgical',
+                        title2: treatmentData.category!,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 34,
                       ),
                       Text(
                         'Detail Perawatan',
                         style: TextStyle(color: blackColor, fontSize: 15),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Cleasing',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
+                      Text(
+                        treatmentData.treatmentStep!,
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Foto Befoer-After',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                color: blackColor, shape: BoxShape.circle),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Diberikan Cairan Felling',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ],
-                      )
                     ]),
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

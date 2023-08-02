@@ -1,55 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/balasan_chat_page.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+
+import '../../../../controller/doctor/settings/setting_controller.dart';
 
 class TambahBalasanPage extends StatelessWidget {
   const TambahBalasanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SettingController state = Get.put(SettingController());
+
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Tambah Balasan Cepat'),
-            Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    state.shortcutController.text = '';
+                    state.messageController.text = '';
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Tambah Balasan Cepat',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => BalasanCepatPage()),
-                );
+                state.postQuickChat(context);
               },
               child: Text(
-                'Simpan',
-                style: whiteTextStyle.copyWith(fontSize: 15),
+                'SIMPAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'ProximaNova',
+                  fontWeight: bold,
+                  fontSize: 15,
+                  letterSpacing: 0.5,
+                ),
               ),
-            )
+            ),
           ],
         ),
-        backgroundColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, top: 19, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Shortcut',
-              style: subTitleTextStyle,
+            Text('Shortcut'),
+            SizedBox(height: 7),
+            TextFormField(
+              keyboardType: TextInputType.multiline,
+              minLines: 1, //Normal textInputField will be displayed
+              maxLines: 5,
+              controller: state.shortcutController,
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
-            ),
-            Text(
-              'Definisi Jerawat',
-              style: blackTextStyle.copyWith(fontSize: 15),
-            ),
-            const Divider(
-              thickness: 2,
             ),
             Text(
               'Kata-kata yang akan mengambil balasan ini',
@@ -67,6 +96,7 @@ class TambahBalasanPage extends StatelessWidget {
                 Container(
                   width: 284,
                   child: TextFormField(
+                    controller: state.messageController,
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(

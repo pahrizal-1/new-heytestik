@@ -12,6 +12,9 @@ Color subTitleColor = const Color(0xff9B9B9B);
 Color greyColor = const Color(0xff6B6B6B);
 Color subgreyColor = const Color(0xff575757);
 Color subgreenColor = const Color.fromRGBO(36, 167, 160, 0.2);
+Color borderColor = const Color(0XFFCCCCCC);
+Color baseColor = Colors.grey[300]!;
+Color highlightColor = Colors.grey[100]!;
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
@@ -46,7 +49,7 @@ TextStyle subGreyTextStyle = TextStyle(
 );
 
 TextStyle subTitleTextStyle = TextStyle(
-  color: Color(0XffA3A3A3),
+  color: const Color(0XffA3A3A3),
   fontSize: 13,
   fontFamily: 'proxima-nova',
   fontWeight: regular,
@@ -77,4 +80,10 @@ TextStyle blackHigtTextStyle = TextStyle(
   fontSize: 24,
   fontFamily: 'proxima-nova',
   fontWeight: bold,
+);
+TextStyle blackRegulerTextStyle = TextStyle(
+  color: const Color(0xff6B6B6B),
+  fontSize: 15,
+  fontFamily: 'proxima-nova',
+  fontWeight: regular,
 );

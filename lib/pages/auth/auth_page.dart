@@ -12,7 +12,7 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          // width: MediaQuery.of(context).size.width,
           padding:
               const EdgeInsets.only(left: paddingL, right: paddingL, top: 446),
           decoration: const BoxDecoration(
@@ -38,14 +38,14 @@ class AuthPage extends StatelessWidget {
               ),
               Text(
                 'Platform direktori informasi tips kecantikan, perawatan, skincare & tanya jawab dengan dokter spesialis kulit.',
-                style: greyTextStyle.copyWith(fontSize: 16, color: blackColor),
+                style: TextStyle(fontSize: 16, color: blackColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 31,
               ),
               ButtonGreenWidget(
-                title: 'Masuk',
+                title: 'MASUK',
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -59,7 +59,7 @@ class AuthPage extends StatelessWidget {
                 height: 14,
               ),
               ButtonWhiteWidget(
-                title: "Daftar",
+                title: 'DAFTAR',
                 onPressed: () {
                   Navigator.push(
                     context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../theme/theme.dart';
@@ -35,10 +36,16 @@ class _MoreDialogPasswordState extends State<MoreDialogPassword> {
               const SizedBox(
                 height: 10,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 104, right: 104),
+              Padding(
+                padding: const EdgeInsets.only(left: 104, right: 104),
                 child: ButtonGreenWidget(
                   title: 'Oke',
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TabBarDoctor()));
+                  },
                   height: 34,
                 ),
               )

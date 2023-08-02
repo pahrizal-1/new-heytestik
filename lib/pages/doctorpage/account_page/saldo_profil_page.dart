@@ -10,23 +10,11 @@ class SaldoProfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back)),
-            const SizedBox(
-              width: 7,
-            ),
-            Text(
-              'Saldo Saya',
-              style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-            ),
-          ],
+        title: Text(
+          'Saldo Saya',
+          style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
         ),
       ),
       body: SingleChildScrollView(

@@ -1,23 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../../../controller/doctor/consultation/consultation_controller.dart';
+import '../../../../core/global.dart';
 import '../../../../widget/Text_widget.dart';
+import '../../../../widget/loading_widget.dart';
+import '../../../../widget/text_form_widget.dart';
 
-class DetailPasienPage extends StatelessWidget {
-  const DetailPasienPage({super.key});
+class DetailPasienPage extends StatefulWidget {
+  final int id;
+  const DetailPasienPage({
+    super.key,
+    required this.id,
+  });
+
+  @override
+  State<DetailPasienPage> createState() => _DetailPasienPageState();
+}
+
+class _DetailPasienPageState extends State<DetailPasienPage> {
+  final DoctorConsultationController state =
+      Get.put(DoctorConsultationController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getDetailConsltation(context, widget.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
           children: [
             InkWell(
               onTap: () {
+                state.idConsultation.value = '';
+                state.status.value = '';
+                state.dateConsultation.value = '';
+                state.endDate.value = '';
+                state.pasienName.value = '';
+                state.topic.value = '';
+                state.listPreAssesment.value = [];
+                state.listPreAssesmentImage.value = [];
                 Navigator.pop(context);
               },
               child: const Icon(
@@ -35,275 +67,249 @@ class DetailPasienPage extends StatelessWidget {
         ),
         backgroundColor: greenColor,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: lsymetric.copyWith(top: 21, bottom: 48),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: ListView(
             children: [
-              Text(
-                'Info Konsultasi',
-                style: blackHigtTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 9,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Status Konsultasi',
-                    style: subGreyTextStyle,
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: orangeColor,
-                        borderRadius: BorderRadius.circular(42),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Review',
-                          style: whiteTextStyle,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const TextBoldSpacebetwen(
-                title: 'ID Konsultasi',
-                title2: 'K1Z4DWJST',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Tanggal',
-                title2: '13 Mei 2023',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Masa Aktif',
-                title2: 'K1Z4DWJST',
-                title1: '',
-              ),
-              const SizedBox(
-                height: 46,
-              ),
-              Text(
-                'Info Pasien',
-                style: blackHigtTextStyle.copyWith(fontSize: 15),
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Nama Pasien',
-                title2: 'Rina Rasmalina',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Topik Keluhan',
-                title2: 'Bekas Jerawat',
-                title1: '',
-              ),
-              const SizedBox(
-                height: 46,
-              ),
-              Text(
-                'Pre-Assessment',
-                style: blackHigtTextStyle.copyWith(fontSize: 15),
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Tipe Kulit Wajah',
-                title2: 'Kombinasi',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Kulit Sensitif ',
-                title2: 'Tidak Tahu',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Jenis Bekas Jerawat',
-                title2: 'Bekas jerawat\nkehitaman',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Produk skincare yang\ndigunakan',
-                title2: 'Sering',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Aktivitas dibawah sinar\nmatahari',
-                title2: 'Sering',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Produk skincare yang\ndigunakan',
-                title2:
-                    'Ya, saat ini saya sedang\nmemakai produk\nskincare yang dibeli\n bebas di pasaran',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Riwayat alergi',
-                title2: 'Tidak',
-                title1: '',
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Riwayat kondisi/penyakit',
-                title2: 'Ya',
-                title1: '',
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                height: 61,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: whiteColor,
-                  border: Border.all(color: Color(0xffCCCCCC), width: 1),
-                ),
-                child: Text(
-                  'Maag, Covid 19, Hipertensi ',
-                  style: blackTextStyle.copyWith(fontSize: 12),
-                ),
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Obat-obatan konsumsi rutin',
-                title2: 'Ya',
-                title1: '',
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                height: 61,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: whiteColor,
-                  border: Border.all(color: Color(0xffCCCCCC), width: 1),
-                ),
-                child: Text(
-                  'Amplodipine Besylate 5mg, Candesartan 8mg',
-                  style: blackTextStyle.copyWith(fontSize: 12),
-                ),
-              ),
-              SizedBox(
-                height: 47,
-              ),
-              Text(
-                'Foto Kondisi Pasien',
-                style: blackHigtTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+              Padding(
+                padding: lsymetric.copyWith(top: 25, bottom: 46),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 110,
-                      width: 80,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 80,
+                    Text(
+                      'Info Konsultasi',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Status Konsultasi',
+                          style: subGreyTextStyle,
+                        ),
+                        Obx(
+                          () => Container(
+                            height: 30,
+                            width: 80,
                             decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/tampak-depan.png'),
+                              color: state.status.value == 'AKTIF'
+                                  ? greenColor
+                                  : orangeColor,
+                              borderRadius: BorderRadius.circular(42),
+                            ),
+                            child: Center(
+                              child: Text(
+                                state.status.value,
+                                style: whiteTextStyle,
                               ),
                             ),
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                    Obx(
+                      () => TextBoldSpacebetwen(
+                        title: 'ID Konsultasi',
+                        title2: state.idConsultation.value,
+                        title1: '',
                       ),
                     ),
-                    SizedBox(
-                      width: 8,
+                    Obx(() => TextBoldSpacebetwen(
+                          title: 'Tanggal',
+                          title2: state.dateConsultation.value,
+                          title1: '',
+                        )),
+                    Obx(() => TextBoldSpacebetwen(
+                          title: 'Masa Aktif',
+                          title2: state.endDate.value,
+                          title1: '',
+                        )),
+                    const SizedBox(
+                      height: 46,
                     ),
-                    Container(
-                      height: 110,
-                      width: 80,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/zoom1.png'),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Text(
+                      'Info Pasien',
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                    Obx(
+                      () => TextBoldSpacebetwen(
+                        title: 'Nama Pasien',
+                        title2: state.pasienName.value,
+                        title1: '',
                       ),
                     ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      height: 110,
-                      width: 80,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/kanan1.png'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      height: 110,
-                      width: 80,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/kiri1.png'),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Obx(
+                      () => TextBoldSpacebetwen(
+                        title: 'Topik Keluhan',
+                        title2: state.topic.value,
+                        title1: '',
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
-                '*Klik foto untuk memperbesar',
-                style: greyTextStyle.copyWith(fontStyle: FontStyle.italic),
+              Padding(
+                padding: const EdgeInsets.only(left: 19),
+                child: Text(
+                  'Pre-Assessment',
+                  style: blackHigtTextStyle.copyWith(fontSize: 18),
+                ),
               ),
               const SizedBox(
-                height: 37,
+                height: 9,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 45,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TambahanSkinCare()));
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: greenColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 200),
+              //   child: Container(
+              //     height: 34,
+              //     width: 1,
+              //     padding: const EdgeInsets.only(
+              //         top: 8, left: 25, bottom: 11, right: 19),
+              //     decoration: BoxDecoration(
+              //         color: greenColor,
+              //         borderRadius: const BorderRadius.only(
+              //             topRight: Radius.circular(20),
+              //             bottomRight: Radius.circular(20))),
+              //     child: Text(
+              //       'Pertanyaan Umum',
+              //       style: whiteTextStyle.copyWith(fontSize: 16),
+              //     ),
+              //   ),
+              // ),
+
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        // height: Get.height,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.listPreAssesment.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PeryataanUmumTextFrom(
+                                    pernyattan: state.listPreAssesment[index]
+                                            ['interest_conditions_question']
+                                        ['name'],
+                                    jawaban: state.listPreAssesment[index]
+                                        ['interest_conditions_answer']['name'],
+                                  ),
+                                ],
+                              );
+                            })),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Foto Kondisi Pasien',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
                     ),
-                  ),
-                  child: Text('Pre-Assessment Review Selesai',
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Obx(
+                      () => Container(
+                        height: 110,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.listPreAssesmentImage.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 80,
+                                margin: EdgeInsets.only(
+                                  right: 8,
+                                ),
+                                child: Image.network(
+                                  '${Global.FILE}/' +
+                                      state.listPreAssesmentImage[index]
+                                          ['media']['path'],
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
+                    Text(
+                      '*Klik foto untuk memperbesar',
                       style:
-                          whiteTextStyle.copyWith(fontStyle: FontStyle.italic)),
+                          greyTextStyle.copyWith(fontStyle: FontStyle.italic),
+                    ),
+                    const SizedBox(
+                      height: 37,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      child: TextButton(
+                        onPressed: () {
+                          state.status.value == 'AKTIF'
+                              ? null
+                              : state.postFinish(context, widget.id);
+
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const TambahanSkinCare()));
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: state.status.value == 'AKTIF'
+                              ? greyColor
+                              : greenColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text('Pre-Assessment Review Selesai',
+                            style: whiteTextStyle.copyWith(
+                                fontStyle: FontStyle.italic)),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    state.status.value == 'AKTIF'
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CatatanDocter()));
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: greenColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text('Catatan Doktor',
+                                  style: whiteTextStyle.copyWith(
+                                      fontStyle: FontStyle.italic)),
+                            ),
+                          )
+                        : Container(),
+                    SizedBox(height: 10),
+                  ],
                 ),
               )
             ],
