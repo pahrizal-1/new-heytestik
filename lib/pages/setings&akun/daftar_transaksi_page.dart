@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/all_history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
@@ -17,8 +17,9 @@ import '../../widget/daftar_transaksi_widgets.dart';
 
 class DaftarTransaksiPage extends StatelessWidget {
   DaftarTransaksiPage({super.key});
-  final HistoryConsultationController state =
-      Get.put(HistoryConsultationController());
+
+  final AllHistoryTransactionController state =
+      Get.put(AllHistoryTransactionController());
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +194,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
-                      Get.to(() => const MenungguPemayaranPage());
+                      Get.to(() => MenungguPemayaranPage());
                     },
                     child: Row(
                       children: [
@@ -217,7 +218,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                         ),
                         const Spacer(),
                         Obx(
-                          () => state.totalPendingPayment.value == 0
+                          () => state.totalPending.value == 0
                               ? Container()
                               : Container(
                                   padding: const EdgeInsets.symmetric(
@@ -226,7 +227,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5),
                                       color: redColor),
                                   child: Text(
-                                    state.totalPendingPayment.value.toString(),
+                                    state.totalPending.value.toString(),
                                     style:
                                         whiteTextStyle.copyWith(fontSize: 10),
                                   ),
@@ -249,10 +250,8 @@ class DaftarTransaksiPage extends StatelessWidget {
                 height: spaceHeigt,
               ),
               FutureBuilder(
-                future: state.getHistoryConsultation(context),
-                builder: (context,
-                    AsyncSnapshot<TransactionHistoryConsultationModel?>
-                        snapshot) {
+                future: state.getAllHistory(context),
+                builder: (context, AsyncSnapshot snapshot) {
                   print(snapshot.connectionState);
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Column(
@@ -317,7 +316,7 @@ class DaftarTransaksiPage extends StatelessWidget {
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return snapshot.data!.data!.data!.isEmpty
+                      return state.historyNotPending.isEmpty
                           ? Center(
                               child: Text(
                                 'Belum ada transaksi',
@@ -331,50 +330,95 @@ class DaftarTransaksiPage extends StatelessWidget {
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.data?.data?.length,
+                              itemCount: state.historyNotPending.length,
                               itemBuilder: (BuildContext context, index) {
-                                return TransaksiKonsultan(
-                                  namaDokter: 'dr. Risty Hafinah, Sp.DV',
-                                  tanggal: ConvertDate.defaultDate(snapshot
-                                          .data!.data?.data?[index].createdAt ??
-                                      '-'),
-                                  pesanan: 'Konsultasi',
-                                  progres: snapshot.data!.data?.data?[index]
-                                              .status ==
-                                          'MENUNGGU_PEMBAYARAN'
-                                      ? 'Menunggu Pembayaran'
-                                      : snapshot.data!.data?.data?[index]
-                                                  .status ==
-                                              'READY'
-                                          ? 'Ready'
-                                          : snapshot.data!.data?.data?[index]
-                                                      .status ==
-                                                  'REVIEW'
-                                              ? 'Review'
-                                              : snapshot
-                                                          .data!
-                                                          .data
-                                                          ?.data?[index]
-                                                          .status ==
-                                                      'AKTIF'
-                                                  ? 'Aktif'
-                                                  : snapshot
-                                                              .data!
-                                                              .data
-                                                              ?.data?[index]
-                                                              .status ==
-                                                          'SELESAI'
-                                                      ? 'Selesai'
-                                                      : '-',
-                                  keluhan: 'Bekas Jerawat',
-                                  harga: CurrencyFormat.convertToIdr(
-                                      snapshot
-                                          .data!.data?.data?[index].totalPaid,
-                                      0),
-                                  img: 'assets/images/doctor-img.png',
-                                );
-                              },
-                            );
+                                if (state.historyNotPending[index]
+                                        .transactionType ==
+                                    'CONSULTATION') {
+                                  return TransaksiKonsultan(
+                                    namaDokter: state.historyNotPending[index]
+                                                .consultation ==
+                                            null
+                                        ? '-'
+                                        : state.historyNotPending[index]
+                                            .consultation.doctor.fullname,
+                                    tanggal: ConvertDate.defaultDate(state
+                                            .historyNotPending[index]
+                                            .createdAt ??
+                                        '-'),
+                                    pesanan: 'Konsultasi',
+                                    progres: state.historyNotPending[index]
+                                                .status ==
+                                            'MENUNGGU_PEMBAYARAN'
+                                        ? 'Menunggu Pembayaran'
+                                        : state.historyNotPending[index]
+                                                    .status ==
+                                                'READY'
+                                            ? 'Ready'
+                                            : state.historyNotPending[index]
+                                                        .status ==
+                                                    'REVIEW'
+                                                ? 'Review'
+                                                : state.historyNotPending[index]
+                                                            .status ==
+                                                        'AKTIF'
+                                                    ? 'Aktif'
+                                                    : state
+                                                                .historyNotPending[
+                                                                    index]
+                                                                .status ==
+                                                            'SELESAI'
+                                                        ? 'Selesai'
+                                                        : '-',
+                                    keluhan: 'Bekas Jerawat',
+                                    harga: CurrencyFormat.convertToIdr(
+                                        state
+                                            .historyNotPending[index].totalPaid,
+                                        0),
+                                    img: state.historyNotPending[index]
+                                                .consultation ==
+                                            null
+                                        ? '-'
+                                        : '${Global.FILE}/${state.historyNotPending[index].consultation.doctor.mediaUserProfilePicture.media.path}',
+                                  );
+                                }
+
+                                if (state.historyNotPending[index]
+                                        .transactionType ==
+                                    'TREATMENT') {
+                                  return TransaksiTreatment(
+                                    item: state.historyNotPending[index]
+                                        .transactionTreatmentItems,
+                                    tanggal: ConvertDate.defaultDate(state
+                                            .historyNotPending[index]
+                                            .createdAt ??
+                                        '-'),
+                                    pesanan: 'Treatment',
+                                    progres: state.historyNotPending[index]
+                                                .status ==
+                                            'MENUNGGU_PEMBAYARAN'
+                                        ? 'Menunggu Pembayaran'
+                                        : state.historyNotPending[index]
+                                                    .status ==
+                                                'MENUNGGU_KONFIRMASI_KLINIK'
+                                            ? 'Menunggu Konfirmasi Klinik'
+                                            : state.historyNotPending[index]
+                                                        .status ==
+                                                    'KLINIK_MENGKONFIRMASI'
+                                                ? 'Klinik Mengkonfirmasi'
+                                                : state.historyNotPending[index]
+                                                            .status ==
+                                                        'SELESAI'
+                                                    ? 'Selesai'
+                                                    : '-',
+                                    harga: CurrencyFormat.convertToIdr(
+                                        state
+                                            .historyNotPending[index].totalPaid,
+                                        0),
+                                  );
+                                }
+                                return null;
+                              });
                     } else {
                       return Center(
                         child: Text(
