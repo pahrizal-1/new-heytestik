@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/pilih_metode_verifikasi_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_bio_profik_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
@@ -10,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_jenis_kelamin_p
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nama_profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_tanggal_lahir_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,6 +24,14 @@ class EditProfilCostomer extends StatefulWidget {
 }
 
 class _EditProfilCostomerState extends State<EditProfilCostomer> {
+  final ProfileController state = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.init();
+  }
+
   File? image;
 
   Future pickImage() async {
@@ -60,7 +71,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                 width: 11,
               ),
               Text(
-                'Rina Rasmalina',
+                state.dataUser['fullname'],
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
@@ -173,7 +184,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         width: 82,
                       ),
                       Text(
-                        'Rina Rasmalina',
+                        state.dataUser['fullname'],
                         style: blackRegulerTextStyle.copyWith(
                             fontSize: 15, color: blackColor),
                         textAlign: TextAlign.start,
@@ -296,7 +307,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       width: 74,
                     ),
                     Text(
-                      '123456',
+                      '-',
                       style: blackRegulerTextStyle.copyWith(
                           fontSize: 15, color: blackColor),
                       textAlign: TextAlign.start,
@@ -316,7 +327,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       ),
                     );
                   },
-                  title2: 'rasmalina.rina@gmail.com',
+                  title2: state.dataUser['email'],
                   titlel: 'Email',
                 ),
                 const SizedBox(
@@ -332,7 +343,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       ),
                     );
                   },
-                  title2: '085211234567',
+                  title2: state.dataUser['no_phone'],
                   titlel: 'Nomor HP',
                 ),
                 const SizedBox(
@@ -348,14 +359,14 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       ),
                     );
                   },
-                  title2: 'Perempuan',
+                  title2: state.dataUser['gender'],
                   titlel: 'Jenis Kelamin',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
                 TextProfil(
-                  title2: '1 Januari 2003',
+                  title2: '-',
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -375,9 +386,24 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
             height: 17,
           ),
           Center(
-            child: Text(
-              'Tutup Akun',
-              style: grenTextStyle.copyWith(fontSize: 15),
+            child: InkWell(
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialogLogout(
+                    title: 'Apakah Kamu yakin ingin menutup akun?',
+                    function: () async {
+                      await state.closeAccount(context, doInPost: () async {
+                        await state.logout(context);
+                      });
+                    },
+                  ),
+                );
+              },
+              child: Text(
+                'Tutup Akun',
+                style: grenTextStyle.copyWith(fontSize: 15),
+              ),
             ),
           )
         ],

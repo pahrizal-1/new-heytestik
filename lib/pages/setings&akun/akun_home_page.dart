@@ -29,8 +29,13 @@ class _AkunHomePageState extends State<AkunHomePage> {
   bool isSelcted = false;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     state.init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -125,7 +130,7 @@ class _AkunHomePageState extends State<AkunHomePage> {
                               width: 9,
                             ),
                             Text(
-                              'Rp20.000',
+                              'Rp0',
                               style:
                                   blackRegulerTextStyle.copyWith(fontSize: 12),
                             ),
