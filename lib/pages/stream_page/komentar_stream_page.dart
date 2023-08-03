@@ -567,6 +567,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
+                                                          //Tambah Gambar
                                                           InkWell(
                                                             onTap: () {
                                                               _pickImageFromCamera();
