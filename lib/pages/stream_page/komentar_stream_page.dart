@@ -1,11 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/stream_comment.dart';
-import '../../models/stream_comment_reply.dart';
+
 import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
@@ -28,6 +33,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   final PostController postController = Get.put(PostController());
   final ScrollController commentScrollController = ScrollController();
 
+  File? imagePath;
+
   int page = 1;
   int index = 1;
   bool? like;
@@ -39,7 +46,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      comments.addAll(await postController.getComment(context, page, widget.post.id));
+      comments.addAll(
+          await postController.getComment(context, page, widget.post.id));
       setState(() {});
     });
 
@@ -49,7 +57,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            comments.addAll(await postController.getComment(context, page, widget.post.id));
+            comments.addAll(
+                await postController.getComment(context, page, widget.post.id));
           });
           setState(() {});
         }
@@ -93,7 +102,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 17, top: 16, bottom: 18),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 17, top: 16, bottom: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -161,7 +171,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     constraints: const BoxConstraints(maxWidth: 320),
                     child: Text(
                       widget.post.content,
-                      style: blackRegulerTextStyle.copyWith(fontSize: 14, color: blackColor),
+                      style: blackRegulerTextStyle.copyWith(
+                          fontSize: 14, color: blackColor),
                     ),
                   ),
                   const SizedBox(
@@ -182,7 +193,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           (like ?? widget.post.liked)
                               ? GestureDetector(
                                   onTap: () {
-                                    postController.unlikePost(context, widget.post.id);
+                                    postController.unlikePost(
+                                        context, widget.post.id);
                                     setState(() {
                                       like = false;
                                       postLike = postLike - 1;
@@ -192,7 +204,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 )
                               : GestureDetector(
                                   onTap: () {
-                                    postController.likePost(context, widget.post.id);
+                                    postController.likePost(
+                                        context, widget.post.id);
                                     setState(() {
                                       like = true;
                                       postLike = postLike + 1;
@@ -226,7 +239,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           (saved ?? widget.post.saved)
                               ? GestureDetector(
                                   onTap: () {
-                                    postController.unSavePost(context, widget.post.id);
+                                    postController.unSavePost(
+                                        context, widget.post.id);
                                     setState(() {
                                       saved = false;
                                     });
@@ -235,7 +249,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 )
                               : GestureDetector(
                                   onTap: () {
-                                    postController.savePost(context, widget.post.id);
+                                    postController.savePost(
+                                        context, widget.post.id);
                                     setState(() {
                                       saved = true;
                                     });
@@ -251,7 +266,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
             ),
             dividergrey(),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 17, top: 24, bottom: 18),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 17, top: 24, bottom: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: comments
@@ -282,13 +298,15 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   children: [
                                     Text(
                                       comment.fullName,
-                                      style: blackTextStyle.copyWith(fontSize: 14),
+                                      style:
+                                          blackTextStyle.copyWith(fontSize: 14),
                                     ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
-                                      timeago.format(DateTime.parse(comment.createdAt)),
+                                      timeago.format(
+                                          DateTime.parse(comment.createdAt)),
                                       style: blackRegulerTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
@@ -312,7 +330,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   children: [
                                     Text(
                                       'Suka',
-                                      style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                      style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 12),
                                     ),
                                     const SizedBox(
                                       width: 17,
@@ -329,16 +348,20 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   height: 16,
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(241, 241, 241, 0.95),
+                                    color: const Color.fromRGBO(
+                                        241, 241, 241, 0.95),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             height: 30,
@@ -356,21 +379,25 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             width: 11,
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Kevin',
-                                                    style: blackTextStyle.copyWith(fontSize: 14),
+                                                    style: blackTextStyle
+                                                        .copyWith(fontSize: 14),
                                                   ),
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
                                                   Text(
                                                     '3h',
-                                                    style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(fontSize: 12),
                                                   ),
                                                 ],
                                               ),
@@ -378,25 +405,32 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                 height: 6,
                                               ),
                                               Container(
-                                                constraints: const BoxConstraints(maxWidth: 220),
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 220),
                                                 child: Text.rich(
                                                   TextSpan(
                                                     text: 'Mantaaaaaps ',
-                                                    style: blackRegulerTextStyle.copyWith(
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
                                                       fontSize: 14,
                                                       color: blackColor,
                                                     ),
                                                     children: [
                                                       TextSpan(
                                                         text: '@Ressy',
-                                                        style: grenTextStyle.copyWith(
+                                                        style: grenTextStyle
+                                                            .copyWith(
                                                           fontSize: 14,
                                                           fontWeight: regular,
                                                         ),
                                                       ),
                                                       TextSpan(
-                                                        text: ' makasiiihhh rekomennya, kayaknya gue bakalan kesanaa',
-                                                        style: blackRegulerTextStyle.copyWith(
+                                                        text:
+                                                            ' makasiiihhh rekomennya, kayaknya gue bakalan kesanaa',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
                                                           fontSize: 14,
                                                           color: blackColor,
                                                         ),
@@ -412,14 +446,16 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                 children: [
                                                   Text(
                                                     'Suka',
-                                                    style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(fontSize: 12),
                                                   ),
                                                   const SizedBox(
                                                     width: 17,
                                                   ),
                                                   Text(
                                                     'Balas',
-                                                    style: blackRegulerTextStyle.copyWith(
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
@@ -483,7 +519,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           itemBuilder: (context) => [
                             PopupMenuItem(
                                 child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
                               height: 100,
                               child: Column(
                                 children: [
@@ -492,51 +529,97 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                                backgroundColor: Colors.transparent,
-                                                insetPadding: const EdgeInsets.all(0.1),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                insetPadding:
+                                                    const EdgeInsets.all(0.1),
                                                 content: Container(
                                                     height: 225,
-                                                    width: MediaQuery.of(context).size.width,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     decoration: BoxDecoration(
                                                       color: whiteColor,
-                                                      borderRadius: BorderRadius.circular(20),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
                                                     ),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 35,
+                                                          vertical: 32),
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
                                                             'Tambahkan gambar',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
+                                                            style: blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color:
+                                                                        blackColor),
                                                           ),
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
-                                                          Text(
-                                                            'Kamera',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              _pickImageFromCamera();
+                                                            },
+                                                            child: Text(
+                                                              'Kamera',
+                                                              style: blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color:
+                                                                          blackColor),
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
-                                                          Text(
-                                                            'Dari galeri',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Get.to(
+                                                                  GaleryMyJourney());
+                                                            },
+                                                            child: Text(
+                                                              'Dari galeri',
+                                                              style: blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color:
+                                                                          blackColor),
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
                                                           Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
                                                             children: [
                                                               InkWell(
                                                                 onTap: () {
-                                                                  Navigator.pop(context);
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 },
                                                                 child: Text(
                                                                   'CANCEL',
-                                                                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                                  style: blackRegulerTextStyle
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              blackColor),
                                                                 ),
                                                               ),
                                                             ],
@@ -550,7 +633,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       children: [
                                         Text(
                                           'Foto / Kamera',
-                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -559,8 +643,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/camera-new.png',
                                             height: 25,
@@ -579,7 +666,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       children: [
                                         Text(
                                           'Poll',
-                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -588,8 +676,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/poll.png',
                                           ),
@@ -615,5 +706,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
         ),
       ),
     );
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
   }
 }

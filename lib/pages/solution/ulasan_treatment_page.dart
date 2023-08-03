@@ -38,6 +38,9 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   bool isVisibelity = true;
   Map<String, dynamic> dataOverview = {};
 
+  ScrollController listScrollController = ScrollController();
+  // scroll controller
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -147,6 +150,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
         () => LoadingWidget(
           isLoading: treatmentController.isLoading.value,
           child: ListView(
+            controller: listScrollController,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 27, left: 26, right: 26),
@@ -572,7 +576,19 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           height: 50,
           width: 50,
           child: FloatingActionButton(
-              onPressed: () {}, child: Image.asset('assets/icons/dowload.png')),
+              onPressed: () {
+                if (listScrollController.hasClients) {
+                  final position =
+                      listScrollController.position.minScrollExtent;
+                  listScrollController.animateTo(
+                    position,
+                    duration: Duration(seconds: 1),
+                    curve: Curves.easeOut,
+                  );
+                }
+              },
+              isExtended: true,
+              child: Image.asset('assets/icons/dowload.png')),
         ),
       ),
     );

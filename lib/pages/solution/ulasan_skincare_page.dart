@@ -18,6 +18,7 @@ class UlasanPageSkincare extends StatefulWidget {
 }
 
 class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
+  ScrollController listScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +98,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
         ],
       ),
       body: ListView(
+        controller: listScrollController,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 27, left: 26, right: 26),
@@ -511,7 +513,19 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
           height: 50,
           width: 50,
           child: FloatingActionButton(
-              onPressed: () {}, child: Image.asset('assets/icons/dowload.png')),
+              onPressed: () {
+                if (listScrollController.hasClients) {
+                  final position =
+                      listScrollController.position.minScrollExtent;
+                  listScrollController.animateTo(
+                    position,
+                    duration: Duration(seconds: 1),
+                    curve: Curves.easeOut,
+                  );
+                }
+              },
+              isExtended: true,
+              child: Image.asset('assets/icons/dowload.png')),
         ),
       ),
     );

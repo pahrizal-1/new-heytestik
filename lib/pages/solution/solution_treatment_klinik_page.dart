@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/clinic.dart';
+import '../../widget/filter_all_widgets.dart';
 
 class TreatmentKlink extends StatefulWidget {
   const TreatmentKlink({super.key});
@@ -150,10 +151,87 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                   ],
                 ),
         ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: FilterTreatment(),
-        ),
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: SizedBox(
+              height: 60.0,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(left: 9, right: 9),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadiusDirectional.only(
+                                  topEnd: Radius.circular(25),
+                                  topStart: Radius.circular(25),
+                                ),
+                              ),
+                              builder: (context) => FilterAll(),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/filter-icon.png',
+                            width: 13,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 6, bottom: 6),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Treatment',
+                              style: blackRegulerTextStyle.copyWith(
+                                  color: blackColor),
+                            ),
+                            const SizedBox(
+                              width: 9,
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 15,
+                            )
+                          ],
+                        ),
+                      ),
+                      FiklterTreatment(
+                        title: 'Bintang 4.5+',
+                      ),
+                      FiklterTreatment(
+                        title: 'Buka Sekarang',
+                      ),
+                      FiklterTreatment(
+                        title: 'Promo',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
       ),
       body: ListView.builder(
         itemCount: stateTreatment.dataClinic.length,
