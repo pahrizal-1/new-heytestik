@@ -32,7 +32,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   final ScrollController scrollController = ScrollController();
   final TreatmentController treatmentController =
       Get.put(TreatmentController());
-
+  bool? isFavourite;
   int page = 1;
   List<TreatmentReviewModel> reviews = [];
   bool isVisibelity = true;
@@ -114,13 +114,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset(
-            'assets/icons/love-grey.svg',
-            color: whiteColor,
-          ),
-          const SizedBox(
-            width: 21,
-          ),
           InkWell(
             onTap: () {
               showModalBottomSheet(

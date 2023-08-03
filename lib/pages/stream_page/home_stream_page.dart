@@ -29,12 +29,17 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   bool? like;
   bool? saved;
   List<StreamHomeModel> streams = [];
-  int postLike = 0;
+  Map<String, int> postLike = {};
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       streams.addAll(await postController.getStreamHomeModel(context, page));
+      for(var i = 0; i < streams.length; i++) {
+        postLike.addAll({
+          "${streams[i].id}": 0,
+        });
+      }
       setState(() {});
     });
 
@@ -45,6 +50,11 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             streams.addAll(await postController.getStreamHomeModel(context, page));
+            for(var i = 0; i < streams.length; i++) {
+              postLike.addAll({
+                "${streams[i].id}": 0,
+              });
+            }
           });
           setState(() {});
         }
@@ -139,7 +149,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                       height: 16,
                     ),
                     Text(
-                      "${streams[index].streamLikes + postLike} Menyukai",
+                      "${streams[index].streamLikes + (postLike["${streams[index].id}"] ?? 0)} Menyukai",
                       style: subTitleTextStyle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
@@ -156,7 +166,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                                       postController.unlikePost(context, streams[index].id);
                                       setState(() {
                                         like = false;
-                                        postLike = postLike - 1;
+                                        postLike["${streams[index].id}"] =  (postLike["${streams[index].id}"] ?? 0) - 1;
                                       });
                                     },
                                     child: Icon(Icons.favorite),
@@ -166,7 +176,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                                       postController.likePost(context, streams[index].id);
                                       setState(() {
                                         like = true;
-                                        postLike = postLike + 1;
+                                        postLike["${streams[index].id}"] =  (postLike["${streams[index].id}"] ?? 0) + 1;
                                       });
                                     },
                                     child: Icon(Icons.favorite_outline_outlined),

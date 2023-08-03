@@ -137,7 +137,7 @@ class PostServices extends ProviderClass {
         '/stream/$postID/comment/$commentID/replies',
         params: {
           "page": page,
-          "take": 10,
+          "take": 100,
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -236,6 +236,46 @@ class PostServices extends ProviderClass {
     try {
       var response = await networkingConfig.doPost(
         '/stream/$postID/unsave',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch(error) {
+      print(error);
+    }
+  }
+
+  void postComment(int postID, String content) async {
+    try {
+      // Regular expression to match mentions starting with "@"
+      RegExp mentionRegex = RegExp(r'@(\w+)');
+
+      // Find all matches in the text
+      Iterable<RegExpMatch> matches = mentionRegex.allMatches(content);
+
+      // Extract the mention usernames and store them in a list
+      List<String> mentions = matches.map((match) => match.group(1)!).toList();
+
+      List<Map<String, dynamic>> userMentions = [];
+
+      for(var i = 0; i < mentions.length; i++) {
+        userMentions.add({
+          "username": mentions[i],
+          "mention": "@${mentions[i]}"
+        });
+      }
+
+      Map<String, dynamic> data = {
+        "content": "first comment @customer",
+        "mentions": userMentions,
+      };
+
+      var response = await networkingConfig.doPost(
+        '/stream/$postID/comment',
+        data: data,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

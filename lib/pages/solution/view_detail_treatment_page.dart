@@ -118,9 +118,6 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       isFavourite = !isFavourite!;
                     });
 
-                    print(widget.treatment.id!);
-                    print(isFavourite);
-
                     stateTreatment.userWishlistTreatment(context, widget.treatment.id!, isFavourite!);
                   },
                   child: (isFavourite == null ? stateTreatment.treatmentDetail.value.wishlist! : isFavourite!) == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
@@ -536,11 +533,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         InkWell(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => UlasanTreatmentPage(
-                                          treatmentID: widget.treatment.id!,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UlasanTreatmentPage(
+                                  treatmentID: widget.treatment.id!,
+                                ),
+                              ),
+                            );
                           },
                           child: Text(
                             'Lihat Semua',
