@@ -168,62 +168,8 @@ class _NearMePageState extends State<NearMePage> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 9),
-                      padding: const EdgeInsets.only(left: 9, right: 9),
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: borderColor),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topEnd: Radius.circular(25),
-                                topStart: Radius.circular(25),
-                              ),
-                            ),
-                            builder: (context) => FilterAll(),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/icons/filter-icon.png',
-                          width: 13,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 9),
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 6, bottom: 6),
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: borderColor),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Treatment',
-                            style: blackRegulerTextStyle.copyWith(
-                                color: blackColor),
-                          ),
-                          const SizedBox(
-                            width: 9,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 15,
-                          )
-                        ],
-                      ),
+                    FiklterTreatment(
+                      title: 'Treatmnet',
                     ),
                     FiklterTreatment(
                       title: 'Bintang 4.5+',
