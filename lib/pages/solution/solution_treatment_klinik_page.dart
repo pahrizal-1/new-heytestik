@@ -193,8 +193,48 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           ),
                         ),
                       ),
-                      FiklterTreatment(
-                        title: 'Treatment',
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            backgroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.only(
+                                topEnd: Radius.circular(25),
+                                topStart: Radius.circular(25),
+                              ),
+                            ),
+                            builder: (context) => TreatmentFilter(),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 9),
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, top: 6, bottom: 6),
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: borderColor),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Treatment',
+                                style: blackTextStyle.copyWith(fontSize: 14),
+                              ),
+                              const SizedBox(
+                                width: 9,
+                              ),
+                              const Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 15,
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                       FiklterTreatment(
                         title: 'Bintang 4.5+',
