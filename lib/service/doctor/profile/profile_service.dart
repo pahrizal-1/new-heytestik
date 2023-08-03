@@ -22,6 +22,54 @@ class ProfileService extends ProviderClass {
     return jsonResponse;
   }
 
+  Future getOverview() async {
+    var response = await networkingConfig.doGet(
+      '/profile/doctor/review/overview',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = response['data'];
+    return jsonResponse;
+  }
+  Future getDetailOverview() async {
+    var response = await networkingConfig.doGet(
+      '/profile/doctor/review/detail-overview',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = response['data'];
+    return jsonResponse;
+  }
+
+  Future getReview(dynamic params) async {
+    var response = await networkingConfig.doGet(
+      '/profile/doctor/review',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = response['data']['data'];
+    return jsonResponse;
+  }
+
+  Future getReviewWithoutParams() async {
+    var response = await networkingConfig.doGet(
+      '/profile/doctor/review',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = response['data']['data'];
+    return jsonResponse;
+  }
+
   Future updateProfile(
     String nama,
     email,
