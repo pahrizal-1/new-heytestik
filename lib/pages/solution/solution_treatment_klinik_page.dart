@@ -73,7 +73,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       width: 11,
                     ),
                     Text(
-                      'Trending',
+                      'Klink',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     const Spacer(),
@@ -136,7 +136,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Klinik",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",
@@ -192,49 +192,8 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topEnd: Radius.circular(25),
-                                topStart: Radius.circular(25),
-                              ),
-                            ),
-                            builder: (context) => TreatmentFilter(),
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 9),
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 6, bottom: 6),
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Treatment',
-                                style: blackRegulerTextStyle.copyWith(
-                                    color: blackColor),
-                              ),
-                              const SizedBox(
-                                width: 9,
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_down,
-                                size: 15,
-                              )
-                            ],
-                          ),
-                        ),
+                      FiklterTreatment(
+                        title: 'Treatment',
                       ),
                       FiklterTreatment(
                         title: 'Bintang 4.5+',

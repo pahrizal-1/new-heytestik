@@ -293,6 +293,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           Container(
                             constraints: const BoxConstraints(maxWidth: 290),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
@@ -587,8 +588,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                           ),
                                                           InkWell(
                                                             onTap: () {
-                                                              Get.to(
-                                                                  GaleryMyJourney());
+                                                              _pickImageFromGalery();
                                                             },
                                                             child: Text(
                                                               'Dari galeri',
@@ -712,6 +712,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   Future _pickImageFromCamera() async {
     final returnedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
+  }
+
+  Future _pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (returnedImage == null) return;
     imagePath = File(returnedImage.path);
