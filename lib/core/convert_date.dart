@@ -105,10 +105,13 @@ class ConvertDate {
   }
 
   static String payBefore(String value) {
-    DateTime tdata = DateTime.parse(value);
+    DateTime tdata = DateTime.parse('2023-08-03T23:50:27+07:00');
     // '13 Mei, 17:12',
-    final DateFormat formatter = DateFormat('dd MMM, HH:mm');
+    print('tdata $tdata');
+    final DateFormat formatter = DateFormat('dd MMM, HH:mm:ss');
+    print('formatter $formatter');
     final String formatted = formatter.format(tdata);
+    print('formatted $formatted');
     return formatted;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
@@ -25,6 +26,7 @@ class SetingsAkunPage extends StatefulWidget {
 
 class _SetingsAkunPageState extends State<SetingsAkunPage> {
   final LocationController state = Get.put(LocationController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   bool isLoading = false;
 
   @override
@@ -233,7 +235,12 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialogLogout(),
+                          builder: (context) => AlertDialogLogout(
+                            title: 'Apakah Kamu yakin ingin keluar?',
+                            function: () async {
+                              await stateProfile.logout(context);
+                            },
+                          ),
                         );
                       },
                       child: Row(

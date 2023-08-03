@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
@@ -27,7 +29,15 @@ class ProfilCustomerPage extends StatefulWidget {
 }
 
 class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
+  final ProfileController state = Get.put(ProfileController());
   int iSelected = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    state.init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +62,12 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
               const SizedBox(
                 width: 11,
               ),
-              Text(
-                'Rina Rasmalina',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
-              )
+              Obx(
+                () => Text(
+                  state.fullName.value,
+                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                ),
+              ),
             ],
           ),
         ),
@@ -104,9 +116,11 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Rina Rasmalina',
-                          style: blackTextStyle.copyWith(fontSize: 18),
+                        Obx(
+                          () => Text(
+                            state.fullName.value,
+                            style: blackTextStyle.copyWith(fontSize: 18),
+                          ),
                         ),
                         Text(
                           'Jakarta, 20 Tahun',
@@ -158,10 +172,11 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const EditProfilCostomer()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditProfilCostomer(),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 5),

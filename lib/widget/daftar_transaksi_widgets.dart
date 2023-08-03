@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
-
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 
@@ -171,7 +170,7 @@ class TransaksiKonsultan extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              progres == 'Aktif' || progres == 'Selesai'
+              progres == 'Selesai'
                   ? InkWell(
                       onTap: () {
                         Get.to(UlasanSetingsPage());
@@ -196,18 +195,25 @@ class TransaksiKonsultan extends StatelessWidget {
                 width: 5,
               ),
               progres == 'Aktif' || progres == 'Selesai'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Konsultasi lagi',
-                          style: grenTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(
+                          const SelectConditionsPage(),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Konsultasi lagi',
+                            style: grenTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )
@@ -476,7 +482,7 @@ class TransaksiTreatment extends StatelessWidget {
   // final String namaKlink;
 
   final String harga;
-
+  // final Data2 treatment;
   final bool isConsultation;
   TransaksiTreatment({
     super.key,
@@ -488,6 +494,7 @@ class TransaksiTreatment extends StatelessWidget {
     required this.progres,
     // required this.namaKlink,
     required this.harga,
+    // required this.treatment,
     // required this.img,
     this.isConsultation = false,
   });
@@ -631,7 +638,7 @@ class TransaksiTreatment extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
+              progres == 'Selesai'
                   ? InkWell(
                       onTap: () {
                         Get.to(UlasanSetingsPage());
@@ -659,6 +666,9 @@ class TransaksiTreatment extends StatelessWidget {
                   ? InkWell(
                       onTap: () {
                         Get.to(SolutionsTreatment1Page());
+                        // Get.to(BokingTreatment(
+                        //   treatment: item[0].treatment as Data2,
+                        // ));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

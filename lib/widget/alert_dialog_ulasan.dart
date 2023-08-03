@@ -106,7 +106,9 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
 }
 
 class AlertDialogLogout extends StatelessWidget {
-  AlertDialogLogout({super.key});
+  String title;
+  Function() function;
+  AlertDialogLogout({required this.title, required this.function, super.key});
 
   final DoctorProfileController stateDoctor =
       Get.put(DoctorProfileController());
@@ -129,7 +131,7 @@ class AlertDialogLogout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Apakah Anda Akan Keluar?',
+                  title,
                   style: subGreyTextStyle.copyWith(
                       fontSize: 17, color: blackColor),
                 ),
@@ -151,15 +153,7 @@ class AlertDialogLogout extends StatelessWidget {
                     const SizedBox(width: 30),
                     InkWell(
                       onTap: () async {
-                        int userID = await LocalStorage().getUserID() ?? 0;
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((timeStamp) async {
-                          await stateDoctor.logout(context);
-                          await FirebaseMessaging.instance
-                              .unsubscribeFromTopic('all');
-                          await FirebaseMessaging.instance
-                              .unsubscribeFromTopic(userID.toString());
-                        });
+                        await function();
                       },
                       child: Text(
                         'Ya',

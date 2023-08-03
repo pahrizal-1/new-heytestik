@@ -1,7 +1,9 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -74,8 +76,7 @@ class DoctorProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response = await profileService.getProfile();
       profileData.value = response;
-      print('GetUserInfoDataDompet : ' +
-          profileData.value.data!.fullname.toString());
+      print('GetUserInfoDataDompet : ${profileData.value.data!.fullname}');
 
       nama.text = profileData.value.data!.fullname.toString();
       spesialisasi.text = profileData.value.data!.specialist ?? '';
@@ -95,7 +96,7 @@ class DoctorProfileController extends StateClass {
     isLoading.value = true;
     var response = await userBalanceService.getUserBalance();
     saldo.value = response;
-    print('GetUserInfoDataDompet : ' + saldo.value.balance.toString());
+    print('GetUserInfoDataDompet : ${saldo.value.balance}');
 
     isLoading.value = false;
   }
@@ -107,8 +108,8 @@ class DoctorProfileController extends StateClass {
       endPeriod.value =
           '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
 
-      print('start date ' + startPeriod.toString());
-      print('end date ' + endPeriod.toString());
+      print('start date $startPeriod');
+      print('end date $endPeriod');
     } else if (args.value is DateTime) {
       selectedDate.value = args.value.toString();
     } else if (args.value is List<DateTime>) {
@@ -131,7 +132,7 @@ class DoctorProfileController extends StateClass {
       rating.value = i['rating'];
     }
 
-    print('response' + response.toString());
+    print('response$response');
 
     isLoading.value = false;
   }
@@ -285,7 +286,6 @@ class DoctorProfileController extends StateClass {
           },
         ),
       );
-      print('hey ' + response.toString());
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -318,7 +318,7 @@ class DoctorProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
       var res = await profileService.closedAccount();
-      logout(context);
+      await logout(context);
       isLoading.value = false;
     });
   }
@@ -326,6 +326,12 @@ class DoctorProfileController extends StateClass {
   logout(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       await LocalStorage().removeAccessToken();
+      int userID = await LocalStorage().getUserID() ?? 0;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        await FirebaseMessaging.instance.unsubscribeFromTopic('all');
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
+      });
       Get.offAll(() => const LoginPage());
       print('logout dokter');
     });

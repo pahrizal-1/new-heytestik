@@ -319,7 +319,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {
-                    print('per ' + state.recentChatActive[i].id.toString());
+                    print('per ${state.recentChatActive[i].id}');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
