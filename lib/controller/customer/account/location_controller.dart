@@ -24,6 +24,8 @@ class LocationController extends StateClass {
   initMyLocation(BuildContext context) async {
     isLoading.value = true;
     myLocation = await LocalStorage().getLocation();
+    print("ADA DISINI");
+    print(myLocation);
     print('masuk ${myLocation['city']}');
     print('masuk ${myLocation['address']}');
 
