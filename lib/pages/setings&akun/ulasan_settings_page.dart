@@ -117,20 +117,15 @@ class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 25),
+              padding: const EdgeInsets.only(left: 20),
               child: Container(
                 margin: EdgeInsets.only(top: 10),
                 height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: whiteColor, width: 0.2),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(7),
-                      bottomRight: Radius.circular(7)),
-                ),
                 child: TabBar(
                   isScrollable: true,
                   labelColor: greenColor,
+                  indicatorPadding:
+                      EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   unselectedLabelColor: subTitleColor,
                   labelStyle: blackHigtTextStyle.copyWith(
                     fontSize: 15,
@@ -142,7 +137,6 @@ class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
                     ),
                     borderRadius: BorderRadius.circular(7),
                   ),
-                  indicatorColor: whiteColor,
                   tabs: const [
                     Tab(
                       text: 'Menunggu diulas (3)',
