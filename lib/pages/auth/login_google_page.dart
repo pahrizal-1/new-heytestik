@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 // don't forget this line
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../core/global.dart';
+
 class LoginGooglePage extends StatelessWidget {
   LoginGooglePage({Key? key}) : super(key: key);
 
@@ -25,7 +27,7 @@ class LoginGooglePage extends StatelessWidget {
       ),
     )
     ..loadRequest(Uri.parse(
-        "https://7196-114-124-130-38.ngrok-free.app/auth/google/login"));
+        "${Global.BASE_API}/auth/google/login"));
 
   @override
   Widget build(BuildContext context) {

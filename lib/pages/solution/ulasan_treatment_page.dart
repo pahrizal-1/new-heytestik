@@ -30,8 +30,7 @@ class UlasanTreatmentPage extends StatefulWidget {
 
 class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   final ScrollController scrollController = ScrollController();
-  final TreatmentController treatmentController =
-      Get.put(TreatmentController());
+  final TreatmentController treatmentController = Get.put(TreatmentController());
   bool? isFavourite;
   int page = 1;
   List<TreatmentReviewModel> reviews = [];
@@ -44,10 +43,8 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      reviews.addAll(await treatmentController.getTreatmentReview(
-          context, page, widget.treatmentID));
-      dataOverview = await treatmentController.getTreatmentOverview(
-          context, widget.treatmentID);
+      reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID));
+      dataOverview = await treatmentController.getTreatmentOverview(context, widget.treatmentID);
       setState(() {});
     });
 
@@ -57,8 +54,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            reviews.addAll(await treatmentController.getTreatmentReview(
-                context, page, widget.treatmentID));
+            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID));
             setState(() {});
           });
         }
@@ -94,15 +90,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                 children: [
                   Text(
                     ' Ulasan',
-                    style:
-                        whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                    style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
                   ),
                   Text(
                     ' Sobat Hey',
-                    style: whiteTextStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: bold,
-                        fontStyle: FontStyle.italic),
+                    style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
@@ -166,8 +158,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         ),
                         Text(
                           '/5.0',
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 12, color: const Color(0XffCCCCCC)),
+                          style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0XffCCCCCC)),
                         ),
                         const SizedBox(
                           width: 16,
@@ -179,14 +170,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
+                                  style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
                                 ),
                                 Text(
                                   ' merasa puas',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 12),
+                                  style: blackHigtTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const Icon(Icons.keyboard_arrow_right)
                               ],
@@ -195,8 +183,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -210,8 +197,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                 ),
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -227,22 +213,19 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border:
-                                  Border.all(color: const Color(0xffCCCCCC)),
+                              border: Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -252,13 +235,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                   children: [
                                     Text(
                                       'Perawatan',
-                                      style: blackTextStyle.copyWith(
-                                          fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -268,22 +249,19 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border:
-                                  Border.all(color: const Color(0xffCCCCCC)),
+                              border: Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -293,13 +271,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                   children: [
                                     Text(
                                       'Pelayanan',
-                                      style: blackTextStyle.copyWith(
-                                          fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -309,22 +285,19 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border:
-                                  Border.all(color: const Color(0xffCCCCCC)),
+                              border: Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
                               children: [
                                 Text(
                                   '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                  style: blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -334,13 +307,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                   children: [
                                     Text(
                                       'Manajemen',
-                                      style: blackTextStyle.copyWith(
-                                          fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
                                       '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                      style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -400,8 +371,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               Center(
                                 child: Text(
                                   'Rating',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 15),
+                                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
                                 ),
                               ),
                               const SizedBox(
@@ -434,8 +404,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               Center(
                                 child: Text(
                                   'Topik Ulasan',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 15),
+                                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
                                 ),
                               ),
                               const SizedBox(
@@ -460,12 +429,10 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             builder: (context) => Wrap(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 33, right: 33, top: 30, bottom: 40),
+                                  padding: const EdgeInsets.only(left: 33, right: 33, top: 30, bottom: 40),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -478,8 +445,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                           ),
                                           Text(
                                             'Topik Ulasan',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 20),
+                                            style: blackHigtTextStyle.copyWith(fontSize: 20),
                                           ),
                                         ],
                                       ),
@@ -520,8 +486,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               Center(
                                 child: Text(
                                   'Urutan',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 15),
+                                  style: blackRegulerTextStyle.copyWith(fontSize: 15),
                                 ),
                               ),
                               const SizedBox(
@@ -536,28 +501,22 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                   ),
                 ),
               ),
-              ComentUlasanaCustomer(
-                namaUser: 'Singa',
-                namaProduk: 'Teenderm Gel 40ml',
-                bulan: '',
-                comentUser:
-                    'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
-                balasanComent: 'Saran Beli Obat Kuat',
-                imgUser: 'assets/images/doctor-img.png',
-                like: '100',
-                namaBalasan: 'Udin',
-              ),
-              ComentUlasanaCustomer(
-                namaUser: 'Singa',
-                namaProduk: 'Teenderm Gel 40ml',
-                bulan: '',
-                comentUser:
-                    'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
-                balasanComent: 'Saran Beli Obat Kuat',
-                imgUser: 'assets/images/doctor-img.png',
-                like: '100',
-                comentImg: 'assets/images/treat1.png',
-                namaBalasan: 'Udin',
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: reviews.length,
+                itemBuilder: (context, index) {
+                  return ComentUlasanaCustomer(
+                    namaUser: "Customer",
+                    namaProduk: 'Teenderm Gel 40ml',
+                    bulan: '',
+                    comentUser: 'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
+                    balasanComent: 'Saran Beli Obat Kuat',
+                    imgUser: 'assets/images/doctor-img.png',
+                    like: '100',
+                    namaBalasan: 'Udin',
+                  );
+                },
               ),
             ],
           ),
@@ -571,8 +530,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           child: FloatingActionButton(
               onPressed: () {
                 if (listScrollController.hasClients) {
-                  final position =
-                      listScrollController.position.minScrollExtent;
+                  final position = listScrollController.position.minScrollExtent;
                   listScrollController.animateTo(
                     position,
                     duration: Duration(seconds: 1),
@@ -614,8 +572,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                   ),
                   Text(
                     'Perawatan Peeling TCA Ringan',
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13, fontWeight: regular),
+                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
                   ),
                 ],
               ),
@@ -658,8 +615,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
               ),
               Text(
                 '1 Bulan Yang lalu',
-                style: blackHigtTextStyle.copyWith(
-                    fontSize: 12, fontWeight: regular),
+                style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
               )
             ],
           ),
@@ -668,8 +624,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           ),
           Text(
             'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            style: greyTextStyle.copyWith(
-                fontSize: 13, color: const Color(0xff6B6B6B)),
+            style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
           ),
           const SizedBox(
             height: 13,
@@ -686,8 +641,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
               ),
               Text(
                 '6 orang terbantu',
-                style:
-                    grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                style: grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
               ),
               const Spacer(),
               InkWell(
@@ -742,13 +696,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         children: [
                           Text(
                             'Klinik Utama Lithea',
-                            style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: subTitleColor),
+                            style: blackHigtTextStyle.copyWith(fontSize: 13, color: subTitleColor),
                           ),
                           Text(
                             ' 1 bulan lalu',
-                            style: blackRegulerTextStyle.copyWith(
-                                color: subTitleColor, fontSize: 13),
+                            style: blackRegulerTextStyle.copyWith(color: subTitleColor, fontSize: 13),
                           )
                         ],
                       ),
