@@ -3,11 +3,14 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
+import 'package:intl/intl.dart';
 
 import '../../controller/customer/stream/post_controller.dart';
 import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/shere_link_stream.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomeStreamPage extends StatefulWidget {
   const HomeStreamPage({
@@ -23,12 +26,20 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   final PostController postController = Get.put(PostController());
 
   int page = 1;
+  bool? like;
+  bool? saved;
   List<StreamHomeModel> streams = [];
+  Map<String, int> postLike = {};
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       streams.addAll(await postController.getStreamHomeModel(context, page));
+      for(var i = 0; i < streams.length; i++) {
+        postLike.addAll({
+          "${streams[i].id}": 0,
+        });
+      }
       setState(() {});
     });
 
@@ -38,8 +49,12 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            streams
-                .addAll(await postController.getStreamHomeModel(context, page));
+            streams.addAll(await postController.getStreamHomeModel(context, page));
+            for(var i = 0; i < streams.length; i++) {
+              postLike.addAll({
+                "${streams[i].id}": 0,
+              });
+            }
           });
           setState(() {});
         }
@@ -52,7 +67,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: 4,
+        itemCount: streams.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -88,14 +103,14 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Laura Nabilah',
+                              streams[index].fullname,
                               style: blackTextStyle.copyWith(fontSize: 14),
                             ),
                             const SizedBox(
                               height: 4,
                             ),
                             Text(
-                              '9 Mei 2023, 6 Jam yang lalu',
+                              '${DateFormat('dd MMMM yyyy').format(DateTime.parse(streams[index].createdAt))}, ${timeago.format(DateTime.parse(streams[index].createdAt))}',
                               style: subTitleTextStyle.copyWith(fontSize: 10),
                             )
                           ],
@@ -127,14 +142,14 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                       height: 16,
                     ),
                     Text(
-                      '2 minggu lalu abis peeling wajah di salah satu klinik di Jaksel. Awalnya muka aku agak memerah dikit sih, tpi so farrr suka bgtt sama hasilnya setelah 2 minggu iniii. Yang penting jgn lupa sunscreen guyssss',
+                      streams[index].content,
                       style: blackRegulerTextStyle.copyWith(fontSize: 14),
                     ),
                     const SizedBox(
                       height: 16,
                     ),
                     Text(
-                      '132 menyukai',
+                      "${streams[index].streamLikes + (postLike["${streams[index].id}"] ?? 0)} Menyukai",
                       style: subTitleTextStyle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
@@ -145,39 +160,66 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              height: 20,
-                              width: 20,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/icons/like.png'),
-                                ),
-                              ),
+                            (like ?? streams[index].liked)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      postController.unlikePost(context, streams[index].id);
+                                      setState(() {
+                                        like = false;
+                                        postLike["${streams[index].id}"] =  (postLike["${streams[index].id}"] ?? 0) - 1;
+                                      });
+                                    },
+                                    child: Icon(Icons.favorite),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      postController.likePost(context, streams[index].id);
+                                      setState(() {
+                                        like = true;
+                                        postLike["${streams[index].id}"] =  (postLike["${streams[index].id}"] ?? 0) + 1;
+                                      });
+                                    },
+                                    child: Icon(Icons.favorite_outline_outlined),
+                                  ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  isDismissible: false,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) => ShareShowWidget(),
+                                );
+                              },
+                              child: Icon(Icons.share),
                             ),
                             const SizedBox(
                               width: 15,
                             ),
-                            Container(
-                              height: 21,
-                              width: 21,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/icons/share.png'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            Container(
-                              height: 21,
-                              width: 21,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/icons/bookmark-icons.png'),
-                                ),
-                              ),
+                            (saved ?? streams[index].saved) ? GestureDetector(
+                              onTap: (){
+                                postController.unSavePost(context, streams[index].id);
+                                setState(() {
+                                  saved = false;
+                                });
+                              },
+                              child: Icon(Icons.bookmark),
+                            ) : GestureDetector(
+                              onTap: (){
+                                postController.savePost(context, streams[index].id);
+                                setState(() {
+                                  saved = true;
+                                });
+                              },
+                              child: Icon(Icons.bookmark_border),
                             ),
                           ],
                         ),
@@ -186,20 +228,15 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const KomentarStreamPage(),
+                                builder: (context) => KomentarStreamPage(post: streams[index]),
                               ),
                             );
                           },
                           child: Row(
                             children: [
                               Text(
-                                '13',
-                                style: TextStyle(
-                                    color: greyColor,
-                                    fontSize: 14,
-                                    fontWeight: bold,
-                                    fontFamily: 'ProximaNova'),
+                                streams[index].streamComments.toString(),
+                                style: TextStyle(color: greyColor, fontSize: 14, fontWeight: bold, fontFamily: 'ProximaNova'),
                               ),
                               const SizedBox(
                                 width: 5,
@@ -209,8 +246,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                                 width: 20,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/icons/komen1.png'),
+                                    image: AssetImage('assets/icons/komen1.png'),
                                   ),
                                 ),
                               )

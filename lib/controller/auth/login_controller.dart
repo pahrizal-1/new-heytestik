@@ -109,23 +109,17 @@ class LoginController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {
-        const List<String> scopes = <String>[
-          'email',
-        ];
-        print('scopes scopes $scopes');
-
-        GoogleSignIn _googleSignIn = GoogleSignIn(
-          scopes: scopes,
-        );
-        print('_googleSignIn _googleSignIn $_googleSignIn');
-        GoogleSignInAccount? user = await _googleSignIn.signIn();
-        print('user user $user');
-        print(user);
-        if (await _googleSignIn.isSignedIn()) {
-          final googleAuth = await _googleSignIn.currentUser?.authentication;
-          print('access token ${googleAuth!.accessToken}');
+        final GoogleSignIn _googleSignIn = GoogleSignIn();
+        GoogleSignInAccount? account = await _googleSignIn.signIn();
+        if (account == null) {
+          // User canceled the sign-in process.
+          return;
         }
 
+        // You can now access user information through the "account" object
+        print('Display Name: ${account.displayName}');
+        print('Email: ${account.email}');
+        print('Photo URL: ${account.photoUrl}');
         doInPost();
       } catch (error) {
         print('error heheh $error');

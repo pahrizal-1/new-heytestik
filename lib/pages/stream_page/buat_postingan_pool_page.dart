@@ -19,6 +19,8 @@ class BuatPostingaPollPage extends StatefulWidget {
 class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
   final TextEditingController postDescController = TextEditingController();
   final TextEditingController hashTagController = TextEditingController();
+  final PostController streamController = Get.put(PostController());
+  String name = '-';
   final List<TextEditingController> optionController = [
     TextEditingController(),
     TextEditingController(),
@@ -27,19 +29,16 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
   int days = 1;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      name = await LocalStorage().getFullName();
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final PostController streamController = Get.put(PostController());
-    String name = '-';
-
-    @override
-    void initState() {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        name = await LocalStorage().getFullName();
-        setState(() {});
-      });
-      super.initState();
-    }
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

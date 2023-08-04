@@ -1,11 +1,71 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
+import '../../models/stream_comment.dart';
+
+import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
+import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/shere_link_stream.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-class KomentarStreamPage extends StatelessWidget {
-  const KomentarStreamPage({super.key});
+class KomentarStreamPage extends StatefulWidget {
+  const KomentarStreamPage({
+    super.key,
+    required this.post,
+  });
+
+  final StreamHomeModel post;
+
+  @override
+  State<KomentarStreamPage> createState() => _KomentarStreamPageState();
+}
+
+class _KomentarStreamPageState extends State<KomentarStreamPage> {
+  final PostController postController = Get.put(PostController());
+  final ScrollController commentScrollController = ScrollController();
+
+  File? imagePath;
+
+  int page = 1;
+  int index = 1;
+  bool? like;
+  bool? saved;
+  int postLike = 0;
+  List<StreamCommentModel> comments = [];
+  Map<String, dynamic> commentReplies = {};
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      comments.addAll(
+          await postController.getComment(context, page, widget.post.id));
+      setState(() {});
+    });
+
+    commentScrollController.addListener(() {
+      if (commentScrollController.position.atEdge) {
+        bool isTop = commentScrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            comments.addAll(
+                await postController.getComment(context, page, widget.post.id));
+          });
+          setState(() {});
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +129,14 @@ class KomentarStreamPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Kevin',
+                            widget.post.fullname,
                             style: blackTextStyle.copyWith(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 4,
                           ),
                           Text(
-                            '9 Mei 2023, 6 Jam yang lalu',
+                            '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.post.createdAt))}, ${timeago.format(DateTime.parse(widget.post.createdAt))}',
                             style: subTitleTextStyle.copyWith(fontSize: 10),
                           )
                         ],
@@ -110,7 +170,7 @@ class KomentarStreamPage extends StatelessWidget {
                   Container(
                     constraints: const BoxConstraints(maxWidth: 320),
                     child: Text(
-                      'Ada yang tau nggak guyss rekomendasi klinik yang ada perawatan Laser CO2-nya? Comment dong yaa dibawah',
+                      widget.post.content,
                       style: blackRegulerTextStyle.copyWith(
                           fontSize: 14, color: blackColor),
                     ),
@@ -119,7 +179,7 @@ class KomentarStreamPage extends StatelessWidget {
                     height: 16,
                   ),
                   Text(
-                    '132 menyukai',
+                    '${widget.post.streamLikes + postLike} menyukai',
                     style: subTitleTextStyle.copyWith(fontSize: 12),
                   ),
                   const SizedBox(
@@ -130,77 +190,75 @@ class KomentarStreamPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            height: 20,
-                            width: 20,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/icons/like.png'),
-                              ),
-                            ),
+                          (like ?? widget.post.liked)
+                              ? GestureDetector(
+                                  onTap: () {
+                                    postController.unlikePost(
+                                        context, widget.post.id);
+                                    setState(() {
+                                      like = false;
+                                      postLike = postLike - 1;
+                                    });
+                                  },
+                                  child: Icon(Icons.favorite),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    postController.likePost(
+                                        context, widget.post.id);
+                                    setState(() {
+                                      like = true;
+                                      postLike = postLike + 1;
+                                    });
+                                  },
+                                  child: Icon(Icons.favorite_outline_outlined),
+                                ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                isDismissible: false,
+                                context: context,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
+                                  ),
+                                ),
+                                builder: (context) => ShareShowWidget(),
+                              );
+                            },
+                            child: Icon(Icons.share),
                           ),
                           const SizedBox(
                             width: 15,
                           ),
-                          Container(
-                            height: 21,
-                            width: 21,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/icons/share.png'),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Container(
-                            height: 21,
-                            width: 21,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/icons/bookmark-icons.png'),
-                              ),
-                            ),
-                          ),
+                          (saved ?? widget.post.saved)
+                              ? GestureDetector(
+                                  onTap: () {
+                                    postController.unSavePost(
+                                        context, widget.post.id);
+                                    setState(() {
+                                      saved = false;
+                                    });
+                                  },
+                                  child: Icon(Icons.bookmark),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    postController.savePost(
+                                        context, widget.post.id);
+                                    setState(() {
+                                      saved = true;
+                                    });
+                                  },
+                                  child: Icon(Icons.bookmark_border),
+                                ),
                         ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const KomentarStreamPage(),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              '13',
-                              style: TextStyle(
-                                color: greyColor,
-                                fontSize: 14,
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              height: 20,
-                              width: 20,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/icons/komen1.png'),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 ],
@@ -212,188 +270,196 @@ class KomentarStreamPage extends StatelessWidget {
                   left: 20, right: 17, top: 24, bottom: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/profiledummy.png',
+                children: comments
+                    .map(
+                      (comment) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/profiledummy.png',
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 11,
-                      ),
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 290),
-                        child: Column(
-                          children: [
-                            Row(
+                          const SizedBox(
+                            width: 11,
+                          ),
+                          Container(
+                            constraints: const BoxConstraints(maxWidth: 290),
+                            child: Column(
                               children: [
-                                Text(
-                                  'Annisa',
-                                  style: blackTextStyle.copyWith(fontSize: 14),
+                                Row(
+                                  children: [
+                                    Text(
+                                      comment.fullName,
+                                      style:
+                                          blackTextStyle.copyWith(fontSize: 14),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      timeago.format(
+                                          DateTime.parse(comment.createdAt)),
+                                      style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(
-                                  width: 5,
+                                  height: 6,
                                 ),
                                 Text(
-                                  '3h',
+                                  comment.content,
                                   style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 12,
+                                    color: blackColor,
+                                    fontSize: 14,
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              'Hi Kevin, ada nih klinik kecantikan di daerah Senopati Jakarta Selatan yang nyediain laser CO2. Itu klinik kecantikan langgananku jugaa buat ngatasin bopeng hehhehe. Recommended 👍🏻',
-                              style: blackRegulerTextStyle.copyWith(
-                                color: blackColor,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 11,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Suka',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 12),
                                 ),
                                 const SizedBox(
-                                  width: 17,
+                                  height: 11,
                                 ),
-                                Text(
-                                  'Balas',
-                                  style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 12,
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Suka',
+                                      style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 12),
+                                    ),
+                                    const SizedBox(
+                                      width: 17,
+                                    ),
+                                    Text(
+                                      'Balas',
+                                      style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(
+                                        241, 241, 241, 0.95),
+                                    borderRadius: BorderRadius.circular(7),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              decoration: BoxDecoration(
-                                color:
-                                    const Color.fromRGBO(241, 241, 241, 0.95),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: 30,
-                                        width: 30,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              'assets/images/profiledummy.png',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 11,
-                                      ),
-                                      Column(
+                                      Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(
+                                          Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  'assets/images/profiledummy.png',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 11,
+                                          ),
+                                          Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                'Kevin',
-                                                style: blackTextStyle.copyWith(
-                                                    fontSize: 14),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Kevin',
+                                                    style: blackTextStyle
+                                                        .copyWith(fontSize: 14),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    '3h',
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(fontSize: 12),
+                                                  ),
+                                                ],
                                               ),
                                               const SizedBox(
-                                                width: 5,
+                                                height: 6,
                                               ),
-                                              Text(
-                                                '3h',
-                                                style: blackRegulerTextStyle
-                                                    .copyWith(fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          Container(
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 220),
-                                            child: Text.rich(
-                                              TextSpan(
-                                                text: 'Mantaaaaaps ',
-                                                style: blackRegulerTextStyle
-                                                    .copyWith(
-                                                  fontSize: 14,
-                                                  color: blackColor,
-                                                ),
-                                                children: [
+                                              Container(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 220),
+                                                child: Text.rich(
                                                   TextSpan(
-                                                    text: '@Ressy',
-                                                    style:
-                                                        grenTextStyle.copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight: regular,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text:
-                                                        ' makasiiihhh rekomennya, kayaknya gue bakalan kesanaa',
+                                                    text: 'Mantaaaaaps ',
                                                     style: blackRegulerTextStyle
                                                         .copyWith(
                                                       fontSize: 14,
                                                       color: blackColor,
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 11,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'Suka',
-                                                style: blackRegulerTextStyle
-                                                    .copyWith(fontSize: 12),
+                                                    children: [
+                                                      TextSpan(
+                                                        text: '@Ressy',
+                                                        style: grenTextStyle
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight: regular,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text:
+                                                            ' makasiiihhh rekomennya, kayaknya gue bakalan kesanaa',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                          fontSize: 14,
+                                                          color: blackColor,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                               const SizedBox(
-                                                width: 17,
+                                                height: 11,
                                               ),
-                                              Text(
-                                                'Balas',
-                                                style: blackRegulerTextStyle
-                                                    .copyWith(
-                                                  fontSize: 12,
-                                                ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Suka',
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 17,
+                                                  ),
+                                                  Text(
+                                                    'Balas',
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
@@ -401,21 +467,20 @@ class KomentarStreamPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          Icon(
+                            Icons.more_horiz,
+                            size: 24,
+                            color: greyColor,
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      Icon(
-                        Icons.more_horiz,
-                        size: 24,
-                        color: greyColor,
-                      ),
-                    ],
-                  ),
-                ],
+                    )
+                    .toList(),
               ),
             ),
           ],
@@ -502,26 +567,38 @@ class KomentarStreamPage extends StatelessWidget {
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
-                                                          Text(
-                                                            'Kamera',
-                                                            style: blackRegulerTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color:
-                                                                        blackColor),
+                                                          //Tambah Gambar Di Kamera
+                                                          InkWell(
+                                                            onTap: () {
+                                                              _pickImageFromCamera();
+                                                            },
+                                                            child: Text(
+                                                              'Kamera',
+                                                              style: blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color:
+                                                                          blackColor),
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 21,
                                                           ),
-                                                          Text(
-                                                            'Dari galeri',
-                                                            style: blackRegulerTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color:
-                                                                        blackColor),
+                                                          //Tambah Gambar Di Galeri
+                                                          InkWell(
+                                                            onTap: () {
+                                                              _pickImageFromGalery();
+                                                            },
+                                                            child: Text(
+                                                              'Dari galeri',
+                                                              style: blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color:
+                                                                          blackColor),
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 21,
@@ -630,5 +707,21 @@ class KomentarStreamPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
+  }
+
+  Future _pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
   }
 }

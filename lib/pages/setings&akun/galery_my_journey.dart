@@ -63,14 +63,17 @@ class GaleryMyJourney extends StatelessWidget {
                   spacing: 4,
                   runSpacing: 4,
                   children: [
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: 72,
+                        width: 82,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            image: const DecorationImage(
+                                image: AssetImage('assets/images/before1.png'),
+                                fit: BoxFit.cover)),
+                      ),
                     ),
                     Container(
                       height: 72,

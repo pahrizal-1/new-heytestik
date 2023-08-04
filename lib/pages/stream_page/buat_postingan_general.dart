@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
 import '../../models/customer/stream_post.dart';
@@ -17,8 +18,18 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
   final PostController streamController = Get.put(PostController());
   final TextEditingController hashTagController = TextEditingController();
   final TextEditingController postDescController = TextEditingController();
-
+  String name = "-";
   int iSelected = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      name = await LocalStorage().getFullName();
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +135,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Rina Rasmalina',
+                        name,
                         style: blackTextStyle.copyWith(fontSize: 14),
                       ),
                       const SizedBox(

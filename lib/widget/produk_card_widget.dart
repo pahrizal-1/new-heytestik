@@ -133,80 +133,95 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                           const SizedBox(
                             width: 7,
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      image: DecorationImage(
-                                        image: NetworkImage(widget.imageProduk),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 80,
+                                      width: 80,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: borderColor),
+                                        image: DecorationImage(
+                                          image:
+                                              NetworkImage(widget.imageProduk),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.merkProduk,
-                                        style: grenTextStyle.copyWith(
-                                            fontSize: 10,
-                                            overflow: TextOverflow.ellipsis),
-                                        maxLines: 1,
-                                        softWrap: true,
-                                      ),
-                                      // RichText(
-                                      //   text: TextSpan(
-                                      //     text: widget.merkProduk,
-                                      //     style: TextStyle(
-                                      //       fontFamily: 'ProximaNova',
-                                      //       color: greenColor,
-                                      //       fontSize: 12,
-                                      //       fontWeight: FontWeight.bold,
-                                      //       height: 1.1,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Penggunaan',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 12,
-                                              height: 1.3,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#9B9B9B',
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.merkProduk,
+                                          style: grenTextStyle.copyWith(
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          maxLines: 2,
+                                          softWrap: true,
+                                        ),
+                                        // RichText(
+                                        //   text: TextSpan(
+                                        //     text: widget.merkProduk,
+                                        //     style: TextStyle(
+                                        //       fontFamily: 'ProximaNova',
+                                        //       color: greenColor,
+                                        //       fontSize: 12,
+                                        //       fontWeight: FontWeight.bold,
+                                        //       height: 1.1,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Penggunaan',
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 12,
+                                                height: 1.3,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#9B9B9B',
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 80),
-                                                child: Text(
-                                                  widget.penggunaanJadwal,
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                          maxWidth: 80),
+                                                  child: Text(
+                                                    widget.penggunaanJadwal,
+                                                    style: TextStyle(
+                                                      fontFamily: 'ProximaNova',
+                                                      fontSize: 12,
+                                                      height: 1.3,
+                                                      letterSpacing: 0.5,
+                                                      color: fromCssColor(
+                                                        '#9B9B9B',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  widget.penggunaan,
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 12,
@@ -217,64 +232,52 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Text(
-                                                widget.penggunaan,
-                                                style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 12,
-                                                  height: 1.3,
-                                                  letterSpacing: 0.5,
-                                                  color: fromCssColor(
-                                                    '#9B9B9B',
-                                                  ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              widget.harga,
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#323232',
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            widget.harga,
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#323232',
+                                            ),
+                                            const SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              '1 ${widget.packagingType}\n(${widget.netto}\n${widget.nettoType})',
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#323232',
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text(
-                                            '1 ${widget.packagingType} (${widget.netto} ${widget.nettoType})',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#323232',
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

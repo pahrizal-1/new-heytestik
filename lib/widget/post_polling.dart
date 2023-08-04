@@ -221,12 +221,12 @@ class PostPolling extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const KomentarStreamPage(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const KomentarStreamPage(),
+                      //   ),
+                      // );
                     },
                     child: Row(
                       children: [

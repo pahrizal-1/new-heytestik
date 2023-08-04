@@ -512,17 +512,16 @@ class _SolutionPageState extends State<SolutionPage> {
                   const SizedBox(
                     height: 17,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25),
-                      child: Obx(
-                        () => LoadingWidget(
-                          isLoading: stateSkincare.isLoadingSkincare.value,
+                  Obx(
+                    () => LoadingWidget(
+                      isLoading: stateSkincare.isLoadingSkincare.value,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 25),
                           child: Center(
                             child: Wrap(
                               spacing: 23,
-                              runSpacing: 12,
                               children: stateSkincare.skincare
                                   .map(
                                     (e) => InkWell(

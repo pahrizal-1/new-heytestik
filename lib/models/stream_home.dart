@@ -1,5 +1,5 @@
 class StreamHomeModel {
-  final String id;
+  final int id;
   final String content;
   final String type;
   final String createdAt;
@@ -40,12 +40,8 @@ class StreamHomeModel {
       type: json['type'],
       createdAt: json['created_at'],
       visibility: json['visibility'],
-      streamHashtags: (json['stream_hastags'] as List)
-          .map((e) => "#${e['hashtag']['tag']}")
-          .toList(),
-      streamPollOptions: json['stream_poll'] == null ? [] : (json['stream_poll']['stream_poll_options'] as List)
-          .map((e) => e['option'].toString())
-          .toList(),
+      streamHashtags: (json['stream_hastags'] as List).map((e) => "#${e['hashtag']['tag']}").toList(),
+      streamPollOptions: json['stream_poll'] == null ? [] : (json['stream_poll']['stream_poll_options'] as List).map((e) => e['option'].toString()).toList(),
       fullname: json['user']['fullname'],
       photoUser: json['user']['photo_profile'],
       streamSaves: json['_count']['stream_saves'],
@@ -53,7 +49,7 @@ class StreamHomeModel {
       streamLikes: json['_count']['stream_likes'],
       streamCommentReplies: json['_count']['stream_comment_replies'],
       saved: json['saved'],
-      liked: json['liked'],
+      liked: json['like'],
     );
   }
 }
