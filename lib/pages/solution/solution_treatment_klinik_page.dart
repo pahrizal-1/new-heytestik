@@ -48,6 +48,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: whiteColor,
         elevation: 0,
@@ -71,7 +72,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       width: 11,
                     ),
                     Text(
-                      'Trending',
+                      'Klinik',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     const Spacer(),
@@ -134,7 +135,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Klinik",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",

@@ -168,4 +168,14 @@ class PostController extends StateClass {
       print(error.toString());
     }
   }
+
+  void postComment(BuildContext context, int postID, String comment) async {
+    try {
+      isLoading.value = true;
+      PostServices().postComment(postID, comment);
+      isLoading.value = false;
+    } catch(error) {
+      print(error.toString());
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -33,13 +34,25 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   bool? like;
   bool? saved;
   int postLike = 0;
+  Map<String, int> commentLikes = {};
+  Map<String, int> commentReplyLikes = {};
   List<StreamCommentModel> comments = [];
-  Map<String, dynamic> commentReplies = {};
+  Map<String, List<StreamCommentReplyModel>> commentReplies = {};
+  Map<String, bool> viewCommentReply = {};
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       comments.addAll(await postController.getComment(context, page, widget.post.id));
+      for (var i = 0; i < comments.length; i++) {
+        commentLikes.addAll({
+          "${comments[i].commentID}": 0,
+        });
+
+        viewCommentReply.addAll({
+          "${comments[i].commentID}": false,
+        });
+      }
       setState(() {});
     });
 
@@ -50,6 +63,15 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             comments.addAll(await postController.getComment(context, page, widget.post.id));
+            for (var i = 0; i < comments.length; i++) {
+              commentLikes.addAll({
+                "${comments[i].commentID}": 0,
+              });
+
+              viewCommentReply.addAll({
+                "${comments[i].commentID}": false,
+              });
+            }
           });
           setState(() {});
         }
@@ -254,197 +276,238 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               padding: const EdgeInsets.only(left: 20, right: 17, top: 24, bottom: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: comments
-                    .map(
-                      (comment) => Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/profiledummy.png',
-                                ),
-                              ),
+                children: comments.map((comment) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/profiledummy.png',
                             ),
                           ),
-                          const SizedBox(
-                            width: 11,
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 290),
-                            child: Column(
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 11,
+                      ),
+                      Container(
+                        constraints: const BoxConstraints(maxWidth: 290),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      comment.fullName,
-                                      style: blackTextStyle.copyWith(fontSize: 14),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      timeago.format(DateTime.parse(comment.createdAt)),
-                                      style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  comment.fullName,
+                                  style: blackTextStyle.copyWith(fontSize: 14),
                                 ),
                                 const SizedBox(
-                                  height: 6,
+                                  width: 5,
                                 ),
                                 Text(
-                                  comment.content,
+                                  timeago.format(DateTime.parse(comment.createdAt)),
                                   style: blackRegulerTextStyle.copyWith(
-                                    color: blackColor,
-                                    fontSize: 14,
+                                    fontSize: 12,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 11,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Suka',
-                                      style: blackRegulerTextStyle.copyWith(fontSize: 12),
-                                    ),
-                                    const SizedBox(
-                                      width: 17,
-                                    ),
-                                    Text(
-                                      'Balas',
-                                      style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(241, 241, 241, 0.95),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 30,
-                                            width: 30,
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/images/profiledummy.png',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 11,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Kevin',
-                                                    style: blackTextStyle.copyWith(fontSize: 14),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    '3h',
-                                                    style: blackRegulerTextStyle.copyWith(fontSize: 12),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Container(
-                                                constraints: const BoxConstraints(maxWidth: 220),
-                                                child: Text.rich(
-                                                  TextSpan(
-                                                    text: 'Mantaaaaaps ',
-                                                    style: blackRegulerTextStyle.copyWith(
-                                                      fontSize: 14,
-                                                      color: blackColor,
-                                                    ),
-                                                    children: [
-                                                      TextSpan(
-                                                        text: '@Ressy',
-                                                        style: grenTextStyle.copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight: regular,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text: ' makasiiihhh rekomennya, kayaknya gue bakalan kesanaa',
-                                                        style: blackRegulerTextStyle.copyWith(
-                                                          fontSize: 14,
-                                                          color: blackColor,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 11,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Suka',
-                                                    style: blackRegulerTextStyle.copyWith(fontSize: 12),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 17,
-                                                  ),
-                                                  Text(
-                                                    'Balas',
-                                                    style: blackRegulerTextStyle.copyWith(
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
-                          ),
-                          const Spacer(),
-                          Icon(
-                            Icons.more_horiz,
-                            size: 24,
-                            color: greyColor,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            buildRichTextWithMentions(comment.content),
+                            const SizedBox(
+                              height: 11,
+                            ),
+                            Row(
+                              children: [
+                                comment.like + (commentLikes["${comment.commentID}"] ?? 0) > 0
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          postController.unlikeComment(context, widget.post.id, comment.commentID);
+                                          setState(() {
+                                            commentLikes.update("${comment.commentID}", (value) => (commentLikes["${comment.commentID}"] ?? 0) - 1);
+                                          });
+                                        },
+                                        child: commentLike(comment.like + (commentLikes["${comment.commentID}"] ?? 0)),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          postController.likeComment(context, widget.post.id, comment.commentID);
+                                          setState(() {
+                                            commentLikes.update("${comment.commentID}", (value) => (commentLikes["${comment.commentID}"] ?? 0) + 1);
+                                          });
+                                        },
+                                        child: Text(
+                                          'Suka',
+                                          style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                const SizedBox(
+                                  width: 17,
+                                ),
+                                Text(
+                                  'Balas',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            viewCommentReply["${comment.commentID}"] == false
+                                ? GestureDetector(
+                                    onTap: () async {
+                                      viewCommentReply.update("${comment.commentID}", (value) => true);
+                                      List<StreamCommentReplyModel> replies = await postController.getCommentReplies(context, page, widget.post.id, comment.commentID);
+
+                                      commentReplies.addAll({
+                                        "${comment.commentID}": replies,
+                                      });
+
+                                      for(var i = 0; i < replies.length; i++) {
+                                        commentReplyLikes.addAll({
+                                          "${replies[i].replyID}": 0,
+                                        });
+                                      }
+                                      setState(() {});
+                                    },
+                                    child: Text("View Comments", style: greyTextStyle),
+                                  )
+                                : Container(),
+                            viewCommentReply["${comment.commentID}"] == true
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: commentReplies["${comment.commentID}"]?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 5.0,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(241, 241, 241, 0.95),
+                                          borderRadius: BorderRadius.circular(7),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        'assets/images/profiledummy.png',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 11,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          commentReplies["${comment.commentID}"]![index].fullName,
+                                                          style: blackTextStyle.copyWith(fontSize: 14),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          timeago.format(DateTime.parse(commentReplies["${comment.commentID}"]![index].createdAt)),
+                                                          style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 6,
+                                                    ),
+                                                    Container(
+                                                      constraints: const BoxConstraints(maxWidth: 220),
+                                                      child: buildRichTextWithMentions(commentReplies["${comment.commentID}"]![index].content),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 11,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) +  commentReplies["${comment.commentID}"]![index].like > 0
+                                                            ? GestureDetector(
+                                                                onTap: () {
+                                                                  postController.unlikeCommentReply(context, widget.post.id, comment.commentID, commentReplies["${comment.commentID}"]![index].replyID);
+                                                                  setState(() {
+                                                                    commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}", (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) - 1);
+                                                                  });
+                                                                },
+                                                                child: commentLike(commentReplies["${comment.commentID}"]![index].like + (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0)),
+                                                              )
+                                                            : GestureDetector(
+                                                                onTap: () {
+                                                                  postController.likeCommentReply(context, widget.post.id, comment.commentID, commentReplies["${comment.commentID}"]![index].replyID);
+                                                                  setState(() {
+                                                                    commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}", (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) + 1);
+                                                                  });
+                                                                },
+                                                                child: Text(
+                                                                  'Suka',
+                                                                  style: blackRegulerTextStyle.copyWith(
+                                                                    fontSize: 12,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                        const SizedBox(
+                                                          width: 17,
+                                                        ),
+                                                        Text(
+                                                          'Balas',
+                                                          style: blackRegulerTextStyle.copyWith(
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : Container()
+                          ],
+                        ),
                       ),
-                    )
-                    .toList(),
+                      const Spacer(),
+                      Icon(
+                        Icons.more_horiz,
+                        size: 24,
+                        color: greyColor,
+                      ),
+                    ],
+                  );
+                }).toList(),
               ),
             ),
           ],
@@ -474,15 +537,15 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     fillColor: whiteColor,
                     hintText: 'Tulis Komentar',
                     suffixIcon: Padding(
-                        padding: const EdgeInsets.all(11.0),
-                        child: PopupMenuButton(
-                          icon: Image.asset(
-                            'assets/icons/atement.png',
-                            width: 20,
-                          ),
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                                child: Container(
+                      padding: const EdgeInsets.all(11.0),
+                      child: PopupMenuButton(
+                        icon: Image.asset(
+                          'assets/icons/atement.png',
+                          width: 20,
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Container(
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                               height: 100,
                               child: Column(
@@ -490,61 +553,66 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   InkWell(
                                     onTap: () {
                                       showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                backgroundColor: Colors.transparent,
-                                                insetPadding: const EdgeInsets.all(0.1),
-                                                content: Container(
-                                                    height: 225,
-                                                    width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(
-                                                      color: whiteColor,
-                                                      borderRadius: BorderRadius.circular(20),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            'Tambahkan gambar',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          backgroundColor: Colors.transparent,
+                                          insetPadding: const EdgeInsets.all(0.1),
+                                          content: Container(
+                                            height: 225,
+                                            width: MediaQuery.of(context).size.width,
+                                            decoration: BoxDecoration(
+                                              color: whiteColor,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Tambahkan gambar',
+                                                    style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 21,
+                                                  ),
+                                                  Text(
+                                                    'Kamera',
+                                                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 21,
+                                                  ),
+                                                  Text(
+                                                    'Dari galeri',
+                                                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 21,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(
+                                                          'CANCEL',
+                                                          style: blackRegulerTextStyle.copyWith(
+                                                            fontSize: 15,
+                                                            color: blackColor,
                                                           ),
-                                                          const SizedBox(
-                                                            height: 21,
-                                                          ),
-                                                          Text(
-                                                            'Kamera',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 21,
-                                                          ),
-                                                          Text(
-                                                            'Dari galeri',
-                                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 21,
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
-                                                            children: [
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  Navigator.pop(context);
-                                                                },
-                                                                child: Text(
-                                                                  'CANCEL',
-                                                                  style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
+                                                        ),
                                                       ),
-                                                    )),
-                                              ));
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
                                     },
                                     child: Row(
                                       children: [
@@ -599,9 +667,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   ),
                                 ],
                               ),
-                            ))
-                          ],
-                        )),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     hintStyle: subGreyTextStyle,
                   ),
                 ),
@@ -616,4 +686,85 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       ),
     );
   }
+}
+
+Widget commentLike(int likes) {
+  return Row(
+    children: [
+      Icon(
+        Icons.thumb_up_alt_outlined,
+        color: greenColor,
+        size: 14,
+      ),
+      const SizedBox(
+        width: 4,
+      ),
+      Text(
+        "$likes",
+        style: grenTextStyle.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+      const SizedBox(
+        width: 2,
+      ),
+      Text(
+        "Suka",
+        style: grenTextStyle.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget buildRichTextWithMentions(String text) {
+  final RegExp mentionRegex = RegExp(r'@\w+');
+
+  List<TextSpan> textSpans = [];
+  int prevEnd = 0;
+
+  for (RegExpMatch match in mentionRegex.allMatches(text)) {
+    int start = match.start;
+    int end = match.end;
+
+    // Add non-mention text (before the mention)
+    if (start > prevEnd) {
+      textSpans.add(
+        TextSpan(
+          text: text.substring(prevEnd, start),
+          style: TextStyle(color: Colors.black),
+        ),
+      );
+    }
+
+    // Add mention text with blue color
+    textSpans.add(
+      TextSpan(
+        text: text.substring(start, end),
+        style: grenTextStyle.copyWith(
+          fontSize: 14,
+          fontWeight: regular,
+        ),
+      ),
+    );
+
+    prevEnd = end;
+  }
+
+  // Add any remaining non-mention text
+  if (prevEnd < text.length) {
+    textSpans.add(
+      TextSpan(
+        text: text.substring(prevEnd),
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+  return RichText(
+    text: TextSpan(children: textSpans),
+  );
 }
