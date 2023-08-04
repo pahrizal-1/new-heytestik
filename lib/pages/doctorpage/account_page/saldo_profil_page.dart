@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/penarikan_dana_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
-class SaldoProfilPage extends StatelessWidget {
+import '../../../controller/doctor/profile/profile_controller.dart';
+import '../../../widget/loading_widget.dart';
+
+class SaldoProfilPage extends StatefulWidget {
   const SaldoProfilPage({super.key});
+
+  @override
+  State<SaldoProfilPage> createState() => _SaldoProfilPageState();
+}
+
+class _SaldoProfilPageState extends State<SaldoProfilPage> {
+  final DoctorProfileController state = Get.put(DoctorProfileController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getUserBalance();
+      state.getWithDraw(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,105 +39,129 @@ class SaldoProfilPage extends StatelessWidget {
           style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16, left: 25, right: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16, left: 25, right: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/icons/alert-circle1.png',
-                    width: 27,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text.rich(
-                      TextSpan(
-                        text: 'Sekarang kamu Bisa Tarik saldo',
-                        style: greyTextStyle.copyWith(fontSize: 13),
-                        children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/alert-circle1.png',
+                        width: 27,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Text.rich(
                           TextSpan(
-                            text: " Pada Tanggal 25 Setiap Bulannya",
-                            style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: Color(0xFF6B6B6B)),
+                            text: 'Sekarang kamu Bisa Tarik saldo',
+                            style: greyTextStyle.copyWith(fontSize: 13),
                             children: [
                               TextSpan(
-                                text: " Ke rekening bank Yang Tersimpan.",
-                                style: greyTextStyle.copyWith(fontSize: 13),
+                                text: " Pada Tanggal 25 Setiap Bulannya",
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 13, color: Color(0xFF6B6B6B)),
+                                children: [
+                                  TextSpan(
+                                    text: " Ke rekening bank Yang Tersimpan.",
+                                    style: greyTextStyle.copyWith(fontSize: 13),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 47,
+                  ),
+                  Center(
+                    child: Text(
+                      'Saldo Saya',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 15, fontWeight: regular),
+                    ),
+                  ),
+                  Obx(
+                    () => Center(
+                      child: Text(
+                        'Rp ${state.saldo.value.balance}',
+                        style: TextStyle(
+                            fontFamily: 'ProximaNova',
+                            fontSize: 20,
+                            fontWeight: bold,
+                            color: blackColor),
                       ),
                     ),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  ButtonGreenWidget(
+                    title: 'Tarik Saldo',
+                    onPressed: () async {
+                      String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PenarikanDana()));
+                      if (refresh == 'refresh') {
+                        setState(() {
+                          state.listWithDraw;
+                          state.listWithDrawHistory;
+                          state.saldo.value.balance;
+                        });
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 48,
+                  ),
+                  Text(
+                    'Riwayat Saldo Saya',
+                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.listWithDraw.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return _penarikandana(index);
+                          }))),
+                  // _penarikandana(),
+                  // const SizedBox(
+                  //   height: 19,
+                  // ),
+                  // _penarikandana(),
+                  // const SizedBox(
+                  //   height: 19,
+                  // ),
+                  // _penarikandana(),
+                  // const SizedBox(
+                  //   height: 19,
+                  // ),
+                  // _penarikandana(),
                 ],
               ),
-              const SizedBox(
-                height: 47,
-              ),
-              Center(
-                child: Text(
-                  'Saldo Saya',
-                  style: blackTextStyle.copyWith(
-                      fontSize: 15, fontWeight: regular),
-                ),
-              ),
-              Center(
-                child: Text(
-                  'Rp5.000.000',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 35,
-              ),
-              ButtonGreenWidget(
-                title: 'Tarik Saldo',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PenarikanDana()));
-                },
-              ),
-              const SizedBox(
-                height: 48,
-              ),
-              Text(
-                'Riwayat Saldo Saya',
-                style: blackHigtTextStyle.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              _penarikandana(),
-              const SizedBox(
-                height: 19,
-              ),
-              _penarikandana(),
-              const SizedBox(
-                height: 19,
-              ),
-              _penarikandana(),
-              const SizedBox(
-                height: 19,
-              ),
-              _penarikandana(),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Column _penarikandana() {
+  Column _penarikandana(int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -127,25 +173,54 @@ class SaldoProfilPage extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Berhasil',
+              // 'Berhasil',
+              state.listWithDraw[index]['status'] ?? '',
               style: grenTextStyle.copyWith(fontSize: 12),
             ),
           ],
         ),
         const SizedBox(
-          height: 5,
+          height: 8,
         ),
         Text(
-          '-Rp5.000.000',
+          "-Rp${state.listWithDraw[index]['amount']}",
           style: TextStyle(color: redColor, fontSize: 13, fontWeight: bold),
         ),
-        Text(
-          'Withdrawal (BCA - 0212871964 - Risty Hafinah)',
-          style: subTitleTextStyle,
+        const SizedBox(
+          height: 8,
         ),
         Text(
-          '*25-01-2023, 17:30 WIB : Processed\n*25-01-2023, 17:45 WIB : Completed',
+          // 'Withdrawal (BCA - 0212871964 - Risty Hafinah)',
+          state.listWithDraw[index]['notes'] ?? '',
           style: subTitleTextStyle,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.listWithDrawHistory.length,
+              itemBuilder: (context, i) {
+                return Row(
+                  children: [
+                    Text(
+                      ConvertDate.transactionDate(
+                        state.listWithDrawHistory[i]['created_at'].toString(),
+                      ),
+                      // '*25-01-2023, 17:30 WIB : Processed\n*25-01-2023, 17:45 WIB : Completed',
+                      style: subTitleTextStyle,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      state.listWithDrawHistory[i]['status'],
+                      style: subTitleTextStyle,
+                    ),
+                  ],
+                );
+              }),
         ),
         const SizedBox(
           height: 19,

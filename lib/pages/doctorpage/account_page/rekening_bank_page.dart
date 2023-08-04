@@ -28,11 +28,28 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Text(
-          'Rekening Bank',
-          style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context, 'refresh');
+                },
+                child: Icon(Icons.arrow_back),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Rekening Bank',
+                style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
       body: Padding(
@@ -236,7 +253,13 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
               onPressed: () async {
                 // clear search
                 state.clearForm();
-                Get.to(TambahBankDoctorPage());
+                String refresh = await Navigator.push(context, MaterialPageRoute(builder: (context) => TambahBankDoctorPage()));
+                if(refresh == 'refresh'){
+                  setState(() {
+                    state.filterData;
+                  });
+                }
+                // Get.to(TambahBankDoctorPage());
               },
             ),
           ],

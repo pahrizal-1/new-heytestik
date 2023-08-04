@@ -21,4 +21,28 @@ class UserBalanceService extends ProviderClass {
     var jsonResponse = Data.fromJson(response['data']);
     return jsonResponse;
   }
+
+  Future getWithDraw() async {
+    var response = await networkingConfig.doGet(
+      '/user-balance/withdrawal',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = response['data']['data'];
+    return jsonResponse;
+  }
+
+  Future saveBank(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/user-balance/withdrawal',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
 }

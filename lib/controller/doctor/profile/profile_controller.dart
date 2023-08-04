@@ -22,6 +22,7 @@ import '../../../service/auth/change_password_service.dart';
 import '../../../service/doctor/profile/profile_service.dart';
 import '../../../service/doctor/statistic/statistic_service.dart';
 import '../../../service/doctor/user_balance/user_balance_service.dart';
+import '../../../widget/snackbar_widget.dart';
 
 class DoctorProfileController extends StateClass {
   RxString selectedDate = ''.obs;
@@ -37,6 +38,8 @@ class DoctorProfileController extends StateClass {
   RxList listReview = [].obs;
   RxList listOverview = [].obs;
   RxList listDetailOverview = [].obs;
+  RxList listWithDraw = [].obs;
+  RxList listWithDrawHistory = [].obs;
 
   var saldo = UserBalance.Data().obs;
   Rx<ProfileModel> profileData = ProfileModel().obs;
@@ -51,6 +54,7 @@ class DoctorProfileController extends StateClass {
   final TextEditingController nomorstr = TextEditingController();
   final TextEditingController pendidikanAkhir = TextEditingController();
   final TextEditingController tempatpraktek = TextEditingController();
+  final TextEditingController nominalPenarikan = TextEditingController();
   TextEditingController dateController = TextEditingController();
   int? groupUrutan;
   int? groupRating;
@@ -200,6 +204,54 @@ class DoctorProfileController extends StateClass {
       // saldo.value = response;
       listDetailOverview.add(response);
       print('overview' + listDetailOverview.toString());
+    });
+    isLoading.value = false;
+  }
+
+  Future getWithDraw(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await userBalanceService.getWithDraw();
+      listWithDraw.value = response;
+      print('witdraw' + listWithDraw.toString());
+      for (var i in listWithDraw) {
+        listWithDrawHistory.value = i['user_balance_withdrawal_histories'];
+      }
+    });
+    isLoading.value = false;
+  }
+
+  saveBank(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (nominalPenarikan.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Nomor akun harus diisi',
+        );
+      }
+
+      if (int.parse(nominalPenarikan.text) < 10000) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Jumlah Penarikan Harus lebih dari 10000',
+        );
+      }
+
+      var req = {
+        // 'user_bank_account_id':
+        // 'amount': nominalPenarikan.text
+      };
+      print('req $req');
+      // Get.back();
+      // Get.back();
+      Navigator.pop(context, 'refresh');
+
+      SnackbarWidget.getSuccessSnackbar(
+        context,
+        'Berhasil',
+        '',
+      );
     });
     isLoading.value = false;
   }
