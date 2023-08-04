@@ -7,6 +7,8 @@ import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import 'login_google_page.dart';
+
 class OptionLoginPage extends StatelessWidget {
   const OptionLoginPage({super.key});
 
@@ -92,9 +94,9 @@ class OptionLoginPage extends StatelessWidget {
               ButtonSignWidget(
                 img: 'assets/images/Frame 28.png',
                 onPressed: () async {
-                  // await stateRegis.loginWithGoogle(context, doInPost: () async {
-                  //   print("masuk ke home home");
-                  // });
+                  await stateRegis.loginWithGoogle(context, doInPost: () async {
+                    print("masuk ke home home");
+                  });
                   // Get.to(LoginGooglePage());
                   // await stateRegis.logoutWithGoogle();
                 },
