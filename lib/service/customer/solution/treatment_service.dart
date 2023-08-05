@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as TreatmentModel;
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
+import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
@@ -178,12 +179,31 @@ class TreatmentService extends ProviderClass {
         },
       );
 
-      print(response);
+      print("sadasada $response");
 
       return ClinicModel.fromJson(response);
     } catch (error) {
       print(error);
       return ClinicModel();
+    }
+  }
+
+  Future<FindClinicModel> getClinicDetail(int id) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/treatment/clinic/$id',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+
+      return FindClinicModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return FindClinicModel();
     }
   }
 
