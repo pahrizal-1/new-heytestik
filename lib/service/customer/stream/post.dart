@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:heystetik_mobileapps/core/error_config.dart';
 // import 'package:get/get.dart' hide FormData;
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
@@ -12,18 +13,10 @@ import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
 class PostServices extends ProviderClass {
-  PostServices()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  PostServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> postPolling(StreamPostModel data) async {
-    FormData formData = FormData.fromMap({
-      "content": data.content,
-      "type": data.type,
-      "hashtags[]": data.hashtags,
-      "stream_poll[end_time]": data.endTime,
-      "stream_poll[options][]": data.options,
-      "visibility": "PUBLIC"
-    });
+    FormData formData = FormData.fromMap({"content": data.content, "type": data.type, "hashtags[]": data.hashtags, "stream_poll[end_time]": data.endTime, "stream_poll[options][]": data.options, "visibility": "PUBLIC"});
 
     var response = await networkingConfig.doPost(
       '/stream',
@@ -38,12 +31,7 @@ class PostServices extends ProviderClass {
   }
 
   Future<dynamic> postGeneral(StreamPostModel data) async {
-    FormData formData = FormData.fromMap({
-      "content": data.content,
-      "type": data.type,
-      "hashtags[]": data.hashtags,
-      "visibility": "PUBLIC"
-    });
+    FormData formData = FormData.fromMap({"content": data.content, "type": data.type, "hashtags[]": data.hashtags, "visibility": "PUBLIC"});
 
     var response = await networkingConfig.doPost(
       '/stream',
@@ -72,7 +60,7 @@ class PostServices extends ProviderClass {
       );
 
       return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
-    } catch(error) {
+    } catch (error) {
       print(error);
       return [];
     }
@@ -89,7 +77,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -105,7 +93,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -125,7 +113,7 @@ class PostServices extends ProviderClass {
       );
 
       return (response['data']['data'] as List).map((e) => StreamCommentModel.fromJson(e)).toList();
-    } catch(error) {
+    } catch (error) {
       print(error);
       return [];
     }
@@ -146,7 +134,7 @@ class PostServices extends ProviderClass {
       );
 
       return (response['data']['data'] as List).map((e) => StreamCommentReplyModel.fromJson(e)).toList();
-    } catch(error) {
+    } catch (error) {
       print(error);
       return [];
     }
@@ -163,7 +151,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -179,7 +167,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -195,7 +183,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -211,7 +199,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -227,7 +215,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -243,7 +231,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -261,16 +249,15 @@ class PostServices extends ProviderClass {
 
       List<Map<String, dynamic>> userMentions = [];
 
-      for(var i = 0; i < mentions.length; i++) {
-        userMentions.add({
-          "username": mentions[i],
-          "mention": "@${mentions[i]}"
-        });
+      for (var i = 0; i < mentions.length; i++) {
+        userMentions.add({"username": mentions[i], "mention": "@${mentions[i]}"});
       }
 
+      print(userMentions);
+
       Map<String, dynamic> data = {
-        "content": "first comment @customer",
-        "mentions": userMentions,
+        "content": content,
+        // "mentions": userMentions,
       };
 
       var response = await networkingConfig.doPost(
@@ -283,7 +270,8 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
+      print("ERROR MASUK SINI");
       print(error);
     }
   }
@@ -299,7 +287,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
@@ -315,7 +303,7 @@ class PostServices extends ProviderClass {
       );
 
       print(response);
-    } catch(error) {
+    } catch (error) {
       print(error);
     }
   }
