@@ -52,7 +52,8 @@ class DetailObatPage extends StatelessWidget {
               Expanded(
                 child: Text(
                   "Detail Obat",
-                  style: blackTextStyle.copyWith(fontSize: 20, overflow: TextOverflow.ellipsis),
+                  style: blackTextStyle.copyWith(
+                      fontSize: 20, overflow: TextOverflow.ellipsis),
                 ),
               )
             ],
@@ -99,7 +100,10 @@ class DetailObatPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const KeranjangPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
             },
             child: SvgPicture.asset(
               'assets/icons/trello-icons.svg',
@@ -110,7 +114,8 @@ class DetailObatPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -131,12 +136,12 @@ class DetailObatPage extends StatelessWidget {
                 image: NetworkImage(
                   '${Global.FILE}/${medicine.media[0]}',
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
+            padding:
+                const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -246,7 +251,8 @@ class DetailObatPage extends StatelessWidget {
           ),
           const dividergreen(),
           Padding(
-            padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
+            padding:
+                const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -297,9 +303,7 @@ class DetailObatPage extends StatelessWidget {
                   subtitle2: medicine.composition,
                 ),
                 DescripsiText(
-                  title1: 'Dosis & Aturan Pakai',
-                  subtitle2: medicine.doses
-                ),
+                    title1: 'Dosis & Aturan Pakai', subtitle2: medicine.doses),
                 DescripsiText(
                   title1: 'Perhatian',
                   subtitle2: medicine.attention,
@@ -357,7 +361,8 @@ class DetailObatPage extends StatelessWidget {
       bottomNavigationBar: Wrap(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
             child: Row(
               children: [
                 Expanded(
@@ -366,13 +371,17 @@ class DetailObatPage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           'Beli Langsung',
-                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
@@ -384,17 +393,23 @@ class DetailObatPage extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      medicineController.addMedicineToCart(context, medicine.id);
+                      medicineController.addMedicineToCart(
+                          context, medicine.id);
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       width: 142,
-                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           '+ Keranjang',
-                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),

@@ -35,7 +35,6 @@ class CardKlinik extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(urlImg),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -64,7 +63,9 @@ class CardKlinik extends StatelessWidget {
                           return Icon(
                             Icons.attach_money,
                             size: 13,
-                            color: price > (100000 * (index + 1)) ? Colors.black : Colors.grey,
+                            color: price > (100000 * (index + 1))
+                                ? Colors.black
+                                : Colors.grey,
                           );
                         },
                       ),
@@ -81,7 +82,8 @@ class CardKlinik extends StatelessWidget {
                         ),
                         Text(
                           rating,
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                         const SizedBox(
                           width: 6,
@@ -92,7 +94,8 @@ class CardKlinik extends StatelessWidget {
                         ),
                         Text(
                           ' $km',
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
                       ],
                     ),
@@ -105,7 +108,8 @@ class CardKlinik extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const CabangKlinikPage(),
+                                  builder: (context) =>
+                                      const CabangKlinikPage(),
                                 ),
                               );
                             },
