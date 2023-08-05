@@ -15,8 +15,7 @@ class NotificationDoctorPage extends StatefulWidget {
 }
 
 class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
-  final NotificationCustomerController state =
-      Get.put(NotificationCustomerController());
+  final NotificationCustomerController state = Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];
@@ -50,11 +49,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
         backgroundColor: greenColor,
         title: Text(
           "Notifikasi",
-          style: TextStyle(
-              letterSpacing: 1.5,
-              fontFamily: 'ProximaNova',
-              fontWeight: bold,
-              color: whiteColor),
+          style: TextStyle(letterSpacing: 1.5, fontFamily: 'ProximaNova', fontWeight: bold, color: whiteColor),
         ),
       ),
       body: ListView.builder(
@@ -95,8 +90,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                       width: 8.0,
                     ),
                     Text(
-                      timeago.format(
-                          DateTime.parse(notifications[index].createdAt)),
+                      timeago.format(DateTime.parse(notifications[index].createdAt)),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
@@ -104,9 +98,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                     ),
                   ],
                 ),
-                if (notifications[index].type ==
-                        "TRANSACTION_CONSULTATION_SUCCESS" ||
-                    notifications[index].type == 'CHAT')
+                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF24A7A0),
