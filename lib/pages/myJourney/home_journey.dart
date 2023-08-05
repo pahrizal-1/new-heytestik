@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
