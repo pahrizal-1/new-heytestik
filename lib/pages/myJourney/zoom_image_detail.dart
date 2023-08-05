@@ -46,121 +46,120 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                Stack(
-                  children: [
-                    InteractiveViewer(
-                      transformationController: zoomTransformationController,
-                      child: Container(
-                        height: 450,
-                        child: Image.asset(
-                          'assets/images/wajah.png',
-                          width: 189,
-                          fit: BoxFit.cover,
-                        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  InteractiveViewer(
+                    transformationController: zoomTransformationController,
+                    child: Container(
+                      height: 450,
+                      width: 179,
+                      child: Image.asset(
+                        'assets/images/wajah.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Positioned(
-                      top: 400.2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(86),
-                            bottomRight: Radius.circular(86),
-                          ),
+                  ),
+                  Positioned(
+                    top: 400.2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(86),
+                          bottomRight: Radius.circular(86),
                         ),
-                        padding: const EdgeInsets.only(left: 6, top: 7),
+                      ),
+                      padding: const EdgeInsets.only(left: 6, top: 7),
+                      height: 36,
+                      width: 110,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'My Journey - Jerawat',
+                            style: blackTextStyle.copyWith(fontSize: 8.67),
+                          ),
+                          Text(
+                            '12 Feb 2023; 17:30 WIB',
+                            style:
+                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: 2,
+                height: 450,
+                color: whiteColor,
+              ),
+              Stack(
+                children: [
+                  InteractiveViewer(
+                    transformationController: zoomTransformationController,
+                    child: Container(
+                      height: 450,
+                      width: 170,
+                      child: Image.asset(
+                        'assets/images/wajah.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 200.2,
+                    left: 120,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            shape: BoxShape.circle),
                         height: 36,
                         width: 110,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'My Journey - Jerawat',
-                              style: blackTextStyle.copyWith(fontSize: 8.67),
-                            ),
-                            Text(
-                              '12 Feb 2023; 17:30 WIB',
-                              style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8.67),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  width: 2,
-                  height: 450,
-                  color: whiteColor,
-                ),
-                Stack(
-                  children: [
-                    InteractiveViewer(
-                      transformationController: zoomTransformationController,
-                      child: Container(
-                        height: 450,
-                        width: 189,
-                        child: Image.asset(
-                          'assets/images/wajah.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 200.2,
-                      left: 120,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
-                              shape: BoxShape.circle),
-                          height: 36,
-                          width: 110,
-                          child: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: whiteColor,
-                          )),
-                    ),
-                    Positioned(
-                      top: 400.2,
-                      child: Container(
-                        decoration: BoxDecoration(
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
                           color: whiteColor,
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(86),
-                            bottomRight: Radius.circular(86),
-                          ),
-                        ),
-                        padding: const EdgeInsets.only(left: 6, top: 7),
-                        height: 36,
-                        width: 110,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'My Journey - Jerawat',
-                              style: blackTextStyle.copyWith(fontSize: 8.67),
-                            ),
-                            Text(
-                              '12 Feb 2023; 17:30 WIB',
-                              style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8.67),
-                            ),
-                          ],
+                        )),
+                  ),
+                  Positioned(
+                    top: 400.2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(86),
+                          bottomRight: Radius.circular(86),
                         ),
                       ),
+                      padding: const EdgeInsets.only(left: 6, top: 7),
+                      height: 36,
+                      width: 110,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'My Journey - Jerawat',
+                            style: blackTextStyle.copyWith(fontSize: 8.67),
+                          ),
+                          Text(
+                            '12 Feb 2023; 17:30 WIB',
+                            style:
+                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 30, right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
