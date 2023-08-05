@@ -55,26 +55,26 @@ class PostDenganPoto extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
-                        ),
-                        builder: (context) => const ShareLinkStream(),
-                      );
-                    },
-                    child: Icon(
-                      Icons.more_horiz,
-                      color: subgreyColor,
-                      size: 24,
-                    ),
-                  )
+                  // InkWell(
+                  //   onTap: () {
+                  //     showModalBottomSheet(
+                  //       context: context,
+                  //       backgroundColor: Colors.white,
+                  //       shape: const RoundedRectangleBorder(
+                  //         borderRadius: BorderRadiusDirectional.only(
+                  //           topEnd: Radius.circular(25),
+                  //           topStart: Radius.circular(25),
+                  //         ),
+                  //       ),
+                  //       builder: (context) => const ShareLinkStream(),
+                  //     );
+                  //   },
+                  //   child: Icon(
+                  //     Icons.more_horiz,
+                  //     color: subgreyColor,
+                  //     size: 24,
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(
