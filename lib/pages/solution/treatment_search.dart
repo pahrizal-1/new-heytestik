@@ -10,28 +10,35 @@ import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
-class TrendingTreatment extends StatefulWidget {
-  const TrendingTreatment({super.key});
+class TreatmentSearch extends StatefulWidget {
+  const TreatmentSearch({
+    super.key,
+    required this.search,
+  });
+
+  final String search;
 
   @override
-  State<TrendingTreatment> createState() => _TrendingTreatmentState();
+  State<TreatmentSearch> createState() => _TreatmentSearchState();
 }
 
-class _TrendingTreatmentState extends State<TrendingTreatment> {
+class _TreatmentSearchState extends State<TreatmentSearch> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
-  final TextEditingController searchController = TextEditingController();
+  late TextEditingController searchController = TextEditingController();
 
   int page = 1;
+  late String localSearch;
   List<Data2> treatments = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
-  String? search;
 
   @override
   void initState() {
+    searchController = TextEditingController(text: widget.search);
+    localSearch = widget.search;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
+      treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: localSearch));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -40,7 +47,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: localSearch));
             setState(() {});
           });
         }
@@ -59,106 +66,75 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: isSelecteSearch
-              ? Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                        color: blackColor,
-                      ),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                  color: blackColor,
+                ),
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              Expanded(
+                child: Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Color(0xffF1F1F1),
+                    border: Border.all(
+                      color: fromCssColor("#CCCCCC"),
                     ),
-                    const SizedBox(
-                      width: 11,
-                    ),
-                    Text(
-                      'Trending',
-                      style: blackTextStyle.copyWith(fontSize: 20),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isSelecteSearch = !isSelecteSearch;
-                        });
-                      },
-                      child: Image.asset(
-                        'assets/icons/search1.png',
-                        width: 18,
-                        color: blackColor,
-                      ),
-                    )
-                  ],
-                )
-              : Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                        color: blackColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Expanded(
-                        child: Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Color(0xffF1F1F1),
-                        border: Border.all(
-                          color: fromCssColor("#CCCCCC"),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
                         ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                          ),
-                          child: Image.asset(
-                            'assets/icons/search1.png',
-                            width: 10,
-                          ),
+                        child: Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
                         ),
-                        Container(
-                          transform: Matrix4.translationValues(0, -2, 0),
-                          constraints: const BoxConstraints(maxWidth: 250),
-                          child: TextFormField(
-                            controller: searchController,
-                            onEditingComplete: () async {
-                              search = searchController.text;
-                              page = 1;
-                              treatments.clear();
-                              treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
-                              setState(() {});
-                            },
-                            style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
-                            decoration: InputDecoration(
-                              hintText: "Cari Treatment",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontFamily: "ProximaNova",
-                                color: fromCssColor(
-                                  '#9B9B9B',
-                                ),
+                      ),
+                      Container(
+                        transform: Matrix4.translationValues(0, -2, 0),
+                        constraints: const BoxConstraints(maxWidth: 250),
+                        child: TextFormField(
+                          controller: searchController,
+                          onEditingComplete: () async {
+                            page = 1;
+                            treatments.clear();
+                            localSearch = searchController.text;
+                            treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: localSearch));
+                            setState(() {});
+                          },
+                          style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
+                          decoration: InputDecoration(
+                            hintText: "Cari Treatment",
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                              fontFamily: "ProximaNova",
+                              color: fromCssColor(
+                                '#9B9B9B',
                               ),
                             ),
                           ),
                         ),
-                      ]),
-                    )),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

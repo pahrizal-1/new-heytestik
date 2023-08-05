@@ -53,13 +53,14 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page, {String? search}) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/trending',
         params: {
           "page": page,
           "take": 10,
+          "search": search
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -76,13 +77,14 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page, {String? search}) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/top-rating',
         params: {
           "page": page,
           "take": 10,
+          "search": search
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -279,13 +281,14 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getAllTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getAllTreatment(int page, {String? search}) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment',
         params: {
           "page": page,
           "take": 10,
+          "search": search,
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',

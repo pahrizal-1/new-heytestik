@@ -129,7 +129,7 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<Data2>> getTopRatingTreatment(BuildContext context, int page) async {
+  Future<List<Data2>> getTopRatingTreatment(BuildContext context, int page, {String? search}) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -143,7 +143,7 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<Data2>> getTrendingTreatment(BuildContext context, int page) async {
+  Future<List<Data2>> getTrendingTreatment(BuildContext context, int page, {String? search}) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -175,7 +175,7 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getAllTreatment(page);
+      TreatmentModel data = await TreatmentService().getAllTreatment(page, search: search);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });

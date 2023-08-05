@@ -141,13 +141,11 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                               fontFamily: "ProximaNova",
                             ),
                             onEditingComplete: () async {
+                              page = 1;
                               search = searchController.text;
-
                               clinics.clear();
-
-                             clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
-                              setState(() {
-                              });
+                              clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+                              setState(() {});
                             },
                             decoration: InputDecoration(
                               hintText: "Cari Klinik",
