@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
@@ -254,14 +255,23 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
       body: ListView.builder(
         itemCount: stateTreatment.dataClinic.length,
         itemBuilder: (context, index) {
-          return CardKlinik(
-            namaKlink:
-                '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
-            rating: '${stateTreatment.dataClinic[index].rating} (120k)',
-            km: stateTreatment.dataClinic[index].distance,
-            urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",
-            price: stateTreatment.dataClinic[index].price,
-            buttonTitle: 'Lihat semua cabang klinik',
+          return InkWell(
+            onTap: () {
+              print("sdasdasd");
+              print(stateTreatment.dataClinic[index].id);
+              Get.to(DetailKlnikPage(
+                id: stateTreatment.dataClinic[index].id,
+              ));
+            },
+            child: CardKlinik(
+              namaKlink:
+                  '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
+              rating: '${stateTreatment.dataClinic[index].rating} (120k)',
+              km: stateTreatment.dataClinic[index].distance,
+              urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",
+              price: stateTreatment.dataClinic[index].price,
+              buttonTitle: 'Lihat semua cabang klinik',
+            ),
           );
         },
       ),

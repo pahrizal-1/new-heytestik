@@ -114,4 +114,15 @@ class ConvertDate {
     print('formatted $formatted');
     return formatted;
   }
+
+  static String schedule(String value) {
+    DateTime tdata = DateTime.parse('2023-08-03T23:50:27+07:00');
+    // '13 Mei, 17:12',
+    print('tdata $tdata');
+    final DateFormat formatter = DateFormat('HH:mm');
+    print('formatter $formatter');
+    final String formatted = formatter.format(tdata);
+    print('formatted $formatted');
+    return formatted;
+  }
 }
