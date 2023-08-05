@@ -261,6 +261,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
             km: stateTreatment.dataClinic[index].distance,
             urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",
             price: stateTreatment.dataClinic[index].price,
+            buttonTitle: 'Lihat semua cabang klinik',
           );
         },
       ),
