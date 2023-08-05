@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 
-class GaleryMyJourney extends StatelessWidget {
+class GaleryMyJourney extends StatefulWidget {
   const GaleryMyJourney({super.key});
+
+  @override
+  State<GaleryMyJourney> createState() => _GaleryMyJourneyState();
+}
+
+class _GaleryMyJourneyState extends State<GaleryMyJourney> {
+  bool isSelceted = true;
 
   @override
   Widget build(BuildContext context) {
@@ -64,52 +72,32 @@ class GaleryMyJourney extends StatelessWidget {
                   runSpacing: 4,
                   children: [
                     InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 72,
-                        width: 82,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            image: const DecorationImage(
-                                image: AssetImage('assets/images/before1.png'),
-                                fit: BoxFit.cover)),
-                      ),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
+                      onTap: () {
+                        setState(() {
+                          isSelceted = !isSelceted;
+                        });
+                      },
+                      child: isSelceted
+                          ? Container(
+                              height: 72,
+                              width: 82,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/before1.png'),
+                                      fit: BoxFit.cover)),
+                            )
+                          : Container(
+                              height: 72,
+                              width: 82,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/icons/chek_icons.png'),
+                                      fit: BoxFit.cover)),
+                            ),
                     ),
                   ],
                 )
@@ -293,6 +281,12 @@ class GaleryMyJourney extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          children: [ButtonGreenWidget(title: 'Pilih Foto')],
+        ),
       ),
     );
   }
