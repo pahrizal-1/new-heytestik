@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 

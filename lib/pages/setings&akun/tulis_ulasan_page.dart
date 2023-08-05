@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -189,7 +189,7 @@ class TulisUlasaPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TulisUlasan2Page()));
+                        builder: (context) => const TulisUlasanSkincarePage()));
               },
             )
           ],
