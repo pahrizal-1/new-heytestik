@@ -9,9 +9,15 @@ class WishlistService extends ProviderClass {
   WishlistService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<WishlistModel> getWishlist() async {
+  Future<WishlistModel> getWishlist({String? search}) async {
     var response = await networkingConfig.doGet(
-      '/user-wishlist?page=1&take=100&order=asc',
+      '/user-wishlist',
+      params: {
+        "page": 1,
+        "take": 100,
+        "order": "asc",
+        "search": search,
+      },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
