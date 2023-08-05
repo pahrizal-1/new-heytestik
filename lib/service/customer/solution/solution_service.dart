@@ -92,4 +92,21 @@ class SolutionService extends ProviderClass {
       return [];
     }
   }
+
+  void addMedicineToCart(int productID) async {
+    var response = await networkingConfig.doPost(
+      '/user-cart',
+      data: {
+        "product_id": productID,
+        "qty": 1,
+        "notes": null,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+  }
 }

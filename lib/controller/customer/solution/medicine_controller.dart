@@ -24,4 +24,13 @@ class MedicineController extends StateClass {
 
     return data;
   }
+
+  void addMedicineToCart(BuildContext context, int productID) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      SolutionService().addMedicineToCart(productID);
+    });
+
+    isLoading.value = false;
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
@@ -23,6 +25,8 @@ class DetailObatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MedicineController medicineController = Get.put(MedicineController());
+
     return Scaffold(
       backgroundColor: const Color(0XffFFFFFF),
       appBar: AppBar(
@@ -358,26 +362,6 @@ class DetailObatPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      width: 142,
-                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          'Konsultasi Dulu',
-                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -389,6 +373,28 @@ class DetailObatPage extends StatelessWidget {
                         child: Text(
                           'Beli Langsung',
                           style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      medicineController.addMedicineToCart(context, medicine.id);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      width: 142,
+                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          '+ Keranjang',
+                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
