@@ -227,7 +227,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                           'CONSULTATION') {
                         return UlasanProudukKonsultasi(
                           onPressed: () {
-                            Get.to(TulisUlasaPage());
+                            Get.to(TulisUlasanTreatMent());
                           },
                           nameProduk: 'nama prod',
                           tanggal: ConvertDate.defaultDate(
@@ -242,7 +242,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                       if (waitingReview[index].transactionType == 'TREATMENT') {
                         return UlasanProudukTreatment(
                           onPressed: () {
-                            Get.to(TulisUlasanTreatMent());
+                            Get.to(TulisUlasaPage());
                           },
                           item: waitingReview[index]
                               .detail
