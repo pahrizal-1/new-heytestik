@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/galery_my_journey.dart';
@@ -227,33 +228,38 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                   height: 13,
                 ),
                 //// Sebelum Customer Docter ///////////////////////////
-                Container(
-                  height: 95,
-                  width: 340,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Catatan dokter terkait skingoal kamu',
-                        style: subTitleTextStyle,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Chat Doctor',
-                          style: grenTextStyle.copyWith(fontSize: 15),
-                          children: [
-                            TextSpan(
-                                text: ' Sekarang, yuk!',
-                                style: blackRegulerTextStyle)
-                          ],
+                InkWell(
+                  onTap: () {
+                    Get.to(SelectConditionsPage());
+                  },
+                  child: Container(
+                    height: 95,
+                    width: 340,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 26, vertical: 30),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Catatan dokter terkait skingoal kamu',
+                          style: subTitleTextStyle,
                         ),
-                      ),
-                    ],
+                        RichText(
+                          text: TextSpan(
+                            text: 'Chat Doctor',
+                            style: grenTextStyle.copyWith(fontSize: 15),
+                            children: [
+                              TextSpan(
+                                  text: ' Sekarang, yuk!',
+                                  style: blackRegulerTextStyle)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(
