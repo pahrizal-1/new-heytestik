@@ -13,12 +13,17 @@ class ClinicModel {
   ClinicModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? (json['data']['data'] as List).map((e) => ClinicDataModel.fromJson(e)).toList() : null;
+    data = json['data'] != null
+        ? (json['data']['data'] as List)
+            .map((e) => ClinicDataModel.fromJson(e))
+            .toList()
+        : null;
     meta = Meta.fromJson(json['data']['meta']);
   }
 }
 
 class ClinicDataModel {
+  final int id;
   final String name;
   final int rating;
   final String distance;
@@ -27,6 +32,7 @@ class ClinicDataModel {
   final String city;
 
   const ClinicDataModel({
+    required this.id,
     required this.name,
     required this.rating,
     required this.distance,
@@ -37,6 +43,7 @@ class ClinicDataModel {
 
   factory ClinicDataModel.fromJson(Map<String, dynamic> json) {
     return ClinicDataModel(
+      id: json['id'],
       name: json['name'],
       rating: json['rating'],
       distance: json['distance'],
