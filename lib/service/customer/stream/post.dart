@@ -287,4 +287,36 @@ class PostServices extends ProviderClass {
       print(error);
     }
   }
+
+  void blockUser(String username) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/user-block/$username/block',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch(error) {
+      print(error);
+    }
+  }
+
+  void unBlockUser(String username) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/user-block/$username/unblock',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch(error) {
+      print(error);
+    }
+  }
 }
