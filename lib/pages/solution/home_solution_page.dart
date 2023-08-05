@@ -39,11 +39,7 @@ class _SolutionPageState extends State<SolutionPage> {
   final SkincareController stateSkincare = Get.put(SkincareController());
 
   int activeIndex = 0;
-  final images = [
-    'assets/images/bg-solutions1.png',
-    'assets/images/bg-solutions2.png',
-    'assets/images/bg-solutions3.png'
-  ];
+  final images = ['assets/images/bg-solutions1.png', 'assets/images/bg-solutions2.png', 'assets/images/bg-solutions3.png'];
   int currentIndex = 0;
 
   List<String> asset = [
@@ -99,21 +95,15 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                   Text(
                     'Cari',
-                    style: subGreyTextStyle.copyWith(
-                        color: const Color(0Xff9B9B9B), fontSize: 15),
+                    style: subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B), fontSize: 15),
                   ),
                   Text(
                     "'Solution'",
-                    style: subGreyTextStyle.copyWith(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 15,
-                        color: const Color(0Xff9B9B9B),
-                        fontWeight: bold),
+                    style: subGreyTextStyle.copyWith(fontStyle: FontStyle.italic, fontSize: 15, color: const Color(0Xff9B9B9B), fontWeight: bold),
                   ),
                   Text(
                     '-mu disini',
-                    style: subGreyTextStyle.copyWith(
-                        color: const Color(0Xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(color: const Color(0Xff9B9B9B)),
                   ),
                 ],
               ),
@@ -140,10 +130,7 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const KeranjangPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const KeranjangPage()));
             },
             child: SvgPicture.asset(
               color: whiteColor,
@@ -155,8 +142,7 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AkunHomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -183,8 +169,7 @@ class _SolutionPageState extends State<SolutionPage> {
                 options: CarouselOptions(
                   height: 210,
                   viewportFraction: 1,
-                  onPageChanged: (index, reason) =>
-                      setState(() => activeIndex = index),
+                  onPageChanged: (index, reason) => setState(() => activeIndex = index),
                 ),
               ),
               const SizedBox(
@@ -194,19 +179,14 @@ class _SolutionPageState extends State<SolutionPage> {
                 child: AnimatedSmoothIndicator(
                   activeIndex: activeIndex,
                   count: images.length,
-                  effect: ScaleEffect(
-                      activeDotColor: greenColor,
-                      dotColor: const Color(0xffD9D9D9),
-                      dotWidth: 6,
-                      dotHeight: 6),
+                  effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -216,8 +196,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ObatSolutionsPage(),
+                                  builder: (context) => const ObatSolutionsPage(),
                                 ),
                               );
                             },
@@ -235,8 +214,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionSkincare1Page(),
+                                  builder: (context) => const SolutionSkincare1Page(),
                                 ),
                               );
                             },
@@ -254,8 +232,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionsTreatment1Page(),
+                                  builder: (context) => const SolutionsTreatment1Page(),
                                 ),
                               );
                             },
@@ -273,8 +250,7 @@ class _SolutionPageState extends State<SolutionPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     child: Container(
-                      padding: const EdgeInsets.only(
-                          left: 14, top: 8, bottom: 7, right: 14),
+                      padding: const EdgeInsets.only(left: 14, top: 8, bottom: 7, right: 14),
                       width: 340,
                       height: 35,
                       decoration: BoxDecoration(
@@ -290,8 +266,7 @@ class _SolutionPageState extends State<SolutionPage> {
                           Obx(
                             () => Text(
                               state.city.value,
-                              style:
-                                  blackTextStyle.copyWith(fontWeight: regular),
+                              style: blackTextStyle.copyWith(fontWeight: regular),
                             ),
                           ),
                           const Spacer(),
@@ -348,8 +323,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               margin: const EdgeInsets.only(right: 12),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
-                                border: Border.all(
-                                    color: subwhiteColor, width: 0.6),
+                                border: Border.all(color: subwhiteColor, width: 0.6),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -359,10 +333,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                     height: 135,
                                     width: 120,
                                     decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/noroid.png'),
-                                          fit: BoxFit.cover),
+                                      image: DecorationImage(image: AssetImage('assets/images/noroid.png'), fit: BoxFit.cover),
                                     ),
                                   ),
                                   const SizedBox(
@@ -374,33 +345,27 @@ class _SolutionPageState extends State<SolutionPage> {
                                       right: 8,
                                       bottom: 10,
                                     ),
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 130),
+                                    constraints: const BoxConstraints(maxWidth: 130),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Noroid Soothing Cream 80ml',
-                                          style: blackRegulerTextStyle.copyWith(
-                                              fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
                                         ),
                                         const SizedBox(
                                           height: 3,
                                         ),
                                         Text(
                                           'Rp152.500',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 15),
+                                          style: blackHigtTextStyle.copyWith(fontSize: 15),
                                         ),
                                         const SizedBox(
                                           height: 4,
                                         ),
                                         Text(
                                           'Per Tube',
-                                          style: subGreyTextStyle.copyWith(
-                                              fontSize: 12,
-                                              color: const Color(0xFF9B9B9B)),
+                                          style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
                                         ),
                                         const SizedBox(
                                           height: 4,
@@ -419,21 +384,15 @@ class _SolutionPageState extends State<SolutionPage> {
                                         InkWell(
                                           onTap: () {},
                                           child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                bottom: 5,
-                                                top: 5),
+                                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
+                                              borderRadius: BorderRadius.circular(3),
                                               color: greenColor,
                                             ),
                                             child: Center(
                                               child: Text(
                                                 '+ Keranjang',
-                                                style: whiteTextStyle.copyWith(
-                                                    fontSize: 12),
+                                                style: whiteTextStyle.copyWith(fontSize: 12),
                                               ),
                                             ),
                                           ),
@@ -445,14 +404,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               ),
                             ),
                           ),
-                          const ProdukKeranjang(
-                              namaBrand: 'ISISPHARMA',
-                              namaProduk: 'Teenderm Gel',
-                              diskonProduk: '20%',
-                              hargaDiskon: 'Rp250.000',
-                              harga: 'Rp200.000',
-                              urlImg: 'assets/images/catabria.png',
-                              rating: '4.9 (120k)')
+                          const ProdukKeranjang(namaBrand: 'ISISPHARMA', namaProduk: 'Teenderm Gel', diskonProduk: '20%', hargaDiskon: 'Rp250.000', harga: 'Rp200.000', urlImg: 'assets/images/catabria.png', rating: '4.9 (120k)')
                         ],
                       ),
                     ),
@@ -470,8 +422,7 @@ class _SolutionPageState extends State<SolutionPage> {
                         ),
                         Text(
                           'skin goals-mu!',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 15, fontStyle: FontStyle.italic),
+                          style: blackHigtTextStyle.copyWith(fontSize: 15, fontStyle: FontStyle.italic),
                         ),
                         const Spacer(),
                         Text(
@@ -528,24 +479,17 @@ class _SolutionPageState extends State<SolutionPage> {
                                       onTap: () {
                                         Get.to(DetailSkinCarePage(
                                           id: e.id!.toInt(),
-                                          productId: e
-                                              .mediaProducts![0].productId!
-                                              .toInt(),
+                                          productId: e.mediaProducts![0].productId!.toInt(),
                                         ));
                                       },
                                       child: Produkheight(
                                         produkId: e.id!.toInt(),
-                                        namaBrand:
-                                            e.skincareDetail!.brand.toString(),
+                                        namaBrand: e.skincareDetail!.brand.toString(),
                                         namaProduk: e.name.toString(),
                                         diskonProduk: '20',
-                                        hargaDiskon:
-                                            CurrencyFormat.convertToIdr(
-                                                e.price, 0),
-                                        harga: CurrencyFormat.convertToIdr(
-                                            e.price, 0),
-                                        urlImg:
-                                            '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                        hargaDiskon: CurrencyFormat.convertToIdr(e.price, 0),
+                                        harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                        urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                         // rating: '4.9 (120k)',
                                         rating: e.rating.toString(),
                                       ),
@@ -581,13 +525,12 @@ class _SolutionPageState extends State<SolutionPage> {
                           padding: const EdgeInsets.only(left: 25),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PeelinngTraetmentPage(),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => const PeelinngTraetmentPage(),
+                              //   ),
+                              // );
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8),
@@ -595,8 +538,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               width: 150,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/${asset[index % 3]}'),
+                                  image: AssetImage('assets/images/${asset[index % 3]}'),
                                   fit: BoxFit.fill,
                                 ),
                                 borderRadius: BorderRadius.circular(7),
@@ -605,10 +547,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   gradient: LinearGradient(
-                                    colors: [
-                                      blackColor.withOpacity(0.5),
-                                      Colors.transparent
-                                    ],
+                                    colors: [blackColor.withOpacity(0.5), Colors.transparent],
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.center,
                                   ),
@@ -618,10 +557,8 @@ class _SolutionPageState extends State<SolutionPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 11),
                                     child: Text(
-                                      stateTreatment
-                                          .treatment[index].treatmentType,
-                                      style: whiteTextStyle.copyWith(
-                                          fontSize: 18, fontWeight: bold),
+                                      stateTreatment.treatment[index].treatmentType,
+                                      style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
                                     ),
                                   ),
                                 ),

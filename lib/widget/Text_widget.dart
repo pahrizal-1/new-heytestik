@@ -163,11 +163,13 @@ class DescripsiText extends StatefulWidget {
   final String title1;
   final String subtitle2;
   final String? divider;
+  final bool isLast;
   const DescripsiText({
     Key? key,
     required this.title1,
     required this.subtitle2,
     this.divider,
+    this.isLast = false,
   }) : super(key: key);
 
   @override
@@ -179,6 +181,7 @@ class _DescripsiTextState extends State<DescripsiText> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
           onTap: () {
@@ -217,13 +220,16 @@ class _DescripsiTextState extends State<DescripsiText> {
         const SizedBox(
           height: 8,
         ),
-        Divider(
-          thickness: 1,
-          color: borderColor,
-        ),
-        const SizedBox(
-          height: 18,
-        ),
+       if(!widget.isLast)
+         ...[
+           Divider(
+             thickness: 1,
+             color: borderColor,
+           ),
+           const SizedBox(
+             height: 18,
+           ),
+         ]
       ],
     );
   }
