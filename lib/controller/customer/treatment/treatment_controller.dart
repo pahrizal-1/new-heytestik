@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/clinic.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
+import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_detail.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
@@ -25,6 +26,7 @@ class TreatmentController extends StateClass {
   Rx<ClinicModel> responseClinic = ClinicModel().obs;
   RxList<ClinicDataModel> dataClinic =
       List<ClinicDataModel>.empty(growable: true).obs;
+  Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
 
   getDataUser() async {
     dataUser = await LocalStorage().getDataUser();
@@ -50,6 +52,15 @@ class TreatmentController extends StateClass {
     isLoading.value = false;
 
     return responseClinic.value.data!;
+  }
+
+  Future<FindClinicModel> getClinicDetail(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      responseClinicDetail.value = await TreatmentService().getClinicDetail(id);
+    });
+    isLoading.value = false;
+    return responseClinicDetail.value;
   }
 
   void userWishlistTreatment(
