@@ -232,13 +232,14 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getNearTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getNearTreatment(int page, {String? search}) async {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/near-me',
         params: {
           "page": page,
           "take": 10,
+          "search": search,
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',

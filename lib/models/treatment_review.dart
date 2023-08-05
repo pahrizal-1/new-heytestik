@@ -8,6 +8,7 @@ class TreatmentReviewModel {
   final int managementRating;
   final double averageRating;
   final String review;
+  final String createdAt;
   final int helpfulCount;
   final List<MediaTreatmentReviewModel> media;
 
@@ -21,6 +22,7 @@ class TreatmentReviewModel {
     required this.managementRating,
     required this.averageRating,
     required this.review,
+    required this.createdAt,
     required this.helpfulCount,
     required this.media,
   });
@@ -36,6 +38,7 @@ class TreatmentReviewModel {
       managementRating: json['management_rating'],
       averageRating: double.parse(json['avg_rating'].toString()),
       review: json['review'],
+      createdAt: json['created_at'],
       helpfulCount: json['helpful_count'],
       media: (json['media_treatment_reviews'] as List)
           .map((document) => MediaTreatmentReviewModel.fromJson(document))
