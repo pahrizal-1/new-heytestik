@@ -3,157 +3,201 @@ import 'package:flutter/material.dart';
 import '../../theme/theme.dart';
 import '../../widget/poto_my_journey_widgets.dart';
 
-class ZoomImageDetail extends StatelessWidget {
+class ZoomImageDetail extends StatefulWidget {
   const ZoomImageDetail({super.key});
 
   @override
+  State<ZoomImageDetail> createState() => _ZoomImageDetailState();
+}
+
+final zoomTransformationController = TransformationController();
+
+void _resetZoom() {
+  zoomTransformationController.value = Matrix4.identity();
+  print('reset zoom');
+}
+
+void _zoomIn() {
+  zoomTransformationController.value.scale(1.1);
+}
+
+void _zoomOut() {
+  zoomTransformationController.value.scale(0.9);
+}
+
+class _ZoomImageDetailState extends State<ZoomImageDetail> {
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: blackColor,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 21),
+    return Scaffold(
+      backgroundColor: blackColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 21),
+            child: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
                 width: 20,
                 height: 20,
                 color: whiteColor,
               ),
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Stack(
+            ),
+          )
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Row(
                 children: [
-                  Row(
+                  Stack(
                     children: [
-                      Stack(
-                        children: [
-                          Image.asset('assets/images/wajah.png',
-                              width: 195, height: 700),
-                          Positioned(
-                            top: 500.2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(86),
-                                  bottomRight: Radius.circular(86),
-                                ),
-                              ),
-                              padding: const EdgeInsets.only(left: 6, top: 7),
-                              height: 36,
-                              width: 110,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'My Journey - Jerawat',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 8.67),
-                                  ),
-                                  Text(
-                                    '12 Feb 2023; 17:30 WIB',
-                                    style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 8.67),
-                                  ),
-                                ],
-                              ),
-                            ),
+                      InteractiveViewer(
+                        transformationController: zoomTransformationController,
+                        child: Container(
+                          height: 450,
+                          child: Image.asset(
+                            'assets/images/wajah.png',
+                            width: 195,
+                            fit: BoxFit.cover,
                           ),
-                        ],
+                        ),
                       ),
-                      Container(
-                        height: 390,
-                        width: 2,
-                        color: whiteColor,
+                      Positioned(
+                        top: 400.2,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(86),
+                              bottomRight: Radius.circular(86),
+                            ),
+                          ),
+                          padding: const EdgeInsets.only(left: 6, top: 7),
+                          height: 36,
+                          width: 110,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'My Journey - Jerawat',
+                                style: blackTextStyle.copyWith(fontSize: 8.67),
+                              ),
+                              Text(
+                                '12 Feb 2023; 17:30 WIB',
+                                style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 8.67),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      Stack(
-                        children: [
-                          Image.asset('assets/images/wajah.png',
-                              width: 195, height: 700),
-                          Positioned(
-                            top: 500.2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(86),
-                                  bottomRight: Radius.circular(86),
-                                ),
-                              ),
-                              padding: const EdgeInsets.only(left: 6, top: 7),
-                              height: 36,
-                              width: 110,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'My Journey - Jerawat',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 8.67),
-                                  ),
-                                  Text(
-                                    '12 Feb 2023; 17:30 WIB',
-                                    style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 8.67),
-                                  ),
-                                ],
-                              ),
+                    ],
+                  ),
+                  Container(
+                    width: 2,
+                    height: 450,
+                    color: whiteColor,
+                  ),
+                  Stack(
+                    children: [
+                      InteractiveViewer(
+                        transformationController: zoomTransformationController,
+                        child: Container(
+                          height: 450,
+                          child: Image.asset(
+                            'assets/images/wajah.png',
+                            width: 195,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 200.2,
+                        left: 120,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                shape: BoxShape.circle),
+                            height: 36,
+                            width: 110,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: whiteColor,
+                            )),
+                      ),
+                      Positioned(
+                        top: 400.2,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(86),
+                              bottomRight: Radius.circular(86),
                             ),
                           ),
-                          Positioned(
-                            top: 600,
-                            left: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/icons-back.png',
-                                    width: 40,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          padding: const EdgeInsets.only(left: 6, top: 7),
+                          height: 36,
+                          width: 110,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'My Journey - Jerawat',
+                                style: blackTextStyle.copyWith(fontSize: 8.67),
+                              ),
+                              Text(
+                                '12 Feb 2023; 17:30 WIB',
+                                style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 8.67),
+                              ),
+                            ],
                           ),
-                          Positioned(
-                            top: 605,
-                            left: 140,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/zoom_icons.png',
-                                    width: 30,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Positioned(
+                      top: 600,
+                      left: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _resetZoom();
+                              });
+                            },
+                            child: Image.asset(
+                              'assets/icons/icons-back.png',
+                              width: 50,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
