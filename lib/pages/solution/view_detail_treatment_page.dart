@@ -569,7 +569,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Jessy',
+                                    reviews[0].senderFullName,
                                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                                   ),
                                   Text(

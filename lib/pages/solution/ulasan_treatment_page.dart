@@ -15,6 +15,7 @@ import '../../widget/coment_ulasan_widgets.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class UlasanTreatmentPage extends StatefulWidget {
   const UlasanTreatmentPage({
@@ -38,7 +39,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   Map<String, dynamic> dataOverview = {};
 
   ScrollController listScrollController = ScrollController();
-  // scroll controller
 
   @override
   void initState() {
@@ -341,10 +341,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         child: Center(
                           child: Text(
                             'Dengan Foto',
@@ -362,10 +363,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             horizontal: 12,
                           ),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                color: borderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(7)),
+                            border: Border.all(
+                              color: borderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
                           child: Row(
                             children: [
                               Center(
@@ -395,10 +397,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             horizontal: 10,
                           ),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                color: borderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(7)),
+                            border: Border.all(
+                              color: borderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
                           child: Row(
                             children: [
                               Center(
@@ -477,10 +480,11 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             horizontal: 12,
                           ),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                color: borderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(7)),
+                            border: Border.all(
+                              color: borderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
                           child: Row(
                             children: [
                               Center(
@@ -507,10 +511,10 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                 itemCount: reviews.length,
                 itemBuilder: (context, index) {
                   return ComentUlasanaCustomer(
-                    namaUser: "Customer",
-                    namaProduk: 'Teenderm Gel 40ml',
-                    bulan: '',
-                    comentUser: 'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
+                    namaUser: reviews[index].senderFullName,
+                    namaProduk: reviews[index].itemName,
+                    bulan: timeago.format(DateTime.parse(reviews[index].createdAt)),
+                    comentUser: reviews[index].review,
                     balasanComent: 'Saran Beli Obat Kuat',
                     imgUser: 'assets/images/doctor-img.png',
                     like: '100',
