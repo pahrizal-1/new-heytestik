@@ -32,10 +32,10 @@ class CardTreatment extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DetailKlnikPage()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => DetailKlnikPage(id: ,)));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -71,12 +71,9 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       decoration: BoxDecoration(
                         color: isSelected ? greenColor : null,
                         borderRadius: BorderRadius.circular(7),
-                        border: Border.all(
-                            color: isSelected ? greenColor : borderColor),
+                        border: Border.all(color: isSelected ? greenColor : borderColor),
                       ),
-                      child: isSelected
-                          ? Image.asset('assets/icons/chek_new.png')
-                          : null,
+                      child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
                     ),
                   ),
                   const SizedBox(
@@ -96,8 +93,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 17, right: 5, bottom: 15),
+                      padding: const EdgeInsets.only(top: 17, right: 5, bottom: 15),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -118,14 +114,9 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                   decoration: BoxDecoration(
                                     color: isSelected ? greenColor : null,
                                     borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(
-                                        color: isSelected
-                                            ? greenColor
-                                            : borderColor),
+                                    border: Border.all(color: isSelected ? greenColor : borderColor),
                                   ),
-                                  child: isSelected
-                                      ? Image.asset('assets/icons/chek_new.png')
-                                      : null,
+                                  child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
                                 ),
                               ),
                             ],
@@ -133,59 +124,75 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                           const SizedBox(
                             width: 7,
                           ),
-                          Column(
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              Container(
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: borderColor),
+                                  image: DecorationImage(
+                                    image: NetworkImage(widget.imageProduk),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      image: DecorationImage(
-                                        image: NetworkImage(widget.imageProduk),
+                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 1.8),
+                                    child: Text(
+                                      widget.merkProduk,
+                                      style: grenTextStyle.copyWith(
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    height: 5,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        constraints:
-                                            const BoxConstraints(maxWidth: 210),
-                                        child: Text(
-                                          widget.merkProduk,
-                                          style: grenTextStyle.copyWith(
-                                            fontSize: 14,
+                                      Text(
+                                        'Penggunaan',
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 12,
+                                          height: 1.3,
+                                          // letterSpacing: 0.5,
+                                          color: fromCssColor(
+                                            '#9B9B9B',
                                           ),
                                         ),
                                       ),
-                                      // RichText(
-                                      //   text: TextSpan(
-                                      //     text: widget.merkProduk,
-                                      //     style: TextStyle(
-                                      //       fontFamily: 'ProximaNova',
-                                      //       color: greenColor,
-                                      //       fontSize: 12,
-                                      //       fontWeight: FontWeight.bold,
-                                      //       height: 1.1,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       const SizedBox(
-                                        height: 5,
+                                        width: 10,
                                       ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          Container(
+                                            constraints: const BoxConstraints(maxWidth: 80),
+                                            child: Text(
+                                              widget.penggunaanJadwal,
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 12,
+                                                height: 1.3,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#9B9B9B',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                           Text(
-                                            'Penggunaan',
+                                            widget.penggunaan,
                                             style: TextStyle(
                                               fontFamily: 'ProximaNova',
                                               fontSize: 12,
@@ -196,81 +203,42 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 80),
-                                                child: Text(
-                                                  widget.penggunaanJadwal,
-                                                  style: TextStyle(
-                                                    fontFamily: 'ProximaNova',
-                                                    fontSize: 12,
-                                                    height: 1.3,
-                                                    letterSpacing: 0.5,
-                                                    color: fromCssColor(
-                                                      '#9B9B9B',
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                widget.penggunaan,
-                                                style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 12,
-                                                  height: 1.3,
-                                                  letterSpacing: 0.5,
-                                                  color: fromCssColor(
-                                                    '#9B9B9B',
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.harga,
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                          color: fromCssColor(
+                                            '#323232',
+                                          ),
+                                        ),
                                       ),
                                       const SizedBox(
-                                        height: 10,
+                                        width: 15,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            widget.harga,
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#323232',
-                                              ),
-                                            ),
+                                      Text(
+                                        '1 ${widget.packagingType}\n(${widget.netto}\n${widget.nettoType})',
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                          color: fromCssColor(
+                                            '#323232',
                                           ),
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text(
-                                            '1 ${widget.packagingType}\n(${widget.netto}\n${widget.nettoType})',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#323232',
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -302,8 +270,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: widget.hintText,
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -332,8 +299,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         onTap: () async {
                           await showDialog(
                             context: context,
-                            builder: (context) =>
-                                AlertInfomasi(function: () async {
+                            builder: (context) => AlertInfomasi(function: () async {
                               await state.deleteCart(context, widget.cartId);
                             }),
                           );
@@ -347,8 +313,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         width: 21,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
                           border: Border.all(color: borderColor),

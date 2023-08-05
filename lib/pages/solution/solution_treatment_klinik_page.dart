@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
@@ -21,7 +22,9 @@ class TreatmentKlink extends StatefulWidget {
 class _TreatmentKlinkState extends State<TreatmentKlink> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
   int page = 1;
+  String? search;
   List<ClinicDataModel> clinics = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
@@ -30,7 +33,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      clinics.addAll(await stateTreatment.getClinic(context, page));
+      clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -39,7 +42,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            clinics.addAll(await stateTreatment.getClinic(context, page));
+            clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
             setState(() {});
           });
         }
@@ -117,38 +120,48 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         ),
                         borderRadius: BorderRadius.circular(7),
                       ),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Image.asset(
-                                'assets/icons/search1.png',
-                                width: 10,
-                              ),
+                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/search1.png',
+                            width: 10,
+                          ),
+                        ),
+                        Container(
+                          transform: Matrix4.translationValues(0, -2, 0),
+                          constraints: const BoxConstraints(maxWidth: 250),
+                          child: TextFormField(
+                            controller: searchController,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: "ProximaNova",
                             ),
-                            Container(
-                              transform: Matrix4.translationValues(0, -2, 0),
-                              constraints: const BoxConstraints(maxWidth: 250),
-                              child: TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 15, fontFamily: "ProximaNova"),
-                                decoration: InputDecoration(
-                                  hintText: "Cari Klinik",
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
-                                  ),
+                            onEditingComplete: () async {
+                              search = searchController.text;
+
+                              clinics.clear();
+
+                             clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+                              setState(() {
+                              });
+                            },
+                            decoration: InputDecoration(
+                              hintText: "Cari Klinik",
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                fontFamily: "ProximaNova",
+                                color: fromCssColor(
+                                  '#9B9B9B',
                                 ),
                               ),
                             ),
-                          ]),
+                          ),
+                        ),
+                      ]),
                     )),
                   ],
                 ),
@@ -210,8 +223,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         },
                         child: Container(
                           margin: const EdgeInsets.only(left: 9),
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 6, bottom: 6),
+                          padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
                           height: 30,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(7),
@@ -252,16 +264,22 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
             )),
       ),
       body: ListView.builder(
-        itemCount: stateTreatment.dataClinic.length,
+        itemCount: clinics.length,
         itemBuilder: (context, index) {
-          return CardKlinik(
-            namaKlink:
-                '${stateTreatment.dataClinic[index].name}, ${stateTreatment.dataClinic[index].city}',
-            rating: '${stateTreatment.dataClinic[index].rating} (120k)',
-            km: stateTreatment.dataClinic[index].distance,
-            urlImg: "${Global.FILE}/${stateTreatment.dataClinic[index].logo}",
-            price: stateTreatment.dataClinic[index].price,
-            buttonTitle: 'Lihat semua cabang klinik',
+          return InkWell(
+            onTap: () {
+              Get.to(DetailKlnikPage(
+                id: clinics[index].id,
+              ));
+            },
+            child: CardKlinik(
+              namaKlink: '${clinics[index].name}, ${clinics[index].city}',
+              rating: '${clinics[index].rating} (120k)',
+              km: clinics[index].distance,
+              urlImg: "${Global.FILE}/${clinics[index].logo}",
+              price: clinics[index].price,
+              // buttonTitle: 'Lihat semua cabang klinik',
+            ),
           );
         },
       ),

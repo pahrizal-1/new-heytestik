@@ -13,10 +13,10 @@ class WishlistController extends StateClass {
   Rx<WishlistModel?> wishlist = WishlistModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
 
-  getWistlist(BuildContext context) async {
+  getWistlist(BuildContext context, {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      wishlist.value = await WishlistService().getWishlist();
+      wishlist.value = await WishlistService().getWishlist(search: search);
       filterData.value = wishlist.value!.data!.data!;
     });
     isLoading.value = false;

@@ -108,12 +108,9 @@ class _KeranjangPageState extends State<KeranjangPage> {
                         decoration: BoxDecoration(
                           color: isSelected ? greenColor : null,
                           borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color: isSelected ? greenColor : borderColor),
+                          border: Border.all(color: isSelected ? greenColor : borderColor),
                         ),
-                        child: isSelected
-                            ? Image.asset('assets/icons/chek_new.png')
-                            : null,
+                        child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
                       ),
                     ),
                     const SizedBox(
@@ -151,8 +148,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     )
                   : ListView.builder(
                       shrinkWrap: true,
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.filterData.length,
                       itemBuilder: (BuildContext context, int i) {
@@ -160,22 +156,16 @@ class _KeranjangPageState extends State<KeranjangPage> {
                           cartId: state.filterData[i].id!.toInt(),
                           productId: state.filterData[i].productId!.toInt(),
                           qty: state.filterData[i].qty!.toInt(),
-                          imageProduk:
-                              '${Global.FILE}/${state.filterData[i].product!.mediaProducts?[0].media?.path}',
+                          imageProduk: '${Global.FILE}/${state.filterData[i].product!.mediaProducts?[0].media?.path}',
                           merkProduk: '${state.filterData[i].product?.name}',
-                          penggunaanJadwal:
-                              '${state.filterData[i].product?.skincareDetail?.specificationHowToUse}',
+                          penggunaanJadwal: '${state.filterData[i].product?.skincareDetail?.specificationHowToUse}',
                           penggunaan: '2x sehari',
-                          harga: CurrencyFormat.convertToIdr(
-                              state.filterData[i].product?.price ?? 0, 0),
+                          harga: CurrencyFormat.convertToIdr(state.filterData[i].product?.price ?? 0, 0),
                           hintText: '${state.filterData[i].notes}',
                           namaProdik: '${state.filterData[i].product?.type}',
-                          packagingType:
-                              '${state.filterData[i].product?.skincareDetail?.specificationPackagingType}',
-                          netto:
-                              '${state.filterData[i].product?.skincareDetail?.specificationNetto}',
-                          nettoType:
-                              '${state.filterData[i].product?.skincareDetail?.specificationNettoType}',
+                          packagingType: '${state.filterData[i].product?.skincareDetail?.specificationPackagingType}',
+                          netto: '${state.filterData[i].product?.skincareDetail?.specificationNetto}',
+                          nettoType: '${state.filterData[i].product?.skincareDetail?.specificationNettoType}',
                         );
                       },
                     ),
@@ -214,22 +204,17 @@ class _KeranjangPageState extends State<KeranjangPage> {
                                   onTap: () {
                                     Get.to(DetailSkinCarePage(
                                       id: e.id!.toInt(),
-                                      productId: e.mediaProducts![0].productId!
-                                          .toInt(),
+                                      productId: e.mediaProducts![0].productId!.toInt(),
                                     ));
                                   },
                                   child: Produkheight(
                                     produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
+                                    namaBrand: e.skincareDetail!.brand.toString(),
                                     namaProduk: e.name.toString(),
                                     diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg:
-                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    hargaDiskon: CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                     // rating: '4.9 (120k)',
                                     rating: e.rating.toString(),
                                   ),
@@ -242,53 +227,6 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   ),
                 ),
               ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Padding(
-              //     padding: lsymetric,
-              //     child: Row(
-              //       children: [
-              //         const ProdukKeranjang(
-              //           namaBrand: 'ISISPHARMA',
-              //           namaProduk: 'Teenderm Gel',
-              //           diskonProduk: '20%',
-              //           hargaDiskon: 'Rp1,100,00',
-              //           harga: 'Rp900.000',
-              //           urlImg: 'assets/images/plasma.png',
-              //           rating: '4.9 (120k)',
-              //         ),
-              //         const ProdukKeranjang(
-              //           namaBrand: 'CANTABRIA',
-              //           namaProduk:
-              //               'Neoretin Discrom Control Pigment Neutralizer Serum',
-              //           diskonProduk: '20%',
-              //           hargaDiskon: 'Rp500.000',
-              //           harga: 'Rp200.000',
-              //           urlImg: 'assets/images/catabria.png',
-              //           rating: '4.9 (120k)',
-              //         ),
-              //         const ProdukKeranjang(
-              //           namaBrand: 'ISISPHARMA',
-              //           namaProduk: 'Teenderm Gel',
-              //           diskonProduk: '20%',
-              //           hargaDiskon: 'Rp250.000',
-              //           harga: 'Rp200.000',
-              //           urlImg: 'assets/images/view-bg-skincare.png',
-              //           rating: '4.9 (120k)',
-              //         ),
-              //         const ProdukKeranjang(
-              //           namaBrand: 'ISISPHARMA',
-              //           namaProduk: 'Endocare Tensage Cream',
-              //           diskonProduk: '20%',
-              //           hargaDiskon: 'Rp250.000',
-              //           harga: 'Rp200.000',
-              //           urlImg: 'assets/images/catabria.png',
-              //           rating: '4.9 (120k)',
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
