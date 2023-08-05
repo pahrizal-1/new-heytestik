@@ -387,7 +387,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   recentChatt() {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
-      log("recentChat $recentChat");
+      log("recentChat $recentChat['last_chat']['message']");
       // Data2 result = Data2.fromJson(recentChat['last_chat']);
       // setState(() {
       //   msglist?.add(result);
