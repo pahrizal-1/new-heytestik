@@ -176,123 +176,193 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                           const SizedBox(
                             height: 16,
                           ),
-                          FutureBuilder(
-                            future: stateBank.listBank(context),
-                            builder: (context,
-                                AsyncSnapshot<BankDoctorModel?> snapshot) {
-                              print(snapshot.connectionState);
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: SizedBox(
-                                    height: 30,
-                                    width: 30,
-                                    child: CircularProgressIndicator(
-                                      color: greenColor,
-                                    ),
-                                  ),
-                                );
-                              }
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.hasData) {
-                                  return Obx(
-                                    () => stateBank.filterData.isEmpty
-                                        ? Center(
-                                            child: Text(
-                                              'Tidak ada data',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontWeight: bold,
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 20,
-                                              ),
+                          Container(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: stateBank.filterData.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${stateBank.filterData[index].bank?.name}',
+                                                ),
+                                                Text(
+                                                  '${stateBank.filterData[index].accountNumber}\n${stateBank.filterData[index].name?.toUpperCase()}',
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        : Container(
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount:
-                                                    stateBank.filterData.length,
-                                                itemBuilder: (context, index) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  '${stateBank.filterData[index].bank?.name}',
-                                                                ),
-                                                                Text(
-                                                                  '${stateBank.filterData[index].accountNumber}\n${stateBank.filterData[index].name?.toUpperCase()}',
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Radio(
-                                                            value: index,
-                                                            groupValue:
-                                                                groupBank,
-                                                            toggleable: true,
-                                                            onChanged: (val) {
-                                                              setState(() {
-                                                                groupBank = val;
-                                                                print(val);
-                                                                print(stateBank
-                                                                    .filterData[
-                                                                        index]
-                                                                    .bankId);
-                                                                // if (val != null) {
-                                                                //   state.dataRating = 2;
-                                                                // } else {
-                                                                //   state.dataRating = null;
-                                                                // }
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 9,
-                                                      ),
-                                                      Divider(
-                                                        thickness: 2,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 9,
-                                                      ),
-                                                    ],
-                                                  );
-                                                }),
                                           ),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: Text(
-                                      'Tidak ada data',
-                                      style: TextStyle(
-                                        fontWeight: bold,
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 20,
+                                          Radio(
+                                            value: index,
+                                            groupValue: groupBank,
+                                            toggleable: true,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                groupBank = val;
+                                                print(val);
+                                                if (val != null) {
+                                                  state.bankId = stateBank
+                                                      .filterData[index].id;
+                                                } else {
+                                                  state.bankId = null;
+                                                }
+                                                print(stateBank
+                                                    .filterData[index].id);
+                                                // if (val != null) {
+                                                //   state.dataRating = 2;
+                                                // } else {
+                                                //   state.dataRating = null;
+                                                // }
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                    ),
+                                      SizedBox(
+                                        height: 9,
+                                      ),
+                                      Divider(
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(
+                                        height: 9,
+                                      ),
+                                    ],
                                   );
-                                }
-                              } else {
-                                return Text(
-                                    'Connection State: ${snapshot.connectionState}');
-                              }
-                            },
+                                }),
                           ),
+                          // FutureBuilder(
+                          //   future: stateBank.listBank(context),
+                          //   builder: (context,
+                          //       AsyncSnapshot<BankDoctorModel?> snapshot) {
+                          //     print(snapshot.connectionState);
+                          //     if (snapshot.connectionState ==
+                          //         ConnectionState.waiting) {
+                          //       return Center(
+                          //         child: SizedBox(
+                          //           height: 30,
+                          //           width: 30,
+                          //           child: CircularProgressIndicator(
+                          //             color: greenColor,
+                          //           ),
+                          //         ),
+                          //       );
+                          //     }
+                          //     if (snapshot.connectionState ==
+                          //         ConnectionState.done) {
+                          //       if (snapshot.hasData) {
+                          //         return Obx(
+                          //           () => stateBank.filterData.isEmpty
+                          //               ? Center(
+                          //                   child: Text(
+                          //                     'Tidak ada data',
+                          //                     textAlign: TextAlign.center,
+                          //                     style: TextStyle(
+                          //                       fontWeight: bold,
+                          //                       fontFamily: 'ProximaNova',
+                          //                       fontSize: 20,
+                          //                     ),
+                          //                   ),
+                          //                 )
+                          //               : Container(
+                          //                   child: ListView.builder(
+                          //                       shrinkWrap: true,
+                          //                       itemCount:
+                          //                           stateBank.filterData.length,
+                          //                       itemBuilder: (context, index) {
+                          //                         return Column(
+                          //                           crossAxisAlignment:
+                          //                               CrossAxisAlignment
+                          //                                   .start,
+                          //                           children: [
+                          //                             Row(
+                          //                               children: [
+                          //                                 Expanded(
+                          //                                   child: Column(
+                          //                                     crossAxisAlignment:
+                          //                                         CrossAxisAlignment
+                          //                                             .start,
+                          //                                     children: [
+                          //                                       Text(
+                          //                                         '${stateBank.filterData[index].bank?.name}',
+                          //                                       ),
+                          //                                       Text(
+                          //                                         '${stateBank.filterData[index].accountNumber}\n${stateBank.filterData[index].name?.toUpperCase()}',
+                          //                                       )
+                          //                                     ],
+                          //                                   ),
+                          //                                 ),
+                          //                                 Radio(
+                          //                                   value: index,
+                          //                                   groupValue:
+                          //                                       groupBank,
+                          //                                   toggleable: true,
+                          //                                   onChanged: (val) {
+                          //                                     setState(() {
+                          //                                       groupBank = val;
+                          //                                       print(val);
+                          //                                       if(val != null) {
+                          //                                         state.bankId = stateBank.filterData[index].id;
+                          //                                       } else {
+                          //                                         state.bankId = null;
+                          //                                       }
+                          //                                       print(stateBank
+                          //                                           .filterData[
+                          //                                               index]
+                          //                                           .id);
+                          //                                       // if (val != null) {
+                          //                                       //   state.dataRating = 2;
+                          //                                       // } else {
+                          //                                       //   state.dataRating = null;
+                          //                                       // }
+                          //                                     });
+                          //                                   },
+                          //                                 ),
+                          //                               ],
+                          //                             ),
+                          //                             SizedBox(
+                          //                               height: 9,
+                          //                             ),
+                          //                             Divider(
+                          //                               thickness: 2,
+                          //                               color: Colors.grey,
+                          //                             ),
+                          //                             SizedBox(
+                          //                               height: 9,
+                          //                             ),
+                          //                           ],
+                          //                         );
+                          //                       }),
+                          //                 ),
+                          //         );
+                          //       } else {
+                          //         return Center(
+                          //           child: Text(
+                          //             'Tidak ada data',
+                          //             style: TextStyle(
+                          //               fontWeight: bold,
+                          //               fontFamily: 'ProximaNova',
+                          //               fontSize: 20,
+                          //             ),
+                          //           ),
+                          //         );
+                          //       }
+                          //     } else {
+                          //       return Text(
+                          //           'Connection State: ${snapshot.connectionState}');
+                          //     }
+                          //   },
+                          // ),
                           // InkWell(
                           //   onTap: () {
                           //     setState(() {
@@ -378,7 +448,9 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                             width: MediaQuery.of(context).size.width,
                             height: 40,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                state.saveBank(context);
+                              },
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0XffD9D9D9),
                                 shape: RoundedRectangleBorder(

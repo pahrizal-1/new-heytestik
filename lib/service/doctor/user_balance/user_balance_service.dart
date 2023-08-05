@@ -34,7 +34,7 @@ class UserBalanceService extends ProviderClass {
     return jsonResponse;
   }
 
-  Future saveBank(dynamic data) async {
+  Future<dynamic> saveBank(dynamic data) async {
     var response = await networkingConfig.doPost(
       '/user-balance/withdrawal',
       data: data,

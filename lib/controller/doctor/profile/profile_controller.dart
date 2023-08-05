@@ -60,6 +60,7 @@ class DoctorProfileController extends StateClass {
   int? groupRating;
   String? dataUrutan;
   int? dataRating;
+  int? bankId;
 
   List<String> items = [
     'Laki-laki',
@@ -224,34 +225,21 @@ class DoctorProfileController extends StateClass {
   saveBank(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (nominalPenarikan.text.isEmpty) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Nomor akun harus diisi',
-        );
-      }
-
-      if (int.parse(nominalPenarikan.text) < 10000) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Jumlah Penarikan Harus lebih dari 10000',
-        );
-      }
-
-      var req = {
-        // 'user_bank_account_id':
-        // 'amount': nominalPenarikan.text
+      var data = {
+        "user_bank_account_id": bankId,
+        "amount": int.parse(nominalPenarikan.text),
       };
-      print('req $req');
-      // Get.back();
-      // Get.back();
-      Navigator.pop(context, 'refresh');
+      var response =
+          await UserBalanceService().saveBank(data);
 
-      SnackbarWidget.getSuccessSnackbar(
-        context,
-        'Berhasil',
-        '',
-      );
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+      Navigator.pop(context, 'refresh');
+      nominalPenarikan.clear();
     });
     isLoading.value = false;
   }

@@ -92,24 +92,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   }
 
   // EVENT NEW MESSAGE (udah dipanggil)
-  newMessage() async {
-    print("newMessage");
-    _socket?.on('newMessage', (newMessage) async {
-      print("newMessage $newMessage");
-      print("message ${newMessage['message']}");
-      print("message ${newMessage['sender']['fullname']}");
-      // var result = json.decode(newMessage);
-      Data2 result = Data2.fromJson(newMessage);
-      setState(() {
-        msglist?.add(result);
-      });
-      print('hey ' + result.toString());
-
-      // setState(() {
-      //   msglist?.add(result);
-      // });
-    });
-  }
 
   Future getRequest(String roomCode) async {
     // isLoading.value = true;
@@ -158,7 +140,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   // EVENT JOIN ROOM (udah dipanggil)
   readMessage(String roomCode) {
     print('readMessage');
-    _socket?.emit('readMessage', {"room": roomCode});
+    var data = {
+      "room": roomCode,
+    };
+    _socket?.emit('readMessage', data);
     print('readMessage ${roomCode}');
   }
 
@@ -166,7 +151,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   joinRoom(String roomCode) {
     print('joinRoom');
-    _socket?.emit('joinRoom', {"room": roomCode});
+    var data = {
+      "room": roomCode,
+    };
+    _socket?.emit(
+      'joinRoom',data,
+    );
     print('joinRoom ${roomCode}');
   }
 
@@ -245,6 +235,43 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     print('list mesage' + msglist.toString());
   }
 
+  newMessagee() {
+    print("newMessage");
+    _socket?.on('newMessage', (getNewMessage) async {
+      log("newMessage $getNewMessage");
+      log(getNewMessage.toString());
+      // Data2 result = Data2.fromJson(getNewMessage);
+      // setState(() {
+      //   msglist?.add(getNewMessage);
+      // });
+      // listLastChat.add(recentChat['last_chat']);
+      infoLog();
+      log("newmsg $getNewMessage");
+
+      // await NotificationService().notifChat(
+      //   1,
+      //   widget.username == "Doctor" ? "Customer" : "Doctor",
+      //   recentChat['last_chat']['message'],
+      //   100,
+      // );
+    });
+    // _socket?.on('newMessage', (newMessage) async {
+    //   print("newMessage $newMessage");
+    //   print("message ${newMessage['message']}");
+    //   print("message ${newMessage['sender']['fullname']}");
+    //   // var result = json.decode(newMessage);
+    //   Data2 result = Data2.fromJson(newMessage);
+    //   setState(() {
+    //     msglist?.add(result);
+    //   });
+    //   log('hey ' + result.toString());
+
+    //   // setState(() {
+    //   //   msglist?.add(result);
+    //   // });
+    // });
+  }
+
   // EVENT TYPING INDICATOR (udah dipanggil)
   recentChatt() {
     print("recentChat");
@@ -255,7 +282,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         msglist?.add(result);
       });
       // listLastChat.add(recentChat['last_chat']);
-      log("de $msglist");
+      // log("de $msglist");
 
       // await NotificationService().notifChat(
       //   1,
@@ -287,10 +314,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       _socket?.onConnect((data) async {
         print('Connection established');
         await onlineClients(receiver);
-        await newMessage();
+        await newMessagee();
         await typingIndicator();
-        await infoLog();
         await recentChatt();
+        await infoLog();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
@@ -305,7 +332,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   infoLog() {
     print("logInfo");
-    _socket?.on('logInfo', (logInfo) {
+    _socket?.on('log', (logInfo) {
       print('logInfo $logInfo');
       print('logInfo ${logInfo['success']}');
       // if (logInfo['success'] == false) {
@@ -541,7 +568,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                         );
                       } else if (msglist![index].senderId ==
                               widget.receiverId &&
-                          (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
+                          (msglist![index].mediaChatMessages?.length ?? 0) >
+                              0) {
                         return Padding(
                           padding: EdgeInsets.only(top: 10),
                           child: msglist![index].mediaChatMessages?.length == 1
@@ -723,13 +751,17 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                     itemBuilder:
                                                         (BuildContext context,
                                                             count) {
-                                                      return Image.network(
-                                                        '${Global.FILE}/' +
-                                                            msglist![index]
-                                                                .mediaChatMessages![
-                                                                    count]
-                                                                .media!
-                                                                .path!,
+                                                      return Column(
+                                                        children: [
+                                                          Image.network(
+                                                            '${Global.FILE}/' +
+                                                                msglist![index]
+                                                                    .mediaChatMessages![
+                                                                        count]
+                                                                    .media!
+                                                                    .path!,
+                                                          ),
+                                                        ],
                                                       );
                                                     },
                                                   ),
@@ -789,10 +821,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                       ),
                                                     );
                                                   },
-                                                  child: Text( msglist![index]
-                                                  .mediaChatMessages!
-                                                  .length
-                                                  .toString()),
+                                                  child: Text(msglist![index]
+                                                      .mediaChatMessages!
+                                                      .length
+                                                      .toString()),
                                                 ),
                                               ),
                                             ),
@@ -813,7 +845,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           nameDoctor: widget.receiverBy,
                           timetitle: formattedTime,
                           color: subwhiteColor,
-                          title: msglist![index].message.toString(),
+                          title: 'text',
                         );
                       } else {
                         Container();
