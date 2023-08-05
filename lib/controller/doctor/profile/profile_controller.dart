@@ -238,7 +238,8 @@ class DoctorProfileController extends StateClass {
           message: response['message'],
         );
       }
-      Navigator.pop(context, 'refresh');
+      // Navigator.pop(context, 'refresh');
+      Get.off(() => TabBarDoctor());
       nominalPenarikan.clear();
     });
     isLoading.value = false;

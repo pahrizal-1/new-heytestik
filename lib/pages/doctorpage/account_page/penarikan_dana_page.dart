@@ -38,9 +38,33 @@ class _PenarikanDanaState extends State<PenarikanDana> {
         appBar: AppBar(
           titleSpacing: 0,
           backgroundColor: greenColor,
-          title: Text(
-            'Penarikan Saldo',
-            style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context, 'refresh');
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Penarikan Saldo',
+                    style:
+                        whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         body: Obx(() => LoadingWidget(

@@ -34,9 +34,33 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
       appBar: AppBar(
         titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Text(
-          'Saldo Saya',
-          style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context, 'refresh');
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 22,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Saldo Saya',
+                  style:
+                      whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: Obx(
@@ -111,12 +135,13 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                       String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PenarikanDana()));
+                              builder: (context) => PenarikanDana()));
                       if (refresh == 'refresh') {
                         setState(() {
                           state.listWithDraw;
                           state.listWithDrawHistory;
                           state.saldo.value.balance;
+                          print('refr');
                         });
                       }
                     },
