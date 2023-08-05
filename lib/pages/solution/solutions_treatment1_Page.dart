@@ -18,6 +18,7 @@ import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import '../../controller/customer/solution/etalase_controller.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/filter_all_widgets.dart';
@@ -35,6 +36,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+  final EtalaseController etalaseController = Get.put(EtalaseController());
 
   int page = 1;
   List<Data2> treatments = [];
@@ -51,6 +53,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   @override
   void initState() {
     super.initState();
+    etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
       treatments.addAll(await stateTreatment.getAllTreatment(context, page));
@@ -535,48 +538,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             padding: EdgeInsets.only(left: 20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                CirkelCategory(
-                                  title: 'Lihat\nSemua',
-                                  img: 'assets/images/lainnya.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Jerawat',
-                                  img: 'assets/images/jerawat.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Rambut\nRontok',
-                                  img: 'assets/images/rambutrontok.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Kerutan',
-                                  img: 'assets/images/kerutan.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Bekas\nJerawat',
-                                  img: 'assets/images/bekasjerawat.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'ketombe',
-                                  img: 'assets/images/ketombe.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Kebotakan',
-                                  img: 'assets/images/kebotakan.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Bekas\nJerawat',
-                                  img: 'assets/images/dagu.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Kulit\nKusam',
-                                  img: 'assets/images/kulitkusam.png',
-                                ),
-                                CirkelCategory(
-                                  title: 'Skin\nGoals',
-                                  img: 'assets/images/skingoals.png',
-                                ),
-                              ],
+                              children: etalaseController.filterData.map((element) {
+                                return  CirkelCategory(
+                                  title: element.name!,
+                                  img: '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),

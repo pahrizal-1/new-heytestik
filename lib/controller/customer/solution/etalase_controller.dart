@@ -22,9 +22,6 @@ class EtalaseController extends StateClass {
   }
 
   onChangeFilterText(String value) {
-    filterData.value = concern.value!.data!.data!
-        .where((element) =>
-            element.name!.toLowerCase().contains(value.toLowerCase()))
-        .toList();
+    filterData.value = concern.value!.data!.data!.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
   }
 }
