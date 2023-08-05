@@ -6,11 +6,11 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
-  SolutionService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SolutionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<SkincareModel> getSkincare() async {
     var response = await networkingConfig.doGet(
@@ -70,5 +70,26 @@ class SolutionService extends ProviderClass {
     );
 
     return ConcernModel.fromJson(response);
+  }
+
+  Future<List<MedicineModel>> getMedicine(int page) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/drug',
+        params: {
+          "page": page,
+          "take": 10,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      return (response['data']['data'] as List).map((e) => MedicineModel.fromJson(e)).toList();
+    } catch(error) {
+      print(error);
+      return [];
+    }
   }
 }
