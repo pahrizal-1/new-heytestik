@@ -78,24 +78,24 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Pilih Skin Goal kamu',
-                      style: subTitleTextStyle,
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Get.to(PilihSkinGoals());
-                      },
-                      child: Icon(
+                InkWell(
+                  onTap: () {
+                    Get.to(PilihSkinGoals());
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Pilih Skin Goal kamu',
+                        style: subTitleTextStyle,
+                      ),
+                      const Spacer(),
+                      Icon(
                         Icons.keyboard_arrow_down,
                         size: 24,
                         color: greenColor,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 dividergrey(),
                 const SizedBox(
