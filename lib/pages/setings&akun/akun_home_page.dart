@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/account_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/history/all_history_transaction_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/home_journey.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 import '../tabbar/tabbar_customer.dart';
@@ -24,8 +23,8 @@ class AkunHomePage extends StatefulWidget {
 
 class _AkunHomePageState extends State<AkunHomePage> {
   final AccountController state = Get.put(AccountController());
-  final AllHistoryTransactionController stateTransaction =
-      Get.put(AllHistoryTransactionController());
+  final HistoryTransactionController stateTransaction =
+      Get.put(HistoryTransactionController());
   bool isSelcted = false;
 
   @override
@@ -299,313 +298,313 @@ class _AkunHomePageState extends State<AkunHomePage> {
               ],
             ),
           ),
-          FutureBuilder(
-            future: stateTransaction.getMyActivity(context),
-            builder: (context, AsyncSnapshot snapshot) {
-              print(snapshot.connectionState);
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                  height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        shimmerWidget(
-                          child: Container(
-                            width: 100,
-                            margin: const EdgeInsets.only(right: 5),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 24),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                        shimmerWidget(
-                          child: Container(
-                            width: 100,
-                            margin: const EdgeInsets.only(right: 5),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 24),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                        shimmerWidget(
-                          child: Container(
-                            width: 100,
-                            margin: const EdgeInsets.only(right: 5),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 24),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return stateTransaction.activity.isEmpty
-                      ? Center(
-                          child: Text(
-                            'Belum ada aktivitas',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontFamily: 'ProximaNova',
-                              fontSize: 15,
-                            ),
-                          ),
-                        )
-                      : SizedBox(
-                          height: 70,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: stateTransaction.activity.length,
-                            itemBuilder: (BuildContext context, index) {
-                              if (stateTransaction
-                                      .activity[index].transactionType ==
-                                  'CONSULTATION') {
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 25,
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 16,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/chat.png',
-                                          width: 18,
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              stateTransaction.activity[index]
-                                                          .status ==
-                                                      'MENUNGGU_PEMBAYARAN'
-                                                  ? 'Menunggu Pembayaran'
-                                                  : stateTransaction
-                                                              .activity[index]
-                                                              .status ==
-                                                          'READY'
-                                                      ? 'Ready'
-                                                      : stateTransaction
-                                                                  .activity[
-                                                                      index]
-                                                                  .status ==
-                                                              'REVIEW'
-                                                          ? 'Review'
-                                                          : stateTransaction
-                                                                      .activity[
-                                                                          index]
-                                                                      .status ==
-                                                                  'AKTIF'
-                                                              ? 'Aktif'
-                                                              : 'Selesai',
-                                              style: grenTextStyle.copyWith(
-                                                fontSize: 12,
-                                                color: stateTransaction
-                                                            .activity[index]
-                                                            .status ==
-                                                        'MENUNGGU_PEMBAYARAN'
-                                                    ? const Color.fromARGB(
-                                                        255, 255, 102, 0)
-                                                    : stateTransaction
-                                                                .activity[index]
-                                                                .status ==
-                                                            'READY'
-                                                        ? const Color.fromARGB(
-                                                            255, 255, 102, 0)
-                                                        : stateTransaction
-                                                                    .activity[
-                                                                        index]
-                                                                    .status ==
-                                                                'REVIEW'
-                                                            ? const Color.fromARGB(
-                                                                255,
-                                                                255,
-                                                                102,
-                                                                0)
-                                                            : stateTransaction
-                                                                        .activity[index]
-                                                                        .status ==
-                                                                    'AKTIF'
-                                                                ? greenColor
-                                                                : greenColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              stateTransaction.activity[index]
-                                                          .consultation ==
-                                                      null
-                                                  ? '-'
-                                                  : stateTransaction
-                                                      .activity[index]
-                                                      .consultation
-                                                      .medicalHistory
-                                                      .interestCondition
-                                                      .name,
-                                              style:
-                                                  blackHigtTextStyle.copyWith(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
+          // FutureBuilder(
+          //   future: stateTransaction.getMyActivity(context),
+          //   builder: (context, AsyncSnapshot snapshot) {
+          //     print(snapshot.connectionState);
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return SizedBox(
+          //         height: 50,
+          //         child: Padding(
+          //           padding: const EdgeInsets.only(left: 25, right: 25),
+          //           child: ListView(
+          //             shrinkWrap: true,
+          //             scrollDirection: Axis.horizontal,
+          //             physics: const NeverScrollableScrollPhysics(),
+          //             children: [
+          //               shimmerWidget(
+          //                 child: Container(
+          //                   width: 100,
+          //                   margin: const EdgeInsets.only(right: 5),
+          //                   padding: const EdgeInsets.symmetric(
+          //                       horizontal: 16, vertical: 24),
+          //                   decoration: BoxDecoration(
+          //                     color: whiteColor,
+          //                     border: Border.all(color: borderColor),
+          //                     borderRadius: BorderRadius.circular(7),
+          //                   ),
+          //                 ),
+          //               ),
+          //               shimmerWidget(
+          //                 child: Container(
+          //                   width: 100,
+          //                   margin: const EdgeInsets.only(right: 5),
+          //                   padding: const EdgeInsets.symmetric(
+          //                       horizontal: 16, vertical: 24),
+          //                   decoration: BoxDecoration(
+          //                     color: whiteColor,
+          //                     border: Border.all(color: borderColor),
+          //                     borderRadius: BorderRadius.circular(7),
+          //                   ),
+          //                 ),
+          //               ),
+          //               shimmerWidget(
+          //                 child: Container(
+          //                   width: 100,
+          //                   margin: const EdgeInsets.only(right: 5),
+          //                   padding: const EdgeInsets.symmetric(
+          //                       horizontal: 16, vertical: 24),
+          //                   decoration: BoxDecoration(
+          //                     color: whiteColor,
+          //                     border: Border.all(color: borderColor),
+          //                     borderRadius: BorderRadius.circular(7),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       );
+          //     }
+          //     if (snapshot.connectionState == ConnectionState.done) {
+          //       if (snapshot.hasData) {
+          //         return stateTransaction.activity.isEmpty
+          //             ? Center(
+          //                 child: Text(
+          //                   'Belum ada aktivitas',
+          //                   style: TextStyle(
+          //                     fontWeight: bold,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontSize: 15,
+          //                   ),
+          //                 ),
+          //               )
+          //             : SizedBox(
+          //                 height: 70,
+          //                 child: ListView.builder(
+          //                   shrinkWrap: true,
+          //                   scrollDirection: Axis.horizontal,
+          //                   itemCount: stateTransaction.activity.length,
+          //                   itemBuilder: (BuildContext context, index) {
+          //                     if (stateTransaction
+          //                             .activity[index].transactionType ==
+          //                         'CONSULTATION') {
+          //                       return Padding(
+          //                         padding: const EdgeInsets.only(
+          //                           left: 25,
+          //                         ),
+          //                         child: Container(
+          //                           padding: const EdgeInsets.symmetric(
+          //                             horizontal: 16,
+          //                             vertical: 16,
+          //                           ),
+          //                           decoration: BoxDecoration(
+          //                             border: Border.all(color: borderColor),
+          //                             borderRadius: BorderRadius.circular(7),
+          //                           ),
+          //                           child: Row(
+          //                             children: [
+          //                               Image.asset(
+          //                                 'assets/icons/chat.png',
+          //                                 width: 18,
+          //                               ),
+          //                               const SizedBox(
+          //                                 width: 10,
+          //                               ),
+          //                               Column(
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.start,
+          //                                 children: [
+          //                                   Text(
+          //                                     stateTransaction.activity[index]
+          //                                                 .status ==
+          //                                             'MENUNGGU_PEMBAYARAN'
+          //                                         ? 'Menunggu Pembayaran'
+          //                                         : stateTransaction
+          //                                                     .activity[index]
+          //                                                     .status ==
+          //                                                 'READY'
+          //                                             ? 'Ready'
+          //                                             : stateTransaction
+          //                                                         .activity[
+          //                                                             index]
+          //                                                         .status ==
+          //                                                     'REVIEW'
+          //                                                 ? 'Review'
+          //                                                 : stateTransaction
+          //                                                             .activity[
+          //                                                                 index]
+          //                                                             .status ==
+          //                                                         'AKTIF'
+          //                                                     ? 'Aktif'
+          //                                                     : 'Selesai',
+          //                                     style: grenTextStyle.copyWith(
+          //                                       fontSize: 12,
+          //                                       color: stateTransaction
+          //                                                   .activity[index]
+          //                                                   .status ==
+          //                                               'MENUNGGU_PEMBAYARAN'
+          //                                           ? const Color.fromARGB(
+          //                                               255, 255, 102, 0)
+          //                                           : stateTransaction
+          //                                                       .activity[index]
+          //                                                       .status ==
+          //                                                   'READY'
+          //                                               ? const Color.fromARGB(
+          //                                                   255, 255, 102, 0)
+          //                                               : stateTransaction
+          //                                                           .activity[
+          //                                                               index]
+          //                                                           .status ==
+          //                                                       'REVIEW'
+          //                                                   ? const Color.fromARGB(
+          //                                                       255,
+          //                                                       255,
+          //                                                       102,
+          //                                                       0)
+          //                                                   : stateTransaction
+          //                                                               .activity[index]
+          //                                                               .status ==
+          //                                                           'AKTIF'
+          //                                                       ? greenColor
+          //                                                       : greenColor,
+          //                                     ),
+          //                                   ),
+          //                                   Text(
+          //                                     stateTransaction.activity[index]
+          //                                                 .consultation ==
+          //                                             null
+          //                                         ? '-'
+          //                                         : stateTransaction
+          //                                             .activity[index]
+          //                                             .consultation
+          //                                             .medicalHistory
+          //                                             .interestCondition
+          //                                             .name,
+          //                                     style:
+          //                                         blackHigtTextStyle.copyWith(
+          //                                       fontSize: 13,
+          //                                     ),
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       );
+          //                     }
 
-                              if (stateTransaction
-                                      .activity[index].transactionType ==
-                                  'TREATMENT') {
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 25,
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 16,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/treatmen-cornern.png',
-                                          width: 18,
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              stateTransaction.activity[index]
-                                                          .status ==
-                                                      'MENUNGGU_PEMBAYARAN'
-                                                  ? 'Menunggu Pembayaran'
-                                                  : stateTransaction
-                                                              .activity[index]
-                                                              .status ==
-                                                          'MENUNGGU_KONFIRMASI_KLINIK'
-                                                      ? 'Menunggu Konfirmasi Klinik'
-                                                      : stateTransaction
-                                                                  .activity[
-                                                                      index]
-                                                                  .status ==
-                                                              'KLINIK_MENGKONFIRMASI'
-                                                          ? 'Klinik Mengkonfirmasi'
-                                                          : stateTransaction
-                                                                      .activity[
-                                                                          index]
-                                                                      .status ==
-                                                                  'SELESAI'
-                                                              ? 'Selesai'
-                                                              : 'Selesai',
-                                              style: grenTextStyle.copyWith(
-                                                fontSize: 12,
-                                                color: stateTransaction
-                                                            .activity[index]
-                                                            .status ==
-                                                        'MENUNGGU_PEMBAYARAN'
-                                                    ? const Color.fromARGB(
-                                                        255, 255, 102, 0)
-                                                    : stateTransaction
-                                                                .activity[index]
-                                                                .status ==
-                                                            'MENUNGGU_KONFIRMASI_KLINIK'
-                                                        ? const Color.fromARGB(
-                                                            255, 255, 102, 0)
-                                                        : stateTransaction
-                                                                    .activity[
-                                                                        index]
-                                                                    .status ==
-                                                                'KLINIK_MENGKONFIRMASI'
-                                                            ? greenColor
-                                                            : stateTransaction
-                                                                        .activity[
-                                                                            index]
-                                                                        .status ==
-                                                                    'SELESAI'
-                                                                ? greenColor
-                                                                : greenColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              stateTransaction
-                                                  .activity[index]
-                                                  .transactionTreatmentItems[0]
-                                                  .treatment
-                                                  .name,
-                                              style:
-                                                  blackHigtTextStyle.copyWith(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
+          //                     if (stateTransaction
+          //                             .activity[index].transactionType ==
+          //                         'TREATMENT') {
+          //                       return Padding(
+          //                         padding: const EdgeInsets.only(
+          //                           left: 25,
+          //                         ),
+          //                         child: Container(
+          //                           padding: const EdgeInsets.symmetric(
+          //                             horizontal: 16,
+          //                             vertical: 16,
+          //                           ),
+          //                           decoration: BoxDecoration(
+          //                             border: Border.all(color: borderColor),
+          //                             borderRadius: BorderRadius.circular(7),
+          //                           ),
+          //                           child: Row(
+          //                             children: [
+          //                               Image.asset(
+          //                                 'assets/icons/treatmen-cornern.png',
+          //                                 width: 18,
+          //                               ),
+          //                               const SizedBox(
+          //                                 width: 10,
+          //                               ),
+          //                               Column(
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.start,
+          //                                 children: [
+          //                                   Text(
+          //                                     stateTransaction.activity[index]
+          //                                                 .status ==
+          //                                             'MENUNGGU_PEMBAYARAN'
+          //                                         ? 'Menunggu Pembayaran'
+          //                                         : stateTransaction
+          //                                                     .activity[index]
+          //                                                     .status ==
+          //                                                 'MENUNGGU_KONFIRMASI_KLINIK'
+          //                                             ? 'Menunggu Konfirmasi Klinik'
+          //                                             : stateTransaction
+          //                                                         .activity[
+          //                                                             index]
+          //                                                         .status ==
+          //                                                     'KLINIK_MENGKONFIRMASI'
+          //                                                 ? 'Klinik Mengkonfirmasi'
+          //                                                 : stateTransaction
+          //                                                             .activity[
+          //                                                                 index]
+          //                                                             .status ==
+          //                                                         'SELESAI'
+          //                                                     ? 'Selesai'
+          //                                                     : 'Selesai',
+          //                                     style: grenTextStyle.copyWith(
+          //                                       fontSize: 12,
+          //                                       color: stateTransaction
+          //                                                   .activity[index]
+          //                                                   .status ==
+          //                                               'MENUNGGU_PEMBAYARAN'
+          //                                           ? const Color.fromARGB(
+          //                                               255, 255, 102, 0)
+          //                                           : stateTransaction
+          //                                                       .activity[index]
+          //                                                       .status ==
+          //                                                   'MENUNGGU_KONFIRMASI_KLINIK'
+          //                                               ? const Color.fromARGB(
+          //                                                   255, 255, 102, 0)
+          //                                               : stateTransaction
+          //                                                           .activity[
+          //                                                               index]
+          //                                                           .status ==
+          //                                                       'KLINIK_MENGKONFIRMASI'
+          //                                                   ? greenColor
+          //                                                   : stateTransaction
+          //                                                               .activity[
+          //                                                                   index]
+          //                                                               .status ==
+          //                                                           'SELESAI'
+          //                                                       ? greenColor
+          //                                                       : greenColor,
+          //                                     ),
+          //                                   ),
+          //                                   Text(
+          //                                     stateTransaction
+          //                                         .activity[index]
+          //                                         .transactionTreatmentItems[0]
+          //                                         .treatment
+          //                                         .name,
+          //                                     style:
+          //                                         blackHigtTextStyle.copyWith(
+          //                                       fontSize: 13,
+          //                                     ),
+          //                                   ),
+          //                                 ],
+          //                               )
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       );
+          //                     }
 
-                              return null;
-                            },
-                          ),
-                        );
-                } else {
-                  return Center(
-                    child: Text(
-                      'Belum ada aktivitas',
-                      style: TextStyle(
-                        fontWeight: bold,
-                        fontFamily: 'ProximaNova',
-                        fontSize: 15,
-                      ),
-                    ),
-                  );
-                }
-              } else {
-                return Text('Connection State: ${snapshot.connectionState}');
-              }
-            },
-          ),
+          //                     return null;
+          //                   },
+          //                 ),
+          //               );
+          //       } else {
+          //         return Center(
+          //           child: Text(
+          //             'Belum ada aktivitas',
+          //             style: TextStyle(
+          //               fontWeight: bold,
+          //               fontFamily: 'ProximaNova',
+          //               fontSize: 15,
+          //             ),
+          //           ),
+          //         );
+          //       }
+          //     } else {
+          //       return Text('Connection State: ${snapshot.connectionState}');
+          //     }
+          //   },
+          // ),
           const SizedBox(
             height: 17,
           ),

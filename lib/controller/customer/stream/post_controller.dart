@@ -178,4 +178,24 @@ class PostController extends StateClass {
       print(error.toString());
     }
   }
+
+  void blockUser(BuildContext context, String username) async {
+    try {
+      isLoading.value = true;
+      PostServices().blockUser(username);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  void unBlockUser(BuildContext context, String username) async {
+    try {
+      isLoading.value = true;
+      PostServices().unBlockUser(username);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
 }

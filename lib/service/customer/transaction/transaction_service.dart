@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/models/customer/order_consultation_model.da
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -55,6 +56,37 @@ class TransactionService extends ProviderClass {
       },
     );
     return OrderTreatmentModel.fromJson(response);
+  }
+
+  Future<TransactionHistoryModel> allHistory(
+    int page,
+    List transactionStatus,
+    List transactionType,
+    String startDate,
+    String endDate,
+  ) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/transaction',
+        params: {
+          "page": page,
+          "take": 10,
+          "order": "desc",
+          "transaction_status[]": transactionStatus,
+          "transaction_type[]": transactionType,
+          "start_date": startDate,
+          "end_date": endDate
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      return TransactionHistoryModel.fromJson(response);
+    } catch (e) {
+      print("hahahh $e");
+      return TransactionHistoryModel.fromJson({});
+    }
   }
 
   Future<TransactionStatusModel> transactionStatusConsultation(

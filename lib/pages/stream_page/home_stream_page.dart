@@ -127,7 +127,9 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => const ShareLinkStream(),
+                              builder: (context) => ShareLinkStream(
+                                username: streams[index].username,
+                              ),
                             );
                           },
                           child: Icon(

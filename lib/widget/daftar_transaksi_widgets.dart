@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 
 class TransaksiKonsultan extends StatelessWidget {
   final String namaDokter;
@@ -124,14 +125,17 @@ class TransaksiKonsultan extends StatelessWidget {
                 )
               : Row(
                   children: [
-                    Container(
-                      height: 37,
-                      width: 37,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          image: DecorationImage(
-                              image: NetworkImage(img), fit: BoxFit.cover)),
-                    ),
+                    img == '-' || img == ''
+                        ? Container()
+                        : Container(
+                            height: 37,
+                            width: 37,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              image: DecorationImage(
+                                  image: NetworkImage(img), fit: BoxFit.cover),
+                            ),
+                          ),
                     const SizedBox(
                       width: 10,
                     ),
@@ -472,7 +476,7 @@ class TransaksiProduk extends StatelessWidget {
 }
 
 class TransaksiTreatment extends StatelessWidget {
-  dynamic item;
+  List<TransactionTreatmentItems>? item;
   // final String nameProduk;
   final String tanggal;
   final String expireDate;
@@ -582,7 +586,7 @@ class TransaksiTreatment extends StatelessWidget {
           const SizedBox(
             height: 7,
           ),
-          for (int i = 0; i < item.length; i++)
+          for (int i = 0; i < item!.length; i++)
             Container(
               padding: EdgeInsets.only(bottom: 10),
               child: Row(
@@ -594,7 +598,7 @@ class TransaksiTreatment extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                       image: DecorationImage(
                           image: NetworkImage(
-                            '${Global.FILE}/${item[i].treatment.mediaTreatments[0].media.path}',
+                            '${Global.FILE}/${item?[i].treatment!.mediaTreatments?[0].media?.path}',
                           ),
                           fit: BoxFit.cover),
                     ),
@@ -606,11 +610,11 @@ class TransaksiTreatment extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item[i].treatment.name,
+                        item![i].treatment!.name ?? '-',
                         style: blackHigtTextStyle.copyWith(fontSize: 13),
                       ),
                       Text(
-                        item[i].treatment.clinic.name,
+                        item?[i].treatment?.clinic!.name ?? '-',
                         style: blackRegulerTextStyle.copyWith(fontSize: 13),
                       ),
                     ],
