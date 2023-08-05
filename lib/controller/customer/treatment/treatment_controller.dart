@@ -54,15 +54,6 @@ class TreatmentController extends StateClass {
     return responseClinic.value.data!;
   }
 
-  Future<FindClinicModel> getClinicDetail(BuildContext context, int id) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      responseClinicDetail.value = await TreatmentService().getClinicDetail(id);
-    });
-    isLoading.value = false;
-    return responseClinicDetail.value;
-  }
-
   void userWishlistTreatment(
       BuildContext context, int treatmentID, bool wishlist) async {
     isLoading.value = true;
