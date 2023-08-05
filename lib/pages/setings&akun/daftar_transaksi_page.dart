@@ -39,7 +39,6 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          print("INI DIBAWAH");
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             history.addAll(await state.getAllHistory(context, page));
@@ -293,53 +292,65 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               const SizedBox(
                 height: spaceHeigt,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: history.length,
-                itemBuilder: (BuildContext context, index) {
-                  if (history[index].transactionType == 'CONSULTATION') {
-                    return TransaksiKonsultan(
-                      namaDokter: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation!.doctor?.fullname ?? '-',
-                      tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
-                      pesanan: 'Konsultasi',
-                      progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
-                          ? 'Menunggu Pembayaran'
-                          : history[index].detail?.status == 'READY'
-                          ? 'Ready'
-                          : history[index].detail?.status == 'REVIEW'
-                          ? 'Review'
-                          : history[index].detail?.status == 'AKTIF'
-                          ? 'Aktif'
-                          : history[index].detail?.status == 'SELESAI'
-                          ? 'Selesai'
-                          : '-',
-                      keluhan: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation?.medicalHistory?.interestCondition?.name ?? '-',
-                      harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
-                      img: history[index].detail?.consultation == null ? '-' : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                    );
-                  }
+              if (history.isEmpty)
+                Center(
+                  child: Text(
+                    'Belum ada transaksi',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              if (history.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: history.length,
+                  itemBuilder: (BuildContext context, index) {
+                    if (history[index].transactionType == 'CONSULTATION') {
+                      return TransaksiKonsultan(
+                        namaDokter: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation!.doctor?.fullname ?? '-',
+                        tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
+                        pesanan: 'Konsultasi',
+                        progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
+                            ? 'Menunggu Pembayaran'
+                            : history[index].detail?.status == 'READY'
+                                ? 'Ready'
+                                : history[index].detail?.status == 'REVIEW'
+                                    ? 'Review'
+                                    : history[index].detail?.status == 'AKTIF'
+                                        ? 'Aktif'
+                                        : history[index].detail?.status == 'SELESAI'
+                                            ? 'Selesai'
+                                            : '-',
+                        keluhan: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation?.medicalHistory?.interestCondition?.name ?? '-',
+                        harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
+                        img: history[index].detail?.consultation == null ? '-' : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                      );
+                    }
 
-                  if (history[index].transactionType == 'TREATMENT') {
-                    return TransaksiTreatment(
-                      item: history[index].detail?.transactionTreatmentItems,
-                      tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
-                      pesanan: 'Treatment',
-                      progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
-                          ? 'Menunggu Pembayaran'
-                          : history[index].detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
-                          ? 'Menunggu Konfirmasi Klinik'
-                          : history[index].detail?.status == 'KLINIK_MENGKONFIRMASI'
-                          ? 'Klinik Mengkonfirmasi'
-                          : history[index].detail?.status == 'SELESAI'
-                          ? 'Selesai'
-                          : '-',
-                      harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
-                    );
-                  }
-                  return null;
-                },
-              ),
+                    if (history[index].transactionType == 'TREATMENT') {
+                      return TransaksiTreatment(
+                        item: history[index].detail?.transactionTreatmentItems,
+                        tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
+                        pesanan: 'Treatment',
+                        progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
+                            ? 'Menunggu Pembayaran'
+                            : history[index].detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                                ? 'Menunggu Konfirmasi Klinik'
+                                : history[index].detail?.status == 'KLINIK_MENGKONFIRMASI'
+                                    ? 'Klinik Mengkonfirmasi'
+                                    : history[index].detail?.status == 'SELESAI'
+                                        ? 'Selesai'
+                                        : '-',
+                        harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
+                      );
+                    }
+                    return null;
+                  },
+                ),
             ],
           ),
         ),
