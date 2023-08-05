@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import '../../controller/customer/chat/chat_controller.dart';
 import '../../core/global.dart';
 import '../../core/local_storage.dart';
+import '../../service/doctor/consultation/notif_service.dart';
 import '../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../theme/theme.dart';
 import '../../widget/chat_widget.dart';
@@ -65,8 +66,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     super.initState();
     getRequest(widget.roomCode);
     connectSocket(context, widget.receiverBy);
-    joinRoom(widget.roomCode);
-    readMessage(widget.roomCode);
+    // joinRoom(widget.roomCode);
+    // readMessage(widget.roomCode);
   }
 
   bool clik = true;
@@ -155,7 +156,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       "room": roomCode,
     };
     _socket?.emit(
-      'joinRoom',data,
+      'joinRoom',
+      data,
     );
     print('joinRoom ${roomCode}');
   }
@@ -237,39 +239,21 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   newMessagee() {
     print("newMessage");
-    _socket?.on('newMessage', (getNewMessage) async {
-      log("newMessage $getNewMessage");
-      log(getNewMessage.toString());
-      // Data2 result = Data2.fromJson(getNewMessage);
+    _socket?.on('newMessage', (newMessage) async {
+      print("newMessage $newMessage");
+      print("message ${newMessage['message']}");
+      print("message ${newMessage['sender']['fullname']}");
+      // var result = json.decode(newMessage);
+      Data2 result = Data2.fromJson(newMessage);
+      setState(() {
+        msglist?.add(result);
+      });
+      log('hey ' + result.toString());
+
       // setState(() {
-      //   msglist?.add(getNewMessage);
+      //   msglist?.add(result);
       // });
-      // listLastChat.add(recentChat['last_chat']);
-      infoLog();
-      log("newmsg $getNewMessage");
-
-      // await NotificationService().notifChat(
-      //   1,
-      //   widget.username == "Doctor" ? "Customer" : "Doctor",
-      //   recentChat['last_chat']['message'],
-      //   100,
-      // );
     });
-    // _socket?.on('newMessage', (newMessage) async {
-    //   print("newMessage $newMessage");
-    //   print("message ${newMessage['message']}");
-    //   print("message ${newMessage['sender']['fullname']}");
-    //   // var result = json.decode(newMessage);
-    //   Data2 result = Data2.fromJson(newMessage);
-    //   setState(() {
-    //     msglist?.add(result);
-    //   });
-    //   log('hey ' + result.toString());
-
-    //   // setState(() {
-    //   //   msglist?.add(result);
-    //   // });
-    // });
   }
 
   // EVENT TYPING INDICATOR (udah dipanggil)
@@ -277,19 +261,19 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
       log("recentChat $recentChat");
-      Data2 result = Data2.fromJson(recentChat['last_chat']);
-      setState(() {
-        msglist?.add(result);
-      });
+      // Data2 result = Data2.fromJson(recentChat['last_chat']);
+      // setState(() {
+      //   msglist?.add(result);
+      // });
       // listLastChat.add(recentChat['last_chat']);
       // log("de $msglist");
 
-      // await NotificationService().notifChat(
-      //   1,
-      //   widget.username == "Doctor" ? "Customer" : "Doctor",
-      //   recentChat['last_chat']['message'],
-      //   100,
-      // );
+      await NotificationService().notifChat(
+        widget.receiverId,
+        widget.receiverBy,
+        recentChat['last_chat']['message'],
+        100,
+      );
     });
     print("recentChat");
   }
@@ -313,10 +297,11 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
       _socket?.onConnect((data) async {
         print('Connection established');
+        await joinRoom(widget.roomCode);
+        await readMessage(widget.roomCode);
         await onlineClients(receiver);
         await newMessagee();
         await typingIndicator();
-        await recentChatt();
         await infoLog();
       });
       _socket?.onConnectError((data) async {
@@ -845,7 +830,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           nameDoctor: widget.receiverBy,
                           timetitle: formattedTime,
                           color: subwhiteColor,
-                          title: 'text',
+                          title: msglist![index].message.toString(),
                         );
                       } else {
                         Container();
