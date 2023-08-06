@@ -54,9 +54,11 @@ class CardSkincare extends StatelessWidget {
 
 class CardSearch extends StatefulWidget {
   final String title;
+  final Function()? onTap;
   const CardSearch({
     Key? key,
     required this.title,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -71,6 +73,7 @@ class _CardSearchState extends State<CardSearch> {
       children: [
         InkWell(
           onTap: () {
+            widget.onTap == null ? (){} : widget.onTap!();
             setState(
               () {
                 isSelected = !isSelected;

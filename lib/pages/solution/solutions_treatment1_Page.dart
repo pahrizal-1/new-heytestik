@@ -25,6 +25,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/customer/solution/etalase_controller.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../models/lookup_treatment.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -32,8 +33,7 @@ class SolutionsTreatment1Page extends StatefulWidget {
   const SolutionsTreatment1Page({super.key});
 
   @override
-  State<SolutionsTreatment1Page> createState() =>
-      _SolutionsTreatment1PageState();
+  State<SolutionsTreatment1Page> createState() => _SolutionsTreatment1PageState();
 }
 
 class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
@@ -54,12 +54,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     'assets/images/bg-buy-get1.png',
     'assets/images/bg-buy-get1.png',
   ];
-
-  final List<String> asset = [
-    'assets/images/Peliing.png',
-    'assets/images/IPL.png',
-    'assets/images/Laser.png'
-  ];
+  Map<String, dynamic> filter = {};
+  final List<String> asset = ['assets/images/Peliing.png', 'assets/images/IPL.png', 'assets/images/Laser.png'];
 
   @override
   void initState() {
@@ -67,7 +63,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
-      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      treatments.addAll(await stateTreatment.getAllTreatment(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -76,8 +77,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments
-                .addAll(await stateTreatment.getAllTreatment(context, page));
+            treatments.addAll(await stateTreatment.getAllTreatment(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
             setState(() {});
           });
         }
@@ -117,8 +122,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         children: [
                           Text(
                             'Lokasimu',
-                            style: blackTextStyle.copyWith(
-                                fontSize: 13, fontWeight: regular),
+                            style: blackTextStyle.copyWith(fontSize: 13, fontWeight: regular),
                           ),
                           const SizedBox(
                             width: 7,
@@ -187,8 +191,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: InkWell(
               onTap: () {
@@ -224,8 +227,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TreatmentSearch(
-                                  search: searchController.text),
+                              builder: (context) => TreatmentSearch(search: searchController.text),
                             ),
                           );
                           // page = 1;
@@ -234,8 +236,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           // treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: search));
                           // setState(() {});
                         },
-                        style: const TextStyle(
-                            fontSize: 15, fontFamily: "ProximaNova"),
+                        style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                         decoration: InputDecoration(
                           hintText: "Cari Treatment",
                           border: InputBorder.none,
@@ -264,8 +265,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             child: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -288,14 +288,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           Container(
                             width: 111,
                             height: 28,
-                            decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(24)),
+                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(24)),
                             child: Center(
                               child: Text(
                                 'Bekas Jerawat',
-                                style: whiteTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: whiteTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           ),
@@ -303,18 +300,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             width: 8,
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 16),
-                            decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(24),
-                                border:
-                                    Border.all(color: const Color(0xffcccccc))),
+                            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xffcccccc))),
                             child: Center(
                               child: Text(
                                 'Jerawat',
-                                style: blackTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           )
@@ -349,10 +340,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
                               gradient: LinearGradient(
-                                colors: [
-                                  blackColor.withOpacity(0.5),
-                                  Colors.transparent
-                                ],
+                                colors: [blackColor.withOpacity(0.5), Colors.transparent],
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.center,
                               ),
@@ -363,8 +351,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                 padding: const EdgeInsets.only(bottom: 11),
                                 child: Text(
                                   stateTreatment.treatment[index].treatmentType,
-                                  style: whiteTextStyle.copyWith(
-                                      fontSize: 18, fontWeight: bold),
+                                  style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
                                 ),
                               ),
                             ),
@@ -386,8 +373,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   },
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    onPageChanged: (index, reason) =>
-                        setState(() => activeIndex = index),
+                    onPageChanged: (index, reason) => setState(() => activeIndex = index),
                   ),
                 ),
                 const SizedBox(
@@ -398,10 +384,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     activeIndex: activeIndex,
                     count: images.length,
                     effect: ScaleEffect(
-                        activeDotColor: greenColor,
-                        dotColor: const Color(0xffD9D9D9),
-                        dotWidth: 6,
-                        dotHeight: 6),
+                      activeDotColor: greenColor,
+                      dotColor: const Color(0xffD9D9D9),
+                      dotWidth: 6,
+                      dotHeight: 6,
+                    ),
                   ),
                 ),
                 Padding(
@@ -426,8 +413,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/icons/nearme_icons.png'),
+                                  image: AssetImage('assets/icons/nearme_icons.png'),
                                 ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -530,8 +516,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/top_rating.png'),
+                                  image: AssetImage('assets/icons/top_rating.png'),
                                 ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -575,12 +560,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             padding: EdgeInsets.only(left: 20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children:
-                                  etalaseController.filterData.map((element) {
+                              children: etalaseController.filterData.map((element) {
                                 return CirkelCategory(
                                   title: element.name!,
-                                  img:
-                                      '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                                  img: '${Global.FILE}/${element.mediaConcern!.media!.path}',
                                 );
                               }).toList(),
                             ),
@@ -600,8 +583,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             children: [
                               Text(
                                 'Semua Treatment',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                                style: blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 height: 9,
@@ -613,22 +595,36 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     context: context,
                                     backgroundColor: Colors.white,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.only(
+                                      borderRadius: BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
                                       ),
                                     ),
                                     builder: (context) => FilterAll(),
-                                  ).then((value) {
-                                    print("value $value");
-
-                                    treatments.clear();
-
-                                    setState(() {
+                                  ).then((value) async {
+                                    if (value['promo'] == true) {
+                                      treatments.clear();
                                       page = 1;
-                                      treatments.addAll(value);
-                                    });
+                                      setState(() {});
+                                    } else {
+                                      filter['treatment_type[]'] = value['treatment'];
+                                      filter['order_by'] = value['orderBy'];
+                                      filter['open_now'] = value['openNow'];
+                                      filter['min_price'] = value['minPrice'];
+                                      filter['max_price'] = value['maxPrice'];
+
+                                      treatments.clear();
+                                      page = 1;
+                                      treatments.addAll(
+                                        await stateTreatment.getAllTreatment(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                    }
+                                    setState(() {});
                                   });
                                 },
                                 child: Image.asset(
@@ -648,7 +644,6 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(),
                       Center(
                         child: Wrap(
                           spacing: 15,
@@ -661,8 +656,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               diskonProduk: '0',
                               hargaDiskon: '0',
                               harga: element.price!.toString(),
-                              urlImg:
-                                  "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                              urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                               rating: '${element.rating} (120k)',
                               km: '${element.distance}',
                               lokasiKlinik: element.clinic!.city!.name!,
@@ -691,8 +685,25 @@ class FilterAll extends StatefulWidget {
 
 class _FilterAllState extends State<FilterAll> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final TextEditingController minPriceController = TextEditingController();
+  final TextEditingController maxPriceController = TextEditingController();
 
-  List<Data2> treatments = [];
+  List<String> filter = [];
+  List<LookupTreatmentModel> treatments = [];
+  String orderBy = "";
+  bool promo = false;
+  bool openNow = false;
+  int? minPrice;
+  int? maxPrice;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      treatments.addAll(await stateTreatment.getLookupTreatment(context));
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -718,19 +729,47 @@ class _FilterAllState extends State<FilterAll> {
               const SizedBox(
                 height: 15,
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Rating',
                 img: 'assets/icons/stars-icons.png',
+                onTap: () {
+                  if (orderBy == "RATING") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "RATING";
+                  }
+                  setState(() {});
+                },
+                isActive: orderBy == "RATING",
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Popularitas',
                 img: 'assets/icons/popularity.png',
+                onTap: () {
+                  if (orderBy == "POPULARITY") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "POPULARITY";
+                  }
+                  setState(() {});
+                },
+                isActive: orderBy == "POPULARITY",
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Jarak',
                 img: 'assets/icons/mapgrey.png',
+                onTap: () {
+                  if (orderBy == "DISTANCE") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "DISTANCE";
+                  }
+                  print(orderBy);
+                  setState(() {});
+                },
+                isActive: orderBy == "DISTANCE",
               ),
-              const SizedBox(
+              SizedBox(
                 height: 25,
               ),
               Text(
@@ -744,12 +783,18 @@ class _FilterAllState extends State<FilterAll> {
                 children: [
                   CardSearch(
                     title: 'Promo',
+                    onTap: () {
+                      promo = !promo;
+                    },
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   CardSearch(
                     title: 'Buka Sekarang',
+                    onTap: () {
+                      openNow = !openNow;
+                    },
                   ),
                 ],
               ),
@@ -767,6 +812,7 @@ class _FilterAllState extends State<FilterAll> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: minPriceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         fillColor: greenColor,
@@ -774,11 +820,12 @@ class _FilterAllState extends State<FilterAll> {
                         hintText: 'Min.',
                         hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: greenColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
                         ),
@@ -798,18 +845,23 @@ class _FilterAllState extends State<FilterAll> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: maxPriceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         fillColor: greenColor,
                         hoverColor: greenColor,
                         hintText: 'Max',
-                        hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                        hintStyle: TextStyle(
+                          color: subgreyColor,
+                          fontSize: 12,
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: greenColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
                         ),
@@ -829,58 +881,14 @@ class _FilterAllState extends State<FilterAll> {
               const SizedBox(
                 height: 20,
               ),
-              FilterTapTreatment(
-                title: 'Relaxation',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Cryolipolysis',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Electrocauter',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Facial',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Filler',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Hifu',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Co2',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Erbium',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Nd:Yag ',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Pico Lase',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Pico Laser',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Pulsed Dye',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: ' Led Light Therapy',
-                function: () {},
-              ),
+              ...treatments.map((treatment) {
+                return FilterTapTreatment(
+                  title: treatment.name,
+                  function: () {
+                    filter.add(treatment.name);
+                  },
+                );
+              }).toList(),
             ],
           ),
         ),
@@ -899,14 +907,17 @@ class _FilterAllState extends State<FilterAll> {
                   child: Container(
                     width: 165,
                     decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Batal',
                         style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
                       ),
                     ),
                   ),
@@ -917,33 +928,34 @@ class _FilterAllState extends State<FilterAll> {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () async {
-                    try {
-                      print("heheheheh");
-                      print(stateTreatment.type);
+                  onTap: () {
+                    minPrice = minPriceController.text == "" ? null : int.parse(minPriceController.text);
+                    minPrice = maxPriceController.text == "" ? null : int.parse(maxPriceController.text);
 
-                      treatments.addAll(
-                          await stateTreatment.getAllTreatment(context, 1));
-                      setState(() {});
-
-                      print("treatments ${jsonDecode(jsonEncode(treatments))}");
-                      Navigator.pop(context, treatments);
-                    } catch (e) {
-                      print("errorrrr $e");
-                    }
+                    Navigator.pop(context, {
+                      "treatment": filter,
+                      "orderBy": orderBy,
+                      "openNow": openNow,
+                      "promo": promo,
+                      "minPrice": minPrice,
+                      "maxPrice": maxPrice,
+                    });
                   },
                   child: Container(
                     width: 165,
                     decoration: BoxDecoration(
-                        color: greenColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Simpan',
                         style: whiteTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
                       ),
                     ),
                   ),
@@ -960,11 +972,15 @@ class _FilterAllState extends State<FilterAll> {
 class FilterTap extends StatefulWidget {
   final String img;
   final String title;
+  final Function()? onTap;
+  final bool isActive;
 
   const FilterTap({
     Key? key,
     required this.img,
     required this.title,
+    this.onTap,
+    required this.isActive,
   }) : super(key: key);
 
   @override
@@ -979,8 +995,9 @@ class _FilterTapState extends State<FilterTap> {
       children: [
         InkWell(
           onTap: () {
+            widget.onTap == null ? () {} : widget.onTap!();
             setState(() {
-              isSelected = !isSelected;
+              isSelected = !widget.isActive;
             });
           },
           child: Row(
@@ -988,8 +1005,7 @@ class _FilterTapState extends State<FilterTap> {
               Container(
                 width: 17,
                 height: 17,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(widget.img))),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(widget.img))),
               ),
               const SizedBox(
                 width: 8,
@@ -1017,12 +1033,12 @@ class _FilterTapState extends State<FilterTap> {
 
 class FilterTapTreatment extends StatefulWidget {
   final String title;
-  Function() function;
+  Function()? function;
 
   FilterTapTreatment({
     Key? key,
     required this.title,
-    required this.function,
+    this.function,
   }) : super(key: key);
 
   @override
@@ -1040,22 +1056,16 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
         children: [
           InkWell(
             onTap: () {
+              widget.function == null ? () {} : widget.function!();
               setState(() {
                 isSelected = !isSelected;
               });
-
-              if (isSelected) {
-                stateTreatment.type.add(widget.title);
-              } else {
-                stateTreatment.type.removeWhere((item) => item == widget.title);
-              }
             },
             child: Row(
               children: [
                 Text(
                   widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+                  style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
                 ),
                 const Spacer(),
                 Icon(
