@@ -18,6 +18,7 @@ class CatatanDocter extends StatefulWidget {
 
 class _CatatanDocterState extends State<CatatanDocter> {
   bool isSelected = false;
+  bool isSufficButton = false;
   final DoctorConsultationController state =
       Get.put(DoctorConsultationController());
   @override
@@ -225,18 +226,46 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 decoration: InputDecoration(
                     // alignLabelWithHint: true,
                     border: OutlineInputBorder(),
-                    hintText: ''),
-                onEditingComplete: () {
-                  if (state.diagnosisPossibilityController.text == '') {
-                    state.diagnosisPossibility.clear();
-                    print('kosong');
-                  } else {
-                    state.diagnosisPossibility
-                        .add(state.diagnosisPossibilityController.text);
-                    state.diagnosisPossibilityController.clear();
-                    print(state.diagnosisPossibility);
-                  }
+                    hintText: '',
+                    suffix: state.diagnosisPossibilityController.text.length > 0
+                        ? InkWell(
+                            onTap: () {
+                              state.diagnosisPossibility.add(
+                                  state.diagnosisPossibilityController.text);
+                              state.diagnosisPossibilityController.clear();
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: greenColor,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Center(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Tambahkan',
+                                  style: whiteTextStyle,
+                                ),
+                              )),
+                            ),
+                          )
+                        : Container()),
+                onChanged: (text) {
+                  print(text);
+                  setState(() {});
                 },
+                // onEditingComplete: () {
+                //   if (state.diagnosisPossibilityController.text == '') {
+                //     state.diagnosisPossibility.clear();
+                //     print('kosong');
+                //   } else {
+                //     state.diagnosisPossibility
+                //         .add(state.diagnosisPossibilityController.text);
+                //     state.diagnosisPossibilityController.clear();
+                //     print(state.diagnosisPossibility);
+                //   }
+                // },
               ),
               const SizedBox(
                 height: 11,
@@ -360,20 +389,45 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 // maxLines: null,
                 // keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                    // alignLabelWithHint: true,
-                    border: OutlineInputBorder(),
-                    hintText: ''),
-                onEditingComplete: () {
-                  if (state.diagnosisSecondaryController.text == '') {
-                    state.diagnosisSecondary.clear();
-                    print('kosong');
-                  } else {
-                    state.diagnosisSecondary
-                        .add(state.diagnosisSecondaryController.text);
-                    state.diagnosisSecondaryController.clear();
-                    print(state.diagnosisSecondary);
-                  }
-                },
+                  // alignLabelWithHint: true,
+                  border: OutlineInputBorder(),
+                  hintText: '',
+                  suffix: state.diagnosisSecondaryController.text.length > 0
+                      ? InkWell(
+                          onTap: () {
+                            state.diagnosisSecondary
+                                .add(state.diagnosisSecondaryController.text);
+                            state.diagnosisSecondaryController.clear();
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 90,
+                            decoration: BoxDecoration(
+                                color: greenColor,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Center(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Tambahkan',
+                                style: whiteTextStyle,
+                              ),
+                            )),
+                          ),
+                        )
+                      : Container(),
+                ),
+                // onEditingComplete: () {
+                //   if (state.diagnosisSecondaryController.text == '') {
+                //     state.diagnosisSecondary.clear();
+                //     print('kosong');
+                //   } else {
+                //     state.diagnosisSecondary
+                //         .add(state.diagnosisSecondaryController.text);
+                //     state.diagnosisSecondaryController.clear();
+                //     print(state.diagnosisSecondary);
+                //   }
+                // },
               ),
               const SizedBox(
                 height: 11,

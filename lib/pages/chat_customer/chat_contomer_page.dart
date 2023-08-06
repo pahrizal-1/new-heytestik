@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import '../../controller/customer/chat/chat_controller.dart';
 import '../../core/global.dart';
 import '../../core/local_storage.dart';
+import '../../service/doctor/consultation/notif_service.dart';
 import '../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../theme/theme.dart';
 import '../../widget/chat_widget.dart';
@@ -65,8 +66,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     super.initState();
     getRequest(widget.roomCode);
     connectSocket(context, widget.receiverBy);
-    joinRoom(widget.roomCode);
-    readMessage(widget.roomCode);
+    // joinRoom(widget.roomCode);
+    // readMessage(widget.roomCode);
   }
 
   bool clik = true;
@@ -92,24 +93,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   }
 
   // EVENT NEW MESSAGE (udah dipanggil)
-  newMessage() async {
-    print("newMessage");
-    _socket?.on('newMessage', (newMessage) async {
-      print("newMessage $newMessage");
-      print("message ${newMessage['message']}");
-      print("message ${newMessage['sender']['fullname']}");
-      // var result = json.decode(newMessage);
-      Data2 result = Data2.fromJson(newMessage);
-      setState(() {
-        msglist?.add(result);
-      });
-      print('hey ' + result.toString());
-
-      // setState(() {
-      //   msglist?.add(result);
-      // });
-    });
-  }
 
   Future getRequest(String roomCode) async {
     // isLoading.value = true;
@@ -158,15 +141,24 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   // EVENT JOIN ROOM (udah dipanggil)
   readMessage(String roomCode) {
     print('readMessage');
-    _socket?.emit('readMessage', {"room": roomCode});
-    print('readMessage');
+    var data = {
+      "room": roomCode,
+    };
+    _socket?.emit('readMessage', data);
+    print('readMessage ${roomCode}');
   }
 
   // EVENT JOIN ROOM (udah dipanggil)
 
   joinRoom(String roomCode) {
     print('joinRoom');
-    _socket?.emit('joinRoom', {"room": roomCode});
+    var data = {
+      "room": roomCode,
+    };
+    _socket?.emit(
+      'joinRoom',
+      data,
+    );
     print('joinRoom ${roomCode}');
   }
 
@@ -245,24 +237,43 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     print('list mesage' + msglist.toString());
   }
 
+  newMessagee() {
+    print("newMessage");
+    _socket?.on('newMessage', (newMessage) async {
+      print("newMessage $newMessage");
+      print("message ${newMessage['message']}");
+      print("message ${newMessage['sender']['fullname']}");
+      // var result = json.decode(newMessage);
+      Data2 result = Data2.fromJson(newMessage);
+      setState(() {
+        msglist?.add(result);
+      });
+      log('hey ' + result.toString());
+
+      // setState(() {
+      //   msglist?.add(result);
+      // });
+    });
+  }
+
   // EVENT TYPING INDICATOR (udah dipanggil)
   recentChatt() {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
       log("recentChat $recentChat");
-      Data2 result = Data2.fromJson(recentChat['last_chat']);
-      setState(() {
-        msglist?.add(result);
-      });
+      // Data2 result = Data2.fromJson(recentChat['last_chat']);
+      // setState(() {
+      //   msglist?.add(result);
+      // });
       // listLastChat.add(recentChat['last_chat']);
-      log("de $msglist");
+      // log("de $msglist");
 
-      // await NotificationService().notifChat(
-      //   1,
-      //   widget.username == "Doctor" ? "Customer" : "Doctor",
-      //   recentChat['last_chat']['message'],
-      //   100,
-      // );
+      await NotificationService().notifChat(
+        widget.receiverId,
+        widget.receiverBy,
+        recentChat['last_chat']['message'],
+        100,
+      );
     });
     print("recentChat");
   }
@@ -286,11 +297,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
       _socket?.onConnect((data) async {
         print('Connection established');
+        await joinRoom(widget.roomCode);
+        await readMessage(widget.roomCode);
         await onlineClients(receiver);
-        await newMessage();
+        await newMessagee();
         await typingIndicator();
         await infoLog();
-        await recentChatt();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
@@ -305,7 +317,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   infoLog() {
     print("logInfo");
-    _socket?.on('logInfo', (logInfo) {
+    _socket?.on('log', (logInfo) {
       print('logInfo $logInfo');
       print('logInfo ${logInfo['success']}');
       // if (logInfo['success'] == false) {
@@ -531,8 +543,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           color: subwhiteColor,
                           title: msglist![index].message,
                         );
-                      } else if (msglist![index].senderId == widget.senderId &&
-                          msglist![index].mediaChatMessages!.isEmpty) {
+                      } else if (msglist![index].senderId == widget.senderId) {
                         return ChatRight(
                           imgUser: 'assets/images/doctor-img.png',
                           nameUser: widget.sendBy,
@@ -540,223 +551,278 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           color: subgreenColor,
                           title: msglist![index].message.toString(),
                         );
-                      } else if (msglist![index].senderId == widget.senderId &&
-                          msglist![index].mediaChatMessages!.length > 1) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              final dateTime = DateTime.now();
-                              final stringDateTime = dateTime.toIso8601String();
-                              final parsedDateTime =
-                                  DateTime.parse(stringDateTime);
-
-                              var dateFormatted =
-                                  DateFormat("yyyy-MM-dd-HH:mm:ss")
-                                      .format(DateTime.now());
-                              print('hsail date ' + dateFormatted.toString());
-                              print('hsail format ' +
-                                  dateTime.timeZoneOffset.toString());
-                            },
-                            child: msglist![index].mediaChatMessages!.length ==
-                                    1
-                                ? Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 40),
-                                    padding: const EdgeInsets.only(
-                                        left: 12,
-                                        top: 11,
-                                        right: 12,
-                                        bottom: 7),
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      color: subgreenColor,
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(0),
-                                        bottomRight: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        GridView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: msglist![index]
-                                              .mediaChatMessages!
-                                              .length,
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 2,
-                                                  crossAxisSpacing: 4.0,
-                                                  mainAxisSpacing: 4.0),
-                                          itemBuilder:
-                                              (BuildContext context, count) {
-                                            return Image.network(
-                                              '${Global.FILE}/' +
-                                                  msglist![index]
-                                                      .mediaChatMessages![0]
-                                                      .media!
-                                                      .path!,
-                                            );
-                                          },
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          msglist![index].message.toString(),
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/logo_cheac_wa.png',
-                                              width: 14,
-                                            ),
-                                            const SizedBox(
-                                              width: 2,
-                                            ),
-                                            Text(formattedTime,
-                                                style: subGreyTextStyle)
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                : msglist![index].mediaChatMessages!.length > 1
-                                    ? Stack(
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 40),
-                                            padding: const EdgeInsets.only(
-                                                left: 12,
-                                                top: 11,
-                                                right: 12,
-                                                bottom: 7),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                              color: subgreenColor,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(0),
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                                bottomLeft: Radius.circular(10),
-                                              ),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                GridView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: msglist![index]
-                                                      .mediaChatMessages!
-                                                      .length,
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 2,
-                                                          crossAxisSpacing: 4.0,
-                                                          mainAxisSpacing: 4.0),
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          count) {
-                                                    return Image.network(
-                                                      '${Global.FILE}' +
-                                                          msglist![index]
-                                                              .mediaChatMessages![
-                                                                  count]
-                                                              .media!
-                                                              .path!,
-                                                    );
-                                                  },
-                                                ),
-                                                SizedBox(height: 10),
-                                                Text(
-                                                  msglist![index]
-                                                      .message
-                                                      .toString(),
-                                                  style: greyTextStyle.copyWith(
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/logo_cheac_wa.png',
-                                                      width: 14,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    Text(formattedTime,
-                                                        style: subGreyTextStyle)
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Positioned(
-                                            top: 50,
-                                            left: 80,
-                                            child: Container(
-                                              width: 200,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.grey
-                                                      .withOpacity(
-                                                          0.5), // background
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: ((context) =>
-                                                          PreviewImage(
-                                                            path: msglist![
-                                                                    index]
-                                                                .mediaChatMessages,
-                                                            senderId:
-                                                                widget.sendBy,
-                                                          )),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text('+1'),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : ChatRight(
-                                        imgUser: 'assets/images/doctor-img.png',
-                                        nameUser: widget.sendBy,
-                                        timetitle: formattedTime,
-                                        color: subgreenColor,
-                                        title:
-                                            msglist![index].message.toString(),
-                                      ),
-                          ),
-                        );
                       } else if (msglist![index].senderId ==
                               widget.receiverId &&
-                          msglist![index].mediaChatMessages?.length == null) {
-                        return ChatLeft(
-                          nameDoctor: widget.receiverBy,
-                          timetitle: formattedTime,
-                          color: subwhiteColor,
-                          title: msglist![index].message.toString(),
+                          (msglist![index].mediaChatMessages?.length ?? 0) >
+                              0) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: msglist![index].mediaChatMessages?.length == 1
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          widget.receiverBy.toString(),
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15,
+                                              color: const Color(0xFF616161)),
+                                        ),
+                                        Text(
+                                          msglist![index]
+                                              .mediaChatMessages!
+                                              .length
+                                              .toString(),
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15,
+                                              color: const Color(0xFF616161)),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Image.asset(
+                                          'assets/images/doctor-img.png'
+                                              .toString(),
+                                          width: 30,
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      padding: const EdgeInsets.only(
+                                          left: 12,
+                                          top: 11,
+                                          right: 12,
+                                          bottom: 7),
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: subwhiteColor,
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(0),
+                                          topRight: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GridView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: msglist![index]
+                                                .mediaChatMessages!
+                                                .length,
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 4.0,
+                                                    mainAxisSpacing: 4.0),
+                                            itemBuilder:
+                                                (BuildContext context, count) {
+                                              return Image.network(
+                                                '${Global.FILE}/' +
+                                                    msglist![index]
+                                                        .mediaChatMessages![0]
+                                                        .media!
+                                                        .path!
+                                                        .toString(),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            msglist![index].message.toString(),
+                                            style: greyTextStyle.copyWith(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Image.asset(
+                                                'assets/images/logo_cheac_wa.png',
+                                                width: 14,
+                                              ),
+                                              const SizedBox(
+                                                width: 2,
+                                              ),
+                                              Text(formattedTime,
+                                                  style: subGreyTextStyle)
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : msglist![index].mediaChatMessages?.length != 1
+                                  ? Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              widget.receiverBy.toString(),
+                                              style: blackTextStyle.copyWith(
+                                                  fontSize: 15,
+                                                  color:
+                                                      const Color(0xFF616161)),
+                                            ),
+                                            Text(
+                                              msglist![index]
+                                                  .mediaChatMessages!
+                                                  .length
+                                                  .toString(),
+                                              style: blackTextStyle.copyWith(
+                                                  fontSize: 15,
+                                                  color:
+                                                      const Color(0xFF616161)),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Image.asset(
+                                              'assets/images/doctor-img.png'
+                                                  .toString(),
+                                              width: 30,
+                                            ),
+                                          ],
+                                        ),
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 40),
+                                              padding: const EdgeInsets.only(
+                                                  left: 12,
+                                                  top: 11,
+                                                  right: 12,
+                                                  bottom: 7),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                color: subwhiteColor,
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(0),
+                                                  topRight: Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10),
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  GridView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: msglist![index]
+                                                        .mediaChatMessages
+                                                        ?.length,
+                                                    gridDelegate:
+                                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                                            crossAxisCount: 2,
+                                                            crossAxisSpacing:
+                                                                4.0,
+                                                            mainAxisSpacing:
+                                                                4.0),
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            count) {
+                                                      return Column(
+                                                        children: [
+                                                          Image.network(
+                                                            '${Global.FILE}/' +
+                                                                msglist![index]
+                                                                    .mediaChatMessages![
+                                                                        count]
+                                                                    .media!
+                                                                    .path!,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  Text(
+                                                    msglist![index]
+                                                        .message
+                                                        .toString(),
+                                                    style:
+                                                        greyTextStyle.copyWith(
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/images/logo_cheac_wa.png',
+                                                        width: 14,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      Text(formattedTime,
+                                                          style:
+                                                              subGreyTextStyle)
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 50,
+                                              left: 80,
+                                              child: Container(
+                                                width: 200,
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.grey
+                                                        .withOpacity(
+                                                            0.5), // background
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            PreviewImage(
+                                                              path: msglist![
+                                                                      index]
+                                                                  .mediaChatMessages,
+                                                              senderId: widget
+                                                                  .receiverBy,
+                                                            )),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(msglist![index]
+                                                      .mediaChatMessages!
+                                                      .length
+                                                      .toString()),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  : ChatLeft(
+                                      nameDoctor: widget.receiverBy,
+                                      timetitle: formattedTime,
+                                      color: subwhiteColor,
+                                      title: msglist![index].message.toString(),
+                                    ),
                         );
                       } else if (msglist?[index].senderId ==
                           widget.receiverId) {

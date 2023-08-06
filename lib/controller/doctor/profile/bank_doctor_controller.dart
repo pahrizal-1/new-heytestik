@@ -128,8 +128,9 @@ class BankDoctorController extends StateClass {
         );
       }
 
-      Get.back();
-      Get.back();
+      // Get.back();
+      // Get.back();
+      Navigator.pop(context,'refresh');
 
       clearForm();
       SnackbarWidget.getSuccessSnackbar(
