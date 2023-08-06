@@ -368,7 +368,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   child: AnimatedSmoothIndicator(
                     activeIndex: activeIndex,
                     count: images.length,
-                    effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
+                    effect: ScaleEffect(
+                      activeDotColor: greenColor,
+                      dotColor: const Color(0xffD9D9D9),
+                      dotWidth: 6,
+                      dotHeight: 6,
+                    ),
                   ),
                 ),
                 Padding(

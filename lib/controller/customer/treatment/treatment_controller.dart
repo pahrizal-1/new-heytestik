@@ -15,6 +15,7 @@ class TreatmentController extends StateClass {
   RxList<TreatmentRecommendationModel> treatment = List<TreatmentRecommendationModel>.empty().obs;
   Rx<TreatmentModel> responseTreatment = TreatmentModel().obs;
   RxList<Data2> dataTreatment = List<Data2>.empty(growable: true).obs;
+  RxList<Data2> filterTreatment = List<Data2>.empty(growable: true).obs;
   Rx<TreatmentDetailModel> treatmentDetail = TreatmentDetailModel().obs;
   RxInt index = 0.obs;
   RxInt pax = 0.obs;
@@ -54,6 +55,10 @@ class TreatmentController extends StateClass {
     isLoading.value = false;
 
     return responseClinic.value.data!;
+  }
+
+  void getFilterTreatment() async  {
+
   }
 
   Future<FindClinicModel> getClinicDetail(BuildContext context, int id) async {
