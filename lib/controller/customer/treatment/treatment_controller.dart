@@ -194,18 +194,17 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("masuk 1");
       TreatmentModel data = await TreatmentService()
           .getAllTreatment(page, type, rating, search: search);
-      print("masuk 2");
+
       responseTreatment.value = data;
-      print("masuk 3");
+
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
-      print("masuk 4");
     });
 
     isLoading.value = false;
-
+    type.clear();
+    rating.clear();
     return responseTreatment.value.data!.data!;
   }
 
