@@ -132,7 +132,6 @@ class DetailObatPage extends StatelessWidget {
                 image: NetworkImage(
                   '${Global.FILE}/${medicine.media[0]}',
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -247,7 +246,12 @@ class DetailObatPage extends StatelessWidget {
           ),
           const dividergreen(),
           Padding(
-            padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
+            padding: const EdgeInsets.only(
+              top: 12,
+              left: 24,
+              right: 24,
+              bottom: 17,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: GetMaterialApp(
-        title: 'Heystetik Aplication',
+        title: 'Heystetik Mobile Apps',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
         home: const SplashScreenPage(),
