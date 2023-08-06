@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 
 class GaleryMyJourney extends StatefulWidget {
@@ -15,7 +19,32 @@ class GaleryMyJourney extends StatefulWidget {
 }
 
 class _GaleryMyJourneyState extends State<GaleryMyJourney> {
-  bool isSelceted = true;
+  final MyJourneyController state = Get.put(MyJourneyController());
+  final ScrollController scrollController = ScrollController();
+  List<Data2> gallery = [];
+  int page = 1;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      gallery.addAll(await state.getJourney(context, page));
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            gallery.addAll(await state.getJourney(context, page));
+            setState(() {});
+          });
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,224 +79,144 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bekas Jerawat',
-                  style: blackHigtTextStyle.copyWith(fontSize: 14),
-                ),
-                Text(
-                  '13 Jun 2023',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          Get.to(ZoomImageDetail());
-                        },
-                        child: Container(
-                          height: 72,
-                          width: 82,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: const DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/before1.png'),
-                                  fit: BoxFit.cover)),
-                        )),
-                  ],
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: gallery.isEmpty
+              ? Center(
+                  child: Text(
+                    'Belum ada data',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
                 )
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Anti Aging',
-                  style: blackHigtTextStyle.copyWith(fontSize: 14),
-                ),
-                Text(
-                  '10 Apr 2023',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: [
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: gallery
+                          .map(
+                            (e) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${e.concern?.name}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 14),
+                                ),
+                                Text(
+                                  ConvertDate.defaultDate(
+                                      e.createdAt.toString()),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 13),
+                                ),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                                Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: e.mediaMyJourneys!.map((a) {
+                                    if (a.category == "INITIAL_CONDITION") {
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(ZoomImageDetail(
+                                            concern: e.concern!.name ?? '-',
+                                            beforeImage:
+                                                '${Global.FILE}/${a.media?.path}',
+                                            dateBefore: e.createdAt.toString(),
+                                            afterImage:
+                                                '${Global.FILE}/${a.media?.path}',
+                                            dateAfter: e.createdAt.toString(),
+                                          ));
+                                        },
+                                        child: Container(
+                                          height: 72,
+                                          width: 82,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  '${Global.FILE}/${a.media?.path}'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    return Container();
+                                  }).toList(),
+                                ),
+                                const SizedBox(
+                                  height: 33,
+                                ),
+                                Text(
+                                  ConvertDate.defaultDate(
+                                      e.createdAt.toString()),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 13),
+                                ),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                                Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: e.mediaMyJourneys!.map((a) {
+                                    if (a.category == "AFTER_CONDITION") {
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(ZoomImageDetail(
+                                            concern: e.concern!.name ?? '-',
+                                            beforeImage:
+                                                '${Global.FILE}/${a.media?.path}',
+                                            dateBefore: e.createdAt.toString(),
+                                            afterImage:
+                                                '${Global.FILE}/${a.media?.path}',
+                                            dateAfter: e.createdAt.toString(),
+                                          ));
+                                        },
+                                        child: Container(
+                                          height: 72,
+                                          width: 82,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  '${Global.FILE}/${a.media?.path}'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    return Container();
+                                  }).toList(),
+                                ),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                                const dividergreen(),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
                     ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 33,
-                ),
-                Text(
-                  '12 Apr 2023',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: [
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Muka Kusam',
-                  style: blackHigtTextStyle.copyWith(fontSize: 14),
-                ),
-                Text(
-                  '11 Apr 2023',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: [
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),

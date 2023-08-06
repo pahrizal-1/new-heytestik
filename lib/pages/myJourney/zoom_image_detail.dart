@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import '../../theme/theme.dart';
 import '../../widget/poto_my_journey_widgets.dart';
 
 class ZoomImageDetail extends StatefulWidget {
-  const ZoomImageDetail({super.key});
+  String concern;
+  String beforeImage;
+  String afterImage;
+  String dateBefore;
+  String dateAfter;
+  ZoomImageDetail({
+    required this.concern,
+    required this.beforeImage,
+    required this.afterImage,
+    required this.dateBefore,
+    required this.dateAfter,
+    super.key,
+  });
 
   @override
   State<ZoomImageDetail> createState() => _ZoomImageDetailState();
@@ -56,8 +68,8 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     child: Container(
                       height: 450,
                       width: 179,
-                      child: Image.asset(
-                        'assets/images/wajah.png',
+                      child: Image.network(
+                        widget.beforeImage,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -79,11 +91,13 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'My Journey - Jerawat',
+                            'My Journey - ${widget.concern}',
                             style: blackTextStyle.copyWith(fontSize: 8.67),
                           ),
                           Text(
-                            '12 Feb 2023; 17:30 WIB',
+                            ConvertDate.transactionDate(
+                              widget.dateBefore,
+                            ),
                             style:
                                 blackRegulerTextStyle.copyWith(fontSize: 8.67),
                           ),
@@ -105,8 +119,8 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     child: Container(
                       height: 450,
                       width: 170,
-                      child: Image.asset(
-                        'assets/images/wajah.png',
+                      child: Image.network(
+                        widget.afterImage,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -142,11 +156,13 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'My Journey - Jerawat',
+                            'My Journey - ${widget.concern}',
                             style: blackTextStyle.copyWith(fontSize: 8.67),
                           ),
                           Text(
-                            '12 Feb 2023; 17:30 WIB',
+                            ConvertDate.transactionDate(
+                              widget.dateAfter,
+                            ),
                             style:
                                 blackRegulerTextStyle.copyWith(fontSize: 8.67),
                           ),
