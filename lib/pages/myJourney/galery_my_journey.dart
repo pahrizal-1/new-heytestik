@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan2_page.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -72,33 +73,19 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                   runSpacing: 4,
                   children: [
                     InkWell(
-                      onTap: () {
-                        setState(() {
-                          isSelceted = !isSelceted;
-                        });
-                      },
-                      child: isSelceted
-                          ? Container(
-                              height: 72,
-                              width: 82,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/before1.png'),
-                                      fit: BoxFit.cover)),
-                            )
-                          : Container(
-                              height: 72,
-                              width: 82,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          'assets/icons/chek_icons.png'),
-                                      fit: BoxFit.cover)),
-                            ),
-                    ),
+                        onTap: () {
+                          Get.to(ZoomImageDetail());
+                        },
+                        child: Container(
+                          height: 72,
+                          width: 82,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/before1.png'),
+                                  fit: BoxFit.cover)),
+                        )),
                   ],
                 )
               ],

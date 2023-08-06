@@ -91,14 +91,11 @@ class PostDenganPoto extends StatelessWidget {
                 '#Jerawat',
                 style: grenTextStyle.copyWith(fontSize: 12),
               ),
-              const SizedBox(
-                height: 16,
-              ),
               Row(
                 children: [
                   const PotoJourney(),
                   Container(
-                    height: 90,
+                    height: 1,
                     width: 2,
                     color: whiteColor,
                   ),

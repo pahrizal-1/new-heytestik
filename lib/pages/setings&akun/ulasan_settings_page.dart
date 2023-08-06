@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_treatment.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_page.dart';
 import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -241,7 +242,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                       if (waitingReview[index].transactionType == 'TREATMENT') {
                         return UlasanProudukTreatment(
                           onPressed: () {
-                            Get.to(TulisUlasaPage());
+                            Get.to(TulisUlasanTreatMent());
                           },
                           item: waitingReview[index]
                               .detail
