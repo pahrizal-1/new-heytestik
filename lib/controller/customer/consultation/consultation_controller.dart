@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,9 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/intiate_chat_model.dart';
 import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/service/customer/consultation/consultation_service.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../../../core/global.dart';
 
 class ConsultationController extends StateClass {
   RxString username = '-'.obs;
@@ -22,6 +26,7 @@ class ConsultationController extends StateClass {
   RxInt totalRecentChat = 0.obs;
   RxInt resendTime = 200.obs;
   Timer? _timer;
+  IO.Socket? socket;
 
   getUser() async {
     username.value = await LocalStorage().getFullName();
@@ -63,8 +68,51 @@ class ConsultationController extends StateClass {
           message: initiate.value!.message.toString(),
         );
       }
+
+      connectSocket(Get.context!);
+
     });
     isLoading.value = false;
+  }
+
+  eventApp() {
+    print("app");
+    socket?.on('app', (app) async {
+      log("app $app");
+    });
+  }
+
+  connectSocket(BuildContext context) async {
+    try {
+      socket = IO.io(
+        '${Global.BASE_API}/socket',
+        IO.OptionBuilder()
+            .setTransports(['websocket'])
+            .enableForceNew()
+            .setExtraHeaders(
+              {
+                'Authorization':
+                    'Bearer ${await LocalStorage().getAccessToken()}',
+              },
+            )
+            .build(),
+      );
+
+      socket?.onConnect((data) async {
+        print('Connection established');
+        eventApp();
+
+        // await recentChatt();
+      });
+      socket?.onConnectError((data) async {
+        print('Connect Error: $data');
+      });
+      socket?.onDisconnect((data) async {
+        print('Socket.IO server disconnected');
+      });
+    } catch (e) {
+      print('error nih $e');
+    }
   }
 
   getRecentChat(BuildContext context) async {

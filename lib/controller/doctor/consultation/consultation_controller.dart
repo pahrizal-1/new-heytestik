@@ -292,6 +292,16 @@ class DoctorConsultationController extends StateClass {
     });
   }
 
+  postFinishConsultation(BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      isLoading.value = true;
+      var res = await ConsultationDoctorScheduleServices().postFinishConsultation(id);
+      print('res' + res.toString());
+      Navigator.pop(context);
+      isLoading.value = false;
+    });
+  }
+
   postDoctorNote(
     BuildContext context,
     int id,
