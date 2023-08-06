@@ -47,6 +47,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Stack(
                 children: [
@@ -54,9 +55,9 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     transformationController: zoomTransformationController,
                     child: Container(
                       height: 450,
+                      width: 179,
                       child: Image.asset(
                         'assets/images/wajah.png',
-                        width: 195,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -103,9 +104,9 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     transformationController: zoomTransformationController,
                     child: Container(
                       height: 450,
+                      width: 170,
                       child: Image.asset(
                         'assets/images/wajah.png',
-                        width: 195,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -158,7 +159,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 30, right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
