@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../core/global.dart';
 import '../../../../core/local_storage.dart';
+import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widget/preview_widget.dart';
@@ -66,8 +67,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     // state.getLastChat();
     getRequest(widget.roomCode);
     connectSocket(context, widget.receiverBy);
-    joinRoom(widget.roomCode);
-    readMessage(widget.roomCode);
+    // joinRoom(widget.roomCode);
+    // readMessage(widget.roomCode);
     state.quickReply();
     print('id ' + widget.id.toString());
   }
@@ -161,26 +162,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     print("onlineClients");
   }
 
-  // EVENT NEW MESSAGE (udah dipanggil)
-  newMessage() async {
-    print("newMessage");
-    _socket?.on('newMessage', (newMessage) async {
-      print("newMessage $newMessage");
-      print("message ${newMessage['message']}");
-      print("message ${newMessage['sender']['fullname']}");
-      // var result = json.decode(newMessage);
-      Data2 result = Data2.fromJson(newMessage);
-      setState(() {
-        msglist?.add(result);
-      });
-      print('hey $result');
-
-      // setState(() {
-      //   msglist?.add(result);
-      // });
-    });
-  }
-
   Future getRequest(String roomCode) async {
     setState(() {
       isLoading = true;
@@ -242,7 +223,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
   joinRoom(String roomCode) {
     print('joinRoom');
-    _socket?.emit('joinRoom', {"room": roomCode});
+    var data = {
+      'room': roomCode,
+    };
+    // infoLog();
+    _socket?.emit('joinRoom', data);
     print('joinRoom ${roomCode}');
   }
 
@@ -279,6 +264,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         "message": textMessage,
       };
       _socket?.emit('sendMessage', data);
+      print('sen' + data.toString());
     }
 
     final dateTime = DateTime.now();
@@ -287,38 +273,114 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     var dateFormatted =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
 
-    var newMes = {
-      "id": 24,
-      "chat_room_id": chatRoomId,
-      "sender_id": userId,
-      "receiver_id": receiverId,
-      "message": textMessage,
-      "seen": false,
-      "created_by": null,
-      "updated_by": null,
-      "created_at": "2023-07-04T12:35:06.173Z",
-      "updated_at": "2023-07-04T12:35:06.173Z",
-      "deleted_at": null,
-      "media_chat_messages": [],
-      "sender": {
-        "fullname": senderBy,
-      },
-      "receiver": {
-        "fullname": receiverBy,
-      }
-    };
+    if (fileImage != null) {
+      var newMes = {
+        "id": 24,
+        "chat_room_id": chatRoomId,
+        "sender_id": userId,
+        "receiver_id": receiverId,
+        "message": textMessage,
+        "seen": false,
+        "created_by": null,
+        "updated_by": null,
+        "created_at": "2023-07-04T12:35:06.173Z",
+        "updated_at": "2023-07-04T12:35:06.173Z",
+        "deleted_at": null,
+        "media_chat_messages": [
+          for (var i in fileImage)
+            {
+              "id": 55,
+              "media_id": 208,
+              "chat_message_id": 67,
+              "created_by": null,
+              "updated_by": null,
+              "created_at": "2023-08-05T07:22:49.126Z",
+              "updated_at": "2023-08-05T07:22:49.127Z",
+              "deleted_at": null,
+              "media": {
+                "id": 208,
+                "filename": "message-1691220169118-mr0fgt8jp2.jpg",
+                "ext": "jpg",
+                "size": 154660,
+                "mime": "image/jpeg",
+                "path": i.toString(),
+                "destination":
+                    "uploads/${i}",
+                "created_by": null,
+                "updated_by": null,
+                "created_at": "2023-08-05T07:22:49.122Z",
+                "updated_at": "2023-08-05T07:22:49.122Z",
+                "deleted_at": null
+              }
+            }
+        ],
+        "sender": {
+          "fullname": senderBy,
+        },
+        "receiver": {
+          "fullname": receiverBy,
+        }
+      };
+
+      Data2 result = Data2.fromJson(newMes);
+      setState(() {
+        msglist?.add(result);
+      });
+    } else {
+      var newMes = {
+        "id": 24,
+        "chat_room_id": chatRoomId,
+        "sender_id": userId,
+        "receiver_id": receiverId,
+        "message": textMessage,
+        "seen": false,
+        "created_by": null,
+        "updated_by": null,
+        "created_at": "2023-07-04T12:35:06.173Z",
+        "updated_at": "2023-07-04T12:35:06.173Z",
+        "deleted_at": null,
+        "media_chat_messages": [],
+        "sender": {
+          "fullname": senderBy,
+        },
+        "receiver": {
+          "fullname": receiverBy,
+        }
+      };
+      Data2 result = Data2.fromJson(newMes);
+      setState(() {
+        msglist?.add(result);
+      });
+    }
     // listLastChat.add(newMes);
-    Data2 result = Data2.fromJson(newMes);
-    setState(() {
-      msglist?.add(result);
-    });
     state.messageController.clear();
     state.selectedMultipleImage = [];
 
-    // setState(() {
-    //   isSuggestion = false;
-    // });
+    setState(() {
+      isSuggestion = false;
+    });
     print('list mesage$msglist');
+  }
+
+  // EVENT NEW MESSAGE (udah dipanggil)
+  newMessage() async {
+    print("newMessage");
+    _socket?.on('newMessage', (newMessage) async {
+      // infoLog();
+      print("newMessage $newMessage");
+      print("message ${newMessage['message']}");
+      print("message ${newMessage['sender']['fullname']}");
+      // var result = json.decode(newMessage);
+      Data2 result = Data2.fromJson(newMessage);
+      setState(() {
+        msglist?.add(result);
+      });
+      print('hey $result');
+
+      // setState(() {
+      //   msglist?.add(result);
+      // });
+    });
   }
 
   // EVENT TYPING INDICATOR (udah dipanggil)
@@ -326,19 +388,19 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
       log("recentChat $recentChat");
-      Data2 result = Data2.fromJson(recentChat['last_chat']);
-      setState(() {
-        msglist?.add(result);
-      });
+      // Data2 result = Data2.fromJson(recentChat['last_chat']);
+      // setState(() {
+      //   msglist?.add(result);
+      // });
       // listLastChat.add(recentChat['last_chat']);
       log("de $msglist");
 
-      // await NotificationService().notifChat(
-      //   1,
-      //   widget.username == "Doctor" ? "Customer" : "Doctor",
-      //   recentChat['last_chat']['message'],
-      //   100,
-      // );
+      await NotificationService().notifChat(
+        widget.receiverId,
+        widget.receiverBy,
+        recentChat['last_chat']['message'],
+        100,
+      );
     });
     print("recentChat");
   }
@@ -362,11 +424,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
       _socket?.onConnect((data) async {
         print('Connection established');
+        await joinRoom(widget.roomCode);
+        await readMessage(widget.roomCode);
         await onlineClients(receiver);
         await newMessage();
         await typingIndicator();
         await infoLog();
-        await recentChatt();
+        // await recentChatt();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
@@ -380,10 +444,15 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   }
 
   infoLog() {
-    print("logInfo");
-    _socket?.on('logInfo', (logInfo) {
+    print("log");
+    _socket?.on('log', (logInfo) {
+      // joinRoom(widget.roomCode);
+      // readMessage(widget.roomCode);
+      // recentChatt();
+      // newMessage();
       print('logInfo $logInfo');
       print('logInfo ${logInfo['success']}');
+      print('logInfo ${logInfo['event']}');
       // if (logInfo['success'] == false) {
       //   Navigator.pop(context);
       //   ScaffoldMessenger.of(context).showSnackBar(
@@ -502,7 +571,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPasienPage(id: widget.id),
+                              builder: (context) =>
+                                  DetailPasienPage(id: widget.id),
                             ),
                           );
                           print('id ' + widget.id.toString());
@@ -607,9 +677,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                     );
                                   } else if (msglist![index].senderId ==
                                           widget.senderId &&
-                                      msglist![index]
-                                              .mediaChatMessages!
-                                              .length >
+                                      (msglist![index]
+                                                  .mediaChatMessages
+                                                  ?.length ??
+                                              0) >
                                           0) {
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 10),

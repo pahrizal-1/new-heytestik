@@ -22,6 +22,7 @@ import '../../../service/auth/change_password_service.dart';
 import '../../../service/doctor/profile/profile_service.dart';
 import '../../../service/doctor/statistic/statistic_service.dart';
 import '../../../service/doctor/user_balance/user_balance_service.dart';
+import '../../../widget/snackbar_widget.dart';
 
 class DoctorProfileController extends StateClass {
   RxString selectedDate = ''.obs;
@@ -37,6 +38,8 @@ class DoctorProfileController extends StateClass {
   RxList listReview = [].obs;
   RxList listOverview = [].obs;
   RxList listDetailOverview = [].obs;
+  RxList listWithDraw = [].obs;
+  RxList listWithDrawHistory = [].obs;
 
   var saldo = UserBalance.Data().obs;
   Rx<ProfileModel> profileData = ProfileModel().obs;
@@ -51,11 +54,13 @@ class DoctorProfileController extends StateClass {
   final TextEditingController nomorstr = TextEditingController();
   final TextEditingController pendidikanAkhir = TextEditingController();
   final TextEditingController tempatpraktek = TextEditingController();
+  final TextEditingController nominalPenarikan = TextEditingController();
   TextEditingController dateController = TextEditingController();
   int? groupUrutan;
   int? groupRating;
   String? dataUrutan;
   int? dataRating;
+  int? bankId;
 
   List<String> items = [
     'Laki-laki',
@@ -200,6 +205,42 @@ class DoctorProfileController extends StateClass {
       // saldo.value = response;
       listDetailOverview.add(response);
       print('overview' + listDetailOverview.toString());
+    });
+    isLoading.value = false;
+  }
+
+  Future getWithDraw(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await userBalanceService.getWithDraw();
+      listWithDraw.value = response;
+      print('witdraw' + listWithDraw.toString());
+      for (var i in listWithDraw) {
+        listWithDrawHistory.value = i['user_balance_withdrawal_histories'];
+      }
+    });
+    isLoading.value = false;
+  }
+
+  saveBank(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "user_bank_account_id": bankId,
+        "amount": int.parse(nominalPenarikan.text),
+      };
+      var response =
+          await UserBalanceService().saveBank(data);
+
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+      // Navigator.pop(context, 'refresh');
+      Get.off(() => TabBarDoctor());
+      nominalPenarikan.clear();
     });
     isLoading.value = false;
   }
