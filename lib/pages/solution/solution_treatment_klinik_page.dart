@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -28,12 +29,14 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   List<ClinicDataModel> clinics = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
+  bool promo = false;
+  Map<String, dynamic> filter = {};
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+      clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -42,7 +45,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
             setState(() {});
           });
         }
@@ -111,56 +114,60 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       width: 7,
                     ),
                     Expanded(
-                        child: Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Color(0xffF1F1F1),
-                        border: Border.all(
-                          color: fromCssColor("#CCCCCC"),
-                        ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: Color(0xffF1F1F1),
+                          border: Border.all(
+                            color: fromCssColor("#CCCCCC"),
                           ),
-                          child: Image.asset(
-                            'assets/icons/search1.png',
-                            width: 10,
-                          ),
+                          borderRadius: BorderRadius.circular(7),
                         ),
-                        Container(
-                          transform: Matrix4.translationValues(0, -2, 0),
-                          constraints: const BoxConstraints(maxWidth: 250),
-                          child: TextFormField(
-                            controller: searchController,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontFamily: "ProximaNova",
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Image.asset(
+                                'assets/icons/search1.png',
+                                width: 10,
+                              ),
                             ),
-                            onEditingComplete: () async {
-                              page = 1;
-                              search = searchController.text;
-                              clinics.clear();
-                              clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
-                              setState(() {});
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Cari Klinik",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontFamily: "ProximaNova",
-                                color: fromCssColor(
-                                  '#9B9B9B',
+                            Container(
+                              transform: Matrix4.translationValues(0, -2, 0),
+                              constraints: const BoxConstraints(maxWidth: 250),
+                              child: TextFormField(
+                                controller: searchController,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "ProximaNova",
+                                ),
+                                onEditingComplete: () async {
+                                  page = 1;
+                                  search = searchController.text;
+                                  clinics.clear();
+                                  clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+                                  setState(() {});
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "Cari Klinik",
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: fromCssColor(
+                                      '#9B9B9B',
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ]),
-                    )),
+                      ),
+                    ),
                   ],
                 ),
         ),
@@ -221,7 +228,12 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         },
                         child: Container(
                           margin: const EdgeInsets.only(left: 9),
-                          padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                            top: 6,
+                            bottom: 6,
+                          ),
                           height: 30,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(7),
@@ -248,12 +260,51 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       ),
                       FiklterTreatment(
                         title: 'Bintang 4.5+',
+                        onTap: () async {
+                          if (filter.containsKey("rating[]")) {
+                            filter.remove('rating[]');
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          } else {
+                            filter['rating[]'] = '4';
+                            filter['rating[]'] = '5';
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          }
+                        },
                       ),
                       FiklterTreatment(
                         title: 'Buka Sekarang',
+                        onTap: () async {
+                          if (filter.containsKey("open_now")) {
+                            filter['open_now'] = false;
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          } else {
+                            filter['open_now'] = true;
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          }
+                        },
                       ),
                       FiklterTreatment(
                         title: 'Promo',
+                        onTap: () async {
+                          if (promo) {
+                            promo = false;
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          } else {
+                            promo = true;
+                            clinics.clear();
+                            setState(() {});
+                          }
+                        },
                       ),
                     ],
                   ),

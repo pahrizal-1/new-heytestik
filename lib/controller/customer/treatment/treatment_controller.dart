@@ -41,11 +41,12 @@ class TreatmentController extends StateClass {
     BuildContext context,
     int page, {
     String? search,
+    Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      ClinicModel data = await TreatmentService().getClinic(page, search: search);
+      ClinicModel data = await TreatmentService().getClinic(page, search: search, filter: filter);
       responseClinic.value = data;
       dataClinic.value.addAll(responseClinic.value.data!);
     });

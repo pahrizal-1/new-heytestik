@@ -23,7 +23,9 @@ class TreatmentFilter extends StatelessWidget {
             children: [
               Text(
                 'Treatment',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 20,
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -98,8 +100,12 @@ class TreatmentFilter extends StatelessWidget {
       bottomNavigationBar: Wrap(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(left: 22, top: 10, bottom: 10, right: 22),
+            padding: const EdgeInsets.only(
+              left: 22,
+              top: 10,
+              bottom: 10,
+              right: 22,
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -110,14 +116,17 @@ class TreatmentFilter extends StatelessWidget {
                     child: Container(
                       width: 165,
                       decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
                       height: 50,
                       child: Center(
                         child: Text(
                           'Batal',
                           style: grenTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
+                            fontSize: 15,
+                            fontWeight: bold,
+                          ),
                         ),
                       ),
                     ),
@@ -132,15 +141,18 @@ class TreatmentFilter extends StatelessWidget {
                     child: Container(
                       width: 165,
                       decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
+                        color: greenColor,
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
                       height: 50,
                       child: Center(
                         child: Text(
                           'Simpan',
                           style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
+                            fontSize: 15,
+                            fontWeight: bold,
+                          ),
                         ),
                       ),
                     ),
