@@ -160,7 +160,8 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<ClinicModel> getClinic(int page, {String? search, Map<String, dynamic>? filter}) async {
+  Future<ClinicModel> getClinic(int page,
+      {String? search, Map<String, dynamic>? filter}) async {
     try {
       Map<String, dynamic> parameter = {
         "page": page,
