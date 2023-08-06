@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import 'filter_tap_widget.dart';
 
-class TreatmentFilter extends StatelessWidget {
+class TreatmentFilter extends StatefulWidget {
   const TreatmentFilter({
     super.key,
   });
 
+  @override
+  State<TreatmentFilter> createState() => _TreatmentFilterState();
+}
+
+class _TreatmentFilterState extends State<TreatmentFilter> {
+  List<String> filter = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,67 +36,130 @@ class TreatmentFilter extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Cryolipolysis',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Electrocauter',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Facial',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Filler',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Hifu',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Laser Co2',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Laser Erbium',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Laser Nd:Yag ',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Laser Pico Lase',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Laser Pico Laser',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Pulsed Dye',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: (){
+
+                },
                 title: 'Led Light Therapy',
               ),
             ],
