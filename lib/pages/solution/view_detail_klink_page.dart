@@ -11,7 +11,8 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart' as Treatment;
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
+    as Treatment;
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../../widget/card_widget.dart';
@@ -30,7 +31,11 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
   final TreatmentController state = Get.put(TreatmentController());
   bool isVisibelity = true;
   int activeIndex = 0;
-  final images = ['assets/images/bg-treatment.png', 'assets/images/bg-treatment.png', 'assets/images/bg-treatment.png'];
+  final images = [
+    'assets/images/bg-treatment.png',
+    'assets/images/bg-treatment.png',
+    'assets/images/bg-treatment.png'
+  ];
   int activeBolder = 0;
   final imagesBolder = [
     'assets/images/bg-buy-get1.png',
@@ -83,7 +88,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
               Expanded(
                 child: Text(
                   'Klinik Utama Lithea',
-                  style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
                   overflow: TextOverflow.ellipsis,
                 ),
               )
@@ -130,9 +136,11 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
           child: ListView(
             children: [
               CarouselSlider.builder(
-                itemCount: state.responseClinicDetail.value.data?.mediaClinics?.length,
+                itemCount:
+                    state.responseClinicDetail.value.data?.mediaClinics?.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = state.responseClinicDetail.value.data!.mediaClinics?[index].media?.path;
+                  final image = state.responseClinicDetail.value.data!
+                      .mediaClinics?[index].media?.path;
 
                   return buildImg1('${Global.FILE}/$image');
                 },
@@ -151,16 +159,20 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                 child: AnimatedSmoothIndicator(
                   activeIndex: activeIndex,
                   count: images.length,
-                  effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
+                  effect: ScaleEffect(
+                      activeDotColor: greenColor,
+                      dotColor: const Color(0xffD9D9D9),
+                      dotWidth: 6,
+                      dotHeight: 6),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 6),
+                padding: const EdgeInsets.only(
+                    top: 25, left: 25, right: 25, bottom: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.network(
                           '${Global.FILE}/${state.responseClinicDetail.value.data?.mediaClinicLogo?.media?.path}',
@@ -191,12 +203,15 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 ),
                                 Text(
                                   '${state.responseClinicDetail.value.data?.rating}',
-                                  style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xff9B9B9B)),
+                                  style: subGreyTextStyle.copyWith(
+                                      fontSize: 12,
+                                      color: const Color(0xff9B9B9B)),
                                 ),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                SvgPicture.asset('assets/icons/arrow_right.svg'),
+                                SvgPicture.asset(
+                                    'assets/icons/arrow_right.svg'),
                               ],
                             ),
                           ],
@@ -212,11 +227,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           children: [
                             Text(
                               'Jam Buka',
-                              style: blackRegulerTextStyle.copyWith(color: blackColor),
+                              style: blackRegulerTextStyle.copyWith(
+                                  color: blackColor),
                             ),
                             Text(
                               'Buka - Tutup pada 22:00 WIB',
-                              style: grenTextStyle.copyWith(fontSize: 15, fontWeight: regular),
+                              style: grenTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: regular),
                             ),
                           ],
                         ),
@@ -231,11 +248,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           children: [
                             Text(
                               'Spasialisasi',
-                              style: blackRegulerTextStyle.copyWith(color: blackColor),
+                              style: blackRegulerTextStyle.copyWith(
+                                  color: blackColor),
                             ),
                             Text(
                               'Face & Body Contouring LaserAnti Aging',
-                              style: blackRegulerTextStyle.copyWith(fontSize: 15, fontWeight: regular),
+                              style: blackRegulerTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: regular),
                             ),
                           ],
                         ),
@@ -250,7 +269,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           children: [
                             Text(
                               'Range Harga',
-                              style: blackRegulerTextStyle.copyWith(color: blackColor),
+                              style: blackRegulerTextStyle.copyWith(
+                                  color: blackColor),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,7 +281,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 ),
                                 Text(
                                   '(200 Ribu-100 Juta)',
-                                  style: blackRegulerTextStyle.copyWith(fontSize: 15, fontWeight: regular),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -309,7 +330,9 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                           ),
                           const Spacer(),
                           Icon(
-                            isVisibelity ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                            isVisibelity
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_down,
                             color: greenColor,
                           ),
                         ],
@@ -328,26 +351,47 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 children: [
                                   Text(
                                     'Jam Buka',
-                                    style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 13, letterSpacing: 0.26),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor,
+                                        fontSize: 13,
+                                        letterSpacing: 0.26),
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           Text(
                                             'Buka - Tutup pada 22:00 WIB',
-                                            style: grenTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                            style: grenTextStyle.copyWith(
+                                                fontSize: 12,
+                                                fontWeight: regular),
                                           ),
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      for (int i = 0; i < state.responseClinicDetail.value.data!.clinicOperationHours!.length; i++)
+                                      for (int i = 0;
+                                          i <
+                                              state
+                                                  .responseClinicDetail
+                                                  .value
+                                                  .data!
+                                                  .clinicOperationHours!
+                                                  .length;
+                                          i++)
                                         TetxtInfomasi(
-                                          title: state.responseClinicDetail.value.data!.clinicOperationHours![i].day ?? '-',
-                                          title2: '${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].startTime.toString())} - ${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].endTime.toString())}WIB',
+                                          title: state
+                                                  .responseClinicDetail
+                                                  .value
+                                                  .data!
+                                                  .clinicOperationHours![i]
+                                                  .day ??
+                                              '-',
+                                          title2:
+                                              '${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].startTime.toString())} - ${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].endTime.toString())}WIB',
                                         ),
                                     ],
                                   ),
@@ -364,11 +408,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 children: [
                                   Text(
                                     'Spasialisasi',
-                                    style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 13),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor, fontSize: 13),
                                   ),
                                   Text(
                                     'Face & Body Contouring LaserAnti Aging',
-                                    style: blackRegulerTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 13, fontWeight: regular),
                                   ),
                                 ],
                               ),
@@ -383,25 +429,32 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 children: [
                                   Text(
                                     'Alamat Klinik',
-                                    style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 13),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor, fontSize: 13),
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         '${state.responseClinicDetail.value.data?.address}',
-                                        style: blackRegulerTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 13, fontWeight: regular),
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(top: 9),
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 10),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(7),
-                                          border: Border.all(color: greenColor, width: 0.6),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                          border: Border.all(
+                                              color: greenColor, width: 0.6),
                                         ),
                                         child: Text(
                                           'Liat Peta',
-                                          style: grenTextStyle.copyWith(fontSize: 13),
+                                          style: grenTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
                                       )
                                     ],
@@ -419,11 +472,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 children: [
                                   Text(
                                     'No. Izin Usaha Klinik',
-                                    style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 13),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor, fontSize: 13),
                                   ),
                                   Text(
                                     '8120217031463',
-                                    style: blackRegulerTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 13, fontWeight: regular),
                                   ),
                                 ],
                               ),
@@ -458,17 +513,22 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                         children: [
                           Text(
                             'Treatment Deal of the Day',
-                            style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                            style: whiteTextStyle.copyWith(
+                                fontSize: 20, fontWeight: bold),
                           ),
                           Row(
                             children: [
                               Text(
                                 'Berakhir dalam ',
-                                style: blackRegulerTextStyle.copyWith(color: whiteColor),
+                                style: blackRegulerTextStyle.copyWith(
+                                    color: whiteColor),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(17), color: whiteColor),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(17),
+                                    color: whiteColor),
                                 child: Text(
                                   '2 hari',
                                   style: grenTextStyle.copyWith(fontSize: 13),
@@ -597,12 +657,17 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 children: [
                                   Text(
                                     'Tampilan',
-                                    style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
+                                    style: subTitleTextStyle.copyWith(
+                                        color: const Color(0xff6B6B6B)),
                                   ),
                                   const SizedBox(
                                     width: 4,
                                   ),
-                                  isSelecteTampilan ? SvgPicture.asset('assets/icons/tampilan1.svg') : SvgPicture.asset('assets/icons/tampillan2.svg')
+                                  isSelecteTampilan
+                                      ? SvgPicture.asset(
+                                          'assets/icons/tampilan1.svg')
+                                      : SvgPicture.asset(
+                                          'assets/icons/tampillan2.svg')
                                 ],
                               ),
                             )
@@ -623,7 +688,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                     isScrollControlled: true,
                                     backgroundColor: Colors.white,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusDirectional.only(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
                                       ),
@@ -643,7 +709,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                     context: context,
                                     backgroundColor: Colors.white,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusDirectional.only(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
                                       ),
@@ -651,10 +718,16 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                     builder: (context) => Wrap(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 20),
+                                          padding: const EdgeInsets.only(
+                                              left: 25,
+                                              right: 25,
+                                              top: 36,
+                                              bottom: 20),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
@@ -672,7 +745,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                                   ),
                                                   Text(
                                                     'Filter',
-                                                    style: blackHigtTextStyle.copyWith(fontSize: 20),
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(fontSize: 20),
                                                   ),
                                                 ],
                                               ),
@@ -706,7 +780,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 9),
-                                  padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 6, bottom: 6),
                                   height: 30,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
@@ -714,7 +789,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: const [
                                       Text('Urutkan'),
                                       SizedBox(
@@ -732,12 +808,15 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const EtalaseTreatMentPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EtalaseTreatMentPage()),
                                   );
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 9),
-                                  padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 6, bottom: 6),
                                   height: 30,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
@@ -745,7 +824,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: const [
                                       Text('Retalase Treatment'),
                                       SizedBox(
@@ -782,7 +862,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                     diskonProduk: '0',
                                     hargaDiskon: '0',
                                     harga: element.price!.toString(),
-                                    urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                    urlImg:
+                                        "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                                     rating: '${element.rating} (120k)',
                                     km: '${element.distance}',
                                     lokasiKlinik: element.clinic!.city!.name!,
@@ -1001,12 +1082,15 @@ class FilterShowModal extends StatelessWidget {
                   },
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Batal',
-                        style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                        style: grenTextStyle.copyWith(
+                            fontSize: 15, fontWeight: bold),
                       ),
                     ),
                   ),
@@ -1020,12 +1104,16 @@ class FilterShowModal extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        color: greenColor,
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Simpan',
-                        style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                        style: whiteTextStyle.copyWith(
+                            fontSize: 15, fontWeight: bold),
                       ),
                     ),
                   ),
