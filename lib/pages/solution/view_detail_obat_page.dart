@@ -12,6 +12,7 @@ import '../../models/medicine.dart';
 import '../../theme/theme.dart';
 import '../../widget/pencarian_search_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
+import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'keranjang_page.dart';
 
@@ -296,10 +297,7 @@ class DetailObatPage extends StatelessWidget {
                   title1: 'Komposisi',
                   subtitle2: medicine.composition,
                 ),
-                DescripsiText(
-                  title1: 'Dosis & Aturan Pakai',
-                  subtitle2: medicine.doses
-                ),
+                DescripsiText(title1: 'Dosis & Aturan Pakai', subtitle2: medicine.doses),
                 DescripsiText(
                   title1: 'Perhatian',
                   subtitle2: medicine.attention,
@@ -385,6 +383,11 @@ class DetailObatPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       medicineController.addMedicineToCart(context, medicine.id);
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'Produk ditambahkan ke keranjang',
+                      );
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
