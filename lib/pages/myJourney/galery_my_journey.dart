@@ -154,18 +154,25 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                     return Container();
                                   }).toList(),
                                 ),
-                                const SizedBox(
-                                  height: 33,
-                                ),
-                                Text(
-                                  ConvertDate.defaultDate(
-                                      e.createdAt.toString()),
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13),
-                                ),
-                                const SizedBox(
-                                  height: 14,
-                                ),
+                                e.mediaMyJourneys!.length > 4
+                                    ? const SizedBox(
+                                        height: 14,
+                                      )
+                                    : Container(),
+                                e.mediaMyJourneys!.length > 4
+                                    ? Text(
+                                        ConvertDate.defaultDate(e
+                                            .mediaMyJourneys![4].createdAt
+                                            .toString()),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 13),
+                                      )
+                                    : Container(),
+                                e.mediaMyJourneys!.length > 4
+                                    ? const SizedBox(
+                                        height: 14,
+                                      )
+                                    : Container(),
                                 Wrap(
                                   spacing: 4,
                                   runSpacing: 4,
