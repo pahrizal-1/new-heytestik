@@ -188,9 +188,12 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                               '${state.responseClinicDetail.value.data?.name}',
                               style: blackHigtTextStyle.copyWith(fontSize: 20),
                             ),
-                            Text(
-                              '${state.responseClinicDetail.value.data?.province?.name}, ${state.responseClinicDetail.value.data?.city?.name}',
-                              style: subTitleTextStyle.copyWith(fontSize: 12),
+                            Container(
+                              constraints: const BoxConstraints(maxWidth: 250),
+                              child: Text(
+                                '${state.responseClinicDetail.value.data?.province?.name},${state.responseClinicDetail.value.data?.city?.name}',
+                                style: subTitleTextStyle.copyWith(fontSize: 12),
+                              ),
                             ),
                             const SizedBox(
                               width: 4,

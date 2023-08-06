@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_kosultasi_page.dart';
 import '../../theme/theme.dart';
 
@@ -95,7 +96,7 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HasilKosultasiPage(),
+                        builder: (context) => const GaleryMyJourney(),
                       ),
                     );
                   },

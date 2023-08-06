@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/treatment_widgets.dart';
-
-import 'filter_all_widgets.dart';
 
 class FiklterTreatment extends StatefulWidget {
   final String title;

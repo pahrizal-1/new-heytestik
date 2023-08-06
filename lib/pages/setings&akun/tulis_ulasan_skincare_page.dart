@@ -6,14 +6,15 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 
-class TulisUlasan2Page extends StatefulWidget {
-  const TulisUlasan2Page({super.key});
+class TulisUlasanSkincarePage extends StatefulWidget {
+  const TulisUlasanSkincarePage({super.key});
 
   @override
-  State<TulisUlasan2Page> createState() => _TulisUlasan2PageState();
+  State<TulisUlasanSkincarePage> createState() =>
+      _TulisUlasanSkincarePageState();
 }
 
-class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
+class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
   List<String> titleCirkel = [
     'Kurang dari 1 Minggu',
     '1 Minggu - 1 Bulan',
@@ -415,67 +416,6 @@ class _TulisUlasan2PageState extends State<TulisUlasan2Page> {
                                   style: blackRegulerTextStyle.copyWith(
                                     fontSize: 12,
                                     color: isRekomendasi == index
-                                        ? whiteColor
-                                        : blackColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 23,
-                  ),
-                  Text(
-                    'Apakah kamu akan membeli lagi produk ini?',
-                    style: blackTextStyle.copyWith(fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: List.generate(
-                      3,
-                      (index) {
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              isProduk = index;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 9, vertical: 12),
-                            decoration: BoxDecoration(
-                                color:
-                                    isProduk == index ? greenColor : whiteColor,
-                                border: Border.all(
-                                  color: isProduk == index
-                                      ? greenColor
-                                      : borderColor,
-                                ),
-                                borderRadius: BorderRadius.circular(23)),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  iconProduk[index],
-                                  width: 13,
-                                  color: isProduk == index
-                                      ? whiteColor
-                                      : blackColor,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  titleProduk[index],
-                                  style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 12,
-                                    color: isProduk == index
                                         ? whiteColor
                                         : blackColor,
                                   ),
