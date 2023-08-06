@@ -162,11 +162,20 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<Data2>> getNearTreatment(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getNearTreatment(
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getNearTreatment(page, search: search);
+      TreatmentModel data = await TreatmentService().getNearTreatment(
+        page,
+        search: search,
+        filter: filter,
+      );
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });

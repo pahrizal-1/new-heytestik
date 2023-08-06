@@ -32,6 +32,8 @@ class _NearMePageState extends State<NearMePage> {
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
   bool isSelecteColor = true;
+  Map<String, dynamic> filter = {};
+  bool promo = false;
 
   @override
   void initState() {
@@ -195,7 +197,31 @@ class _NearMePageState extends State<NearMePage> {
                               ),
                             ),
                             builder: (context) => FilterAllWidget(),
-                          );
+                          ).then((value) async {
+                            if (value['promo'] == true) {
+                              treatments.clear();
+                              page = 1;
+                              setState(() {});
+                            } else {
+                              filter['treatment_type[]'] = value['treatment'];
+                              filter['order_by'] = value['orderBy'];
+                              filter['open_now'] = value['openNow'];
+                              filter['min_price'] = value['minPrice'];
+                              filter['max_price'] = value['maxPrice'];
+
+                              treatments.clear();
+                              page = 1;
+                              treatments.addAll(
+                                await stateTreatment.getNearTreatment(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
+                            }
+                            setState(() {});
+                          });
                         },
                         child: Image.asset(
                           'assets/icons/filter-icon.png',
@@ -247,12 +273,76 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     FiklterTreatment(
                       title: 'Bintang 4.5+',
+                      onTap: () async {
+                        if (filter.containsKey("rating[]")) {
+                          filter.remove('rating[]');
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          filter['rating[]'] = '4';
+                          filter['rating[]'] = '5';
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        }
+                      },
                     ),
                     FiklterTreatment(
                       title: 'Buka Sekarang',
+                      onTap: () async {
+                        if (filter.containsKey("open_now")) {
+                          filter['open_now'] = false;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          filter['open_now'] = true;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        }
+                      },
                     ),
                     FiklterTreatment(
                       title: 'Promo',
+                      onTap: () async {
+                        if (promo) {
+                          promo = false;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          promo = true;
+                          treatments.clear();
+                          setState(() {});
+                        }
+                      },
                     ),
                   ],
                 ),

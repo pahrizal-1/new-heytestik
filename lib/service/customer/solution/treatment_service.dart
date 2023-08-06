@@ -233,15 +233,25 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getNearTreatment(int page, {String? search}) async {
+  Future<TreatmentModel.TreatmentModel> getNearTreatment(
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+        "search": search,
+      };
+
+      if (filter != null) {
+        params.addAll(filter);
+      }
+
       var response = await networkingConfig.doGet(
         '/solution/treatment/near-me',
-        params: {
-          "page": page,
-          "take": 10,
-          "search": search,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

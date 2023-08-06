@@ -24,6 +24,7 @@ class _TreatmentFilterState extends State<TreatmentFilter> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       treatments.addAll(await treatmentController.getLookupTreatment(context));
+      setState(() {});
     });
     super.initState();
   }
@@ -50,9 +51,9 @@ class _TreatmentFilterState extends State<TreatmentFilter> {
               const SizedBox(
                 height: 20,
               ),
-              ...treatments.map((treatment){
-                return  FilterTapTreatment(
-                  onTap: (){
+              ...treatments.map((treatment) {
+                return FilterTapTreatment(
+                  onTap: () {
                     filter.add(treatment.name);
                   },
                   title: treatment.name,
