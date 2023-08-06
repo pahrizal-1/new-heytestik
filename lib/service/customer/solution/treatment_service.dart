@@ -160,15 +160,21 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<ClinicModel> getClinic(int page, {String? search}) async {
+  Future<ClinicModel> getClinic(int page, {String? search, Map<String, dynamic>? filter}) async {
     try {
+      Map<String, dynamic> parameter = {
+        "page": page,
+        "take": 10,
+        "search": search,
+      };
+
+      if (filter != null) {
+        parameter.addAll(filter);
+      }
+
       var response = await networkingConfig.doGet(
         '/solution/treatment/clinic',
-        params: {
-          "page": page,
-          "take": 10,
-          "search": search ?? "",
-        },
+        params: parameter,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

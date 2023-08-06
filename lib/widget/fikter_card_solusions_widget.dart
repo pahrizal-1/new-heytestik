@@ -7,10 +7,12 @@ import 'filter_all_widgets.dart';
 
 class FiklterTreatment extends StatefulWidget {
   final String title;
+  final Function()? onTap;
 
   const FiklterTreatment({
     super.key,
     required this.title,
+    this.onTap,
   });
 
   @override
@@ -24,6 +26,7 @@ class _FiklterTreatmentState extends State<FiklterTreatment> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        widget.onTap == null ? (){} : widget.onTap!();
         setState(() {
           isSelected = !isSelected;
         });
