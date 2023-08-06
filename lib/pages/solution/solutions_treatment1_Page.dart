@@ -28,8 +28,7 @@ class SolutionsTreatment1Page extends StatefulWidget {
   const SolutionsTreatment1Page({super.key});
 
   @override
-  State<SolutionsTreatment1Page> createState() =>
-      _SolutionsTreatment1PageState();
+  State<SolutionsTreatment1Page> createState() => _SolutionsTreatment1PageState();
 }
 
 class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
@@ -51,11 +50,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     'assets/images/bg-buy-get1.png',
   ];
 
-  final List<String> asset = [
-    'assets/images/Peliing.png',
-    'assets/images/IPL.png',
-    'assets/images/Laser.png'
-  ];
+  final List<String> asset = ['assets/images/Peliing.png', 'assets/images/IPL.png', 'assets/images/Laser.png'];
 
   @override
   void initState() {
@@ -72,8 +67,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments
-                .addAll(await stateTreatment.getAllTreatment(context, page));
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
             setState(() {});
           });
         }
@@ -113,8 +107,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         children: [
                           Text(
                             'Lokasimu',
-                            style: blackTextStyle.copyWith(
-                                fontSize: 13, fontWeight: regular),
+                            style: blackTextStyle.copyWith(fontSize: 13, fontWeight: regular),
                           ),
                           const SizedBox(
                             width: 7,
@@ -183,8 +176,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: InkWell(
               onTap: () {
@@ -220,8 +212,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TreatmentSearch(
-                                  search: searchController.text),
+                              builder: (context) => TreatmentSearch(search: searchController.text),
                             ),
                           );
                           // page = 1;
@@ -230,8 +221,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           // treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: search));
                           // setState(() {});
                         },
-                        style: const TextStyle(
-                            fontSize: 15, fontFamily: "ProximaNova"),
+                        style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                         decoration: InputDecoration(
                           hintText: "Cari Treatment",
                           border: InputBorder.none,
@@ -260,8 +250,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             child: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -284,14 +273,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           Container(
                             width: 111,
                             height: 28,
-                            decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(24)),
+                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(24)),
                             child: Center(
                               child: Text(
                                 'Bekas Jerawat',
-                                style: whiteTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: whiteTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           ),
@@ -299,18 +285,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             width: 8,
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 16),
-                            decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(24),
-                                border:
-                                    Border.all(color: const Color(0xffcccccc))),
+                            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xffcccccc))),
                             child: Center(
                               child: Text(
                                 'Jerawat',
-                                style: blackTextStyle.copyWith(
-                                    fontWeight: regular, fontSize: 13),
+                                style: blackTextStyle.copyWith(fontWeight: regular, fontSize: 13),
                               ),
                             ),
                           )
@@ -345,10 +325,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
                               gradient: LinearGradient(
-                                colors: [
-                                  blackColor.withOpacity(0.5),
-                                  Colors.transparent
-                                ],
+                                colors: [blackColor.withOpacity(0.5), Colors.transparent],
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.center,
                               ),
@@ -359,8 +336,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                 padding: const EdgeInsets.only(bottom: 11),
                                 child: Text(
                                   stateTreatment.treatment[index].treatmentType,
-                                  style: whiteTextStyle.copyWith(
-                                      fontSize: 18, fontWeight: bold),
+                                  style: whiteTextStyle.copyWith(fontSize: 18, fontWeight: bold),
                                 ),
                               ),
                             ),
@@ -382,8 +358,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   },
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    onPageChanged: (index, reason) =>
-                        setState(() => activeIndex = index),
+                    onPageChanged: (index, reason) => setState(() => activeIndex = index),
                   ),
                 ),
                 const SizedBox(
@@ -393,11 +368,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   child: AnimatedSmoothIndicator(
                     activeIndex: activeIndex,
                     count: images.length,
-                    effect: ScaleEffect(
-                        activeDotColor: greenColor,
-                        dotColor: const Color(0xffD9D9D9),
-                        dotWidth: 6,
-                        dotHeight: 6),
+                    effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
                   ),
                 ),
                 Padding(
@@ -422,8 +393,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/icons/nearme_icons.png'),
+                                  image: AssetImage('assets/icons/nearme_icons.png'),
                                 ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -526,8 +496,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               width: 75,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/top_rating.png'),
+                                  image: AssetImage('assets/icons/top_rating.png'),
                                 ),
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -571,12 +540,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             padding: EdgeInsets.only(left: 20),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children:
-                                  etalaseController.filterData.map((element) {
+                              children: etalaseController.filterData.map((element) {
                                 return CirkelCategory(
                                   title: element.name!,
-                                  img:
-                                      '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                                  img: '${Global.FILE}/${element.mediaConcern!.media!.path}',
                                 );
                               }).toList(),
                             ),
@@ -596,8 +563,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             children: [
                               Text(
                                 'Semua Treatment',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                                style: blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 height: 9,
@@ -609,8 +575,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     context: context,
                                     backgroundColor: Colors.white,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.only(
+                                      borderRadius: BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
                                       ),
@@ -648,8 +613,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               diskonProduk: '0',
                               hargaDiskon: '0',
                               harga: element.price!.toString(),
-                              urlImg:
-                                  "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                              urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                               rating: '${element.rating} (120k)',
                               km: '${element.distance}',
                               lokasiKlinik: element.clinic!.city!.name!,
@@ -878,15 +842,12 @@ class FilterAll extends StatelessWidget {
                   },
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
+                        style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
                       ),
                     ),
                   ),
@@ -905,16 +866,12 @@ class FilterAll extends StatelessWidget {
                   },
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(
-                        color: greenColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Simpan',
-                        style: whiteTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
+                        style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
                       ),
                     ),
                   ),
@@ -959,8 +916,7 @@ class _FilterTapState extends State<FilterTap> {
               Container(
                 width: 17,
                 height: 17,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(widget.img))),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(widget.img))),
               ),
               const SizedBox(
                 width: 8,
@@ -1025,8 +981,7 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
               children: [
                 Text(
                   widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+                  style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
                 ),
                 const Spacer(),
                 Icon(

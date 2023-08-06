@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
 import '../../models/treatment_review.dart';
 import '../../widget/coment_ulasan_widgets.dart';
+import '../../widget/fikter_card_solusions_widget.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
@@ -37,13 +38,13 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   List<TreatmentReviewModel> reviews = [];
   bool isVisibelity = true;
   Map<String, dynamic> dataOverview = {};
-
+  Map<String, dynamic> filter = {};
   ScrollController listScrollController = ScrollController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID));
+      reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
       dataOverview = await treatmentController.getTreatmentOverview(context, widget.treatmentID);
       setState(() {});
     });
@@ -54,7 +55,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID));
+            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
             setState(() {});
           });
         }
@@ -331,31 +332,39 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
+                  padding: const EdgeInsets.only(left: 20, top: 9, right: 26),
                   child: Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Dengan Foto',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                          ),
-                        ),
+                      FiklterTreatment(
+                        title: 'Dengan Foto',
+                        onTap: () async {
+                          if (filter.containsKey("has_photo")) {
+                            filter['has_photo'] = false;
+                            page = 1;
+                            reviews.clear();
+                            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                            setState(() {});
+                          } else {
+                            filter['has_photo'] = true;
+                            page = 1;
+                            reviews.clear();
+                            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                            setState(() {});
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        width: 5.0,
                       ),
                       InkWell(
                         onTap: () {
-                          customeshomodal(context, RatingDenganUlasanWidgets());
+                          customeshomodal(context, RatingDenganUlasanWidgets()).then((value) async {
+                            filter['rating[]'] = value;
+                            page = 1;
+                            reviews.clear();
+                            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                            setState(() {});
+                          });
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 5),
@@ -389,7 +398,13 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           customeshomodal(
                             context,
                             const TopikUlasanWidgets(),
-                          );
+                          ).then((value) async {
+                            filter['topic[]'] = value;
+                            page = 1;
+                            reviews.clear();
+                            reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                            setState(() {});
+                          });
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 5),
@@ -439,15 +454,20 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            'assets/icons/danger-icons.png',
-                                            width: 12,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Image.asset(
+                                              'assets/icons/danger-icons.png',
+                                              width: 12,
+                                            ),
                                           ),
                                           const SizedBox(
                                             width: 22,
                                           ),
                                           Text(
-                                            'Topik Ulasan',
+                                            'Urutkan Berdasarkan',
                                             style: blackHigtTextStyle.copyWith(fontSize: 20),
                                           ),
                                         ],
@@ -455,17 +475,45 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                       const SizedBox(
                                         height: 39,
                                       ),
-                                      const FilterTapTreatment(
+                                      FilterTapTreatment(
                                         title: 'Paling Membantu',
+                                        onTap: () async {
+                                          filter['sorting_type'] = 'PALING_MEMBANTU';
+                                          page = 1;
+                                          reviews.clear();
+                                          reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                                          setState(() {});
+                                        },
                                       ),
-                                      const FilterTapTreatment(
+                                      FilterTapTreatment(
                                         title: 'Terbaru',
+                                        onTap: () async {
+                                          filter['sorting_type'] = 'TERBARU';
+                                          page = 1;
+                                          reviews.clear();
+                                          reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                                          setState(() {});
+                                        },
                                       ),
-                                      const FilterTapTreatment(
+                                      FilterTapTreatment(
                                         title: 'Rating Tertinggi',
+                                        onTap: () async {
+                                          filter['sorting_type'] = 'RATING_TERTINGGI';
+                                          page = 1;
+                                          reviews.clear();
+                                          reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                                          setState(() {});
+                                        },
                                       ),
-                                      const FilterTapTreatment(
+                                      FilterTapTreatment(
                                         title: 'Rating Terendah',
+                                        onTap: () async {
+                                          filter['sorting_type'] = 'RATING_TERENDAH';
+                                          page = 1;
+                                          reviews.clear();
+                                          reviews.addAll(await treatmentController.getTreatmentReview(context, page, widget.treatmentID, filter: filter));
+                                          setState(() {});
+                                        },
                                       ),
                                     ],
                                   ),
