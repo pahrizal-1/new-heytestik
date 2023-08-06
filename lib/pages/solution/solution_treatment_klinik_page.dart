@@ -202,8 +202,32 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => FilterAll(),
-                            );
+                              builder: (context) => FilterAllWidget(),
+                            ).then((value) async {
+                              if (value['promo'] == true) {
+                                clinics.clear();
+                                page = 1;
+                                setState(() {});
+                              } else {
+                                filter['treatment_type[]'] = value['treatment'];
+                                filter['order_by'] = value['orderBy'];
+                                filter['open_now'] = value['openNow'];
+                                filter['min_price'] = value['minPrice'];
+                                filter['max_price'] = value['maxPrice'];
+
+                                clinics.clear();
+                                page = 1;
+                                clinics.addAll(
+                                  await stateTreatment.getClinic(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
+                              }
+                              setState(() {});
+                            });
                           },
                           child: Image.asset(
                             'assets/icons/filter-icon.png',
@@ -224,7 +248,13 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                               ),
                             ),
                             builder: (context) => TreatmentFilter(),
-                          );
+                          ).then((value) async {
+                            page = 1;
+                            filter['treatment_type[]'] = value;
+                            clinics.clear();
+                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            setState(() {});
+                          });
                         },
                         child: Container(
                           margin: const EdgeInsets.only(left: 9),

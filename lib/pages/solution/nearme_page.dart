@@ -194,7 +194,7 @@ class _NearMePageState extends State<NearMePage> {
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAll(),
+                            builder: (context) => FilterAllWidget(),
                           );
                         },
                         child: Image.asset(

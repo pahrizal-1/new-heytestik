@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../models/clinic.dart';
+import '../../../models/lookup_treatment.dart';
 import '../../../models/treatment_detail.dart';
 
 class TreatmentService extends ProviderClass {
@@ -266,28 +267,6 @@ class TreatmentService extends ProviderClass {
       };
 
       if (filter != null) {
-        List<Map<String, dynamic>> filterRating = [];
-        List<Map<String, dynamic>> filterTopic = [];
-
-        if(filter['rating[]'] != null) {
-          for (var i = 0; i < (filter['rating[]'] as List).length; i++) {
-            filterRating.add({
-              "rating[]": filter['rating[]'][i],
-            });
-          }
-        }
-
-        if(filter['topic[]'] != null) {
-          for (var i = 0; i < (filter['topic[]'] as List).length; i++) {
-            filterTopic.add({
-              "topic[]": filter['topic[]'][i],
-            });
-          }
-        }
-
-        filter['rating[]'] = filterRating;
-        filter['topic[]'] = filterTopic;
-
         params.addAll(filter);
       }
 
@@ -311,19 +290,25 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<TreatmentModel.TreatmentModel> getAllTreatment(int page, List type, List rating, {String? search}) async {
-    print("type $type");
-    print("rating $rating");
+  Future<TreatmentModel.TreatmentModel> getAllTreatment(
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+
+    if (filter != null) {
+      params.addAll(filter);
+    }
+
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment',
-        params: {
-          "page": page,
-          "take": 10,
-          "search": search,
-          "treatment_type[]": type,
-          "rating[]": rating,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),
@@ -333,6 +318,28 @@ class TreatmentService extends ProviderClass {
     } catch (error) {
       print(error);
       return TreatmentModel.TreatmentModel();
+    }
+  }
+
+  Future<List<LookupTreatmentModel>> getLookupTreatment() async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/lookup',
+        params: {
+          "page": 1,
+          "take": 100,
+          "order": "asc",
+          "category[]": "TREATMENT_TYPE",
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      return (response['data']['data'] as List).map((e) => LookupTreatmentModel.fromJson(e)).toList();
+    } catch (error) {
+      print(error);
+      return [];
     }
   }
 }

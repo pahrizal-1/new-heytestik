@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 
+import '../models/lookup_treatment.dart';
 import '../theme/theme.dart';
 import 'filter_tap_widget.dart';
 
@@ -13,7 +16,18 @@ class TreatmentFilter extends StatefulWidget {
 }
 
 class _TreatmentFilterState extends State<TreatmentFilter> {
+  final TreatmentController treatmentController = Get.put(TreatmentController());
   List<String> filter = [];
+  List<LookupTreatmentModel> treatments = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      treatments.addAll(await treatmentController.getLookupTreatment(context));
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,132 +50,14 @@ class _TreatmentFilterState extends State<TreatmentFilter> {
               const SizedBox(
                 height: 20,
               ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Cryolipolysis',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Electrocauter',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Facial',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Filler',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Hifu',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Laser Co2',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Laser Erbium',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Laser Nd:Yag ',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Laser Pico Lase',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Laser Pico Laser',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Pulsed Dye',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
-              FilterTapTreatment(
-                onTap: (){
-
-                },
-                title: 'Led Light Therapy',
-              ),
+              ...treatments.map((treatment){
+                return  FilterTapTreatment(
+                  onTap: (){
+                    filter.add(treatment.name);
+                  },
+                  title: treatment.name,
+                );
+              }).toList(),
             ],
           ),
         ),
@@ -206,7 +102,9 @@ class _TreatmentFilterState extends State<TreatmentFilter> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context, filter);
+                    },
                     child: Container(
                       width: 165,
                       decoration: BoxDecoration(

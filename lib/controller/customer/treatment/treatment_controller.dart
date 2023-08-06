@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/models/clinic.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
+import 'package:heystetik_mobileapps/models/lookup_treatment.dart';
 import 'package:heystetik_mobileapps/models/treatment_detail.dart';
 import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
@@ -57,9 +58,7 @@ class TreatmentController extends StateClass {
     return responseClinic.value.data!;
   }
 
-  void getFilterTreatment() async  {
-
-  }
+  void getFilterTreatment() async {}
 
   Future<FindClinicModel> getClinicDetail(BuildContext context, int id) async {
     isLoading.value = true;
@@ -177,14 +176,20 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  List type = [];
-  List rating = [];
-
-  Future<List<Data2>> getAllTreatment(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getAllTreatment(
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getAllTreatment(page, type, rating, search: search);
+      TreatmentModel data = await TreatmentService().getAllTreatment(
+        page,
+        search: search,
+        filter: filter,
+      );
 
       responseTreatment.value = data;
 
@@ -192,8 +197,6 @@ class TreatmentController extends StateClass {
     });
 
     isLoading.value = false;
-    type.clear();
-    rating.clear();
     return responseTreatment.value.data!.data!;
   }
 
@@ -207,6 +210,17 @@ class TreatmentController extends StateClass {
     List<TreatmentReviewModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data = await TreatmentService().getTreatmentReview(page, treatmentID, filter: filter);
+    });
+    isLoading.value = false;
+
+    return data;
+  }
+
+  Future<List<LookupTreatmentModel>> getLookupTreatment(BuildContext context) async {
+    isLoading.value = true;
+    List<LookupTreatmentModel> data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      data = await TreatmentService().getLookupTreatment();
     });
     isLoading.value = false;
 

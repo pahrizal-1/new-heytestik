@@ -84,7 +84,7 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
         children: [
           InkWell(
             onTap: () {
-              widget.onTap == null ? (){} : widget.onTap!();
+              widget.onTap == null ? () {} : widget.onTap!();
               setState(() {
                 isSelected = !isSelected;
               });
@@ -138,7 +138,7 @@ class _FilterTapRatingState extends State<FilterTapRating> {
         children: [
           InkWell(
             onTap: () {
-              widget.onTap == null ? (){} : widget.onTap!();
+              widget.onTap == null ? () {} : widget.onTap!();
               setState(() {
                 isSelected = !isSelected;
               });

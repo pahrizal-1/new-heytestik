@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +25,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/customer/solution/etalase_controller.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../models/lookup_treatment.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -49,7 +54,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     'assets/images/bg-buy-get1.png',
     'assets/images/bg-buy-get1.png',
   ];
-
+  Map<String, dynamic> filter = {};
   final List<String> asset = ['assets/images/Peliing.png', 'assets/images/IPL.png', 'assets/images/Laser.png'];
 
   @override
@@ -58,7 +63,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
-      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      treatments.addAll(await stateTreatment.getAllTreatment(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -67,7 +77,12 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+            treatments.addAll(await stateTreatment.getAllTreatment(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
             setState(() {});
           });
         }
@@ -574,8 +589,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                 height: 9,
                               ),
                               InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
+                                onTap: () async {
+                                  return showModalBottomSheet(
                                     isScrollControlled: true,
                                     context: context,
                                     backgroundColor: Colors.white,
@@ -586,7 +601,31 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                       ),
                                     ),
                                     builder: (context) => FilterAll(),
-                                  );
+                                  ).then((value) async {
+                                    if (value['promo'] == true) {
+                                      treatments.clear();
+                                      page = 1;
+                                      setState(() {});
+                                    } else {
+                                      filter['treatment_type[]'] = value['treatment'];
+                                      filter['order_by'] = value['orderBy'];
+                                      filter['open_now'] = value['openNow'];
+                                      filter['min_price'] = value['minPrice'];
+                                      filter['max_price'] = value['maxPrice'];
+
+                                      treatments.clear();
+                                      page = 1;
+                                      treatments.addAll(
+                                        await stateTreatment.getAllTreatment(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                    }
+                                    setState(() {});
+                                  });
                                 },
                                 child: Image.asset(
                                   'assets/icons/filters.png',
@@ -605,7 +644,6 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(),
                       Center(
                         child: Wrap(
                           spacing: 15,
@@ -638,11 +676,35 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   }
 }
 
-class FilterAll extends StatelessWidget {
-  FilterAll({
-    super.key,
-  });
+class FilterAll extends StatefulWidget {
+  FilterAll({super.key});
+
+  @override
+  State<FilterAll> createState() => _FilterAllState();
+}
+
+class _FilterAllState extends State<FilterAll> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final TextEditingController minPriceController = TextEditingController();
+  final TextEditingController maxPriceController = TextEditingController();
+
+  List<String> filter = [];
+  List<LookupTreatmentModel> treatments = [];
+  String orderBy = "";
+  bool promo = false;
+  bool openNow = false;
+  int? minPrice;
+  int? maxPrice;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      treatments.addAll(await stateTreatment.getLookupTreatment(context));
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -667,19 +729,47 @@ class FilterAll extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Rating',
                 img: 'assets/icons/stars-icons.png',
+                onTap: () {
+                  if (orderBy == "RATING") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "RATING";
+                  }
+                  setState(() {});
+                },
+                isActive: orderBy == "RATING",
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Popularitas',
                 img: 'assets/icons/popularity.png',
+                onTap: () {
+                  if (orderBy == "POPULARITY") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "POPULARITY";
+                  }
+                  setState(() {});
+                },
+                isActive: orderBy == "POPULARITY",
               ),
-              const FilterTap(
+              FilterTap(
                 title: 'Jarak',
                 img: 'assets/icons/mapgrey.png',
+                onTap: () {
+                  if (orderBy == "DISTANCE") {
+                    orderBy = "";
+                  } else {
+                    orderBy = "DISTANCE";
+                  }
+                  print(orderBy);
+                  setState(() {});
+                },
+                isActive: orderBy == "DISTANCE",
               ),
-              const SizedBox(
+              SizedBox(
                 height: 25,
               ),
               Text(
@@ -693,12 +783,18 @@ class FilterAll extends StatelessWidget {
                 children: [
                   CardSearch(
                     title: 'Promo',
+                    onTap: () {
+                      promo = !promo;
+                    },
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   CardSearch(
                     title: 'Buka Sekarang',
+                    onTap: () {
+                      openNow = !openNow;
+                    },
                   ),
                 ],
               ),
@@ -716,6 +812,7 @@ class FilterAll extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: minPriceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         fillColor: greenColor,
@@ -723,11 +820,12 @@ class FilterAll extends StatelessWidget {
                         hintText: 'Min.',
                         hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: greenColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
                         ),
@@ -747,18 +845,23 @@ class FilterAll extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: maxPriceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         fillColor: greenColor,
                         hoverColor: greenColor,
                         hintText: 'Max',
-                        hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                        hintStyle: TextStyle(
+                          color: subgreyColor,
+                          fontSize: 12,
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: greenColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7),
                         ),
@@ -778,58 +881,14 @@ class FilterAll extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              FilterTapTreatment(
-                title: 'Relaxation',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Cryolipolysis',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Electrocauter',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Facial',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Filler',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Hifu',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Co2',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Erbium',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Nd:Yag ',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Pico Lase',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Laser Pico Laser',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: 'Pulsed Dye',
-                function: () {},
-              ),
-              FilterTapTreatment(
-                title: ' Led Light Therapy',
-                function: () {},
-              ),
+              ...treatments.map((treatment) {
+                return FilterTapTreatment(
+                  title: treatment.name,
+                  function: () {
+                    filter.add(treatment.name);
+                  },
+                );
+              }).toList(),
             ],
           ),
         ),
@@ -847,12 +906,18 @@ class FilterAll extends StatelessWidget {
                   },
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Batal',
-                        style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                        style: grenTextStyle.copyWith(
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
                       ),
                     ),
                   ),
@@ -863,20 +928,34 @@ class FilterAll extends StatelessWidget {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () async {
-                    print(stateTreatment.type);
-                    await stateTreatment.getAllTreatment(context, 10);
+                  onTap: () {
+                    minPrice = minPriceController.text == "" ? null : int.parse(minPriceController.text);
+                    minPrice = maxPriceController.text == "" ? null : int.parse(maxPriceController.text);
 
-                    Get.back();
+                    Navigator.pop(context, {
+                      "treatment": filter,
+                      "orderBy": orderBy,
+                      "openNow": openNow,
+                      "promo": promo,
+                      "minPrice": minPrice,
+                      "maxPrice": maxPrice,
+                    });
                   },
                   child: Container(
                     width: 165,
-                    decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                     height: 50,
                     child: Center(
                       child: Text(
                         'Simpan',
-                        style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
                       ),
                     ),
                   ),
@@ -893,11 +972,15 @@ class FilterAll extends StatelessWidget {
 class FilterTap extends StatefulWidget {
   final String img;
   final String title;
+  final Function()? onTap;
+  final bool isActive;
 
   const FilterTap({
     Key? key,
     required this.img,
     required this.title,
+    this.onTap,
+    required this.isActive,
   }) : super(key: key);
 
   @override
@@ -912,8 +995,9 @@ class _FilterTapState extends State<FilterTap> {
       children: [
         InkWell(
           onTap: () {
+            widget.onTap == null ? () {} : widget.onTap!();
             setState(() {
-              isSelected = !isSelected;
+              isSelected = !widget.isActive;
             });
           },
           child: Row(
@@ -949,12 +1033,12 @@ class _FilterTapState extends State<FilterTap> {
 
 class FilterTapTreatment extends StatefulWidget {
   final String title;
-  Function() function;
+  Function()? function;
 
   FilterTapTreatment({
     Key? key,
     required this.title,
-    required this.function,
+    this.function,
   }) : super(key: key);
 
   @override
@@ -972,15 +1056,10 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
         children: [
           InkWell(
             onTap: () {
+              widget.function == null ? () {} : widget.function!();
               setState(() {
                 isSelected = !isSelected;
               });
-
-              if (isSelected) {
-                stateTreatment.type.add(widget.title);
-              } else {
-                stateTreatment.type.removeWhere((item) => item == widget.title);
-              }
             },
             child: Row(
               children: [
