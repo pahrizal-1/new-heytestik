@@ -52,7 +52,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      comments.addAll(await postController.getComment(context, page, widget.post.id));
+      comments.addAll(
+          await postController.getComment(context, page, widget.post.id));
       for (var i = 0; i < comments.length; i++) {
         commentLikes.addAll({
           "${comments[i].commentID}": 0,
@@ -71,7 +72,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            comments.addAll(await postController.getComment(context, page, widget.post.id));
+            comments.addAll(
+                await postController.getComment(context, page, widget.post.id));
             for (var i = 0; i < comments.length; i++) {
               commentLikes.addAll({
                 "${comments[i].commentID}": 0,
@@ -200,7 +202,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     constraints: const BoxConstraints(maxWidth: 320),
                     child: Text(
                       widget.post.content,
-                      style: blackRegulerTextStyle.copyWith(fontSize: 14, color: blackColor),
+                      style: blackRegulerTextStyle.copyWith(
+                          fontSize: 14, color: blackColor),
                     ),
                   ),
                   const SizedBox(
@@ -221,20 +224,24 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           GestureDetector(
                             onTap: () {
                               if (like ?? widget.post.liked) {
-                                postController.unlikePost(context, widget.post.id);
+                                postController.unlikePost(
+                                    context, widget.post.id);
                                 setState(() {
                                   like = false;
                                   postLike = postLike - 1;
                                 });
                               } else {
-                                postController.likePost(context, widget.post.id);
+                                postController.likePost(
+                                    context, widget.post.id);
                                 setState(() {
                                   like = true;
                                   postLike = postLike + 1;
                                 });
                               }
                             },
-                            child: like ?? widget.post.liked ? Icon(Icons.favorite) : Icon(Icons.favorite_outline_outlined),
+                            child: like ?? widget.post.liked
+                                ? Icon(Icons.favorite)
+                                : Icon(Icons.favorite_outline_outlined),
                           ),
                           const SizedBox(
                             width: 15,
@@ -262,18 +269,22 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           GestureDetector(
                             onTap: () {
                               if (saved ?? widget.post.saved) {
-                                postController.unSavePost(context, widget.post.id);
+                                postController.unSavePost(
+                                    context, widget.post.id);
                                 setState(() {
                                   saved = false;
                                 });
                               } else {
-                                postController.savePost(context, widget.post.id);
+                                postController.savePost(
+                                    context, widget.post.id);
                                 setState(() {
                                   saved = true;
                                 });
                               }
                             },
-                            child: saved ?? widget.post.saved ? Icon(Icons.bookmark) : Icon(Icons.bookmark_border),
+                            child: saved ?? widget.post.saved
+                                ? Icon(Icons.bookmark)
+                                : Icon(Icons.bookmark_border),
                           ),
                         ],
                       ),
@@ -284,7 +295,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
             ),
             dividergrey(),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 17, top: 24, bottom: 18),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 17, top: 24, bottom: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: comments.map((comment) {
@@ -321,7 +333,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  timeago.format(DateTime.parse(comment.createdAt)),
+                                  timeago.format(
+                                      DateTime.parse(comment.createdAt)),
                                   style: blackRegulerTextStyle.copyWith(
                                     fontSize: 12,
                                   ),
@@ -339,20 +352,45 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    if (comment.like + (commentLikes["${comment.commentID}"] ?? 0) > 0) {
-                                      postController.unlikeComment(context, widget.post.id, comment.commentID);
+                                    if (comment.like +
+                                            (commentLikes[
+                                                    "${comment.commentID}"] ??
+                                                0) >
+                                        0) {
+                                      postController.unlikeComment(context,
+                                          widget.post.id, comment.commentID);
                                       setState(() {
-                                        commentLikes.update("${comment.commentID}", (value) => (commentLikes["${comment.commentID}"] ?? 0) - 1);
+                                        commentLikes.update(
+                                            "${comment.commentID}",
+                                            (value) =>
+                                                (commentLikes[
+                                                        "${comment.commentID}"] ??
+                                                    0) -
+                                                1);
                                       });
                                     } else {
-                                      postController.likeComment(context, widget.post.id, comment.commentID);
+                                      postController.likeComment(context,
+                                          widget.post.id, comment.commentID);
                                       setState(() {
-                                        commentLikes.update("${comment.commentID}", (value) => (commentLikes["${comment.commentID}"] ?? 0) + 1);
+                                        commentLikes.update(
+                                            "${comment.commentID}",
+                                            (value) =>
+                                                (commentLikes[
+                                                        "${comment.commentID}"] ??
+                                                    0) +
+                                                1);
                                       });
                                     }
                                   },
-                                  child: comment.like + (commentLikes["${comment.commentID}"] ?? 0) > 0
-                                      ? commentLike(comment.like + (commentLikes["${comment.commentID}"] ?? 0))
+                                  child: comment.like +
+                                              (commentLikes[
+                                                      "${comment.commentID}"] ??
+                                                  0) >
+                                          0
+                                      ? commentLike(comment.like +
+                                          (commentLikes[
+                                                  "${comment.commentID}"] ??
+                                              0))
                                       : Text(
                                           'Suka',
                                           style: blackRegulerTextStyle.copyWith(
@@ -374,11 +412,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             const SizedBox(
                               height: 16,
                             ),
-                            if (viewCommentReply["${comment.commentID}"] == false)
+                            if (viewCommentReply["${comment.commentID}"] ==
+                                false)
                               GestureDetector(
                                 onTap: () async {
-                                  viewCommentReply.update("${comment.commentID}", (value) => true);
-                                  List<StreamCommentReplyModel> replies = await postController.getCommentReplies(context, page, widget.post.id, comment.commentID);
+                                  viewCommentReply.update(
+                                      "${comment.commentID}", (value) => true);
+                                  List<StreamCommentReplyModel> replies =
+                                      await postController.getCommentReplies(
+                                          context,
+                                          page,
+                                          widget.post.id,
+                                          comment.commentID);
 
                                   commentReplies.addAll({
                                     "${comment.commentID}": replies,
@@ -391,31 +436,40 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   }
                                   setState(() {});
                                 },
-                                child: Text("View Comments", style: greyTextStyle),
+                                child:
+                                    Text("View Comments", style: greyTextStyle),
                               ),
                             SizedBox(
                               height: 20.0,
                             ),
-                            if (viewCommentReply["${comment.commentID}"] == true)
+                            if (viewCommentReply["${comment.commentID}"] ==
+                                true)
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: commentReplies["${comment.commentID}"]?.length ?? 0,
+                                itemCount:
+                                    commentReplies["${comment.commentID}"]
+                                            ?.length ??
+                                        0,
                                 itemBuilder: (context, index) {
                                   return Container(
                                     margin: const EdgeInsets.symmetric(
                                       vertical: 5.0,
                                     ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(241, 241, 241, 0.95),
+                                      color: const Color.fromRGBO(
+                                          241, 241, 241, 0.95),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               height: 30,
@@ -433,21 +487,35 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                               width: 11,
                                             ),
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      commentReplies["${comment.commentID}"]![index].fullName,
-                                                      style: blackTextStyle.copyWith(fontSize: 14),
+                                                      commentReplies[
+                                                                  "${comment.commentID}"]![
+                                                              index]
+                                                          .fullName,
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14),
                                                     ),
                                                     const SizedBox(
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      timeago.format(DateTime.parse(commentReplies["${comment.commentID}"]![index].createdAt)),
-                                                      style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                                      timeago.format(DateTime
+                                                          .parse(commentReplies[
+                                                                      "${comment.commentID}"]![
+                                                                  index]
+                                                              .createdAt)),
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 12),
                                                     ),
                                                   ],
                                                 ),
@@ -455,34 +523,82 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                   height: 6,
                                                 ),
                                                 Container(
-                                                  constraints: const BoxConstraints(maxWidth: 220),
-                                                  child: buildRichTextWithMentions(commentReplies["${comment.commentID}"]![index].content),
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                          maxWidth: 220),
+                                                  child: buildRichTextWithMentions(
+                                                      commentReplies[
+                                                                  "${comment.commentID}"]![
+                                                              index]
+                                                          .content),
                                                 ),
                                                 const SizedBox(
                                                   height: 11,
                                                 ),
                                                 Row(
                                                   children: [
-                                                    (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) + commentReplies["${comment.commentID}"]![index].like > 0
+                                                    (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                    0) +
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .like >
+                                                            0
                                                         ? GestureDetector(
                                                             onTap: () {
-                                                              postController.unlikeCommentReply(context, widget.post.id, comment.commentID, commentReplies["${comment.commentID}"]![index].replyID);
+                                                              postController.unlikeCommentReply(
+                                                                  context,
+                                                                  widget
+                                                                      .post.id,
+                                                                  comment
+                                                                      .commentID,
+                                                                  commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .replyID);
                                                               setState(() {
-                                                                commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}", (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) - 1);
+                                                                commentReplyLikes.update(
+                                                                    "${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                    (value) =>
+                                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                            0) -
+                                                                        1);
                                                               });
                                                             },
-                                                            child: commentLike(commentReplies["${comment.commentID}"]![index].like + (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0)),
+                                                            child: commentLike(
+                                                                commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .like +
+                                                                    (commentReplyLikes[
+                                                                            "${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                        0)),
                                                           )
                                                         : GestureDetector(
                                                             onTap: () {
-                                                              postController.likeCommentReply(context, widget.post.id, comment.commentID, commentReplies["${comment.commentID}"]![index].replyID);
+                                                              postController.likeCommentReply(
+                                                                  context,
+                                                                  widget
+                                                                      .post.id,
+                                                                  comment
+                                                                      .commentID,
+                                                                  commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .replyID);
                                                               setState(() {
-                                                                commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}", (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) + 1);
+                                                                commentReplyLikes.update(
+                                                                    "${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                    (value) =>
+                                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                            0) +
+                                                                        1);
                                                               });
                                                             },
                                                             child: Text(
                                                               'Suka',
-                                                              style: blackRegulerTextStyle.copyWith(
+                                                              style:
+                                                                  blackRegulerTextStyle
+                                                                      .copyWith(
                                                                 fontSize: 12,
                                                               ),
                                                             ),
@@ -492,7 +608,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                     ),
                                                     Text(
                                                       'Balas',
-                                                      style: blackRegulerTextStyle.copyWith(
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
                                                         fontSize: 12,
                                                       ),
                                                     ),
@@ -513,7 +631,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           ],
                         ),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       Icon(
                         Icons.more_horiz,
                         size: 24,
@@ -561,7 +679,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         itemBuilder: (context) => [
                           PopupMenuItem(
                             child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
                               height: 100,
                               child: Column(
                                 children: [
@@ -571,22 +690,33 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           backgroundColor: Colors.transparent,
-                                          insetPadding: const EdgeInsets.all(0.1),
+                                          insetPadding:
+                                              const EdgeInsets.all(0.1),
                                           content: Container(
                                             height: 225,
-                                            width: MediaQuery.of(context).size.width,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             decoration: BoxDecoration(
                                               color: whiteColor,
-                                              borderRadius: BorderRadius.circular(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 35,
+                                                      vertical: 32),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Tambahkan gambar',
-                                                    style: blackRegulerTextStyle.copyWith(fontSize: 20, color: blackColor),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                            fontSize: 20,
+                                                            color: blackColor),
                                                   ),
                                                   const SizedBox(
                                                     height: 21,
@@ -598,7 +728,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                     },
                                                     child: Text(
                                                       'Kamera',
-                                                      style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                      style: blackRegulerTextStyle
+                                                          .copyWith(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  blackColor),
                                                     ),
                                                   ),
                                                   const SizedBox(
@@ -611,22 +745,32 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                     },
                                                     child: Text(
                                                       'Dari galeri',
-                                                      style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                      style: blackRegulerTextStyle
+                                                          .copyWith(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  blackColor),
                                                     ),
                                                   ),
                                                   const SizedBox(
                                                     height: 21,
                                                   ),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
                                                     children: [
                                                       InkWell(
                                                         onTap: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                         child: Text(
                                                           'CANCEL',
-                                                          style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                                          style: blackRegulerTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 15,
+                                                                  color:
+                                                                      blackColor),
                                                         ),
                                                       ),
                                                     ],
@@ -642,7 +786,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       children: [
                                         Text(
                                           'Foto / Kamera',
-                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -651,8 +796,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/camera-new.png',
                                             height: 25,
@@ -671,7 +819,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       children: [
                                         Text(
                                           'Poll',
-                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -680,8 +829,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         Container(
                                           height: 44,
                                           width: 44,
-                                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              shape: BoxShape.circle),
                                           child: Image.asset(
                                             'assets/icons/poll.png',
                                           ),
@@ -702,9 +854,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  postController.postComment(context, widget.post.id, commentController.text);
+                  postController.postComment(
+                      context, widget.post.id, commentController.text);
                   page = 1;
-                  comments.addAll(await postController.getComment(context, page, widget.post.id));
+                  comments.addAll(await postController.getComment(
+                      context, page, widget.post.id));
                   commentController.clear();
                   setState(() {});
                 },
@@ -721,14 +875,16 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   }
 
   Future _pickImageFromCamera() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (returnedImage == null) return;
     imagePath = File(returnedImage.path);
   }
 
   Future _pickImageFromGalery() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (returnedImage == null) return;
     imagePath = File(returnedImage.path);
