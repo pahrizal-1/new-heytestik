@@ -28,10 +28,17 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
   bool? saved;
   Map<String, int> postLike = {};
   List<String> dataRemainingTime = [];
+  Map<String, int> votes = {};
+  int votesCount = 0;
+  int allVotesCount = 0;
+  int? indexVotes;
+  List<Map<String, dynamic>> streamPollOptions = [];
 
   @override
   void initState() {
     dataRemainingTime = widget.stream.endTime.difference(DateTime.now()).toString().split('.')[0].split(":");
+    allVotesCount = widget.stream.pollCount;
+    streamPollOptions = widget.stream.streamPollOptions;
     super.initState();
   }
 
@@ -153,8 +160,17 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 SizedBox(
                   height: 16.0,
                 ),
-                ...widget.stream.streamPollOptions.map((option) {
-                  double pollPercentage = (widget.stream.pollCount == 0 || option['count'] == 0) ? 0 : widget.stream.pollCount / option['count'];
+                ...streamPollOptions.asMap().entries.map((option) {
+                  double pollPercentage = 0;
+
+                  if (allVotesCount == 0 && option.value['count'] > 0) {
+                    pollPercentage = (1 / option.value['count']) * 100;
+                  }
+
+                  if(allVotesCount > 0 && option.value['count'] > 0) {
+                    pollPercentage =  (allVotesCount / option.value['count']) * 100;
+                  }
+
                   return Stack(
                     children: [
                       Container(
@@ -175,37 +191,55 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         ),
                         child: Text(""),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 16.0,
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 4.0,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black.withOpacity(.1),
+                      GestureDetector(
+                        onTap: () {
+                          if (votesCount == 0) {
+                            votesCount = votesCount + 1;
+                            allVotesCount = allVotesCount + 1;
+                          }
+
+                          if (indexVotes != null) {
+                            streamPollOptions[indexVotes!]['count'] - 1;
+                            postController.deletePolling(context, widget.stream.id, streamPollOptions[indexVotes!]['stream_poll_id'], streamPollOptions[indexVotes!]['id']);
+                          }
+
+                          postController.pickPolling(context, widget.stream.id, option.value['stream_poll_id'], option.value['id']);
+                          indexVotes = option.key;
+                          option.value['count'] = option.value['count'] + 1;
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 16.0,
                           ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              option['option'],
-                              style: TextStyle(
-                                color: option['count'] > 0 ? Colors.white : Colors.black,
-                              ),
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black.withOpacity(.1),
                             ),
-                            Spacer(),
-                            Text(
-                              "${pollPercentage.toInt()}%",
-                              style: TextStyle(
-                                color: pollPercentage > 0.9 ? Colors.white : Colors.black,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                option.value['option'],
+                                style: TextStyle(
+                                  color: option.value['count'] > 0 ? Colors.white : Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
+                              Spacer(),
+                              Text(
+                                "${pollPercentage.toInt()}%",
+                                style: TextStyle(
+                                  color: pollPercentage > 0.9 ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -217,7 +251,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 Row(
                   children: [
                     Text(
-                      "${widget.stream.pollCount} votes",
+                      "$allVotesCount votes",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,

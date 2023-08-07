@@ -134,6 +134,48 @@ class PostServices extends ProviderClass {
     }
   }
 
+  void pickPolling(int streamID, int pollingID, int optionID) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/polling',
+        data: {
+          "stream_id": streamID,
+          "stream_poll_id": pollingID,
+          "stream_poll_option_id": optionID,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void deletePolling(int streamID, int pollingID, int optionID) async {
+    try {
+      var response = await networkingConfig.doDelete(
+        '/stream/polling',
+        data: {
+          "stream_id": streamID,
+          "stream_poll_id": pollingID,
+          "stream_poll_option_id": optionID,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Future<List<StreamCommentModel>> getComment(int page, int postID) async {
     try {
       var response = await networkingConfig.doGet(
