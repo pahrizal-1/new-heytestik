@@ -131,6 +131,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    Get.back();
                                     Get.to(CustomeCameaJorney());
                                   },
                                   child: Text(

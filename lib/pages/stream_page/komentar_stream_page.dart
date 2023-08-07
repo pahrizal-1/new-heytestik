@@ -115,7 +115,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                 width: 11,
               ),
               Text(
-                'ini bukan sih',
+                'Komentar',
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
             ],

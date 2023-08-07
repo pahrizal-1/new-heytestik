@@ -133,6 +133,26 @@ class PostController extends StateClass {
     }
   }
 
+  void pickPolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+    try {
+      isLoading.value = true;
+      PostServices().pickPolling(streamID, pollingID, optionID);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  void deletePolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+    try {
+      isLoading.value = true;
+      PostServices().deletePolling(streamID, pollingID, optionID);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
   void savePost(BuildContext context, int postID) async {
     try {
       isLoading.value = true;
