@@ -23,7 +23,8 @@ class DaftarTransaksiPage extends StatefulWidget {
 }
 
 class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
-  final HistoryTransactionController state = Get.put(HistoryTransactionController());
+  final HistoryTransactionController state =
+      Get.put(HistoryTransactionController());
   final ScrollController scrollController = ScrollController();
   List<Data2> history = [];
   int page = 1;
@@ -238,7 +239,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
                       Get.to(() => MenungguPemayaranPage());
@@ -268,11 +270,15 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           () => state.totalPending.value == 0
                               ? Container()
                               : Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: redColor),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 2),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: redColor),
                                   child: Text(
                                     state.totalPending.value.toString(),
-                                    style: whiteTextStyle.copyWith(fontSize: 10),
+                                    style:
+                                        whiteTextStyle.copyWith(fontSize: 10),
                                   ),
                                 ),
                         ),
@@ -311,10 +317,19 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                   itemBuilder: (BuildContext context, index) {
                     if (history[index].transactionType == 'CONSULTATION') {
                       return TransaksiKonsultan(
-                        namaDokter: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation!.doctor?.fullname ?? '-',
-                        tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
+                        namaDokter: history[index].detail?.consultation == null
+                            ? '-'
+                            : history[index]
+                                    .detail
+                                    ?.consultation!
+                                    .doctor
+                                    ?.fullname ??
+                                '-',
+                        tanggal: ConvertDate.defaultDate(
+                            history[index].createdAt ?? '-'),
                         pesanan: 'Konsultasi',
-                        progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        progres: history[index].detail?.status ==
+                                'MENUNGGU_PEMBAYARAN'
                             ? 'Menunggu Pembayaran'
                             : history[index].detail?.status == 'READY'
                                 ? 'Ready'
@@ -322,30 +337,47 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                     ? 'Review'
                                     : history[index].detail?.status == 'AKTIF'
                                         ? 'Aktif'
-                                        : history[index].detail?.status == 'SELESAI'
+                                        : history[index].detail?.status ==
+                                                'SELESAI'
                                             ? 'Selesai'
                                             : '-',
-                        keluhan: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation?.medicalHistory?.interestCondition?.name ?? '-',
-                        harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
-                        img: history[index].detail?.consultation == null ? '-' : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                        keluhan: history[index].detail?.consultation == null
+                            ? '-'
+                            : history[index]
+                                    .detail
+                                    ?.consultation
+                                    ?.medicalHistory
+                                    ?.interestCondition
+                                    ?.name ??
+                                '-',
+                        harga: CurrencyFormat.convertToIdr(
+                            history[index].detail?.totalPaid, 0),
+                        img: history[index].detail?.consultation == null
+                            ? '-'
+                            : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
                       );
                     }
 
                     if (history[index].transactionType == 'TREATMENT') {
                       return TransaksiTreatment(
                         item: history[index].detail?.transactionTreatmentItems,
-                        tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
+                        tanggal: ConvertDate.defaultDate(
+                            history[index].createdAt ?? '-'),
                         pesanan: 'Treatment',
-                        progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        progres: history[index].detail?.status ==
+                                'MENUNGGU_PEMBAYARAN'
                             ? 'Menunggu Pembayaran'
-                            : history[index].detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                            : history[index].detail?.status ==
+                                    'MENUNGGU_KONFIRMASI_KLINIK'
                                 ? 'Menunggu Konfirmasi Klinik'
-                                : history[index].detail?.status == 'KLINIK_MENGKONFIRMASI'
+                                : history[index].detail?.status ==
+                                        'KLINIK_MENGKONFIRMASI'
                                     ? 'Klinik Mengkonfirmasi'
                                     : history[index].detail?.status == 'SELESAI'
                                         ? 'Selesai'
                                         : '-',
-                        harga: CurrencyFormat.convertToIdr(history[index].detail?.totalPaid, 0),
+                        harga: CurrencyFormat.convertToIdr(
+                            history[index].detail?.totalPaid, 0),
                       );
                     }
                     return null;
