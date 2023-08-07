@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_zoom_bermasalah.dart';
 
 import '../../theme/theme.dart';
 
 class PotoBagianWajahKiri extends StatelessWidget {
-  const PotoBagianWajahKiri({super.key});
-
+  PotoBagianWajahKiri({super.key});
+  final MyJourneyController state = Get.put(MyJourneyController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +34,10 @@ class PotoBagianWajahKiri extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/kiri-poto.png',
+                  image: FileImage(
+                    File(state.initialConditionLeftSide!.path),
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -64,6 +68,7 @@ class PotoBagianWajahKiri extends StatelessWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
+                    state.initialConditionLeftSide == null;
                     Navigator.pop(context);
                   },
                   style: TextButton.styleFrom(
@@ -93,11 +98,10 @@ class PotoBagianWajahKiri extends StatelessWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CustomeCameaPotoWajahBermasalah()));
+                    if (state.initialConditionLeftSide != null) {
+                      Get.to(CustomeCameaPotoWajahBermasalah());
+                      return;
+                    }
                   },
                   style: TextButton.styleFrom(
                     side: BorderSide(color: greenColor, width: 2),
