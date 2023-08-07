@@ -9,20 +9,30 @@ class TopikUlasanWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> topic = [];
     return Wrap(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(left: 33, right: 33, top: 30, bottom: 40),
+          padding: const EdgeInsets.only(
+            left: 33,
+            right: 33,
+            top: 30,
+            bottom: 40,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    'assets/icons/danger-icons.png',
-                    width: 12,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 12,
+                    ),
                   ),
                   const SizedBox(
                     width: 22,
@@ -36,19 +46,30 @@ class TopikUlasanWidgets extends StatelessWidget {
               const SizedBox(
                 height: 39,
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("CARE");
+                },
                 title: 'Pelayanan',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("SERVICE");
+                },
                 title: 'Perawatan',
               ),
-              const FilterTapTreatment(
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("MANAGEMENT");
+                },
                 title: 'Manajemen',
               ),
-              const FilterTapTreatment(
-                title: 'Rating Terendah',
+              ButtonGreenWidget(
+                title: 'Terapkan Filter',
+                onPressed: () {
+                  Navigator.pop(context, topic);
+                },
               ),
-              const ButtonGreenWidget(title: 'Terapkan Filter')
             ],
           ),
         ),

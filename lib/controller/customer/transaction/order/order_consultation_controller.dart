@@ -227,7 +227,7 @@ class OrderConsultationController extends StateClass {
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
       // JIKA SUKSES SET bank
-      bank.value = res.data!.payment!.vaNumbers![0].bank.toString();
+      bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
       doInPost();

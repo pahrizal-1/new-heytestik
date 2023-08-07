@@ -20,15 +20,18 @@ class TrendingTreatment extends StatefulWidget {
 class _TrendingTreatmentState extends State<TrendingTreatment> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+
   int page = 1;
   List<Data2> treatments = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
+  String? search;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getTrendingTreatment(context, page));
+      treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -37,7 +40,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getTrendingTreatment(context, page));
+            treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
             setState(() {});
           });
         }
@@ -131,6 +134,14 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                           transform: Matrix4.translationValues(0, -2, 0),
                           constraints: const BoxConstraints(maxWidth: 250),
                           child: TextFormField(
+                            controller: searchController,
+                            onEditingComplete: () async {
+                              search = searchController.text;
+                              page = 1;
+                              treatments.clear();
+                              treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
+                              setState(() {});
+                            },
                             style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                             decoration: InputDecoration(
                               hintText: "Cari Treatment",

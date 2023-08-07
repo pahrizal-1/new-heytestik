@@ -166,9 +166,9 @@ class ViewDetailTags extends StatelessWidget {
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                // scrollDirection: Axis.horizontal,
+                                scrollDirection: Axis.vertical,
                                 itemCount: snapshot.data!.record!.length,
-                                // physics: const NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, index) {
                                   return InkWell(
                                     onTap: () {

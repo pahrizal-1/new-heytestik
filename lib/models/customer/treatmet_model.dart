@@ -108,11 +108,11 @@ class Data2 {
     price = json['price'];
     isActive = json['is_active'];
     rating = double.parse(json['rating'].toString());
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
+    createdBy = json['created_by'] ?? "-";
+    updatedBy = json['updated_by'] ?? "-";
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    updatedAt = json['updated_at'] ?? DateTime.now().toString();
+    deletedAt = json['deleted_at'] ?? DateTime.now().toString();
     clinic = json['clinic'] != null ? Clinic.fromJson(json['clinic']) : null;
     if (json['media_treatments'] != null) {
       mediaTreatments = <MediaTreatments>[];
@@ -245,11 +245,11 @@ class Clinic {
     contractExpiredDate = json['contract_expired_date'];
     status = json['status'];
     rating = double.parse(json['rating'].toString());
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
+    createdBy = json['created_by'] ?? "-";
+    updatedBy = json['updated_by'] ?? "-";
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    updatedAt = json['updated_at'] ?? DateTime.now().toString();
+    deletedAt = json['deleted_at'] ?? DateTime.now().toString();
     province = json['province'] != null ? Province.fromJson(json['province']) : null;
     city = json['city'] != null ? City.fromJson(json['city']) : null;
   }
@@ -351,8 +351,8 @@ class City {
     name = json['name'];
     provincesId = json['provinces_id'];
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    updatedAt = json['updated_at'] ?? DateTime.now().toString();
+    deletedAt = json['deleted_at'] ?? DateTime.now().toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -394,11 +394,11 @@ class MediaTreatments {
     id = json['id'];
     mediaId = json['media_id'];
     treatmentId = json['treatment_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
+    createdBy = json['created_by'] ?? "-";
+    updatedBy = json['updated_by'] ?? "-";
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    updatedAt = json['updated_at'] ?? DateTime.now().toString();
+    deletedAt = json['deleted_at'] ?? DateTime.now().toString();
     media = json['media'] != null ? Media.fromJson(json['media']) : null;
   }
 
@@ -456,11 +456,11 @@ class Media {
     mime = json['mime'];
     path = json['path'];
     destination = json['destination'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
+    createdBy = json['created_by'] ?? "-";
+    updatedBy = json['updated_by'] ?? "-";
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    updatedAt = json['updated_at'] ?? DateTime.now().toString();
+    deletedAt = json['deleted_at'] ?? DateTime.now().toString();
   }
 
   Map<String, dynamic> toJson() {

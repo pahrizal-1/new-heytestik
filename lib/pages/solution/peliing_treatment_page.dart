@@ -121,7 +121,7 @@ class _PeelinngTraetmentPageState extends State<PeelinngTraetmentPage> {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => FilterAll(),
+                              builder: (context) => FilterAllWidget(),
                             );
                           },
                           child: Image.asset(

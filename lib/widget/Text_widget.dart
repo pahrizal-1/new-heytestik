@@ -220,16 +220,15 @@ class _DescripsiTextState extends State<DescripsiText> {
         const SizedBox(
           height: 8,
         ),
-       if(!widget.isLast)
-         ...[
-           Divider(
-             thickness: 1,
-             color: borderColor,
-           ),
-           const SizedBox(
-             height: 18,
-           ),
-         ]
+        if (!widget.isLast) ...[
+          Divider(
+            thickness: 1,
+            color: borderColor,
+          ),
+          const SizedBox(
+            height: 18,
+          ),
+        ]
       ],
     );
   }
@@ -255,14 +254,11 @@ class TetxtInfomasi extends StatelessWidget {
             fontSize: 13,
           ),
         ),
-        const SizedBox(
-          width: 10,
-        ),
         Text(
           title2,
           // '10:00 - 22:00 WIB',
           style: blackRegulerTextStyle.copyWith(
-            fontSize: 13,
+            fontSize: 11,
           ),
         ),
       ],

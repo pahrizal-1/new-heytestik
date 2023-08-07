@@ -1,14 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../widget/button_widget.dart';
+import 'hasil_kosultasi_page.dart';
 
-class HomeMyjourney extends StatelessWidget {
+class HomeMyjourney extends StatefulWidget {
   const HomeMyjourney({super.key});
 
+  @override
+  State<HomeMyjourney> createState() => _HomeMyjourneyState();
+}
+
+File? imagePath;
+
+class _HomeMyjourneyState extends State<HomeMyjourney> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,19 +77,24 @@ class HomeMyjourney extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Pilih Skin Goal kamu',
-                      style: subTitleTextStyle,
-                    ),
-                    const Spacer(),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 24,
-                      color: greenColor,
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Get.to(PilihSkinGoals());
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Pilih Skin Goal kamu',
+                        style: subTitleTextStyle,
+                      ),
+                      const Spacer(),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 24,
+                        color: greenColor,
+                      ),
+                    ],
+                  ),
                 ),
                 dividergrey(),
                 const SizedBox(
@@ -111,10 +131,17 @@ class HomeMyjourney extends StatelessWidget {
                                     const SizedBox(
                                       height: 21,
                                     ),
-                                    Text(
-                                      'Dari galeri',
-                                      style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 15, color: blackColor),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _pickImageFromGalery();
+                                        });
+                                      },
+                                      child: Text(
+                                        'Dari galeri',
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 15, color: blackColor),
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 21,
@@ -169,8 +196,11 @@ class HomeMyjourney extends StatelessWidget {
                 const SizedBox(
                   height: 22,
                 ),
-                const ButtonWhiteWidget(
+                ButtonWhiteWidget(
                   title: 'Lihat Journey-mu',
+                  onPressed: () {
+                    Get.to(GaleryMyJourney());
+                  },
                 ),
               ],
             ),
@@ -196,38 +226,45 @@ class HomeMyjourney extends StatelessWidget {
                 const SizedBox(
                   height: 13,
                 ),
-                Container(
-                  height: 95,
-                  width: 340,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Catatan dokter terkait skingoal kamu',
-                        style: subTitleTextStyle,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'ChatDoctor',
-                          style: grenTextStyle.copyWith(fontSize: 15),
-                          children: [
-                            TextSpan(
-                                text: ' Sekarang, yuk!',
-                                style: blackRegulerTextStyle)
-                          ],
+                //// Sebelum Customer Docter ///////////////////////////
+                InkWell(
+                  onTap: () {
+                    Get.to(SelectConditionsPage());
+                  },
+                  child: Container(
+                    height: 95,
+                    width: 340,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 26, vertical: 30),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Catatan dokter terkait skingoal kamu',
+                          style: subTitleTextStyle,
                         ),
-                      ),
-                    ],
+                        RichText(
+                          text: TextSpan(
+                            text: 'Chat Doctor',
+                            style: grenTextStyle.copyWith(fontSize: 15),
+                            children: [
+                              TextSpan(
+                                  text: ' Sekarang, yuk!',
+                                  style: blackRegulerTextStyle)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
+                //// Sesudah Customer Docter ///////////////////////////
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
@@ -326,108 +363,113 @@ class HomeMyjourney extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Konsultasi dengan',
-                            style: blackTextStyle.copyWith(fontSize: 13),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 35,
-                                width: 36,
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/doctor1.png')),
-                                  borderRadius: BorderRadius.circular(25),
+                InkWell(
+                  onTap: () {
+                    Get.to(HasilKosultasiPage());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Konsultasi dengan',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 35,
+                                  width: 36,
+                                  decoration: BoxDecoration(
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/doctor1.png')),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'dr. Risty Hafinah, Sp.DV',
+                                      style: subTitleTextStyle.copyWith(
+                                        fontSize: 13,
+                                        fontWeight: bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '12 Feb 2023; 17:30 WIB',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 11),
+                                    ),
+                                    const SizedBox(
+                                      height: 9,
+                                    ),
+                                    Image.asset(
+                                      'assets/icons/plus-icosn.png',
+                                      width: 24,
+                                      height: 24,
+                                      color: Color(0xfff9B9B9B),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xffCCCCCC),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              height: 25,
+                              width: 74,
+                              child: Center(
+                                child: Text(
+                                  'Selesai',
+                                  style: whiteTextStyle.copyWith(fontSize: 10),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'dr. Risty Hafinah, Sp.DV',
-                                    style: subTitleTextStyle.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    '12 Feb 2023; 17:30 WIB',
-                                    style: subTitleTextStyle.copyWith(
-                                        fontSize: 11),
-                                  ),
-                                  const SizedBox(
-                                    height: 9,
-                                  ),
-                                  Image.asset(
-                                    'assets/icons/plus-icosn.png',
-                                    width: 24,
-                                    height: 24,
-                                    color: Color(0xfff9B9B9B),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffCCCCCC),
-                              borderRadius: BorderRadius.circular(7),
                             ),
-                            height: 25,
-                            width: 74,
-                            child: Center(
-                              child: Text(
-                                'Selesai',
-                                style: whiteTextStyle.copyWith(fontSize: 10),
+                            const SizedBox(
+                              height: 13,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                border: Border.all(color: greenColor),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              height: 25,
+                              width: 74,
+                              child: Center(
+                                child: Text(
+                                  'Chat Ulang',
+                                  style: grenTextStyle.copyWith(fontSize: 10),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 13,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              border: Border.all(color: greenColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            height: 25,
-                            width: 74,
-                            child: Center(
-                              child: Text(
-                                'Chat Ulang',
-                                style: grenTextStyle.copyWith(fontSize: 10),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -838,5 +880,13 @@ class HomeMyjourney extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future _pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
   }
 }

@@ -67,13 +67,15 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: borderColor,
-                    ),
-                    borderRadius: BorderRadius.circular(7)),
+                  borderSide: BorderSide(
+                    color: borderColor,
+                  ),
+                  borderRadius: BorderRadius.circular(7),
+                ),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: borderColor),
-                    borderRadius: BorderRadius.circular(7)),
+                  borderSide: BorderSide(color: borderColor),
+                  borderRadius: BorderRadius.circular(7),
+                ),
                 prefixIcon: Icon(Icons.search),
                 prefixIconColor: subgreyColor,
                 hintText: 'Cari Alamat',
@@ -110,98 +112,114 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
           ),
         ],
         bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(55.0),
-            child: SizedBox(
-              height: 50.0,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 5, bottom: 8),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
+          preferredSize: const Size.fromHeight(55.0),
+          child: SizedBox(
+            height: 50.0,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 5, bottom: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: borderColor,
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Semua Status',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15, color: blackColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        children: [
+                          Center(
+                            child: Text(
+                              'Semua Status',
+                              style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15,
+                                color: blackColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          const Icon(Icons.keyboard_arrow_down)
+                        ],
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 5, bottom: 8),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        right: 5,
+                        bottom: 8,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: borderColor,
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Semua Transaksi',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15, color: blackColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        children: [
+                          Center(
+                            child: Text(
+                              'Semua Transaksi',
+                              style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15,
+                                color: blackColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 3,
-                            ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          const Icon(Icons.keyboard_arrow_down)
+                        ],
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 5, bottom: 8),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        right: 5,
+                        bottom: 8,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: borderColor,
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: BorderRadius.circular(7)),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Semua Tanggal',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15, color: blackColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        children: [
+                          Center(
+                            child: Text(
+                              'Semua Tanggal',
+                              style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15,
+                                color: blackColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          const Icon(Icons.keyboard_arrow_down)
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         controller: scrollController,
@@ -280,105 +298,91 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               const SizedBox(
                 height: spaceHeigt,
               ),
-              Obx(
-                () => LoadingWidget(
-                  isLoading: state.isLoading.value,
-                  child: history.isEmpty
-                      ? Center(
-                          child: Text(
-                            'Belum ada transaksi',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontFamily: 'ProximaNova',
-                              fontSize: 20,
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: history.length,
-                          itemBuilder: (BuildContext context, index) {
-                            if (history[index].transactionType ==
-                                'CONSULTATION') {
-                              return TransaksiKonsultan(
-                                namaDokter:
-                                    history[index].detail?.consultation == null
-                                        ? '-'
-                                        : history[index]
-                                                .detail
-                                                ?.consultation!
-                                                .doctor
-                                                ?.fullname ??
-                                            '-',
-                                tanggal: ConvertDate.defaultDate(
-                                    history[index].createdAt ?? '-'),
-                                pesanan: 'Konsultasi',
-                                progres: history[index].detail?.status ==
-                                        'MENUNGGU_PEMBAYARAN'
-                                    ? 'Menunggu Pembayaran'
-                                    : history[index].detail?.status == 'READY'
-                                        ? 'Ready'
-                                        : history[index].detail?.status ==
-                                                'REVIEW'
-                                            ? 'Review'
-                                            : history[index].detail?.status ==
-                                                    'AKTIF'
-                                                ? 'Aktif'
-                                                : history[index]
-                                                            .detail
-                                                            ?.status ==
-                                                        'SELESAI'
-                                                    ? 'Selesai'
-                                                    : '-',
-                                keluhan:
-                                    history[index].detail?.consultation == null
-                                        ? '-'
-                                        : history[index]
-                                                .detail
-                                                ?.consultation
-                                                ?.medicalHistory
-                                                ?.interestCondition
-                                                ?.name ??
-                                            '-',
-                                harga: CurrencyFormat.convertToIdr(
-                                    history[index].detail?.totalPaid, 0),
-                                img: history[index].detail?.consultation == null
-                                    ? '-'
-                                    : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                              );
-                            }
-
-                            if (history[index].transactionType == 'TREATMENT') {
-                              return TransaksiTreatment(
-                                item: history[index]
-                                    .detail
-                                    ?.transactionTreatmentItems,
-                                tanggal: ConvertDate.defaultDate(
-                                    history[index].createdAt ?? '-'),
-                                pesanan: 'Treatment',
-                                progres: history[index].detail?.status ==
-                                        'MENUNGGU_PEMBAYARAN'
-                                    ? 'Menunggu Pembayaran'
-                                    : history[index].detail?.status ==
-                                            'MENUNGGU_KONFIRMASI_KLINIK'
-                                        ? 'Menunggu Konfirmasi Klinik'
-                                        : history[index].detail?.status ==
-                                                'KLINIK_MENGKONFIRMASI'
-                                            ? 'Klinik Mengkonfirmasi'
-                                            : history[index].detail?.status ==
-                                                    'SELESAI'
-                                                ? 'Selesai'
-                                                : '-',
-                                harga: CurrencyFormat.convertToIdr(
-                                    history[index].detail?.totalPaid, 0),
-                              );
-                            }
-                            return null;
-                          },
-                        ),
+              if (history.isEmpty)
+                Center(
+                  child: Text(
+                    'Belum ada transaksi',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
+              if (history.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: history.length,
+                  itemBuilder: (BuildContext context, index) {
+                    if (history[index].transactionType == 'CONSULTATION') {
+                      return TransaksiKonsultan(
+                        namaDokter: history[index].detail?.consultation == null
+                            ? '-'
+                            : history[index]
+                                    .detail
+                                    ?.consultation!
+                                    .doctor
+                                    ?.fullname ??
+                                '-',
+                        tanggal: ConvertDate.defaultDate(
+                            history[index].createdAt ?? '-'),
+                        pesanan: 'Konsultasi',
+                        progres: history[index].detail?.status ==
+                                'MENUNGGU_PEMBAYARAN'
+                            ? 'Menunggu Pembayaran'
+                            : history[index].detail?.status == 'READY'
+                                ? 'Ready'
+                                : history[index].detail?.status == 'REVIEW'
+                                    ? 'Review'
+                                    : history[index].detail?.status == 'AKTIF'
+                                        ? 'Aktif'
+                                        : history[index].detail?.status ==
+                                                'SELESAI'
+                                            ? 'Selesai'
+                                            : '-',
+                        keluhan: history[index].detail?.consultation == null
+                            ? '-'
+                            : history[index]
+                                    .detail
+                                    ?.consultation
+                                    ?.medicalHistory
+                                    ?.interestCondition
+                                    ?.name ??
+                                '-',
+                        harga: CurrencyFormat.convertToIdr(
+                            history[index].detail?.totalPaid, 0),
+                        img: history[index].detail?.consultation == null
+                            ? '-'
+                            : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                      );
+                    }
+
+                    if (history[index].transactionType == 'TREATMENT') {
+                      return TransaksiTreatment(
+                        item: history[index].detail?.transactionTreatmentItems,
+                        tanggal: ConvertDate.defaultDate(
+                            history[index].createdAt ?? '-'),
+                        pesanan: 'Treatment',
+                        progres: history[index].detail?.status ==
+                                'MENUNGGU_PEMBAYARAN'
+                            ? 'Menunggu Pembayaran'
+                            : history[index].detail?.status ==
+                                    'MENUNGGU_KONFIRMASI_KLINIK'
+                                ? 'Menunggu Konfirmasi Klinik'
+                                : history[index].detail?.status ==
+                                        'KLINIK_MENGKONFIRMASI'
+                                    ? 'Klinik Mengkonfirmasi'
+                                    : history[index].detail?.status == 'SELESAI'
+                                        ? 'Selesai'
+                                        : '-',
+                        harga: CurrencyFormat.convertToIdr(
+                            history[index].detail?.totalPaid, 0),
+                      );
+                    }
+                    return null;
+                  },
+                ),
             ],
           ),
         ),

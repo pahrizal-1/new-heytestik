@@ -24,16 +24,21 @@ class NearMePage extends StatefulWidget {
 class _NearMePageState extends State<NearMePage> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+
   int page = 1;
+  String? search;
   List<Data2> treatments = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
   bool isSelecteColor = true;
+  Map<String, dynamic> filter = {};
+  bool promo = false;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getAllTreatment(context, page));
+      treatments.addAll(await stateTreatment.getNearTreatment(context, page, search: search));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -42,8 +47,7 @@ class _NearMePageState extends State<NearMePage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments
-                .addAll(await stateTreatment.getAllTreatment(context, page));
+            treatments.addAll(await stateTreatment.getNearTreatment(context, page, search: search));
             setState(() {});
           });
         }
@@ -122,38 +126,42 @@ class _NearMePageState extends State<NearMePage> {
                         ),
                         borderRadius: BorderRadius.circular(7),
                       ),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 10,
-                              ),
-                              child: Image.asset(
-                                'assets/icons/search1.png',
-                                width: 10,
-                              ),
-                            ),
-                            Container(
-                              transform: Matrix4.translationValues(0, -2, 0),
-                              constraints: const BoxConstraints(maxWidth: 250),
-                              child: TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 15, fontFamily: "ProximaNova"),
-                                decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
-                                  ),
+                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 10,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/search1.png',
+                            width: 10,
+                          ),
+                        ),
+                        Container(
+                          transform: Matrix4.translationValues(0, -2, 0),
+                          constraints: const BoxConstraints(maxWidth: 250),
+                          child: TextFormField(
+                            controller: searchController,
+                            onEditingComplete: () async {
+                              search = searchController.text;
+                              treatments.clear();
+                              treatments.addAll(await stateTreatment.getNearTreatment(context, page, search: search));
+                              setState(() {});
+                            },
+                            style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
+                            decoration: InputDecoration(
+                              hintText: "Cari Treatment",
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                fontFamily: "ProximaNova",
+                                color: fromCssColor(
+                                  '#9B9B9B',
                                 ),
                               ),
                             ),
-                          ]),
+                          ),
+                        ),
+                      ]),
                     )),
                   ],
                 ),
@@ -188,8 +196,32 @@ class _NearMePageState extends State<NearMePage> {
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAll(),
-                          );
+                            builder: (context) => FilterAllWidget(),
+                          ).then((value) async {
+                            if (value['promo'] == true) {
+                              treatments.clear();
+                              page = 1;
+                              setState(() {});
+                            } else {
+                              filter['treatment_type[]'] = value['treatment'];
+                              filter['order_by'] = value['orderBy'];
+                              filter['open_now'] = value['openNow'];
+                              filter['min_price'] = value['minPrice'];
+                              filter['max_price'] = value['maxPrice'];
+
+                              treatments.clear();
+                              page = 1;
+                              treatments.addAll(
+                                await stateTreatment.getNearTreatment(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
+                            }
+                            setState(() {});
+                          });
                         },
                         child: Image.asset(
                           'assets/icons/filter-icon.png',
@@ -214,8 +246,7 @@ class _NearMePageState extends State<NearMePage> {
                       },
                       child: Container(
                         margin: const EdgeInsets.only(left: 9),
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, top: 6, bottom: 6),
+                        padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
@@ -242,12 +273,76 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     FiklterTreatment(
                       title: 'Bintang 4.5+',
+                      onTap: () async {
+                        if (filter.containsKey("rating[]")) {
+                          filter.remove('rating[]');
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          filter['rating[]'] = '4';
+                          filter['rating[]'] = '5';
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        }
+                      },
                     ),
                     FiklterTreatment(
                       title: 'Buka Sekarang',
+                      onTap: () async {
+                        if (filter.containsKey("open_now")) {
+                          filter['open_now'] = false;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          filter['open_now'] = true;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        }
+                      },
                     ),
                     FiklterTreatment(
                       title: 'Promo',
+                      onTap: () async {
+                        if (promo) {
+                          promo = false;
+                          treatments.clear();
+                          treatments.addAll(await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
+                          setState(() {});
+                        } else {
+                          promo = true;
+                          treatments.clear();
+                          setState(() {});
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -275,15 +370,12 @@ class _NearMePageState extends State<NearMePage> {
                       children: [
                         Text(
                           'Tampilan',
-                          style: subTitleTextStyle.copyWith(
-                              color: const Color(0xff6B6B6B)),
+                          style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
-                        isSelecteTampilan
-                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
-                            : SvgPicture.asset('assets/icons/tampillan2.svg')
+                        isSelecteTampilan ? SvgPicture.asset('assets/icons/tampilan1.svg') : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
@@ -294,35 +386,38 @@ class _NearMePageState extends State<NearMePage> {
               ),
             ),
             isSelecteTampilan
-                ? Wrap(
-                    runSpacing: 12,
-                    spacing: 12,
-                    children: treatments.map((element) {
-                      return ProdukTreatment(
-                        namaKlinik: element.clinic!.name!,
-                        namaTreatmen: element.name!,
-                        diskonProduk: '0',
-                        hargaDiskon: '',
-                        harga: element.price.toString(),
-                        urlImg:
-                            "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                        rating: '${element.rating} (120k)',
-                        km: element.distance!,
-                        lokasiKlinik: element.clinic!.city!.name!,
-                        treatmentData: element,
-                      );
-                    }).toList(),
+                ? Container(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    child: Wrap(
+                      runSpacing: 12,
+                      spacing: 12,
+                      children: treatments.map((element) {
+                        return ProdukTreatment(
+                          namaKlinik: element.clinic!.name!,
+                          namaTreatmen: element.name!,
+                          diskonProduk: '0',
+                          hargaDiskon: '',
+                          harga: element.price.toString(),
+                          urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                          rating: '${element.rating} (120k)',
+                          km: element.distance!,
+                          lokasiKlinik: element.clinic!.city!.name!,
+                          treatmentData: element,
+                        );
+                      }).toList(),
+                    ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 19),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
                     child: Column(
                         children: treatments
                             .map(
                               (e) => TampilanRight(
                                 treatment: e,
-                                urlImg:
-                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                urlImg: "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                               ),
                             )
                             .toList()),

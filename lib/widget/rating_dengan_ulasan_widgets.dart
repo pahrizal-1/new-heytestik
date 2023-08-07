@@ -5,18 +5,28 @@ import '../theme/theme.dart';
 import 'button_widget.dart';
 import 'filter_tap_widget.dart';
 
-class RatingDenganUlasanWidgets extends StatelessWidget {
+class RatingDenganUlasanWidgets extends StatefulWidget {
   const RatingDenganUlasanWidgets({
     super.key,
   });
 
   @override
+  State<RatingDenganUlasanWidgets> createState() => _RatingDenganUlasanWidgetsState();
+}
+
+class _RatingDenganUlasanWidgetsState extends State<RatingDenganUlasanWidgets> {
+  List<String> rating = [];
+  @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(left: 33, right: 33, top: 30, bottom: 40),
+          padding: const EdgeInsets.only(
+            left: 33,
+            right: 33,
+            top: 30,
+            bottom: 40,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,22 +54,62 @@ class RatingDenganUlasanWidgets extends StatelessWidget {
               const SizedBox(
                 height: 39,
               ),
-              const FilterTapRating(
+              FilterTapRating(
+                onTap: () {
+                  if (rating.contains("1")) {
+                    rating.remove("1");
+                  } else {
+                    rating.add("1");
+                  }
+                },
                 title: '1',
               ),
-              const FilterTapRating(
+              FilterTapRating(
+                onTap: () {
+                  if (rating.contains("2")) {
+                    rating.remove("2");
+                  } else {
+                    rating.add("2");
+                  }
+                },
                 title: '2',
               ),
-              const FilterTapRating(
+              FilterTapRating(
+                onTap: () {
+                  if (rating.contains("3")) {
+                    rating.remove("3");
+                  } else {
+                    rating.add("3");
+                  }
+                },
                 title: '3',
               ),
-              const FilterTapRating(
+              FilterTapRating(
+                onTap: () {
+                  if (rating.contains("4")) {
+                    rating.remove("4");
+                  } else {
+                    rating.add("4");
+                  }
+                },
                 title: '4',
               ),
-              const FilterTapRating(
+              FilterTapRating(
+                onTap: () {
+                  if (rating.contains("5")) {
+                    rating.remove("5");
+                  } else {
+                    rating.add("5");
+                  }
+                },
                 title: '5',
               ),
-              const ButtonGreenWidget(title: 'Tampilkan')
+              ButtonGreenWidget(
+                title: 'Tampilkan',
+                onPressed: () {
+                  Navigator.pop(context, rating);
+                },
+              ),
             ],
           ),
         ),

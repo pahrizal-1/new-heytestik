@@ -62,10 +62,12 @@ class _FilterTapState extends State<FilterTap> {
 
 class FilterTapTreatment extends StatefulWidget {
   final String title;
+  final Function()? onTap;
 
   const FilterTapTreatment({
     Key? key,
     required this.title,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -82,6 +84,7 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
         children: [
           InkWell(
             onTap: () {
+              widget.onTap == null ? () {} : widget.onTap!();
               setState(() {
                 isSelected = !isSelected;
               });
@@ -113,10 +116,12 @@ class _FilterTapTreatmentState extends State<FilterTapTreatment> {
 
 class FilterTapRating extends StatefulWidget {
   final String title;
+  final Function()? onTap;
 
   const FilterTapRating({
     Key? key,
     required this.title,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -133,6 +138,7 @@ class _FilterTapRatingState extends State<FilterTapRating> {
         children: [
           InkWell(
             onTap: () {
+              widget.onTap == null ? () {} : widget.onTap!();
               setState(() {
                 isSelected = !isSelected;
               });

@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
@@ -27,11 +28,13 @@ class ObatSolutionsPage extends StatefulWidget {
 class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
   final ScrollController scrollController = ScrollController();
   final MedicineController solutionController = Get.put(MedicineController());
+  final EtalaseController etalaseController = Get.put(EtalaseController());
   int page = 1;
   List<MedicineModel> medicines = [];
 
   @override
   void initState() {
+    etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       medicines.addAll(await solutionController.getMedicine(context, page));
       setState(() {});
@@ -42,7 +45,8 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines.addAll(await solutionController.getMedicine(context, page));
+            medicines
+                .addAll(await solutionController.getMedicine(context, page));
             setState(() {});
           });
         }
@@ -140,7 +144,8 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: InkWell(
               onTap: () {
@@ -154,22 +159,24 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                   ),
                   borderRadius: BorderRadius.circular(35),
                 ),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 10,
-                    ),
-                    child: Image.asset(
-                      'assets/icons/search1.png',
-                      width: 10,
-                    ),
-                  ),
-                  Text(
-                    'Cari Obat',
-                    style: subTitleTextStyle,
-                  )
-                ]),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 10,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/search1.png',
+                          width: 10,
+                        ),
+                      ),
+                      Text(
+                        'Cari Obat',
+                        style: subTitleTextStyle,
+                      )
+                    ]),
               ),
             ),
           ),
@@ -262,48 +269,13 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                         padding: EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CirkelCategory(
-                              title: 'Lihat\nSemua',
-                              img: 'assets/images/lainnya.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Jerawat',
-                              img: 'assets/images/jerawat.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Rambut\nRontok',
-                              img: 'assets/images/rambutrontok.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Kerutan',
-                              img: 'assets/images/kerutan.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Bekas\nJerawat',
-                              img: 'assets/images/bekasjerawat.png',
-                            ),
-                            CirkelCategory(
-                              title: 'ketombe',
-                              img: 'assets/images/ketombe.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Kebotakan',
-                              img: 'assets/images/kebotakan.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Bekas\nJerawat',
-                              img: 'assets/images/dagu.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Kulit\nKusam',
-                              img: 'assets/images/kulitkusam.png',
-                            ),
-                            CirkelCategory(
-                              title: 'Skin\nGoals',
-                              img: 'assets/images/skingoals.png',
-                            ),
-                          ],
+                          children: etalaseController.filterData.map((element) {
+                            return CirkelCategory(
+                              title: element.name ?? "-",
+                              img:
+                                  "${Global.FILE}/${element.mediaConcern!.media!.path!}",
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -409,7 +381,8 @@ class KonsultasProduk extends StatelessWidget {
                 children: [
                   Text(
                     medicine.name,
-                    style: subGreyTextStyle.copyWith(fontSize: 13, color: const Color(0xFF323232)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 13, color: const Color(0xFF323232)),
                   ),
                   const SizedBox(
                     height: 10,
@@ -423,7 +396,8 @@ class KonsultasProduk extends StatelessWidget {
                   ),
                   Text(
                     medicine.packaging,
-                    style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 12, color: const Color(0xFF9B9B9B)),
                   ),
                   const SizedBox(
                     height: 5,
@@ -441,8 +415,11 @@ class KonsultasProduk extends StatelessWidget {
                     height: 12,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                    decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
                     child: Text(
                       'Harus Dengan Resep Dokter',
                       style: grenTextStyle.copyWith(fontSize: 10),
@@ -470,26 +447,33 @@ class CirkelCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 25),
+      padding: const EdgeInsets.only(right: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 50,
+            height: 49,
             width: 50,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: DecorationImage(image: AssetImage(img))),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              image:
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
+            ),
           ),
           const SizedBox(
             height: 10,
           ),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 12,
-              fontFamily: 'ProximaNova',
-              fontWeight: FontWeight.w400,
+          SizedBox(
+            width: 70,
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                fontFamily: 'ProximaNova',
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ],

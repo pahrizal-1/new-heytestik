@@ -9,7 +9,12 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../stream_page/stream_home_page.dart';
 
 class TabBarCustomer extends StatefulWidget {
-  const TabBarCustomer({Key? key}) : super(key: key);
+  const TabBarCustomer({
+    Key? key,
+    this.currentIndex = 0,
+  }) : super(key: key);
+
+  final int? currentIndex;
 
   @override
   State<TabBarCustomer> createState() => _TabBarCustomerState();
@@ -30,6 +35,16 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
   }
 
   int myIndex = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      myIndex = widget.currentIndex ?? 0;
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +52,7 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
       body: widgetList[myIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
         child: BottomNavigationBar(
           onTap: onTap,

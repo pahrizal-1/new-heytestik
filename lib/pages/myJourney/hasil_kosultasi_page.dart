@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
@@ -164,9 +165,12 @@ class HasilKosultasiPage extends StatelessWidget {
           const SizedBox(
             height: 21,
           ),
-          HasilKonsultasiWidgets(
-            namaObat: 'Cefila® 200 Cefixime',
-            berapaBayak: '1 Strip (10 tablet)',
+          InkWell(
+            onTap: () {},
+            child: HasilKonsultasiWidgets(
+              namaObat: 'Cefila® 200 Cefixime',
+              berapaBayak: '1 Strip (10 tablet)',
+            ),
           ),
           SizedBox(
             height: 18,
