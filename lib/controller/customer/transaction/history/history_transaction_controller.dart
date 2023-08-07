@@ -19,7 +19,11 @@ class HistoryTransactionController extends StateClass {
   RxList<Data2> dataHistory = List<Data2>.empty(growable: true).obs;
   RxList<Data2> dataHistoryPending = List<Data2>.empty(growable: true).obs;
 
-  Future<List<Data2>> getAllHistory(BuildContext context, int page) async {
+  Future<List<Data2>> getAllHistory(
+    BuildContext context,
+    int page, {
+    String? search,
+  }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       // try {
@@ -31,17 +35,16 @@ class HistoryTransactionController extends StateClass {
         transactionType,
         startDate.toString(),
         endDate.toString(),
+        search: search,
       );
 
       print("total awal ${responseHistory.value.data!.data!.length}");
 
       for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {
-        if (responseHistory.value.data!.data![i].detail?.status ==
-            'MENUNGGU_PEMBAYARAN') {
+        if (responseHistory.value.data!.data![i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
           totalPending.value += 1;
         }
-        if (responseHistory.value.data!.data![i].detail?.status !=
-            'MENUNGGU_PEMBAYARAN') {
+        if (responseHistory.value.data!.data![i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
           dataHistory.value.add(responseHistory.value.data!.data![i]);
         }
       }
@@ -56,8 +59,7 @@ class HistoryTransactionController extends StateClass {
     return dataHistory;
   }
 
-  Future<List<Data2>> getAllHistoryPending(
-      BuildContext context, int page) async {
+  Future<List<Data2>> getAllHistoryPending(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       // try {
@@ -72,8 +74,7 @@ class HistoryTransactionController extends StateClass {
       );
 
       for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {
-        if (responseHistory.value.data!.data![i].detail?.status ==
-            'MENUNGGU_PEMBAYARAN') {
+        if (responseHistory.value.data!.data![i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
           totalPending.value += 1;
           dataHistoryPending.value.add(responseHistory.value.data!.data![i]);
         }

@@ -13,8 +13,7 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class TransactionService extends ProviderClass {
-  TransactionService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  TransactionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<PaymentMethodModel> paymentMethod() async {
     var response = await networkingConfig.doGet(
@@ -63,8 +62,9 @@ class TransactionService extends ProviderClass {
     List transactionStatus,
     List transactionType,
     String startDate,
-    String endDate,
-  ) async {
+    String endDate, {
+    String? search,
+  }) async {
     try {
       var response = await networkingConfig.doGet(
         '/transaction',
@@ -75,7 +75,8 @@ class TransactionService extends ProviderClass {
           "transaction_status[]": transactionStatus,
           "transaction_type[]": transactionType,
           "start_date": startDate,
-          "end_date": endDate
+          "end_date": endDate,
+          "search": search,
         },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -89,8 +90,7 @@ class TransactionService extends ProviderClass {
     }
   }
 
-  Future<TransactionStatusModel> transactionStatusConsultation(
-      String orderId) async {
+  Future<TransactionStatusModel> transactionStatusConsultation(String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/CONSULTATION.$orderId/status',
       headers: {
@@ -112,8 +112,7 @@ class TransactionService extends ProviderClass {
     return TransactionHistoryConsultationModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatusTreatment(
-      String orderId) async {
+  Future<TransactionStatusModel> transactionStatusTreatment(String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/TREATMENT.$orderId/status',
       headers: {
