@@ -30,10 +30,15 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
   List<String> dataRemainingTime = [];
   Map<String, int> votes = {};
   int votesCount = 0;
+  int allVotesCount = 0;
+  int? indexVotes;
+  List<Map<String, dynamic>> streamPollOptions = [];
 
   @override
   void initState() {
     dataRemainingTime = widget.stream.endTime.difference(DateTime.now()).toString().split('.')[0].split(":");
+    allVotesCount = widget.stream.pollCount;
+    streamPollOptions = widget.stream.streamPollOptions;
     super.initState();
   }
 
@@ -155,11 +160,15 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 SizedBox(
                   height: 16.0,
                 ),
-                ...widget.stream.streamPollOptions.map((option) {
+                ...streamPollOptions.asMap().entries.map((option) {
                   double pollPercentage = 0;
 
-                  if(widget.stream.pollCount == 0 && option['count'] > 0)  {
-                    1 / option['count'];
+                  if (allVotesCount == 0 && option.value['count'] > 0) {
+                    pollPercentage = (1 / option.value['count']) * 100;
+                  }
+
+                  if(allVotesCount > 0 && option.value['count'] > 0) {
+                    pollPercentage =  (allVotesCount / option.value['count']) * 100;
                   }
 
                   return Stack(
@@ -183,11 +192,21 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         child: Text(""),
                       ),
                       GestureDetector(
-                        onTap: (){
-                          votesCount = votesCount + 1;
-                          option['count'] = option['count'] + 1;
-                          setState((){});
-                          print(pollPercentage);
+                        onTap: () {
+                          if (votesCount == 0) {
+                            votesCount = votesCount + 1;
+                            allVotesCount = allVotesCount + 1;
+                          }
+
+                          if (indexVotes != null) {
+                            streamPollOptions[indexVotes!]['count'] - 1;
+                            postController.deletePolling(context, widget.stream.id, streamPollOptions[indexVotes!]['stream_poll_id'], streamPollOptions[indexVotes!]['id']);
+                          }
+
+                          postController.pickPolling(context, widget.stream.id, option.value['stream_poll_id'], option.value['id']);
+                          indexVotes = option.key;
+                          option.value['count'] = option.value['count'] + 1;
+                          setState(() {});
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -207,9 +226,9 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                           child: Row(
                             children: [
                               Text(
-                                option['option'],
+                                option.value['option'],
                                 style: TextStyle(
-                                  color: option['count'] > 0 ? Colors.white : Colors.black,
+                                  color: option.value['count'] > 0 ? Colors.white : Colors.black,
                                 ),
                               ),
                               Spacer(),
@@ -232,7 +251,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 Row(
                   children: [
                     Text(
-                      "${widget.stream.pollCount + votesCount} votes",
+                      "$allVotesCount votes",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
