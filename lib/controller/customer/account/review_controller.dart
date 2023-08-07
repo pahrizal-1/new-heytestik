@@ -11,19 +11,46 @@ class ReviewController extends StateClass {
   Rx<WaitingReviewModel> responseReview = WaitingReviewModel().obs;
   RxList<Data2> dataReview = List<Data2>.empty(growable: true).obs;
 
+  RxInt starRating = 0.obs;
+  RxString ratingTitle = "".obs;
+  TextEditingController review = TextEditingController();
+
   Future<List<Data2>> waitingReview(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        responseReview.value = await ReviewService().waitingReview(page);
-        dataReview.value = responseReview.value.data!.data!;
-        print("dataReview ${dataReview.value.length}");
-      } catch (e) {
-        print("error wa $e");
-      }
+      responseReview.value = await ReviewService().waitingReview(page);
+      dataReview.value = responseReview.value.data!.data!;
+      print("dataReview ${dataReview.value.length}");
     });
     isLoading.value = false;
 
     return dataReview;
+  }
+
+  reviewConsultation(BuildContext context, String transactionConsultationId,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "transaction_consultation_id": transactionConsultationId,
+        "rating": starRating.value,
+        "review": review.text
+      };
+
+      print("data $data");
+      // return;
+      var res = await ReviewService().reviewConsultation(data);
+      print("res $res");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+
+      doInPost();
+      review.clear();
+    });
+    isLoading.value = false;
   }
 }
