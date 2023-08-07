@@ -64,20 +64,23 @@ class TransactionService extends ProviderClass {
     String startDate,
     String endDate, {
     String? search,
+    Map<String, dynamic>? filter,
   }) async {
     try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+        "order": "desc",
+        "search": search,
+      };
+
+      if (filter != null) {
+        params.addAll(filter);
+      }
+
       var response = await networkingConfig.doGet(
         '/transaction',
-        params: {
-          "page": page,
-          "take": 10,
-          "order": "desc",
-          "transaction_status[]": transactionStatus,
-          "transaction_type[]": transactionType,
-          "start_date": startDate,
-          "end_date": endDate,
-          "search": search,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

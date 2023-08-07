@@ -8,10 +8,15 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/widget/filter_jenis_transaksi.dart';
 import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/daftar_transaksi_widgets.dart';
+import '../../widget/filter_status_transaksi.dart';
+import '../../widget/filter_tanggal_transaksi.dart';
+import '../../widget/rating_dengan_ulasan_widgets.dart';
+import '../../widget/show_modal_dialog.dart';
 
 class DaftarTransaksiPage extends StatefulWidget {
   DaftarTransaksiPage({super.key});
@@ -28,11 +33,17 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
   List<Data2> history = [];
   int page = 1;
   String? search;
+  Map<String, dynamic> filter = {};
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      history.addAll(await state.getAllHistory(context, page, search: search));
+      history.addAll(await state.getAllHistory(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
       setState(() {});
     });
 
@@ -42,7 +53,12 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            history.addAll(await state.getAllHistory(context, page, search: search));
+            history.addAll(await state.getAllHistory(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
             setState(() {});
           });
         }
@@ -69,7 +85,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                 page = 1;
                 search = searchController.text;
                 history.clear();
-                history.addAll(await state.getAllHistory(context, page, search: search));
+                history.addAll(await state.getAllHistory(context, page, search: search, filter: filter));
                 setState(() {});
               },
               decoration: InputDecoration(
@@ -126,100 +142,119 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
+                padding: const EdgeInsets.only(left: 26, top: 9, right: 26, bottom: 8),
                 child: Row(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 5, bottom: 8),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor,
+                    InkWell(
+                      onTap: () {
+                        customeshomodal(context, FilterStatusTransaksi()).then((value) async {
+                          filter['transaction_status[]'] = value;
+                          page = 1;
+                          history.clear();
+                          history.addAll(await state.getAllHistory(context, page, search: search, filter: filter));
+                          setState(() {});
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
                         ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        children: [
-                          Center(
-                            child: Text(
-                              'Semua Status',
-                              style: blackRegulerTextStyle.copyWith(
-                                fontSize: 15,
-                                color: blackColor,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Center(
+                              child: Text(
+                                'Status Transaksi',
+                                style: blackRegulerTextStyle.copyWith(fontSize: 15),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const Icon(Icons.keyboard_arrow_down)
-                        ],
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            const Icon(Icons.keyboard_arrow_down)
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        right: 5,
-                        bottom: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor,
+                    InkWell(
+                      onTap: () {
+                        customeshomodal(context, FilterJenisTransaksi()).then((value) async {
+                          filter['transaction_type[]'] = value;
+                          page = 1;
+                          history.clear();
+                          history.addAll(await state.getAllHistory(context, page, search: search, filter: filter));
+                          setState(() {});
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
                         ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        children: [
-                          Center(
-                            child: Text(
-                              'Semua Transaksi',
-                              style: blackRegulerTextStyle.copyWith(
-                                fontSize: 15,
-                                color: blackColor,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Center(
+                              child: Text(
+                                'Jenis Transaksi',
+                                style: blackRegulerTextStyle.copyWith(fontSize: 15),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          const Icon(Icons.keyboard_arrow_down)
-                        ],
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            const Icon(Icons.keyboard_arrow_down)
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        right: 5,
-                        bottom: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor,
+                    InkWell(
+                      onTap: () {
+                        customeshomodal(context, FilterTanggalTransaksi()).then((value) async {
+                          filter['start_date'] = DateTime.now().subtract(Duration(days: value));
+                          filter['end_date'] = DateTime.now().subtract(Duration(days: value));
+                          page = 1;
+                          history.clear();
+                          history.addAll(await state.getAllHistory(context, page, search: search, filter: filter));
+                          setState(() {});
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
                         ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        children: [
-                          Center(
-                            child: Text(
-                              'Semua Tanggal',
-                              style: blackRegulerTextStyle.copyWith(
-                                fontSize: 15,
-                                color: blackColor,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Center(
+                              child: Text(
+                                'Tanggal Transaksi',
+                                style: blackRegulerTextStyle.copyWith(fontSize: 15),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const Icon(Icons.keyboard_arrow_down)
-                        ],
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            const Icon(Icons.keyboard_arrow_down)
+                          ],
+                        ),
                       ),
                     ),
                   ],

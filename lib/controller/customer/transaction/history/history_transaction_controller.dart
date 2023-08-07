@@ -23,6 +23,7 @@ class HistoryTransactionController extends StateClass {
     BuildContext context,
     int page, {
     String? search,
+    Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -36,6 +37,7 @@ class HistoryTransactionController extends StateClass {
         startDate.toString(),
         endDate.toString(),
         search: search,
+        filter: filter,
       );
 
       print("total awal ${responseHistory.value.data!.data!.length}");
