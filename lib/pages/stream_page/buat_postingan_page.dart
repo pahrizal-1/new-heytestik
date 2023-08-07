@@ -17,9 +17,7 @@ class _BuatPostinganPageState extends State<BuatPostinganPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: iSelected == 0
-          ? const BuatPostinganGeneral()
-          : const BuatPostingaPollPage(),
+      body: iSelected == 0 ? const BuatPostinganGeneral() : const BuatPostingaPollPage(),
       bottomNavigationBar: Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(

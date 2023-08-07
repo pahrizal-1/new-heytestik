@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../controller/customer/stream/post_controller.dart';
 import '../../models/customer/stream_post.dart';
 import '../../widget/alert_dialog.dart';
+import '../../widget/show_modal_dialog.dart';
 
 class BuatPostinganGeneral extends StatefulWidget {
   const BuatPostinganGeneral({super.key});
@@ -20,6 +24,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
   final TextEditingController postDescController = TextEditingController();
   String name = "-";
   int iSelected = 0;
+  List<File> imagePath = [];
 
   @override
   void initState() {
@@ -61,19 +66,21 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
               GestureDetector(
                 onTap: () {
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
-                  Iterable<Match> matches =
-                      hashtagRegExp.allMatches(hashTagController.text);
+                  Iterable<Match> matches = hashtagRegExp.allMatches(hashTagController.text);
                   List<String?> hashtags = matches.map((match) {
-                    String? hashtagText =
-                        match.group(0)?.substring(1); // Remove the '#' symbol
+                    String? hashtagText = match.group(0)?.substring(1); // Remove the '#' symbol
                     return hashtagText?.replaceAll(' ', '');
                   }).toList();
 
-                  if (hashtags.isEmpty) {
+                  if (postDescController.text == "") {
                     showDialog(
                       context: context,
-                      builder: (context) =>
-                          AlertWidget(subtitle: "Hastags Can't be Empty"),
+                      builder: (context) => AlertWidget(subtitle: "Post Description Can't be Empty"),
+                    );
+                  } else if (hashtags.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertWidget(subtitle: "Hastags Can't be Empty"),
                     );
                   } else {
                     StreamPostModel postModel = StreamPostModel(
@@ -83,8 +90,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       endTime: DateTime.now(),
                       options: [],
                     );
-                    streamController.postGeneral(context, postModel,
-                        doInPost: () {
+                    streamController.postGeneral(context, postModel, files: imagePath, doInPost: () {
                       Navigator.of(context).pop();
                     });
                   }
@@ -142,11 +148,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         height: 2,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 4.42),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 1.5),
-                            borderRadius: BorderRadius.circular(17)),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.42),
+                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5), borderRadius: BorderRadius.circular(17)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -189,8 +192,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Apa Yang kamu Post..',
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -198,6 +200,127 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                   labelStyle: TextStyle(
                     color: fromCssColor('#A3A3A3'),
                   ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        customeshomodal(
+                          context,
+                          Wrap(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+                                        if (returnedImage == null) return;
+                                        imagePath.add(File(returnedImage.path));
+                                        setState(() {});
+                                      },
+                                      child: Text(
+                                        'Kamera',
+                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 21,
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                        if (returnedImage == null) return;
+                                        imagePath.add(File(returnedImage.path));
+                                        setState(() {});
+                                      },
+                                      child: Text(
+                                        'Dari galeri',
+                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 21,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            'CANCEL',
+                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 100,
+                        height: MediaQuery.of(context).size.width - 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black.withOpacity(.2)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
+                              size: 30.0,
+                              color: Colors.black.withOpacity(.3),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Pilih Gambar Dari Galeri Atau Foto Dengan Kamera",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(.3),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    ...imagePath.map((image) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        width: MediaQuery.of(context).size.width - 100,
+                        height: MediaQuery.of(context).size.width - 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black.withOpacity(.2)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            image,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -224,8 +347,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     fontStyle: FontStyle.italic,
                     fontSize: 13,
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
