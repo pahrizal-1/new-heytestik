@@ -28,6 +28,8 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
   bool? saved;
   Map<String, int> postLike = {};
   List<String> dataRemainingTime = [];
+  Map<String, int> votes = {};
+  int votesCount = 0;
 
   @override
   void initState() {
@@ -154,7 +156,12 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                   height: 16.0,
                 ),
                 ...widget.stream.streamPollOptions.map((option) {
-                  double pollPercentage = (widget.stream.pollCount == 0 || option['count'] == 0) ? 0 : widget.stream.pollCount / option['count'];
+                  double pollPercentage = 0;
+
+                  if(widget.stream.pollCount == 0 && option['count'] > 0)  {
+                    1 / option['count'];
+                  }
+
                   return Stack(
                     children: [
                       Container(
@@ -175,37 +182,45 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         ),
                         child: Text(""),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 16.0,
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 4.0,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black.withOpacity(.1),
+                      GestureDetector(
+                        onTap: (){
+                          votesCount = votesCount + 1;
+                          option['count'] = option['count'] + 1;
+                          setState((){});
+                          print(pollPercentage);
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 16.0,
                           ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              option['option'],
-                              style: TextStyle(
-                                color: option['count'] > 0 ? Colors.white : Colors.black,
-                              ),
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black.withOpacity(.1),
                             ),
-                            Spacer(),
-                            Text(
-                              "${pollPercentage.toInt()}%",
-                              style: TextStyle(
-                                color: pollPercentage > 0.9 ? Colors.white : Colors.black,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                option['option'],
+                                style: TextStyle(
+                                  color: option['count'] > 0 ? Colors.white : Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
+                              Spacer(),
+                              Text(
+                                "${pollPercentage.toInt()}%",
+                                style: TextStyle(
+                                  color: pollPercentage > 0.9 ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -217,7 +232,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 Row(
                   children: [
                     Text(
-                      "${widget.stream.pollCount} votes",
+                      "${widget.stream.pollCount + votesCount} votes",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,

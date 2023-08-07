@@ -66,7 +66,9 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: streams.isEmpty ? Center(
+        child: Text("No Post From Your Followed Account"),
+      ) : ListView.builder(
         itemCount: streams.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
