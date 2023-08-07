@@ -23,17 +23,18 @@ import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatDoctorPage extends StatefulWidget {
-  final String roomCode, senderBy, receiverBy;
-  final int roomId, senderId, receiverId, id;
+  final String roomCode;
+  final String? senderBy, receiverBy;
+  final int? roomId, senderId, receiverId, id;
   ChatDoctorPage({
     super.key,
     required this.roomCode,
-    required this.senderBy,
-    required this.receiverBy,
-    required this.roomId,
-    required this.senderId,
-    required this.receiverId,
-    required this.id,
+    this.senderBy,
+    this.receiverBy,
+    this.roomId,
+    this.senderId,
+    this.receiverId,
+    this.id,
   });
 
   @override
@@ -59,16 +60,17 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
   File? imagePath;
   RxString mediaImg = ''.obs;
+  late final NotificationService notificationService;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // state.getLastChat();
     getRequest(widget.roomCode);
-    connectSocket(context, widget.receiverBy);
-    // joinRoom(widget.roomCode);
-    // readMessage(widget.roomCode);
+    connectSocket(context);
+    LocalNotificationService.initialize();
+    notificationService = NotificationService();
+    notificationService.initializePlatformNotifications();
     state.quickReply();
     print('id ' + widget.id.toString());
   }
@@ -118,14 +120,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             receiverBy: receiverBy,
             sendMsg: () {
               sendMessage(
-                widget.roomId,
-                widget.roomId,
-                widget.senderId,
-                widget.receiverId,
+                widget.roomId ?? 0,
+                widget.roomId ?? 0,
+                widget.senderId ?? 0,
+                widget.receiverId ?? 0,
                 widget.roomCode,
                 state.messageController.text,
-                widget.senderBy,
-                widget.receiverBy,
+                widget.senderBy ?? '',
+                widget.receiverBy ?? '',
               );
               // selectedMultipleImage = [];
               Get.back();
@@ -304,8 +306,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                 "size": 154660,
                 "mime": "image/jpeg",
                 "path": i.toString(),
-                "destination":
-                    "uploads/${i}",
+                "destination": "uploads/${i}",
                 "created_by": null,
                 "updated_by": null,
                 "created_at": "2023-08-05T07:22:49.122Z",
@@ -371,6 +372,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       print("message ${newMessage['message']}");
       print("message ${newMessage['sender']['fullname']}");
       // var result = json.decode(newMessage);
+
+      notificationService.showLocalNotification(
+        id: widget.receiverId ?? 0,
+        title: widget.receiverBy ?? '',
+        body: "${newMessage['message']}",
+      );
+
       Data2 result = Data2.fromJson(newMessage);
       setState(() {
         msglist?.add(result);
@@ -387,26 +395,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   recentChatt() {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
-      log("recentChat $recentChat['last_chat']['message']");
-      // Data2 result = Data2.fromJson(recentChat['last_chat']);
-      // setState(() {
-      //   msglist?.add(result);
-      // });
-      // listLastChat.add(recentChat['last_chat']);
-      log("de $msglist");
-
-      await NotificationService().notifChat(
-        widget.receiverId,
-        widget.receiverBy,
-        recentChat['last_chat']['message'],
-        100,
-      );
+      log("recentChat ${recentChat['last_chat']['message']}");
     });
     print("recentChat");
   }
 
   // INIATE CONNECT TO SOCKET
-  connectSocket(BuildContext context, String receiver) async {
+  connectSocket(BuildContext context) async {
     try {
       _socket = IO.io(
         '${Global.BASE_API}/socket',
@@ -426,11 +421,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         print('Connection established');
         await joinRoom(widget.roomCode);
         await readMessage(widget.roomCode);
-        await onlineClients(receiver);
+        await onlineClients(widget.receiverBy ?? '');
         await newMessage();
         await typingIndicator();
+        await recentChatt();
         await infoLog();
-        // await recentChatt();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
@@ -476,6 +471,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     } catch (e) {
       print("error close $e");
     }
+  }
+
+  @override
+  void dispose() {
+    if (_socket != null) {
+      _socket?.disconnect();
+    }
+    super.dispose();
   }
 
   @override
@@ -559,7 +562,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                         width: 21,
                       ),
                       Text(
-                        widget.receiverBy,
+                        widget.receiverBy ?? '',
                         style: blackTextStyle.copyWith(fontSize: 18),
                       ),
                       const SizedBox(
@@ -572,7 +575,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  DetailPasienPage(id: widget.id),
+                                  DetailPasienPage(id: widget.id ?? 0),
                             ),
                           );
                           print('id ' + widget.id.toString());
@@ -978,7 +981,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                           ((context) =>
                                                                               PreviewImage(
                                                                                 path: msglist![index].mediaChatMessages,
-                                                                                senderId: widget.senderBy,
+                                                                                senderId: widget.senderBy ?? '',
                                                                               )),
                                                                     ),
                                                                   );
@@ -1036,14 +1039,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         id: widget.id,
         sendMsg: () {
           sendMessage(
-            widget.roomId,
-            widget.roomId,
-            widget.senderId,
-            widget.receiverId,
+            widget.roomId ?? 0,
+            widget.roomId ?? 0,
+            widget.senderId ?? 0,
+            widget.receiverId ?? 0,
             widget.roomCode,
             state.messageController.text,
-            widget.senderBy,
-            widget.receiverBy,
+            widget.senderBy ?? '',
+            widget.receiverBy ?? '',
           );
         },
         onChanged: (value) {
@@ -1072,14 +1075,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                 Get.put(DoctorConsultationController())
                                     .quickReplyChat[index]['message'];
                             await sendMessage(
-                              widget.roomId,
-                              widget.roomId,
-                              widget.senderId,
-                              widget.receiverId,
+                              widget.roomId ?? 0,
+                              widget.roomId ?? 0,
+                              widget.senderId ?? 0,
+                              widget.receiverId ?? 0,
                               widget.roomCode,
                               desc,
-                              widget.senderBy,
-                              widget.receiverBy,
+                              widget.senderBy ?? '',
+                              widget.receiverBy ?? '',
                             );
 
                             Get.back();
@@ -1109,13 +1112,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         },
         onGallery: () {
           selectImageMultiple(
-            widget.roomId,
-            widget.roomId,
-            widget.senderId,
-            widget.receiverId,
+            widget.roomId ?? 0,
+            widget.roomId ?? 0,
+            widget.senderId ?? 0,
+            widget.receiverId ?? 0,
             widget.roomCode,
-            widget.senderBy,
-            widget.receiverBy,
+            widget.senderBy ?? '',
+            widget.receiverBy ?? '',
           );
         },
       ),

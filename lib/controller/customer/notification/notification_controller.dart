@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
 import '../../../service/customer/notification/notification_services.dart';
+import '../../../service/doctor/consultation/consultation_service.dart';
 
 class NotificationCustomerController extends StateClass {
   Rx<NotificationCustomerModel> data = NotificationCustomerModel().obs;
@@ -17,5 +18,15 @@ class NotificationCustomerController extends StateClass {
       notifications.value.addAll(data.value.data!.data);
     });
     return data.value.data!.data;
+  }
+
+  postApprove(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await ConsultationDoctorScheduleServices().postApprove(id);
+      print('res' + res.toString());
+      Navigator.pop(context);
+    });
+    isLoading.value = false;
   }
 }

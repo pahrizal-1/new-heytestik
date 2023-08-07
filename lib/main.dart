@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
+import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'package:provider/provider.dart';
 
@@ -30,6 +32,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.initialize();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
+import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../theme/theme.dart';
 import 'chat_doctor.dart';
 
@@ -20,11 +21,15 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
   final DoctorConsultationController state =
       Get.put(DoctorConsultationController());
   bool isSelcted = false;
+  late final NotificationService notificationService;
 
   @override
   void initState() {
     super.initState();
     state.getListRecentChat(context);
+    LocalNotificationService.initialize();
+    notificationService = NotificationService();
+    notificationService.initializePlatformNotifications();
   }
 
   @override
@@ -102,10 +107,21 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                               fontSize: 15),
                                         ),
                                         const Spacer(),
-                                        Text(
-                                          'Atur Jadwal',
-                                          style: grenTextStyle.copyWith(
-                                              fontSize: 15),
+                                        InkWell(
+                                          onTap: () async {
+                                            notificationService
+                                                .showLocalNotification(
+                                              id: 0,
+                                              title: "Time's up",
+                                              body:
+                                                  "Get back to productive activities",
+                                            );
+                                          },
+                                          child: Text(
+                                            'Atur Jadwal',
+                                            style: grenTextStyle.copyWith(
+                                                fontSize: 15),
+                                          ),
                                         ),
                                         Icon(
                                           Icons.keyboard_arrow_right,

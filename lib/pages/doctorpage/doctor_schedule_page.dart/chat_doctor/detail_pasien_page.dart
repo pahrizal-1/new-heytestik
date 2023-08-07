@@ -290,11 +290,12 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                             height: 45,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CatatanDocter()));
+                                state.postFinishConsultation(context, widget.id);
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const CatatanDocter()));
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: greenColor,
@@ -302,7 +303,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Text('Catatan Doktor',
+                              child: Text('SELESAI KONSULTASI',
                                   style: whiteTextStyle.copyWith(
                                       fontStyle: FontStyle.italic)),
                             ),

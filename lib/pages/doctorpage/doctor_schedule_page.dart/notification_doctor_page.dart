@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:intl/intl.dart';
@@ -186,19 +187,24 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                         SizedBox(
                           width: 8.0,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF24A7A0),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 8.0,
-                          ),
-                          child: Text(
-                            "Terima",
-                            style: TextStyle(
-                              color: Colors.white,
+                        InkWell(
+                          onTap: (){
+                            state.postApprove(context, notifications[index].data['consultation_doctor_schedule_id']);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF24A7A0),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 8.0,
+                            ),
+                            child: Text(
+                              "Terima",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
