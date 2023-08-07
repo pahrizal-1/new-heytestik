@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_kosultasi_page.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 
 class PotoBagianWajahBermasalah extends StatelessWidget {
-  const PotoBagianWajahBermasalah({super.key});
-
+  PotoBagianWajahBermasalah({super.key});
+  final MyJourneyController state = Get.put(MyJourneyController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +36,10 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/wajah_bermasalah.png',
+                  image: FileImage(
+                    File(state.initialConditionProblemPart!.path),
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -64,6 +70,7 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
+                    state.initialConditionProblemPart == null;
                     Navigator.pop(context);
                   },
                   style: TextButton.styleFrom(
@@ -88,31 +95,40 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
               width: 16,
             ),
             Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const GaleryMyJourney(),
+              child: Obx(
+                () => LoadingWidget(
+                  isLoading: state.isLoading.value,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: TextButton(
+                      onPressed: () async {
+                        await state.saveJourney(context, doInPost: () async {
+                          Get.off(
+                            GaleryMyJourney(),
+                          );
+                          SnackbarWidget.getSuccessSnackbar(
+                            context,
+                            'Info',
+                            'Journey berhasil disimpan',
+                          );
+                        });
+                      },
+                      style: TextButton.styleFrom(
+                        side: BorderSide(color: greenColor, width: 2),
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    );
-                  },
-                  style: TextButton.styleFrom(
-                    side: BorderSide(color: greenColor, width: 2),
-                    backgroundColor: greenColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    'Lanjut',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: whiteColor,
-                      fontWeight: bold,
+                      child: Text(
+                        'Simpan',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: whiteColor,
+                          fontWeight: bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),

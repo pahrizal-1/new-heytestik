@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
@@ -9,6 +10,7 @@ import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widget/button_widget.dart';
@@ -24,6 +26,8 @@ class HomeMyjourney extends StatefulWidget {
 File? imagePath;
 
 class _HomeMyjourneyState extends State<HomeMyjourney> {
+  final MyJourneyController state = Get.put(MyJourneyController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,9 +87,13 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                   },
                   child: Row(
                     children: [
-                      Text(
-                        'Pilih Skin Goal kamu',
-                        style: subTitleTextStyle,
+                      Obx(
+                        () => Text(
+                          state.concern.value == ""
+                              ? 'Pilih Skin Goal kamu'
+                              : state.concern.value,
+                          style: subTitleTextStyle,
+                        ),
                       ),
                       const Spacer(),
                       Icon(
@@ -101,75 +109,78 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                   height: 39,
                 ),
                 InkWell(
-                    onTap: () {
-                      customeshomodal(
-                          context,
-                          Wrap(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 32),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                  onTap: () async {
+                    if (state.concernId.value == 0) {
+                      SnackbarWidget.getErrorSnackbar(
+                        context,
+                        'Info',
+                        'Pilih Skinn Goal terlebih dahulu',
+                      );
+                      return;
+                    }
+
+                    customeshomodal(
+                      context,
+                      Wrap(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 35, vertical: 32),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(CustomeCameaJorney());
+                                  },
+                                  child: Text(
+                                    'Kamera',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15, color: blackColor),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 21,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _pickImageFromGalery();
+                                    });
+                                  },
+                                  child: Text(
+                                    'Dari galeri',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15, color: blackColor),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 21,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                CustomeCameaJorney(),
-                                          ),
-                                        );
+                                        Navigator.pop(context);
                                       },
                                       child: Text(
-                                        'Kamera',
+                                        'CANCEL',
                                         style: blackRegulerTextStyle.copyWith(
                                             fontSize: 15, color: blackColor),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 21,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _pickImageFromGalery();
-                                        });
-                                      },
-                                      child: Text(
-                                        'Dari galeri',
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 15, color: blackColor),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 21,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            'CANCEL',
-                                            style:
-                                                blackRegulerTextStyle.copyWith(
-                                                    fontSize: 15,
-                                                    color: blackColor),
-                                          ),
-                                        ),
-                                      ],
-                                    )
                                   ],
-                                ),
-                              )
-                            ],
-                          ));
-                    },
-                    child: Image.asset('assets/images/ambil-poto.png')),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  child: Image.asset('assets/images/ambil-poto.png'),
+                ),
                 const SizedBox(
                   height: 14,
                 ),

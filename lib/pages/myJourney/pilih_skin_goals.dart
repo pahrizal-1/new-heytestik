@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -17,9 +18,7 @@ class PilihSkinGoals extends StatefulWidget {
 }
 
 class _PilihSkinGoalsState extends State<PilihSkinGoals> {
-  final OrderConsultationController state =
-      Get.put(OrderConsultationController());
-
+  final MyJourneyController state = Get.put(MyJourneyController());
   @override
   void initState() {
     super.initState();
@@ -109,19 +108,21 @@ class PilihSkinGoalMyJourney extends StatelessWidget {
   final int? interestConditionId;
   final String title;
   final String img;
-  const PilihSkinGoalMyJourney({
+  PilihSkinGoalMyJourney({
     super.key,
     required this.interestConditionId,
     required this.title,
     required this.img,
   });
-
+  final MyJourneyController state = Get.put(MyJourneyController());
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
+          state.concern.value = title;
+          state.concernId.value = interestConditionId!;
           Navigator.pop(context);
         },
         child: Column(
