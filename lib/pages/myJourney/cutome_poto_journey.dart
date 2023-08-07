@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import '../../theme/theme.dart';
 import 'hasil_poto_wajah_page.dart';
 
@@ -11,6 +15,7 @@ class CustomeCameaJorney extends StatefulWidget {
 }
 
 class _CustomeCameaJorneyState extends State<CustomeCameaJorney> {
+  final MyJourneyController state = Get.put(MyJourneyController());
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
@@ -124,6 +129,8 @@ class _CustomeCameaJorneyState extends State<CustomeCameaJorney> {
                               //check if controller is initialized
                               image = await controller!
                                   .takePicture(); //capture image
+                              state.initialConditionFrontFace =
+                                  File(image!.path);
                               setState(() {
                                 //update UI
                               });
@@ -132,11 +139,7 @@ class _CustomeCameaJorneyState extends State<CustomeCameaJorney> {
                         } catch (e) {
                           print(e); //show error
                         }
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HasilPotoWajah()));
+                        Get.to(HasilPotoWajah());
                       },
                       child: Image.asset(
                         'assets/icons/button-camera.png',

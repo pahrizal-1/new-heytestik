@@ -1,10 +1,15 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_wajah_kanan.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class HasilPotoWajah extends StatelessWidget {
-  const HasilPotoWajah({super.key});
-
+  HasilPotoWajah({super.key});
+  final MyJourneyController state = Get.put(MyJourneyController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +34,10 @@ class HasilPotoWajah extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/icons/poto_pipi_kanan.png',
+                  image: FileImage(
+                    File(state.initialConditionFrontFace!.path),
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -63,6 +68,7 @@ class HasilPotoWajah extends StatelessWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
+                    state.initialConditionFrontFace == null;
                     Navigator.pop(context);
                   },
                   style: TextButton.styleFrom(
@@ -92,11 +98,10 @@ class HasilPotoWajah extends StatelessWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CustomeCameaPotoWajahKanan()));
+                    if (state.initialConditionFrontFace != null) {
+                      Get.to(CustomeCameaPotoWajahKanan());
+                      return;
+                    }
                   },
                   style: TextButton.styleFrom(
                     side: BorderSide(color: greenColor, width: 2),
