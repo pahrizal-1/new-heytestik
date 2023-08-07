@@ -78,7 +78,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                 ),
                 prefixIcon: Icon(Icons.search),
                 prefixIconColor: subgreyColor,
-                hintText: 'Cari Alamat',
+                hintText: 'Cari Transaksi',
                 border: InputBorder.none,
               ),
             ),
