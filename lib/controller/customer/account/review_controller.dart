@@ -31,6 +31,13 @@ class ReviewController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print(starRating.value < 1);
+      if (starRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
       var data = {
         "transaction_consultation_id": transactionConsultationId,
         "rating": starRating.value,
