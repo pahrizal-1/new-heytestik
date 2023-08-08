@@ -6,8 +6,8 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 
-class TulisUlasaPage extends StatelessWidget {
-  const TulisUlasaPage({super.key});
+class TulisUlasanTreatmentPage extends StatelessWidget {
+  const TulisUlasanTreatmentPage({super.key});
 
   @override
   Widget build(BuildContext context) {

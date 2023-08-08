@@ -10,22 +10,29 @@ class ReviewService extends ProviderClass {
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<WaitingReviewModel> waitingReview(int page) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/user-review/waiting',
-        params: {
-          "page": page,
-          "take": 10,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return WaitingReviewModel.fromJson(response);
-    } catch (e) {
-      print("hahahh $e");
-      return WaitingReviewModel.fromJson({});
-    }
+    var response = await networkingConfig.doGet(
+      '/user-review/waiting',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return WaitingReviewModel.fromJson(response);
+  }
+
+  Future<dynamic> reviewConsultation(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/consultation-review',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
   }
 }

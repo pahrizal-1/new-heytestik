@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
