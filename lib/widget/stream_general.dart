@@ -166,17 +166,21 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                         postController.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
-                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) - 1;
+                          postLike["${widget.stream.id}"] =
+                              (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
                         postController.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
-                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) + 1;
+                          postLike["${widget.stream.id}"] =
+                              (postLike["${widget.stream.id}"] ?? 0) + 1;
                         });
                       }
                     },
-                    child: like ?? widget.stream.liked ? Icon(Icons.favorite) : Icon(Icons.favorite_outline_outlined),
+                    child: like ?? widget.stream.liked
+                        ? Icon(Icons.favorite)
+                        : Icon(Icons.favorite_outline_outlined),
                   ),
                   const SizedBox(
                     width: 15,
@@ -215,7 +219,9 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                         });
                       }
                     },
-                    child: saved ?? widget.stream.saved ? Icon(Icons.bookmark) : Icon(Icons.bookmark_border),
+                    child: saved ?? widget.stream.saved
+                        ? Icon(Icons.bookmark)
+                        : Icon(Icons.bookmark_border),
                   ),
                 ],
               ),
@@ -224,7 +230,8 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => KomentarStreamPage(post: widget.stream),
+                      builder: (context) =>
+                          KomentarStreamPage(post: widget.stream),
                     ),
                   );
                 },
