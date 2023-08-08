@@ -6,12 +6,12 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_konsultasi.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
 import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_treatment.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/ulasan_riwayat_widgets.dart';
 import '../../widget/ulasan_widgets.dart';
-import 'Tulis_ulasan_treatment.dart';
 import 'detail_ulasan_page.dart';
 
 class UlasanSetingsPage extends StatefulWidget {
