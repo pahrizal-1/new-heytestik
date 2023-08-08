@@ -9,6 +9,9 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 
+import '../../../models/stream_home.dart';
+import '../../../models/user_activity.dart';
+
 class ProfileController extends StateClass {
   RxString fullName = '-'.obs;
   Map dataUser = {};
@@ -44,12 +47,32 @@ class ProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance
-            .unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
       });
 
       Get.offAll(() => const LoginPage());
       print('logout customer');
     });
+  }
+
+  Future<List<StreamHomeModel>> getUserActivityPost(
+    BuildContext context,
+    int page, {
+    String? search,
+    String? postType,
+  }) async {
+    try {
+      isLoading.value = true;
+      List<StreamHomeModel> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await ProfileService().getUserActivityPost(page, search: search, postType: postType);
+        isLoading.value = false;
+      });
+
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return [];
+    }
   }
 }
