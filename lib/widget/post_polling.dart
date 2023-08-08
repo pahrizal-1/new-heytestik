@@ -15,8 +15,12 @@ class PostPolling extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(left: 20, right: 17, top: 16, bottom: 18),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 17,
+            top: 16,
+            bottom: 18,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,8 +85,7 @@ class PostPolling extends StatelessWidget {
                 height: 14,
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(
@@ -105,8 +108,7 @@ class PostPolling extends StatelessWidget {
                         ),
                         Text(
                           'Polling',
-                          style: grenTextStyle.copyWith(
-                              fontSize: 15, fontWeight: regular),
+                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: regular),
                         ),
                       ],
                     ),
@@ -136,8 +138,7 @@ class PostPolling extends StatelessWidget {
                       ),
                       child: Text(
                         'Botox',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 14, fontWeight: regular),
+                        style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                       ),
                     ),
                     Container(
@@ -156,8 +157,7 @@ class PostPolling extends StatelessWidget {
                       ),
                       child: Text(
                         'Threadlift',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 14, fontWeight: regular),
+                        style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                       ),
                     ),
                     const SizedBox(
@@ -214,8 +214,7 @@ class PostPolling extends StatelessWidget {
                         width: 21,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image:
-                                AssetImage('assets/icons/bookmark-icons.png'),
+                            image: AssetImage('assets/icons/bookmark-icons.png'),
                           ),
                         ),
                       ),
@@ -234,11 +233,7 @@ class PostPolling extends StatelessWidget {
                       children: [
                         Text(
                           '13',
-                          style: TextStyle(
-                              color: greyColor,
-                              fontSize: 14,
-                              fontWeight: bold,
-                              fontFamily: 'ProximaNova'),
+                          style: TextStyle(color: greyColor, fontSize: 14, fontWeight: bold, fontFamily: 'ProximaNova'),
                         ),
                         const SizedBox(
                           width: 5,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
@@ -21,8 +22,11 @@ import 'edit_profil_customer_page.dart';
 class ProfilCustomerPage extends StatefulWidget {
   final double? height;
   final Color? color;
-  const ProfilCustomerPage(
-      {super.key, this.height = 1, this.color = Colors.white});
+  const ProfilCustomerPage({
+    super.key,
+    this.height = 1,
+    this.color = Colors.white,
+  });
 
   @override
   State<ProfilCustomerPage> createState() => _ProfilCustomerPageState();
@@ -62,11 +66,9 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
               const SizedBox(
                 width: 11,
               ),
-              Obx(
-                () => Text(
-                  state.fullName.value,
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
-                ),
+              Text(
+                "Profile",
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
             ],
           ),
@@ -93,8 +95,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       body: ListView(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
+            padding: const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
             child: Column(
               children: [
                 Row(
@@ -130,8 +131,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           children: [
                             Text(
                               'Kering',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 13),
+                              style: blackRegulerTextStyle.copyWith(fontSize: 13),
                             ),
                             Icon(
                               Icons.keyboard_arrow_down,
@@ -140,8 +140,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           ],
                         ),
                         Container(
-                          padding: const EdgeInsets.only(
-                              left: 13, right: 12, top: 7, bottom: 5),
+                          padding: const EdgeInsets.only(left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(
@@ -312,10 +311,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Posts',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            color: iSelected == 0 ? greenColor : subTitleColor,
-                            fontWeight: bold),
+                        style: subTitleTextStyle.copyWith(fontSize: 15, color: iSelected == 0 ? greenColor : subTitleColor, fontWeight: bold),
                       ),
                       const SizedBox(
                         height: 14,
@@ -323,8 +319,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       Container(
                         height: 2,
                         width: 150,
-                        decoration: BoxDecoration(
-                            color: iSelected == 0 ? greenColor : subTitleColor),
+                        decoration: BoxDecoration(color: iSelected == 0 ? greenColor : subTitleColor),
                       )
                     ],
                   ),
@@ -339,10 +334,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Reviews',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            fontWeight: bold,
-                            color: iSelected == 1 ? greenColor : subTitleColor),
+                        style: subTitleTextStyle.copyWith(fontSize: 15, fontWeight: bold, color: iSelected == 1 ? greenColor : subTitleColor),
                       ),
                       const SizedBox(
                         height: 14,
@@ -360,168 +352,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 22),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/profiledummy.png'),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: fromCssColor('#CCCCCC'),
-                          ),
-                          borderRadius: BorderRadius.circular(35),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 12),
-                          transform: Matrix4.translationValues(0, -3, 0),
-                          child: TextFormField(
-                            style: const TextStyle(
-                                fontSize: 15, fontFamily: 'ProximaNova'),
-                            decoration: InputDecoration(
-                                hintText:
-                                    'Mau share apa hari ini? Tulis disini yuk :)',
-                                border: InputBorder.none,
-                                hintStyle:
-                                    subTitleTextStyle.copyWith(fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-              ],
-            ),
-          ),
-          dividergrey(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 5),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 9,
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor,
-                        ),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Image.asset(
-                      'assets/icons/search1.png',
-                      height: 10,
-                      width: 10,
-                    ),
-                  ),
-                  const CategoryProfilAkun(
-                    title: 'Semua',
-                  ),
-                  const CategoryProfilAkun(
-                    title: 'Stream',
-                  ),
-                  CategoryProfilAkun(
-                      title: 'My Journey',
-                      onPressed: () {
-                        customeshomodal(
-                            context, const RatingDenganUlasanWidgets());
-                      }),
-                  CategoryProfilAkun(
-                    title: 'Polling',
-                    onPressed: () {
-                      customeshomodal(
-                        context,
-                        Wrap(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 33, right: 33, top: 30, bottom: 40),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Image.asset(
-                                          'assets/icons/danger-icons.png',
-                                          width: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 22,
-                                      ),
-                                      Text(
-                                        'Rating dengan ulasan',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 39,
-                                  ),
-                                  const FilterTapRating(
-                                    title: '1',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '2',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '3',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '4',
-                                  ),
-                                  const FilterTapRating(
-                                    title: '5',
-                                  ),
-                                  const ButtonGreenWidget(title: 'Tampilkan')
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  CategoryProfilAkun(
-                    title: 'Liked',
-                    onPressed: () {
-                      customeshomodal(context, const TopikUlasanWidgets());
-                    },
-                  ),
-                  CategoryProfilAkun(
-                    onPressed: () {
-                      customeshomodal(context, const TopikUlasanWidgets());
-                    },
-                    title: 'Saved',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const PostDenganPoto(),
-          const PostPolling(),
+          iSelected == 0 ? UserActivityPost() : UserActivityPost(),
         ],
       ),
     );
