@@ -187,8 +187,10 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
             waitingReview.addAll(await state.waitingReview(context, page));
             setState(() {});
+            state.isLoadingMore.value = false;
           });
         }
       }
@@ -205,7 +207,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
       ),
       child: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: waitingReview.isEmpty
               ? Center(
                   child: Text(
@@ -219,55 +221,69 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                 )
               : SingleChildScrollView(
                   controller: scrollController,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: waitingReview.length,
-                    itemBuilder: (BuildContext context, index) {
-                      if (waitingReview[index].transactionType ==
-                          'CONSULTATION') {
-                        return UlasanProudukKonsultasi(
-                          onPressed: () {
-                            Get.to(TulisUlasanKonsultasi(
-                              transactionConsultationId:
-                                  waitingReview[index].transactionId.toString(),
-                            ));
-                          },
-                          nameProduk: 'nama prod',
-                          tanggal: ConvertDate.defaultDate(
-                              waitingReview[index].createdAt ?? '-'),
-                          // titleButton: 'Beli Lagi',
-                          img: waitingReview[index].detail?.consultation == null
-                              ? '-'
-                              : '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                          namabrand: 'Teenderm Hydra 40ml',
-                        );
-                      }
-                      if (waitingReview[index].transactionType == 'TREATMENT') {
-                        return UlasanProudukTreatment(
-                          onPressed: () {
-                            Get.to(TulisUlasanTreament());
-                          },
-                          item: waitingReview[index]
-                              .detail
-                              ?.treatment
-                              ?.mediaTreatments,
-                          nameProduk:
-                              waitingReview[index].detail?.treatment?.name ??
-                                  '-',
-                          tanggal: ConvertDate.defaultDate(
-                              waitingReview[index].createdAt ?? '-'),
-                          // titleButton: 'Beli Lagi',
-                          // img: 'assets/images/penting1.png',
-                          klinik: waitingReview[index]
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: waitingReview.length,
+                        itemBuilder: (BuildContext context, index) {
+                          if (waitingReview[index].transactionType ==
+                              'CONSULTATION') {
+                            return UlasanProudukKonsultasi(
+                              onPressed: () {
+                                Get.to(TulisUlasanKonsultasi(
+                                  transactionConsultationId:
+                                      waitingReview[index]
+                                          .transactionId
+                                          .toString(),
+                                ));
+                              },
+                              nameProduk: 'nama prod',
+                              tanggal: ConvertDate.defaultDate(
+                                  waitingReview[index].createdAt ?? '-'),
+                              // titleButton: 'Beli Lagi',
+                              img: waitingReview[index].detail?.consultation ==
+                                      null
+                                  ? '-'
+                                  : '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                              namabrand: 'Teenderm Hydra 40ml',
+                            );
+                          }
+                          if (waitingReview[index].transactionType ==
+                              'TREATMENT') {
+                            return UlasanProudukTreatment(
+                              onPressed: () {
+                                Get.to(TulisUlasanTreament());
+                              },
+                              item: waitingReview[index]
                                   .detail
                                   ?.treatment
-                                  ?.clinic
-                                  ?.name ??
-                              '-',
-                        );
-                      }
-                    },
+                                  ?.mediaTreatments,
+                              nameProduk: waitingReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.name ??
+                                  '-',
+                              tanggal: ConvertDate.defaultDate(
+                                  waitingReview[index].createdAt ?? '-'),
+                              // titleButton: 'Beli Lagi',
+                              // img: 'assets/images/penting1.png',
+                              klinik: waitingReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.clinic
+                                      ?.name ??
+                                  '-',
+                            );
+                          }
+                        },
+                      ),
+                      Obx(
+                        () =>
+                            state.isLoading.value ? LoadingMore() : Container(),
+                      ),
+                    ],
                   ),
                 ),
         ),
@@ -275,31 +291,3 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
     );
   }
 }
-  // const UlasanProuduk(
-                          //   nameProduk: 'Peeling TCA Ringan',
-                          //   tanggal: '12 Jun 2023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/treat1.png',
-                          //   namabrand: 'Klinik Utama Lithea',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),
