@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -15,32 +16,6 @@ class TulisUlasanTreament extends StatefulWidget {
 }
 
 class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
-  List<String> titleCirkel = [
-    'Kurang dari 1 Minggu',
-    '1 Minggu - 1 Bulan',
-    '1 - 3 Bulan',
-    '3 - 6 Bulan',
-    '6 Bulan - 1 Tahun',
-    'Lebih dari 1 Tahun',
-  ];
-  List<String> titleRekomendasi = [
-    'Yoi, Pasti dong!',
-    'Nggak deh',
-  ];
-  List<String> iconRekomendasi = [
-    'assets/icons/icons-ya.png',
-    'assets/icons/icons-tidak.png',
-  ];
-  List<String> titleProduk = [
-    'Yoi, Pasti dong!',
-    'Nggak deh',
-    'Mungkin',
-  ];
-  List<String> iconProduk = [
-    'assets/icons/icons-ya.png',
-    'assets/icons/icons-tidak.png',
-    'assets/icons/icons-mungkin.png'
-  ];
   int isRekomendasi = 0;
   int isProduk = 0;
   int isSelected = 0;
@@ -317,7 +292,90 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (context) => const AlertDialogUlasan(),
+                          builder: (context) => AlertDialog(
+                            backgroundColor: Colors.transparent,
+                            insetPadding: const EdgeInsets.all(0.1),
+                            content: Container(
+                                height: 245,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 35, vertical: 32),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        child: Text(
+                                          'Tambahkan gambar',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 20, color: blackColor),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 21,
+                                      ),
+                                      Text(
+                                        'Kamera',
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 15, color: blackColor),
+                                      ),
+                                      const SizedBox(
+                                        height: 21,
+                                      ),
+                                      InkWell(
+                                        child: Text(
+                                          'Dari galeri',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 15, color: blackColor),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 21,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const GaleryMyJourney()));
+                                        },
+                                        child: Text(
+                                          'Dari galeri ‘My Journey’',
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 15, color: blackColor),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 21,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'CANCEL',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(
+                                                      fontSize: 15,
+                                                      color: blackColor),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )),
+                          ),
                         );
                       },
                       child: Image.asset(
