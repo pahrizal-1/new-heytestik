@@ -150,6 +150,8 @@ class DoctorHomeController extends StateClass {
         start,
         end,
       );
+
+      print('corunts ' + currentScheduleId.toString());
       if (findSchedule.value?.success != true &&
           findSchedule.value?.message != 'Success') {
         throw ErrorConfig(

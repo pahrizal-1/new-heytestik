@@ -1,117 +1,88 @@
-import 'dart:io';
-import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:timezone/timezone.dart' as tz;
+
+class LocalNotificationService {
+  // Instance of Flutternotification plugin
+  static final FlutterLocalNotificationsPlugin _notificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  static void initialize() {
+    // Initialization  setting for android
+    const InitializationSettings initializationSettingsAndroid =
+        InitializationSettings(
+            android: AndroidInitializationSettings("mipmap/ic_launcher"));
+    _notificationsPlugin.initialize(
+      initializationSettingsAndroid,
+      // to handle event when we receive notification
+      onDidReceiveNotificationResponse: (details) {
+        if (details.input != null) {}
+      },
+    );
+  }
+}
 
 class NotificationService {
-  static final NotificationService _notificationService =
-      NotificationService._internal();
+  NotificationService();
 
-  factory NotificationService() {
-    return _notificationService;
-  }
-  NotificationService._internal();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  static Future initialize(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    var androidInitialize =
-        const AndroidInitializationSettings('@drawable/launcher_icon');
-    void onDidReceiveLocalNotification(
-        int id, String? title, String? body, String? payload) {
-      print('id $id');
-    }
+  final _localNotifications = FlutterLocalNotificationsPlugin();
 
-    final DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-    );
-    var initializationsSettings = InitializationSettings(
-      android: androidInitialize,
-      iOS: initializationSettingsIOS,
+  Future<void> initializePlatformNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings("mipmap/ic_launcher");
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationsSettings);
+    await _localNotifications.initialize(
+      initializationSettings,
+    );
   }
 
-  // Future<String> _downloadAndSaveFile(String url, String fileName) async {
-  //   final Directory directory = await getApplicationDocumentsDirectory();
-  //   final String filePath = '${directory.path}/$fileName';
-  //   final http.Response response = await http.get(Uri.parse(url));
-  //   final File file = File(filePath);
-  //   await file.writeAsBytes(response.bodyBytes);
-  //   return filePath;
-  // }
+  void onDidReceiveLocalNotification(
+      int id, String? title, String? body, String? payload) {
+    print('id $id');
+  }
 
-  Future<void> notifChat(
-    int id,
-    String title,
-    String body,
-    int durasi,
-    // String largeIconUrl,
-    // String bigPictureUrl,
-  ) async {
-    // String largeIconPath =
-    //     await _downloadAndSaveFile(largeIconUrl, 'largeIcon$id');
-    // String bigPicturePath =
-    //     await _downloadAndSaveFile(bigPictureUrl, 'bigPicture$id');
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+  void selectNotification(String? payload) {
+    if (payload != null && payload.isNotEmpty) {}
+  }
+
+  Future<NotificationDetails> _notificationDetails() async {
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'channel id',
+      'channel name',
+      groupKey: 'com.example.flutter_push_notifications',
+      channelDescription: 'channel description',
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: false,
+      ticker: 'ticker',
+      color: const Color(0xff2196f3),
+    );
+
+    final details = await _localNotifications.getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp) {}
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+
+    return platformChannelSpecifics;
+  }
+
+  Future<void> showLocalNotification({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    final platformChannelSpecifics = await _notificationDetails();
+    await _localNotifications.show(
       id,
       title,
       body,
-      tz.TZDateTime.now(tz.local).add(
-        Duration(milliseconds: durasi),
-      ), //schedule the notification to show after 2 seconds.
-      const NotificationDetails(
-        // Android details
-        android: AndroidNotificationDetails(
-          'notifChat',
-          'Notif Chat',
-          // groupKey: 'com.example.flutter_push_notifications',
-          channelDescription: 'Notif Chat',
-          importance: Importance.max,
-          priority: Priority.high,
-          autoCancel: false,
-          enableVibration: false,
-          audioAttributesUsage: AudioAttributesUsage.alarm,
-          // vibrationPattern: vibrationPattern,
-          icon: '@drawable/launcher_icon',
-          playSound: true,
-          // ticker: 'ticker',
-          // timeoutAfter: 100,
-          // additionalFlags: Int32List.fromList(<int>[insistentFlag]),
-          // sound: const RawResourceAndroidNotificationSound('adzan'),
-          largeIcon: DrawableResourceAndroidBitmap('@drawable/launcher_icon'),
-          // INI UNTUK GAMBAR GEDE
-          // styleInformation: BigPictureStyleInformation(
-          //   FilePathAndroidBitmap(bigPicturePath),
-          //   largeIcon: FilePathAndroidBitmap(largeIconPath),
-          //   hideExpandedLargeIcon: false,
-          //   contentTitle: title,
-          //   htmlFormatContentTitle: true,
-          //   summaryText: body,
-          //   htmlFormatSummaryText: true,
-          // ),
-          color: Color.fromARGB(255, 7, 114, 177),
-        ),
-        // iOS details
-        iOS: DarwinNotificationDetails(
-          sound: 'default.wav',
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      ),
-
-      // Type of time interpretation
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle:
-          true, // To show notification even when the app is closed
+      platformChannelSpecifics,
     );
   }
 }

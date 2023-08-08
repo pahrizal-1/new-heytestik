@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -6,6 +9,10 @@ import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../../../core/global.dart';
+import '../../../core/local_storage.dart';
 
 class HomePageDoctor extends StatefulWidget {
   const HomePageDoctor({
@@ -18,6 +25,8 @@ class HomePageDoctor extends StatefulWidget {
 
 class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
+  IO.Socket? _socket;
+  Timer? timer;
 
   @override
   void initState() {

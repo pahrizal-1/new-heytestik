@@ -59,6 +59,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   File? imagePath;
   RxString mediaImg = ''.obs;
+  late final NotificationService notificationService;
 
   @override
   void initState() {
@@ -66,6 +67,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     super.initState();
     getRequest(widget.roomCode);
     connectSocket(context, widget.receiverBy);
+    LocalNotificationService.initialize();
+    notificationService = NotificationService();
+    notificationService.initializePlatformNotifications();
     // joinRoom(widget.roomCode);
     // readMessage(widget.roomCode);
   }
@@ -244,6 +248,13 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       print("message ${newMessage['message']}");
       print("message ${newMessage['sender']['fullname']}");
       // var result = json.decode(newMessage);
+
+      notificationService.showLocalNotification(
+        id: widget.receiverId,
+        title: widget.receiverBy,
+        body: "${newMessage['message']}",
+      );
+
       Data2 result = Data2.fromJson(newMessage);
       setState(() {
         msglist?.add(result);
@@ -261,19 +272,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     print("recentChat");
     _socket?.on('recentChat', (recentChat) async {
       log("recentChat $recentChat");
-      // Data2 result = Data2.fromJson(recentChat['last_chat']);
-      // setState(() {
-      //   msglist?.add(result);
-      // });
-      // listLastChat.add(recentChat['last_chat']);
-      // log("de $msglist");
-
-      await NotificationService().notifChat(
-        widget.receiverId,
-        widget.receiverBy,
-        recentChat['last_chat']['message'],
-        100,
-      );
     });
     print("recentChat");
   }

@@ -4,13 +4,14 @@ import 'package:heystetik_mobileapps/controller/customer/account/review_controll
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_konsultasi.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
 import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/ulasan_riwayat_widgets.dart';
 import '../../widget/ulasan_widgets.dart';
+import 'Tulis_ulasan_treatment.dart';
 import 'detail_ulasan_page.dart';
 
 class UlasanSetingsPage extends StatefulWidget {
@@ -245,7 +246,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                       if (waitingReview[index].transactionType == 'TREATMENT') {
                         return UlasanProudukTreatment(
                           onPressed: () {
-                            Get.to(TulisUlasanTreatmentPage());
+                            Get.to(TulisUlasanTreament());
                           },
                           item: waitingReview[index]
                               .detail
