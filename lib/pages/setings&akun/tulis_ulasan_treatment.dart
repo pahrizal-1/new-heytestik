@@ -29,11 +29,6 @@ class TulisUlasanTreament extends StatefulWidget {
 }
 
 class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
-<<<<<<< HEAD
-  int isRekomendasi = 0;
-  int isProduk = 0;
-  int isSelected = 0;
-=======
   final ReviewController state = Get.put(ReviewController());
 
   @override
@@ -42,7 +37,6 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
     state.clearForm();
   }
 
->>>>>>> ecb757685c6063a2ed8ef753bd86e43f573ed06c
   @override
   Widget build(BuildContext context) {
     return Scaffold(
