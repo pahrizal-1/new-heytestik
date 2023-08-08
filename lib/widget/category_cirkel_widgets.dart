@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
-class CategoryProfilAkun extends StatelessWidget {
+class CategoryProfilAkun extends StatefulWidget {
   final String title;
-  final VoidCallback? onPressed;
+  final Function()? onPressed;
   const CategoryProfilAkun({
     super.key,
     required this.title,
@@ -12,28 +12,39 @@ class CategoryProfilAkun extends StatelessWidget {
   });
 
   @override
+  State<CategoryProfilAkun> createState() => _CategoryProfilAkunState();
+}
+
+class _CategoryProfilAkunState extends State<CategoryProfilAkun> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         InkWell(
-          onTap: onPressed,
-          // shomodal(context, const RatingDenganUlasanWidgets());
-
+          onTap: (){
+            widget.onPressed == null ? (){} : widget.onPressed!();
+          },
           child: Container(
             margin: const EdgeInsets.only(right: 5),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 6,
+            ),
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: borderColor,
-                ),
-                borderRadius: BorderRadius.circular(20)),
+              border: Border.all(
+                color: borderColor,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
               children: [
                 Center(
                   child: Text(
-                    title,
+                    widget.title,
                     style: blackRegulerTextStyle.copyWith(
-                        fontSize: 13, color: blackColor),
+                      fontSize: 13,
+                      color: blackColor,
+                    ),
                   ),
                 ),
               ],

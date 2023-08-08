@@ -4,15 +4,18 @@ import 'package:heystetik_mobileapps/controller/customer/account/review_controll
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_konsultasi.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
-import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart';
+import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart'
+    as Waiting;
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
+    as Finished;
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_treatment.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/ulasan_riwayat_widgets.dart';
 import '../../widget/ulasan_widgets.dart';
-import 'Tulis_ulasan_treatment.dart';
 import 'detail_ulasan_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class UlasanSetingsPage extends StatefulWidget {
   const UlasanSetingsPage({super.key});
@@ -22,6 +25,7 @@ class UlasanSetingsPage extends StatefulWidget {
 }
 
 class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
+  final ReviewController state = Get.put(ReviewController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -64,9 +68,12 @@ class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
                     ),
                     borderRadius: BorderRadius.circular(7),
                   ),
-                  tabs: const [
-                    Tab(
-                      text: 'Menunggu diulas (3)',
+                  tabs: [
+                    Obx(
+                      () => Tab(
+                        text:
+                            'Menunggu diulas (${state.dataWaiting.value.length})',
+                      ),
                     ),
                     Tab(
                       text: 'Riwayat',
@@ -104,53 +111,140 @@ class RiwayatUlasan extends StatefulWidget {
 }
 
 class _RiwayatUlasanState extends State<RiwayatUlasan> {
+  final ReviewController state = Get.put(ReviewController());
+
+  final ScrollController scrollController = ScrollController();
+
+  List<Finished.Data2> finishedReview = [];
+
+  int page = 1;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      finishedReview.addAll(await state.finishedReview(context, page));
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
+            finishedReview.addAll(await state.finishedReview(context, page));
+            setState(() {});
+            state.isLoadingMore.value = false;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          TextUlasanRiwayat(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DetailPageUlasan()));
-            },
-            nameBrand: 'ISISPHARMA',
-            nameProduk: 'Teenderm Hydra 40ml',
-            waktu: '1 bulan lalu',
-            coment:
-                'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            balasan: 'Ada 1 balasan',
-          ),
-          const TextUlasanRiwayat(
-            nameBrand: 'ISISPHARMA',
-            nameProduk: 'Teenderm Hydra 40ml',
-            waktu: '1 bulan lalu',
-            coment:
-                'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            balasan: 'Ada 1 balasan',
-          ),
-          const TextUlasanRiwayat(
-            nameBrand: 'ISISPHARMA',
-            nameProduk: 'Teenderm Hydra 40ml',
-            waktu: '1 bul an lalu',
-            coment:
-                'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            balasan: 'Ada 1 balasan',
-          ),
-          const TextUlasanRiwayat(
-            nameBrand: 'ISISPHARMA',
-            nameProduk: 'Teenderm Hydra 40ml',
-            waktu: '1 bulan lalu',
-            coment:
-                'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            balasan: 'Ada 1 balasan',
-          ),
-        ],
+    return Obx(
+      () => LoadingWidget(
+        isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
+        child: finishedReview.isEmpty
+            ? Center(
+                child: Text(
+                  'Belum ada data',
+                  style: TextStyle(
+                    fontWeight: bold,
+                    fontFamily: 'ProximaNova',
+                    fontSize: 20,
+                  ),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: finishedReview.length,
+                        itemBuilder: (BuildContext context, index) {
+                          if (finishedReview[index].transactionType ==
+                              'CONSULTATION') {
+                            return TextUlasanRiwayat(
+                              onPressed: () {
+                                Get.to(DetailPageUlasanKonsultasi(
+                                  data: finishedReview[index],
+                                ));
+                              },
+                              nameBrand: finishedReview[index]
+                                      .detail
+                                      ?.consultation
+                                      ?.doctor
+                                      ?.fullname ??
+                                  '-',
+                              nameProduk: finishedReview[index]
+                                      .detail!
+                                      .consultation
+                                      ?.medicalHistory
+                                      ?.interestCondition
+                                      ?.name ??
+                                  '-',
+                              waktu: timeago.format(DateTime.parse(
+                                  finishedReview[index].createdAt.toString())),
+                              coment: finishedReview[index]
+                                      .detail
+                                      ?.consultationReview
+                                      ?.review ??
+                                  '-',
+                              rating: finishedReview[index]
+                                      .detail
+                                      ?.consultationReview
+                                      ?.rating ??
+                                  0,
+                            );
+                          }
+                          if (finishedReview[index].transactionType ==
+                              'TREATMENT') {
+                            return TextUlasanRiwayat(
+                              onPressed: () {
+                                Get.to(DetailPageUlasanTreatment(
+                                  data: finishedReview[index],
+                                ));
+                              },
+                              nameBrand: finishedReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.name ??
+                                  '-',
+                              nameProduk: finishedReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.clinic
+                                      ?.name ??
+                                  '-',
+                              waktu: timeago.format(DateTime.parse(
+                                  finishedReview[index].createdAt.toString())),
+                              coment: finishedReview[index]
+                                      .detail
+                                      ?.treatmentReview
+                                      ?.review ??
+                                  '-',
+                              rating: finishedReview[index]
+                                      .detail
+                                      ?.treatmentReview
+                                      ?.avgRating
+                                      ?.toInt() ??
+                                  0,
+                              balasan:
+                                  '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
+                            );
+                          }
+                        }),
+                    Obx(
+                      () => state.isLoading.value ? LoadingMore() : Container(),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -168,11 +262,9 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
 
   final ScrollController scrollController = ScrollController();
 
-  List<Data2> waitingReview = [];
+  List<Waiting.Data2> waitingReview = [];
 
   int page = 1;
-
-  int isSelected = 0;
 
   @override
   void initState() {
@@ -187,8 +279,10 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
             waitingReview.addAll(await state.waitingReview(context, page));
             setState(() {});
+            state.isLoadingMore.value = false;
           });
         }
       }
@@ -205,7 +299,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
       ),
       child: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: waitingReview.isEmpty
               ? Center(
                   child: Text(
@@ -219,55 +313,114 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                 )
               : SingleChildScrollView(
                   controller: scrollController,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: waitingReview.length,
-                    itemBuilder: (BuildContext context, index) {
-                      if (waitingReview[index].transactionType ==
-                          'CONSULTATION') {
-                        return UlasanProudukKonsultasi(
-                          onPressed: () {
-                            Get.to(TulisUlasanKonsultasi(
-                              transactionConsultationId:
-                                  waitingReview[index].transactionId.toString(),
-                            ));
-                          },
-                          nameProduk: 'nama prod',
-                          tanggal: ConvertDate.defaultDate(
-                              waitingReview[index].createdAt ?? '-'),
-                          // titleButton: 'Beli Lagi',
-                          img: waitingReview[index].detail?.consultation == null
-                              ? '-'
-                              : '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                          namabrand: 'Teenderm Hydra 40ml',
-                        );
-                      }
-                      if (waitingReview[index].transactionType == 'TREATMENT') {
-                        return UlasanProudukTreatment(
-                          onPressed: () {
-                            Get.to(TulisUlasanTreament());
-                          },
-                          item: waitingReview[index]
-                              .detail
-                              ?.treatment
-                              ?.mediaTreatments,
-                          nameProduk:
-                              waitingReview[index].detail?.treatment?.name ??
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: waitingReview.length,
+                        itemBuilder: (BuildContext context, index) {
+                          if (waitingReview[index].transactionType ==
+                              'CONSULTATION') {
+                            return UlasanProudukKonsultasi(
+                              onPressed: () {
+                                Get.to(TulisUlasanKonsultasi(
+                                  transactionConsultationId:
+                                      waitingReview[index]
+                                          .transactionId
+                                          .toString(),
+                                  img:
+                                      '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                                  doctor: waitingReview[index]
+                                          .detail
+                                          ?.consultation!
+                                          .doctor
+                                          ?.fullname ??
+                                      '-',
+                                  interest: waitingReview[index]
+                                          .detail
+                                          ?.consultation!
+                                          .medicalHistory
+                                          ?.interestCondition
+                                          ?.name ??
+                                      '-',
+                                ));
+                              },
+                              nameProduk: waitingReview[index]
+                                      .detail
+                                      ?.consultation!
+                                      .doctor
+                                      ?.fullname ??
                                   '-',
-                          tanggal: ConvertDate.defaultDate(
-                              waitingReview[index].createdAt ?? '-'),
-                          // titleButton: 'Beli Lagi',
-                          // img: 'assets/images/penting1.png',
-                          klinik: waitingReview[index]
+                              tanggal: ConvertDate.defaultDate(
+                                  waitingReview[index].createdAt ?? '-'),
+                              // titleButton: 'Beli Lagi',
+                              img: waitingReview[index].detail?.consultation ==
+                                      null
+                                  ? '-'
+                                  : '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                              namabrand: waitingReview[index]
+                                      .detail
+                                      ?.consultation!
+                                      .medicalHistory
+                                      ?.interestCondition
+                                      ?.name ??
+                                  '-',
+                            );
+                          }
+                          if (waitingReview[index].transactionType ==
+                              'TREATMENT') {
+                            return UlasanProudukTreatment(
+                              onPressed: () {
+                                Get.to(
+                                  TulisUlasanTreament(
+                                    transactionTreatmentId: waitingReview[index]
+                                        .transactionId
+                                        .toString(),
+                                    img:
+                                        "${Global.FILE}/${waitingReview[index].detail?.treatment?.mediaTreatments![0].media?.path}",
+                                    treatment: waitingReview[index]
+                                            .detail
+                                            ?.treatment
+                                            ?.name ??
+                                        '-',
+                                    clinic: waitingReview[index]
+                                            .detail
+                                            ?.treatment
+                                            ?.clinic
+                                            ?.name ??
+                                        '-',
+                                  ),
+                                );
+                              },
+                              item: waitingReview[index]
                                   .detail
                                   ?.treatment
-                                  ?.clinic
-                                  ?.name ??
-                              '-',
-                        );
-                      }
-                    },
+                                  ?.mediaTreatments,
+                              nameProduk: waitingReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.name ??
+                                  '-',
+                              tanggal: ConvertDate.defaultDate(
+                                  waitingReview[index].createdAt ?? '-'),
+                              // titleButton: 'Beli Lagi',
+                              // img: 'assets/images/penting1.png',
+                              klinik: waitingReview[index]
+                                      .detail
+                                      ?.treatment
+                                      ?.clinic
+                                      ?.name ??
+                                  '-',
+                            );
+                          }
+                        },
+                      ),
+                      Obx(
+                        () =>
+                            state.isLoading.value ? LoadingMore() : Container(),
+                      ),
+                    ],
                   ),
                 ),
         ),
@@ -275,31 +428,3 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
     );
   }
 }
-  // const UlasanProuduk(
-                          //   nameProduk: 'Peeling TCA Ringan',
-                          //   tanggal: '12 Jun 2023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/treat1.png',
-                          //   namabrand: 'Klinik Utama Lithea',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),
-                          // const UlasanProuduk(
-                          //   nameProduk: 'dr. Risty Hafinah, Sp.DV',
-                          //   tanggal: '12 Jun 20023',
-                          //   titleButton: 'Beli Lagi',
-                          //   img: 'assets/images/doctor-img.png',
-                          //   namabrand: 'Konsultasi',
-                          // ),

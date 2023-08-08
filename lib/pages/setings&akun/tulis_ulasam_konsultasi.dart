@@ -14,7 +14,15 @@ import '../../theme/theme.dart';
 
 class TulisUlasanKonsultasi extends StatefulWidget {
   String transactionConsultationId;
-  TulisUlasanKonsultasi({required this.transactionConsultationId, super.key});
+  String img;
+  String doctor;
+  String interest;
+  TulisUlasanKonsultasi(
+      {required this.transactionConsultationId,
+      required this.img,
+      required this.doctor,
+      required this.interest,
+      super.key});
 
   @override
   State<TulisUlasanKonsultasi> createState() => _TulisUlasanKonsultasiState();
@@ -23,22 +31,10 @@ class TulisUlasanKonsultasi extends StatefulWidget {
 class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
   final ReviewController state = Get.put(ReviewController());
 
-  List<String> titleCirkel = [
-    'Kurang dari 1 Minggu',
-    '1 Minggu - 1 Bulan',
-    '1 - 3 Bulan',
-    '3 - 6 Bulan',
-    '6 Bulan - 1 Tahun',
-    'Lebih dari 1 Tahun',
-  ];
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    state.starRating.value = 0;
-    state.ratingTitle.value = "";
-    state.review.text = "";
+    state.clearForm();
   }
 
   @override
@@ -92,14 +88,14 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                             borderRadius: BorderRadius.circular(7)),
                       ),
                     ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Text(
-                      '2/2',
-                      style: subTitleTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
-                    )
+                    // const SizedBox(
+                    //   width: 14,
+                    // ),
+                    // Text(
+                    //   '2/2',
+                    //   style: subTitleTextStyle.copyWith(
+                    //       fontSize: 15, fontWeight: bold),
+                    // )
                   ],
                 ),
                 SizedBox(
@@ -118,8 +114,8 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                         width: 40,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            image: const DecorationImage(
-                                image: AssetImage('assets/images/lheatea.png'),
+                            image: DecorationImage(
+                                image: NetworkImage(widget.img),
                                 fit: BoxFit.cover)),
                       ),
                       const SizedBox(
@@ -129,11 +125,11 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Fecial Treament',
+                            widget.doctor,
                             style: blackHigtTextStyle.copyWith(fontSize: 13),
                           ),
                           Text(
-                            'Teenderm Hydra 40ml',
+                            widget.interest,
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 13, color: blackColor),
                           ),
@@ -160,20 +156,8 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                         print("index $index");
 
                         state.starRating.value = index + 1;
-
-                        if (state.starRating.value == 1) {
-                          state.ratingTitle.value = "Pretty Good!";
-                        } else if (state.starRating.value == 2) {
-                          state.ratingTitle.value = "Highly Worth to try!";
-                        } else if (state.starRating.value == 3) {
-                          state.ratingTitle.value = "Highly Recommended!";
-                        } else if (state.starRating.value == 4) {
-                          state.ratingTitle.value = "Execellent Product!";
-                        } else if (state.starRating.value == 5) {
-                          state.ratingTitle.value = "Ultimate holy-grail!";
-                        } else {
-                          state.ratingTitle.value = "";
-                        }
+                        state.ratingTitle.value =
+                            state.description[state.starRating.value - 1];
                       },
                       child: Obx(
                         () => Image.asset(

@@ -23,42 +23,50 @@ class LoadingWidget extends StatelessWidget {
         padding: EdgeInsets.only(top: isLoading ? top : 0),
         child: isLoading
             ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 30,
-                width: 30,
-                child: CircularProgressIndicator(
-                  color: greenColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        color: greenColor,
+                      ),
+                    ),
+                    title == ''
+                        ? Container()
+                        : const SizedBox(
+                            height: spaceHeigt,
+                          ),
+                    title == ''
+                        ? Container()
+                        : Text(
+                            title,
+                            style: subGreyTextStyle,
+                          ),
+                  ],
                 ),
-              ),
-              title == ''
-                  ? Container()
-                  : const SizedBox(
-                height: spaceHeigt,
-              ),
-              title == ''
-                  ? Container()
-                  : Text(
-                title,
-                style: subGreyTextStyle,
-              ),
-            ],
-          ),
-        )
+              )
             : child,
       ),
     );
   }
 }
-// child: SpinKitCircle(
-                //   itemBuilder: (context, index) {
-                //     final colors = [greenColor, Colors.black54];
-                //     final color = colors[index % colors.length];
-                //     return DecoratedBox(
-                //       decoration:
-                //           BoxDecoration(color: color, shape: BoxShape.circle),
-                //     );
-                //   },
-                // ),
+
+class LoadingMore extends StatelessWidget {
+  const LoadingMore({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: SizedBox(
+        height: 30,
+        width: 30,
+        child: CircularProgressIndicator(
+          color: greenColor,
+        ),
+      ),
+    );
+  }
+}

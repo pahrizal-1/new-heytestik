@@ -167,21 +167,24 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                 ),
                 ...streamPollOptions.asMap().entries.map((option) {
                   double pollPercentage = 0;
+                  double pollColor = 0;
 
                   if (allVotesCount == 0 && option.value['count'] > 0) {
                     pollPercentage = (1 / option.value['count']) * 100;
+                    pollColor = (1 / option.value['count']);
                   }
 
                   if (allVotesCount > 0 && option.value['count'] > 0) {
                     pollPercentage =
-                        (allVotesCount / option.value['count']) * 100;
+                        (option.value['count'] / allVotesCount) * 100;
+                    pollColor = (option.value['count'] / allVotesCount);
                   }
 
                   return Stack(
                     children: [
                       Container(
                         width: (MediaQuery.of(context).size.width - 70) *
-                            pollPercentage,
+                            pollColor,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 16.0,
@@ -203,26 +206,26 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                           if (votesCount == 0) {
                             votesCount = votesCount + 1;
                             allVotesCount = allVotesCount + 1;
-                          }
 
-                          if (indexVotes != null) {
-                            streamPollOptions[indexVotes!]['count'] - 1;
-                            postController.deletePolling(
+                            if (indexVotes != null) {
+                              streamPollOptions[indexVotes!]['count'] - 1;
+                              postController.deletePolling(
+                                  context,
+                                  widget.stream.id,
+                                  streamPollOptions[indexVotes!]
+                                      ['stream_poll_id'],
+                                  streamPollOptions[indexVotes!]['id']);
+                            }
+
+                            postController.pickPolling(
                                 context,
                                 widget.stream.id,
-                                streamPollOptions[indexVotes!]
-                                    ['stream_poll_id'],
-                                streamPollOptions[indexVotes!]['id']);
+                                option.value['stream_poll_id'],
+                                option.value['id']);
+                            indexVotes = option.key;
+                            option.value['count'] = option.value['count'] + 1;
+                            setState(() {});
                           }
-
-                          postController.pickPolling(
-                              context,
-                              widget.stream.id,
-                              option.value['stream_poll_id'],
-                              option.value['id']);
-                          indexVotes = option.key;
-                          option.value['count'] = option.value['count'] + 1;
-                          setState(() {});
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -242,7 +245,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                           child: Row(
                             children: [
                               Text(
-                                option.value['option'],
+                                option.value['count'].toString(),
                                 style: TextStyle(
                                   color: option.value['count'] > 0
                                       ? Colors.white
@@ -253,7 +256,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                               Text(
                                 "${pollPercentage.toInt()}%",
                                 style: TextStyle(
-                                  color: pollPercentage > 0.9
+                                  color: pollColor > 0.9
                                       ? Colors.white
                                       : Colors.black,
                                 ),

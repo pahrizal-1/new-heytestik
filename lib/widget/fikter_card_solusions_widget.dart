@@ -30,8 +30,8 @@ class _FiklterTreatmentState extends State<FiklterTreatment> {
       },
       child: Container(
         margin: const EdgeInsets.only(left: 9),
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        height: 25,
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5,),
+        height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           border: Border.all(color: isSelected ? greenColor : borderColor),

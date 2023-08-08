@@ -1,24 +1,48 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 import '../../theme/theme.dart';
 
 class TulisUlasanTreament extends StatefulWidget {
-  const TulisUlasanTreament({super.key});
+  String transactionTreatmentId;
+  String img;
+  String treatment;
+  String clinic;
+  TulisUlasanTreament(
+      {required this.transactionTreatmentId,
+      required this.img,
+      required this.treatment,
+      required this.clinic,
+      super.key});
 
   @override
   State<TulisUlasanTreament> createState() => _TulisUlasanTreamentState();
 }
 
 class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
+<<<<<<< HEAD
   int isRekomendasi = 0;
   int isProduk = 0;
   int isSelected = 0;
+=======
+  final ReviewController state = Get.put(ReviewController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.clearForm();
+  }
+
+>>>>>>> ecb757685c6063a2ed8ef753bd86e43f573ed06c
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,14 +91,14 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         borderRadius: BorderRadius.circular(7)),
                   ),
                 ),
-                const SizedBox(
-                  width: 14,
-                ),
-                Text(
-                  '2/2',
-                  style: subTitleTextStyle.copyWith(
-                      fontSize: 15, fontWeight: bold),
-                )
+                // const SizedBox(
+                //   width: 14,
+                // ),
+                // Text(
+                //   '2/2',
+                //   style: subTitleTextStyle.copyWith(
+                //       fontSize: 15, fontWeight: bold),
+                // )
               ],
             ),
           ),
@@ -96,8 +120,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         width: 40,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            image: const DecorationImage(
-                                image: AssetImage('assets/images/Ipl1.png'),
+                            image: DecorationImage(
+                                image: NetworkImage(widget.img),
                                 fit: BoxFit.cover)),
                       ),
                       const SizedBox(
@@ -107,11 +131,11 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'ISISPHARMA',
+                            widget.treatment,
                             style: blackHigtTextStyle.copyWith(fontSize: 13),
                           ),
                           Text(
-                            'Teenderm Hydra 40ml',
+                            widget.clinic,
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 13, color: blackColor),
                           ),
@@ -130,31 +154,125 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                 const SizedBox(
                   height: 26,
                 ),
-                const StartUlasan(
-                  title: 'Care Rating',
-                  widtStarrs: 25,
-                  fonstsizeTitle: 15,
-                  iconColor: Color(0xffFFC36A),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Care Rating',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(5, (index) {
+                          return InkWell(
+                            onTap: () {
+                              print("index $index");
+
+                              state.careRating.value = index + 1;
+                              state.ratingTitle.value =
+                                  state.description[state.careRating.value - 1];
+                            },
+                            child: Obx(
+                              () => Image.asset(
+                                'assets/icons/stars-new.png',
+                                width: 25,
+                                color: state.careRating.value > index
+                                    ? const Color(0xffFFC36A)
+                                    : Color.fromRGBO(155, 155, 155, 0.61),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
                 dividergrey(),
                 const SizedBox(
                   height: 19,
                 ),
-                const StartUlasan(
-                  title: 'Service Rating',
-                  widtStarrs: 25,
-                  fonstsizeTitle: 15,
-                  iconColor: Color.fromRGBO(155, 155, 155, 0.61),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Service Rating',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(5, (index) {
+                          return InkWell(
+                            onTap: () {
+                              print("index $index");
+
+                              state.serviceRating.value = index + 1;
+
+                              state.ratingTitle.value = state
+                                  .description[state.serviceRating.value - 1];
+                            },
+                            child: Obx(
+                              () => Image.asset(
+                                'assets/icons/stars-new.png',
+                                width: 25,
+                                color: state.serviceRating.value > index
+                                    ? const Color(0xffFFC36A)
+                                    : Color.fromRGBO(155, 155, 155, 0.61),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
                 dividergrey(),
                 const SizedBox(
                   height: 19,
                 ),
-                const StartUlasan(
-                  iconColor: Color(0xffFFC36A),
-                  title: 'Management Rating',
-                  widtStarrs: 25,
-                  fonstsizeTitle: 15,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Management Rating',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(5, (index) {
+                          return InkWell(
+                            onTap: () {
+                              print("index $index");
+
+                              state.managementRating.value = index + 1;
+                              state.ratingTitle.value = state.description[
+                                  state.managementRating.value - 1];
+                            },
+                            child: Obx(
+                              () => Image.asset(
+                                'assets/icons/stars-new.png',
+                                width: 25,
+                                color: state.managementRating.value > index
+                                    ? const Color(0xffFFC36A)
+                                    : Color.fromRGBO(155, 155, 155, 0.61),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 30,
@@ -391,7 +509,24 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
           ),
           Padding(
             padding: lsymetric.copyWith(bottom: 30),
-            child: const ButtonGreenWidget(title: 'Kirim'),
+            child: ButtonGreenWidget(
+              title: 'Kirim',
+              onPressed: () async {
+                await state.reviewTreatment(
+                  context,
+                  widget.transactionTreatmentId,
+                  doInPost: () async {
+                    Get.back();
+                    Get.back();
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      "Terima kasih atas ulasannya",
+                    );
+                  },
+                );
+              },
+            ),
           )
         ],
       ),

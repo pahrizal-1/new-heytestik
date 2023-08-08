@@ -284,7 +284,7 @@ class Treatment {
     treatmentStep = json['treatment_step'];
     price = json['price'];
     isActive = json['is_active'];
-    rating = double.parse(json['rating'].toString());
+    rating = double.parse((json['rating'] ?? 0).toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
