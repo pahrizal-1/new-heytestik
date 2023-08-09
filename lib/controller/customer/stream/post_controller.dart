@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
@@ -9,11 +11,17 @@ import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
 class PostController extends StateClass {
-  Future<dynamic> postGeneral(BuildContext context, StreamPostModel postModel, {required Function() doInPost}) async {
+  Future<dynamic> postGeneral(
+    BuildContext context,
+    StreamPostModel postModel, {
+    required Function() doInPost,
+    List<File>? files,
+  }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {
-        var data = await PostServices().postGeneral(postModel);
+        var data = await PostServices().postGeneral(postModel, files: files);
+        print(data);
         doInPost();
       } catch (e) {
         throw ErrorConfig(
@@ -125,6 +133,26 @@ class PostController extends StateClass {
     }
   }
 
+  void pickPolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+    try {
+      isLoading.value = true;
+      PostServices().pickPolling(streamID, pollingID, optionID);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  void deletePolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+    try {
+      isLoading.value = true;
+      PostServices().deletePolling(streamID, pollingID, optionID);
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
   void savePost(BuildContext context, int postID) async {
     try {
       isLoading.value = true;
@@ -190,7 +218,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       PostServices().postComment(postID, comment);
       isLoading.value = false;
-    } catch(error) {
+    } catch (error) {
       print(error.toString());
     }
   }

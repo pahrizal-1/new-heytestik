@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 // import 'package:get/get.dart' hide FormData;
@@ -30,8 +32,21 @@ class PostServices extends ProviderClass {
     return response;
   }
 
-  Future<dynamic> postGeneral(StreamPostModel data) async {
-    FormData formData = FormData.fromMap({"content": data.content, "type": data.type, "hashtags[]": data.hashtags, "visibility": "PUBLIC"});
+  Future<dynamic> postGeneral(StreamPostModel data, {List<File>? files}) async {
+    FormData formData = FormData.fromMap({
+      "content": data.content,
+      "type": data.type,
+      "hashtags[]": data.hashtags,
+      "visibility": "PUBLIC",
+    });
+
+    if (files != null) {
+      for (File file in files) {
+        formData.files.addAll([
+          MapEntry("files", await MultipartFile.fromFile(file.path)),
+        ]);
+      }
+    }
 
     var response = await networkingConfig.doPost(
       '/stream',
@@ -107,6 +122,48 @@ class PostServices extends ProviderClass {
     try {
       var response = await networkingConfig.doPost(
         '/stream/$postID/unlike',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void pickPolling(int streamID, int pollingID, int optionID) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/polling',
+        data: {
+          "stream_id": streamID,
+          "stream_poll_id": pollingID,
+          "stream_poll_option_id": optionID,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  void deletePolling(int streamID, int pollingID, int optionID) async {
+    try {
+      var response = await networkingConfig.doDelete(
+        '/stream/polling',
+        data: {
+          "stream_id": streamID,
+          "stream_poll_id": pollingID,
+          "stream_poll_option_id": optionID,
+        },
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

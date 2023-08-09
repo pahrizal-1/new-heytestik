@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 
 import '../../theme/theme.dart';
 import 'hasil_poto_wajah_kiri.dart';
@@ -13,6 +17,7 @@ class CustomeCameaPotoWajahKiri extends StatefulWidget {
 }
 
 class _CustomeCameaPotoWajahKiriState extends State<CustomeCameaPotoWajahKiri> {
+  final MyJourneyController state = Get.put(MyJourneyController());
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
@@ -127,6 +132,8 @@ class _CustomeCameaPotoWajahKiriState extends State<CustomeCameaPotoWajahKiri> {
                               //check if controller is initialized
                               image = await controller!
                                   .takePicture(); //capture image
+                              state.initialConditionLeftSide =
+                                  File(image!.path);
                               setState(() {
                                 //update UI
                               });
@@ -135,12 +142,7 @@ class _CustomeCameaPotoWajahKiriState extends State<CustomeCameaPotoWajahKiri> {
                         } catch (e) {
                           print(e); //show error
                         }
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PotoBagianWajahKiri()));
+                        Get.to(PotoBagianWajahKiri());
                       },
                       child: Image.asset(
                         'assets/icons/button-camera.png',

@@ -18,6 +18,8 @@ import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../widget/text_with_mentions.dart';
+
 class KomentarStreamPage extends StatefulWidget {
   const KomentarStreamPage({
     super.key,
@@ -46,13 +48,6 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   List<StreamCommentModel> comments = [];
   Map<String, List<StreamCommentReplyModel>> commentReplies = {};
   Map<String, bool> viewCommentReply = {};
-
-  List<String> users = [
-    'user1',
-    'user2',
-    'user3',
-    // Add more users here
-  ];
 
   @override
   void initState() {
@@ -133,7 +128,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 20, right: 17, top: 16, bottom: 18),
+                left: 20,
+                right: 17,
+                top: 16,
+                bottom: 18,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -222,29 +221,28 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     children: [
                       Row(
                         children: [
-                          (like ?? widget.post.liked)
-                              ? GestureDetector(
-                                  onTap: () {
-                                    postController.unlikePost(
-                                        context, widget.post.id);
-                                    setState(() {
-                                      like = false;
-                                      postLike = postLike - 1;
-                                    });
-                                  },
-                                  child: Icon(Icons.favorite),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    postController.likePost(
-                                        context, widget.post.id);
-                                    setState(() {
-                                      like = true;
-                                      postLike = postLike + 1;
-                                    });
-                                  },
-                                  child: Icon(Icons.favorite_outline_outlined),
-                                ),
+                          GestureDetector(
+                            onTap: () {
+                              if (like ?? widget.post.liked) {
+                                postController.unlikePost(
+                                    context, widget.post.id);
+                                setState(() {
+                                  like = false;
+                                  postLike = postLike - 1;
+                                });
+                              } else {
+                                postController.likePost(
+                                    context, widget.post.id);
+                                setState(() {
+                                  like = true;
+                                  postLike = postLike + 1;
+                                });
+                              }
+                            },
+                            child: like ?? widget.post.liked
+                                ? Icon(Icons.favorite)
+                                : Icon(Icons.favorite_outline_outlined),
+                          ),
                           const SizedBox(
                             width: 15,
                           ),
@@ -268,27 +266,26 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           const SizedBox(
                             width: 15,
                           ),
-                          (saved ?? widget.post.saved)
-                              ? GestureDetector(
-                                  onTap: () {
-                                    postController.unSavePost(
-                                        context, widget.post.id);
-                                    setState(() {
-                                      saved = false;
-                                    });
-                                  },
-                                  child: Icon(Icons.bookmark),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    postController.savePost(
-                                        context, widget.post.id);
-                                    setState(() {
-                                      saved = true;
-                                    });
-                                  },
-                                  child: Icon(Icons.bookmark_border),
-                                ),
+                          GestureDetector(
+                            onTap: () {
+                              if (saved ?? widget.post.saved) {
+                                postController.unSavePost(
+                                    context, widget.post.id);
+                                setState(() {
+                                  saved = false;
+                                });
+                              } else {
+                                postController.savePost(
+                                    context, widget.post.id);
+                                setState(() {
+                                  saved = true;
+                                });
+                              }
+                            },
+                            child: saved ?? widget.post.saved
+                                ? Icon(Icons.bookmark)
+                                : Icon(Icons.bookmark_border),
+                          ),
                         ],
                       ),
                     ],
@@ -353,55 +350,54 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             ),
                             Row(
                               children: [
-                                comment.like +
+                                GestureDetector(
+                                  onTap: () {
+                                    if (comment.like +
                                             (commentLikes[
                                                     "${comment.commentID}"] ??
                                                 0) >
-                                        0
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          postController.unlikeComment(
-                                              context,
-                                              widget.post.id,
-                                              comment.commentID);
-                                          setState(() {
-                                            commentLikes.update(
-                                                "${comment.commentID}",
-                                                (value) =>
-                                                    (commentLikes[
-                                                            "${comment.commentID}"] ??
-                                                        0) -
-                                                    1);
-                                          });
-                                        },
-                                        child: commentLike(comment.like +
-                                            (commentLikes[
-                                                    "${comment.commentID}"] ??
-                                                0)),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          postController.likeComment(
-                                              context,
-                                              widget.post.id,
-                                              comment.commentID);
-                                          setState(() {
-                                            commentLikes.update(
-                                                "${comment.commentID}",
-                                                (value) =>
-                                                    (commentLikes[
-                                                            "${comment.commentID}"] ??
-                                                        0) +
-                                                    1);
-                                          });
-                                        },
-                                        child: Text(
+                                        0) {
+                                      postController.unlikeComment(context,
+                                          widget.post.id, comment.commentID);
+                                      setState(() {
+                                        commentLikes.update(
+                                            "${comment.commentID}",
+                                            (value) =>
+                                                (commentLikes[
+                                                        "${comment.commentID}"] ??
+                                                    0) -
+                                                1);
+                                      });
+                                    } else {
+                                      postController.likeComment(context,
+                                          widget.post.id, comment.commentID);
+                                      setState(() {
+                                        commentLikes.update(
+                                            "${comment.commentID}",
+                                            (value) =>
+                                                (commentLikes[
+                                                        "${comment.commentID}"] ??
+                                                    0) +
+                                                1);
+                                      });
+                                    }
+                                  },
+                                  child: comment.like +
+                                              (commentLikes[
+                                                      "${comment.commentID}"] ??
+                                                  0) >
+                                          0
+                                      ? commentLike(comment.like +
+                                          (commentLikes[
+                                                  "${comment.commentID}"] ??
+                                              0))
+                                      : Text(
                                           'Suka',
                                           style: blackRegulerTextStyle.copyWith(
                                             fontSize: 12,
                                           ),
                                         ),
-                                      ),
+                                ),
                                 const SizedBox(
                                   width: 17,
                                 ),
@@ -416,213 +412,207 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             const SizedBox(
                               height: 16,
                             ),
-                            viewCommentReply["${comment.commentID}"] == false
-                                ? GestureDetector(
-                                    onTap: () async {
-                                      viewCommentReply.update(
-                                          "${comment.commentID}",
-                                          (value) => true);
-                                      List<StreamCommentReplyModel> replies =
-                                          await postController
-                                              .getCommentReplies(
-                                                  context,
-                                                  page,
-                                                  widget.post.id,
-                                                  comment.commentID);
+                            if (viewCommentReply["${comment.commentID}"] ==
+                                false)
+                              GestureDetector(
+                                onTap: () async {
+                                  viewCommentReply.update(
+                                      "${comment.commentID}", (value) => true);
+                                  List<StreamCommentReplyModel> replies =
+                                      await postController.getCommentReplies(
+                                          context,
+                                          page,
+                                          widget.post.id,
+                                          comment.commentID);
 
-                                      commentReplies.addAll({
-                                        "${comment.commentID}": replies,
-                                      });
+                                  commentReplies.addAll({
+                                    "${comment.commentID}": replies,
+                                  });
 
-                                      for (var i = 0; i < replies.length; i++) {
-                                        commentReplyLikes.addAll({
-                                          "${replies[i].replyID}": 0,
-                                        });
-                                      }
-                                      setState(() {});
-                                    },
-                                    child: Text("View Comments",
-                                        style: greyTextStyle),
-                                  )
-                                : Container(),
+                                  for (var i = 0; i < replies.length; i++) {
+                                    commentReplyLikes.addAll({
+                                      "${replies[i].replyID}": 0,
+                                    });
+                                  }
+                                  setState(() {});
+                                },
+                                child:
+                                    Text("View Comments", style: greyTextStyle),
+                              ),
                             SizedBox(
                               height: 20.0,
                             ),
-                            viewCommentReply["${comment.commentID}"] == true
-                                ? ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        commentReplies["${comment.commentID}"]
-                                                ?.length ??
-                                            0,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 5.0,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(
-                                              241, 241, 241, 0.95),
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                        ),
-                                        child: Column(
+                            if (viewCommentReply["${comment.commentID}"] ==
+                                true)
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    commentReplies["${comment.commentID}"]
+                                            ?.length ??
+                                        0,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 5.0,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          241, 241, 241, 0.95),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
+                                            Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/images/profiledummy.png',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 11,
+                                            ),
+                                            Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        'assets/images/profiledummy.png',
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 11,
-                                                ),
-                                                Column(
+                                                Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          commentReplies[
+                                                    Text(
+                                                      commentReplies[
+                                                                  "${comment.commentID}"]![
+                                                              index]
+                                                          .fullName,
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      timeago.format(DateTime
+                                                          .parse(commentReplies[
                                                                       "${comment.commentID}"]![
                                                                   index]
-                                                              .fullName,
-                                                          style: blackTextStyle
+                                                              .createdAt)),
+                                                      style:
+                                                          blackRegulerTextStyle
                                                               .copyWith(
-                                                                  fontSize: 14),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          timeago.format(DateTime
-                                                              .parse(commentReplies[
-                                                                          "${comment.commentID}"]![
-                                                                      index]
-                                                                  .createdAt)),
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12),
-                                                        ),
-                                                      ],
+                                                                  fontSize: 12),
                                                     ),
-                                                    const SizedBox(
-                                                      height: 6,
-                                                    ),
-                                                    Container(
-                                                      constraints:
-                                                          const BoxConstraints(
-                                                              maxWidth: 220),
-                                                      child: buildRichTextWithMentions(
-                                                          commentReplies[
-                                                                      "${comment.commentID}"]![
-                                                                  index]
-                                                              .content),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 11,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
-                                                                        0) +
-                                                                    commentReplies["${comment.commentID}"]![
-                                                                            index]
-                                                                        .like >
-                                                                0
-                                                            ? GestureDetector(
-                                                                onTap: () {
-                                                                  postController.unlikeCommentReply(
-                                                                      context,
-                                                                      widget
-                                                                          .post
-                                                                          .id,
-                                                                      comment
-                                                                          .commentID,
-                                                                      commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .replyID);
-                                                                  setState(() {
-                                                                    commentReplyLikes.update(
-                                                                        "${commentReplies["${comment.commentID}"]![index].replyID}",
-                                                                        (value) =>
-                                                                            (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
-                                                                                0) -
-                                                                            1);
-                                                                  });
-                                                                },
-                                                                child: commentLike(commentReplies["${comment.commentID}"]![
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 6,
+                                                ),
+                                                Container(
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                          maxWidth: 220),
+                                                  child: buildRichTextWithMentions(
+                                                      commentReplies[
+                                                                  "${comment.commentID}"]![
+                                                              index]
+                                                          .content),
+                                                ),
+                                                const SizedBox(
+                                                  height: 11,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                    0) +
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .like >
+                                                            0
+                                                        ? GestureDetector(
+                                                            onTap: () {
+                                                              postController.unlikeCommentReply(
+                                                                  context,
+                                                                  widget
+                                                                      .post.id,
+                                                                  comment
+                                                                      .commentID,
+                                                                  commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .replyID);
+                                                              setState(() {
+                                                                commentReplyLikes.update(
+                                                                    "${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                    (value) =>
+                                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                            0) -
+                                                                        1);
+                                                              });
+                                                            },
+                                                            child: commentLike(
+                                                                commentReplies["${comment.commentID}"]![
                                                                             index]
                                                                         .like +
                                                                     (commentReplyLikes[
                                                                             "${commentReplies["${comment.commentID}"]![index].replyID}"] ??
                                                                         0)),
-                                                              )
-                                                            : GestureDetector(
-                                                                onTap: () {
-                                                                  postController.likeCommentReply(
-                                                                      context,
-                                                                      widget
-                                                                          .post
-                                                                          .id,
-                                                                      comment
-                                                                          .commentID,
-                                                                      commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .replyID);
-                                                                  setState(() {
-                                                                    commentReplyLikes.update(
-                                                                        "${commentReplies["${comment.commentID}"]![index].replyID}",
-                                                                        (value) =>
-                                                                            (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
-                                                                                0) +
-                                                                            1);
-                                                                  });
-                                                                },
-                                                                child: Text(
-                                                                  'Suka',
-                                                                  style: blackRegulerTextStyle
+                                                          )
+                                                        : GestureDetector(
+                                                            onTap: () {
+                                                              postController.likeCommentReply(
+                                                                  context,
+                                                                  widget
+                                                                      .post.id,
+                                                                  comment
+                                                                      .commentID,
+                                                                  commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .replyID);
+                                                              setState(() {
+                                                                commentReplyLikes.update(
+                                                                    "${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                    (value) =>
+                                                                        (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                            0) +
+                                                                        1);
+                                                              });
+                                                            },
+                                                            child: Text(
+                                                              'Suka',
+                                                              style:
+                                                                  blackRegulerTextStyle
                                                                       .copyWith(
-                                                                    fontSize:
-                                                                        12,
-                                                                  ),
-                                                                ),
+                                                                fontSize: 12,
                                                               ),
-                                                        const SizedBox(
-                                                          width: 17,
-                                                        ),
-                                                        Text(
-                                                          'Balas',
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                            fontSize: 12,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                    const SizedBox(
+                                                      width: 17,
+                                                    ),
+                                                    Text(
+                                                      'Balas',
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                        fontSize: 12,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -630,17 +620,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             ),
                                           ],
                                         ),
-                                      );
-                                    },
-                                  )
-                                : Container(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             SizedBox(
                               height: 20.0,
                             ),
                           ],
                         ),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       Icon(
                         Icons.more_horiz,
                         size: 24,
@@ -666,9 +657,6 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   maxLines: 6,
                   minLines: 1,
                   controller: commentController,
-                  onChanged: (text) {
-                    _highlightMentions();
-                  },
                   decoration: InputDecoration(
                     filled: true,
                     isDense: true,
@@ -901,81 +889,6 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
     if (returnedImage == null) return;
     imagePath = File(returnedImage.path);
   }
-
-  void _highlightMentions() {
-    String text = commentController.text;
-    List<String> mentions = [];
-    for (String user in users) {
-      if (text.contains('@$user')) {
-        mentions.add('@$user');
-      }
-    }
-    setState(() {
-      // Apply highlighting to the mentions by wrapping them in a RichText
-      // widget with a custom TextStyle.
-      String highlightedText = text;
-      for (String mention in mentions) {
-        highlightedText = highlightedText.replaceAll(
-          mention,
-          '⚡' +
-              mention, // You can use any symbol or style to highlight mentions.
-        );
-      }
-      commentController.value = TextEditingValue(
-        text: highlightedText,
-        selection: commentController.selection,
-      );
-    });
-  }
-}
-
-Widget buildRichTextWithMentions(String text) {
-  final RegExp mentionRegex = RegExp(r'@\w+');
-
-  List<TextSpan> textSpans = [];
-  int prevEnd = 0;
-
-  for (RegExpMatch match in mentionRegex.allMatches(text)) {
-    int start = match.start;
-    int end = match.end;
-
-    // Add non-mention text (before the mention)
-    if (start > prevEnd) {
-      textSpans.add(
-        TextSpan(
-          text: text.substring(prevEnd, start),
-          style: TextStyle(color: Colors.black),
-        ),
-      );
-    }
-
-    // Add mention text with blue color
-    textSpans.add(
-      TextSpan(
-        text: text.substring(start, end),
-        style: grenTextStyle.copyWith(
-          fontSize: 14,
-          fontWeight: regular,
-        ),
-      ),
-    );
-
-    prevEnd = end;
-  }
-
-  // Add any remaining non-mention text
-  if (prevEnd < text.length) {
-    textSpans.add(
-      TextSpan(
-        text: text.substring(prevEnd),
-        style: TextStyle(color: Colors.black),
-      ),
-    );
-  }
-
-  return RichText(
-    text: TextSpan(children: textSpans),
-  );
 }
 
 Widget commentLike(int likes) {

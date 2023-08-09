@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
+import '../../widget/show_modal_dialog.dart';
 
 class GaleryMyJourney extends StatefulWidget {
   const GaleryMyJourney({super.key});
@@ -104,10 +105,66 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                             (e) => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  '${e.concern?.name}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 14),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${e.concern?.name}',
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 14),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          customeshomodal(
+                                              context,
+                                              Padding(
+                                                padding:
+                                                    lsymetric.copyWith(top: 25),
+                                                child: Wrap(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Text(
+                                                            'Delete',
+                                                            style:
+                                                                blackHigtTextStyle
+                                                                    .copyWith(
+                                                              fontSize: 15,
+                                                              color: redColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 30,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Text(
+                                                            'Detail',
+                                                            style:
+                                                                blackTextStyle
+                                                                    .copyWith(
+                                                              fontSize: 15,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 30,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ));
+                                        },
+                                        icon: Icon(Icons.more_horiz))
+                                  ],
                                 ),
                                 Text(
                                   ConvertDate.defaultDate(
