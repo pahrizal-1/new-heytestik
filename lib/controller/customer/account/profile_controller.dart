@@ -55,6 +55,22 @@ class ProfileController extends StateClass {
     });
   }
 
+  Future<List<UserActivity>> getUserActivityReview(BuildContext context, int page) async {
+    try {
+      isLoading.value = true;
+      List<UserActivity> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await ProfileService().getUserActivityReview(page);
+        isLoading.value = false;
+      });
+
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return [];
+    }
+  }
+
   Future<List<StreamHomeModel>> getUserActivityPost(
     BuildContext context,
     int page, {

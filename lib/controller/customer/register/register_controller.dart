@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
@@ -29,8 +31,7 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  registerPhoneNumber(BuildContext context,
-      {required Function() doInPost}) async {
+  registerPhoneNumber(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (phoneNumber == null) {
@@ -82,7 +83,7 @@ class RegisterController extends StateClass {
       var data = {
         'userId': await LocalStorage().getUserID(),
         'verify_type': 'email',
-        'code': code
+        'code': int.parse(code!),
       };
 
       var loginResponse = await RegisterService().emailVerify(data);
@@ -124,8 +125,10 @@ class RegisterController extends StateClass {
     isLoading.value = false;
   }
 
-  verifyPhoneNumber(BuildContext context,
-      {required Function() doInPost}) async {
+  verifyPhoneNumber(
+    BuildContext context, {
+    required Function() doInPost,
+  }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (code == null) {
@@ -143,7 +146,6 @@ class RegisterController extends StateClass {
         'verify_type': 'phone',
         'code': int.parse(code.toString()),
       };
-      print(data);
       var loginResponse = await RegisterService().phoneVerify(data);
       print(loginResponse);
       doInPost();
@@ -151,7 +153,7 @@ class RegisterController extends StateClass {
     isLoading.value = false;
   }
 
-  register(BuildContext context, {required Function() doInPost}) async {
+  register(BuildContext context, {File? profileImage, required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text.isEmpty) {
@@ -185,10 +187,16 @@ class RegisterController extends StateClass {
         'email': email.text,
         'password': password.text,
         'referral_code': referralCode.text,
-        'provinceId': province,
-        'cityId': city,
-        'status': true
+        'status': true,
       };
+
+      if(province != 0) {
+        data['provinceId'] = province;
+      }
+
+      if(city != null && city != 0) {
+        data['cityId'] = city;
+      }
 
       print('data $data');
       // return;

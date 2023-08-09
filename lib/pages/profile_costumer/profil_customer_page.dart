@@ -4,6 +4,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
@@ -352,7 +353,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
               ],
             ),
           ),
-          iSelected == 0 ? UserActivityPost() : UserActivityPost(),
+          iSelected == 0 ? UserActivityPost() : UserActivityReview(),
         ],
       ),
     );
