@@ -18,6 +18,30 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
+  Future<List<UserActivity>> getUserActivityReview(int page) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/user-profile/customer/reviews',
+        params: {
+          "page": page,
+          "take": 10,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print("INI RESPONSE");
+      print(response);
+
+      return (response['data']['data'] as List).map((e) => UserActivity.fromJson(e)).toList();
+    } catch (error) {
+      print(error);
+      return [];
+    }
+  }
+
   Future<List<StreamHomeModel>> getUserActivityPost(
     int page, {
     String? search,

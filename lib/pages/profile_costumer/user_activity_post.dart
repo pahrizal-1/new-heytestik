@@ -31,7 +31,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+      activity.addAll(await profileController.getUserActivityPost(context, page, search: search, postType: postType));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -40,7 +40,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+            activity.addAll(await profileController.getUserActivityPost(context, page, search: search, postType: postType));
             setState(() {});
           });
         }

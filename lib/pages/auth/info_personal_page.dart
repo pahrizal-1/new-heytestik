@@ -313,7 +313,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                   'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
                         );
                       } else {
-                        await state.register(context, doInPost: () async {
+                        await state.register(context, profileImage: imagePath, doInPost: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

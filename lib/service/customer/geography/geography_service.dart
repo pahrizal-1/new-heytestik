@@ -9,23 +9,30 @@ class GeographyService extends ProviderClass {
 
   Future<dynamic> getProvince() async {
     var response = await networkingConfig.doGet(
-      '/geography/provinces?order=ASC&page=50&take=10',
+      '/geography/provinces?order=asc&page=50&take=10',
       headers: {
         'User-Agent': await userAgent(),
       },
     );
 
-    return response;
+    print(response);
+
+    return response['data'];
   }
 
   Future<dynamic> getCity(int provinceID) async {
+
+    print(provinceID);
+
     var response = await networkingConfig.doGet(
-      '/geography/kota-kabupatens?order=ASC&page=1&take=50&provinceId=$provinceID',
+      '/geography/kota-kabupatens?order=asc&page=1&take=50&provinceId=$provinceID',
       headers: {
         'User-Agent': await userAgent(),
       },
     );
 
-    return response;
+    print(response);
+
+    return response['data'];
   }
 }
