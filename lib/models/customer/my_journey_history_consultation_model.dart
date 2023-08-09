@@ -66,6 +66,7 @@ class Data2 {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  TransactionConsultation? transactionConsultation;
   Doctor? doctor;
   MedicalHistory? medicalHistory;
 
@@ -85,6 +86,7 @@ class Data2 {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.transactionConsultation,
       this.doctor,
       this.medicalHistory});
 
@@ -104,6 +106,9 @@ class Data2 {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    transactionConsultation = json['transaction_consultation'] != null
+        ? TransactionConsultation.fromJson(json['transaction_consultation'])
+        : null;
     doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
     medicalHistory = json['medical_history'] != null
         ? MedicalHistory.fromJson(json['medical_history'])
@@ -127,12 +132,169 @@ class Data2 {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (transactionConsultation != null) {
+      data['transaction_consultation'] = transactionConsultation!.toJson();
+    }
     if (doctor != null) {
       data['doctor'] = doctor!.toJson();
     }
     if (medicalHistory != null) {
       data['medical_history'] = medicalHistory!.toJson();
     }
+    return data;
+  }
+}
+
+class TransactionConsultation {
+  String? id;
+  int? customerId;
+  int? medicalHistoryId;
+  int? duration;
+  int? totalFee;
+  int? totalDiscount;
+  int? totalPaid;
+  int? paymentMethodId;
+  String? orderId;
+  String? paymentStatus;
+  dynamic paymentExpiryTime;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  PaymentMethod? paymentMethod;
+
+  TransactionConsultation(
+      {this.id,
+      this.customerId,
+      this.medicalHistoryId,
+      this.duration,
+      this.totalFee,
+      this.totalDiscount,
+      this.totalPaid,
+      this.paymentMethodId,
+      this.orderId,
+      this.paymentStatus,
+      this.paymentExpiryTime,
+      this.status,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.paymentMethod});
+
+  TransactionConsultation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    medicalHistoryId = json['medical_history_id'];
+    duration = json['duration'];
+    totalFee = json['total_fee'];
+    totalDiscount = json['total_discount'];
+    totalPaid = json['total_paid'];
+    paymentMethodId = json['payment_method_id'];
+    orderId = json['order_id'];
+    paymentStatus = json['payment_status'];
+    paymentExpiryTime = json['payment_expiry_time'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    paymentMethod = json['payment_method'] != null
+        ? PaymentMethod.fromJson(json['payment_method'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['medical_history_id'] = medicalHistoryId;
+    data['duration'] = duration;
+    data['total_fee'] = totalFee;
+    data['total_discount'] = totalDiscount;
+    data['total_paid'] = totalPaid;
+    data['payment_method_id'] = paymentMethodId;
+    data['order_id'] = orderId;
+    data['payment_status'] = paymentStatus;
+    data['payment_expiry_time'] = paymentExpiryTime;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (paymentMethod != null) {
+      data['payment_method'] = paymentMethod!.toJson();
+    }
+    return data;
+  }
+}
+
+class PaymentMethod {
+  int? id;
+  String? name;
+  String? method;
+  String? type;
+  dynamic accountNumber;
+  String? segment;
+  String? description;
+  bool? isActive;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  PaymentMethod(
+      {this.id,
+      this.name,
+      this.method,
+      this.type,
+      this.accountNumber,
+      this.segment,
+      this.description,
+      this.isActive,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  PaymentMethod.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    method = json['method'];
+    type = json['type'];
+    accountNumber = json['account_number'];
+    segment = json['segment'];
+    description = json['description'];
+    isActive = json['is_active'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['method'] = method;
+    data['type'] = type;
+    data['account_number'] = accountNumber;
+    data['segment'] = segment;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
