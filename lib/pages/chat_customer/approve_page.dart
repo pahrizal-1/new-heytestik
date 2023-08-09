@@ -21,6 +21,7 @@ class _ApprovePageState extends State<ApprovePage> {
     super.initState();
     state.getUser();
     state.initiateChat(context, widget.orderId);
+    // state.connectSocket(context);
   }
 
   @override

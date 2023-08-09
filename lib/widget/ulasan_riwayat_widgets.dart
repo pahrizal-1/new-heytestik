@@ -10,6 +10,7 @@ class TextUlasanRiwayat extends StatelessWidget {
   final String coment;
   final String balasan;
   final VoidCallback? onPressed;
+  final int rating;
 
   const TextUlasanRiwayat({
     super.key,
@@ -17,12 +18,14 @@ class TextUlasanRiwayat extends StatelessWidget {
     required this.nameProduk,
     required this.waktu,
     required this.coment,
-    required this.balasan,
+    this.balasan = '',
     this.onPressed,
+    required this.rating,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(rating);
     return Column(
       children: [
         InkWell(
@@ -42,42 +45,17 @@ class TextUlasanRiwayat extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/icons/stars-new.png',
-                      width: 12,
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Image.asset(
-                      'assets/icons/stars-new.png',
-                      width: 12,
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Image.asset(
-                      'assets/icons/stars-new.png',
-                      width: 12,
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Image.asset(
-                      'assets/icons/stars-new.png',
-                      width: 12,
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Image.asset(
-                      'assets/icons/stars-new.png',
-                      width: 12,
-                      height: 12,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(5, (index) {
+                        return Image.asset(
+                          'assets/icons/stars-new.png',
+                          width: 12,
+                          color: rating > index
+                              ? const Color(0xffFFC36A)
+                              : Color.fromRGBO(155, 155, 155, 0.61),
+                        );
+                      }),
                     ),
                     const SizedBox(
                       width: 8,

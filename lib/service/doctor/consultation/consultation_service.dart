@@ -62,9 +62,23 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     return jsonResponse;
   }
 
+  Future<dynamic> postApprove(int id) async {
+    var response = await networkingConfig.doUpdateFinish(
+      '/consultation/doctor-schedule/${id}/approve',
+    );
+
+    return response;
+  }
   Future<dynamic> postFinishReview(int id) async {
     var response = await networkingConfig.doUpdateFinish(
       '/consultation/${id}/finish-review',
+    );
+
+    return response;
+  }
+  Future<dynamic> postFinishConsultation(int id) async {
+    var response = await networkingConfig.doUpdateFinish(
+      '/consultation/${id}/finish',
     );
 
     return response;
