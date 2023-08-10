@@ -31,7 +31,8 @@ class TextUlasanRiwayat extends StatelessWidget {
         InkWell(
           onTap: onPressed,
           child: Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 18, bottom: 18),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 18, bottom: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -41,7 +42,8 @@ class TextUlasanRiwayat extends StatelessWidget {
                 ),
                 Text(
                   nameProduk,
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13, color: blackColor),
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 13, color: blackColor),
                 ),
                 Row(
                   children: [
