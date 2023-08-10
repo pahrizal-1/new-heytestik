@@ -59,18 +59,19 @@ class _UserActivityReviewState extends State<UserActivityReview> {
           ...reviews.map((review) {
             return TextUlasanRiwayat(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DetailPageUlasan(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const DetailPageUlasan(),
+                //   ),
+                // );
               },
               nameBrand: fullName,
               nameProduk: review.productName,
               waktu: timeago.format(DateTime.parse(review.createdAt)),
               coment: review.review,
               balasan: '',
+              rating: review.rating.toInt(),
             );
           }).toList(),
         ],
