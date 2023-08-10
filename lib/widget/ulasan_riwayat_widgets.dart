@@ -75,17 +75,15 @@ class TextUlasanRiwayat extends StatelessWidget {
                   coment,
                   style: blackRegulerTextStyle.copyWith(fontSize: 13),
                 ),
-                balasan == ''
-                    ? Container()
-                    : const SizedBox(
-                        height: 18,
-                      ),
-                balasan == ''
-                    ? Container()
-                    : Text(
-                        balasan,
-                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                      ),
+                if (balasan != '') ...[
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Text(
+                    balasan,
+                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  ),
+                ]
               ],
             ),
           ),

@@ -25,10 +25,12 @@ class OnboardingChat extends StatefulWidget {
 
 class _OnboardingChatState extends State<OnboardingChat> {
   final ConsultationController state = Get.put(ConsultationController());
+  final TextEditingController searchController = TextEditingController();
+  String? search;
   @override
   void initState() {
     super.initState();
-    state.getRecentChat(context);
+    state.getRecentChat(context, search: search);
   }
 
   @override
@@ -55,8 +57,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   height: 30,
                   width: 30,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png')),
+                    image: const DecorationImage(image: AssetImage('assets/images/profiledummy.png')),
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
@@ -77,7 +78,13 @@ class _OnboardingChatState extends State<OnboardingChat> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => PencarianPageWidget(
+                    onEditingComplete: () {
+                      search = searchController.text;
+                      state.getRecentChat(context, search: search);
+                    },
+                    searchController: searchController,
+                  ),
                 ),
               );
             },

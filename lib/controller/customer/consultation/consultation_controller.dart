@@ -115,11 +115,11 @@ class ConsultationController extends StateClass {
     }
   }
 
-  getRecentChat(BuildContext context) async {
+  getRecentChat(BuildContext context, {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       customerId.value = (await LocalStorage().getUserID())!;
-      recentChat.value = await ConsultationService().recentChat();
+      recentChat.value = await ConsultationService().recentChat(search: search);
 
       if (recentChat.value!.success != true &&
           recentChat.value!.message != 'Success') {
