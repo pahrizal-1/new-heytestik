@@ -26,7 +26,8 @@ class _UserActivityReviewState extends State<UserActivityReview> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      reviews.addAll(await profileController.getUserActivityReview(context, page));
+      reviews
+          .addAll(await profileController.getUserActivityReview(context, page));
       fullName = await LocalStorage().getFullName();
       setState(() {});
     });
@@ -36,7 +37,8 @@ class _UserActivityReviewState extends State<UserActivityReview> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            reviews.addAll(await profileController.getUserActivityReview(context, page));
+            reviews.addAll(
+                await profileController.getUserActivityReview(context, page));
             setState(() {});
           });
         }
@@ -53,7 +55,7 @@ class _UserActivityReviewState extends State<UserActivityReview> {
         children: [
           const SizedBox(
             height: 10,
-          ), 
+          ),
           ...reviews.map((review) {
             return TextUlasanRiwayat(
               onPressed: () {
