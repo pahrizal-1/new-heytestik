@@ -212,9 +212,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                             width: 0.5,
                                             color: fromCssColor('#E9E9E9')),
                                         image: DecorationImage(
-                                          image: state.dataSkincareById[index]
-                                                      ['media_products'] !=
-                                                  null
+                                          image: img != null
                                               ? NetworkImage(
                                                       Global.FILE + '/' + img)
                                                   as ImageProvider

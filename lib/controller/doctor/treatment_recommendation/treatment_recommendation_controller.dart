@@ -9,9 +9,12 @@ import '../../../models/clinic.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/clinics_model.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/treatment_recommendation_model.dart';
 import '../../../service/doctor/treatment/treatment_services.dart';
+import '../consultation/consultation_controller.dart';
 
 class TreatmentRecommendationController extends StateClass {
   TextEditingController searchController = TextEditingController();
+  final DoctorConsultationController stateDoctor =
+      Get.put(DoctorConsultationController());
 
   Rx<TreatmentReccommendationModel> treatment =
       TreatmentReccommendationModel().obs;
@@ -82,6 +85,10 @@ class TreatmentRecommendationController extends StateClass {
           cause: ErrorConfig.anotherUnknow,
           message: response['message'],
         );
+      }
+
+      for (var i in dataTreatmentItems) {
+        stateDoctor.listTreatmentNote.add(i);
       }
       Navigator.pop(context, 'refresh');
       titleController.clear();

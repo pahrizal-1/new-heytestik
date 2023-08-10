@@ -277,30 +277,30 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
     // "2023-08-05T07:22:49.127Z"
 
-    var newMes = {
-      "id": 24,
-      "chat_room_id": chatRoomId,
-      "sender_id": userId,
-      "receiver_id": receiverId,
-      "message": textMessage,
-      "seen": false,
-      "created_by": null,
-      "updated_by": null,
-      "created_at": stringDateTime,
-      "updated_at": stringDateTime,
-      "deleted_at": null,
-      "media_chat_messages": [],
-      "sender": {
-        "fullname": senderBy,
-      },
-      "receiver": {
-        "fullname": receiverBy,
-      }
-    };
-    Data2 result = Data2.fromJson(newMes);
-    setState(() {
-      msglist?.add(result);
-    });
+    // var newMes = {
+    //   "id": 24,
+    //   "chat_room_id": chatRoomId,
+    //   "sender_id": userId,
+    //   "receiver_id": receiverId,
+    //   "message": textMessage,
+    //   "seen": false,
+    //   "created_by": null,
+    //   "updated_by": null,
+    //   "created_at": stringDateTime,
+    //   "updated_at": stringDateTime,
+    //   "deleted_at": null,
+    //   "media_chat_messages": [],
+    //   "sender": {
+    //     "fullname": senderBy,
+    //   },
+    //   "receiver": {
+    //     "fullname": receiverBy,
+    //   }
+    // };
+    // Data2 result = Data2.fromJson(newMes);
+    // setState(() {
+    //   msglist?.add(result);
+    // });
 
     // listLastChat.add(newMes);
     state.messageController.clear();
@@ -329,6 +329,28 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       );
 
       Data2 result = Data2.fromJson(newMessage);
+      setState(() {
+        msglist?.add(result);
+      });
+      print('hey $result');
+
+      // setState(() {
+      //   msglist?.add(result);
+      // });
+    });
+  }
+
+  // EVENT My MESSAGE (udah dipanggil)
+  myMessage() async {
+    print("myMessage");
+    _socket?.on('myMessage', (myMessage) async {
+      // infoLog();
+      print("myMessage $myMessage");
+      print("message ${myMessage['message']}");
+      print("message ${myMessage['sender']['fullname']}");
+      // var result = json.decode(newMessage);
+
+      Data2 result = Data2.fromJson(myMessage);
       setState(() {
         msglist?.add(result);
       });
@@ -370,9 +392,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         print('Connection established');
         await joinRoom(widget.roomCode);
         await readMessage(widget.roomCode);
-       
+
         await onlineClients(widget.receiverBy ?? '');
         await newMessage();
+        await myMessage();
         await typingIndicator();
         await recentChatt();
         await infoLog();

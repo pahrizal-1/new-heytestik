@@ -1,10 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare1_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen1_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_treatment.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
+import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import '../../../../core/global.dart';
 import '../../../../theme/theme.dart';
 
 class CatatanDocter extends StatefulWidget {
@@ -19,8 +26,12 @@ class CatatanDocter extends StatefulWidget {
 class _CatatanDocterState extends State<CatatanDocter> {
   bool isSelected = false;
   bool isSufficButton = false;
+  String? img;
+  List<int>? itemCount;
   final DoctorConsultationController state =
       Get.put(DoctorConsultationController());
+  final TreatmentRecommendationController stateTreatment =
+      Get.put(TreatmentRecommendationController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +52,11 @@ class _CatatanDocterState extends State<CatatanDocter> {
                       state.diagnosisPossibilityController.clear();
                       state.diagnosisSecondaryController.clear();
                       state.diagnosisSecondary.value = [];
+                      state.diagnosisPossibility.value = [];
+                      state.listSkincare = [];
+                      state.notesSkincare = [];
+                      state.listTreatmentNote = [];
+                      state.listItemCount = [];
                       Navigator.pop(context);
                     },
                     child: Icon(Icons.arrow_back)),
@@ -68,6 +84,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               child: InkWell(
                 onTap: () {
                   state.postDoctorNote(context, widget.idConstul!.toInt());
+                  print('hey');
                 },
                 child: Text(
                   'SIMPAN',
@@ -417,6 +434,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                         )
                       : Container(),
                 ),
+                onChanged: (text) {
+                  print(text);
+                  setState(() {});
+                },
                 // onEditingComplete: () {
                 //   if (state.diagnosisSecondaryController.text == '') {
                 //     state.diagnosisSecondary.clear();
@@ -496,29 +517,26 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 height: 13,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  String refresh = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RekomendasiSkincare1Page(),
                     ),
                   );
+                  if (refresh == 'refresh') {
+                    setState(() {
+                      state.listSkincare;
+                      state.notesSkincare;
+                    });
+                  }
                 },
                 child: Text(
                   '+ Tambah Dari Template',
                   style: grenTextStyle.copyWith(fontSize: 15),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container();
-                },
-              ),
+              SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
@@ -526,19 +544,356 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     border: Border.all(color: greenColor),
                     borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    String refresh = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const TambahanSkinCare(),
                       ),
                     );
+
+                    if (refresh == 'refresh') {
+                      setState(() {
+                        state.listSkincare;
+                        state.notesSkincare;
+                        state.listItemCount;
+                      });
+                    }
                   },
                   child: Text(
                     '+ Tambah Skincare',
                     style: grenTextStyle.copyWith(fontSize: 13),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.listSkincare.length,
+                itemBuilder: (BuildContext context, int index) {
+                  List image = [];
+                  String title = '';
+                  String imgList = '';
+                  String howToUse = '';
+                  String rupiah = '';
+
+                  title = state.listSkincare[index]['name'];
+                  howToUse = state.listSkincare[index]['skincare_detail']
+                      ['specification_how_to_use'];
+                  rupiah = 'Rp' + state.listSkincare[index]['price'].toString();
+                  for (var i in state.listSkincare[index]['media_products'])
+                    image.add(i);
+                  for (var imege in image) {
+                    imgList = imege['media']['path'];
+                  }
+                  // return Text(state.listSkincare[index].toString());
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              print(state.listSkincare[index]);
+                              print(state.listItemCount);
+                              // print('data' + image.toString());
+                              // for (var i in image) {
+                              //   print('img ' + i['media']['path'].toString());
+                              // }
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5, color: fromCssColor('#E9E9E9')),
+                                image: DecorationImage(
+                                  image: state.listSkincare[index]
+                                              ['media_products'] !=
+                                          null
+                                      ? NetworkImage(
+                                              Global.FILE + '/' + imgList)
+                                          as ImageProvider
+                                      : AssetImage("assets/images/produk1.png"),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 200),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: title,
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: greenColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Penggunaan",
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 12,
+                                        height: 1.3,
+                                        letterSpacing: 0.5,
+                                        color: fromCssColor(
+                                          '#9B9B9B',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            // color: Colors.amberAccent,
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 80),
+                                            child: Text(
+                                              "Pagi & Malam",
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 12,
+                                                height: 1.3,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#9B9B9B',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            howToUse,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 12,
+                                              height: 1.3,
+                                              letterSpacing: 0.5,
+                                              color: fromCssColor(
+                                                '#9B9B9B',
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      rupiah,
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                        color: fromCssColor(
+                                          '#323232',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 60,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        height: 40,
+                        child: TextFormField(
+                          controller: state.notesSkincare[index],
+                          decoration: InputDecoration(
+                            labelText: "Catatan",
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelStyle: TextStyle(
+                              color: fromCssColor("#A3A3A3"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                state.listSkincare.removeAt(index);
+                                state.listItemCount!.removeAt(index);
+                              });
+                              print('hey' + state.listSkincare.toString());
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/icons/trash.png"),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            height: 30,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: fromCssColor("#A3A3A3")),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        // if (state.listSkincare[index]['qty'] >= 1) {
+                                        //   state.listSkincare[index]['qty']--;
+                                        //   print('stat' +
+                                        //       state.listSkincare[index]['qty']
+                                        //           .toString());
+                                        // }
+                                        if (state.listItemCount![index] >= 1) {
+                                          state.listItemCount![index]--;
+                                          print('stat' +
+                                              state.listItemCount![index]
+                                                  .toString());
+                                        }
+                                        // if (state.itemCount >= 1) {
+                                        //   state.itemCount--;
+                                        // }
+                                      });
+                                    },
+                                    child: Text(
+                                      "-",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: bold,
+                                        fontFamily: "ProximaNova",
+                                        color: fromCssColor("#A3A3A3"),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    state.listItemCount![index].toString(),
+                                    style: TextStyle(
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 13,
+                                      color: fromCssColor("#323232"),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        // if (state.listSkincare[index]['qty'] >=
+                                        //     0) {
+                                        //   state.listSkincare[index]['qty']++;
+                                        //   print('stat' +
+                                        //       state.listSkincare[index]['qty']
+                                        //           .toString());
+                                        // }
+                                        if (state.listItemCount![index] >= 0) {
+                                          state.listItemCount![index]++;
+                                          print('stat' +
+                                              state.listItemCount![index]
+                                                  .toString());
+                                        }
+                                        // if (state.itemCount >= 0) {
+                                        //   state.itemCount++;
+                                        //   print('stat' +
+                                        //       state.itemCount.toString());
+                                        // }
+                                      });
+                                    },
+                                    child: Text(
+                                      "+",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: bold,
+                                        fontFamily: "ProximaNova",
+                                        color: greenColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                    ],
+                  );
+                },
               ),
               const SizedBox(
                 height: 18,
@@ -560,31 +915,27 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 height: 13,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  String refresh = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RekomendasiSkincare1Page(),
+                      builder: (context) => const RekomendasiTreatmen1Page(),
                     ),
                   );
+
+                  if (refresh == 'refresh') {
+                    // do update here
+                    setState(() {
+                      state.listTreatmentNote;
+                    });
+                  }
                 },
                 child: Text(
                   '+ Tambah Dari Template',
                   style: grenTextStyle.copyWith(fontSize: 15),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [],
-                  );
-                },
-              ),
+              SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
@@ -592,13 +943,20 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     border: Border.all(color: greenColor),
                     borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    String refresh = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const TambahTreatment(),
+                        builder: (context) => const RekomendasiTreatmen2Page(),
                       ),
                     );
+
+                    if (refresh == 'refresh') {
+                      //  do update
+                      setState(() {
+                        state.listTreatmentNote;
+                      });
+                    }
                   },
                   child: Text(
                     '+ Tambah Treatment',
@@ -606,9 +964,251 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.listTreatmentNote.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: (){
+                      print(state.listTreatmentNote);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    constraints: BoxConstraints(maxWidth: 160),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: state.listTreatmentNote[index]
+                                            ['name'],
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          color: greenColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 75,
+                                        child: Text(
+                                          "Cost",
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        // color: Colors.amberAccent,
+                  
+                                        child: Text(
+                                          state.listTreatmentNote[index]['cost'],
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 75,
+                                        child: Text(
+                                          "Recov. Time",
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        // color: Colors.amberAccent,
+                  
+                                        child: Text(
+                                          state.listTreatmentNote[index]
+                                              ['recovery_time'],
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 75,
+                                        child: Text(
+                                          "Type",
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        // color: Colors.amberAccent,
+                  
+                                        child: Text(
+                                          state.listTreatmentNote[index]['type'],
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            height: 1.3,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#9B9B9B',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    state.listTreatmentNote.removeAt(index);
+                                  });
+                                },
+                                child: Container(
+                                  height: 20,
+                                  width: 20,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage("assets/icons/trash.png"),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 35,
+                          child: Center(
+                            child: Divider(
+                              thickness: 1,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
               const SizedBox(
                 height: 18,
               ),
+              const Divider(
+                thickness: 1,
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              Text(
+                'Rekomendasi Obat',
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              InkWell(
+                onTap: () async {
+                  String refresh = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RekomendasiSkincare1Page(),
+                    ),
+                  );
+                  if (refresh == 'refresh') {
+                    setState(() {
+                      state.listSkincare;
+                      state.notesSkincare;
+                      state.listItemCount;
+                    });
+                  }
+                },
+                child: Text(
+                  '+ Tambah Dari',
+                  style: grenTextStyle.copyWith(fontSize: 15),
+                ),
+              ),
+              SizedBox(height: 10),
             ],
           ),
         ),

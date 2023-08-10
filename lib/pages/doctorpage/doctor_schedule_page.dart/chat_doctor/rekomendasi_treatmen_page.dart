@@ -40,6 +40,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                   InkWell(
                     onTap: () {
                       state.dataTreatmentItems = [];
+                      state.titleController.clear();
+                      state.subtitleController.clear();
                       Navigator.pop(context);
                     },
                     child: const Icon(
