@@ -22,9 +22,13 @@ class ConsultationService extends ProviderClass {
     return InitiateChatModel.fromJson(response);
   }
 
-  Future<RecentChatModel> recentChat() async {
+  Future<RecentChatModel> recentChat({String? search}) async {
+
     var response = await networkingConfig.doGet(
       '/chat/recent',
+      params: {
+        "search": search,
+      },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

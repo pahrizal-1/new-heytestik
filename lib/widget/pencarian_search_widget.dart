@@ -6,7 +6,14 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import '../theme/theme.dart';
 
 class PencarianPageWidget extends StatelessWidget {
-  const PencarianPageWidget({super.key});
+  final Function()? onEditingComplete;
+  final TextEditingController? searchController;
+
+  const PencarianPageWidget({
+    super.key,
+    this.onEditingComplete,
+    this.searchController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +43,11 @@ class PencarianPageWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
+                    controller: searchController,
+                    onEditingComplete: (){
+                      onEditingComplete == null ? (){} : onEditingComplete!();
+                      Navigator.pop(context);
+                    },
                     autofocus: true,
                     decoration: InputDecoration(
                       prefixIcon: Padding(
@@ -116,47 +128,43 @@ class PencarianPageWidget extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Cari “Laser” di',
-                      style: grenTextStyle.copyWith(
-                          fontWeight: regular, fontSize: 15),
-                    ),
-                    Text(
-                      ' Klinik',
-                      style: grenTextStyle.copyWith(
-                          fontWeight: bold, fontSize: 15),
-                    ),
-                  ],
-                ),
-                dividergrey()
-              ],
-            ),
+            // Column(
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Text(
+            //           'Cari “Laser” di',
+            //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+            //         ),
+            //         Text(
+            //           ' Klinik',
+            //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
+            //         ),
+            //       ],
+            //     ),
+            //     dividergrey()
+            //   ],
+            // ),
             const SizedBox(
               height: 10,
             ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Cari “Laser” di',
-                      style: grenTextStyle.copyWith(
-                          fontWeight: regular, fontSize: 15),
-                    ),
-                    Text(
-                      ' Treatment',
-                      style: grenTextStyle.copyWith(
-                          fontWeight: bold, fontSize: 15),
-                    ),
-                  ],
-                ),
-                dividergrey()
-              ],
-            ),
+            // Column(
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Text(
+            //           'Cari “Laser” di',
+            //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+            //         ),
+            //         Text(
+            //           ' Treatment',
+            //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
+            //         ),
+            //       ],
+            //     ),
+            //     dividergrey()
+            //   ],
+            // ),
           ],
         ),
       ),

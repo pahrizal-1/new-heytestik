@@ -65,6 +65,22 @@ class PostController extends StateClass {
     }
   }
 
+  Future<List<StreamHomeModel>> getTrendingStream(BuildContext context, int page) async {
+    try {
+      isLoading.value = true;
+      List<StreamHomeModel> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await PostServices().getTrendingStream(page);
+        isLoading.value = false;
+      });
+
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return [];
+    }
+  }
+
   Future<List<StreamHomeModel>> getStreamHomeModel(BuildContext context, int page) async {
     try {
       isLoading.value = true;
