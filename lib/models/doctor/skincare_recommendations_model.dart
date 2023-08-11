@@ -205,6 +205,8 @@ class Skincare {
   String? createdAt;
   String? updatedAt;
   Null? deletedAt;
+  SkincareDetail? skincareDetail;
+  Null? drugDetail;
   List<MediaProducts>? mediaProducts;
 
   Skincare(
@@ -232,6 +234,8 @@ class Skincare {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.skincareDetail,
+      this.drugDetail,
       this.mediaProducts});
 
   Skincare.fromJson(Map<String, dynamic> json) {
@@ -259,6 +263,10 @@ class Skincare {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    skincareDetail = json['skincare_detail'] != null
+        ? new SkincareDetail.fromJson(json['skincare_detail'])
+        : null;
+    drugDetail = json['drug_detail'];
     if (json['media_products'] != null) {
       mediaProducts = <MediaProducts>[];
       json['media_products'].forEach((v) {
@@ -293,10 +301,99 @@ class Skincare {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
+    if (this.skincareDetail != null) {
+      data['skincare_detail'] = this.skincareDetail!.toJson();
+    }
+    data['drug_detail'] = this.drugDetail;
     if (this.mediaProducts != null) {
       data['media_products'] =
           this.mediaProducts!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class SkincareDetail {
+  int? id;
+  int? productId;
+  String? brand;
+  String? description;
+  String? specificationTexture;
+  String? specificationBpom;
+  int? specificationNetto;
+  String? specificationNettoType;
+  String? specificationExpired;
+  String? specificationPackagingType;
+  String? specificationIngredients;
+  String? specificationHowToUse;
+  String? specificationStorageAdvice;
+  Null? createdBy;
+  Null? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  Null? deletedAt;
+
+  SkincareDetail(
+      {this.id,
+      this.productId,
+      this.brand,
+      this.description,
+      this.specificationTexture,
+      this.specificationBpom,
+      this.specificationNetto,
+      this.specificationNettoType,
+      this.specificationExpired,
+      this.specificationPackagingType,
+      this.specificationIngredients,
+      this.specificationHowToUse,
+      this.specificationStorageAdvice,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  SkincareDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    brand = json['brand'];
+    description = json['description'];
+    specificationTexture = json['specification_texture'];
+    specificationBpom = json['specification_bpom'];
+    specificationNetto = json['specification_netto'];
+    specificationNettoType = json['specification_netto_type'];
+    specificationExpired = json['specification_expired'];
+    specificationPackagingType = json['specification_packaging_type'];
+    specificationIngredients = json['specification_ingredients'];
+    specificationHowToUse = json['specification_how_to_use'];
+    specificationStorageAdvice = json['specification_storage_advice'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['product_id'] = this.productId;
+    data['brand'] = this.brand;
+    data['description'] = this.description;
+    data['specification_texture'] = this.specificationTexture;
+    data['specification_bpom'] = this.specificationBpom;
+    data['specification_netto'] = this.specificationNetto;
+    data['specification_netto_type'] = this.specificationNettoType;
+    data['specification_expired'] = this.specificationExpired;
+    data['specification_packaging_type'] = this.specificationPackagingType;
+    data['specification_ingredients'] = this.specificationIngredients;
+    data['specification_how_to_use'] = this.specificationHowToUse;
+    data['specification_storage_advice'] = this.specificationStorageAdvice;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }

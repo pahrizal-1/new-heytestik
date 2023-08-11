@@ -84,9 +84,9 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     return response;
   }
 
-  Future<dynamic> postDoctorNote(dynamic data) async {
+  Future<dynamic> postDoctorNote(dynamic data, int id) async {
     var response = await networkingConfig.doPost(
-      '/consultation/doctor-note',
+      '/consultation/${id}/doctor-note',
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',

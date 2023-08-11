@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,8 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+
+import '../../../../controller/doctor/consultation/consultation_controller.dart';
 
 class RekomendasiSkincare1Page extends StatefulWidget {
   const RekomendasiSkincare1Page({super.key});
@@ -18,6 +22,8 @@ class RekomendasiSkincare1Page extends StatefulWidget {
 class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
   final SkincareRecommendationController state =
       Get.put(SkincareRecommendationController());
+  final DoctorConsultationController stateDoctor =
+      Get.put(DoctorConsultationController());
   @override
   void initState() {
     super.initState();
@@ -59,6 +65,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
             children: [
               InkWell(
                 onTap: () {
+                  stateDoctor.listItemCount = [];
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -137,21 +144,29 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                     itemCount: state.filterData.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        onTap: () async {
-                          String refresh = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => RekomendasiSkincare3Page(
-                                    id: state.filterData[index].id!.toInt(),
-                                  )),
-                            ),
-                          );
-                          if (refresh == 'refresh') {
-                            setState(() {
-                              state.getSkincareRecommendation(context);
-                              state.filterData;
-                            });
+                        onTap: () {
+                          // stateDoctor.listSkincare
+                          //     .add(state.filterData[index].toJson());
+                          // print(stateDoctor.listSkincare.toString());
+                          for (var i in state.filterData[index]
+                              .recipeRecomendationSkincareItems!) {
+                            // print('hye' + i.skincare!.toJson().toString());
+                            stateDoctor.listSkincare.add(i.skincare!.toJson());
+                            stateDoctor.notesSkincare
+                                .add(TextEditingController(text: i.notes));
+                          stateDoctor.listItemCount!.add(i.qty!.toInt());
                           }
+                          print(stateDoctor.listItemCount);
+
+                          // for (var i in state.filterData[index]
+                          //     .recipeRecomendationSkincareItems!){
+                          //       print('hel' + i['notes']);
+                          //     }
+                          // print(state.notesController[i]);
+
+                          // stateDoctor.listSkincare.add(state.dataSkincare);
+                          // stateDoctor.notesSkincare.add(state.notesController[index]);
+                          Navigator.pop(context, 'refresh');
                         },
                         child: tileWidget(index),
                       );
@@ -216,6 +231,25 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
               });
             },
             icon: Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: () async {
+              String refresh = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => RekomendasiSkincare3Page(
+                        id: state.filterData[index].id!.toInt(),
+                      )),
+                ),
+              );
+              if (refresh == 'refresh') {
+                setState(() {
+                  state.getSkincareRecommendation(context);
+                  state.filterData;
+                });
+              }
+            },
+            icon: Icon(Icons.visibility),
           ),
         ],
       ),

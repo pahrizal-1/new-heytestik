@@ -91,6 +91,12 @@ class DoctorConsultationController extends StateClass {
   RxString topic = ''.obs;
   RxList listPreAssesment = [].obs;
   RxList listPreAssesmentImage = [].obs;
+  List listSkincare = [].obs;
+  List listTreatmentNote = [].obs;
+  List listTreatment = [].obs;
+  List listObat = [].obs;
+  List<int>? listItemCount = [1];
+  List<TextEditingController> notesSkincare = [];
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -295,7 +301,8 @@ class DoctorConsultationController extends StateClass {
   postFinishConsultation(BuildContext context, int id) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
-      var res = await ConsultationDoctorScheduleServices().postFinishConsultation(id);
+      var res =
+          await ConsultationDoctorScheduleServices().postFinishConsultation(id);
       print('res' + res.toString());
       Navigator.pop(context);
       isLoading.value = false;
@@ -328,17 +335,39 @@ class DoctorConsultationController extends StateClass {
       //     message: 'Diagnosis harus diisi',
       //   );
       // }
-
+      print('sin');
       var data = {
-        'consultation_id': id,
         'indication': indicationController.text,
         'diagnosis_possibility': diagnosisPossibility,
         'diagnosis_secondary': diagnosisSecondary,
         'suggestion': suggestionController.text,
+        'recomendation_skincare_items': [
+          // for (var i in listSkincare)
+          //   {
+          //     "skincare_id": i['id'],
+          //     "notes": notesSkincare[i],
+          //     "qty": listItemCount![i]
+          //   }
+        ],
+        'recomendation_treatment_items': [
+          // for (var i in listTreatmentNote)
+          //   {
+          //     "name": i['name'],
+          //     "cost": i['cost'],
+          //     "recovery_time": i['recovery_time'],
+          //     "type": i['type'],
+          //     "clinics": [
+          //       for (var clinic in i['clinics'])
+          //         {"clinic_id": clinic['clinic']['id']}
+          //     ]
+          //   }
+        ],
+        'recipe_drug_items': []
       };
+      print('masyk sini');
 
       var postNote =
-          await ConsultationDoctorScheduleServices().postDoctorNote(data);
+          await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
 
       if (postNote['success'] != true && postNote['message'] != 'Success') {
         throw ErrorConfig(

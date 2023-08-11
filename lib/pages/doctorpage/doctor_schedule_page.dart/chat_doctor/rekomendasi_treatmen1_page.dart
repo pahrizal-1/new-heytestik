@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatment3_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import '../../../../widget/loading_widget.dart';
 
@@ -19,6 +20,8 @@ class RekomendasiTreatmen1Page extends StatefulWidget {
 class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
   final TreatmentRecommendationController state =
       Get.put(TreatmentRecommendationController());
+  final DoctorConsultationController stateDoctor =
+      Get.put(DoctorConsultationController());
 
   @override
   void initState() {
@@ -67,6 +70,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
               children: [
                 InkWell(
                   onTap: () {
+                    stateDoctor.listTreatmentNote = [];
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -140,20 +144,13 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                         itemCount: state.treatmentDatas.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () async {
-                              String refresh = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        RekomendasiTreatmen3Page(
-                                          id: state.treatmentDatas[index].id!,
-                                        )),
-                                  ));
-                              if (refresh == 'refresh') {
-                                setState(() {
-                                  state.getRecipeTreatement(context);
-                                });
+                            onTap: () {
+                              for (var i in state.treatmentDatas[index]
+                                  .recipeRecomendationTreatmentItems!) {
+                                stateDoctor.listTreatmentNote.add(i.toJson());
+                                print(i.toJson().toString());
                               }
+                              Navigator.pop(context, 'refresh');
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
@@ -219,6 +216,26 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                                     icon: Icon(
                                       Icons.delete,
                                     ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      String refresh = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: ((context) =>
+                                                RekomendasiTreatmen3Page(
+                                                  id: state
+                                                      .treatmentDatas[index]
+                                                      .id!,
+                                                )),
+                                          ));
+                                      if (refresh == 'refresh') {
+                                        setState(() {
+                                          state.getRecipeTreatement(context);
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(Icons.visibility),
                                   ),
                                 ],
                               ),
