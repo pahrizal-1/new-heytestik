@@ -15,7 +15,10 @@ class CartController extends StateClass {
   getCart(BuildContext context, int page, {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      cart.value = await CartService().getCart();
+      cart.value = await CartService().getCart(
+        page,
+        search: search,
+      );
       filterData.value = cart.value!.data!.data!;
     });
     isLoading.value = false;
