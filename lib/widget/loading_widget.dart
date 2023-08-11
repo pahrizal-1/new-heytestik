@@ -18,7 +18,7 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
       child: Padding(
         padding: EdgeInsets.only(top: isLoading ? top : 0),
         child: isLoading
