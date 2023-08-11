@@ -71,7 +71,7 @@ class _UserActivityReviewState extends State<UserActivityReview> {
               waktu: timeago.format(DateTime.parse(review.createdAt)),
               coment: review.review,
               balasan: '',
-              rating: 1,
+              rating: review.rating.toInt(),
             );
           }).toList(),
         ],

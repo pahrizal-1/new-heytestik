@@ -38,8 +38,9 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
     searchController = TextEditingController(text: widget.search);
     localSearch = widget.search;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getAllTreatment(context, page,
-          search: localSearch));
+      treatments.addAll(
+        await stateTreatment.getAllTreatment(context, page, search: localSearch),
+      );
       setState(() {});
     });
     scrollController.addListener(() {
@@ -48,8 +49,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment
-                .getAllTreatment(context, page, search: localSearch));
+            treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: localSearch));
             setState(() {});
           });
         }
@@ -112,16 +112,15 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
+                            print("INI GW KLIK");
                             page = 1;
                             treatments.clear();
                             localSearch = searchController.text;
-                            treatments.addAll(await stateTreatment
-                                .getAllTreatment(context, page,
-                                    search: localSearch));
+                            treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: localSearch));
+                            print(treatments);
                             setState(() {});
                           },
-                          style: const TextStyle(
-                              fontSize: 15, fontFamily: "ProximaNova"),
+                          style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                           decoration: InputDecoration(
                             hintText: "Cari Treatment",
                             border: InputBorder.none,
@@ -161,15 +160,12 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                       children: [
                         Text(
                           'Tampilan',
-                          style: subTitleTextStyle.copyWith(
-                              color: const Color(0xff6B6B6B)),
+                          style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
-                        isSelecteTampilan
-                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
-                            : SvgPicture.asset('assets/icons/tampillan2.svg')
+                        isSelecteTampilan ? SvgPicture.asset('assets/icons/tampilan1.svg') : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
@@ -190,8 +186,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                         diskonProduk: '0',
                         hargaDiskon: '',
                         harga: element.price.toString(),
-                        urlImg:
-                            "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                        urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                         rating: '${element.rating} (120k)',
                         km: element.distance!,
                         lokasiKlinik: element.clinic!.city!.name!,
@@ -200,15 +195,13 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                     }).toList(),
                   )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 19),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
                     child: Column(
                         children: treatments
                             .map(
                               (e) => TampilanRight(
                                 treatment: e,
-                                urlImg:
-                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                urlImg: "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                               ),
                             )
                             .toList()),

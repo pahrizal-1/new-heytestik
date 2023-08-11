@@ -110,27 +110,35 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
           const SizedBox(
             height: 16,
           ),
-          Wrap(
-            children: widget.stream.postImage.map((image) {
-              return Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 4.0,
-                ),
-                width: MediaQuery.of(context).size.width - 50,
-                height: MediaQuery.of(context).size.width - 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black.withOpacity(.2)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    "${Global.FILE}/$image",
-                    fit: BoxFit.fill,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              children: widget.stream.postImage.map((image) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 10.0,
                   ),
-                ),
-              );
-            }).toList(),
+                  width: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
+                  height: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black.withOpacity(.2)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      "${Global.FILE}/$image",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
           ),
           const SizedBox(
             height: 16,

@@ -4,7 +4,10 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_by_id_model.dart';
+import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_doctor_note_model.dart';
+import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';
+import 'package:heystetik_mobileapps/models/customer/my_journey_schedule_treatment_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class MyJourneysService extends ProviderClass {
@@ -20,6 +23,40 @@ class MyJourneysService extends ProviderClass {
       },
     );
     return MyJourneyModel.fromJson(response);
+  }
+
+  Future<MyJourneyHistoryConsultationModel> getHistoryConsultation() async {
+    var response = await networkingConfig.doGet(
+      '/my-journey/consultation',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return MyJourneyHistoryConsultationModel.fromJson(response);
+  }
+
+  Future<MyJourneyHistoryConsultationDoctorNoteModel>
+      getHistoryConsultationDoctorNote(int id) async {
+    var response = await networkingConfig.doGet(
+      '/consultation/$id/doctor-note',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return MyJourneyHistoryConsultationDoctorNoteModel.fromJson(response);
+  }
+
+  Future<MyJourneyScheduleTreatmentModel> getScheduleTreatment() async {
+    var response = await networkingConfig.doGet(
+      '/my-journey/treatment',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return MyJourneyScheduleTreatmentModel.fromJson(response);
   }
 
   Future<dynamic> saveJourney(dynamic data) async {
