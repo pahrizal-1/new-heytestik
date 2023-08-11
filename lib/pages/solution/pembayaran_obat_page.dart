@@ -67,10 +67,10 @@ class _PembayaranObatState extends State<PembayaranObat> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProdukPembayaran(
-                  harga: '20',
+                  harga: 'Rp20.000',
                   img: "assets/images/produk2.png",
                   jumplah: '1',
-                  namaProduk: 'Nama Produk',
+                  namaProduk: 'Obat Gatal',
                 ),
               ],
             ),
@@ -87,7 +87,7 @@ class _PembayaranObatState extends State<PembayaranObat> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Total Perawatan',
+              'Total Pembayaran',
               style: blackRegulerTextStyle,
             ),
             const SizedBox(

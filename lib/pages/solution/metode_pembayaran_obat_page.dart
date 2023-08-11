@@ -58,6 +58,70 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
           isLoading: state.isLoading.value,
           child: ListView(
             children: [
+              Padding(
+                padding: lsymetric.copyWith(top: 25, bottom: 15),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/produk1.png",
+                            ),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Obat Gatal',
+                          style: blackHigtTextStyle.copyWith(fontSize: 15),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          'Catatan : Dekat Rumah Pk somat',
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 12,
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '1 PCS',
+                              style: subTitleTextStyle.copyWith(
+                                fontSize: 12,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Rp20.000',
+                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              dividergreen(),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -288,7 +352,7 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Total Perawatan',
+              'Total Pembayaran',
               style: blackRegulerTextStyle,
             ),
             const SizedBox(
