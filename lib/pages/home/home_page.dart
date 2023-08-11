@@ -634,15 +634,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                                     fontFamily: 'ProximaNova',
                                                     color: whiteColor,
                                                     fontWeight: regular,
-                                                    fontSize: 13,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  softWrap: false,
-                                                  maxLines: 3,
-                                                  strutStyle: const StrutStyle(
-                                                    height: 0.5,
-                                                    leading: 0.5,
+                                                    fontSize: 15,
                                                   ),
                                                 ),
                                                 const SizedBox(
