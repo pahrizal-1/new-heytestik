@@ -98,7 +98,8 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             ConvertDate.transactionDate(
                               widget.dateBefore,
                             ),
-                            style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                            style:
+                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
                           ),
                         ],
                       ),
@@ -130,7 +131,9 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     top: 200.2,
                     left: 120,
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          shape: BoxShape.circle),
                       height: 40,
                       width: 150,
                       child: Icon(
@@ -164,7 +167,8 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                               ConvertDate.transactionDate(
                                 widget.dateAfter,
                               ),
-                              style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                              style: blackRegulerTextStyle.copyWith(
+                                  fontSize: 8.67),
                             ),
                         ],
                       ),
