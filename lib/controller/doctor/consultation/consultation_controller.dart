@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 import '../../../core/convert_date.dart';
 import '../../../models/doctor/detail_constultation_model.dart'
     as DetailConstultaion;
+import '../../../pages/tabbar/tabbar_doctor.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -97,6 +98,7 @@ class DoctorConsultationController extends StateClass {
   List listObat = [].obs;
   List<int>? listItemCount = [1];
   List<TextEditingController> notesSkincare = [];
+  List<TextEditingController> notesMedicine = [];
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -322,52 +324,43 @@ class DoctorConsultationController extends StateClass {
         );
       }
 
-      // if (diagnosisPossibilityController.text.isEmpty) {
-      //   throw ErrorConfig(
-      //     cause: ErrorConfig.userInput,
-      //     message: 'Diagnosis harus diisi',
-      //   );
-      // }
-
-      // if (diagnosisSecondaryController.text.isEmpty) {
-      //   throw ErrorConfig(
-      //     cause: ErrorConfig.userInput,
-      //     message: 'Diagnosis harus diisi',
-      //   );
-      // }
-      print('sin');
       var data = {
         'indication': indicationController.text,
         'diagnosis_possibility': diagnosisPossibility,
         'diagnosis_secondary': diagnosisSecondary,
         'suggestion': suggestionController.text,
         'recomendation_skincare_items': [
-          // for (var i in listSkincare)
-          //   {
-          //     "skincare_id": i['id'],
-          //     "notes": notesSkincare[i],
-          //     "qty": listItemCount![i]
-          //   }
+          for (var i = 0; i < listSkincare.length; i++)
+            {
+              "skincare_id": listSkincare[i]['id'],
+              "notes": notesSkincare[i].text,
+              "qty": listItemCount![i]
+            }
         ],
         'recomendation_treatment_items': [
-          // for (var i in listTreatmentNote)
-          //   {
-          //     "name": i['name'],
-          //     "cost": i['cost'],
-          //     "recovery_time": i['recovery_time'],
-          //     "type": i['type'],
-          //     "clinics": [
-          //       for (var clinic in i['clinics'])
-          //         {"clinic_id": clinic['clinic']['id']}
-          //     ]
-          //   }
+          for (var i in listTreatmentNote)
+            {
+              "name": i['name'],
+              "cost": i['cost'],
+              "recovery_time": i['recovery_time'],
+              "type": i['type'],
+              "clinics": [
+                for (var clinic in i['clinics'])
+                  {"clinic_id": clinic['clinic']['id']}
+              ]
+            }
         ],
-        'recipe_drug_items': []
+        'recipe_drug_items': [
+          for (var i = 0; i < listObat.length; i++)
+            {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
+        ]
       };
       print('masyk sini');
 
       var postNote =
           await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
+
+      Get.off(() => const TabBarDoctor());
 
       if (postNote['success'] != true && postNote['message'] != 'Success') {
         throw ErrorConfig(

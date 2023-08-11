@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_medicine_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare1_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen1_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
@@ -57,6 +58,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                       state.notesSkincare = [];
                       state.listTreatmentNote = [];
                       state.listItemCount = [];
+                      state.listObat = [];
+                      state.notesMedicine = [];
                       Navigator.pop(context);
                     },
                     child: Icon(Icons.arrow_back)),
@@ -975,7 +978,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 itemCount: state.listTreatmentNote.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: (){
+                    onTap: () {
                       print(state.listTreatmentNote);
                     },
                     child: Column(
@@ -1008,7 +1011,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 5,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1031,9 +1035,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                       ),
                                       Container(
                                         // color: Colors.amberAccent,
-                  
+
                                         child: Text(
-                                          state.listTreatmentNote[index]['cost'],
+                                          state.listTreatmentNote[index]
+                                              ['cost'],
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,
@@ -1051,7 +1056,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 3,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1074,7 +1080,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                       ),
                                       Container(
                                         // color: Colors.amberAccent,
-                  
+
                                         child: Text(
                                           state.listTreatmentNote[index]
                                               ['recovery_time'],
@@ -1095,7 +1101,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 3,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1118,9 +1125,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                       ),
                                       Container(
                                         // color: Colors.amberAccent,
-                  
+
                                         child: Text(
-                                          state.listTreatmentNote[index]['type'],
+                                          state.listTreatmentNote[index]
+                                              ['type'],
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,
@@ -1150,7 +1158,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   width: 20,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage("assets/icons/trash.png"),
+                                      image:
+                                          AssetImage("assets/icons/trash.png"),
                                     ),
                                   ),
                                 ),
@@ -1187,28 +1196,260 @@ class _CatatanDocterState extends State<CatatanDocter> {
               const SizedBox(
                 height: 13,
               ),
-              InkWell(
-                onTap: () async {
-                  String refresh = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RekomendasiSkincare1Page(),
-                    ),
-                  );
-                  if (refresh == 'refresh') {
-                    setState(() {
-                      state.listSkincare;
-                      state.notesSkincare;
-                      state.listItemCount;
-                    });
-                  }
-                },
-                child: Text(
-                  '+ Tambah Dari',
-                  style: grenTextStyle.copyWith(fontSize: 15),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 45,
+                decoration: BoxDecoration(
+                    border: Border.all(color: greenColor),
+                    borderRadius: BorderRadius.circular(7)),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    String refresh = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RecomendationMedicine(),
+                      ),
+                    );
+
+                    if (refresh == 'refresh') {
+                      //  do update
+                      setState(() {
+                        state.listObat;
+                        state.notesMedicine;
+                        // do something
+                        // state.listTreatmentNote;
+                      });
+                    }
+                  },
+                  child: Text(
+                    '+ Tambah Obat',
+                    style: grenTextStyle.copyWith(fontSize: 13),
+                  ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(
+                height: 20,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.listObat.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // return Text(state.listSkincare[index].toString());
+                  List image = [];
+                  String imgList = '';
+
+                  for (var i in state.listObat[index]['image']) image.add(i);
+                  for (var imege in image) {
+                    imgList = imege;
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5, color: fromCssColor('#E9E9E9')),
+                                image: DecorationImage(
+                                  image: state.listObat[index]['image'] != null
+                                      ? NetworkImage(
+                                              Global.FILE + '/' + imgList)
+                                          as ImageProvider
+                                      : AssetImage("assets/images/produk1.png"),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 200),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: state.listObat[index]['name'],
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: greenColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Penggunaan",
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 12,
+                                        height: 1.3,
+                                        letterSpacing: 0.5,
+                                        color: fromCssColor(
+                                          '#9B9B9B',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            // color: Colors.amberAccent,
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 80),
+                                            child: Text(
+                                              "Pagi & Malam",
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 12,
+                                                height: 1.3,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#9B9B9B',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            state.listObat[index]['penggunaan'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 12,
+                                              height: 1.3,
+                                              letterSpacing: 0.5,
+                                              color: fromCssColor(
+                                                '#9B9B9B',
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Rp. ' +
+                                          state.listObat[index]['harga']
+                                              .toString(),
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                        color: fromCssColor(
+                                          '#323232',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 60,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        height: 40,
+                        child: TextFormField(
+                          controller: state.notesMedicine[index],
+                          decoration: InputDecoration(
+                            labelText: "Catatan",
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: greenColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelStyle: TextStyle(
+                              color: fromCssColor("#A3A3A3"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                state.listObat.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/icons/trash.png"),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
         ),
