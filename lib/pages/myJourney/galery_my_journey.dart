@@ -188,6 +188,20 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                                           const SizedBox(
                                                             height: 30,
                                                           ),
+                                                          InkWell(
+                                                            onTap: () {},
+                                                            child: Text(
+                                                              'Post After',
+                                                              style:
+                                                                  blackTextStyle
+                                                                      .copyWith(
+                                                                fontSize: 15,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
                                                         ],
                                                       )
                                                     ],
