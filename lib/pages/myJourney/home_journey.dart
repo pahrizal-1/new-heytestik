@@ -211,7 +211,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                 const SizedBox(
                   height: 22,
                 ),
-                ButtonGreenWidget(title: 'Simpan Poto Ke Galery'),
+                ButtonGreenWidget(title: 'Simpan Foto Ke Galeri'),
                 const SizedBox(
                   height: 14,
                 ),

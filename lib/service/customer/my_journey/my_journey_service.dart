@@ -16,7 +16,7 @@ class MyJourneysService extends ProviderClass {
 
   Future<MyJourneyModel> getJourney(int page) async {
     var response = await networkingConfig.doGet(
-      '/my-journey?page=$page&take=1000',
+      '/my-journey?page=$page&take=10',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -84,9 +84,10 @@ class MyJourneysService extends ProviderClass {
     return response;
   }
 
-  Future<MyJourneyByIdModel> findJourney(int id) async {
+  Future<MyJourneyByIdModel> detailJourney(int id) async {
+    print("service $id");
     var response = await networkingConfig.doGet(
-      'my-journey/$id',
+      '/my-journey/$id/info',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -97,7 +98,7 @@ class MyJourneysService extends ProviderClass {
 
   Future<dynamic> deleteJourney(int id) async {
     var response = await networkingConfig.doDelete(
-      'my-journey/$id',
+      '/my-journey/$id',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/detail_gallery_my_journey_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -38,8 +39,10 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
             gallery.addAll(await state.getJourney(context, page));
             setState(() {});
+            state.isLoadingMore.value = false;
           });
         }
       }
@@ -82,7 +85,7 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: gallery.isEmpty
               ? Center(
                   child: Text(
@@ -95,189 +98,211 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                   ),
                 )
               : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: gallery
-                          .map(
-                            (e) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                  controller: scrollController,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: gallery
+                              .map(
+                                (e) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      '${e.concern?.name}',
-                                      style: blackHigtTextStyle.copyWith(
-                                          fontSize: 14),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {
-                                          customeshomodal(
-                                              context,
-                                              Padding(
-                                                padding:
-                                                    lsymetric.copyWith(top: 25),
-                                                child: Wrap(
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${e.concern?.name}',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 14),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              customeshomodal(
+                                                  context,
+                                                  Padding(
+                                                    padding: lsymetric.copyWith(
+                                                        top: 25),
+                                                    child: Wrap(
                                                       children: [
-                                                        InkWell(
-                                                          onTap: () {},
-                                                          child: Text(
-                                                            'Delete',
-                                                            style:
-                                                                blackHigtTextStyle
-                                                                    .copyWith(
-                                                              fontSize: 15,
-                                                              color: redColor,
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap:
+                                                                  () async {},
+                                                              child: Text(
+                                                                'Delete',
+                                                                style:
+                                                                    blackHigtTextStyle
+                                                                        .copyWith(
+                                                                  fontSize: 15,
+                                                                  color:
+                                                                      redColor,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {},
-                                                          child: Text(
-                                                            'Detail',
-                                                            style:
-                                                                blackTextStyle
-                                                                    .copyWith(
-                                                              fontSize: 15,
+                                                            const SizedBox(
+                                                              height: 30,
                                                             ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Get.back();
+                                                                Get.to(
+                                                                    DetailGalleryMyJourneyPage(
+                                                                  id: e.id!
+                                                                      .toInt(),
+                                                                ));
+                                                              },
+                                                              child: Text(
+                                                                'Detail',
+                                                                style:
+                                                                    blackTextStyle
+                                                                        .copyWith(
+                                                                  fontSize: 15,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                          ],
+                                                        )
                                                       ],
-                                                    )
-                                                  ],
-                                                ),
+                                                    ),
+                                                  ));
+                                            },
+                                            icon: Icon(Icons.more_horiz))
+                                      ],
+                                    ),
+                                    Text(
+                                      ConvertDate.defaultDate(
+                                          e.createdAt.toString()),
+                                      style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 13),
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    Wrap(
+                                      spacing: 4,
+                                      runSpacing: 4,
+                                      children: e.mediaMyJourneys!.map((a) {
+                                        if (a.category == "INITIAL_CONDITION") {
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(ZoomImageDetail(
+                                                concern: e.concern!.name ?? '-',
+                                                beforeImage:
+                                                    '${Global.FILE}/${a.media?.path}',
+                                                dateBefore:
+                                                    e.createdAt.toString(),
+                                                afterImage:
+                                                    '${Global.FILE}/${a.media?.path}',
+                                                dateAfter:
+                                                    e.createdAt.toString(),
                                               ));
-                                        },
-                                        icon: Icon(Icons.more_horiz))
+                                            },
+                                            child: Container(
+                                              height: 72,
+                                              width: 82,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      '${Global.FILE}/${a.media?.path}'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        return Container();
+                                      }).toList(),
+                                    ),
+                                    e.mediaMyJourneys!.length > 4
+                                        ? const SizedBox(
+                                            height: 14,
+                                          )
+                                        : Container(),
+                                    e.mediaMyJourneys!.length > 4
+                                        ? Text(
+                                            ConvertDate.defaultDate(e
+                                                .mediaMyJourneys![4].createdAt
+                                                .toString()),
+                                            style: blackRegulerTextStyle
+                                                .copyWith(fontSize: 13),
+                                          )
+                                        : Container(),
+                                    e.mediaMyJourneys!.length > 4
+                                        ? const SizedBox(
+                                            height: 14,
+                                          )
+                                        : Container(),
+                                    Wrap(
+                                      spacing: 4,
+                                      runSpacing: 4,
+                                      children: e.mediaMyJourneys!.map((a) {
+                                        if (a.category == "AFTER_CONDITION") {
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(ZoomImageDetail(
+                                                concern: e.concern!.name ?? '-',
+                                                beforeImage:
+                                                    '${Global.FILE}/${a.media?.path}',
+                                                dateBefore:
+                                                    e.createdAt.toString(),
+                                                afterImage:
+                                                    '${Global.FILE}/${a.media?.path}',
+                                                dateAfter:
+                                                    e.createdAt.toString(),
+                                              ));
+                                            },
+                                            child: Container(
+                                              height: 72,
+                                              width: 82,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      '${Global.FILE}/${a.media?.path}'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        return Container();
+                                      }).toList(),
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    const dividergreen(),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
                                   ],
                                 ),
-                                Text(
-                                  ConvertDate.defaultDate(
-                                      e.createdAt.toString()),
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13),
-                                ),
-                                const SizedBox(
-                                  height: 14,
-                                ),
-                                Wrap(
-                                  spacing: 4,
-                                  runSpacing: 4,
-                                  children: e.mediaMyJourneys!.map((a) {
-                                    if (a.category == "INITIAL_CONDITION") {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.to(ZoomImageDetail(
-                                            concern: e.concern!.name ?? '-',
-                                            beforeImage:
-                                                '${Global.FILE}/${a.media?.path}',
-                                            dateBefore: e.createdAt.toString(),
-                                            afterImage:
-                                                '${Global.FILE}/${a.media?.path}',
-                                            dateAfter: e.createdAt.toString(),
-                                          ));
-                                        },
-                                        child: Container(
-                                          height: 72,
-                                          width: 82,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  '${Global.FILE}/${a.media?.path}'),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-
-                                    return Container();
-                                  }).toList(),
-                                ),
-                                e.mediaMyJourneys!.length > 4
-                                    ? const SizedBox(
-                                        height: 14,
-                                      )
-                                    : Container(),
-                                e.mediaMyJourneys!.length > 4
-                                    ? Text(
-                                        ConvertDate.defaultDate(e
-                                            .mediaMyJourneys![4].createdAt
-                                            .toString()),
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 13),
-                                      )
-                                    : Container(),
-                                e.mediaMyJourneys!.length > 4
-                                    ? const SizedBox(
-                                        height: 14,
-                                      )
-                                    : Container(),
-                                Wrap(
-                                  spacing: 4,
-                                  runSpacing: 4,
-                                  children: e.mediaMyJourneys!.map((a) {
-                                    if (a.category == "AFTER_CONDITION") {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.to(ZoomImageDetail(
-                                            concern: e.concern!.name ?? '-',
-                                            beforeImage:
-                                                '${Global.FILE}/${a.media?.path}',
-                                            dateBefore: e.createdAt.toString(),
-                                            afterImage:
-                                                '${Global.FILE}/${a.media?.path}',
-                                            dateAfter: e.createdAt.toString(),
-                                          ));
-                                        },
-                                        child: Container(
-                                          height: 72,
-                                          width: 82,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  '${Global.FILE}/${a.media?.path}'),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-
-                                    return Container();
-                                  }).toList(),
-                                ),
-                                const SizedBox(
-                                  height: 14,
-                                ),
-                                const dividergreen(),
-                                const SizedBox(
-                                  height: 14,
-                                ),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                      Obx(
+                        () =>
+                            state.isLoading.value ? LoadingMore() : Container(),
+                      ),
+                    ],
                   ),
                 ),
         ),
