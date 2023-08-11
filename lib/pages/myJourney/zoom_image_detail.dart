@@ -78,7 +78,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     top: 390.2,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withOpacity(1),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(86),
                           bottomRight: Radius.circular(86),
@@ -140,18 +140,18 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                         )),
                   ),
                   Positioned(
-                    top: 400.2,
+                    top: 390.2,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: whiteColor,
+                        color: Colors.white.withOpacity(1),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(86),
                           bottomRight: Radius.circular(86),
                         ),
                       ),
                       padding: const EdgeInsets.only(left: 6, top: 7),
-                      height: 45,
-                      width: 110,
+                      height: 40,
+                      width: 150,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
