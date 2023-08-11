@@ -7,6 +7,8 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart'
     as Interest;
+import 'package:heystetik_mobileapps/models/customer/my_journey_by_id_model.dart'
+    as MyJourneyById;
 import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_doctor_note_model.dart'
     as HistoryConsultationDoctorNote;
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart'
@@ -22,6 +24,9 @@ class MyJourneyController extends StateClass {
   Rx<MyJourney.MyJourneyModel> responseJourney = MyJourney.MyJourneyModel().obs;
   RxList<MyJourney.Data2> dataJourney =
       List<MyJourney.Data2>.empty(growable: true).obs;
+
+  Rx<MyJourneyById.Data> myJourneyById = MyJourneyById.Data.fromJson({}).obs;
+  RxInt totalMyJourneyById = 0.obs;
 
   Rx<HistoryConsultation.MyJourneyHistoryConsultationModel>
       responseHistoryConsultation =
@@ -81,13 +86,17 @@ class MyJourneyController extends StateClass {
   getHistoryConsultationDoctorNote(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      dataUser = await LocalStorage().getDataUser();
-      fullName.value = dataUser['fullname'];
-      phone.value = dataUser['no_phone'];
-      HistoryConsultationDoctorNote.MyJourneyHistoryConsultationDoctorNoteModel
-          res = await MyJourneysService().getHistoryConsultationDoctorNote(id);
-
-      historyConsultationDoctorNote.value = res.data!;
+      try {
+        dataUser = await LocalStorage().getDataUser();
+        fullName.value = dataUser['fullname'];
+        phone.value = dataUser['no_phone'];
+        HistoryConsultationDoctorNote
+                .MyJourneyHistoryConsultationDoctorNoteModel res =
+            await MyJourneysService().getHistoryConsultationDoctorNote(id);
+        historyConsultationDoctorNote.value = res.data!;
+      } catch (e) {
+        print('hehehehe $e');
+      }
     });
     isLoading.value = false;
   }
@@ -155,6 +164,46 @@ class MyJourneyController extends StateClass {
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
       doInPost();
+    });
+    isLoading.value = false;
+  }
+
+  Future detailJourney(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
+        totalMyJourneyById.value = 0;
+
+        MyJourneyById.MyJourneyByIdModel res =
+            await MyJourneysService().detailJourney(id);
+        print("=============");
+        myJourneyById.value = res.data!;
+        print(myJourneyById.value);
+        print("=============");
+        totalMyJourneyById.value = res.data!.mediaMyJourneys!.length;
+
+        print("=============");
+        print(res.data!.mediaMyJourneys!.length);
+        print("=============");
+        print(totalMyJourneyById.value);
+
+        for (int i = 0; i < totalMyJourneyById.value; i++) {
+          if (myJourneyById.value.mediaMyJourneys?[i].category ==
+              'INITIAL_CONDITION') {
+            print('ada INITIAL_CONDITION ${i + 1}');
+            print(myJourneyById.value.mediaMyJourneys?[i].media?.path);
+          }
+
+          if (myJourneyById.value.mediaMyJourneys?[i].category ==
+              'AFTER_CONDITION') {
+            print('ada AFTER_CONDITION ${i + 1}');
+
+            print(myJourneyById.value.mediaMyJourneys?[i].media?.path);
+          }
+        }
+      } catch (e) {
+        print("eheheh $e");
+      }
     });
     isLoading.value = false;
   }
