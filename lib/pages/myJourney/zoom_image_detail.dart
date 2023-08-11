@@ -164,11 +164,14 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                           ),
                           if (widget.afterImage != '')
                             Text(
-                              ConvertDate.transactionDate(
-                                widget.dateAfter,
-                              ),
+                              widget.dateAfter == '-' || widget.dateAfter == ''
+                                  ? '-'
+                                  : ConvertDate.transactionDate(
+                                      widget.dateAfter,
+                                    ),
                               style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8.67),
+                                fontSize: 8.67,
+                              ),
                             ),
                         ],
                       ),
