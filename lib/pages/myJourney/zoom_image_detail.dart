@@ -98,8 +98,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             ConvertDate.transactionDate(
                               widget.dateBefore,
                             ),
-                            style:
-                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                            style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
                           ),
                         ],
                       ),
@@ -119,25 +118,26 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     child: Container(
                       height: 450,
                       width: 170,
-                      child: Image.network(
-                        widget.afterImage,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.afterImage != ''
+                          ? Image.network(
+                              widget.afterImage,
+                              fit: BoxFit.cover,
+                            )
+                          : Center(child: Icon(Icons.camera_alt_outlined)),
                     ),
                   ),
                   Positioned(
                     top: 200.2,
                     left: 120,
                     child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
-                            shape: BoxShape.circle),
-                        height: 40,
-                        width: 150,
-                        child: Icon(
-                          Icons.keyboard_arrow_right,
-                          color: whiteColor,
-                        )),
+                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
+                      height: 40,
+                      width: 150,
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: whiteColor,
+                      ),
+                    ),
                   ),
                   Positioned(
                     top: 400.2,
@@ -159,13 +159,13 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             'My Journey - ${widget.concern}',
                             style: blackTextStyle.copyWith(fontSize: 8.67),
                           ),
-                          Text(
-                            ConvertDate.transactionDate(
-                              widget.dateAfter,
+                          if (widget.afterImage != '')
+                            Text(
+                              ConvertDate.transactionDate(
+                                widget.dateAfter,
+                              ),
+                              style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
                             ),
-                            style:
-                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
-                          ),
                         ],
                       ),
                     ),
