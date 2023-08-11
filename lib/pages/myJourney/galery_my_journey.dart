@@ -102,8 +102,7 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 24),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: gallery
@@ -112,80 +111,66 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           '${e.concern?.name}',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 14),
+                                          style: blackHigtTextStyle.copyWith(fontSize: 14),
                                         ),
                                         IconButton(
-                                            onPressed: () {
-                                              customeshomodal(
-                                                  context,
-                                                  Padding(
-                                                    padding: lsymetric.copyWith(
-                                                        top: 25),
-                                                    child: Wrap(
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap:
-                                                                  () async {},
-                                                              child: Text(
-                                                                'Delete',
-                                                                style:
-                                                                    blackHigtTextStyle
-                                                                        .copyWith(
-                                                                  fontSize: 15,
-                                                                  color:
-                                                                      redColor,
-                                                                ),
+                                          onPressed: () {
+                                            customeshomodal(
+                                                context,
+                                                Padding(
+                                                  padding: lsymetric.copyWith(top: 25),
+                                                  child: Wrap(
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () async {},
+                                                            child: Text(
+                                                              'Delete',
+                                                              style: blackHigtTextStyle.copyWith(
+                                                                fontSize: 15,
+                                                                color: redColor,
                                                               ),
                                                             ),
-                                                            const SizedBox(
-                                                              height: 30,
-                                                            ),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Get.back();
-                                                                Get.to(
-                                                                    DetailGalleryMyJourneyPage(
-                                                                  id: e.id!
-                                                                      .toInt(),
-                                                                ));
-                                                              },
-                                                              child: Text(
-                                                                'Detail',
-                                                                style:
-                                                                    blackTextStyle
-                                                                        .copyWith(
-                                                                  fontSize: 15,
-                                                                ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              Get.to(DetailGalleryMyJourneyPage(
+                                                                id: e.id!.toInt(),
+                                                              ));
+                                                            },
+                                                            child: Text(
+                                                              'Detail',
+                                                              style: blackTextStyle.copyWith(
+                                                                fontSize: 15,
                                                               ),
                                                             ),
-                                                            const SizedBox(
-                                                              height: 30,
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ));
-                                            },
-                                            icon: Icon(Icons.more_horiz))
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ));
+                                          },
+                                          icon: Icon(Icons.more_horiz),
+                                        )
                                       ],
                                     ),
                                     Text(
-                                      ConvertDate.defaultDate(
-                                          e.createdAt.toString()),
-                                      style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 13),
+                                      ConvertDate.defaultDate(e.createdAt.toString()),
+                                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
                                     ),
                                     const SizedBox(
                                       height: 14,
@@ -199,25 +184,19 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                             onTap: () {
                                               Get.to(ZoomImageDetail(
                                                 concern: e.concern!.name ?? '-',
-                                                beforeImage:
-                                                    '${Global.FILE}/${a.media?.path}',
-                                                dateBefore:
-                                                    e.createdAt.toString(),
-                                                afterImage:
-                                                    '${Global.FILE}/${a.media?.path}',
-                                                dateAfter:
-                                                    e.createdAt.toString(),
+                                                beforeImage: '${Global.FILE}/${a.media?.path}',
+                                                dateBefore: e.createdAt.toString(),
+                                                afterImage: '${Global.FILE}/${a.media?.path}',
+                                                dateAfter: e.createdAt.toString(),
                                               ));
                                             },
                                             child: Container(
                                               height: 72,
                                               width: 82,
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
+                                                borderRadius: BorderRadius.circular(7),
                                                 image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      '${Global.FILE}/${a.media?.path}'),
+                                                  image: NetworkImage('${Global.FILE}/${a.media?.path}'),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -235,11 +214,8 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                         : Container(),
                                     e.mediaMyJourneys!.length > 4
                                         ? Text(
-                                            ConvertDate.defaultDate(e
-                                                .mediaMyJourneys![4].createdAt
-                                                .toString()),
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
+                                            ConvertDate.defaultDate(e.mediaMyJourneys![4].createdAt.toString()),
+                                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
                                           )
                                         : Container(),
                                     e.mediaMyJourneys!.length > 4
@@ -256,25 +232,19 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                             onTap: () {
                                               Get.to(ZoomImageDetail(
                                                 concern: e.concern!.name ?? '-',
-                                                beforeImage:
-                                                    '${Global.FILE}/${a.media?.path}',
-                                                dateBefore:
-                                                    e.createdAt.toString(),
-                                                afterImage:
-                                                    '${Global.FILE}/${a.media?.path}',
-                                                dateAfter:
-                                                    e.createdAt.toString(),
+                                                beforeImage: '${Global.FILE}/${a.media?.path}',
+                                                dateBefore: e.createdAt.toString(),
+                                                afterImage: '${Global.FILE}/${a.media?.path}',
+                                                dateAfter: e.createdAt.toString(),
                                               ));
                                             },
                                             child: Container(
                                               height: 72,
                                               width: 82,
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
+                                                borderRadius: BorderRadius.circular(7),
                                                 image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      '${Global.FILE}/${a.media?.path}'),
+                                                  image: NetworkImage('${Global.FILE}/${a.media?.path}'),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -299,8 +269,7 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                         ),
                       ),
                       Obx(
-                        () =>
-                            state.isLoading.value ? LoadingMore() : Container(),
+                        () => state.isLoading.value ? LoadingMore() : Container(),
                       ),
                     ],
                   ),

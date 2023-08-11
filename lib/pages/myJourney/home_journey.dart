@@ -92,9 +92,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                     children: [
                       Obx(
                         () => Text(
-                          state.concern.value == ""
-                              ? 'Pilih Skin Goal kamu'
-                              : state.concern.value,
+                          state.concern.value == "" ? 'Pilih Skin Goal kamu' : state.concern.value,
                           style: subTitleTextStyle,
                         ),
                       ),
@@ -127,8 +125,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                       Wrap(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 35, vertical: 32),
+                            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -139,8 +136,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   },
                                   child: Text(
                                     'Kamera',
-                                    style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15, color: blackColor),
+                                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                   ),
                                 ),
                                 const SizedBox(
@@ -154,8 +150,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   },
                                   child: Text(
                                     'Dari galeri',
-                                    style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15, color: blackColor),
+                                    style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                   ),
                                 ),
                                 const SizedBox(
@@ -170,8 +165,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                       },
                                       child: Text(
                                         'CANCEL',
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 15, color: blackColor),
+                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                       ),
                                     ),
                                   ],
@@ -229,8 +223,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
           ),
           const dividergreen(),
           Padding(
-            padding:
-                const EdgeInsets.only(top: 32, left: 25, right: 25, bottom: 33),
+            padding: const EdgeInsets.only(top: 32, left: 25, right: 25, bottom: 33),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -469,8 +462,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -486,8 +478,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -503,8 +494,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -527,16 +517,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                     child: Container(
                                       height: 95,
                                       width: 340,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 26, vertical: 30),
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: borderColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
+                                      decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(10)),
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Catatan dokter terkait skingoal kamu',
@@ -545,14 +529,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                           RichText(
                                             text: TextSpan(
                                               text: 'Chat Doctor',
-                                              style: grenTextStyle.copyWith(
-                                                  fontSize: 15),
-                                              children: [
-                                                TextSpan(
-                                                    text: ' Sekarang, yuk!',
-                                                    style:
-                                                        blackRegulerTextStyle)
-                                              ],
+                                              style: grenTextStyle.copyWith(fontSize: 15),
+                                              children: [TextSpan(text: ' Sekarang, yuk!', style: blackRegulerTextStyle)],
                                             ),
                                           ),
                                         ],
@@ -578,42 +556,31 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    state.dataHistoryConsultation.value.length,
+                                itemCount: state.dataHistoryConsultation.value.length,
                                 itemBuilder: (BuildContext context, index) {
                                   return InkWell(
                                     onTap: () {
                                       Get.to(HasilKosultasiPage(
-                                        id: state.dataHistoryConsultation[index]
-                                            .consultationDoctorScheduleId!
-                                            .toInt(),
+                                        id: state.dataHistoryConsultation[index].consultationDoctorScheduleId!.toInt(),
                                       ));
                                     },
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: borderColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                      decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(10)),
                                       child: Row(
                                         children: [
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Konsultasi dengan',
-                                                style: blackTextStyle.copyWith(
-                                                    fontSize: 13),
+                                                style: blackTextStyle.copyWith(fontSize: 13),
                                               ),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     height: 35,
@@ -624,38 +591,26 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           '${Global.FILE}/${state.dataHistoryConsultation[index].doctor?.mediaUserProfilePicture?.media?.path}',
                                                         ),
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25),
+                                                      borderRadius: BorderRadius.circular(25),
                                                     ),
                                                   ),
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
                                                   Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         '${state.dataHistoryConsultation[index].doctor?.fullname}',
-                                                        style: subTitleTextStyle
-                                                            .copyWith(
+                                                        style: subTitleTextStyle.copyWith(
                                                           fontSize: 13,
                                                           fontWeight: bold,
                                                         ),
                                                       ),
                                                       Text(
                                                         // '12 Feb 2023; 17:30 WIB',
-                                                        ConvertDate
-                                                            .transactionDate(state
-                                                                .dataHistoryConsultation[
-                                                                    index]
-                                                                .createdAt
-                                                                .toString()),
-                                                        style: subTitleTextStyle
-                                                            .copyWith(
-                                                                fontSize: 11),
+                                                        ConvertDate.transactionDate(state.dataHistoryConsultation[index].createdAt.toString()),
+                                                        style: subTitleTextStyle.copyWith(fontSize: 11),
                                                       ),
                                                       const SizedBox(
                                                         height: 9,
@@ -664,8 +619,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                         'assets/icons/plus-icosn.png',
                                                         width: 24,
                                                         height: 24,
-                                                        color:
-                                                            Color(0xfff9b9b9b),
+                                                        color: Color(0xfff9b9b9b),
                                                       )
                                                     ],
                                                   )
@@ -678,93 +632,46 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                             children: [
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  color: state
-                                                              .dataHistoryConsultation[
-                                                                  index]
-                                                              .status ==
-                                                          'MENUNGGU_PEMBAYARAN'
-                                                      ? const Color.fromARGB(
-                                                          255, 255, 204, 170)
-                                                      : state.dataHistoryConsultation[index].status ==
-                                                              'READY'
-                                                          ? const Color.fromARGB(
-                                                              255, 255, 204, 170)
-                                                          : state
-                                                                      .dataHistoryConsultation[
-                                                                          index]
-                                                                      .status ==
-                                                                  'REVIEW'
-                                                              ? const Color.fromARGB(
-                                                                  255, 255, 204, 170)
-                                                              : state.dataHistoryConsultation[index]
-                                                                          .status ==
-                                                                      'AKTIF'
+                                                  color: state.dataHistoryConsultation[index].status == 'MENUNGGU_PEMBAYARAN'
+                                                      ? const Color.fromARGB(255, 255, 204, 170)
+                                                      : state.dataHistoryConsultation[index].status == 'READY'
+                                                          ? const Color.fromARGB(255, 255, 204, 170)
+                                                          : state.dataHistoryConsultation[index].status == 'REVIEW'
+                                                              ? const Color.fromARGB(255, 255, 204, 170)
+                                                              : state.dataHistoryConsultation[index].status == 'AKTIF'
                                                                   ? subgreenColor
                                                                   : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                       ? subgreenColor
                                                                       : subgreenColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
+                                                  borderRadius: BorderRadius.circular(7),
                                                 ),
                                                 height: 25,
                                                 width: 74,
                                                 child: Center(
                                                   child: Text(
-                                                    state
-                                                                .dataHistoryConsultation[
-                                                                    index]
-                                                                .status ==
-                                                            'MENUNGGU_PEMBAYARAN'
+                                                    state.dataHistoryConsultation[index].status == 'MENUNGGU_PEMBAYARAN'
                                                         ? 'Menunggu Pembayaran'
-                                                        : state
-                                                                    .dataHistoryConsultation[
-                                                                        index]
-                                                                    .status ==
-                                                                'READY'
+                                                        : state.dataHistoryConsultation[index].status == 'READY'
                                                             ? 'Ready'
-                                                            : state
-                                                                        .dataHistoryConsultation[
-                                                                            index]
-                                                                        .status ==
-                                                                    'REVIEW'
+                                                            : state.dataHistoryConsultation[index].status == 'REVIEW'
                                                                 ? 'Review'
-                                                                : state.dataHistoryConsultation[index].status ==
-                                                                        'AKTIF'
+                                                                : state.dataHistoryConsultation[index].status == 'AKTIF'
                                                                     ? 'Aktif'
-                                                                    : state.dataHistoryConsultation[index].status ==
-                                                                            'SELESAI'
+                                                                    : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                         ? 'Selesai'
                                                                         : '-',
                                                     textAlign: TextAlign.center,
-                                                    style:
-                                                        whiteTextStyle.copyWith(
+                                                    style: whiteTextStyle.copyWith(
                                                       fontSize: 10,
-                                                      color: state
-                                                                  .dataHistoryConsultation[
-                                                                      index]
-                                                                  .status ==
-                                                              'MENUNGGU_PEMBAYARAN'
-                                                          ? const Color.fromARGB(
-                                                              255, 255, 102, 0)
-                                                          : state.dataHistoryConsultation[index].status ==
-                                                                  'READY'
-                                                              ? const Color.fromARGB(
-                                                                  255,
-                                                                  255,
-                                                                  102,
-                                                                  0)
-                                                              : state.dataHistoryConsultation[index].status ==
-                                                                      'REVIEW'
-                                                                  ? const Color.fromARGB(
-                                                                      255,
-                                                                      255,
-                                                                      102,
-                                                                      0)
-                                                                  : state.dataHistoryConsultation[index].status ==
-                                                                          'AKTIF'
+                                                      color: state.dataHistoryConsultation[index].status == 'MENUNGGU_PEMBAYARAN'
+                                                          ? const Color.fromARGB(255, 255, 102, 0)
+                                                          : state.dataHistoryConsultation[index].status == 'READY'
+                                                              ? const Color.fromARGB(255, 255, 102, 0)
+                                                              : state.dataHistoryConsultation[index].status == 'REVIEW'
+                                                                  ? const Color.fromARGB(255, 255, 102, 0)
+                                                                  : state.dataHistoryConsultation[index].status == 'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status ==
-                                                                              'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -777,18 +684,15 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                               Container(
                                                 decoration: BoxDecoration(
                                                   color: whiteColor,
-                                                  border: Border.all(
-                                                      color: greenColor),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
+                                                  border: Border.all(color: greenColor),
+                                                  borderRadius: BorderRadius.circular(7),
                                                 ),
                                                 height: 25,
                                                 width: 74,
                                                 child: Center(
                                                   child: Text(
                                                     'Chat Ulang',
-                                                    style: grenTextStyle
-                                                        .copyWith(fontSize: 10),
+                                                    style: grenTextStyle.copyWith(fontSize: 10),
                                                   ),
                                                 ),
                                               ),
@@ -813,8 +717,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                         );
                       }
                     } else {
-                      return Text(
-                          'Connection State: ${snapshot.connectionState}');
+                      return Text('Connection State: ${snapshot.connectionState}');
                     }
                   },
                 ),
@@ -823,8 +726,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
           ),
           const dividergreen(),
           Padding(
-            padding:
-                const EdgeInsets.only(top: 32, left: 25, right: 25, bottom: 33),
+            padding: const EdgeInsets.only(top: 32, left: 25, right: 25, bottom: 33),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -850,8 +752,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -867,8 +768,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -884,8 +784,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                               width: 100,
                               height: 100,
                               margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 border: Border.all(color: borderColor),
@@ -904,15 +803,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   Container(
                                     height: 95,
                                     width: 340,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 26, vertical: 30),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: borderColor),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
+                                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(10)),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Catatan dokter terkait skingoal kamu',
@@ -921,8 +815,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                         RichText(
                                           text: TextSpan(
                                             text: 'ChatDoctor',
-                                            style: grenTextStyle.copyWith(
-                                                fontSize: 15),
+                                            style: grenTextStyle.copyWith(fontSize: 15),
                                             children: [
                                               TextSpan(
                                                 text: ' Sekarang, yuk!',
@@ -953,34 +846,26 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    state.dataScheduleTreatment.value.length,
+                                itemCount: state.dataScheduleTreatment.value.length,
                                 itemBuilder: (BuildContext context, index) {
                                   return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                     margin: const EdgeInsets.only(bottom: 8),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: borderColor),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(10)),
                                     child: Row(
                                       children: [
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Konsultasi dengan',
-                                              style: blackTextStyle.copyWith(
-                                                  fontSize: 13),
+                                              style: blackTextStyle.copyWith(fontSize: 13),
                                             ),
                                             const SizedBox(
                                               height: 5,
                                             ),
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   height: 35,
@@ -991,31 +876,25 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                         '${Global.FILE}/${state.dataScheduleTreatment.value[index].treatment!.mediaTreatments?[0].media?.path}',
                                                       ),
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2),
+                                                    borderRadius: BorderRadius.circular(2),
                                                   ),
                                                 ),
                                                 const SizedBox(
                                                   width: 5,
                                                 ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       '${state.dataScheduleTreatment.value[index].treatment!.name}',
-                                                      style: blackTextStyle
-                                                          .copyWith(
+                                                      style: blackTextStyle.copyWith(
                                                         fontSize: 13,
                                                         fontWeight: bold,
                                                       ),
                                                     ),
                                                     Text(
                                                       '${state.dataScheduleTreatment.value[index].treatment!.clinic?.name}',
-                                                      style:
-                                                          blackRegulerTextStyle
-                                                              .copyWith(
+                                                      style: blackRegulerTextStyle.copyWith(
                                                         fontSize: 13,
                                                       ),
                                                     ),
@@ -1024,15 +903,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                     ),
                                                     Text(
                                                       // 'Sel, 12 Mar 2023 17:30 WIB',
-                                                      ConvertDate
-                                                          .transactionDate(state
-                                                              .dataScheduleTreatment
-                                                              .value[index]
-                                                              .createdAt
-                                                              .toString()),
-                                                      style: grenTextStyle
-                                                          .copyWith(
-                                                              fontSize: 11),
+                                                      ConvertDate.transactionDate(state.dataScheduleTreatment.value[index].createdAt.toString()),
+                                                      style: grenTextStyle.copyWith(fontSize: 11),
                                                     )
                                                   ],
                                                 )
@@ -1045,112 +917,40 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                color: state
-                                                            .dataScheduleTreatment
-                                                            .value[index]
-                                                            .transactionTreatment
-                                                            ?.status ==
-                                                        'MENUNGGU_PEMBAYARAN'
-                                                    ? const Color.fromARGB(
-                                                        255, 255, 204, 170)
-                                                    : state
-                                                                .dataScheduleTreatment
-                                                                .value[index]
-                                                                .transactionTreatment
-                                                                ?.status ==
-                                                            'MENUNGGU_KONFIRMASI_KLINIK'
-                                                        ? const Color.fromARGB(
-                                                            255, 255, 204, 170)
-                                                        : state
-                                                                    .dataScheduleTreatment
-                                                                    .value[
-                                                                        index]
-                                                                    .transactionTreatment
-                                                                    ?.status ==
-                                                                'KLINIK_MENGKONFIRMASI'
+                                                color: state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_PEMBAYARAN'
+                                                    ? const Color.fromARGB(255, 255, 204, 170)
+                                                    : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                                                        ? const Color.fromARGB(255, 255, 204, 170)
+                                                        : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'KLINIK_MENGKONFIRMASI'
                                                             ? subgreenColor
-                                                            : state
-                                                                        .dataScheduleTreatment
-                                                                        .value[
-                                                                            index]
-                                                                        .transactionTreatment
-                                                                        ?.status ==
-                                                                    'SELESAI'
+                                                            : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'SELESAI'
                                                                 ? subgreenColor
                                                                 : subgreenColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
+                                                borderRadius: BorderRadius.circular(7),
                                               ),
                                               height: 25,
                                               width: 74,
                                               child: Center(
                                                 child: Text(
-                                                  state
-                                                              .dataScheduleTreatment
-                                                              .value[index]
-                                                              .transactionTreatment
-                                                              ?.status ==
-                                                          'MENUNGGU_PEMBAYARAN'
+                                                  state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_PEMBAYARAN'
                                                       ? 'Menunggu Pembayaran'
-                                                      : state
-                                                                  .dataScheduleTreatment
-                                                                  .value[index]
-                                                                  .transactionTreatment
-                                                                  ?.status ==
-                                                              'MENUNGGU_KONFIRMASI_KLINIK'
+                                                      : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
                                                           ? 'Menunggu Konfirmasi Klinik'
-                                                          : state
-                                                                      .dataScheduleTreatment
-                                                                      .value[
-                                                                          index]
-                                                                      .transactionTreatment
-                                                                      ?.status ==
-                                                                  'KLINIK_MENGKONFIRMASI'
+                                                          : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'KLINIK_MENGKONFIRMASI'
                                                               ? 'Klinik Mengkonfirmasi'
-                                                              : state
-                                                                          .dataScheduleTreatment
-                                                                          .value[
-                                                                              index]
-                                                                          .transactionTreatment
-                                                                          ?.status ==
-                                                                      'SELESAI'
+                                                              : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'SELESAI'
                                                                   ? 'Selesai'
                                                                   : '-',
                                                   textAlign: TextAlign.center,
-                                                  style:
-                                                      whiteTextStyle.copyWith(
+                                                  style: whiteTextStyle.copyWith(
                                                     fontSize: 10,
-                                                    color: state
-                                                                .dataScheduleTreatment
-                                                                .value[index]
-                                                                .transactionTreatment
-                                                                ?.status ==
-                                                            'MENUNGGU_PEMBAYARAN'
-                                                        ? const Color.fromARGB(
-                                                            255, 255, 102, 0)
-                                                        : state
-                                                                    .dataScheduleTreatment
-                                                                    .value[
-                                                                        index]
-                                                                    .transactionTreatment
-                                                                    ?.status ==
-                                                                'MENUNGGU_KONFIRMASI_KLINIK'
-                                                            ? const Color.fromARGB(
-                                                                255, 255, 102, 0)
-                                                            : state
-                                                                        .dataScheduleTreatment
-                                                                        .value[
-                                                                            index]
-                                                                        .transactionTreatment
-                                                                        ?.status ==
-                                                                    'KLINIK_MENGKONFIRMASI'
+                                                    color: state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_PEMBAYARAN'
+                                                        ? const Color.fromARGB(255, 255, 102, 0)
+                                                        : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                                                            ? const Color.fromARGB(255, 255, 102, 0)
+                                                            : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'KLINIK_MENGKONFIRMASI'
                                                                 ? greenColor
-                                                                : state
-                                                                            .dataScheduleTreatment
-                                                                            .value[index]
-                                                                            .transactionTreatment
-                                                                            ?.status ==
-                                                                        'SELESAI'
+                                                                : state.dataScheduleTreatment.value[index].transactionTreatment?.status == 'SELESAI'
                                                                     ? greenColor
                                                                     : greenColor,
                                                   ),
@@ -1163,18 +963,15 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                             Container(
                                               decoration: BoxDecoration(
                                                 color: whiteColor,
-                                                border: Border.all(
-                                                    color: greenColor),
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
+                                                border: Border.all(color: greenColor),
+                                                borderRadius: BorderRadius.circular(7),
                                               ),
                                               height: 25,
                                               width: 74,
                                               child: Center(
                                                 child: Text(
                                                   'Chat Ulang',
-                                                  style: grenTextStyle.copyWith(
-                                                      fontSize: 10),
+                                                  style: grenTextStyle.copyWith(fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -1198,8 +995,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                         );
                       }
                     } else {
-                      return Text(
-                          'Connection State: ${snapshot.connectionState}');
+                      return Text('Connection State: ${snapshot.connectionState}');
                     }
                   },
                 ),
@@ -1252,12 +1048,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1284,8 +1075,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -1321,12 +1111,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1353,8 +1138,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -1390,12 +1174,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home3.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1422,8 +1201,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -1459,8 +1237,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
   }
 
   Future _pickImageFromGalery() async {
-    final returnedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (returnedImage == null) return;
     imagePath = File(returnedImage.path);
