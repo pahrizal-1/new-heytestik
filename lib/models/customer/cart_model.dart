@@ -43,8 +43,8 @@ class Data {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
@@ -121,9 +121,9 @@ class Product {
   int? price;
   bool? productIsActive;
   int? productStock;
-  String? productTreshold;
+  dynamic productTreshold;
   String? productSku;
-  int? rating;
+  double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
   int? shippingProductSizeLength;
@@ -137,7 +137,7 @@ class Product {
   dynamic deletedAt;
   List<MediaProducts>? mediaProducts;
   SkincareDetail? skincareDetail;
-  dynamic drugDetail;
+  DrugDetail? drugDetail;
 
   Product(
       {this.id,
@@ -181,7 +181,7 @@ class Product {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
@@ -202,7 +202,9 @@ class Product {
     skincareDetail = json['skincare_detail'] != null
         ? SkincareDetail.fromJson(json['skincare_detail'])
         : null;
-    drugDetail = json['drug_detail'];
+    drugDetail = json['drug_detail'] != null
+        ? DrugDetail.fromJson(json['drug_detail'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -237,7 +239,9 @@ class Product {
     if (skincareDetail != null) {
       data['skincare_detail'] = skincareDetail!.toJson();
     }
-    data['drug_detail'] = drugDetail;
+    if (drugDetail != null) {
+      data['drug_detail'] = drugDetail!.toJson();
+    }
     return data;
   }
 }
@@ -430,6 +434,99 @@ class SkincareDetail {
     data['specification_ingredients'] = specificationIngredients;
     data['specification_how_to_use'] = specificationHowToUse;
     data['specification_storage_advice'] = specificationStorageAdvice;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class DrugDetail {
+  int? id;
+  int? productId;
+  String? manufacture;
+  String? indication;
+  String? contradiction;
+  String? description;
+  String? specificationForm;
+  String? specificationClassification;
+  String? specificationType;
+  String? specificationPackaging;
+  String? specificationCategory;
+  String? specificationBpom;
+  String? specificationIngredients;
+  String? specificationDose;
+  String? specificationSpecialAttention;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  DrugDetail(
+      {this.id,
+      this.productId,
+      this.manufacture,
+      this.indication,
+      this.contradiction,
+      this.description,
+      this.specificationForm,
+      this.specificationClassification,
+      this.specificationType,
+      this.specificationPackaging,
+      this.specificationCategory,
+      this.specificationBpom,
+      this.specificationIngredients,
+      this.specificationDose,
+      this.specificationSpecialAttention,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  DrugDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    manufacture = json['manufacture'];
+    indication = json['indication'];
+    contradiction = json['contradiction'];
+    description = json['description'];
+    specificationForm = json['specification_form'];
+    specificationClassification = json['specification_classification'];
+    specificationType = json['specification_type'];
+    specificationPackaging = json['specification_packaging'];
+    specificationCategory = json['specification_category'];
+    specificationBpom = json['specification_bpom'];
+    specificationIngredients = json['specification_ingredients'];
+    specificationDose = json['specification_dose'];
+    specificationSpecialAttention = json['specification_special_attention'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['manufacture'] = manufacture;
+    data['indication'] = indication;
+    data['contradiction'] = contradiction;
+    data['description'] = description;
+    data['specification_form'] = specificationForm;
+    data['specification_classification'] = specificationClassification;
+    data['specification_type'] = specificationType;
+    data['specification_packaging'] = specificationPackaging;
+    data['specification_category'] = specificationCategory;
+    data['specification_bpom'] = specificationBpom;
+    data['specification_ingredients'] = specificationIngredients;
+    data['specification_dose'] = specificationDose;
+    data['specification_special_attention'] = specificationSpecialAttention;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
