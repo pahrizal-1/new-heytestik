@@ -71,9 +71,12 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       decoration: BoxDecoration(
                         color: isSelected ? greenColor : null,
                         borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: isSelected ? greenColor : borderColor),
+                        border: Border.all(
+                            color: isSelected ? greenColor : borderColor),
                       ),
-                      child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
+                      child: isSelected
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
                   ),
                   const SizedBox(
@@ -93,7 +96,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 17, right: 5, bottom: 15),
+                      padding:
+                          const EdgeInsets.only(top: 17, right: 5, bottom: 15),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -114,9 +118,14 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                   decoration: BoxDecoration(
                                     color: isSelected ? greenColor : null,
                                     borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(color: isSelected ? greenColor : borderColor),
+                                    border: Border.all(
+                                        color: isSelected
+                                            ? greenColor
+                                            : borderColor),
                                   ),
-                                  child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
+                                  child: isSelected
+                                      ? Image.asset('assets/icons/chek_new.png')
+                                      : null,
                                 ),
                               ),
                             ],
@@ -144,7 +153,10 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 1.8),
+                                    constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width /
+                                                1.8),
                                     child: Text(
                                       widget.merkProduk,
                                       style: grenTextStyle.copyWith(
@@ -156,7 +168,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     height: 5,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Penggunaan',
@@ -174,10 +187,12 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                         width: 10,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            constraints: const BoxConstraints(maxWidth: 80),
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 80),
                                             child: Text(
                                               widget.penggunaanJadwal,
                                               style: TextStyle(
@@ -211,7 +226,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     height: 10,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         widget.harga,
@@ -270,7 +286,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: widget.hintText,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -297,12 +314,14 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       const Spacer(),
                       InkWell(
                         onTap: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertInfomasi(function: () async {
-                              await state.deleteCart(context, widget.cartId);
-                            }),
-                          );
+                          // await showDialog(
+                          //   context: context,
+                          //   builder: (context) =>
+                          //       AlertInfomasi(function: () async {
+                          //     await state.deleteCart(context, widget.cartId);
+                          //   }),
+                          // );
+                          await state.deleteCart(context, widget.cartId);
                         },
                         child: Image.asset(
                           'assets/icons/trash.png',
@@ -313,7 +332,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         width: 21,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
                           border: Border.all(color: borderColor),
