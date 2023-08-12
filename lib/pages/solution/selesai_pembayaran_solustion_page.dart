@@ -120,7 +120,7 @@ class _SelesaiPembayaranSolusionPageState
           title: Row(
             children: [
               Text(
-                state.bank.value,
+                state.bank.value.toUpperCase(),
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
@@ -207,7 +207,7 @@ class _SelesaiPembayaranSolusionPageState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.bank.value,
+                                state.bank.value.toUpperCase(),
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
@@ -347,13 +347,7 @@ class _SelesaiPembayaranSolusionPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CaraPembyaranPage(),
-                                ),
-                              );
+                              Get.to(const CaraPembyaranPage());
                             },
                             child: Center(
                               child: Text(
@@ -383,7 +377,7 @@ class _SelesaiPembayaranSolusionPageState
                             height: 18,
                           ),
                           const Text(
-                            'Setelah pembayaranmu terkonfirmasi,pihak klinik akan segera menghubungi kamu.Pastikan nomer HP-mu aktif ya :)',
+                            'Setelah pembayaranmu terkonfirmasi, pihak klinik akan segera menghubungi kamu.Pastikan nomer HP-mu aktif ya :)',
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(

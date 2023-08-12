@@ -121,7 +121,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
           title: Row(
             children: [
               Text(
-                state.bank.value,
+                state.bank.value.toUpperCase(),
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
@@ -208,7 +208,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.bank.value,
+                                state.bank.value.toUpperCase(),
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
