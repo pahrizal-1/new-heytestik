@@ -224,4 +224,42 @@ class MyJourneyController extends StateClass {
     });
     isLoading.value = false;
   }
+
+  Future afterCondition(BuildContext context, int id,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // try {
+
+      var data = {
+        "initial_condition_front_face": initialConditionFrontFace?.path,
+        "initial_condition_right_side": initialConditionRightSide?.path,
+        "initial_condition_left_side": initialConditionLeftSide?.path,
+        "initial_condition_problem_part": initialConditionProblemPart?.path
+      };
+
+      print("data $data");
+
+      var res = await MyJourneysService().afterCondition(id, data);
+      print("data $data");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      print("heheh");
+      concernId.value = 0;
+      initialConditionFrontFace = null;
+      initialConditionRightSide = null;
+      initialConditionLeftSide = null;
+      initialConditionProblemPart = null;
+      print("hahah");
+      doInPost();
+      // } catch (e) {
+      //   print("heheh $e");
+      // }
+    });
+    isLoading.value = false;
+  }
 }

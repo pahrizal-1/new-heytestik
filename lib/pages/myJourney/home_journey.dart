@@ -153,8 +153,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   onTap: () async {
                                     state.initialConditionFrontFace =
                                         await state.pickImageFromGalery();
-                                        setState(() {
-                                        });
+                                    setState(() {});
                                     if (state.initialConditionFrontFace !=
                                         null) {
                                       state.isGallery.value = true;

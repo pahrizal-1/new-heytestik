@@ -123,90 +123,7 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                         ),
                                         IconButton(
                                           onPressed: () {
-                                            customeshomodal(
-                                                context,
-                                                Padding(
-                                                  padding: lsymetric.copyWith(
-                                                      top: 25),
-                                                  child: Wrap(
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () async {
-                                                              await state
-                                                                  .deleteJourney(
-                                                                context,
-                                                                e.id!.toInt(),
-                                                                doInPost:
-                                                                    () async {
-                                                                  Get.back();
-                                                                  Get.back();
-                                                                  SnackbarWidget
-                                                                      .getSuccessSnackbar(
-                                                                    context,
-                                                                    'Info',
-                                                                    'Journey berhasil dihapus',
-                                                                  );
-                                                                },
-                                                              );
-                                                            },
-                                                            child: Text(
-                                                              'Delete',
-                                                              style:
-                                                                  blackHigtTextStyle
-                                                                      .copyWith(
-                                                                fontSize: 15,
-                                                                color: redColor,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 30,
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Get.back();
-                                                              Get.to(
-                                                                  DetailGalleryMyJourneyPage(
-                                                                id: e.id!
-                                                                    .toInt(),
-                                                              ));
-                                                            },
-                                                            child: Text(
-                                                              'Detail',
-                                                              style:
-                                                                  blackTextStyle
-                                                                      .copyWith(
-                                                                fontSize: 15,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 30,
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {},
-                                                            child: Text(
-                                                              'Post After',
-                                                              style:
-                                                                  blackTextStyle
-                                                                      .copyWith(
-                                                                fontSize: 15,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 30,
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
+                                            bottomSheet(e);
                                           },
                                           icon: Icon(Icons.more_horiz),
                                         )
@@ -353,6 +270,82 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
         padding: const EdgeInsets.all(8.0),
         child: Wrap(
           children: [ButtonGreenWidget(title: 'Pilih Foto')],
+        ),
+      ),
+    );
+  }
+
+  bottomSheet(Data2 e) {
+    return customeshomodal(
+      context,
+      Padding(
+        padding: lsymetric.copyWith(
+          top: 25,
+        ),
+        child: Wrap(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await state.deleteJourney(
+                      context,
+                      e.id!.toInt(),
+                      doInPost: () async {
+                        Get.back();
+                        Get.back();
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          'Journey berhasil dihapus',
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    'Delete',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 15,
+                      color: redColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                    Get.to(DetailGalleryMyJourneyPage(
+                      id: e.id!.toInt(),
+                    ));
+                  },
+                  child: Text(
+                    'Detail',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Text(
+                    'Post After',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
