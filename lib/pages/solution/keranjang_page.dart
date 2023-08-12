@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
@@ -16,7 +17,6 @@ import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 
 import '../../widget/produk_card_widget.dart';
-import '../../widget/produk_widget.dart';
 
 class KeranjangPage extends StatefulWidget {
   const KeranjangPage({super.key});
@@ -313,7 +313,9 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   child: SizedBox(
                     height: 50,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(PembayaranObat());
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
                         shape: RoundedRectangleBorder(
