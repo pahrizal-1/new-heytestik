@@ -12,7 +12,8 @@ class CartController extends StateClass {
   Rx<CartModel?> cart = CartModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
 
-  getCart(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getCart(BuildContext context, int page,
+      {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       cart.value = await CartService().getCart(
@@ -22,6 +23,7 @@ class CartController extends StateClass {
       filterData.value = cart.value!.data!.data!;
     });
     isLoading.value = false;
+    return filterData;
   }
 
   addCart(BuildContext context, int productId, int qty, String notes) async {
