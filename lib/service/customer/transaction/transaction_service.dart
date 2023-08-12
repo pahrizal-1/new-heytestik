@@ -152,4 +152,16 @@ class TransactionService extends ProviderClass {
     );
     return TransactionHistoryTreatmentModel.fromJson(response);
   }
+
+  Future<TransactionStatusModel> transactionStatusProduct(
+      String orderId) async {
+    var response = await networkingConfig.doGet(
+      '/transaction/PRODUCT.$orderId/status',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return TransactionStatusModel.fromJson(response);
+  }
 }

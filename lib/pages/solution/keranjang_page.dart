@@ -10,6 +10,8 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
@@ -59,7 +61,6 @@ class _KeranjangPageState extends State<KeranjangPage> {
     super.initState();
   }
 
-  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,23 +120,27 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        setState(() {
-                          isSelected = !isSelected;
-                        });
+                        state.onChecklist(state.checklist.length, true);
+                        setState(() {});
                       },
-                      child: Container(
-                        width: 23,
-                        padding: const EdgeInsets.all(4),
-                        height: 23,
-                        decoration: BoxDecoration(
-                          color: isSelected ? greenColor : null,
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color: isSelected ? greenColor : borderColor),
+                      child: Obx(
+                        () => Container(
+                          width: 23,
+                          padding: const EdgeInsets.all(4),
+                          height: 23,
+                          decoration: BoxDecoration(
+                            color:
+                                state.isAllSelected.value ? greenColor : null,
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(
+                                color: state.isAllSelected.value
+                                    ? greenColor
+                                    : borderColor),
+                          ),
+                          child: state.isAllSelected.value
+                              ? Image.asset('assets/icons/chek_new.png')
+                              : null,
                         ),
-                        child: isSelected
-                            ? Image.asset('assets/icons/chek_new.png')
-                            : null,
                       ),
                     ),
                     const SizedBox(
@@ -180,6 +185,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                       itemCount: cart.length,
                       itemBuilder: (BuildContext context, int i) {
                         return ProdukCardWidget(
+                          index: i,
                           cartId: cart[i].id!.toInt(),
                           productId: cart[i].productId!.toInt(),
                           qty: cart[i].qty!.toInt(),
@@ -191,7 +197,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                           penggunaan: '2x sehari',
                           harga: CurrencyFormat.convertToIdr(
                               cart[i].product?.price ?? 0, 0),
-                          hintText: '${cart[i].notes}',
+                          hintText: cart[i].notes ?? '',
                           namaProdik: '${cart[i].product?.type}',
                           packagingType:
                               '${cart[i].product?.skincareDetail?.specificationPackagingType}',
@@ -238,11 +244,14 @@ class _KeranjangPageState extends State<KeranjangPage> {
                               .map(
                                 (e) => InkWell(
                                   onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      id: e.id!.toInt(),
-                                      productId: e.mediaProducts![0].productId!
-                                          .toInt(),
-                                    ));
+                                    Get.to(
+                                      DetailSkinCarePage(
+                                        id: e.id!.toInt(),
+                                        productId: e
+                                            .mediaProducts![0].productId!
+                                            .toInt(),
+                                      ),
+                                    );
                                   },
                                   child: Produkheight(
                                     produkId: e.id!.toInt(),
@@ -291,9 +300,12 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          'Rp0',
-                          style: blackHigtTextStyle.copyWith(fontSize: 20),
+                        Obx(
+                          () => Text(
+                            CurrencyFormat.convertToIdr(
+                                state.totalAmountSelected.value, 0),
+                            style: blackHigtTextStyle.copyWith(fontSize: 20),
+                          ),
                         ),
                         const SizedBox(
                           width: 12,
@@ -314,7 +326,19 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     height: 50,
                     child: TextButton(
                       onPressed: () {
-                        Get.to(PembayaranObat());
+                        if (state.totalAmountSelected.value <= 0) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                              subtitle: 'Harap pilih produk terlebih dahulu',
+                            ),
+                          );
+                          return;
+                        }
+
+                        Get.to(PembayaranObat(
+                          pesan: state.checkedList,
+                        ));
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
@@ -334,7 +358,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                             width: 10,
                           ),
                           Text(
-                            'Bayar',
+                            'Lanjut',
                             style: TextStyle(
                               fontSize: 16,
                               color: whiteColor,

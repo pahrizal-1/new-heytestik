@@ -1,139 +1,167 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatmetment_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
-import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/reservasi3_page.dart';
-import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
-
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import 'metode_pembayaran_obat_page.dart';
 
 class PembayaranObat extends StatefulWidget {
-  PembayaranObat({super.key});
+  List pesan;
+  PembayaranObat({required this.pesan, super.key});
 
   @override
   State<PembayaranObat> createState() => _PembayaranObatState();
 }
 
 class _PembayaranObatState extends State<PembayaranObat> {
-  // final TreatmentController stateTreatment = Get.put(TreatmentController());
-  // final OrderTreatmentController stateOrder =
-  //     Get.put(OrderTreatmentController());
+  final OrderProductController state = Get.put(OrderProductController());
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   stateTreatment.getDataUser();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    state.initPayment(context, widget.pesan);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 11,
-            ),
-            Text(
-              'Selesaikan Pemesananmu',
-              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        state.listProductItem.clear();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: greenColor,
+          title: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.arrow_back),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Selesaikan Pemesananmu',
+                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 29),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ProdukPembayaran(
-                  harga: 'Rp20.000',
-                  img: "assets/images/produk2.png",
-                  jumplah: '1',
-                  namaProduk: 'Obat Gatal',
-                ),
-              ],
+        body: Obx(
+          () => LoadingWidget(
+            isLoading: state.isLoading.value,
+            child: Padding(
+              padding: lsymetric,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.listProductItem.length,
+                itemBuilder: ((context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: kTopPadding,
+                        child: ProdukPembayaran(
+                          index: index,
+                          price: CurrencyFormat.convertToIdr(
+                              state.listProductItem[index]['totalPrice'], 0),
+                          img:
+                              "${Global.FILE}/${state.listProductItem[index]['img']}",
+                          // qty: state.listProductItem[index]['qty'].toString(),
+                          productName: state.listProductItem[index]
+                              ['productName'],
+                          note: state.listProductItem[index]['notes'],
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 25,
         ),
-        height: 149,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Total Pembayaran',
-              style: blackRegulerTextStyle,
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Rp20.000",
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                const Icon(Icons.keyboard_arrow_down)
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ButtonGreenWidget(
-              title: 'Lanjutkan Pembayaran',
-              onPressed: () {
-                Get.to(MetodePembayaranObat());
-              },
-            )
-          ],
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 25,
+          ),
+          height: 149,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Total Bayar',
+                style: blackRegulerTextStyle,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Row(
+                children: [
+                  Obx(
+                    () => Text(
+                      CurrencyFormat.convertToIdr(state.totalAmount.value, 0),
+                      style: blackHigtTextStyle.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  const Icon(Icons.keyboard_arrow_down)
+                ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              ButtonGreenWidget(
+                title: 'Lanjutkan Pembayaran',
+                onPressed: () {
+                  Get.to(MetodePembayaranObat());
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class ProdukPembayaran extends StatelessWidget {
-  final String namaProduk;
-  final String harga;
-  final String jumplah;
+class ProdukPembayaran extends StatefulWidget {
+  final int index;
+  final String productName;
+  final String price;
+  // final String qty;
   final String img;
-
+  final String note;
   const ProdukPembayaran({
     super.key,
-    required this.namaProduk,
-    required this.harga,
-    required this.jumplah,
+    required this.index,
+    required this.productName,
+    required this.price,
+    // required this.qty,
     required this.img,
+    required this.note,
   });
+
+  @override
+  State<ProdukPembayaran> createState() => _ProdukPembayaranState();
+}
+
+class _ProdukPembayaranState extends State<ProdukPembayaran> {
+  final OrderProductController state = Get.put(OrderProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +182,8 @@ class ProdukPembayaran extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: AssetImage(
-                          img,
+                        image: NetworkImage(
+                          widget.img,
                         ),
                       ),
                     ),
@@ -172,14 +200,14 @@ class ProdukPembayaran extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        namaProduk,
+                        widget.productName,
                         style: grenTextStyle.copyWith(fontSize: 15),
                       ),
                       SizedBox(
                         height: 5,
                       ),
                       Text(
-                        '$jumplah Pcs',
+                        '${state.listProductItem[widget.index]['qty'].toString()} Pcs',
                         style: blackRegulerTextStyle.copyWith(fontSize: 15),
                       ),
                       SizedBox(
@@ -189,8 +217,10 @@ class ProdukPembayaran extends StatelessWidget {
                         height: 30,
                         width: 500,
                         child: TextFormField(
+                          readOnly: true,
                           decoration: InputDecoration(
                             labelText: 'Catatan',
+                            hintText: widget.note,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -218,41 +248,10 @@ class ProdukPembayaran extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        width: 100,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: borderColor),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.remove,
-                              size: 15,
-                              color: greyColor,
-                            ),
-                            const SizedBox(
-                              width: 21,
-                            ),
-                            Text('1'),
-                            const SizedBox(
-                              width: 21,
-                            ),
-                            Icon(
-                              Icons.add,
-                              size: 15,
-                              color: greenColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Text(
-                        harga,
+                        CurrencyFormat.convertToIdr(
+                            state.listProductItem[widget.index]['totalPrice'],
+                            0),
                         style: blackHigtTextStyle.copyWith(fontSize: 15),
                       ),
                     ],

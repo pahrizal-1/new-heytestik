@@ -11,20 +11,110 @@ import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 class CartController extends StateClass {
   Rx<CartModel?> cart = CartModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
+  List checkedList = [];
+  List checklist = [];
+  RxInt totalAmountSelected = 0.obs;
+  RxInt totalAmount = 0.obs;
+  RxBool isAllSelected = false.obs;
 
   Future<List<Data2>> getCart(BuildContext context, int page,
       {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // clear
+      isAllSelected.value = false;
+      totalAmountSelected.value = 0;
+      totalAmount.value = 0;
+      checklist.clear();
+      checkedList.clear();
+
       cart.value = await CartService().getCart(
         page,
         search: search,
       );
       filterData.value = cart.value!.data!.data!;
+      print("filter ${filterData.length}");
+      for (int i = 0; i < filterData.length; i++) {
+        checklist.add({
+          "product_id": filterData[i].id,
+          "productName": filterData[i].product?.name ?? '-',
+          "img": filterData[i].product!.mediaProducts?[0].media?.path,
+          "qty": filterData[i].qty,
+          "notes": filterData[i].notes ?? '-',
+          "isSelected": false,
+          "price": filterData[i].product!.price,
+          "totalPrice": filterData[i].product!.price! * filterData[i].qty!,
+        });
+
+        totalAmount.value += filterData[i].product!.price! * filterData[i].qty!;
+      }
+
+      print("checklist ${checklist.length}");
+      print("checklist $checklist");
+      print("totalAmount ${totalAmount.value}");
     });
     isLoading.value = false;
     return filterData;
   }
+
+  onChecklist(int number, bool isAll) async {
+    print("number $number");
+
+    if (isAll) {
+      isAllSelected.value = !isAllSelected.value;
+      if (isAllSelected.value) {
+        checkedList.clear();
+        for (var i = 0; i < number; i++) {
+          checklist[i]['isSelected'] = true;
+          checkedList.add(checklist[i]);
+        }
+      } else {
+        for (var i = 0; i < number; i++) {
+          checklist[i]['isSelected'] = false;
+          checkedList.clear();
+        }
+      }
+    } else {
+      if (checklist[number]['isSelected']) {
+        checklist[number]['isSelected'] = false;
+        checkedList.removeWhere(
+            (item) => item?['product_id'] == checklist[number]['product_id']);
+      } else {
+        checklist[number]['isSelected'] = true;
+        checkedList.add(checklist[number]);
+      }
+    }
+
+    print("checkedList $checkedList");
+    print("checkedList ${checkedList.length}");
+    int sum = 0;
+    for (var i = 0; i < checklist.length; i++) {
+      if (checklist[i]['isSelected']) {
+        sum += int.parse(checklist[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountSelected.value = sum;
+    if (totalAmountSelected.value < totalAmount.value) {
+      isAllSelected.value = false;
+    }
+
+    if (totalAmountSelected.value == totalAmount.value) {
+      isAllSelected.value = true;
+    }
+  }
+
+  // increment(int index) {
+  //   checklist[index]['qty'] += 1;
+  //   checklist[index]['totalPrice'] =
+  //       checklist[index]['price'] * checklist[index]['qty'];
+  // }
+
+  // decrement(int index) {
+  //   checklist[index]['qty'] -= 1;
+  //   checklist[index]['totalPrice'] =
+  //       checklist[index]['price'] * checklist[index]['qty'];
+  // }
 
   addCart(BuildContext context, int productId, int qty, String notes) async {
     isLoading.value = true;

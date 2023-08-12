@@ -10,33 +10,45 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
     as PaymentMethod;
 
-class OrderTreatmentController extends StateClass {
+class OrderProductController extends StateClass {
   RxInt totalPaymentMethod = 0.obs;
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
-  Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
+  Rx<PaymentMethod.PaymentMethodModel?> listPaymentMethod =
       PaymentMethod.PaymentMethodModel.fromJson({}).obs;
   RxString orderId = ''.obs;
   RxString bank = ''.obs;
   RxString expireTime = ''.obs;
-  List productItem = [];
+  List listProductItem = [];
+  RxInt totalAmount = 0.obs;
 
-  initPayment(BuildContext context) async {
+  initPayment(BuildContext context, List pesan) async {
     isLoading.value = true;
-    getPaymentMethod.value == null;
-    await getPaymentmethod(context);
-    idPayment.value = 0;
-    paymentMethod.value = '';
-    paymentType.value = '';
+    listProductItem.clear();
+
+    print('pesan $pesan');
+    print(pesan.length);
+    listProductItem.addAll(pesan);
+    print("===============");
+    print('listProductItem $listProductItem');
+    print(listProductItem.length);
+
+    int sum = 0;
+    for (var i = 0; i < listProductItem.length; i++) {
+      sum += int.parse(listProductItem[i]['totalPrice'].toString());
+    }
+    totalAmount.value = sum;
     isLoading.value = false;
   }
 
   getPaymentmethod(BuildContext context) async {
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      getPaymentMethod.value = await TransactionService().paymentMethod();
-      totalPaymentMethod.value = getPaymentMethod.value!.data!.length;
+      listPaymentMethod.value = await TransactionService().paymentMethod();
+      totalPaymentMethod.value = listPaymentMethod.value!.data!.length;
     });
+    isLoading.value = false;
   }
 
   clearVariabel() {
@@ -44,22 +56,30 @@ class OrderTreatmentController extends StateClass {
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
-    getPaymentMethod.value = null;
+    listPaymentMethod.value = null;
     orderId.value = '';
     bank.value = '';
     expireTime.value = '';
-    productItem.clear();
+    listProductItem.clear();
   }
 
-  orderProduct(BuildContext context, int treatmentId, int pax,
-      {required Function() doInPost}) async {
+  orderProduct(BuildContext context, {required Function() doInPost}) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       orderId.value = '';
       bank.value = '';
       expireTime.value = '';
+      List productItem = [];
 
-      print("productItem $productItem");
+      print('listProductItem ${listProductItem.length}');
+      for (int i = 0; i < listProductItem.length; i++) {
+        productItem.add({
+          "product_id": listProductItem[i]['product_id'],
+          "qty": listProductItem[i]['qty'],
+        });
+      }
+      print('productItem ${productItem.length}');
+      print('productItem $productItem');
       var reqOrder = {
         "product_item": productItem,
         "payment_method": paymentMethod.toString(),

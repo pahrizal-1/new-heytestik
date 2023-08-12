@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_obat_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_solustion_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
 
-// ignore: must_be_immutable
 class MetodePembayaranObat extends StatefulWidget {
-  MetodePembayaranObat({super.key});
+  const MetodePembayaranObat({super.key});
 
   @override
   State<MetodePembayaranObat> createState() => _MetodePembayaranObatState();
 }
 
 class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
-  final OrderTreatmentController state = Get.put(OrderTreatmentController());
+  final OrderProductController state = Get.put(OrderProductController());
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getPaymentmethod(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,68 +62,74 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
           isLoading: state.isLoading.value,
           child: ListView(
             children: [
-              Padding(
-                padding: lsymetric.copyWith(top: 25, bottom: 15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/produk1.png",
-                            ),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 13,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Wrap(
+                children: state.listProductItem.map((e) {
+                  return Padding(
+                    padding: lsymetric.copyWith(top: 25, bottom: 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Obat Gatal',
-                          style: blackHigtTextStyle.copyWith(fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          'Catatan : Dekat Rumah Pk somat',
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 12,
-                            letterSpacing: 0.4,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                  "${Global.FILE}/${e['img']}",
+                                ),
+                                fit: BoxFit.cover),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
+                        const SizedBox(
+                          width: 13,
                         ),
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '1 PCS',
+                              e['productName'],
+                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              'Catatan : ${e['notes']}',
                               style: subTitleTextStyle.copyWith(
                                 fontSize: 12,
                                 letterSpacing: 0.4,
                               ),
                             ),
                             SizedBox(
-                              width: 5,
+                              height: 5,
                             ),
-                            Text(
-                              'Rp20.000',
-                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                            Row(
+                              children: [
+                                Text(
+                                  '${e['qty']} PCS',
+                                  style: subTitleTextStyle.copyWith(
+                                    fontSize: 12,
+                                    letterSpacing: 0.4,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  CurrencyFormat.convertToIdr(
+                                      e['totalPrice'], 0),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 15),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
               dividergreen(),
               InkWell(
@@ -182,7 +192,7 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
                       'Pilih Metode Pembayaran',
                       style: blackHigtTextStyle.copyWith(fontSize: 18),
                     ),
-                    CardTreatmentBank(),
+                    CardProductBank(),
                   ],
                 ),
               ),
@@ -199,9 +209,12 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
                     const SizedBox(
                       height: 27,
                     ),
-                    TextSpaceBetween(
-                      title: 'Total Pembyaran',
-                      title2: '',
+                    Obx(
+                      () => TextSpaceBetween(
+                        title: 'Total Pembayaran',
+                        title2: CurrencyFormat.convertToIdr(
+                            state.totalAmount.value, 0),
+                      ),
                     ),
                     const SizedBox(
                       height: 12,
@@ -358,32 +371,14 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
             const SizedBox(
               height: 4,
             ),
-            Row(
-              children: [
-                Text(
-                  'Rp.20.200',
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        isDismissible: false,
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
-                        ),
-                        builder: (context) => PesananMoreDialog(),
-                      );
-                    },
-                    child: Icon(Icons.keyboard_arrow_down))
-              ],
+            Obx(
+              () => Text(
+                CurrencyFormat.convertToIdr(state.totalAmount.value, 0),
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              ),
+            ),
+            const SizedBox(
+              width: 12,
             ),
             const SizedBox(
               height: 16,
@@ -393,31 +388,28 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
                 isLoading: state.isMinorLoading.value,
                 child: ButtonGreenWidget(
                   title: 'Bayar',
-                  onPressed: () {
-                    Get.to(SelesaiPembayaranObatPage());
-                    // if (state.paymentMethod.isEmpty ||
-                    //     state.paymentType.isEmpty) {
-                    //   return await showDialog(
-                    //     context: context,
-                    //     builder: (context) => AlertWidget(
-                    //       subtitle:
-                    //           'Harap pilih metode pembayaran terlebih dahulu',
-                    //     ),
-                    //   );
-                    // }
-                    // await state.orderTreatment(
-                    //   context,
-                    //   widget.treatment.id!.toInt(),
-                    //   widget.pax,
-                    //   doInPost: () async {
-                    //     Get.offAll(SelesaiPembayaranSolusionPage(
-                    //       treatment: widget.treatment,
-                    //       orderId: state.orderId.value,
-                    //       bank: state.bank.value,
-                    //       expireTime: state.expireTime.value,
-                    //     ));
-                    //   },
-                    // );
+                  onPressed: () async {
+                    if (state.paymentMethod.isEmpty ||
+                        state.paymentType.isEmpty) {
+                      return await showDialog(
+                        context: context,
+                        builder: (context) => AlertWidget(
+                          subtitle:
+                              'Harap pilih metode pembayaran terlebih dahulu',
+                        ),
+                      );
+                    }
+
+                    await state.orderProduct(
+                      context,
+                      doInPost: () async {
+                        Get.offAll(SelesaiPembayaranObatPage(
+                          orderId: state.orderId.value,
+                          bank: state.bank.value,
+                          expireTime: state.expireTime.value,
+                        ));
+                      },
+                    );
                   },
                 ),
               ),
@@ -429,12 +421,12 @@ class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
   }
 }
 
-class CardTreatmentBank extends StatelessWidget {
-  CardTreatmentBank({
+class CardProductBank extends StatelessWidget {
+  CardProductBank({
     super.key,
   });
 
-  final OrderTreatmentController state = Get.put(OrderTreatmentController());
+  final OrderProductController state = Get.put(OrderProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -450,23 +442,23 @@ class CardTreatmentBank extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    if (state.getPaymentMethod.value!.data![index].isActive !=
+                    if (state.listPaymentMethod.value!.data![index].isActive !=
                         false) {
                       state.idPayment.value = state
-                          .getPaymentMethod.value!.data![index].id!
+                          .listPaymentMethod.value!.data![index].id!
                           .toInt();
                       state.paymentMethod.value =
-                          state.getPaymentMethod.value!.data![index].method ??
+                          state.listPaymentMethod.value!.data![index].method ??
                               '-';
                       state.paymentType.value =
-                          state.getPaymentMethod.value!.data![index].type ??
+                          state.listPaymentMethod.value!.data![index].type ??
                               '-';
                     } else {
                       showDialog(
                         context: context,
                         builder: (context) => AlertWidget(
                           subtitle:
-                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
+                              '${state.listPaymentMethod.value!.data![index].name}\n${state.listPaymentMethod.value!.data![index].description}',
                         ),
                       );
                     }
@@ -481,7 +473,7 @@ class CardTreatmentBank extends StatelessWidget {
                         Row(
                           children: [
                             Image.network(
-                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              '${Global.FILE}/${state.listPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
                               width: 40,
                               height: 35,
                             ),
@@ -492,13 +484,13 @@ class CardTreatmentBank extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.getPaymentMethod.value!.data![index]
+                                  state.listPaymentMethod.value!.data![index]
                                           .name ??
                                       '-',
                                   style: blackTextStyle.copyWith(fontSize: 15),
                                 ),
                                 Text(
-                                  state.getPaymentMethod.value!.data![index]
+                                  state.listPaymentMethod.value!.data![index]
                                           .description ??
                                       '-',
                                   style: blackRegulerTextStyle.copyWith(
@@ -510,13 +502,13 @@ class CardTreatmentBank extends StatelessWidget {
                             Obx(
                               () => Icon(
                                 state.idPayment.value ==
-                                        state.getPaymentMethod.value!
+                                        state.listPaymentMethod.value!
                                             .data![index].id
                                     ? Icons.radio_button_on
                                     : Icons.circle_outlined,
                                 size: 23,
                                 color: state.idPayment.value ==
-                                        state.getPaymentMethod.value!
+                                        state.listPaymentMethod.value!
                                             .data![index].id
                                     ? greenColor
                                     : blackColor,

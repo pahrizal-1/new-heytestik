@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'appbar_widget.dart';
 
 class ProdukCardWidget extends StatefulWidget {
+  final int index;
   final int cartId;
   final int productId;
   final int qty;
@@ -24,6 +25,7 @@ class ProdukCardWidget extends StatefulWidget {
   final String nettoType;
   const ProdukCardWidget({
     Key? key,
+    required this.index,
     required this.cartId,
     required this.productId,
     required this.imageProduk,
@@ -46,7 +48,7 @@ class ProdukCardWidget extends StatefulWidget {
 class _ProdukCardWidgetState extends State<ProdukCardWidget> {
   final CartController state = Get.put(CartController());
   final WishlistController wishlist = Get.put(WishlistController());
-  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,21 +62,24 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                 children: [
                   InkWell(
                     onTap: () {
-                      setState(() {
-                        isSelected = !isSelected;
-                      });
+                      state.onChecklist(widget.index, false);
+                      setState(() {});
                     },
                     child: Container(
                       width: 23,
                       padding: const EdgeInsets.all(4),
                       height: 23,
                       decoration: BoxDecoration(
-                        color: isSelected ? greenColor : null,
+                        color: state.checklist[widget.index]['isSelected']
+                            ? greenColor
+                            : null,
                         borderRadius: BorderRadius.circular(7),
                         border: Border.all(
-                            color: isSelected ? greenColor : borderColor),
+                            color: state.checklist[widget.index]['isSelected']
+                                ? greenColor
+                                : borderColor),
                       ),
-                      child: isSelected
+                      child: state.checklist[widget.index]['isSelected']
                           ? Image.asset('assets/icons/chek_new.png')
                           : null,
                     ),
@@ -105,25 +110,27 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  setState(
-                                    () {
-                                      isSelected = !isSelected;
-                                    },
-                                  );
+                                  state.onChecklist(widget.index, false);
+                                  setState(() {});
                                 },
                                 child: Container(
                                   width: 23,
                                   padding: const EdgeInsets.all(4),
                                   height: 23,
                                   decoration: BoxDecoration(
-                                    color: isSelected ? greenColor : null,
+                                    color: state.checklist[widget.index]
+                                            ['isSelected']
+                                        ? greenColor
+                                        : null,
                                     borderRadius: BorderRadius.circular(7),
                                     border: Border.all(
-                                        color: isSelected
+                                        color: state.checklist[widget.index]
+                                                ['isSelected']
                                             ? greenColor
                                             : borderColor),
                                   ),
-                                  child: isSelected
+                                  child: state.checklist[widget.index]
+                                          ['isSelected']
                                       ? Image.asset('assets/icons/chek_new.png')
                                       : null,
                                 ),
