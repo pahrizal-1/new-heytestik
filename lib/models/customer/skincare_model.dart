@@ -43,8 +43,8 @@ class Data {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
@@ -63,7 +63,7 @@ class Data2 {
   int? productStock;
   String? productTreshold;
   String? productSku;
-  int? rating;
+  double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
   int? shippingProductSizeLength;
@@ -121,7 +121,7 @@ class Data2 {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
