@@ -119,7 +119,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     child: Container(
                       height: 450,
                       width: 170,
-                      child: widget.afterImage != '' || widget.afterImage != '-'
+                      child: widget.afterImage != ''
                           ? Image.network(
                               widget.afterImage,
                               fit: BoxFit.cover,
@@ -162,8 +162,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             'My Journey - ${widget.concern}',
                             style: blackTextStyle.copyWith(fontSize: 8.67),
                           ),
-                          if (widget.afterImage != '' ||
-                              widget.afterImage != '-')
+                          if (widget.afterImage != '')
                             Text(
                               widget.dateAfter == '-' || widget.dateAfter == ''
                                   ? '-'
