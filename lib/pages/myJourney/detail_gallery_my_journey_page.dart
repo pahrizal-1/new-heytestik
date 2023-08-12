@@ -14,10 +14,12 @@ class DetailGalleryMyJourneyPage extends StatefulWidget {
   DetailGalleryMyJourneyPage({required this.id, super.key});
 
   @override
-  State<DetailGalleryMyJourneyPage> createState() => _DetailGalleryMyJourneyPageState();
+  State<DetailGalleryMyJourneyPage> createState() =>
+      _DetailGalleryMyJourneyPageState();
 }
 
-class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage> {
+class _DetailGalleryMyJourneyPageState
+    extends State<DetailGalleryMyJourneyPage> {
   final MyJourneyController state = Get.put(MyJourneyController());
 
   @override
@@ -71,14 +73,17 @@ class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${state.myJourneyById.value.concern?.name ?? "-"}',
+                    state.myJourneyById.value.concern?.name ?? "-",
                     style: blackHigtTextStyle.copyWith(fontSize: 14),
                   ),
                   const SizedBox(
                     height: 7,
                   ),
                   Text(
-                    state.myJourneyById.value.createdAt == null ? '' : ConvertDate.defaultDate(state.myJourneyById.value.createdAt.toString()),
+                    state.myJourneyById.value.createdAt == null
+                        ? ''
+                        : ConvertDate.defaultDate(
+                            state.myJourneyById.value.createdAt.toString()),
                     style: blackRegulerTextStyle.copyWith(fontSize: 13),
                   ),
                   const SizedBox(
@@ -89,7 +94,8 @@ class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage>
                         ? Container()
                         : ListView.builder(
                             shrinkWrap: true,
-                            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.totalMyJourneyById.value,
                             itemBuilder: (BuildContext context, int index) {
@@ -97,10 +103,17 @@ class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage>
                                 children: [
                                   if (index == 4)
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 10),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
                                       child: Text(
-                                        ConvertDate.defaultDate(state.myJourneyById.value.mediaMyJourneys![4].createdAt.toString()),
-                                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                        ConvertDate.defaultDate(state
+                                            .myJourneyById
+                                            .value
+                                            .mediaMyJourneys![4]
+                                            .createdAt
+                                            .toString()),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 13),
                                       ),
                                     ),
                                   Padding(
@@ -109,11 +122,27 @@ class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage>
                                       onTap: () {
                                         Get.to(
                                           ZoomImageDetail(
-                                            concern: state.myJourneyById.value.concern?.name ?? '-',
-                                            beforeImage: '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index - (index > 3 ? 4 : 0)].media?.path}',
-                                            dateBefore: state.myJourneyById.value.createdAt.toString(),
-                                            afterImage: state.totalMyJourneyById.value > 4 ? '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index + (index > 3 ? 0 : 4)].media?.path}' : '',
-                                            dateAfter: index > 3 ? state.myJourneyById.value.mediaMyJourneys![4].createdAt.toString() : "-",
+                                            concern: state.myJourneyById.value
+                                                    .concern?.name ??
+                                                '-',
+                                            beforeImage:
+                                                '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index - (index > 3 ? 4 : 0)].media?.path}',
+                                            dateBefore: state
+                                                .myJourneyById.value.createdAt
+                                                .toString(),
+                                            afterImage: state.totalMyJourneyById
+                                                        .value >
+                                                    4
+                                                ? '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index + (index > 3 ? 0 : 4)].media?.path}'
+                                                : '',
+                                            dateAfter: index > 3
+                                                ? state
+                                                    .myJourneyById
+                                                    .value
+                                                    .mediaMyJourneys![4]
+                                                    .createdAt
+                                                    .toString()
+                                                : "-",
                                           ),
                                         );
                                       },
@@ -121,7 +150,8 @@ class _DetailGalleryMyJourneyPageState extends State<DetailGalleryMyJourneyPage>
                                         height: 150,
                                         width: 82,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
                                           image: DecorationImage(
                                             image: NetworkImage(
                                               '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index].media?.path}',

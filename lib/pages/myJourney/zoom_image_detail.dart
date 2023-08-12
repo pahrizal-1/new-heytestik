@@ -98,7 +98,8 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             ConvertDate.transactionDate(
                               widget.dateBefore,
                             ),
-                            style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                            style:
+                                blackRegulerTextStyle.copyWith(fontSize: 8.67),
                           ),
                         ],
                       ),
@@ -118,7 +119,7 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     child: Container(
                       height: 450,
                       width: 170,
-                      child: widget.afterImage != ''
+                      child: widget.afterImage != '' || widget.afterImage != '-'
                           ? Image.network(
                               widget.afterImage,
                               fit: BoxFit.cover,
@@ -130,7 +131,9 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                     top: 200.2,
                     left: 120,
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          shape: BoxShape.circle),
                       height: 40,
                       width: 150,
                       child: Icon(
@@ -159,12 +162,17 @@ class _ZoomImageDetailState extends State<ZoomImageDetail> {
                             'My Journey - ${widget.concern}',
                             style: blackTextStyle.copyWith(fontSize: 8.67),
                           ),
-                          if (widget.afterImage != '')
+                          if (widget.afterImage != '' ||
+                              widget.afterImage != '-')
                             Text(
-                              ConvertDate.transactionDate(
-                                widget.dateAfter,
+                              widget.dateAfter == '-' || widget.dateAfter == ''
+                                  ? '-'
+                                  : ConvertDate.transactionDate(
+                                      widget.dateAfter,
+                                    ),
+                              style: blackRegulerTextStyle.copyWith(
+                                fontSize: 8.67,
                               ),
-                              style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
                             ),
                         ],
                       ),
