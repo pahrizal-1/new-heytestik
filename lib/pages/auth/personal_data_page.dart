@@ -226,7 +226,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                     TextFormWidget(
                       controller: state.referralCode,
                       title: 'Kode Referral',
-                      hintText: 'Kode Referral',
+                      hintText: 'Nama Depan',
                     ),
                     const SizedBox(
                       height: 30,

@@ -48,6 +48,7 @@ class VerificasionEmailPage extends StatelessWidget {
               height: 18,
             ),
             OtpTextField(
+              focusedBorderColor: greenColor,
               numberOfFields: 5,
               fieldWidth: 50,
               borderColor: greenColor,

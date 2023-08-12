@@ -583,78 +583,186 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: snapshot.data!.data!.map<Widget>((value) {
-                              return Container(
-                                margin: const EdgeInsets.only(right: 5),
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 20, top: 16, bottom: 17),
-                                height: 130,
-                                width: 315,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/icons/bg_wekkly.png',
-                                    ),
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      value.tips ?? '-',
-                                      style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        color: whiteColor,
-                                        fontWeight: regular,
-                                        fontSize: 13,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      softWrap: false,
-                                      maxLines: 3,
-                                      strutStyle: const StrutStyle(
-                                        height: 0.5,
-                                        leading: 0.5,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const CircleAvatar(
-                                          maxRadius: 17,
-                                          backgroundImage: AssetImage(
-                                            'assets/images/profiledummy.png',
+                              return InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 15,
+                                              bottom: 17),
+                                          height: 150,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                  'assets/icons/bg_wekkly.png',
+                                                ),
+                                                fit: BoxFit.fill),
+                                          ),
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Image.asset(
+                                                        'assets/icons/danger-icons.png',
+                                                        width: 13,
+                                                        height: 13,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  value.tips ?? '-',
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    color: whiteColor,
+                                                    fontWeight: regular,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const CircleAvatar(
+                                                      maxRadius: 17,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                        'assets/images/profiledummy.png',
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 11,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          value.doctor
+                                                                  ?.fullname ??
+                                                              '-',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color: whiteColor,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'ProximaNova',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          value.doctorTitle ??
+                                                              '-',
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                            color: whiteColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 11,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 16, bottom: 17),
+                                  height: 130,
+                                  width: 315,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/icons/bg_wekkly.png',
+                                      ),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        value.tips ?? '-',
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          color: whiteColor,
+                                          fontWeight: regular,
+                                          fontSize: 13,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              value.doctor?.fullname ?? '-',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                color: whiteColor,
-                                                fontSize: 14,
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            ),
-                                            Text(
-                                              value.doctorTitle ?? '-',
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color: whiteColor,
-                                              ),
-                                            ),
-                                          ],
+                                        softWrap: false,
+                                        maxLines: 3,
+                                        strutStyle: const StrutStyle(
+                                          height: 0.5,
+                                          leading: 0.5,
                                         ),
-                                      ],
-                                    )
-                                  ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const CircleAvatar(
+                                            maxRadius: 17,
+                                            backgroundImage: AssetImage(
+                                              'assets/images/profiledummy.png',
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 11,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                value.doctor?.fullname ?? '-',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: whiteColor,
+                                                  fontSize: 14,
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              ),
+                                              Text(
+                                                value.doctorTitle ?? '-',
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: whiteColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }).toList(),

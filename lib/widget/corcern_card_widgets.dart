@@ -34,6 +34,7 @@ class CorcernCardWidgets extends StatelessWidget {
                 height: 80,
                 width: 110,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
                   image: DecorationImage(
                     image: NetworkImage(img),
                     fit: BoxFit.cover,

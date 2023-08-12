@@ -361,12 +361,11 @@ class KonsultasProduk extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 164,
+              height: 140,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
                 image: DecorationImage(
                   image: NetworkImage("${Global.FILE}/${medicine.media[0]}"),
-                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -453,12 +452,12 @@ class CirkelCategory extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 49,
-            width: 50,
+            height: 45,
+            width: 45,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
             ),
           ),
           const SizedBox(

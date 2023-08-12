@@ -42,48 +42,53 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
               bottom: 42,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.to(
-                      ViewDetailCategoryNews(
-                        categoryId: '3',
-                        category: 'Concern',
-                      ),
-                    );
-                  },
-                  child: CategotyBuarty(
-                    icon: 'assets/icons/icons_concenr.png',
-                    titile: 'Concern',
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(
+                        ViewDetailCategoryNews(
+                          categoryId: '3',
+                          category: 'Concern',
+                        ),
+                      );
+                    },
+                    child: CategotyBuarty(
+                      icon: 'assets/icons/icons_concenr.png',
+                      titile: 'Concern',
+                    ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.to(
-                      ViewDetailCategoryNews(
-                        categoryId: '2',
-                        category: 'Skincare',
-                      ),
-                    );
-                  },
-                  child: CategotyBuarty(
-                    icon: 'assets/icons/skincare-corcrn.png',
-                    titile: 'Skincare',
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(
+                        ViewDetailCategoryNews(
+                          categoryId: '2',
+                          category: 'Skincare',
+                        ),
+                      );
+                    },
+                    child: CategotyBuarty(
+                      icon: 'assets/icons/skincare-corcrn.png',
+                      titile: 'Skincare',
+                    ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.to(
-                      ViewDetailCategoryNews(
-                        categoryId: '1',
-                        category: 'Treatment',
-                      ),
-                    );
-                  },
-                  child: CategotyBuarty(
-                    icon: 'assets/icons/treatmen-cornern.png',
-                    titile: 'Treatment',
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(
+                        ViewDetailCategoryNews(
+                          categoryId: '1',
+                          category: 'Treatment',
+                        ),
+                      );
+                    },
+                    child: CategotyBuarty(
+                      icon: 'assets/icons/treatmen-cornern.png',
+                      titile: 'Treatment',
+                    ),
                   ),
                 ),
               ],
@@ -336,7 +341,7 @@ class CategotyBuarty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 9),
       margin: const EdgeInsets.only(right: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
