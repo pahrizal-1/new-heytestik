@@ -101,79 +101,70 @@ class _DetailGalleryMyJourneyPageState
                             itemBuilder: (BuildContext context, int index) {
                               return Wrap(
                                 children: [
+                                  if (index == 4)
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20),
+                                      child: Text(
+                                        ConvertDate.defaultDate(state
+                                            .myJourneyById
+                                            .value
+                                            .mediaMyJourneys![4]
+                                            .createdAt
+                                            .toString()),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 13),
+                                      ),
+                                    ),
                                   Row(
                                     children: [
-                                      if (index == 4)
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 20),
-                                          child: Text(
-                                            ConvertDate.defaultDate(state
-                                                .myJourneyById
-                                                .value
-                                                .mediaMyJourneys![4]
-                                                .createdAt
-                                                .toString()),
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                        ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 10, top: 10),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Get.to(
-                                                  ZoomImageDetail(
-                                                    concern: state
-                                                            .myJourneyById
-                                                            .value
-                                                            .concern
-                                                            ?.name ??
-                                                        '-',
-                                                    beforeImage:
-                                                        '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index - (index > 3 ? 4 : 0)].media?.path}',
-                                                    dateBefore: state
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, top: 10),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              ZoomImageDetail(
+                                                concern: state.myJourneyById
+                                                        .value.concern?.name ??
+                                                    '-',
+                                                beforeImage:
+                                                    '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index - (index > 3 ? 4 : 0)].media?.path}',
+                                                dateBefore: state.myJourneyById
+                                                    .value.createdAt
+                                                    .toString(),
+                                                afterImage: state
+                                                            .totalMyJourneyById
+                                                            .value >
+                                                        4
+                                                    ? '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index + (index > 3 ? 0 : 4)].media?.path}'
+                                                    : '',
+                                                dateAfter: index > 3
+                                                    ? state
                                                         .myJourneyById
                                                         .value
+                                                        .mediaMyJourneys![4]
                                                         .createdAt
-                                                        .toString(),
-                                                    afterImage: state
-                                                                .totalMyJourneyById
-                                                                .value >
-                                                            4
-                                                        ? '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index + (index > 3 ? 0 : 4)].media?.path}'
-                                                        : '',
-                                                    dateAfter: index > 3
-                                                        ? state
-                                                            .myJourneyById
-                                                            .value
-                                                            .mediaMyJourneys![4]
-                                                            .createdAt
-                                                            .toString()
-                                                        : "-",
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                height: 110,
-                                                width: 110,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index].media?.path}',
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  ),
+                                                        .toString()
+                                                    : "-",
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 110,
+                                            width: 110,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index].media?.path}',
                                                 ),
+                                                fit: BoxFit.fill,
                                               ),
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
