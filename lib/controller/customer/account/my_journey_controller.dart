@@ -19,6 +19,7 @@ import 'package:heystetik_mobileapps/models/customer/my_journey_history_consulta
     as HistoryConsultation;
 import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/service/customer/my_journey/my_journey_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyJourneyController extends StateClass {
   Rx<MyJourney.MyJourneyModel> responseJourney = MyJourney.MyJourneyModel().obs;
@@ -52,7 +53,7 @@ class MyJourneyController extends StateClass {
   RxList<Interest.Data> filterData = List<Interest.Data>.empty().obs;
   RxString concern = "".obs;
   RxInt concernId = 0.obs;
-
+  RxBool isGallery = false.obs;
   File? initialConditionFrontFace;
   File? initialConditionRightSide;
   File? initialConditionLeftSide;
@@ -128,10 +129,23 @@ class MyJourneyController extends StateClass {
         .toList();
   }
 
+  Future pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) {
+      return null;
+    }
+
+    print(File(returnedImage.path));
+    return File(returnedImage.path);
+  }
+
   Future saveJourney(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // try {
       if (concernId.value == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -149,19 +163,24 @@ class MyJourneyController extends StateClass {
       print("data $data");
 
       var res = await MyJourneysService().saveJourney(data);
+      print("data $data");
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: res['message'],
         );
       }
-
+      print("heheh");
       concernId.value = 0;
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
+      print("hahah");
       doInPost();
+      // } catch (e) {
+      //   print("heheh $e");
+      // }
     });
     isLoading.value = false;
   }
