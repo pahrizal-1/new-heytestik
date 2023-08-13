@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
@@ -373,7 +374,20 @@ class DetailObatPage extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      List product = [
+                        {
+                          "product_id": medicine.id,
+                          "productName": medicine.name,
+                          "img": medicine.media[0],
+                          "qty": 1,
+                          "notes": '-',
+                          "isSelected": true,
+                          "price": medicine.price,
+                          "totalPrice": medicine.price * 1,
+                        }
+                      ];
+
+                      Get.to(PembayaranProduk(pesan: product));
                     },
                     child: Container(
                       padding:
@@ -397,7 +411,7 @@ class DetailObatPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async {
                       medicineController.addMedicineToCart(
                           context, medicine.id);
                       SnackbarWidget.getSuccessSnackbar(

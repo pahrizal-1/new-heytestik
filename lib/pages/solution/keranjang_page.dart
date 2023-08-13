@@ -336,7 +336,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                           return;
                         }
 
-                        Get.to(PembayaranObat(
+                        Get.to(PembayaranProduk(
                           pesan: state.checkedList,
                         ));
                       },

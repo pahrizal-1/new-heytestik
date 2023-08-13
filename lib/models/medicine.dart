@@ -55,7 +55,9 @@ class MedicineModel {
       productStock: json['product_stock'],
       packaging: json['drug_detail']['specification_packaging'],
       rating: double.parse(json['rating'].toString()),
-      media: (json['media_products'] as List).map((document) => document['media']['path'].toString()).toList(),
+      media: (json['media_products'] as List)
+          .map((document) => document['media']['path'].toString())
+          .toList(),
       form: json['drug_detail']['specification_form'],
       BPOM: json['drug_detail']['specification_bpom'],
       manufacture: json['drug_detail']['manufacture'],

@@ -12,9 +12,9 @@ import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 
-import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -23,7 +23,6 @@ import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 
 import '../../widget/Text_widget.dart';
-import '../../widget/produk_widget.dart';
 
 class DetailSkinCarePage extends StatefulWidget {
   int productId;
@@ -1122,11 +1121,21 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => ReservasiPage(),
-                      //     ));
+                      List product = [
+                        {
+                          "product_id": state.skincareDetail.value.id,
+                          "productName": state.skincareDetail.value.name,
+                          "img": state.skincareDetail.value.mediaProducts?[0]
+                              .media?.path,
+                          "qty": 1,
+                          "notes": '-',
+                          "isSelected": true,
+                          "price": state.skincareDetail.value.price,
+                          "totalPrice": state.skincareDetail.value.price! * 1,
+                        }
+                      ];
+
+                      Get.to(PembayaranProduk(pesan: product));
                     },
                     child: Container(
                       decoration: BoxDecoration(
