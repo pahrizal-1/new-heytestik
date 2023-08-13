@@ -28,7 +28,9 @@ class ReviewController extends StateClass {
   RxInt careRating = 0.obs;
   RxInt serviceRating = 0.obs;
   RxInt managementRating = 0.obs;
-  List<String> listImage = [];
+  RxInt average = 0.obs;
+
+  List listImage = [];
 
   List description = [
     "Pretty Good!",
@@ -46,6 +48,7 @@ class ReviewController extends StateClass {
     careRating.value = 0;
     serviceRating.value = 0;
     managementRating.value = 0;
+    average.value = 0;
     listImage.clear();
   }
 
@@ -79,7 +82,6 @@ class ReviewController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print(starRating.value < 1);
       if (starRating.value < 1) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -109,13 +111,45 @@ class ReviewController extends StateClass {
     isLoading.value = false;
   }
 
-  // ini belum reviewTreatment
+  ratingAvarege(int index, String title) {
+    if (title == 'care') {
+      careRating.value = index + 1;
+    }
+    if (title == 'service') {
+      serviceRating.value = index + 1;
+    }
+    if (title == 'management') {
+      managementRating.value = index + 1;
+    }
+    print("careRating ${careRating.value}");
+    print("serviceRating ${serviceRating.value}");
+    print("managementRating ${managementRating.value}");
+    double result =
+        (careRating.value + serviceRating.value + managementRating.value) / 3;
+
+    print("result $result");
+    average.value = result.toInt();
+    print("average ${average.value}");
+  }
+
   reviewTreatment(BuildContext context, String transactionTreatmentId,
+      String transactionTreatmentItemIid,
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print(starRating.value < 1);
-      if (starRating.value < 1) {
+      if (careRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
+      if (serviceRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
+      if (managementRating.value < 1) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Rating minimal satu',
@@ -123,7 +157,7 @@ class ReviewController extends StateClass {
       }
       var data = {
         "transaction_treatment_id": transactionTreatmentId,
-        "transaction_treatment_item_id": starRating.value,
+        "transaction_treatment_item_id": transactionTreatmentItemIid,
         "review": review.text,
         "care_rating": careRating.value,
         "service_rating": serviceRating.value,
@@ -132,7 +166,7 @@ class ReviewController extends StateClass {
       };
 
       print("data $data");
-      // return;
+
       var res = await ReviewService().reviewTreatment(data);
       print("res $res");
       if (res['success'] != true && res['message'] != 'Success') {
