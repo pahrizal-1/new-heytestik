@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';

@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';

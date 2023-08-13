@@ -12,7 +12,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
