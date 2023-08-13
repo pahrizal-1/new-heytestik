@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../models/customer/waiting_review_model.dart';
@@ -292,7 +294,9 @@ class UlasanProduk extends StatelessWidget {
             height: 8,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(TulisUlasanSkincarePage());
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
               decoration: BoxDecoration(
