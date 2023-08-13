@@ -99,6 +99,13 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                         postController.followedStreams.value = [];
                         await postController.getStreamFollowed(context);
                       });
+
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        postController.search.value = searchController.text;
+                        postController.interestStreamIndex.value = 1;
+                        postController.interestStreams.value = [];
+                        await postController.getStreamInterest(context);
+                      });
                     },
                   ),
                 ),

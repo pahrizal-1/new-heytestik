@@ -16,7 +16,9 @@ class PostController extends StateClass {
   RxList<StreamHomeModel> homeStreams = List<StreamHomeModel>.empty().obs;
   RxList<StreamHomeModel> followedStreams = List<StreamHomeModel>.empty().obs;
   RxList<StreamHomeModel> trendingStreams = List<StreamHomeModel>.empty().obs;
+  RxList<StreamHomeModel> interestStreams = List<StreamHomeModel>.empty().obs;
   RxInt homeStreamIndex = 1.obs;
+  RxInt interestStreamIndex = 1.obs;
   RxInt followedStreamIndex = 1.obs;
   RxInt trendingStreamIndex = 1.obs;
 
@@ -68,6 +70,23 @@ class PostController extends StateClass {
       });
 
       followedStreams.addAll(data);
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return [];
+    }
+  }
+
+  Future<List<StreamHomeModel>> getStreamInterest(BuildContext context) async {
+    try {
+      isLoading.value = true;
+      List<StreamHomeModel> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await PostServices().getStreamInterest(interestStreamIndex.value, search: search.value);
+        isLoading.value = false;
+      });
+
+      interestStreams.addAll(data);
       return data;
     } catch (error) {
       print(error.toString());
