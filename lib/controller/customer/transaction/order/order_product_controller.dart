@@ -63,6 +63,32 @@ class OrderProductController extends StateClass {
     listProductItem.clear();
   }
 
+  increment(int index) {
+    print("increment $index");
+    listProductItem[index]['qty'] += 1;
+    listProductItem[index]['totalPrice'] =
+        listProductItem[index]['price'] * listProductItem[index]['qty'];
+
+    int sum = 0;
+    for (var i = 0; i < listProductItem.length; i++) {
+      sum += int.parse(listProductItem[i]['totalPrice'].toString());
+    }
+    totalAmount.value = sum;
+  }
+
+  decrement(int index) {
+    print("decrement $index");
+    listProductItem[index]['qty'] -= 1;
+    listProductItem[index]['totalPrice'] =
+        listProductItem[index]['price'] * listProductItem[index]['qty'];
+
+    int sum = 0;
+    for (var i = 0; i < listProductItem.length; i++) {
+      sum += int.parse(listProductItem[i]['totalPrice'].toString());
+    }
+    totalAmount.value = sum;
+  }
+
   orderProduct(BuildContext context, {required Function() doInPost}) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -86,7 +112,7 @@ class OrderProductController extends StateClass {
         "payment_type": paymentType.toString()
       };
       print("req order $reqOrder");
-      // return;
+
       var res = await TransactionService().orderProduct(reqOrder);
       print("req order ${jsonEncode(res)}");
       if (res.success != true && res.message != 'Success') {

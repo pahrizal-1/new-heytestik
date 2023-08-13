@@ -10,7 +10,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
-import 'metode_pembayaran_obat_page.dart';
+import 'metode_pembayaran_produk_page.dart';
 
 class PembayaranProduk extends StatefulWidget {
   List pesan;
@@ -34,6 +34,7 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
     return WillPopScope(
       onWillPop: () async {
         state.listProductItem.clear();
+        state.totalAmount.value = 0;
         return true;
       },
       child: Scaffold(
@@ -128,7 +129,7 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
               ButtonGreenWidget(
                 title: 'Lanjutkan Pembayaran',
                 onPressed: () {
-                  Get.to(MetodePembayaranObat());
+                  Get.to(MetodePembayaranProduk());
                 },
               )
             ],
@@ -248,11 +249,61 @@ class _ProdukPembayaranState extends State<ProdukPembayaran> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        CurrencyFormat.convertToIdr(
-                            state.listProductItem[widget.index]['totalPrice'],
-                            0),
-                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            CurrencyFormat.convertToIdr(
+                                state.listProductItem[widget.index]
+                                    ['totalPrice'],
+                                0),
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              border: Border.all(color: borderColor),
+                            ),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    state.decrement(widget.index);
+                                    setState(() {});
+                                  },
+                                  child: Icon(
+                                    Icons.remove,
+                                    size: 15,
+                                    color: greyColor,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 21,
+                                ),
+                                Text(state.listProductItem[widget.index]['qty']
+                                    .toString()),
+                                const SizedBox(
+                                  width: 21,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    state.increment(widget.index);
+                                    setState(() {});
+                                  },
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 15,
+                                    color: greenColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

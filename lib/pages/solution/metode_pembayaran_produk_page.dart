@@ -15,14 +15,14 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
 
-class MetodePembayaranObat extends StatefulWidget {
-  const MetodePembayaranObat({super.key});
+class MetodePembayaranProduk extends StatefulWidget {
+  const MetodePembayaranProduk({super.key});
 
   @override
-  State<MetodePembayaranObat> createState() => _MetodePembayaranObatState();
+  State<MetodePembayaranProduk> createState() => _MetodePembayaranProdukState();
 }
 
-class _MetodePembayaranObatState extends State<MetodePembayaranObat> {
+class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
   final OrderProductController state = Get.put(OrderProductController());
   @override
   void initState() {
