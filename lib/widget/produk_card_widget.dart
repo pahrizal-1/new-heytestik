@@ -14,7 +14,7 @@ class ProdukCardWidget extends StatefulWidget {
   final int productId;
   final int qty;
   final String imageProduk;
-  final String namaProdik;
+  final String type;
   final String merkProduk;
   final String penggunaanJadwal;
   final String penggunaan;
@@ -34,10 +34,10 @@ class ProdukCardWidget extends StatefulWidget {
     required this.penggunaan,
     required this.harga,
     required this.hintText,
-    required this.namaProdik,
+    required this.type,
     required this.packagingType,
-    required this.netto,
-    required this.nettoType,
+    this.netto = '',
+    this.nettoType = '',
     required this.qty,
   }) : super(key: key);
 
@@ -88,7 +88,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                     width: 7,
                   ),
                   Text(
-                    widget.namaProdik,
+                    widget.type,
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
                 ],
@@ -251,17 +251,34 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                       const SizedBox(
                                         width: 15,
                                       ),
-                                      Text(
-                                        '1 ${widget.packagingType}\n(${widget.netto}\n${widget.nettoType})',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          color: fromCssColor(
-                                            '#323232',
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${widget.qty} ${widget.packagingType}',
+                                            style: TextStyle(
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.5,
+                                              color: fromCssColor(
+                                                '#323232',
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          if (widget.type == 'SKINCARE')
+                                            Text(
+                                              ' (${widget.netto} ${widget.nettoType}) ',
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#323232',
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     ],
                                   ),

@@ -184,28 +184,50 @@ class _KeranjangPageState extends State<KeranjangPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: cart.length,
                       itemBuilder: (BuildContext context, int i) {
-                        return ProdukCardWidget(
-                          index: i,
-                          cartId: cart[i].id!.toInt(),
-                          productId: cart[i].productId!.toInt(),
-                          qty: cart[i].qty!.toInt(),
-                          imageProduk:
-                              '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
-                          merkProduk: '${cart[i].product?.name}',
-                          penggunaanJadwal:
-                              '${cart[i].product?.skincareDetail?.specificationHowToUse}',
-                          penggunaan: '2x sehari',
-                          harga: CurrencyFormat.convertToIdr(
-                              cart[i].product?.price ?? 0, 0),
-                          hintText: cart[i].notes ?? '',
-                          namaProdik: '${cart[i].product?.type}',
-                          packagingType:
-                              '${cart[i].product?.skincareDetail?.specificationPackagingType}',
-                          netto:
-                              '${cart[i].product?.skincareDetail?.specificationNetto}',
-                          nettoType:
-                              '${cart[i].product?.skincareDetail?.specificationNettoType}',
-                        );
+                        if (cart[i].product?.type == 'SKINCARE') {
+                          return ProdukCardWidget(
+                            index: i,
+                            cartId: cart[i].id!.toInt(),
+                            productId: cart[i].productId!.toInt(),
+                            qty: cart[i].qty!.toInt(),
+                            imageProduk:
+                                '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                            merkProduk: '${cart[i].product?.name}',
+                            penggunaanJadwal:
+                                '${cart[i].product?.skincareDetail?.specificationHowToUse}',
+                            penggunaan: '0x sehari',
+                            harga: CurrencyFormat.convertToIdr(
+                                cart[i].product?.price ?? 0, 0),
+                            hintText: cart[i].notes ?? '',
+                            type: '${cart[i].product?.type}',
+                            packagingType:
+                                '${cart[i].product?.skincareDetail?.specificationPackagingType}',
+                            netto:
+                                '${cart[i].product?.skincareDetail?.specificationNetto}',
+                            nettoType:
+                                '${cart[i].product?.skincareDetail?.specificationNettoType}',
+                          );
+                        }
+                        if (cart[i].product?.type == 'DRUGS') {
+                          return ProdukCardWidget(
+                            index: i,
+                            cartId: cart[i].id!.toInt(),
+                            productId: cart[i].productId!.toInt(),
+                            qty: cart[i].qty!.toInt(),
+                            imageProduk:
+                                '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                            merkProduk: '${cart[i].product?.name}',
+                            penggunaanJadwal:
+                                '${cart[i].product?.drugDetail?.specificationDose}',
+                            penggunaan: '0x sehari',
+                            harga: CurrencyFormat.convertToIdr(
+                                cart[i].product?.price ?? 0, 0),
+                            hintText: cart[i].notes ?? '',
+                            type: '${cart[i].product?.type}',
+                            packagingType:
+                                '${cart[i].product?.drugDetail?.specificationPackaging}',
+                          );
+                        }
                       },
                     ),
               Obx(
