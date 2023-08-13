@@ -10,7 +10,8 @@ import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
-  SolutionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SolutionService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<SkincareModel> getSkincare() async {
     var response = await networkingConfig.doGet(
@@ -86,8 +87,10 @@ class SolutionService extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => MedicineModel.fromJson(e)).toList();
-    } catch(error) {
+      return (response['data']['data'] as List)
+          .map((e) => MedicineModel.fromJson(e))
+          .toList();
+    } catch (error) {
       print(error);
       return [];
     }

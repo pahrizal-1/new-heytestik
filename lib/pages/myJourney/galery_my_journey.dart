@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/show_modal_dialog.dart';
 
@@ -102,7 +103,8 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: gallery
@@ -111,102 +113,78 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           '${e.concern?.name}',
-                                          style: blackHigtTextStyle.copyWith(fontSize: 14),
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 14),
                                         ),
                                         IconButton(
                                           onPressed: () {
-                                            customeshomodal(
-                                                context,
-                                                Padding(
-                                                  padding: lsymetric.copyWith(top: 25),
-                                                  child: Wrap(
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () async {},
-                                                            child: Text(
-                                                              'Delete',
-                                                              style: blackHigtTextStyle.copyWith(
-                                                                fontSize: 15,
-                                                                color: redColor,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 30,
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Get.back();
-                                                              Get.to(DetailGalleryMyJourneyPage(
-                                                                id: e.id!.toInt(),
-                                                              ));
-                                                            },
-                                                            child: Text(
-                                                              'Detail',
-                                                              style: blackTextStyle.copyWith(
-                                                                fontSize: 15,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 30,
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
+                                            bottomSheet(e);
                                           },
                                           icon: Icon(Icons.more_horiz),
                                         )
                                       ],
                                     ),
                                     Text(
-                                      ConvertDate.defaultDate(e.createdAt.toString()),
-                                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                      ConvertDate.defaultDate(
+                                          e.createdAt.toString()),
+                                      style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 13),
                                     ),
                                     const SizedBox(
                                       height: 14,
                                     ),
-                                    Wrap(
-                                      spacing: 4,
-                                      runSpacing: 4,
-                                      children: e.mediaMyJourneys!.map((a) {
-                                        if (a.category == "INITIAL_CONDITION") {
-                                          return InkWell(
+                                    Wrap(spacing: 4, runSpacing: 4, children: [
+                                      for (int i = 0;
+                                          i < e.mediaMyJourneys!.length;
+                                          i++)
+                                        if (e.mediaMyJourneys![i].category ==
+                                            "INITIAL_CONDITION")
+                                          InkWell(
                                             onTap: () {
-                                              Get.to(ZoomImageDetail(
-                                                concern: e.concern!.name ?? '-',
-                                                beforeImage: '${Global.FILE}/${a.media?.path}',
-                                                dateBefore: e.createdAt.toString(),
-                                                afterImage: '${Global.FILE}/${a.media?.path}',
-                                                dateAfter: e.createdAt.toString(),
-                                              ));
+                                              print("iiiiiii $i");
+                                              Get.to(
+                                                ZoomImageDetail(
+                                                    concern:
+                                                        e.concern!.name ?? '-',
+                                                    beforeImage:
+                                                        '${Global.FILE}/${e.mediaMyJourneys![i].media?.path}',
+                                                    dateBefore:
+                                                        e.createdAt.toString(),
+                                                    afterImage: e
+                                                                .mediaMyJourneys!
+                                                                .length >
+                                                            4
+                                                        ? '${Global.FILE}/${e.mediaMyJourneys![i == 0 ? 4 : i == 1 ? 5 : i == 2 ? 6 : i == 3 ? 7 : 0].media?.path}'
+                                                        : '',
+                                                    dateAfter: e.mediaMyJourneys!
+                                                                .length >
+                                                            4
+                                                        ? e.mediaMyJourneys![4]
+                                                            .createdAt
+                                                            .toString()
+                                                        : "-"),
+                                              );
                                             },
                                             child: Container(
                                               height: 72,
                                               width: 82,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(7),
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
                                                 image: DecorationImage(
-                                                  image: NetworkImage('${Global.FILE}/${a.media?.path}'),
+                                                  image: NetworkImage(
+                                                      '${Global.FILE}/${e.mediaMyJourneys![i].media?.path}'),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        }
-
-                                        return Container();
-                                      }).toList(),
-                                    ),
+                                          ),
+                                    ]),
                                     e.mediaMyJourneys!.length > 4
                                         ? const SizedBox(
                                             height: 14,
@@ -214,8 +192,11 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                         : Container(),
                                     e.mediaMyJourneys!.length > 4
                                         ? Text(
-                                            ConvertDate.defaultDate(e.mediaMyJourneys![4].createdAt.toString()),
-                                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                            ConvertDate.defaultDate(e
+                                                .mediaMyJourneys![4].createdAt
+                                                .toString()),
+                                            style: blackRegulerTextStyle
+                                                .copyWith(fontSize: 13),
                                           )
                                         : Container(),
                                     e.mediaMyJourneys!.length > 4
@@ -223,38 +204,46 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                             height: 14,
                                           )
                                         : Container(),
-                                    Wrap(
-                                      spacing: 4,
-                                      runSpacing: 4,
-                                      children: e.mediaMyJourneys!.map((a) {
-                                        if (a.category == "AFTER_CONDITION") {
-                                          return InkWell(
+                                    Wrap(spacing: 4, runSpacing: 4, children: [
+                                      for (int i = 0;
+                                          i < e.mediaMyJourneys!.length;
+                                          i++)
+                                        if (e.mediaMyJourneys![i].category ==
+                                            "AFTER_CONDITION")
+                                          InkWell(
                                             onTap: () {
-                                              Get.to(ZoomImageDetail(
-                                                concern: e.concern!.name ?? '-',
-                                                beforeImage: '${Global.FILE}/${a.media?.path}',
-                                                dateBefore: e.createdAt.toString(),
-                                                afterImage: '${Global.FILE}/${a.media?.path}',
-                                                dateAfter: e.createdAt.toString(),
-                                              ));
+                                              Get.to(
+                                                ZoomImageDetail(
+                                                  concern:
+                                                      e.concern!.name ?? '-',
+                                                  beforeImage:
+                                                      '${Global.FILE}/${e.mediaMyJourneys![i == 4 ? 0 : i == 5 ? 1 : i == 6 ? 2 : i == 7 ? 3 : 0].media?.path}',
+                                                  dateBefore:
+                                                      e.createdAt.toString(),
+                                                  afterImage:
+                                                      '${Global.FILE}/${e.mediaMyJourneys![i].media?.path}',
+                                                  dateAfter: e
+                                                      .mediaMyJourneys![4]
+                                                      .createdAt
+                                                      .toString(),
+                                                ),
+                                              );
                                             },
                                             child: Container(
                                               height: 72,
                                               width: 82,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(7),
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
                                                 image: DecorationImage(
-                                                  image: NetworkImage('${Global.FILE}/${a.media?.path}'),
+                                                  image: NetworkImage(
+                                                      '${Global.FILE}/${e.mediaMyJourneys![i].media?.path}'),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        }
-
-                                        return Container();
-                                      }).toList(),
-                                    ),
+                                          ),
+                                    ]),
                                     const SizedBox(
                                       height: 14,
                                     ),
@@ -269,7 +258,8 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                         ),
                       ),
                       Obx(
-                        () => state.isLoading.value ? LoadingMore() : Container(),
+                        () =>
+                            state.isLoading.value ? LoadingMore() : Container(),
                       ),
                     ],
                   ),
@@ -280,6 +270,82 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
         padding: const EdgeInsets.all(8.0),
         child: Wrap(
           children: [ButtonGreenWidget(title: 'Pilih Foto')],
+        ),
+      ),
+    );
+  }
+
+  bottomSheet(Data2 e) {
+    return customeshomodal(
+      context,
+      Padding(
+        padding: lsymetric.copyWith(
+          top: 25,
+        ),
+        child: Wrap(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await state.deleteJourney(
+                      context,
+                      e.id!.toInt(),
+                      doInPost: () async {
+                        Get.back();
+                        Get.back();
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          'Journey berhasil dihapus',
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    'Delete',
+                    style: blackHigtTextStyle.copyWith(
+                      fontSize: 15,
+                      color: redColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                    Get.to(DetailGalleryMyJourneyPage(
+                      id: e.id!.toInt(),
+                    ));
+                  },
+                  child: Text(
+                    'Detail',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Text(
+                    'Post After',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

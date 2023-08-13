@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
@@ -120,7 +121,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
           title: Row(
             children: [
               Text(
-                state.bank.value,
+                state.bank.value.toUpperCase(),
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
@@ -207,7 +208,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.bank.value,
+                                state.bank.value.toUpperCase(),
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
@@ -240,7 +241,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                         title: 'Nomor Virtual Account',
                                         title2: '',
                                       ),
-                                      Text(
+                                      SelectableText(
                                         state.virtualAccount.value,
                                         style: blackTextStyle.copyWith(
                                             fontSize: 15),
@@ -248,9 +249,16 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                     ],
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    'Salin',
-                                    style: grenTextStyle.copyWith(fontSize: 14),
+                                  InkWell(
+                                    // onTap: () {
+                                    //   Clipboard.getData(
+                                    //       state.virtualAccount.value);
+                                    // },
+                                    child: Text(
+                                      'Salin',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,

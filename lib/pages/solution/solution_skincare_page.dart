@@ -243,10 +243,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                         (e) => InkWell(
                                           onTap: () {
                                             Get.to(DetailSkinCarePage(
-                                              id: e.id!.toInt(),
-                                              productId: e
-                                                  .mediaProducts![0].productId!
-                                                  .toInt(),
+                                              productId: e.id!.toInt(),
                                             ));
                                           },
                                           child: Produkheight(
@@ -487,10 +484,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                   (e) => InkWell(
                                     onTap: () {
                                       Get.to(DetailSkinCarePage(
-                                        id: e.id!.toInt(),
-                                        productId: e
-                                            .mediaProducts![0].productId!
-                                            .toInt(),
+                                        // id: e.id!.toInt(),
+                                        productId: e.id!.toInt(),
                                       ));
                                     },
                                     child: Produkheight(

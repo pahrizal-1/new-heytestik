@@ -205,6 +205,27 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 Html(
                   data: '${widget.detailNews.description}',
+                  style: {
+                    'html': Style(backgroundColor: Colors.white12),
+                    'table': Style(backgroundColor: Colors.grey.shade200),
+                    'td': Style(
+                      backgroundColor: Colors.grey.shade400,
+                    ),
+                    'th': Style(color: Colors.black),
+                    'tr': Style(
+                        backgroundColor: Colors.grey.shade300,
+                        border: Border(
+                            bottom: BorderSide(color: Colors.greenAccent))),
+                  },
+                  // onLinkTap: (url) {
+                  //   print('Open the url $url......');
+                  // },
+                  // onImageTap: (img) {
+                  //   print('Image $img');
+                  // },
+                  // onImageError: (exception, stacktrace) {
+                  //   print(exception);
+                  // },
                 ),
                 const SizedBox(
                   height: 20,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:intl/intl.dart';
@@ -190,6 +189,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                         InkWell(
                           onTap: (){
                             state.postApprove(context, notifications[index].data['consultation_doctor_schedule_id']);
+                            // Navigator.pop(context);
                           },
                           child: Container(
                             decoration: BoxDecoration(

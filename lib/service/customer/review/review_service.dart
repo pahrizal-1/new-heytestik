@@ -61,7 +61,7 @@ class ReviewService extends ProviderClass {
       );
     }
     var response = await networkingConfig.doPost(
-      '/transaction/consultation/order',
+      '/solution/treatment-review',
       data: formData,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',

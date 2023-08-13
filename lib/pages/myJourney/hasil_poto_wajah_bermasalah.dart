@@ -9,9 +9,17 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 
-class PotoBagianWajahBermasalah extends StatelessWidget {
+class PotoBagianWajahBermasalah extends StatefulWidget {
   PotoBagianWajahBermasalah({super.key});
+
+  @override
+  State<PotoBagianWajahBermasalah> createState() =>
+      _PotoBagianWajahBermasalahState();
+}
+
+class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
   final MyJourneyController state = Get.put(MyJourneyController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +42,18 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (state.isGallery.value)
+            Text(
+              'Wajah bermasalah',
+              style: whiteTextStyle.copyWith(
+                fontWeight: regular,
+                fontSize: 20,
+              ),
+            ),
+          if (state.isGallery.value)
+            const SizedBox(
+              height: 10,
+            ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -69,9 +89,15 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     state.initialConditionProblemPart == null;
-                    Navigator.pop(context);
+                    if (state.isGallery.value) {
+                      state.initialConditionProblemPart =
+                          await state.pickImageFromGalery();
+                      setState(() {});
+                      return;
+                    }
+                    Get.back();
                   },
                   style: TextButton.styleFrom(
                     side: BorderSide(color: borderColor, width: 0.5),
@@ -95,23 +121,22 @@ class PotoBagianWajahBermasalah extends StatelessWidget {
               width: 16,
             ),
             Expanded(
-              child: Obx(
-                () => LoadingWidget(
-                  isLoading: state.isLoading.value,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
+              child: Container(
+                color: blackColor,
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: Obx(
+                  () => LoadingWidget(
+                    isLoading: state.isLoading.value,
                     child: TextButton(
                       onPressed: () async {
                         await state.saveJourney(context, doInPost: () async {
-                          Get.off(
-                            GaleryMyJourney(),
-                          );
                           SnackbarWidget.getSuccessSnackbar(
                             context,
                             'Info',
                             'Journey berhasil disimpan',
                           );
+                          Get.off(GaleryMyJourney());
                         });
                       },
                       style: TextButton.styleFrom(

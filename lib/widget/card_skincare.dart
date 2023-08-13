@@ -8,6 +8,7 @@ class CardSkincarePrice extends StatefulWidget {
   final String subTitle;
   final String harga;
   final String pengguna;
+  final Widget plus;
   const CardSkincarePrice({
     Key? key,
     required this.nameTitle,
@@ -15,6 +16,7 @@ class CardSkincarePrice extends StatefulWidget {
     required this.subTitle,
     required this.harga,
     required this.pengguna,
+    required this.plus,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                   decoration: BoxDecoration(
                     border: Border.all(width: 0.5, color: borderColor),
                     image: DecorationImage(
-                      image: AssetImage(widget.urlImg),
+                      image: widget.urlImg != null ? NetworkImage(widget.urlImg) as ImageProvider : AssetImage(widget.urlImg),
                     ),
                   ),
                 ),
@@ -83,31 +85,7 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                   ],
                 ),
                 const Spacer(),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = !isSelected;
-                    });
-                  },
-                  child: Container(
-                      height: 29,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          color: isSelected ? whiteColor : greenColor,
-                          borderRadius: BorderRadius.circular(9),
-                          border: Border.all(color: greenColor)),
-                      child: isSelected
-                          ? Center(
-                              child: Text(
-                                '-',
-                                style: grenTextStyle.copyWith(fontSize: 20),
-                              ),
-                            )
-                          : Icon(
-                              Icons.add,
-                              color: whiteColor,
-                            )),
-                ),
+                widget.plus
               ],
             ),
           ],

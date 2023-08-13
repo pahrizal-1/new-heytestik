@@ -230,7 +230,8 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
                   children: [
                     Text(
                       state.description[
-                          (data.detail!.consultationReview!.rating! - 1)],
+                          (data.detail!.consultationReview!.rating!.toInt() -
+                              1)],
                       style: grenTextStyle.copyWith(fontSize: 15),
                     ),
                     const Spacer(),
@@ -323,6 +324,7 @@ class DetailPageUlasanTreatment extends StatelessWidget {
           Padding(
             padding: lsymetric.copyWith(top: 21, bottom: 15),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(

@@ -270,89 +270,38 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     }
 
     final dateTime = DateTime.now();
-    final stringDateTime = dateTime.toIso8601String();
+    final stringDateTime = dateTime.toUtc().toIso8601String();
     final parsedDateTime = DateTime.parse(stringDateTime);
     var dateFormatted =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
 
-    if (fileImage != null) {
-      var newMes = {
-        "id": 24,
-        "chat_room_id": chatRoomId,
-        "sender_id": userId,
-        "receiver_id": receiverId,
-        "message": textMessage,
-        "seen": false,
-        "created_by": null,
-        "updated_by": null,
-        "created_at": "2023-07-04T12:35:06.173Z",
-        "updated_at": "2023-07-04T12:35:06.173Z",
-        "deleted_at": null,
-        "media_chat_messages": [
-          for (var i in fileImage)
-            {
-              "id": 55,
-              "media_id": 208,
-              "chat_message_id": 67,
-              "created_by": null,
-              "updated_by": null,
-              "created_at": "2023-08-05T07:22:49.126Z",
-              "updated_at": "2023-08-05T07:22:49.127Z",
-              "deleted_at": null,
-              "media": {
-                "id": 208,
-                "filename": "message-1691220169118-mr0fgt8jp2.jpg",
-                "ext": "jpg",
-                "size": 154660,
-                "mime": "image/jpeg",
-                "path": i.toString(),
-                "destination": "uploads/${i}",
-                "created_by": null,
-                "updated_by": null,
-                "created_at": "2023-08-05T07:22:49.122Z",
-                "updated_at": "2023-08-05T07:22:49.122Z",
-                "deleted_at": null
-              }
-            }
-        ],
-        "sender": {
-          "fullname": senderBy,
-        },
-        "receiver": {
-          "fullname": receiverBy,
-        }
-      };
+    // "2023-08-05T07:22:49.127Z"
 
-      Data2 result = Data2.fromJson(newMes);
-      setState(() {
-        msglist?.add(result);
-      });
-    } else {
-      var newMes = {
-        "id": 24,
-        "chat_room_id": chatRoomId,
-        "sender_id": userId,
-        "receiver_id": receiverId,
-        "message": textMessage,
-        "seen": false,
-        "created_by": null,
-        "updated_by": null,
-        "created_at": "2023-07-04T12:35:06.173Z",
-        "updated_at": "2023-07-04T12:35:06.173Z",
-        "deleted_at": null,
-        "media_chat_messages": [],
-        "sender": {
-          "fullname": senderBy,
-        },
-        "receiver": {
-          "fullname": receiverBy,
-        }
-      };
-      Data2 result = Data2.fromJson(newMes);
-      setState(() {
-        msglist?.add(result);
-      });
-    }
+    // var newMes = {
+    //   "id": 24,
+    //   "chat_room_id": chatRoomId,
+    //   "sender_id": userId,
+    //   "receiver_id": receiverId,
+    //   "message": textMessage,
+    //   "seen": false,
+    //   "created_by": null,
+    //   "updated_by": null,
+    //   "created_at": stringDateTime,
+    //   "updated_at": stringDateTime,
+    //   "deleted_at": null,
+    //   "media_chat_messages": [],
+    //   "sender": {
+    //     "fullname": senderBy,
+    //   },
+    //   "receiver": {
+    //     "fullname": receiverBy,
+    //   }
+    // };
+    // Data2 result = Data2.fromJson(newMes);
+    // setState(() {
+    //   msglist?.add(result);
+    // });
+
     // listLastChat.add(newMes);
     state.messageController.clear();
     state.selectedMultipleImage = [];
@@ -380,6 +329,28 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       );
 
       Data2 result = Data2.fromJson(newMessage);
+      setState(() {
+        msglist?.add(result);
+      });
+      print('hey $result');
+
+      // setState(() {
+      //   msglist?.add(result);
+      // });
+    });
+  }
+
+  // EVENT My MESSAGE (udah dipanggil)
+  myMessage() async {
+    print("myMessage");
+    _socket?.on('myMessage', (myMessage) async {
+      // infoLog();
+      print("myMessage $myMessage");
+      print("message ${myMessage['message']}");
+      print("message ${myMessage['sender']['fullname']}");
+      // var result = json.decode(newMessage);
+
+      Data2 result = Data2.fromJson(myMessage);
       setState(() {
         msglist?.add(result);
       });
@@ -421,8 +392,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         print('Connection established');
         await joinRoom(widget.roomCode);
         await readMessage(widget.roomCode);
+
         await onlineClients(widget.receiverBy ?? '');
         await newMessage();
+        await myMessage();
         await typingIndicator();
         await recentChatt();
         await infoLog();

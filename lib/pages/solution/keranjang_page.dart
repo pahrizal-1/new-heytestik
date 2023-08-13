@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -6,17 +8,21 @@ import 'package:heystetik_mobileapps/controller/customer/solution/cart_controlle
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 
 import '../../widget/produk_card_widget.dart';
-import '../../widget/produk_widget.dart';
 
 class KeranjangPage extends StatefulWidget {
   const KeranjangPage({super.key});
@@ -28,16 +34,38 @@ class KeranjangPage extends StatefulWidget {
 class _KeranjangPageState extends State<KeranjangPage> {
   final CartController state = Get.put(CartController());
   final SkincareController stateSkincare = Get.put(SkincareController());
+  final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+
+  int page = 1;
+  String? search;
+  List<Data2> cart = [];
+
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.getCart(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateSkincare.getSkincare(context);
+      cart.addAll(await state.getCart(context, page, search: search));
+      setState(() {});
     });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
+            cart.addAll(await state.getCart(context, page, search: search));
+            setState(() {});
+            state.isLoadingMore.value = false;
+          });
+        }
+      }
+    });
+    super.initState();
   }
 
-  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,20 +125,27 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        setState(() {
-                          isSelected = !isSelected;
-                        });
+                        state.onChecklist(state.checklist.length, true);
+                        setState(() {});
                       },
-                      child: Container(
-                        width: 23,
-                        padding: const EdgeInsets.all(4),
-                        height: 23,
-                        decoration: BoxDecoration(
-                          color: isSelected ? greenColor : null,
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: isSelected ? greenColor : borderColor),
+                      child: Obx(
+                        () => Container(
+                          width: 23,
+                          padding: const EdgeInsets.all(4),
+                          height: 23,
+                          decoration: BoxDecoration(
+                            color:
+                                state.isAllSelected.value ? greenColor : null,
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(
+                                color: state.isAllSelected.value
+                                    ? greenColor
+                                    : borderColor),
+                          ),
+                          child: state.isAllSelected.value
+                              ? Image.asset('assets/icons/chek_new.png')
+                              : null,
                         ),
-                        child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
                       ),
                     ),
                     const SizedBox(
@@ -129,10 +164,10 @@ class _KeranjangPageState extends State<KeranjangPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: ListView(
             children: [
-              state.filterData.isEmpty
+              cart.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: 50, bottom: 20),
                       child: Center(
@@ -147,28 +182,79 @@ class _KeranjangPageState extends State<KeranjangPage> {
                       ),
                     )
                   : ListView.builder(
+                      controller: scrollController,
                       shrinkWrap: true,
-                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      keyboardDismissBehavior:
+                          ScrollViewKeyboardDismissBehavior.onDrag,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.filterData.length,
+                      itemCount: cart.length,
                       itemBuilder: (BuildContext context, int i) {
-                        return ProdukCardWidget(
-                          cartId: state.filterData[i].id!.toInt(),
-                          productId: state.filterData[i].productId!.toInt(),
-                          qty: state.filterData[i].qty!.toInt(),
-                          imageProduk: '${Global.FILE}/${state.filterData[i].product!.mediaProducts?[0].media?.path}',
-                          merkProduk: '${state.filterData[i].product?.name}',
-                          penggunaanJadwal: '${state.filterData[i].product?.skincareDetail?.specificationHowToUse}',
-                          penggunaan: '2x sehari',
-                          harga: CurrencyFormat.convertToIdr(state.filterData[i].product?.price ?? 0, 0),
-                          hintText: '${state.filterData[i].notes}',
-                          namaProdik: '${state.filterData[i].product?.type}',
-                          packagingType: '${state.filterData[i].product?.skincareDetail?.specificationPackagingType}',
-                          netto: '${state.filterData[i].product?.skincareDetail?.specificationNetto}',
-                          nettoType: '${state.filterData[i].product?.skincareDetail?.specificationNettoType}',
-                        );
+                        if (cart[i].product?.type == 'SKINCARE') {
+                          return InkWell(
+                            onTap: () {
+                              Get.to(DetailSkinCarePage(
+                                productId: cart[i].productId!.toInt(),
+                              ));
+                            },
+                            child: ProdukCardWidget(
+                              index: i,
+                              cartId: cart[i].id!.toInt(),
+                              productId: cart[i].productId!.toInt(),
+                              qty: cart[i].qty!.toInt(),
+                              imageProduk:
+                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                              merkProduk: '${cart[i].product?.name}',
+                              penggunaanJadwal:
+                                  '${cart[i].product?.skincareDetail?.specificationHowToUse}',
+                              penggunaan: '0x sehari',
+                              harga: CurrencyFormat.convertToIdr(
+                                  cart[i].product?.price ?? 0, 0),
+                              hintText: cart[i].notes ?? '',
+                              type: '${cart[i].product?.type}',
+                              packagingType:
+                                  '${cart[i].product?.skincareDetail?.specificationPackagingType}',
+                              netto:
+                                  '${cart[i].product?.skincareDetail?.specificationNetto}',
+                              nettoType:
+                                  '${cart[i].product?.skincareDetail?.specificationNettoType}',
+                            ),
+                          );
+                        }
+                        if (cart[i].product?.type == 'DRUGS') {
+                          return InkWell(
+                            onTap: () {
+                              Get.to(
+                                DetailObatPage(
+                                  medicine: MedicineModel.fromJson(
+                                      jsonDecode(jsonEncode(cart[i].product))),
+                                ),
+                              );
+                            },
+                            child: ProdukCardWidget(
+                              index: i,
+                              cartId: cart[i].id!.toInt(),
+                              productId: cart[i].productId!.toInt(),
+                              qty: cart[i].qty!.toInt(),
+                              imageProduk:
+                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                              merkProduk: '${cart[i].product?.name}',
+                              penggunaanJadwal:
+                                  '${cart[i].product?.drugDetail?.specificationDose}',
+                              penggunaan: '0x sehari',
+                              harga: CurrencyFormat.convertToIdr(
+                                  cart[i].product?.price ?? 0, 0),
+                              hintText: cart[i].notes ?? '',
+                              type: '${cart[i].product?.type}',
+                              packagingType:
+                                  '${cart[i].product?.drugDetail?.specificationPackaging}',
+                            ),
+                          );
+                        }
                       },
                     ),
+              Obx(
+                () => state.isLoading.value ? LoadingMore() : Container(),
+              ),
               const SizedBox(
                 height: 18,
               ),
@@ -202,19 +288,24 @@ class _KeranjangPageState extends State<KeranjangPage> {
                               .map(
                                 (e) => InkWell(
                                   onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      id: e.id!.toInt(),
-                                      productId: e.mediaProducts![0].productId!.toInt(),
-                                    ));
+                                    Get.to(
+                                      DetailSkinCarePage(
+                                        productId: e.id!.toInt(),
+                                      ),
+                                    );
                                   },
                                   child: Produkheight(
                                     produkId: e.id!.toInt(),
-                                    namaBrand: e.skincareDetail!.brand.toString(),
+                                    namaBrand:
+                                        e.skincareDetail!.brand.toString(),
                                     namaProduk: e.name.toString(),
                                     diskonProduk: '20',
-                                    hargaDiskon: CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga: CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    hargaDiskon:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg:
+                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                     // rating: '4.9 (120k)',
                                     rating: e.rating.toString(),
                                   ),
@@ -250,9 +341,12 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          'Rp0',
-                          style: blackHigtTextStyle.copyWith(fontSize: 20),
+                        Obx(
+                          () => Text(
+                            CurrencyFormat.convertToIdr(
+                                state.totalAmountSelected.value, 0),
+                            style: blackHigtTextStyle.copyWith(fontSize: 20),
+                          ),
                         ),
                         const SizedBox(
                           width: 12,
@@ -272,7 +366,21 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   child: SizedBox(
                     height: 50,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (state.totalAmountSelected.value <= 0) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                              subtitle: 'Harap pilih produk terlebih dahulu',
+                            ),
+                          );
+                          return;
+                        }
+
+                        Get.to(PembayaranProduk(
+                          pesan: state.checkedList,
+                        ));
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
                         shape: RoundedRectangleBorder(
@@ -291,7 +399,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                             width: 10,
                           ),
                           Text(
-                            'Bayar',
+                            'Lanjut',
                             style: TextStyle(
                               fontSize: 16,
                               color: whiteColor,

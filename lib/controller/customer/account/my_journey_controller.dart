@@ -19,6 +19,7 @@ import 'package:heystetik_mobileapps/models/customer/my_journey_history_consulta
     as HistoryConsultation;
 import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/service/customer/my_journey/my_journey_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyJourneyController extends StateClass {
   Rx<MyJourney.MyJourneyModel> responseJourney = MyJourney.MyJourneyModel().obs;
@@ -52,7 +53,7 @@ class MyJourneyController extends StateClass {
   RxList<Interest.Data> filterData = List<Interest.Data>.empty().obs;
   RxString concern = "".obs;
   RxInt concernId = 0.obs;
-
+  RxBool isGallery = false.obs;
   File? initialConditionFrontFace;
   File? initialConditionRightSide;
   File? initialConditionLeftSide;
@@ -72,14 +73,13 @@ class MyJourneyController extends StateClass {
 
   Future<List<HistoryConsultation.Data2>> getHistoryConsultation(
       BuildContext context) async {
-    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       responseHistoryConsultation.value =
           await MyJourneysService().getHistoryConsultation();
       dataHistoryConsultation.value =
           responseHistoryConsultation.value.data!.data!;
     });
-    // isLoading.value = false;
+
     return dataHistoryConsultation;
   }
 
@@ -103,14 +103,13 @@ class MyJourneyController extends StateClass {
 
   Future<List<ScheduleTreatment.Data2>> getScheduleTreatment(
       BuildContext context) async {
-    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       responseScheduleTreatment.value =
           await MyJourneysService().getScheduleTreatment();
       dataScheduleTreatment.value = responseScheduleTreatment.value.data!.data!;
       print(dataScheduleTreatment.length);
     });
-    // isLoading.value = false;
+
     return dataScheduleTreatment;
   }
 
@@ -130,10 +129,23 @@ class MyJourneyController extends StateClass {
         .toList();
   }
 
+  Future pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) {
+      return null;
+    }
+
+    print(File(returnedImage.path));
+    return File(returnedImage.path);
+  }
+
   Future saveJourney(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // try {
       if (concernId.value == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -151,19 +163,24 @@ class MyJourneyController extends StateClass {
       print("data $data");
 
       var res = await MyJourneysService().saveJourney(data);
+      print("data $data");
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: res['message'],
         );
       }
-
+      print("heheh");
       concernId.value = 0;
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
+      print("hahah");
       doInPost();
+      // } catch (e) {
+      //   print("heheh $e");
+      // }
     });
     isLoading.value = false;
   }
@@ -171,39 +188,77 @@ class MyJourneyController extends StateClass {
   Future detailJourney(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        totalMyJourneyById.value = 0;
+      totalMyJourneyById.value = 0;
 
-        MyJourneyById.MyJourneyByIdModel res =
-            await MyJourneysService().detailJourney(id);
-        print("=============");
-        myJourneyById.value = res.data!;
-        print(myJourneyById.value);
-        print("=============");
-        totalMyJourneyById.value = res.data!.mediaMyJourneys!.length;
+      MyJourneyById.MyJourneyByIdModel res =
+          await MyJourneysService().detailJourney(id);
+      print("=============");
+      myJourneyById.value = res.data!;
+      print(myJourneyById.value);
+      print("=============");
+      totalMyJourneyById.value = res.data!.mediaMyJourneys!.length;
 
-        print("=============");
-        print(res.data!.mediaMyJourneys!.length);
-        print("=============");
-        print(totalMyJourneyById.value);
+      print("=============");
+      print(res.data!.mediaMyJourneys!.length);
+      print("=============");
+      print(totalMyJourneyById.value);
+    });
+    isLoading.value = false;
+  }
 
-        for (int i = 0; i < totalMyJourneyById.value; i++) {
-          if (myJourneyById.value.mediaMyJourneys?[i].category ==
-              'INITIAL_CONDITION') {
-            print('ada INITIAL_CONDITION ${i + 1}');
-            print(myJourneyById.value.mediaMyJourneys?[i].media?.path);
-          }
-
-          if (myJourneyById.value.mediaMyJourneys?[i].category ==
-              'AFTER_CONDITION') {
-            print('ada AFTER_CONDITION ${i + 1}');
-
-            print(myJourneyById.value.mediaMyJourneys?[i].media?.path);
-          }
-        }
-      } catch (e) {
-        print("eheheh $e");
+  Future deleteJourney(BuildContext context, int id,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print("id $id");
+      var res = await MyJourneysService().deleteJourney(id);
+      print("res $res");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
       }
+
+      doInPost();
+    });
+    isLoading.value = false;
+  }
+
+  Future afterCondition(BuildContext context, int id,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      // try {
+
+      var data = {
+        "initial_condition_front_face": initialConditionFrontFace?.path,
+        "initial_condition_right_side": initialConditionRightSide?.path,
+        "initial_condition_left_side": initialConditionLeftSide?.path,
+        "initial_condition_problem_part": initialConditionProblemPart?.path
+      };
+
+      print("data $data");
+
+      var res = await MyJourneysService().afterCondition(id, data);
+      print("data $data");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      print("heheh");
+      concernId.value = 0;
+      initialConditionFrontFace = null;
+      initialConditionRightSide = null;
+      initialConditionLeftSide = null;
+      initialConditionProblemPart = null;
+      print("hahah");
+      doInPost();
+      // } catch (e) {
+      //   print("heheh $e");
+      // }
     });
     isLoading.value = false;
   }

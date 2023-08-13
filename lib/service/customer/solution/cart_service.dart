@@ -9,9 +9,15 @@ class CartService extends ProviderClass {
   CartService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<CartModel> getCart() async {
+  Future<CartModel> getCart(int page, {String? search}) async {
     var response = await networkingConfig.doGet(
-      '/user-cart?page=1&take=100&order=asc&search=',
+      '/user-cart',
+      params: {
+        "page": page,
+        "take": 10,
+        "order": "desc",
+        "search": search,
+      },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

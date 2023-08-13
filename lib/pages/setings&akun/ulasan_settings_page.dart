@@ -160,85 +160,116 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                 ),
               )
             : SingleChildScrollView(
+                controller: scrollController,
                 child: Column(
                   children: [
                     ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: finishedReview.length,
-                        itemBuilder: (BuildContext context, index) {
-                          if (finishedReview[index].transactionType ==
-                              'CONSULTATION') {
-                            return TextUlasanRiwayat(
-                              onPressed: () {
-                                Get.to(DetailPageUlasanKonsultasi(
-                                  data: finishedReview[index],
-                                ));
-                              },
-                              nameBrand: finishedReview[index]
-                                      .detail
-                                      ?.consultation
-                                      ?.doctor
-                                      ?.fullname ??
-                                  '-',
-                              nameProduk: finishedReview[index]
-                                      .detail!
-                                      .consultation
-                                      ?.medicalHistory
-                                      ?.interestCondition
-                                      ?.name ??
-                                  '-',
-                              waktu: timeago.format(DateTime.parse(
-                                  finishedReview[index].createdAt.toString())),
-                              coment: finishedReview[index]
-                                      .detail
-                                      ?.consultationReview
-                                      ?.review ??
-                                  '-',
-                              rating: finishedReview[index]
-                                      .detail
-                                      ?.consultationReview
-                                      ?.rating ??
-                                  0,
-                            );
-                          }
-                          if (finishedReview[index].transactionType ==
-                              'TREATMENT') {
-                            return TextUlasanRiwayat(
-                              onPressed: () {
-                                Get.to(DetailPageUlasanTreatment(
-                                  data: finishedReview[index],
-                                ));
-                              },
-                              nameBrand: finishedReview[index]
-                                      .detail
-                                      ?.treatment
-                                      ?.name ??
-                                  '-',
-                              nameProduk: finishedReview[index]
-                                      .detail
-                                      ?.treatment
-                                      ?.clinic
-                                      ?.name ??
-                                  '-',
-                              waktu: timeago.format(DateTime.parse(
-                                  finishedReview[index].createdAt.toString())),
-                              coment: finishedReview[index]
-                                      .detail
-                                      ?.treatmentReview
-                                      ?.review ??
-                                  '-',
-                              rating: finishedReview[index]
-                                      .detail
-                                      ?.treatmentReview
-                                      ?.avgRating
-                                      ?.toInt() ??
-                                  0,
-                              balasan:
-                                  '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
-                            );
-                          }
-                        }),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: finishedReview.length,
+                      itemBuilder: (BuildContext context, index) {
+                        if (finishedReview[index].transactionType ==
+                            'CONSULTATION') {
+                          return TextUlasanRiwayat(
+                            onPressed: () {
+                              Get.to(DetailPageUlasanKonsultasi(
+                                data: finishedReview[index],
+                              ));
+                            },
+                            nameBrand: finishedReview[index]
+                                    .detail
+                                    ?.consultation
+                                    ?.doctor
+                                    ?.fullname ??
+                                '-',
+                            nameProduk: finishedReview[index]
+                                    .detail!
+                                    .consultation
+                                    ?.medicalHistory
+                                    ?.interestCondition
+                                    ?.name ??
+                                '-',
+                            waktu: timeago.format(DateTime.parse(
+                                finishedReview[index].createdAt.toString())),
+                            coment: finishedReview[index]
+                                    .detail
+                                    ?.consultationReview
+                                    ?.review ??
+                                '-',
+                            rating: finishedReview[index]
+                                .detail!
+                                .consultationReview!
+                                .rating!
+                                .toInt(),
+                          );
+                        }
+                        if (finishedReview[index].transactionType ==
+                            'TREATMENT') {
+                          return TextUlasanRiwayat(
+                            onPressed: () {
+                              Get.to(DetailPageUlasanTreatment(
+                                data: finishedReview[index],
+                              ));
+                            },
+                            nameBrand:
+                                finishedReview[index].detail?.treatment?.name ??
+                                    '-',
+                            nameProduk: finishedReview[index]
+                                    .detail
+                                    ?.treatment
+                                    ?.clinic
+                                    ?.name ??
+                                '-',
+                            waktu: timeago.format(DateTime.parse(
+                                finishedReview[index].createdAt.toString())),
+                            coment: finishedReview[index]
+                                    .detail
+                                    ?.treatmentReview
+                                    ?.review ??
+                                '-',
+                            rating: finishedReview[index]
+                                    .detail
+                                    ?.treatmentReview
+                                    ?.avgRating
+                                    ?.toInt() ??
+                                0,
+                            balasan:
+                                '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
+                          );
+                        }
+                        if (finishedReview[index].transactionType ==
+                            'PRODUCT') {
+                          return TextUlasanRiwayat(
+                            onPressed: () {
+                              // Get.to(DetailPageUlasanTreatment(
+                              //   data: finishedReview[index],
+                              // ));
+                            },
+                            nameBrand:
+                                finishedReview[index].detail?.product?.name ??
+                                    '-',
+                            nameProduk:
+                                finishedReview[index].detail?.product?.type ??
+                                    '-',
+                            waktu: timeago.format(DateTime.parse(
+                                finishedReview[index].createdAt.toString())),
+                            coment: finishedReview[index]
+                                    .detail
+                                    ?.productReview
+                                    ?.review ??
+                                '-',
+                            rating: finishedReview[index]
+                                    .detail
+                                    ?.productReview
+                                    ?.avgRating
+                                    ?.toInt() ??
+                                0,
+                            balasan:
+                                '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
+                          );
+                        }
+                      },
+                    ),
                     Obx(
                       () => state.isLoading.value ? LoadingMore() : Container(),
                     ),
@@ -251,7 +282,7 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
 }
 
 class MenungguUlasan extends StatefulWidget {
-  MenungguUlasan({super.key});
+  const MenungguUlasan({super.key});
 
   @override
   State<MenungguUlasan> createState() => _MenungguUlasanState();
@@ -322,7 +353,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                         itemBuilder: (BuildContext context, index) {
                           if (waitingReview[index].transactionType ==
                               'CONSULTATION') {
-                            return UlasanProudukKonsultasi(
+                            return UlasanKonsultasi(
                               onPressed: () {
                                 Get.to(TulisUlasanKonsultasi(
                                   transactionConsultationId:
@@ -370,13 +401,18 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                           }
                           if (waitingReview[index].transactionType ==
                               'TREATMENT') {
-                            return UlasanProudukTreatment(
+                            return UlasanTreatment(
                               onPressed: () {
                                 Get.to(
                                   TulisUlasanTreament(
                                     transactionTreatmentId: waitingReview[index]
                                         .transactionId
                                         .toString(),
+                                    transactionTreatmentItemIid:
+                                        waitingReview[index]
+                                            .detail!
+                                            .id
+                                            .toString(),
                                     img:
                                         "${Global.FILE}/${waitingReview[index].detail?.treatment?.mediaTreatments![0].media?.path}",
                                     treatment: waitingReview[index]
@@ -412,6 +448,12 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                                       ?.clinic
                                       ?.name ??
                                   '-',
+                            );
+                          }
+                          if (waitingReview[index].transactionType ==
+                              'PRODUCT') {
+                            return UlasanProduk(
+                              data: waitingReview[index].detail,
                             );
                           }
                         },

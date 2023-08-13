@@ -53,6 +53,8 @@ class PhoneNumberPage extends StatelessWidget {
               height: 6,
             ),
             IntlPhoneField(
+              initialCountryCode: 'ID',
+              showCursor: false,
               dropdownIconPosition: IconPosition.trailing,
               dropdownIcon: Icon(
                 Icons.keyboard_arrow_down,

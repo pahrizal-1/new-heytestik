@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
@@ -120,8 +121,10 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                     horizontal: 10.0,
                     vertical: 10.0,
                   ),
-                  width: MediaQuery.of(context).size.width / (1.3 * widget.stream.postImage.length),
-                  height: MediaQuery.of(context).size.width / (1.3 * widget.stream.postImage.length),
+                  width: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
+                  height: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(.2)),
                     borderRadius: BorderRadius.circular(8),
@@ -167,27 +170,36 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      if (like ?? widget.stream.liked) {
-                        postController.unlikePost(context, widget.stream.id);
-                        setState(() {
-                          like = false;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) - 1;
-                        });
-                      } else {
-                        postController.likePost(context, widget.stream.id);
-                        setState(() {
-                          like = true;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) + 1;
-                        });
-                      }
-                    },
-                    child: like ?? widget.stream.liked
-                        ? Icon(Icons.favorite)
-                        : Icon(Icons.favorite_outline_outlined),
-                  ),
+                      onTap: () {
+                        if (like ?? widget.stream.liked) {
+                          postController.unlikePost(context, widget.stream.id);
+                          setState(() {
+                            like = false;
+                            postLike["${widget.stream.id}"] =
+                                (postLike["${widget.stream.id}"] ?? 0) - 1;
+                          });
+                        } else {
+                          postController.likePost(context, widget.stream.id);
+                          setState(() {
+                            like = true;
+                            postLike["${widget.stream.id}"] =
+                                (postLike["${widget.stream.id}"] ?? 0) + 1;
+                          });
+                        }
+                      },
+                      child: like ?? widget.stream.liked
+                          ? Image.asset(
+                              'assets/icons/like.png',
+                              width: 19,
+                              height: 19,
+                              color: greenColor,
+                            )
+                          : Image.asset(
+                              'assets/icons/like.png',
+                              width: 19,
+                              height: 19,
+                              color: greyColor,
+                            )),
                   const SizedBox(
                     width: 15,
                   ),
@@ -206,10 +218,16 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                         builder: (context) => ShareShowWidget(),
                       );
                     },
-                    child: Icon(Icons.share),
+                    child: SvgPicture.asset(
+                      'assets/icons/share-icons.svg',
+                      // ignore: deprecated_member_use
+                      color: greyColor,
+                      width: 21,
+                      height: 21,
+                    ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 18,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -226,8 +244,14 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                       }
                     },
                     child: saved ?? widget.stream.saved
-                        ? Icon(Icons.bookmark)
-                        : Icon(Icons.bookmark_border),
+                        ? Icon(
+                            Icons.bookmark,
+                            color: greyColor,
+                          )
+                        : Icon(
+                            Icons.bookmark_border,
+                            color: greyColor,
+                          ),
                   ),
                 ],
               ),
