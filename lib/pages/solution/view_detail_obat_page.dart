@@ -345,17 +345,17 @@ class DetailObatPage extends StatelessWidget {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: const [
-                      ProdukObat(
-                        namaBrand: 'Noroid Soothing Cream 200ml',
-                        harga: 'Rp152.500',
-                        urlImg: 'assets/images/noroid1.png',
-                      ),
-                      ProdukObat(
-                        namaBrand: 'Noroid Soothing Cream 200ml',
-                        harga: 'Rp152.500',
-                        urlImg: 'assets/images/noroid1.png',
-                      ),
+                    children: [
+                      // ProdukObat(
+                      //   namaBrand: 'Noroid Soothing Cream 200ml',
+                      //   harga: 'Rp152.500',
+                      //   urlImg: 'assets/images/noroid1.png',
+                      // ),
+                      // ProdukObat(
+                      //   namaBrand: 'Noroid Soothing Cream 200ml',
+                      //   harga: 'Rp152.500',
+                      //   urlImg: 'assets/images/noroid1.png',,
+                      // ),
                     ],
                   ),
                 )
