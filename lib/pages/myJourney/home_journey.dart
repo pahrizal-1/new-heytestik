@@ -603,6 +603,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
+                                      margin: const EdgeInsets.only(bottom: 8),
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: borderColor),
