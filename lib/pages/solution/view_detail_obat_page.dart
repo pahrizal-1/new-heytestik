@@ -272,7 +272,7 @@ class DetailObatPage extends StatelessWidget {
                 TitleDetail(
                   ontap: () {},
                   title1: 'Concern',
-                  title2: 'Bekas Jerawat, Kulit Kering',
+                  title2: medicine.display,
                   textColor: greenColor,
                 ),
                 TitleDetail(
