@@ -37,10 +37,16 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   final ProfileController state = Get.put(ProfileController());
   int iSelected = 0;
 
+  Map<String, dynamic> userOverview = {};
+
   @override
   void initState() {
     super.initState();
     state.init();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      userOverview = await state.getUserOverview(context);
+      setState(() {});
+    });
   }
 
   @override
@@ -124,22 +130,25 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             style: blackTextStyle.copyWith(fontSize: 18),
                           ),
                         ),
-                        Text(
-                          'Jakarta, 20 Tahun',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        const SizedBox(
+                          height: 10,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              'Kering',
-                              style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              color: greenColor,
-                            )
-                          ],
-                        ),
+                        // Text(
+                        //   'Jakarta, 20 Tahun',
+                        //   style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       'Kering',
+                        //       style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        //     ),
+                        //     Icon(
+                        //       Icons.keyboard_arrow_down,
+                        //       color: greenColor,
+                        //     )
+                        //   ],
+                        // ),
                         Container(
                           padding: const EdgeInsets.only(left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
@@ -205,7 +214,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_follower'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -231,7 +240,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_following'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -257,7 +266,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_post'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -283,7 +292,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_review'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],

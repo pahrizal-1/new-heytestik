@@ -20,8 +20,9 @@ class ProfileService extends ProviderClass {
 
   Future<List<UserActivity>> getUserActivityReview(int page) async {
     try {
+      String username = await LocalStorage().getUsername();
       var response = await networkingConfig.doGet(
-        '/user-profile/customer/reviews',
+        '/user-profile/$username/reviews',
         params: {
           "page": page,
           "take": 10,
@@ -39,6 +40,27 @@ class ProfileService extends ProviderClass {
     } catch (error) {
       print(error);
       return [];
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserOverview() async {
+    try {
+      String username = await LocalStorage().getUsername();
+      var response = await networkingConfig.doGet(
+        '/user-profile/$username/overview',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(username);
+      print("ini response overview");
+      print(response['data']);
+      return response['data'];
+    } catch (error) {
+      print(error);
+      return {};
     }
   }
 

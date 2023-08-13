@@ -91,4 +91,22 @@ class ProfileController extends StateClass {
       return [];
     }
   }
+
+  Future<Map<String, dynamic>> getUserOverview(BuildContext context) async {
+    try {
+      isLoading.value = true;
+      Map<String, dynamic> data = {};
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await ProfileService().getUserOverview();
+        isLoading.value = false;
+      });
+
+      print("INI DATA");
+      print(data);
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return {};
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
@@ -11,6 +12,14 @@ import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
 class PostController extends StateClass {
+  RxString search = "".obs;
+  RxList<StreamHomeModel> homeStreams = List<StreamHomeModel>.empty().obs;
+  RxList<StreamHomeModel> followedStreams = List<StreamHomeModel>.empty().obs;
+  RxList<StreamHomeModel> trendingStreams = List<StreamHomeModel>.empty().obs;
+  RxInt homeStreamIndex = 1.obs;
+  RxInt followedStreamIndex = 1.obs;
+  RxInt trendingStreamIndex = 1.obs;
+
   Future<dynamic> postGeneral(
     BuildContext context,
     StreamPostModel postModel, {
@@ -49,15 +58,16 @@ class PostController extends StateClass {
     isLoading.value = false;
   }
 
-  Future<List<StreamHomeModel>> getStreamFollowed(BuildContext context, int page) async {
+  Future<List<StreamHomeModel>> getStreamFollowed(BuildContext context) async {
     try {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamFollowed(page);
+        data = await PostServices().getStreamFollowed(followedStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
+      followedStreams.addAll(data);
       return data;
     } catch (error) {
       print(error.toString());
@@ -65,15 +75,16 @@ class PostController extends StateClass {
     }
   }
 
-  Future<List<StreamHomeModel>> getTrendingStream(BuildContext context, int page) async {
+  Future<List<StreamHomeModel>> getTrendingStream(BuildContext context) async {
     try {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getTrendingStream(page);
+        data = await PostServices().getTrendingStream(trendingStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
+      trendingStreams.addAll(data);
       return data;
     } catch (error) {
       print(error.toString());
@@ -81,15 +92,16 @@ class PostController extends StateClass {
     }
   }
 
-  Future<List<StreamHomeModel>> getStreamHomeModel(BuildContext context, int page) async {
+  Future<List<StreamHomeModel>> getStreamHomeModel(BuildContext context) async {
     try {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamHome(page);
+        data = await PostServices().getStreamHome(homeStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
+      homeStreams.addAll(data);
       return data;
     } catch (error) {
       print(error.toString());

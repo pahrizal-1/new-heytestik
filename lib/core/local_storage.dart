@@ -71,6 +71,16 @@ class LocalStorage {
     prefs.setString('data_user', jsonEncode(dataUser));
   }
 
+  Future<void> setUsername({required String username}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('username', username);
+  }
+
+  Future<String> getUsername() async {
+    SharedPreferences prefs = await getPrefs();
+    return prefs.getString('username') ?? "";
+  }
+
   Future<dynamic> getDataUser() async {
     SharedPreferences prefs = await getPrefs();
     var data = prefs.getString('data_user')?.trim() ?? '';

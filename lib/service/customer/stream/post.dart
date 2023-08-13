@@ -60,14 +60,22 @@ class PostServices extends ProviderClass {
     return response;
   }
 
-  Future<List<StreamHomeModel>> getStreamFollowed(int page) async {
+  Future<List<StreamHomeModel>> getStreamFollowed(int page, {String? search}) async {
     try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
       var response = await networkingConfig.doGet(
         '/stream/followed',
-        params: {
-          "page": page,
-          "take": 10,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),
@@ -81,14 +89,22 @@ class PostServices extends ProviderClass {
     }
   }
 
-  Future<List<StreamHomeModel>> getTrendingStream(int page) async {
+  Future<List<StreamHomeModel>> getTrendingStream(int page, {String? search}) async {
     try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
       var response = await networkingConfig.doGet(
         '/stream/trending',
-        params: {
-          "page": page,
-          "take": 10,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),
@@ -102,14 +118,22 @@ class PostServices extends ProviderClass {
     }
   }
 
-  Future<List<StreamHomeModel>> getStreamHome(int page) async {
+  Future<List<StreamHomeModel>> getStreamHome(int page, {String? search}) async {
     try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
       var response = await networkingConfig.doGet(
         '/stream/home',
-        params: {
-          "page": page,
-          "take": 10,
-        },
+        params: params,
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),

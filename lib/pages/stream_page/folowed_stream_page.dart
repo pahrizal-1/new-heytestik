@@ -21,36 +21,22 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
   final ScrollController scrollController = ScrollController();
   final PostController postController = Get.put(PostController());
 
-  int page = 1;
-  bool? like;
-  bool? saved;
-  List<StreamHomeModel> streams = [];
-  Map<String, int> postLike = {};
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      streams.addAll(await postController.getStreamFollowed(context, page));
-      for (var i = 0; i < streams.length; i++) {
-        postLike.addAll({
-          "${streams[i].id}": 0,
-        });
-      }
-      setState(() {});
+      postController.followedStreamIndex.value = 1;
+      postController.search.value = "";
+      postController.followedStreams.value = [];
+      await postController.getStreamFollowed(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          page += 1;
+          postController.followedStreamIndex.value = postController.followedStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            streams.addAll(await postController.getStreamFollowed(context, page));
-            for (var i = 0; i < streams.length; i++) {
-              postLike.addAll({
-                "${streams[i].id}": 0,
-              });
-            }
+            await postController.getStreamFollowed(context);
           });
           setState(() {});
         }
@@ -62,32 +48,38 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: streams.isEmpty ? Center(
-        child: Text("No Post From Your Followed Account"),
-      ) : SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: streams.length,
-              itemBuilder: (context, index) {
-                if (streams[index].type.toLowerCase() == 'polling') {
-                  return StreamPostPolling(stream: streams[index]);
-                }
-                return StreamPostGeneral(stream: streams[index]);
-              },
-              separatorBuilder: (context, index) {
-                return dividergreen();
-              },
+      body: Obx(() {
+        if (postController.followedStreams.isEmpty) {
+          return Center(
+            child: Text("No Post From Your Followed Account"),
+          );
+        } else {
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: postController.followedStreams.length,
+                  itemBuilder: (context, index) {
+                    if (postController.followedStreams[index].type.toLowerCase() == 'polling') {
+                      return StreamPostPolling(stream: postController.followedStreams[index]);
+                    }
+                    return StreamPostGeneral(stream: postController.followedStreams[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return dividergreen();
+                  },
+                ),
+                SizedBox(
+                  height: 80,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

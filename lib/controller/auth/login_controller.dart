@@ -45,8 +45,7 @@ class LoginController extends StateClass {
 
       var loginResponse = await LoginService().login(data);
 
-      if (loginResponse['success'] != true &&
-          loginResponse['message'] != 'Success') {
+      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: loginResponse['message'],
@@ -57,19 +56,17 @@ class LoginController extends StateClass {
       print(loginResponse['data']['user']['fullname']);
       print(loginResponse['data']['user']['roleId']);
       print(loginResponse['data']['user']['id']);
+      print(loginResponse['data']['user']['username']);
+      print(loginResponse['data']['user']['id'].toString());
 
       // SAVE DATA USER
       await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
-      await LocalStorage()
-          .setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage()
-          .setFullName(fullName: loginResponse['data']['user']['fullname']);
-      await LocalStorage()
-          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage()
-          .setUserID(userID: loginResponse['data']['user']['id']);
-      await FirebaseMessaging.instance
-          .subscribeToTopic(loginResponse['data']['user']['id'].toString());
+      await LocalStorage().setUsername(username: loginResponse['data']['user']['username']);
+      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
+      await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
       doInPost();
       clear();
     });
@@ -83,8 +80,7 @@ class LoginController extends StateClass {
 
   getUrl() async {
     try {
-      var response =
-          await Dio().get('https://77fa-103-19-109-1.ngrok-free.app');
+      var response = await Dio().get('https://77fa-103-19-109-1.ngrok-free.app');
       BaseOptions(headers: {"Content-Type": "application/json"});
       print('respons ' + response.toString());
     } catch (error) {}

@@ -21,36 +21,22 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   final ScrollController scrollController = ScrollController();
   final PostController postController = Get.put(PostController());
 
-  int page = 1;
-  bool? like;
-  bool? saved;
-  List<StreamHomeModel> streams = [];
-  Map<String, int> postLike = {};
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      streams.addAll(await postController.getStreamHomeModel(context, page));
-      for (var i = 0; i < streams.length; i++) {
-        postLike.addAll({
-          "${streams[i].id}": 0,
-        });
-      }
-      setState(() {});
+      postController.homeStreamIndex.value = 1;
+      postController.search.value = "";
+      postController.homeStreams.value = [];
+      await postController.getStreamHomeModel(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          page += 1;
+          postController.homeStreamIndex.value = postController.homeStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            streams.addAll(await postController.getStreamHomeModel(context, page));
-            for (var i = 0; i < streams.length; i++) {
-              postLike.addAll({
-                "${streams[i].id}": 0,
-              });
-            }
+            await postController.getStreamHomeModel(context);
           });
           setState(() {});
         }
@@ -66,19 +52,21 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
         controller: scrollController,
         child: Column(
           children: [
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: streams.length,
-              itemBuilder: (context, index) {
-                if (streams[index].type.toLowerCase() == 'polling') {
-                  return StreamPostPolling(stream: streams[index]);
-                }
-                return StreamPostGeneral(stream: streams[index]);
-              },
-              separatorBuilder: (context, index) {
-                return dividergreen();
-              },
+            Obx(
+              () => ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: postController.homeStreams.length,
+                itemBuilder: (context, index) {
+                  if (postController.homeStreams[index].type.toLowerCase() == 'polling') {
+                    return StreamPostPolling(stream: postController.homeStreams[index]);
+                  }
+                  return StreamPostGeneral(stream: postController.homeStreams[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return dividergreen();
+                },
+              ),
             ),
             SizedBox(
               height: 80,

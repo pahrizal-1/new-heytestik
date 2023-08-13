@@ -21,38 +21,23 @@ class _TrendingStreamPageState extends State<TrendingStreamPage> {
   final ScrollController scrollController = ScrollController();
   final PostController postController = Get.put(PostController());
 
-  int page = 1;
-  bool? like;
-  bool? saved;
-  List<StreamHomeModel> streams = [];
-  Map<String, int> postLike = {};
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      streams.addAll(await postController.getTrendingStream(context, page));
-      for (var i = 0; i < streams.length; i++) {
-        postLike.addAll({
-          "${streams[i].id}": 0,
-        });
-      }
-      setState(() {});
+      postController.trendingStreamIndex.value = 1;
+      postController.search.value = "";
+      postController.trendingStreams.value = [];
+      await postController.getTrendingStream(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          page += 1;
+          postController.trendingStreamIndex.value = postController.trendingStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            streams.addAll(await postController.getTrendingStream(context, page));
-            for (var i = 0; i < streams.length; i++) {
-              postLike.addAll({
-                "${streams[i].id}": 0,
-              });
-            }
+            await postController.getTrendingStream(context);
           });
-          setState(() {});
         }
       }
     });
@@ -62,32 +47,36 @@ class _TrendingStreamPageState extends State<TrendingStreamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: streams.isEmpty ? Center(
-        child: Text("No Trending Post"),
-      ) : SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: streams.length,
-              itemBuilder: (context, index) {
-                if (streams[index].type.toLowerCase() == 'polling') {
-                  return StreamPostPolling(stream: streams[index]);
-                }
-                return StreamPostGeneral(stream: streams[index]);
-              },
-              separatorBuilder: (context, index) {
-                return dividergreen();
-              },
+      body: Obx(() {
+        if (postController.trendingStreams.isEmpty) {
+          return Center(child: Text("No Trending Post"));
+        } else {
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: postController.trendingStreams.length,
+                  itemBuilder: (context, index) {
+                    if (postController.trendingStreams[index].type.toLowerCase() == 'polling') {
+                      return StreamPostPolling(stream: postController.trendingStreams[index]);
+                    }
+                    return StreamPostGeneral(stream: postController.trendingStreams[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return dividergreen();
+                  },
+                ),
+                SizedBox(
+                  height: 80,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
