@@ -341,12 +341,9 @@ class KonsultasProduk extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailObatPage(
-              medicine: medicine,
-            ),
+        Get.to(
+          DetailObatPage(
+            medicine: medicine,
           ),
         );
       },

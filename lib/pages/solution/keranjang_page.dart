@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -6,9 +8,11 @@ import 'package:heystetik_mobileapps/controller/customer/solution/cart_controlle
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
@@ -32,6 +36,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
   final SkincareController stateSkincare = Get.put(SkincareController());
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+
   int page = 1;
   String? search;
   List<Data2> cart = [];
@@ -185,47 +190,64 @@ class _KeranjangPageState extends State<KeranjangPage> {
                       itemCount: cart.length,
                       itemBuilder: (BuildContext context, int i) {
                         if (cart[i].product?.type == 'SKINCARE') {
-                          return ProdukCardWidget(
-                            index: i,
-                            cartId: cart[i].id!.toInt(),
-                            productId: cart[i].productId!.toInt(),
-                            qty: cart[i].qty!.toInt(),
-                            imageProduk:
-                                '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
-                            merkProduk: '${cart[i].product?.name}',
-                            penggunaanJadwal:
-                                '${cart[i].product?.skincareDetail?.specificationHowToUse}',
-                            penggunaan: '0x sehari',
-                            harga: CurrencyFormat.convertToIdr(
-                                cart[i].product?.price ?? 0, 0),
-                            hintText: cart[i].notes ?? '',
-                            type: '${cart[i].product?.type}',
-                            packagingType:
-                                '${cart[i].product?.skincareDetail?.specificationPackagingType}',
-                            netto:
-                                '${cart[i].product?.skincareDetail?.specificationNetto}',
-                            nettoType:
-                                '${cart[i].product?.skincareDetail?.specificationNettoType}',
+                          return InkWell(
+                            onTap: () {
+                              Get.to(DetailSkinCarePage(
+                                productId: cart[i].productId!.toInt(),
+                              ));
+                            },
+                            child: ProdukCardWidget(
+                              index: i,
+                              cartId: cart[i].id!.toInt(),
+                              productId: cart[i].productId!.toInt(),
+                              qty: cart[i].qty!.toInt(),
+                              imageProduk:
+                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                              merkProduk: '${cart[i].product?.name}',
+                              penggunaanJadwal:
+                                  '${cart[i].product?.skincareDetail?.specificationHowToUse}',
+                              penggunaan: '0x sehari',
+                              harga: CurrencyFormat.convertToIdr(
+                                  cart[i].product?.price ?? 0, 0),
+                              hintText: cart[i].notes ?? '',
+                              type: '${cart[i].product?.type}',
+                              packagingType:
+                                  '${cart[i].product?.skincareDetail?.specificationPackagingType}',
+                              netto:
+                                  '${cart[i].product?.skincareDetail?.specificationNetto}',
+                              nettoType:
+                                  '${cart[i].product?.skincareDetail?.specificationNettoType}',
+                            ),
                           );
                         }
                         if (cart[i].product?.type == 'DRUGS') {
-                          return ProdukCardWidget(
-                            index: i,
-                            cartId: cart[i].id!.toInt(),
-                            productId: cart[i].productId!.toInt(),
-                            qty: cart[i].qty!.toInt(),
-                            imageProduk:
-                                '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
-                            merkProduk: '${cart[i].product?.name}',
-                            penggunaanJadwal:
-                                '${cart[i].product?.drugDetail?.specificationDose}',
-                            penggunaan: '0x sehari',
-                            harga: CurrencyFormat.convertToIdr(
-                                cart[i].product?.price ?? 0, 0),
-                            hintText: cart[i].notes ?? '',
-                            type: '${cart[i].product?.type}',
-                            packagingType:
-                                '${cart[i].product?.drugDetail?.specificationPackaging}',
+                          return InkWell(
+                            onTap: () {
+                              Get.to(
+                                DetailObatPage(
+                                  medicine: MedicineModel.fromJson(
+                                      jsonDecode(jsonEncode(cart[i].product))),
+                                ),
+                              );
+                            },
+                            child: ProdukCardWidget(
+                              index: i,
+                              cartId: cart[i].id!.toInt(),
+                              productId: cart[i].productId!.toInt(),
+                              qty: cart[i].qty!.toInt(),
+                              imageProduk:
+                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
+                              merkProduk: '${cart[i].product?.name}',
+                              penggunaanJadwal:
+                                  '${cart[i].product?.drugDetail?.specificationDose}',
+                              penggunaan: '0x sehari',
+                              harga: CurrencyFormat.convertToIdr(
+                                  cart[i].product?.price ?? 0, 0),
+                              hintText: cart[i].notes ?? '',
+                              type: '${cart[i].product?.type}',
+                              packagingType:
+                                  '${cart[i].product?.drugDetail?.specificationPackaging}',
+                            ),
                           );
                         }
                       },
@@ -268,10 +290,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                                   onTap: () {
                                     Get.to(
                                       DetailSkinCarePage(
-                                        id: e.id!.toInt(),
-                                        productId: e
-                                            .mediaProducts![0].productId!
-                                            .toInt(),
+                                        productId: e.id!.toInt(),
                                       ),
                                     );
                                   },
