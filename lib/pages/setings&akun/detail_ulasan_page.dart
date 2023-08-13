@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
