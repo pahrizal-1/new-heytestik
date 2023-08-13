@@ -26,6 +26,7 @@ class OrderProductController extends StateClass {
   initPayment(BuildContext context, List pesan) async {
     isLoading.value = true;
     listProductItem.clear();
+    totalAmount.value = 0;
 
     print('pesan $pesan');
     print(pesan.length);
