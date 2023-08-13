@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -16,8 +18,18 @@ class StreamHomePage extends StatefulWidget {
   State<StreamHomePage> createState() => _StreamHomePageState();
 }
 
-class _StreamHomePageState extends State<StreamHomePage> {
+class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStateMixin {
+  final TextEditingController searchController = TextEditingController();
+  final PostController postController = Get.put(PostController());
   int index = 0;
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(vsync: this, length: 4);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +76,38 @@ class _StreamHomePageState extends State<StreamHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => PencarianPageWidget(
+                    searchController: searchController,
+                    onEditingComplete: () {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        postController.search.value = searchController.text;
+                        postController.homeStreamIndex.value = 1;
+                        postController.homeStreams.value = [];
+                        await postController.getStreamHomeModel(context);
+                      });
+
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        postController.search.value = searchController.text;
+                        postController.trendingStreamIndex.value = 1;
+                        postController.trendingStreams.value = [];
+                        await postController.getTrendingStream(context);
+                      });
+
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        postController.search.value = searchController.text;
+                        postController.followedStreamIndex.value = 1;
+                        postController.followedStreams.value = [];
+                        await postController.getStreamFollowed(context);
+                      });
+
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                        postController.search.value = searchController.text;
+                        postController.interestStreamIndex.value = 1;
+                        postController.interestStreams.value = [];
+                        await postController.getStreamInterest(context);
+                      });
+                    },
+                  ),
                 ),
               );
             },
@@ -174,7 +217,11 @@ class _StreamHomePageState extends State<StreamHomePage> {
           Padding(
             padding: const EdgeInsets.only(top: 63),
             child: Center(
-              child: index == 0 ? const AllInfoStreamPage() : const NewsHomePage(),
+              child: index == 0
+                  ? AllInfoStreamPage(
+                      tabController: tabController,
+                    )
+                  : const NewsHomePage(),
             ),
           ),
         ],
