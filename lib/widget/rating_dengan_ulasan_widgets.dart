@@ -11,7 +11,8 @@ class RatingDenganUlasanWidgets extends StatefulWidget {
   });
 
   @override
-  State<RatingDenganUlasanWidgets> createState() => _RatingDenganUlasanWidgetsState();
+  State<RatingDenganUlasanWidgets> createState() =>
+      _RatingDenganUlasanWidgetsState();
 }
 
 class _RatingDenganUlasanWidgetsState extends State<RatingDenganUlasanWidgets> {
@@ -112,6 +113,78 @@ class _RatingDenganUlasanWidgetsState extends State<RatingDenganUlasanWidgets> {
               ),
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class StartUlasan extends StatelessWidget {
+  final double? fonstsizeTitle;
+  final double? widtStarrs;
+  final String title;
+  final Color? iconColor;
+  const StartUlasan({
+    super.key,
+    required this.title,
+    this.iconColor,
+    this.fonstsizeTitle,
+    this.widtStarrs,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              title,
+              style: blackRegulerTextStyle.copyWith(
+                  fontSize: fonstsizeTitle, color: blackColor),
+            ),
+            const Spacer(),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: const Color(0xffFFC36A),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Image.asset(
+              'assets/icons/stars-new.png',
+              width: widtStarrs,
+              color: iconColor,
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 19,
         ),
       ],
     );

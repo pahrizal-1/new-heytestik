@@ -21,7 +21,7 @@ class PembayaranProduk extends StatefulWidget {
 }
 
 class _PembayaranProdukState extends State<PembayaranProduk> {
-  final OrderProductController state = Get.put(OrderProductController());
+  OrderProductController state = Get.put(OrderProductController());
 
   @override
   void initState() {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../myJourney/galery_my_journey.dart';
 
 class TulisUlasanSkincarePage extends StatefulWidget {
@@ -33,9 +35,8 @@ class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
     'assets/icons/icons-tidak.png',
   ];
   List<String> titleProduk = [
-    'Yoi, Pasti dong!',
-    'Nggak deh',
-    'Mungkin',
+    'Ya',
+    'Tidak',
   ];
   List<String> iconProduk = [
     'assets/icons/icons-ya.png',
@@ -97,49 +98,10 @@ class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
                   width: 14,
                 ),
                 Text(
-                  '3/3',
+                  '2/2',
                   style: subTitleTextStyle.copyWith(
                       fontSize: 15, fontWeight: bold),
                 )
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 13),
-            width: 390,
-            height: 68,
-            decoration: BoxDecoration(
-              color: subgreenColor,
-            ),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Penilaianmu',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                    Text(
-                      'Excellent Product!',
-                      style: grenTextStyle.copyWith(fontSize: 18),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                SvgPicture.asset(
-                  'assets/icons/stars.svg',
-                  width: 23,
-                  color: const Color(0xffFFC36A),
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  '4.7',
-                  style: blackHigtTextStyle.copyWith(fontSize: 25),
-                ),
               ],
             ),
           ),
@@ -148,6 +110,46 @@ class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: borderColor),
+                      borderRadius: BorderRadius.circular(7)),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            image: const DecorationImage(
+                                image: AssetImage('assets/images/penting1.png'),
+                                fit: BoxFit.cover)),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ISISPHARMA',
+                            style: blackHigtTextStyle.copyWith(fontSize: 13),
+                          ),
+                          Text(
+                            'Teenderm Hydra 40ml',
+                            style: blackRegulerTextStyle.copyWith(
+                                fontSize: 13, color: blackColor),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
                 Row(
                   children: [
                     Text(
@@ -191,6 +193,86 @@ class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
                 ),
               ],
             ),
+          ),
+          const dividergreen(),
+          Padding(
+            padding: lsymetric,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Bagaimana penilaianmu terhadap produk ini?',
+                  style: blackTextStyle.copyWith(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 26,
+                ),
+                const StartUlasan(
+                  title: 'Effectiveness Rating',
+                  widtStarrs: 25,
+                  fonstsizeTitle: 15,
+                  iconColor: Color(0xffFFC36A),
+                ),
+                dividergrey(),
+                const SizedBox(
+                  height: 19,
+                ),
+                const StartUlasan(
+                  title: 'Texture Rating',
+                  widtStarrs: 25,
+                  fonstsizeTitle: 15,
+                  iconColor: Color.fromRGBO(155, 155, 155, 0.61),
+                ),
+                dividergrey(),
+                const SizedBox(
+                  height: 19,
+                ),
+                const StartUlasan(
+                  iconColor: Color(0xffFFC36A),
+                  title: 'Packaging ating',
+                  widtStarrs: 25,
+                  fonstsizeTitle: 15,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Penilaianmu',
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 15, color: blackColor),
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Excellent Product!',
+                      style: grenTextStyle.copyWith(fontSize: 20),
+                    ),
+                    const Spacer(),
+                    Image.asset(
+                      'assets/icons/stars-new.png',
+                      width: 25,
+                      color: const Color(0xffFFC36A),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      '4.7',
+                      style: blackHigtTextStyle.copyWith(fontSize: 25),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           const dividergreen(),
           Padding(
@@ -496,6 +578,70 @@ class _TulisUlasanSkincarePageState extends State<TulisUlasanSkincarePage> {
                                   style: blackRegulerTextStyle.copyWith(
                                     fontSize: 12,
                                     color: isRekomendasi == index
+                                        ? whiteColor
+                                        : blackColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 25,
+                right: 25,
+                top: 22,
+                bottom: 22,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Apakah kamu akan membeli lagi produk ini?',
+                    style: blackTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: List.generate(
+                      2,
+                      (index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              isProduk = index;
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                                color:
+                                    isProduk == index ? greenColor : whiteColor,
+                                border: Border.all(
+                                  color: isProduk == index
+                                      ? greenColor
+                                      : borderColor,
+                                ),
+                                borderRadius: BorderRadius.circular(23)),
+                            child: Row(
+                              children: [
+                                Text(
+                                  titleProduk[index],
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 12,
+                                    color: isProduk == index
                                         ? whiteColor
                                         : blackColor,
                                   ),

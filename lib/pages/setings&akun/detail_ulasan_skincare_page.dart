@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
+import '../../widget/rating_dengan_ulasan_widgets.dart';
+import '../../widget/share_solusion_widget_page.dart';
 
-class TulisUlasanSkincare2 extends StatelessWidget {
-  const TulisUlasanSkincare2({super.key});
+class DetailSkinUlasanSkincare extends StatelessWidget {
+  const DetailSkinUlasanSkincare({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class TulisUlasanSkincare2 extends StatelessWidget {
                 width: 11,
               ),
               Text(
-                'Tulis Ulasan',
+                'Detail Ulasan',
                 style: blackTextStyle.copyWith(
                   fontSize: 20,
                 ),
@@ -41,37 +44,63 @@ class TulisUlasanSkincare2 extends StatelessWidget {
             ],
           ),
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                isDismissible: false,
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(25),
+                    topStart: Radius.circular(25),
+                  ),
+                ),
+                builder: (context) => ShareShowWidget(),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/share-icons.svg',
+            ),
+          ),
+          SizedBox(
+            width: 25,
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
         child: ListView(
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 216,
-                  height: 5,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      borderRadius: BorderRadius.circular(7)),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 5,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffF1F1F1),
-                        borderRadius: BorderRadius.circular(7)),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  border: Border.all(color: borderColor),
+                  color: Color.fromRGBO(204, 204, 204, 0.80).withOpacity(0.4)),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/icons/alert-new.png',
+                    width: 20,
+                    color: Color.fromARGB(255, 146, 146, 146),
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  width: 14,
-                ),
-                Text(
-                  '2/3',
-                  style: subTitleTextStyle.copyWith(
-                      fontSize: 15, fontWeight: bold),
-                )
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Ulasan tidak bisa diubah karena kamu sudah mengubah 2 kali atau lebih dari 30 hari sejak ulasan terkirim.',
+                      style: blackRegulerTextStyle.copyWith(fontSize: 11),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
               height: 14,
@@ -113,6 +142,34 @@ class TulisUlasanSkincare2 extends StatelessWidget {
               ),
             ),
             const SizedBox(
+              height: 9,
+            ),
+            Row(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(5, (index) {
+                    return Image.asset('assets/icons/stars-new.png',
+                        width: 12, color: const Color(0xffFFC36A));
+                  }),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  '8 Jam',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 9,
+            ),
+            Text(
+              'Produk Bagus',
+              style: blackRegulerTextStyle.copyWith(fontSize: 13),
+            ),
+            const SizedBox(
               height: 24,
             ),
             Text(
@@ -133,7 +190,7 @@ class TulisUlasanSkincare2 extends StatelessWidget {
               height: 19,
             ),
             const StartUlasan(
-              title: 'Tekstur',
+              title: 'Effectiveness Rating',
               widtStarrs: 25,
               fonstsizeTitle: 15,
               iconColor: Color.fromRGBO(155, 155, 155, 0.61),
@@ -144,12 +201,12 @@ class TulisUlasanSkincare2 extends StatelessWidget {
             ),
             const StartUlasan(
               iconColor: Color(0xffFFC36A),
-              title: 'Packaging',
+              title: 'Packaging Rating',
               widtStarrs: 25,
               fonstsizeTitle: 15,
             ),
             const SizedBox(
-              height: 78,
+              height: 40,
             ),
             Text(
               'Penilaianmu',
@@ -163,7 +220,7 @@ class TulisUlasanSkincare2 extends StatelessWidget {
               children: [
                 Text(
                   'Excellent Product!',
-                  style: grenTextStyle.copyWith(fontSize: 20),
+                  style: grenTextStyle.copyWith(fontSize: 15),
                 ),
                 const Spacer(),
                 Image.asset(
@@ -176,97 +233,55 @@ class TulisUlasanSkincare2 extends StatelessWidget {
                 ),
                 Text(
                   '4.7',
-                  style: blackHigtTextStyle.copyWith(fontSize: 25),
+                  style: blackHigtTextStyle.copyWith(fontSize: 15),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 44,
+            SizedBox(
+              height: 20,
             ),
-            ButtonGreenWidget(
-              title: 'Lanjut',
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TulisUlasanSkincarePage()));
-              },
-            )
+            Text(
+              'Berapa lama kamu menggunakan produk ini?',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              '1 Minggu',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Apakah kamu akan merekomendasikan produk ini?',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Ya',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Apakah kamu akan membeli lagi produk ini?',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Tidak',
+              style: blackTextStyle.copyWith(fontSize: 14),
+            ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class StartUlasan extends StatelessWidget {
-  final double? fonstsizeTitle;
-  final double? widtStarrs;
-  final String title;
-  final Color? iconColor;
-  const StartUlasan({
-    super.key,
-    required this.title,
-    this.iconColor,
-    this.fonstsizeTitle,
-    this.widtStarrs,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: blackRegulerTextStyle.copyWith(
-                  fontSize: fonstsizeTitle, color: blackColor),
-            ),
-            const Spacer(),
-            Image.asset(
-              'assets/icons/stars-new.png',
-              width: widtStarrs,
-              color: const Color(0xffFFC36A),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Image.asset(
-              'assets/icons/stars-new.png',
-              width: widtStarrs,
-              color: const Color(0xffFFC36A),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Image.asset(
-              'assets/icons/stars-new.png',
-              width: widtStarrs,
-              color: const Color(0xffFFC36A),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Image.asset(
-              'assets/icons/stars-new.png',
-              width: widtStarrs,
-              color: const Color(0xffFFC36A),
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            Image.asset(
-              'assets/icons/stars-new.png',
-              width: widtStarrs,
-              color: iconColor,
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 19,
-        ),
-      ],
     );
   }
 }
