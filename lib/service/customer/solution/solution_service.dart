@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
+import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
@@ -94,6 +95,22 @@ class SolutionService extends ProviderClass {
       print(error);
       return [];
     }
+  }
+
+  Future<DrugRecipeModel> getDrugRecipe(int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug-recipe',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DrugRecipeModel.fromJson(response);
   }
 
   void addMedicineToCart(int productID) async {

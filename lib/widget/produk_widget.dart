@@ -1,7 +1,12 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
@@ -162,27 +167,28 @@ class ProdukKeranjang extends StatelessWidget {
 
 class ProdukObat extends StatelessWidget {
   final String namaBrand;
-
   final String harga;
   final String urlImg;
-
-  const ProdukObat({
+  final String duedate;
+  final int productId;
+  final MedicineModel medicine;
+  ProdukObat({
     Key? key,
     required this.namaBrand,
     required this.harga,
     required this.urlImg,
+    required this.duedate,
+    required this.productId,
+    required this.medicine,
   }) : super(key: key);
+
+  MedicineController medicineController = Get.put(MedicineController());
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => const DetailObatPage(),
-        //   ),
-        // );
+        Get.to(DetailObatPage(medicine: medicine));
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -197,7 +203,7 @@ class ProdukObat extends StatelessWidget {
             width: 164,
             child: Column(
               children: [
-                Image.asset(
+                Image.network(
                   urlImg,
                   width: 164,
                 ),
@@ -233,7 +239,7 @@ class ProdukObat extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        'Dapat dibeli hingga 20 April 2023',
+                        'Dapat dibeli hingga $duedate',
                         style: grenTextStyle.copyWith(
                           fontSize: 11,
                           fontWeight: medium,
@@ -246,7 +252,17 @@ class ProdukObat extends StatelessWidget {
                       Container(
                         height: 30,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            medicineController.addMedicineToCart(
+                              context,
+                              productId,
+                            );
+                            SnackbarWidget.getSuccessSnackbar(
+                              context,
+                              'Info',
+                              'Produk ditambahkan ke keranjang',
+                            );
+                          },
                           style: TextButton.styleFrom(
                             backgroundColor: greenColor,
                             shape: RoundedRectangleBorder(
