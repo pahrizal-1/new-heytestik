@@ -3,7 +3,6 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../models/stream_home.dart';
-import '../../models/user_activity.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/fikter_card_solusions_widget.dart';

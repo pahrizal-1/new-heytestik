@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 
 import '../../../models/stream_home.dart';
-import '../../../models/user_activity.dart';
 
 class ProfileController extends StateClass {
   RxString fullName = '-'.obs;
@@ -47,7 +47,8 @@ class ProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
 
       Get.offAll(() => const LoginPage());
@@ -55,12 +56,15 @@ class ProfileController extends StateClass {
     });
   }
 
-  Future<List<UserActivity>> getUserActivityReview(BuildContext context, int page) async {
+  Future<List<Data2>> getUserActivityReview(
+      BuildContext context, int page) async {
     try {
       isLoading.value = true;
-      List<UserActivity> data = [];
+      FinishedReviewModel userProfileReview;
+      List<Data2> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserActivityReview(page);
+        userProfileReview = await ProfileService().getUserActivityReview(page);
+        data = userProfileReview.data!.data!;
         isLoading.value = false;
       });
 
@@ -81,7 +85,8 @@ class ProfileController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserActivityPost(page, search: search, postType: postType);
+        data = await ProfileService()
+            .getUserActivityPost(page, search: search, postType: postType);
         isLoading.value = false;
       });
 

@@ -1,14 +1,15 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../models/stream_home.dart';
-import '../../../models/user_activity.dart';
 
 class ProfileService extends ProviderClass {
-  ProfileService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  ProfileService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> closedAccount() async {
     var response = await networkingConfig.doUpdateFinish(
@@ -18,29 +19,21 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
-  Future<List<UserActivity>> getUserActivityReview(int page) async {
-    try {
-      String username = await LocalStorage().getUsername();
-      var response = await networkingConfig.doGet(
-        '/user-profile/$username/reviews',
-        params: {
-          "page": page,
-          "take": 10,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
+  Future<FinishedReviewModel> getUserActivityReview(int page) async {
+    String username = await LocalStorage().getUsername();
+    var response = await networkingConfig.doGet(
+      '/user-profile/$username/reviews',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
 
-      print("INI RESPONSE");
-      print(response);
-
-      return (response['data']['data'] as List).map((e) => UserActivity.fromJson(e)).toList();
-    } catch (error) {
-      print(error);
-      return [];
-    }
+    return FinishedReviewModel.fromJson(response);
   }
 
   Future<Map<String, dynamic>> getUserOverview() async {
@@ -84,7 +77,9 @@ class ProfileService extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
