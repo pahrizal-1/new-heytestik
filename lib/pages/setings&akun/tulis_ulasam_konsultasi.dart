@@ -244,13 +244,12 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                             top: 0,
                             bottom: 2,
                           ),
-                          hintText:
-                              'Ceritakan pengalaman kamu memakai produk ini',
+                          hintText: 'Ceritakan pengalaman konsultasi kamu',
                           hintStyle: subTitleTextStyle,
                           border: InputBorder.none)),
                 ),
                 Text(
-                  'Ulasan minimal 150 karakter',
+                  'Ulasan maksimal 150 karakter',
                   style: blackRegulerTextStyle.copyWith(
                       color: redColor,
                       fontSize: 10,

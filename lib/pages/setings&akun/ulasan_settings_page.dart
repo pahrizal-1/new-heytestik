@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_konsultasi.dart';
 import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart'
     as Waiting;
@@ -242,7 +242,9 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                             'PRODUCT') {
                           return TextUlasanRiwayat(
                             onPressed: () {
-                              Get.to(DetailSkinUlasanSkincare());
+                              Get.to(DetailSkinUlasanProduk(
+                                data: finishedReview[index],
+                              ));
                             },
                             nameBrand:
                                 finishedReview[index].detail?.product?.name ??

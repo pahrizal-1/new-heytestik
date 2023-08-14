@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_skincare_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../models/customer/waiting_review_model.dart';
@@ -296,7 +296,14 @@ class UlasanProduk extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Get.to(TulisUlasanSkincarePage());
+              Get.to(TulisUlasanProdukPage(
+                transactionProductId: data!.transactionProductId.toString(),
+                transactionProductItemId: data!.id!.toString(),
+                img:
+                    "${Global.FILE}/${data?.product!.mediaProducts?[0].media?.path}",
+                product: data?.product?.name ?? '-',
+                type: data?.product?.type ?? '-',
+              ));
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),

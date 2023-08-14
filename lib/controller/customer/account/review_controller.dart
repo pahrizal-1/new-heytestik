@@ -21,16 +21,27 @@ class ReviewController extends StateClass {
   RxList<Finished.Data2> dataFinished =
       List<Finished.Data2>.empty(growable: true).obs;
 
+  // Consul
   RxInt starRating = 0.obs;
   RxString ratingTitle = "".obs;
   TextEditingController review = TextEditingController();
 
+  // Treatment
   RxInt careRating = 0.obs;
   RxInt serviceRating = 0.obs;
   RxInt managementRating = 0.obs;
-  RxInt average = 0.obs;
-
+  RxDouble average = 0.0.obs;
   List listImage = [];
+
+  // Prod
+  RxInt effectivenessRating = 0.obs;
+  RxInt textureRating = 0.obs;
+  RxInt packagingRating = 0.obs;
+  RxString usageDuration = "".obs;
+  RxString wouldRecommend = "".obs;
+  RxString wouldRepurchase = "".obs;
+  List beforeConditions = [];
+  List afterConditions = [];
 
   List description = [
     "Pretty Good!",
@@ -41,15 +52,27 @@ class ReviewController extends StateClass {
   ];
 
   clearForm() {
+    // Consul
     starRating.value = 0;
     ratingTitle.value = "";
     review.clear();
 
+    // Treatment
     careRating.value = 0;
     serviceRating.value = 0;
     managementRating.value = 0;
-    average.value = 0;
+    average.value = 0.0;
     listImage.clear();
+
+    // Prod
+    effectivenessRating.value = 0;
+    textureRating.value = 0;
+    packagingRating.value = 0;
+    usageDuration.value = "";
+    wouldRecommend.value = "";
+    wouldRepurchase.value = "";
+    beforeConditions.clear();
+    afterConditions.clear();
   }
 
   Future<List<Waiting.Data2>> waitingReview(
@@ -82,6 +105,12 @@ class ReviewController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (review.text.length >= 150) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Ulasan maksimal 150 karakter',
+        );
+      }
       if (starRating.value < 1) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -111,7 +140,7 @@ class ReviewController extends StateClass {
     isLoading.value = false;
   }
 
-  ratingAvarege(int index, String title) {
+  ratingAvaregeTreatment(int index, String title) {
     if (title == 'care') {
       careRating.value = index + 1;
     }
@@ -128,7 +157,7 @@ class ReviewController extends StateClass {
         (careRating.value + serviceRating.value + managementRating.value) / 3;
 
     print("result $result");
-    average.value = result.toInt();
+    average.value = result;
     print("average ${average.value}");
   }
 
@@ -137,6 +166,12 @@ class ReviewController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (review.text.length >= 150) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Ulasan maksimal 150 karakter',
+        );
+      }
       if (careRating.value < 1) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -168,6 +203,89 @@ class ReviewController extends StateClass {
       print("data $data");
 
       var res = await ReviewService().reviewTreatment(data);
+      print("res $res");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+
+      doInPost();
+      clearForm();
+    });
+    isLoading.value = false;
+  }
+
+  ratingAvaregeProduct(int index, String title) {
+    if (title == 'effectiveness') {
+      effectivenessRating.value = index + 1;
+    }
+    if (title == 'texture') {
+      textureRating.value = index + 1;
+    }
+    if (title == 'packaging') {
+      packagingRating.value = index + 1;
+    }
+    print("effectivenessRating ${effectivenessRating.value}");
+    print("textureRating ${textureRating.value}");
+    print("packagingRating ${packagingRating.value}");
+    double result = (effectivenessRating.value +
+            textureRating.value +
+            packagingRating.value) /
+        3;
+
+    print("result $result");
+    average.value = result;
+    print("average ${average.value.toString()}");
+  }
+
+  reviewProduct(BuildContext context, String transactionProductId,
+      String transactionProductItemId,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (review.text.length >= 150) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Ulasan maksimal 150 karakter',
+        );
+      }
+      if (effectivenessRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
+      if (textureRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
+      if (packagingRating.value < 1) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Rating minimal satu',
+        );
+      }
+      var data = {
+        "transaction_product_id": transactionProductId,
+        "transaction_product_item_id": transactionProductItemId,
+        "review": review.text,
+        "effectiveness_rating": effectivenessRating.value,
+        "texture_rating": textureRating.value,
+        "packaging_rating": packagingRating.value,
+        "usage_duration": usageDuration.value,
+        "would_recommend": wouldRecommend.value,
+        "would_repurchase": wouldRepurchase.value,
+        "before_conditions": beforeConditions,
+        "after_conditions": afterConditions
+      };
+
+      print("data $data");
+      // return;
+      var res = await ReviewService().reviewProduct(data);
       print("res $res");
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(

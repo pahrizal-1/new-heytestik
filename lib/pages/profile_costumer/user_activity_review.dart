@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -151,7 +151,9 @@ class _UserActivityReviewState extends State<UserActivityReview> {
                           if (reviews[index].transactionType == 'PRODUCT') {
                             return TextUlasanRiwayat(
                               onPressed: () {
-                                Get.to(DetailSkinUlasanSkincare());
+                                Get.to(DetailSkinUlasanProduk(
+                                  data: reviews[index],
+                                ));
                               },
                               nameBrand:
                                   reviews[index].detail?.product?.name ?? '-',

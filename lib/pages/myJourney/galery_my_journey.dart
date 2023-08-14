@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/detail_gallery_my_journey_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';

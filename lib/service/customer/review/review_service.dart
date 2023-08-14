@@ -71,4 +71,29 @@ class ReviewService extends ProviderClass {
     );
     return response;
   }
+
+  Future<dynamic> reviewProduct(dynamic data) async {
+    FormData formData = FormData.fromMap(data);
+    for (var file in data['before_conditions']) {
+      formData.files.addAll(
+        [MapEntry('before_conditions', await MultipartFile.fromFile(file))],
+      );
+    }
+    for (var file in data['after_conditions']) {
+      formData.files.addAll(
+        [MapEntry('after_conditions', await MultipartFile.fromFile(file))],
+      );
+    }
+
+    var response = await networkingConfig.doPost(
+      '/solution/product-review',
+      data: formData,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'Content-type': 'multipart/form-data',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
 }

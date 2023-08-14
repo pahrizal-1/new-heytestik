@@ -160,11 +160,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              state.ratingAvarege(index, 'care');
+                              state.ratingAvaregeTreatment(index, 'care');
                               setState(() {});
-                              // state.careRating.value = index + 1;
-                              // state.ratingTitle.value =
-                              //     state.description[state.careRating.value - 1];
                             },
                             child: Obx(
                               () => Image.asset(
@@ -201,12 +198,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              state.ratingAvarege(index, 'service');
+                              state.ratingAvaregeTreatment(index, 'service');
                               setState(() {});
-                              // state.serviceRating.value = index + 1;
-
-                              // state.ratingTitle.value = state
-                              //     .description[state.serviceRating.value - 1];
                             },
                             child: Obx(
                               () => Image.asset(
@@ -243,11 +236,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              state.ratingAvarege(index, 'management');
+                              state.ratingAvaregeTreatment(index, 'management');
                               setState(() {});
-                              // state.managementRating.value = index + 1;
-                              // state.ratingTitle.value = state.description[
-                              //     state.managementRating.value - 1];
                             },
                             child: Obx(
                               () => Image.asset(
@@ -281,7 +271,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                       () => Text(
                         state.description[state.average.value < 1
                             ? 0
-                            : state.average.value - 1],
+                            : state.average.value.toInt() - 1],
                         style: grenTextStyle.copyWith(fontSize: 20),
                       ),
                     ),
@@ -296,7 +286,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                     ),
                     Obx(
                       () => Text(
-                        state.average.value.toInt().toString(),
+                        state.average.value.toString().substring(0, 3),
                         style: blackHigtTextStyle.copyWith(fontSize: 25),
                       ),
                     ),
@@ -313,7 +303,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                     ),
                     const Spacer(),
                     Text(
-                      '0/150',
+                      '${state.review.text.length}/150',
                       style: subTitleTextStyle.copyWith(),
                     )
                   ],
@@ -329,20 +319,25 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                   ),
                   child: TextField(
                     controller: state.review,
+                    onChanged: (value) {
+                      if (state.review.text.length <= 150) {
+                        setState(() {});
+                      }
+                    },
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: const EdgeInsets.only(
                         top: 0,
                         bottom: 2,
                       ),
-                      hintText: 'Ceritakan pengalaman kamu memakai produk ini',
+                      hintText: 'Ceritakan pengalaman treatment kamu',
                       hintStyle: subTitleTextStyle,
                       border: InputBorder.none,
                     ),
                   ),
                 ),
                 Text(
-                  'Ulasan minimal 150 karakter',
+                  'Ulasan maksimal 150 karakter',
                   style: blackRegulerTextStyle.copyWith(
                       color: redColor,
                       fontSize: 10,
