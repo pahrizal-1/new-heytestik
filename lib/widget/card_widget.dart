@@ -73,7 +73,7 @@ class _CardSearchState extends State<CardSearch> {
       children: [
         InkWell(
           onTap: () {
-            widget.onTap == null ? (){} : widget.onTap!();
+            widget.onTap == null ? () {} : widget.onTap!();
             setState(
               () {
                 isSelected = !isSelected;
@@ -81,7 +81,7 @@ class _CardSearchState extends State<CardSearch> {
             );
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             height: 30,
             decoration: BoxDecoration(
               color: isSelected
@@ -92,13 +92,26 @@ class _CardSearchState extends State<CardSearch> {
                 color: isSelected ? greenColor : const Color(0xffCCCCCC),
               ),
             ),
-            child: Center(
-              child: Text(
-                widget.title,
-                style: subGreyTextStyle.copyWith(
-                    fontSize: 15,
-                    color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
-              ),
+            child: Row(
+              children: [
+                Text(
+                  widget.title,
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 15,
+                      color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+                ),
+                SizedBox(
+                  width: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Image.asset(
+                    'assets/icons/danger-icons.png',
+                    width: 8,
+                    height: 8,
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -547,9 +560,11 @@ class _CardBankPengrimanState extends State<CardBankPengriman> {
 
 class CardFilter extends StatefulWidget {
   final String title;
+  final double? width;
   const CardFilter({
     Key? key,
     required this.title,
+    this.width = 90,
   }) : super(key: key);
 
   @override
@@ -569,8 +584,9 @@ class _CardFilterState extends State<CardFilter> {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-        height: 30,
+        margin: EdgeInsets.only(right: 6),
+        padding: EdgeInsets.symmetric(vertical: 6),
+        width: widget.width,
         decoration: BoxDecoration(
           color:
               isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
