@@ -5,7 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
+import 'package:heystetik_mobileapps/core/download_file.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/image_gallery_my_journey.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -396,15 +398,35 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                 const SizedBox(
                   height: 16,
                 ),
-                InkWell(
-                  onTap: () async {
-                    await selectImage();
-                  },
-                  child: Image.asset(
-                    'assets/icons/add-poto-icons.png',
-                    width: 82,
-                    height: 78,
-                  ),
+                Obx(
+                  () => state.isMinorLoading.value
+                      ? LoadingMore()
+                      : InkWell(
+                          onTap: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialogUlasan(
+                                functionCamera: () async {
+                                  await openCamera();
+                                  setState(() {});
+                                },
+                                functionGallery: () async {
+                                  await openGallery();
+                                  setState(() {});
+                                },
+                                functionGalleryMyJourney: () async {
+                                  await openGalleryMyJourney();
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/add-poto-icons.png',
+                            width: 82,
+                            height: 78,
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -441,96 +463,6 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
     );
   }
 
-  selectImage() {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(0.1),
-        content: Container(
-            height: 245,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Tambahkan gambar',
-                    style: blackRegulerTextStyle.copyWith(
-                        fontSize: 20, color: blackColor),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await openCamera();
-
-                      setState(() {});
-                    },
-                    child: Text(
-                      'Kamera',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await openGallery();
-                      setState(() {});
-                    },
-                    child: Text(
-                      'Dari galeri',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(const GaleryMyJourney());
-                    },
-                    child: Text(
-                      'Dari galeri ‘My Journey’',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'CANCEL',
-                          style: blackRegulerTextStyle.copyWith(
-                              fontSize: 15, color: blackColor),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )),
-      ),
-    );
-  }
-
   File? imagePath;
   // image from camera
   Future openCamera() async {
@@ -562,5 +494,26 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
     } else {
       print('image not selected');
     }
+  }
+
+  Future openGalleryMyJourney() async {
+    List hasil = await Get.to(ImageGalleryMyJourney());
+    print("hasil $hasil");
+    Get.back();
+
+    if (hasil.isEmpty) {
+      print("hasil kosong");
+      return;
+    }
+
+    state.isMinorLoading.value = true;
+    for (int i = 0; i < hasil.length; i++) {
+      String path = await downloadFile(hasil[i]);
+      state.listImage.add(path);
+      setState(() {});
+      print('oGalleryMyJourney ${state.listImage}');
+    }
+    state.isMinorLoading.value = false;
+    print("beres");
   }
 }

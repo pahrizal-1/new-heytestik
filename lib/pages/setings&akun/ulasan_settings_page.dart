@@ -28,6 +28,13 @@ class UlasanSetingsPage extends StatefulWidget {
 class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
   final ReviewController state = Get.put(ReviewController());
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.dataWaiting.value.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,

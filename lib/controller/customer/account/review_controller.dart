@@ -8,6 +8,9 @@ import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart'
     as Waiting;
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
     as Finished;
+import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart'
+    as MyJourney;
+import 'package:heystetik_mobileapps/service/customer/my_journey/my_journey_service.dart';
 import 'package:heystetik_mobileapps/service/customer/review/review_service.dart';
 
 class ReviewController extends StateClass {
@@ -75,6 +78,9 @@ class ReviewController extends StateClass {
     afterConditions.clear();
   }
 
+  Rx<MyJourney.MyJourneyModel> responseJourney = MyJourney.MyJourneyModel().obs;
+  RxList<MyJourney.Data2> dataJourney =
+      List<MyJourney.Data2>.empty(growable: true).obs;
   Future<List<Waiting.Data2>> waitingReview(
       BuildContext context, int page) async {
     isLoading.value = true;
@@ -99,6 +105,18 @@ class ReviewController extends StateClass {
     isLoading.value = false;
 
     return dataFinished;
+  }
+
+  Future<List<MyJourney.Data2>> getJourney(
+      BuildContext context, int page) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      responseJourney.value = await MyJourneysService().getJourney(page);
+      dataJourney.value = responseJourney.value.data!.data!;
+      print(dataJourney.length);
+    });
+    isLoading.value = false;
+    return dataJourney;
   }
 
   reviewConsultation(BuildContext context, String transactionConsultationId,
@@ -190,6 +208,12 @@ class ReviewController extends StateClass {
           message: 'Rating minimal satu',
         );
       }
+      if (listImage.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Foto tidak boleh kosong',
+        );
+      }
       var data = {
         "transaction_treatment_id": transactionTreatmentId,
         "transaction_treatment_item_id": transactionTreatmentItemIid,
@@ -269,6 +293,12 @@ class ReviewController extends StateClass {
           message: 'Rating minimal satu',
         );
       }
+      if (beforeConditions.isEmpty || afterConditions.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Foto Before dan After tidak boleh kosong',
+        );
+      }
       var data = {
         "transaction_product_id": transactionProductId,
         "transaction_product_item_id": transactionProductItemId,
@@ -284,7 +314,7 @@ class ReviewController extends StateClass {
       };
 
       print("data $data");
-      // return;
+
       var res = await ReviewService().reviewProduct(data);
       print("res $res");
       if (res['success'] != true && res['message'] != 'Success') {

@@ -5,6 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
+import 'package:heystetik_mobileapps/core/download_file.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/image_gallery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -13,8 +16,6 @@ import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/rating_dengan_ulasan_widgets.dart';
-import '../myJourney/galery_my_journey.dart';
 
 class TulisUlasanProdukPage extends StatefulWidget {
   String transactionProductId;
@@ -65,6 +66,7 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
   int isRekomendasi = 0;
   int isProduk = 0;
   int isSelected = 0;
+  bool isBefore = false;
 
   @override
   void initState() {
@@ -513,15 +515,40 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                InkWell(
-                  onTap: () async {
-                    await selectImage('before');
-                  },
-                  child: Image.asset(
-                    'assets/icons/add-poto-icons.png',
-                    width: 82,
-                    height: 78,
-                  ),
+                Obx(
+                  () => state.isMinorLoading.value
+                      ? isBefore
+                          ? LoadingMore()
+                          : Container()
+                      : InkWell(
+                          onTap: () async {
+                            setState(() {
+                              isBefore = true;
+                            });
+                            await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialogUlasan(
+                                functionCamera: () async {
+                                  await openCamera('before');
+                                  setState(() {});
+                                },
+                                functionGallery: () async {
+                                  await openGallery('before');
+                                  setState(() {});
+                                },
+                                functionGalleryMyJourney: () async {
+                                  await openGalleryMyJourney('before');
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/add-poto-icons.png',
+                            width: 82,
+                            height: 78,
+                          ),
+                        ),
                 ),
                 const SizedBox(
                   height: 25,
@@ -575,15 +602,40 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                InkWell(
-                  onTap: () async {
-                    await selectImage('after');
-                  },
-                  child: Image.asset(
-                    'assets/icons/add-poto-icons.png',
-                    width: 82,
-                    height: 78,
-                  ),
+                Obx(
+                  () => state.isMinorLoading.value
+                      ? isBefore
+                          ? Container()
+                          : LoadingMore()
+                      : InkWell(
+                          onTap: () async {
+                            setState(() {
+                              isBefore = false;
+                            });
+                            await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialogUlasan(
+                                functionCamera: () async {
+                                  await openCamera('after');
+                                  setState(() {});
+                                },
+                                functionGallery: () async {
+                                  await openGallery('after');
+                                  setState(() {});
+                                },
+                                functionGalleryMyJourney: () async {
+                                  await openGalleryMyJourney('after');
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/add-poto-icons.png',
+                            width: 82,
+                            height: 78,
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -757,99 +809,8 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
     );
   }
 
-  selectImage(String condition) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(0.1),
-        content: Container(
-            height: 245,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Tambahkan gambar',
-                    style: blackRegulerTextStyle.copyWith(
-                        fontSize: 20, color: blackColor),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await openCamera(condition);
-
-                      setState(() {});
-                    },
-                    child: Text(
-                      'Kamera',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await openGallery(condition);
-                      setState(() {});
-                    },
-                    child: Text(
-                      'Dari galeri',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(const GaleryMyJourney());
-                    },
-                    child: Text(
-                      'Dari galeri ‘My Journey’',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'CANCEL',
-                          style: blackRegulerTextStyle.copyWith(
-                              fontSize: 15, color: blackColor),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )),
-      ),
-    );
-  }
-
   File? imagePath;
 
-  // image from camera
   Future openCamera(String condition) async {
     final XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
@@ -874,7 +835,6 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
     }
   }
 
-  // image fromo gallery
   Future openGallery(String condition) async {
     final XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -897,5 +857,35 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
     } else {
       print('image not selected');
     }
+  }
+
+  Future openGalleryMyJourney(String condition) async {
+    List hasil = await Get.to(ImageGalleryMyJourney());
+    print("hasil $hasil");
+    Get.back();
+
+    if (hasil.isEmpty) {
+      print("hasil kosong");
+      return;
+    }
+
+    state.isMinorLoading.value = true;
+    for (int i = 0; i < hasil.length; i++) {
+      String path = await downloadFile(hasil[i]);
+
+      if (condition == 'after') {
+        state.afterConditions.add(path);
+        setState(() {});
+        print('afterConditions ${state.afterConditions}');
+      }
+
+      if (condition == 'before') {
+        state.beforeConditions.add(path);
+        setState(() {});
+        print('beforeConditions ${state.beforeConditions}');
+      }
+    }
+    state.isMinorLoading.value = false;
+    print("beres");
   }
 }
