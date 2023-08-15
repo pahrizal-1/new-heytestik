@@ -1,30 +1,21 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
+
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-class AlertDialogUlasan extends StatefulWidget {
-  const AlertDialogUlasan({super.key});
-
-  @override
-  State<AlertDialogUlasan> createState() => _AlertDialogUlasanState();
-}
-
-class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     const Duration(seconds: 1),
-  //     () => Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const AuthPage(),
-  //       ),
-  //     ),
-  //   );
-  // }
+class AlertDialogUlasan extends StatelessWidget {
+  Function() functionCamera;
+  Function() functionGallery;
+  Function() functionGalleryMyJourney;
+  AlertDialogUlasan({
+    required this.functionCamera,
+    required this.functionGallery,
+    required this.functionGalleryMyJourney,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,28 +42,35 @@ class _AlertDialogUlasanState extends State<AlertDialogUlasan> {
                 const SizedBox(
                   height: 21,
                 ),
-                Text(
-                  'Kamera',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 15, color: blackColor),
-                ),
-                const SizedBox(
-                  height: 21,
-                ),
-                Text(
-                  'Dari galeri',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 15, color: blackColor),
+                InkWell(
+                  onTap: () async {
+                    await functionCamera();
+                  },
+                  child: Text(
+                    'Kamera',
+                    style: blackRegulerTextStyle.copyWith(
+                        fontSize: 15, color: blackColor),
+                  ),
                 ),
                 const SizedBox(
                   height: 21,
                 ),
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GaleryMyJourney()));
+                  onTap: () async {
+                    await functionGallery();
+                  },
+                  child: Text(
+                    'Dari galeri',
+                    style: blackRegulerTextStyle.copyWith(
+                        fontSize: 15, color: blackColor),
+                  ),
+                ),
+                const SizedBox(
+                  height: 21,
+                ),
+                InkWell(
+                  onTap: () async {
+                    await functionGalleryMyJourney();
                   },
                   child: Text(
                     'Dari galeri ‘My Journey’',
