@@ -484,7 +484,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                             fontSize: 12, fontWeight: regular),
                       ),
                       Text(
-                        "'Detail Perawatan’",
+                        " 'Detail Perawatan’",
                         style: blackHigtTextStyle.copyWith(fontSize: 12),
                       ),
                       Text(

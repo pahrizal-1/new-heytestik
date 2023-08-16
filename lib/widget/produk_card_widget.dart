@@ -232,42 +232,35 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        widget.harga,
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          color: fromCssColor(
-                                            '#323232',
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            '${widget.qty} ${widget.packagingType}',
-                                            style: TextStyle(
-                                              fontFamily: 'ProximaNova',
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                              color: fromCssColor(
-                                                '#323232',
-                                              ),
+                                  Container(
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 200),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.harga,
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5,
+                                            color: fromCssColor(
+                                              '#323232',
                                             ),
                                           ),
-                                          if (widget.type == 'SKINCARE')
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Column(
+                                          children: [
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
                                             Text(
-                                              ' (${widget.netto} ${widget.nettoType}) ',
+                                              '${widget.qty} ${widget.packagingType}',
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                                 fontSize: 10,
@@ -278,9 +271,25 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                                 ),
                                               ),
                                             ),
-                                        ],
-                                      ),
-                                    ],
+                                            if (widget.type == 'SKINCARE')
+                                              Text(
+                                                '(${widget.netto}${widget.nettoType}) ',
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.5,
+                                                  color: fromCssColor(
+                                                    '#323232',
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
