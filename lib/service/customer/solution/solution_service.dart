@@ -16,7 +16,7 @@ class SolutionService extends ProviderClass {
 
   Future<SkincareModel> getSkincare() async {
     var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&take=100&order=asc',
+      '/solution/skincare?page=1&search=&take=100&order=desc',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -28,7 +28,7 @@ class SolutionService extends ProviderClass {
 
   Future<SkincareModel> getSkincareByCategory(String category) async {
     var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=asc',
+      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=desc',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -52,7 +52,7 @@ class SolutionService extends ProviderClass {
 
   Future<LookupModel> getLookup() async {
     var response = await networkingConfig.doGet(
-      '/lookup?page=1&take=100&order=asc&category[]=SKINCARE_CATEGORY&search=',
+      '/lookup?page=1&take=100&order=desc&category[]=SKINCARE_CATEGORY&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -64,7 +64,7 @@ class SolutionService extends ProviderClass {
 
   Future<ConcernModel> getConcern() async {
     var response = await networkingConfig.doGet(
-      '/concern?page=1&take=100&order=asc&search=',
+      '/concern?page=1&take=100&order=desc&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
