@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -109,19 +110,11 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
               const SizedBox(
                 height: 4,
               ),
-              Row(
-                children: [
-                  Obx(
-                    () => Text(
-                      CurrencyFormat.convertToIdr(state.totalAmount.value, 0),
-                      style: blackHigtTextStyle.copyWith(fontSize: 20),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  const Icon(Icons.keyboard_arrow_down)
-                ],
+              Obx(
+                () => Text(
+                  CurrencyFormat.convertToIdr(state.totalAmount.value, 0),
+                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                ),
               ),
               const SizedBox(
                 height: 16,
@@ -129,6 +122,28 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
               ButtonGreenWidget(
                 title: 'Lanjutkan Pembayaran',
                 onPressed: () {
+                  if (state.listProductItem.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertWidget(
+                        subtitle: "Pilih produk terlebih dahulu",
+                      ),
+                    );
+                    return;
+                  }
+                  for (int i = 0; i < state.listProductItem.length; i++) {
+                    if (state.listProductItem[i]['qty'] == 0) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertWidget(
+                          subtitle: "Banyaknya produk minimal satu",
+                        ),
+                      );
+                      return;
+                    }
+                  }
+
+                  // redirect
                   Get.to(MetodePembayaranProduk());
                 },
               )
