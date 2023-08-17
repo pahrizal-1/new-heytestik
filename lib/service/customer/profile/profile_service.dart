@@ -4,16 +4,55 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
+import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
 import '../../../models/user_activity.dart';
 
 class ProfileService extends ProviderClass {
-  ProfileService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  ProfileService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> closedAccount() async {
     var response = await networkingConfig.doUpdateFinish(
       '/profile/close-account',
     );
+
+    return response;
+  }
+
+  Future<CustomerProfileModel> getProfileCust() async {
+    var response = await networkingConfig.doGet(
+      '/profile/user',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = CustomerProfileModel.fromJson(response);
+    return jsonResponse;
+  }
+
+  Future<dynamic> changeProfile(dynamic data) async {
+    var response = await networkingConfig.doUpdate(
+      '/profile/user',
+      data,
+    );
+
+    return response;
+  }
+
+  Future verifSend(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/verification/send',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'Accept': '*/*',
+        'Connection': 'keep-alive',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('hasil' + response.toString());
 
     return response;
   }
@@ -35,7 +74,9 @@ class ProfileService extends ProviderClass {
       print("INI RESPONSE");
       print(response);
 
-      return (response['data']['data'] as List).map((e) => UserActivity.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => UserActivity.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
@@ -62,7 +103,9 @@ class ProfileService extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];

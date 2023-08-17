@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,13 +10,48 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 
+import '../../../core/global.dart';
+import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
 import '../../../models/user_activity.dart';
+import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
+import 'package:dio/dio.dart' as dio;
 
 class ProfileController extends StateClass {
   RxString fullName = '-'.obs;
+  RxString name = ''.obs;
+  RxString username = ''.obs;
+  RxString bio = ''.obs;
+  String bioUser = '';
+  RxString idUser = ''.obs;
+  RxString email = ''.obs;
+  RxString noHp = ''.obs;
+  RxString dob = ''.obs;
+  RxString otp = ''.obs;
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController emailBaruController = TextEditingController();
+  TextEditingController nomorHpController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  Rx<CustomerProfileModel> profileData = CustomerProfileModel().obs;
+
+  List<String> items = [
+    'Laki-laki',
+    'Perempuan',
+  ];
+  RxString gender = ''.obs;
+
   Map dataUser = {};
+  File? image;
+  String? fileImg64;
+  RxBool isSave = false.obs;
+  RxString imgNetwork = ''.obs;
 
   init() async {
     fullName.value = await LocalStorage().getFullName();
@@ -41,13 +78,245 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
+  Future getProfile(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await ProfileService().getProfileCust();
+      profileData.value = response;
+      print('GetUserInfoDataDompet : ${profileData.value.data!.fullname}');
+      DateTime tdata = DateTime.parse(profileData.value.data!.dob ?? '-');
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+      name.value = profileData.value.data!.fullname ?? '-';
+      username.value = profileData.value.data!.username ?? '-';
+      bio.value = profileData.value.data!.bio ?? '-';
+      idUser.value = (profileData.value.data!.id ?? '-').toString();
+      email.value = profileData.value.data!.email ?? '-';
+      noHp.value = profileData.value.data!.noPhone ?? '-';
+      gender.value = profileData.value.data!.gender ?? '-';
+      dob.value = formatter.format(tdata);
+      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path!;
+
+      // data text editing
+      fullNameController.text = profileData.value.data!.fullname ?? '-';
+      usernameController.text = profileData.value.data!.username ?? '-';
+      bioController.text = profileData.value.data!.bio ?? '-';
+      emailController.text = profileData.value.data!.email ?? '-';
+      // nomorHpController.text = profileData.value.data!.noPhone ?? '-';
+      dateController.text = formatter.format(tdata);
+    });
+    isLoading.value = false;
+  }
+
+  updateName(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "fullname": fullNameController.text,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  verifyCode(BuildContext context, String method, String type) async {
+    isLoading.value = true;
+    try {
+      var data = {
+        "method": method,
+        "type": type,
+        "user_id": int.parse(idUser.value)
+      };
+      print(data);
+      print('masuk sini');
+      var response = await ProfileService().verifSend(data);
+
+      print(response);
+    } catch (e) {
+      print('error' + e.toString());
+    }
+
+    // await ErrorConfig.doAndSolveCatchInContext(context, () async {
+    //   // if (email.text.isEmpty) {
+    //   //   throw ErrorConfig(
+    //   //     cause: ErrorConfig.userInput,
+    //   //     message: 'Email harus diisi',
+    //   //   );
+    //   // }
+    //   print('response' + idUser.toString());
+
+    //   // method : WHATSAPP , EMAIL
+    //   // type : CHANGE_PHONE_NUMBER, CHANGE_EMAIL
+
+    //   var data = {
+    //     "method": method,
+    //     "type": type,
+    //     "user_id": idUser,
+    //   };
+    //   print(data);
+    //   print('masuk sini');
+
+    //   print(response);
+
+    //   // if (response['success'] != true &&
+    //   //     response['message'] != 'Success') {
+    //   //   throw ErrorConfig(
+    //   //     cause: ErrorConfig.anotherUnknow,
+    //   //     message: response['message'],
+    //   //   );
+    //   // }
+    // });
+    isLoading.value = false;
+  }
+
+  updateUsername(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "username": usernameController.text,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  updateBio(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "bio": bioController.text,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      // Navigator.pop(context, 'refresh');
+      await Get.to(EditProfilCostomer());
+      Get.back();
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  updateEmail(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "email": emailBaruController.text,
+        "verification_code": otp.value
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(
+        context,
+      );
+      Navigator.pop(
+        context,
+      );
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  updatePhone(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "no_phone": nomorHpController.text,
+        "verification_code": otp.value,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(
+        context,
+      );
+      Navigator.pop(
+        context,
+      );
+      Navigator.pop(
+        context,
+      );
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  updateProfile(BuildContext context) async {
+    isLoading.value = true;
+
+    try {
+      var response = await dio.Dio().patch(
+        Uri.encodeFull(Global.BASE_API + '/profile/user'),
+        data: dio.FormData.fromMap({
+          'file': await dio.MultipartFile.fromFile(image!.path),
+        }),
+        options: dio.Options(
+          headers: {
+            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+            'User-Agent': await userAgent(),
+          },
+          validateStatus: (statusCode) {
+            debugPrint('status code $statusCode');
+            if (statusCode == null) {
+              debugPrint('status code null');
+              return false;
+            }
+            debugPrint('status code statusCode >= 200 && statusCode < 300');
+            return statusCode >= 200 && statusCode < 300;
+          },
+        ),
+      );
+      isSave.value = false;
+      Navigator.pop(context);
+    } catch (e) {
+      print('err ${e}');
+    }
+
+    isLoading.value = false;
+  }
+
+  updateGender(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "gender": gender.value,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
+  updateDob(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "dob": dateController.text,
+      };
+
+      var response = await ProfileService().changeProfile(data);
+      Navigator.pop(context, 'refresh');
+      print(response);
+    });
+    isLoading.value = false;
+  }
+
   logout(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       await LocalStorage().removeAccessToken();
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
 
       Get.offAll(() => const LoginPage());
@@ -55,7 +324,8 @@ class ProfileController extends StateClass {
     });
   }
 
-  Future<List<UserActivity>> getUserActivityReview(BuildContext context, int page) async {
+  Future<List<UserActivity>> getUserActivityReview(
+      BuildContext context, int page) async {
     try {
       isLoading.value = true;
       List<UserActivity> data = [];
@@ -81,7 +351,8 @@ class ProfileController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserActivityPost(page, search: search, postType: postType);
+        data = await ProfileService()
+            .getUserActivityPost(page, search: search, postType: postType);
         isLoading.value = false;
       });
 

@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_bio_profik_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../widget/button_widget.dart';
 
-class TamBahanUserNameProfilCustomer extends StatelessWidget {
+class TamBahanUserNameProfilCustomer extends StatefulWidget {
   const TamBahanUserNameProfilCustomer({super.key});
+
+  @override
+  State<TamBahanUserNameProfilCustomer> createState() => _TamBahanUserNameProfilCustomerState();
+}
+
+class _TamBahanUserNameProfilCustomerState extends State<TamBahanUserNameProfilCustomer> {
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +57,7 @@ class TamBahanUserNameProfilCustomer extends StatelessWidget {
               height: 15,
             ),
             TextFormField(
+              controller: state.usernameController,
               maxLength: 30,
               decoration: InputDecoration(
                 suffixIcon: Icon(
@@ -86,12 +96,13 @@ class TamBahanUserNameProfilCustomer extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TambahBioProfikCustomer(),
-                  ),
-                );
+                state.updateUsername(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const TambahBioProfikCustomer(),
+                //   ),
+                // );
               },
             )
           ],

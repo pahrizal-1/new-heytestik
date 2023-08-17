@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 
-class UbahNamaProfilCustomer extends StatelessWidget {
-  const UbahNamaProfilCustomer({super.key});
+class UbahNamaProfilCustomer extends StatefulWidget {
+  const UbahNamaProfilCustomer({
+    super.key,
+  });
+
+  @override
+  State<UbahNamaProfilCustomer> createState() => _UbahNamaProfilCustomerState();
+}
+
+class _UbahNamaProfilCustomerState extends State<UbahNamaProfilCustomer> {
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +65,7 @@ class UbahNamaProfilCustomer extends StatelessWidget {
             SizedBox(
               height: 40,
               child: TextFormField(
+                controller: state.fullNameController,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(
@@ -94,13 +106,14 @@ class UbahNamaProfilCustomer extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const TamBahanUserNameProfilCustomer(),
-                  ),
-                );
+                state.updateName(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) =>
+                //         const TamBahanUserNameProfilCustomer(),
+                //   ),
+                // );
               },
             )
           ],

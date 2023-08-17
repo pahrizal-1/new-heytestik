@@ -24,11 +24,37 @@ class NotificationCustomerServices extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
+      // print('dude' + response.toString());
 
       return NotificationCustomerModel.fromJson(response);
     } catch (error) {
-      print(error);
+      print('errer' + error.toString());
       return NotificationCustomerModel();
+    }
+  }
+
+  Future listNotificationDoctor(int page,
+      {int pageCount = 10}) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/notification',
+        params: {
+          "page": page,
+          "take": pageCount,
+          "order": "asc",
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      // print('dude' + response.toString());
+      // print('fren' + response['data']['data'].toString());
+
+      return response['data']['data'];
+    } catch (error) {
+      print('errer' + error.toString());
+      // return NotificationCustomerModel();
     }
   }
 }
