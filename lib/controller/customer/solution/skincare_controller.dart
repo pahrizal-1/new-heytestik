@@ -78,20 +78,15 @@ class SkincareController extends StateClass {
   relatedProductSkincare(BuildContext context, int id) async {
     isLoadingRelatedSkincare.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        var res = await SolutionService().relatedProductSkincare(id, 1);
-        print("masuk");
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
-        relatedSkincare = res.data!.data!;
-        print("masuk 2");
-      } catch (e) {
-        print("error $e");
+      var res = await SolutionService().relatedProductSkincare(id, 1);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
       }
+      relatedSkincare = res.data!.data!;
     });
     isLoadingRelatedSkincare.value = false;
   }
