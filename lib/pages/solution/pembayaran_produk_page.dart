@@ -287,13 +287,21 @@ class _ProdukPembayaranState extends State<ProdukPembayaran> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    state.decrement(widget.index);
-                                    setState(() {});
+                                    if (state.listProductItem[widget.index]
+                                            ['qty'] >
+                                        1) {
+                                      state.decrement(widget.index);
+                                      setState(() {});
+                                    }
                                   },
                                   child: Icon(
                                     Icons.remove,
                                     size: 15,
-                                    color: greyColor,
+                                    color: state.listProductItem[widget.index]
+                                                ['qty'] <=
+                                            1
+                                        ? greyColor
+                                        : greenColor,
                                   ),
                                 ),
                                 const SizedBox(
