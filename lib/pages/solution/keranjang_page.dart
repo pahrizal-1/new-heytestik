@@ -15,7 +15,6 @@ import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart'
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
-import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
@@ -116,50 +115,53 @@ class _KeranjangPageState extends State<KeranjangPage> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(39.0),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 25, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        state.onChecklist(state.checklist.length, true);
-                        setState(() {});
-                      },
-                      child: Obx(
-                        () => Container(
-                          width: 23,
-                          padding: const EdgeInsets.all(4),
-                          height: 23,
-                          decoration: BoxDecoration(
-                            color:
-                                state.isAllSelected.value ? greenColor : null,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(
-                                color: state.isAllSelected.value
-                                    ? greenColor
-                                    : borderColor),
+          preferredSize: Size.fromHeight(cart.isEmpty ? 0.0 : 39.0),
+          child: cart.isEmpty
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 10, left: 25, top: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              state.onChecklist(state.checklist.length, true);
+                              setState(() {});
+                            },
+                            child: Obx(
+                              () => Container(
+                                width: 23,
+                                padding: const EdgeInsets.all(4),
+                                height: 23,
+                                decoration: BoxDecoration(
+                                  color: state.isAllSelected.value
+                                      ? greenColor
+                                      : null,
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                      color: state.isAllSelected.value
+                                          ? greenColor
+                                          : borderColor),
+                                ),
+                                child: state.isAllSelected.value
+                                    ? Image.asset('assets/icons/chek_new.png')
+                                    : null,
+                              ),
+                            ),
                           ),
-                          child: state.isAllSelected.value
-                              ? Image.asset('assets/icons/chek_new.png')
-                              : null,
-                        ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            'Pilih semua',
+                            style: blackRegulerTextStyle,
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Text(
-                      'Pilih semua',
-                      style: blackRegulerTextStyle,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ),
       ),
       body: Obx(
@@ -339,20 +341,12 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     const SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      children: [
-                        Obx(
-                          () => Text(
-                            CurrencyFormat.convertToIdr(
-                                state.totalAmountSelected.value, 0),
-                            style: blackHigtTextStyle.copyWith(fontSize: 20),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        const Icon(Icons.keyboard_arrow_down)
-                      ],
+                    Obx(
+                      () => Text(
+                        CurrencyFormat.convertToIdr(
+                            state.totalAmountSelected.value, 0),
+                        style: blackHigtTextStyle.copyWith(fontSize: 20),
+                      ),
                     ),
                     const SizedBox(
                       height: 16,
@@ -367,7 +361,8 @@ class _KeranjangPageState extends State<KeranjangPage> {
                     height: 50,
                     child: TextButton(
                       onPressed: () {
-                        if (state.totalAmountSelected.value <= 0) {
+                        if (cart.isEmpty ||
+                            state.totalAmountSelected.value <= 0) {
                           showDialog(
                             context: context,
                             builder: (context) => AlertWidget(
@@ -377,6 +372,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                           return;
                         }
 
+                        // redirect
                         Get.to(PembayaranProduk(
                           pesan: state.checkedList,
                         ));
