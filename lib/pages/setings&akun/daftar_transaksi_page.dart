@@ -16,7 +16,6 @@ import '../../widget/appbar_widget.dart';
 import '../../widget/daftar_transaksi_widgets.dart';
 import '../../widget/filter_status_transaksi.dart';
 import '../../widget/filter_tanggal_transaksi.dart';
-import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/show_modal_dialog.dart';
 
 class DaftarTransaksiPage extends StatefulWidget {

@@ -304,7 +304,7 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const CaraPembyaranPage());
+                              Get.to(const CaraPembayaranPage());
                             },
                             child: Center(
                               child: Text(

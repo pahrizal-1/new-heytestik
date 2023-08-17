@@ -353,7 +353,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const CaraPembyaranPage(),
+                                      const CaraPembayaranPage(),
                                 ),
                               );
                             },
