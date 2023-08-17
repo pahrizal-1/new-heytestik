@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
@@ -32,7 +31,6 @@ class KeranjangPage extends StatefulWidget {
 
 class _KeranjangPageState extends State<KeranjangPage> {
   final CartController state = Get.put(CartController());
-  final SkincareController stateSkincare = Get.put(SkincareController());
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
 
@@ -43,7 +41,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      stateSkincare.getSkincare(context);
+      state.recentlyProductViewed(context);
       cart.addAll(await state.getCart(context, page, search: search));
       setState(() {});
     });
@@ -282,38 +280,34 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   child: Obx(
                     () => Center(
                       child: LoadingWidget(
-                        isLoading: stateSkincare.isLoadingSkincare.value,
+                        isLoading: state.isLoadingMore.value,
                         child: Wrap(
                           spacing: 23,
                           runSpacing: 12,
-                          children: stateSkincare.skincare
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    Get.to(
-                                      DetailSkinCarePage(
-                                        productId: e.id!.toInt(),
-                                      ),
-                                    );
-                                  },
-                                  child: Produkheight(
-                                    produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
-                                    namaProduk: e.name.toString(),
-                                    diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg:
-                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                    // rating: '4.9 (120k)',
-                                    rating: e.rating.toString(),
+                          children: state.recentlyProduct.map((e) {
+                            return InkWell(
+                              onTap: () {
+                                Get.to(
+                                  DetailSkinCarePage(
+                                    productId: e.id!.toInt(),
                                   ),
-                                ),
-                              )
-                              .toList(),
+                                );
+                              },
+                              child: Produkheight(
+                                produkId: e.id!.toInt(),
+                                namaBrand: e.skincareDetail!.brand.toString(),
+                                namaProduk: e.name.toString(),
+                                diskonProduk: '20',
+                                hargaDiskon:
+                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                urlImg:
+                                    '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                // rating: '4.9 (120k)',
+                                rating: e.rating.toString(),
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),

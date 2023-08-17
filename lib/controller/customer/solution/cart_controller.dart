@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
+import 'package:heystetik_mobileapps/models/customer/recently_product_viewed_model.dart'
+    as RecentlyProductViewed;
 import 'package:heystetik_mobileapps/service/customer/solution/cart_service.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
@@ -16,6 +18,8 @@ class CartController extends StateClass {
   RxInt totalAmountSelected = 0.obs;
   RxInt totalAmount = 0.obs;
   RxBool isAllSelected = false.obs;
+
+  List<RecentlyProductViewed.Data2> recentlyProduct = [];
 
   Future<List<Data2>> getCart(BuildContext context, int page,
       {String? search}) async {
@@ -51,6 +55,21 @@ class CartController extends StateClass {
     });
     isLoading.value = false;
     return filterData;
+  }
+
+  recentlyProductViewed(BuildContext context) async {
+    isMinorLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await CartService().recentlyProductViewed(1);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      recentlyProduct = res.data!.data!;
+    });
+    isMinorLoading.value = false;
   }
 
   onChecklist(int number, bool isAll) async {
@@ -133,7 +152,7 @@ class CartController extends StateClass {
   }
 
   addCart(BuildContext context, int productId, int qty, String notes) async {
-    isLoading.value = true;
+    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         'product_id': productId,
@@ -154,7 +173,7 @@ class CartController extends StateClass {
       SnackbarWidget.getSuccessSnackbar(
           context, 'Info', 'Produk ditambahkan ke keranjang');
     });
-    isLoading.value = false;
+    // isLoading.value = false;
   }
 
   deleteCart(BuildContext context, int id) async {
