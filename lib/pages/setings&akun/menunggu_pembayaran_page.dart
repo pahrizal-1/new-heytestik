@@ -200,6 +200,12 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                     history[index].detail?.totalPaid, 0),
                               );
                             }
+
+                            if (history[index].transactionType == 'PRODUCT') {
+                              return TransaksiProduk(
+                                product: history[index].detail,
+                              );
+                            }
                           },
                         ),
                       ),

@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
-import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/button_widget.dart';
-import '../../widget/category_cirkel_widgets.dart';
-import '../../widget/filter_tap_widget.dart';
 
-import '../../widget/post_dengan_poto.dart';
-import '../../widget/post_polling.dart';
-import '../../widget/show_modal_dialog.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'edit_profil_customer_page.dart';
 
@@ -37,10 +28,16 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   final ProfileController state = Get.put(ProfileController());
   int iSelected = 0;
 
+  Map<String, dynamic> userOverview = {};
+
   @override
   void initState() {
     super.initState();
     state.init();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      userOverview = await state.getUserOverview(context);
+      setState(() {});
+    });
   }
 
   @override
@@ -96,7 +93,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
+            padding:
+                const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
             child: Column(
               children: [
                 Row(
@@ -124,24 +122,28 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             style: blackTextStyle.copyWith(fontSize: 18),
                           ),
                         ),
-                        Text(
-                          'Jakarta, 20 Tahun',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        const SizedBox(
+                          height: 10,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              'Kering',
-                              style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              color: greenColor,
-                            )
-                          ],
-                        ),
+                        // Text(
+                        //   'Jakarta, 20 Tahun',
+                        //   style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       'Kering',
+                        //       style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        //     ),
+                        //     Icon(
+                        //       Icons.keyboard_arrow_down,
+                        //       color: greenColor,
+                        //     )
+                        //   ],
+                        // ),
                         Container(
-                          padding: const EdgeInsets.only(left: 13, right: 12, top: 7, bottom: 5),
+                          padding: const EdgeInsets.only(
+                              left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(
@@ -205,7 +207,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_follower'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -231,7 +233,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_following'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -257,7 +259,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_post'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -283,7 +285,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 5,
                         ),
                         Text(
-                          '0',
+                          '${userOverview['total_review'] ?? 0}',
                           style: blackTextStyle.copyWith(fontSize: 13),
                         )
                       ],
@@ -312,7 +314,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Posts',
-                        style: subTitleTextStyle.copyWith(fontSize: 15, color: iSelected == 0 ? greenColor : subTitleColor, fontWeight: bold),
+                        style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            color: iSelected == 0 ? greenColor : subTitleColor,
+                            fontWeight: bold),
                       ),
                       const SizedBox(
                         height: 14,
@@ -320,7 +325,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       Container(
                         height: 2,
                         width: 150,
-                        decoration: BoxDecoration(color: iSelected == 0 ? greenColor : subTitleColor),
+                        decoration: BoxDecoration(
+                            color: iSelected == 0 ? greenColor : subTitleColor),
                       )
                     ],
                   ),
@@ -335,7 +341,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Reviews',
-                        style: subTitleTextStyle.copyWith(fontSize: 15, fontWeight: bold, color: iSelected == 1 ? greenColor : subTitleColor),
+                        style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: bold,
+                            color: iSelected == 1 ? greenColor : subTitleColor),
                       ),
                       const SizedBox(
                         height: 14,

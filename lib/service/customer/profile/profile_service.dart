@@ -1,12 +1,12 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
-import '../../../models/user_activity.dart';
 
 class ProfileService extends ProviderClass {
   ProfileService()
@@ -57,29 +57,41 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
-  Future<List<UserActivity>> getUserActivityReview(int page) async {
+  Future<FinishedReviewModel> getUserActivityReview(int page) async {
+    String username = await LocalStorage().getUsername();
+    var response = await networkingConfig.doGet(
+      '/user-profile/$username/reviews',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return FinishedReviewModel.fromJson(response);
+  }
+
+  Future<Map<String, dynamic>> getUserOverview() async {
     try {
+      String username = await LocalStorage().getUsername();
       var response = await networkingConfig.doGet(
-        '/user-profile/customer/reviews',
-        params: {
-          "page": page,
-          "take": 10,
-        },
+        '/user-profile/$username/overview',
         headers: {
           'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
           'User-Agent': await userAgent(),
         },
       );
 
-      print("INI RESPONSE");
-      print(response);
-
-      return (response['data']['data'] as List)
-          .map((e) => UserActivity.fromJson(e))
-          .toList();
+      print(username);
+      print("ini response overview");
+      print(response['data']);
+      return response['data'];
     } catch (error) {
       print(error);
-      return [];
+      return {};
     }
   }
 

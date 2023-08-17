@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
@@ -36,7 +37,11 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
 
   @override
   void initState() {
-    dataRemainingTime = widget.stream.endTime.difference(DateTime.now()).toString().split('.')[0].split(":");
+    dataRemainingTime = widget.stream.endTime
+        .difference(DateTime.now())
+        .toString()
+        .split('.')[0]
+        .split(":");
     allVotesCount = widget.stream.pollCount;
     streamPollOptions = widget.stream.streamPollOptions;
     super.initState();
@@ -169,15 +174,17 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                     pollColor = (1 / option.value['count']);
                   }
 
-                  if(allVotesCount > 0 && option.value['count'] > 0) {
-                    pollPercentage =  (option.value['count'] / allVotesCount ) * 100;
-                    pollColor =  (option.value['count'] / allVotesCount );
+                  if (allVotesCount > 0 && option.value['count'] > 0) {
+                    pollPercentage =
+                        (option.value['count'] / allVotesCount) * 100;
+                    pollColor = (option.value['count'] / allVotesCount);
                   }
 
                   return Stack(
                     children: [
                       Container(
-                        width: (MediaQuery.of(context).size.width - 70) * pollColor,
+                        width: (MediaQuery.of(context).size.width - 70) *
+                            pollColor,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 16.0,
@@ -202,10 +209,19 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
 
                             if (indexVotes != null) {
                               streamPollOptions[indexVotes!]['count'] - 1;
-                              postController.deletePolling(context, widget.stream.id, streamPollOptions[indexVotes!]['stream_poll_id'], streamPollOptions[indexVotes!]['id']);
+                              postController.deletePolling(
+                                  context,
+                                  widget.stream.id,
+                                  streamPollOptions[indexVotes!]
+                                      ['stream_poll_id'],
+                                  streamPollOptions[indexVotes!]['id']);
                             }
 
-                            postController.pickPolling(context, widget.stream.id, option.value['stream_poll_id'], option.value['id']);
+                            postController.pickPolling(
+                                context,
+                                widget.stream.id,
+                                option.value['stream_poll_id'],
+                                option.value['id']);
                             indexVotes = option.key;
                             option.value['count'] = option.value['count'] + 1;
                             setState(() {});
@@ -231,14 +247,18 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                               Text(
                                 option.value['count'].toString(),
                                 style: TextStyle(
-                                  color: option.value['count'] > 0 ? Colors.white : Colors.black,
+                                  color: option.value['count'] > 0
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                               Spacer(),
                               Text(
                                 "${pollPercentage.toInt()}%",
                                 style: TextStyle(
-                                  color: pollColor > 0.9 ? Colors.white : Colors.black,
+                                  color: pollColor > 0.9
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ],
@@ -319,17 +339,31 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         postController.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
-                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) - 1;
+                          postLike["${widget.stream.id}"] =
+                              (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
                         postController.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
-                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) + 1;
+                          postLike["${widget.stream.id}"] =
+                              (postLike["${widget.stream.id}"] ?? 0) + 1;
                         });
                       }
                     },
-                    child: like ?? widget.stream.liked ? Icon(Icons.favorite) : Icon(Icons.favorite_outline_outlined),
+                    child: like ?? widget.stream.liked
+                        ? Image.asset(
+                            'assets/icons/like.png',
+                            width: 19,
+                            height: 19,
+                            color: greenColor,
+                          )
+                        : Image.asset(
+                            'assets/icons/like.png',
+                            width: 19,
+                            height: 19,
+                            color: greyColor,
+                          ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -349,7 +383,13 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         builder: (context) => ShareShowWidget(),
                       );
                     },
-                    child: Icon(Icons.share),
+                    child: SvgPicture.asset(
+                      'assets/icons/share-icons.svg',
+                      // ignore: deprecated_member_use
+                      color: greyColor,
+                      width: 21,
+                      height: 21,
+                    ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -368,7 +408,15 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         });
                       }
                     },
-                    child: saved ?? widget.stream.saved ? Icon(Icons.bookmark) : Icon(Icons.bookmark_border),
+                    child: saved ?? widget.stream.saved
+                        ? Icon(
+                            Icons.bookmark,
+                            color: greyColor,
+                          )
+                        : Icon(
+                            Icons.bookmark_border,
+                            color: greyColor,
+                          ),
                   ),
                 ],
               ),
@@ -377,7 +425,8 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => KomentarStreamPage(post: widget.stream),
+                      builder: (context) =>
+                          KomentarStreamPage(post: widget.stream),
                     ),
                   );
                 },

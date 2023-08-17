@@ -1,23 +1,30 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
+import 'package:heystetik_mobileapps/core/download_file.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/image_gallery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../theme/theme.dart';
 
 class TulisUlasanTreament extends StatefulWidget {
   String transactionTreatmentId;
+  String transactionTreatmentItemIid;
   String img;
   String treatment;
   String clinic;
   TulisUlasanTreament(
       {required this.transactionTreatmentId,
+      required this.transactionTreatmentItemIid,
       required this.img,
       required this.treatment,
       required this.clinic,
@@ -84,14 +91,6 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         borderRadius: BorderRadius.circular(7)),
                   ),
                 ),
-                // const SizedBox(
-                //   width: 14,
-                // ),
-                // Text(
-                //   '2/2',
-                //   style: subTitleTextStyle.copyWith(
-                //       fontSize: 15, fontWeight: bold),
-                // )
               ],
             ),
           ),
@@ -141,7 +140,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                   height: 26,
                 ),
                 Text(
-                  'Bagaimana Penilaiyan Mu Terhadap Produk Ini',
+                  'Bagaimana Penilaianmu Terhadap Treatment Ini?',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
                 const SizedBox(
@@ -163,11 +162,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              print("index $index");
-
-                              state.careRating.value = index + 1;
-                              state.ratingTitle.value =
-                                  state.description[state.careRating.value - 1];
+                              state.ratingAvaregeTreatment(index, 'care');
+                              setState(() {});
                             },
                             child: Obx(
                               () => Image.asset(
@@ -204,12 +200,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              print("index $index");
-
-                              state.serviceRating.value = index + 1;
-
-                              state.ratingTitle.value = state
-                                  .description[state.serviceRating.value - 1];
+                              state.ratingAvaregeTreatment(index, 'service');
+                              setState(() {});
                             },
                             child: Obx(
                               () => Image.asset(
@@ -246,11 +238,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                         children: List.generate(5, (index) {
                           return InkWell(
                             onTap: () {
-                              print("index $index");
-
-                              state.managementRating.value = index + 1;
-                              state.ratingTitle.value = state.description[
-                                  state.managementRating.value - 1];
+                              state.ratingAvaregeTreatment(index, 'management');
+                              setState(() {});
                             },
                             child: Obx(
                               () => Image.asset(
@@ -280,9 +269,13 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                 ),
                 Row(
                   children: [
-                    Text(
-                      'Excellent Product!',
-                      style: grenTextStyle.copyWith(fontSize: 20),
+                    Obx(
+                      () => Text(
+                        state.description[state.average.value < 1
+                            ? 0
+                            : state.average.value.toInt() - 1],
+                        style: grenTextStyle.copyWith(fontSize: 20),
+                      ),
                     ),
                     const Spacer(),
                     Image.asset(
@@ -293,9 +286,11 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text(
-                      '4.7',
-                      style: blackHigtTextStyle.copyWith(fontSize: 25),
+                    Obx(
+                      () => Text(
+                        state.average.value.toString().substring(0, 3),
+                        style: blackHigtTextStyle.copyWith(fontSize: 25),
+                      ),
                     ),
                   ],
                 ),
@@ -310,7 +305,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                     ),
                     const Spacer(),
                     Text(
-                      '0/150',
+                      '${state.review.text.length}/150',
                       style: subTitleTextStyle.copyWith(),
                     )
                   ],
@@ -325,19 +320,26 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                     ),
                   ),
                   child: TextField(
-                      decoration: InputDecoration(
-                          isDense: true,
-                          contentPadding: const EdgeInsets.only(
-                            top: 0,
-                            bottom: 2,
-                          ),
-                          hintText:
-                              'Ceritakan pengalaman kamu memakai produk ini',
-                          hintStyle: subTitleTextStyle,
-                          border: InputBorder.none)),
+                    controller: state.review,
+                    onChanged: (value) {
+                      if (state.review.text.length <= 150) {
+                        setState(() {});
+                      }
+                    },
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.only(
+                        top: 0,
+                        bottom: 2,
+                      ),
+                      hintText: 'Ceritakan pengalaman treatment kamu',
+                      hintStyle: subTitleTextStyle,
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
                 Text(
-                  'Ulasan minimal 150 karakter',
+                  'Ulasan maksimal 150 karakter',
                   style: blackRegulerTextStyle.copyWith(
                       color: redColor,
                       fontSize: 10,
@@ -353,7 +355,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Tambahkan foto Penilaiyan',
+                  'Tambahkan foto Penilaian',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
                 const SizedBox(
@@ -362,84 +364,156 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                 Wrap(
                   spacing: 4,
                   runSpacing: 4,
-                  children: [
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: 72,
-                      width: 82,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/before1.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const AlertDialogUlasan(),
-                        );
-                      },
-                      child: Image.asset(
-                        'assets/icons/add-poto-icons.png',
-                        width: 82,
-                        height: 78,
-                      ),
-                    ),
-                  ],
+                  children: state.listImage.map((e) {
+                    return Stack(
+                      children: [
+                        Container(
+                          height: 72,
+                          width: 82,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Image.file(
+                            File(e),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              state.listImage.removeWhere((item) => item == e);
+                              setState(() {});
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: greenColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Obx(
+                  () => state.isMinorLoading.value
+                      ? LoadingMore()
+                      : InkWell(
+                          onTap: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialogUlasan(
+                                functionCamera: () async {
+                                  await openCamera();
+                                  setState(() {});
+                                },
+                                functionGallery: () async {
+                                  await openGallery();
+                                  setState(() {});
+                                },
+                                functionGalleryMyJourney: () async {
+                                  await openGalleryMyJourney();
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/add-poto-icons.png',
+                            width: 82,
+                            height: 78,
+                          ),
+                        ),
                 ),
               ],
             ),
           ),
           Padding(
             padding: lsymetric.copyWith(bottom: 30),
-            child: ButtonGreenWidget(
-              title: 'Kirim',
-              onPressed: () async {
-                await state.reviewTreatment(
-                  context,
-                  widget.transactionTreatmentId,
-                  doInPost: () async {
-                    Get.back();
-                    Get.back();
-                    SnackbarWidget.getSuccessSnackbar(
+            child: Obx(
+              () => LoadingWidget(
+                isLoading: state.isLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Kirim',
+                  onPressed: () async {
+                    await state.reviewTreatment(
                       context,
-                      'Info',
-                      "Terima kasih atas ulasannya",
+                      widget.transactionTreatmentId,
+                      widget.transactionTreatmentItemIid,
+                      doInPost: () async {
+                        Get.back();
+                        Get.back();
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          "Terima kasih atas ulasannya",
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           )
         ],
       ),
     );
+  }
+
+  File? imagePath;
+  // image from camera
+  Future openCamera() async {
+    final XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      imagePath = File(pickedImage.path);
+
+      print('img camera $imagePath');
+      state.listImage.add(imagePath!.path);
+      setState(() {});
+      print('img camera ${state.listImage}');
+    } else {
+      print('image not selected');
+    }
+  }
+
+  // image fromo gallery
+  Future openGallery() async {
+    final XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      imagePath = File(pickedImage.path);
+
+      print('img galeri $imagePath');
+      state.listImage.add(imagePath!.path);
+      setState(() {});
+      print('img galeri ${state.listImage}');
+    } else {
+      print('image not selected');
+    }
+  }
+
+  Future openGalleryMyJourney() async {
+    List hasil = await Get.to(ImageGalleryMyJourney());
+    print("hasil $hasil");
+    Get.back();
+
+    if (hasil.isEmpty) {
+      print("hasil kosong");
+      return;
+    }
+
+    state.isMinorLoading.value = true;
+    for (int i = 0; i < hasil.length; i++) {
+      String path = await downloadFile(hasil[i]);
+      state.listImage.add(path);
+      setState(() {});
+      print('oGalleryMyJourney ${state.listImage}');
+    }
+    state.isMinorLoading.value = false;
+    print("beres");
   }
 }

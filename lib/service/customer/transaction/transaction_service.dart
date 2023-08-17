@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/order_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/order_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
@@ -13,7 +14,8 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class TransactionService extends ProviderClass {
-  TransactionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  TransactionService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<PaymentMethodModel> paymentMethod() async {
     var response = await networkingConfig.doGet(
@@ -57,6 +59,18 @@ class TransactionService extends ProviderClass {
     return OrderTreatmentModel.fromJson(response);
   }
 
+  Future<OrderProductModel> orderProduct(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/transaction/product/order',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return OrderProductModel.fromJson(response);
+  }
+
   Future<TransactionHistoryModel> allHistory(
     int page,
     List transactionStatus,
@@ -93,7 +107,8 @@ class TransactionService extends ProviderClass {
     }
   }
 
-  Future<TransactionStatusModel> transactionStatusConsultation(String orderId) async {
+  Future<TransactionStatusModel> transactionStatusConsultation(
+      String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/CONSULTATION.$orderId/status',
       headers: {
@@ -115,7 +130,8 @@ class TransactionService extends ProviderClass {
     return TransactionHistoryConsultationModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatusTreatment(String orderId) async {
+  Future<TransactionStatusModel> transactionStatusTreatment(
+      String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/TREATMENT.$orderId/status',
       headers: {
@@ -135,5 +151,17 @@ class TransactionService extends ProviderClass {
       },
     );
     return TransactionHistoryTreatmentModel.fromJson(response);
+  }
+
+  Future<TransactionStatusModel> transactionStatusProduct(
+      String orderId) async {
+    var response = await networkingConfig.doGet(
+      '/transaction/PRODUCT.$orderId/status',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return TransactionStatusModel.fromJson(response);
   }
 }

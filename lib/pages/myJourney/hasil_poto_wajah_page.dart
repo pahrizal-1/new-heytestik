@@ -5,11 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_wajah_kanan.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kanan.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-class HasilPotoWajah extends StatelessWidget {
+class HasilPotoWajah extends StatefulWidget {
   HasilPotoWajah({super.key});
+
+  @override
+  State<HasilPotoWajah> createState() => _HasilPotoWajahState();
+}
+
+class _HasilPotoWajahState extends State<HasilPotoWajah> {
   final MyJourneyController state = Get.put(MyJourneyController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +40,18 @@ class HasilPotoWajah extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (state.isGallery.value)
+            Text(
+              'Wajah depan',
+              style: whiteTextStyle.copyWith(
+                fontWeight: regular,
+                fontSize: 20,
+              ),
+            ),
+          if (state.isGallery.value)
+            const SizedBox(
+              height: 10,
+            ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -67,9 +87,16 @@ class HasilPotoWajah extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     state.initialConditionFrontFace == null;
-                    Navigator.pop(context);
+
+                    if (state.isGallery.value) {
+                      state.initialConditionFrontFace =
+                          await state.pickImageFromGalery();
+                      setState(() {});
+                      return;
+                    }
+                    Get.back();
                   },
                   style: TextButton.styleFrom(
                     side: BorderSide(color: borderColor, width: 0.5),
@@ -97,7 +124,14 @@ class HasilPotoWajah extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    if (state.isGallery.value) {
+                      state.initialConditionRightSide =
+                          await state.pickImageFromGalery();
+                      setState(() {});
+                      Get.to(PotoBagianWajahKanan());
+                      return;
+                    }
                     if (state.initialConditionFrontFace != null) {
                       Get.to(CustomeCameaPotoWajahKanan());
                       return;

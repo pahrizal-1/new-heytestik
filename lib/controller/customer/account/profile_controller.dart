@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +18,6 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import '../../../core/global.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
-import '../../../models/user_activity.dart';
 import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
@@ -95,7 +95,8 @@ class ProfileController extends StateClass {
       noHp.value = profileData.value.data!.noPhone ?? '-';
       gender.value = profileData.value.data!.gender ?? '-';
       dob.value = formatter.format(tdata);
-      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path!;
+      imgNetwork.value =
+          profileData.value.data!.mediaUserProfilePicture!.media!.path!;
 
       // data text editing
       fullNameController.text = profileData.value.data!.fullname ?? '-';
@@ -324,13 +325,15 @@ class ProfileController extends StateClass {
     });
   }
 
-  Future<List<UserActivity>> getUserActivityReview(
+  Future<List<Data2>> getUserActivityReview(
       BuildContext context, int page) async {
     try {
       isLoading.value = true;
-      List<UserActivity> data = [];
+      FinishedReviewModel userProfileReview;
+      List<Data2> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserActivityReview(page);
+        userProfileReview = await ProfileService().getUserActivityReview(page);
+        data = userProfileReview.data!.data!;
         isLoading.value = false;
       });
 
@@ -360,6 +363,24 @@ class ProfileController extends StateClass {
     } catch (error) {
       print(error.toString());
       return [];
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserOverview(BuildContext context) async {
+    try {
+      isLoading.value = true;
+      Map<String, dynamic> data = {};
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await ProfileService().getUserOverview();
+        isLoading.value = false;
+      });
+
+      print("INI DATA");
+      print(data);
+      return data;
+    } catch (error) {
+      print(error.toString());
+      return {};
     }
   }
 }

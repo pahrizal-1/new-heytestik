@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_skincare2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
@@ -230,7 +229,8 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
                   children: [
                     Text(
                       state.description[
-                          (data.detail!.consultationReview!.rating! - 1)],
+                          (data.detail!.consultationReview!.rating!.toInt() -
+                              1)],
                       style: grenTextStyle.copyWith(fontSize: 15),
                     ),
                     const Spacer(),
@@ -243,7 +243,7 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      '${data.detail!.consultationReview!.rating}.0',
+                      '${data.detail!.consultationReview!.rating}',
                       style: blackHigtTextStyle.copyWith(fontSize: 20),
                     ),
                   ],
@@ -323,6 +323,7 @@ class DetailPageUlasanTreatment extends StatelessWidget {
           Padding(
             padding: lsymetric.copyWith(top: 21, bottom: 15),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -625,7 +626,7 @@ class DetailPageUlasanTreatment extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      '${data.detail!.treatmentReview!.avgRating!.toInt()}.0',
+                      '${data.detail!.treatmentReview!.avgRating}',
                       style: blackHigtTextStyle.copyWith(fontSize: 20),
                     ),
                   ],

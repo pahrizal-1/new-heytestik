@@ -13,7 +13,8 @@ import 'package:heystetik_mobileapps/models/treatment_review.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
 
 class TreatmentController extends StateClass {
-  RxList<TreatmentRecommendationModel> treatment = List<TreatmentRecommendationModel>.empty().obs;
+  RxList<TreatmentRecommendationModel> treatment =
+      List<TreatmentRecommendationModel>.empty().obs;
   Rx<TreatmentModel> responseTreatment = TreatmentModel().obs;
   RxList<Data2> dataTreatment = List<Data2>.empty(growable: true).obs;
   RxList<Data2> filterTreatment = List<Data2>.empty(growable: true).obs;
@@ -25,7 +26,8 @@ class TreatmentController extends StateClass {
   RxString phone = ''.obs;
 
   Rx<ClinicModel> responseClinic = ClinicModel().obs;
-  RxList<ClinicDataModel> dataClinic = List<ClinicDataModel>.empty(growable: true).obs;
+  RxList<ClinicDataModel> dataClinic =
+      List<ClinicDataModel>.empty(growable: true).obs;
   Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
 
   getDataUser() async {
@@ -48,7 +50,8 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      ClinicModel data = await TreatmentService().getClinic(page, search: search, filter: filter);
+      ClinicModel data = await TreatmentService()
+          .getClinic(page, search: search, filter: filter);
       responseClinic.value = data;
       dataClinic.value.addAll(responseClinic.value.data!);
     });
@@ -69,7 +72,8 @@ class TreatmentController extends StateClass {
     return responseClinicDetail.value;
   }
 
-  void userWishlistTreatment(BuildContext context, int treatmentID, bool wishlist) async {
+  void userWishlistTreatment(
+      BuildContext context, int treatmentID, bool wishlist) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentService().userWishlistTreatment(treatmentID, wishlist);
@@ -80,17 +84,20 @@ class TreatmentController extends StateClass {
   void getTreatmentDetail(BuildContext context, int treatmentID) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      treatmentDetail.value = await TreatmentService().getTreatmentDetail(treatmentID);
+      treatmentDetail.value =
+          await TreatmentService().getTreatmentDetail(treatmentID);
     });
 
     isLoading.value = false;
   }
 
-  Future<List<Data2>> getTreatmentFromSameClinic(BuildContext context, int page, int clinicID) async {
+  Future<List<Data2>> getTreatmentFromSameClinic(
+      BuildContext context, int page, int clinicID) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
+      TreatmentModel data =
+          await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
@@ -100,7 +107,8 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<Map<String, dynamic>> getTreatmentOverview(BuildContext context, int treatmentID) async {
+  Future<Map<String, dynamic>> getTreatmentOverview(
+      BuildContext context, int treatmentID) async {
     isLoading.value = true;
     Map<String, dynamic> data = {};
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -114,7 +122,8 @@ class TreatmentController extends StateClass {
   void getTreatment(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      List<TreatmentRecommendationModel> data = await TreatmentService().getTreatmentRecommendation();
+      List<TreatmentRecommendationModel> data =
+          await TreatmentService().getTreatmentRecommendation();
       treatment.value = data;
     });
     isLoading.value = false;
@@ -134,11 +143,13 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<Data2>> getTopRatingTreatment(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getTopRatingTreatment(BuildContext context, int page,
+      {String? search}) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getTopRatingTreatment(page);
+      TreatmentModel data =
+          await TreatmentService().getTopRatingTreatment(page);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
@@ -148,7 +159,8 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<Data2>> getTrendingTreatment(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getTrendingTreatment(BuildContext context, int page,
+      {String? search}) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -218,14 +230,17 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
     List<TreatmentReviewModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data = await TreatmentService().getTreatmentReview(page, treatmentID, filter: filter);
+      print("id asd asd $treatmentID");
+      data = await TreatmentService()
+          .getTreatmentReview(page, treatmentID, filter: filter);
     });
     isLoading.value = false;
 
     return data;
   }
 
-  Future<List<LookupTreatmentModel>> getLookupTreatment(BuildContext context) async {
+  Future<List<LookupTreatmentModel>> getLookupTreatment(
+      BuildContext context) async {
     isLoading.value = true;
     List<LookupTreatmentModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {

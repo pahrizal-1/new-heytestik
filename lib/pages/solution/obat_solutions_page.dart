@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import '../../controller/customer/solution/medicine_controller.dart';
 import '../../core/global.dart';
 import '../../theme/theme.dart';
@@ -31,12 +33,14 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
   final EtalaseController etalaseController = Get.put(EtalaseController());
   int page = 1;
   List<MedicineModel> medicines = [];
+  List<Data2> drugRecipe = [];
 
   @override
   void initState() {
     etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       medicines.addAll(await solutionController.getMedicine(context, page));
+      drugRecipe.addAll(await solutionController.getDrugRecipe(context, page));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -216,18 +220,18 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
               child: Padding(
                 padding: EdgeInsets.only(right: 20, left: 25),
                 child: Row(
-                  children: [
-                    ProdukObat(
-                      namaBrand: 'Noroid Soothing Cream 200ml',
-                      harga: 'Rp152.500',
-                      urlImg: 'assets/images/noroid1.png',
-                    ),
-                    ProdukObat(
-                      namaBrand: 'Digenta Cream 10g\n',
-                      harga: 'Rp152.500',
-                      urlImg: 'assets/images/digentasalep.png',
-                    ),
-                  ],
+                  children: drugRecipe.map((e) {
+                    return ProdukObat(
+                      medicine: MedicineModel.fromJson(
+                          jsonDecode(jsonEncode(e.product))),
+                      productId: e.product!.id!.toInt(),
+                      namaBrand: e.product?.name ?? '-',
+                      harga: CurrencyFormat.convertToIdr(e.product?.price, 0),
+                      urlImg:
+                          '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                      duedate: ConvertDate.defaultDate(e.dueDate.toString()),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -315,7 +319,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                   spacing: 15,
                   runSpacing: 12,
                   children: medicines.map((medicine) {
-                    return KonsultasProduk(
+                    return KonsultasiProduk(
                       medicine: medicine,
                     );
                   }).toList(),
@@ -329,8 +333,8 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
   }
 }
 
-class KonsultasProduk extends StatelessWidget {
-  const KonsultasProduk({
+class KonsultasiProduk extends StatelessWidget {
+  const KonsultasiProduk({
     Key? key,
     required this.medicine,
   }) : super(key: key);
@@ -341,12 +345,9 @@ class KonsultasProduk extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailObatPage(
-              medicine: medicine,
-            ),
+        Get.to(
+          DetailObatPage(
+            medicine: medicine,
           ),
         );
       },
@@ -361,12 +362,11 @@ class KonsultasProduk extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 164,
+              height: 140,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
                 image: DecorationImage(
                   image: NetworkImage("${Global.FILE}/${medicine.media[0]}"),
-                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -453,12 +453,12 @@ class CirkelCategory extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 49,
-            width: 50,
+            height: 45,
+            width: 45,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
             ),
           ),
           const SizedBox(

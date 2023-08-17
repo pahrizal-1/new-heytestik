@@ -8,6 +8,8 @@ import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_mo
     as DetailSkincare;
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
+import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart'
+    as RelatedProductSkincare;
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
@@ -17,9 +19,11 @@ class SkincareController extends StateClass {
   List<Skincare.Data2> skincare = [];
   RxList<Skincare.Data2> filterData = List<Skincare.Data2>.empty().obs;
   Rx<DetailSkincare.Data> skincareDetail = DetailSkincare.Data.fromJson({}).obs;
+  List<RelatedProductSkincare.Data2> relatedSkincare = [];
 
   RxBool isLoadingSkincare = false.obs;
   RxBool isLoadingDetailSkincare = false.obs;
+  RxBool isLoadingRelatedSkincare = false.obs;
   RxBool isLoadingLookup = false.obs;
 
   getSkincare(BuildContext context) async {
@@ -69,6 +73,22 @@ class SkincareController extends StateClass {
       skincareDetail.value = res.data!;
     });
     isLoadingDetailSkincare.value = false;
+  }
+
+  relatedProductSkincare(BuildContext context, int id) async {
+    isLoadingRelatedSkincare.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().relatedProductSkincare(id, 1);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      relatedSkincare = res.data!.data!;
+    });
+    isLoadingRelatedSkincare.value = false;
   }
 
   getLookup(BuildContext context) async {

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -110,7 +111,7 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
                       style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     Text(
-                      '${state.historyConsultationDoctorNote.value.indication}',
+                      '${state.historyConsultationDoctorNote.value.consultationDoctorNote?.indication}',
                       style: blackRegulerTextStyle.copyWith(
                         fontSize: 15,
                         color: blackColor,
@@ -125,7 +126,7 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     Text(
-                      '${state.historyConsultationDoctorNote.value.diagnosisPossibilty}\n${state.historyConsultationDoctorNote.value.diagnosisSecondary}',
+                      '${state.historyConsultationDoctorNote.value.consultationDoctorNote?.diagnosisPossibilty}\n${state.historyConsultationDoctorNote.value.consultationDoctorNote?.diagnosisSecondary}',
                       style: blackRegulerTextStyle.copyWith(
                         fontSize: 15,
                         color: blackColor,
@@ -140,7 +141,7 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     Text(
-                      '${state.historyConsultationDoctorNote.value.suggestion}',
+                      '${state.historyConsultationDoctorNote.value.consultationDoctorNote?.suggestion}',
                       style: blackRegulerTextStyle.copyWith(
                         fontSize: 15,
                         color: blackColor,
@@ -189,14 +190,16 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
               const SizedBox(
                 height: 21,
               ),
-              InkWell(
-                onTap: () {},
-                child: HasilKonsultasiWidgets(
-                  // namaObat: 'Cefila® 200 Cefixime',
-                  // berapaBayak: '1 Strip (10 tablet)',
-                  namaObat: '-',
-                  berapaBayak: '-',
-                ),
+              Column(
+                children: state
+                    .historyConsultationDoctorNote.value.consultationRecipeDrug!
+                    .map((e) {
+                  return HasilKonsultasiWidgets(
+                    namaObat: e.product?.name ?? '-',
+                    berapaBayak:
+                        e.product?.drugDetail?.specificationPackaging ?? '-',
+                  );
+                }).toList(),
               ),
               SizedBox(
                 height: 18,
@@ -225,29 +228,16 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
               const SizedBox(
                 height: 10,
               ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Cefila® 200 Cefixime',
-                // berapaBayak: '1 botol',
-                namaObat: '-',
-                berapaBayak: '-',
-              ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Teenderm Aqua 200ml',
-                // berapaBayak: '1 botol',
-                namaObat: '-',
-                berapaBayak: '-',
-              ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Teenderm Aqua 200ml',
-                // berapaBayak: '1 botol',
-                namaObat: '-',
-                berapaBayak: '-',
-              ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Teenderm Alpha Pure 30ml',
-                // berapaBayak: '1 botol',
-                namaObat: '-',
-                berapaBayak: '-',
+              Column(
+                children: state.historyConsultationDoctorNote.value
+                    .consultationRecomendationSkincare!
+                    .map((e) {
+                  return HasilKonsultasiWidgets(
+                    namaObat: e.product?.name ?? '-',
+                    berapaBayak:
+                        '${e.product?.skincareDetail?.specificationTexture} ${e.product?.skincareDetail?.specificationNetto} ${e.product?.skincareDetail?.specificationNettoType}',
+                  );
+                }).toList(),
               ),
               const SizedBox(
                 height: 13,
@@ -274,57 +264,59 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
               const SizedBox(
                 height: 21,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 24, right: 24, bottom: 10, top: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                children: state.historyConsultationDoctorNote.value
+                    .consultationRecomendationTreatment!
+                    .map((e) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 24, right: 24, bottom: 10, top: 10),
+                    child: Column(
                       children: [
-                        Text(
-                          'R/',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'R/',
+                              style:
+                                  blackRegulerTextStyle.copyWith(fontSize: 15),
+                            ),
+                            const SizedBox(
+                              width: 11,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    e.name ?? '-',
+                                    style: grenTextStyle.copyWith(fontSize: 15),
+                                  ),
+                                  Column(
+                                    children: e
+                                        .consultationRecomendationTreatmentClinics!
+                                        .map((a) {
+                                      return Text(
+                                        'Sudah direservasi di ${a.clinic?.name} ${ConvertDate.normalDate(a.createdAt.toString())}',
+                                        style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 13,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          width: 11,
+                          height: 13,
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                // 'Acne Peeling',
-
-                                '-',
-                                style: grenTextStyle.copyWith(fontSize: 15),
-                              ),
-                              Text(
-                                // 'Sudah direservasi di Klinik Utama Lithea Min, 12 Jun 2023',
-                                '-',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        dividergrey(),
                       ],
                     ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    dividergrey(),
-                  ],
-                ),
-              ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Acne Facial',
-                namaObat: '-',
-              ),
-              HasilKonsultasiWidgets(
-                // namaObat: 'Acne Facial',
-                namaObat: '-',
+                  );
+                }).toList(),
               ),
             ],
           ),

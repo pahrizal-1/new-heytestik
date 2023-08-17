@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
@@ -583,78 +585,186 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: snapshot.data!.data!.map<Widget>((value) {
-                              return Container(
-                                margin: const EdgeInsets.only(right: 5),
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 20, top: 16, bottom: 17),
-                                height: 130,
-                                width: 315,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/icons/bg_wekkly.png',
-                                    ),
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      value.tips ?? '-',
-                                      style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        color: whiteColor,
-                                        fontWeight: regular,
-                                        fontSize: 13,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      softWrap: false,
-                                      maxLines: 3,
-                                      strutStyle: const StrutStyle(
-                                        height: 0.5,
-                                        leading: 0.5,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const CircleAvatar(
-                                          maxRadius: 17,
-                                          backgroundImage: AssetImage(
-                                            'assets/images/profiledummy.png',
+                              return InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 15,
+                                              bottom: 17),
+                                          height: 150,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                  'assets/icons/bg_wekkly.png',
+                                                ),
+                                                fit: BoxFit.fill),
+                                          ),
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Image.asset(
+                                                        'assets/icons/danger-icons.png',
+                                                        width: 13,
+                                                        height: 13,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  value.tips ?? '-',
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    color: whiteColor,
+                                                    fontWeight: regular,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const CircleAvatar(
+                                                      maxRadius: 17,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                        'assets/images/profiledummy.png',
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 11,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          value.doctor
+                                                                  ?.fullname ??
+                                                              '-',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color: whiteColor,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'ProximaNova',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          value.doctorTitle ??
+                                                              '-',
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                            color: whiteColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 11,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 16, bottom: 17),
+                                  height: 130,
+                                  width: 315,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/icons/bg_wekkly.png',
+                                      ),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        value.tips ?? '-',
+                                        style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          color: whiteColor,
+                                          fontWeight: regular,
+                                          fontSize: 13,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              value.doctor?.fullname ?? '-',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                color: whiteColor,
-                                                fontSize: 14,
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            ),
-                                            Text(
-                                              value.doctorTitle ?? '-',
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color: whiteColor,
-                                              ),
-                                            ),
-                                          ],
+                                        softWrap: false,
+                                        maxLines: 3,
+                                        strutStyle: const StrutStyle(
+                                          height: 0.5,
+                                          leading: 0.5,
                                         ),
-                                      ],
-                                    )
-                                  ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const CircleAvatar(
+                                            maxRadius: 17,
+                                            backgroundImage: AssetImage(
+                                              'assets/images/profiledummy.png',
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 11,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                value.doctor?.fullname ?? '-',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: whiteColor,
+                                                  fontSize: 14,
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              ),
+                                              Text(
+                                                value.doctorTitle ?? '-',
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: whiteColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -694,216 +804,163 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
+              child: FutureBuilder(
+                future: state.getArticle(context),
+                builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                  print(snapshot.data);
+
+                  if (!snapshot.hasData) {
+                    return shimmerWidget(
+                        child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
                                 borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ));
+                  }
+                  return snapshot.data!.record!.isEmpty
+                      ? shimmerWidget(
+                          child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 5, bottom: 5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
-                                        ),
-                                      ),
-                                    ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                        ))
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: snapshot.data!.record!.map<Widget>((value) {
+                            return InkWell(
+                              onTap: () {
+                                _launchURL(value.link.toString());
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 250,
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                              value.thumbLink.toString(),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          value.title.toString(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'ProximaNova',
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            height: 0.5,
+                                            leading: 0.7,
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              ConvertDate.defaultDate(
+                                                  value.newsDate.toString()),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: Container(
+                                                height: 5,
+                                                width: 5,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      'assets/icons/dot.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              value.author.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                              ),
+                            );
+                          }).toList(),
+                        );
+                },
               ),
             ),
           ),

@@ -4,17 +4,20 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
+import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
+import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
-  SolutionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SolutionService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<SkincareModel> getSkincare() async {
     var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&take=100&order=asc',
+      '/solution/skincare?page=1&search=&take=100&order=desc',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -26,7 +29,7 @@ class SolutionService extends ProviderClass {
 
   Future<SkincareModel> getSkincareByCategory(String category) async {
     var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=asc',
+      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=desc',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -48,9 +51,27 @@ class SolutionService extends ProviderClass {
     return DetailSkincareSolutionModel.fromJson(response);
   }
 
+  Future<RelatedProductSkincareModel> relatedProductSkincare(
+      int id, int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare/$id/related',
+      params: {
+        "page": page,
+        "take": 10,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return RelatedProductSkincareModel.fromJson(response);
+  }
+
   Future<LookupModel> getLookup() async {
     var response = await networkingConfig.doGet(
-      '/lookup?page=1&take=100&order=asc&category[]=SKINCARE_CATEGORY&search=',
+      '/lookup?page=1&take=100&order=desc&category[]=SKINCARE_CATEGORY&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -62,7 +83,7 @@ class SolutionService extends ProviderClass {
 
   Future<ConcernModel> getConcern() async {
     var response = await networkingConfig.doGet(
-      '/concern?page=1&take=100&order=asc&search=',
+      '/concern?page=1&take=100&order=desc&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -86,11 +107,29 @@ class SolutionService extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => MedicineModel.fromJson(e)).toList();
-    } catch(error) {
+      return (response['data']['data'] as List)
+          .map((e) => MedicineModel.fromJson(e))
+          .toList();
+    } catch (error) {
       print(error);
       return [];
     }
+  }
+
+  Future<DrugRecipeModel> getDrugRecipe(int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug-recipe',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DrugRecipeModel.fromJson(response);
   }
 
   void addMedicineToCart(int productID) async {

@@ -3,14 +3,14 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../widget/Text_widget.dart';
 
-class CaraPembyaranPage extends StatefulWidget {
-  const CaraPembyaranPage({super.key});
+class CaraPembayaranPage extends StatefulWidget {
+  const CaraPembayaranPage({super.key});
 
   @override
-  State<CaraPembyaranPage> createState() => _CaraPembyaranPageState();
+  State<CaraPembayaranPage> createState() => _CaraPembayaranPageState();
 }
 
-class _CaraPembyaranPageState extends State<CaraPembyaranPage> {
+class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
   bool isVisibelity = true;
   @override
   Widget build(BuildContext context) {

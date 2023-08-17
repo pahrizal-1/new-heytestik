@@ -9,11 +9,12 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'appbar_widget.dart';
 
 class ProdukCardWidget extends StatefulWidget {
+  final int index;
   final int cartId;
   final int productId;
   final int qty;
   final String imageProduk;
-  final String namaProdik;
+  final String type;
   final String merkProduk;
   final String penggunaanJadwal;
   final String penggunaan;
@@ -24,6 +25,7 @@ class ProdukCardWidget extends StatefulWidget {
   final String nettoType;
   const ProdukCardWidget({
     Key? key,
+    required this.index,
     required this.cartId,
     required this.productId,
     required this.imageProduk,
@@ -32,10 +34,10 @@ class ProdukCardWidget extends StatefulWidget {
     required this.penggunaan,
     required this.harga,
     required this.hintText,
-    required this.namaProdik,
+    required this.type,
     required this.packagingType,
-    required this.netto,
-    required this.nettoType,
+    this.netto = '',
+    this.nettoType = '',
     required this.qty,
   }) : super(key: key);
 
@@ -46,7 +48,7 @@ class ProdukCardWidget extends StatefulWidget {
 class _ProdukCardWidgetState extends State<ProdukCardWidget> {
   final CartController state = Get.put(CartController());
   final WishlistController wishlist = Get.put(WishlistController());
-  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,27 +62,33 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                 children: [
                   InkWell(
                     onTap: () {
-                      setState(() {
-                        isSelected = !isSelected;
-                      });
+                      state.onChecklist(widget.index, false);
+                      setState(() {});
                     },
                     child: Container(
                       width: 23,
                       padding: const EdgeInsets.all(4),
                       height: 23,
                       decoration: BoxDecoration(
-                        color: isSelected ? greenColor : null,
+                        color: state.checklist[widget.index]['isSelected']
+                            ? greenColor
+                            : null,
                         borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: isSelected ? greenColor : borderColor),
+                        border: Border.all(
+                            color: state.checklist[widget.index]['isSelected']
+                                ? greenColor
+                                : borderColor),
                       ),
-                      child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
+                      child: state.checklist[widget.index]['isSelected']
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
                   ),
                   const SizedBox(
                     width: 7,
                   ),
                   Text(
-                    widget.namaProdik,
+                    widget.type,
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
                 ],
@@ -93,7 +101,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 17, right: 5, bottom: 15),
+                      padding:
+                          const EdgeInsets.only(top: 17, right: 5, bottom: 15),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -101,22 +110,29 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  setState(
-                                    () {
-                                      isSelected = !isSelected;
-                                    },
-                                  );
+                                  state.onChecklist(widget.index, false);
+                                  setState(() {});
                                 },
                                 child: Container(
                                   width: 23,
                                   padding: const EdgeInsets.all(4),
                                   height: 23,
                                   decoration: BoxDecoration(
-                                    color: isSelected ? greenColor : null,
+                                    color: state.checklist[widget.index]
+                                            ['isSelected']
+                                        ? greenColor
+                                        : null,
                                     borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(color: isSelected ? greenColor : borderColor),
+                                    border: Border.all(
+                                        color: state.checklist[widget.index]
+                                                ['isSelected']
+                                            ? greenColor
+                                            : borderColor),
                                   ),
-                                  child: isSelected ? Image.asset('assets/icons/chek_new.png') : null,
+                                  child: state.checklist[widget.index]
+                                          ['isSelected']
+                                      ? Image.asset('assets/icons/chek_new.png')
+                                      : null,
                                 ),
                               ),
                             ],
@@ -144,7 +160,10 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 1.8),
+                                    constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width /
+                                                1.8),
                                     child: Text(
                                       widget.merkProduk,
                                       style: grenTextStyle.copyWith(
@@ -156,7 +175,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     height: 5,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Penggunaan',
@@ -174,10 +194,12 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                         width: 10,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            constraints: const BoxConstraints(maxWidth: 80),
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 80),
                                             child: Text(
                                               widget.penggunaanJadwal,
                                               style: TextStyle(
@@ -211,7 +233,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                     height: 10,
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         widget.harga,
@@ -228,17 +251,34 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                       const SizedBox(
                                         width: 15,
                                       ),
-                                      Text(
-                                        '1 ${widget.packagingType}\n(${widget.netto}\n${widget.nettoType})',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          color: fromCssColor(
-                                            '#323232',
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${widget.qty} ${widget.packagingType}',
+                                            style: TextStyle(
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.5,
+                                              color: fromCssColor(
+                                                '#323232',
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          if (widget.type == 'SKINCARE')
+                                            Text(
+                                              ' (${widget.netto} ${widget.nettoType}) ',
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.5,
+                                                color: fromCssColor(
+                                                  '#323232',
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -270,7 +310,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: widget.hintText,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -299,7 +340,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         onTap: () async {
                           await showDialog(
                             context: context,
-                            builder: (context) => AlertInfomasi(function: () async {
+                            builder: (context) =>
+                                AlertInfomasi(function: () async {
                               await state.deleteCart(context, widget.cartId);
                             }),
                           );
@@ -313,29 +355,47 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         width: 21,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
                           border: Border.all(color: borderColor),
                         ),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.remove,
-                              size: 15,
-                              color: greyColor,
+                            InkWell(
+                              onTap: () {
+                                if (state.checklist[widget.index]['qty'] > 1) {
+                                  state.decrement(widget.index);
+                                  setState(() {});
+                                }
+                              },
+                              child: Icon(
+                                Icons.remove,
+                                size: 15,
+                                color: state.checklist[widget.index]['qty'] <= 1
+                                    ? greyColor
+                                    : greenColor,
+                              ),
                             ),
                             const SizedBox(
                               width: 21,
                             ),
-                            Text('${widget.qty}'),
+                            Text(state.checklist[widget.index]['qty']
+                                .toString()),
                             const SizedBox(
                               width: 21,
                             ),
-                            Icon(
-                              Icons.add,
-                              size: 15,
-                              color: greenColor,
+                            InkWell(
+                              onTap: () {
+                                state.increment(widget.index);
+                                setState(() {});
+                              },
+                              child: Icon(
+                                Icons.add,
+                                size: 15,
+                                color: greenColor,
+                              ),
                             ),
                           ],
                         ),

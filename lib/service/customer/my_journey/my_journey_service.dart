@@ -61,7 +61,7 @@ class MyJourneysService extends ProviderClass {
 
   Future<dynamic> saveJourney(dynamic data) async {
     FormData formData = FormData.fromMap({
-      "concern_id": 1,
+      "concern_id": data['concern_id'],
       "initial_condition_front_face":
           await MultipartFile.fromFile(data['initial_condition_front_face']),
       "initial_condition_right_side":
@@ -119,7 +119,7 @@ class MyJourneysService extends ProviderClass {
           await MultipartFile.fromFile(data['after_condition_problem_part']),
     });
 
-    var response = await networkingConfig.doPost(
+    var response = await networkingConfig.doPatch(
       '/my-journey/$id',
       data: formData,
       headers: {

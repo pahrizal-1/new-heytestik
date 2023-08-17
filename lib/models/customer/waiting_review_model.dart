@@ -87,9 +87,9 @@ class Data2 {
 
 class Detail {
   String? id;
-  String? transactionTreatmentId;
-  int? treatmentId;
-  int? pax;
+  String? transactionProductId;
+  int? productId;
+  int? qty;
   int? price;
   int? discount;
   int? subtotal;
@@ -98,6 +98,11 @@ class Detail {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  Product? product;
+  dynamic productReview;
+  String? transactionTreatmentId;
+  int? treatmentId;
+  int? pax;
   Treatment? treatment;
   dynamic treatmentReview;
   int? customerId;
@@ -109,16 +114,16 @@ class Detail {
   int? paymentMethodId;
   String? orderId;
   String? paymentStatus;
-  dynamic paymentExpiryTime;
+  String? paymentExpiryTime;
   String? status;
   Consultation? consultation;
   dynamic consultationReview;
 
   Detail(
       {this.id,
-      this.transactionTreatmentId,
-      this.treatmentId,
-      this.pax,
+      this.transactionProductId,
+      this.productId,
+      this.qty,
       this.price,
       this.discount,
       this.subtotal,
@@ -127,6 +132,11 @@ class Detail {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.product,
+      this.productReview,
+      this.transactionTreatmentId,
+      this.treatmentId,
+      this.pax,
       this.treatment,
       this.treatmentReview,
       this.customerId,
@@ -145,9 +155,9 @@ class Detail {
 
   Detail.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
-    transactionTreatmentId = json['transaction_treatment_id'];
-    treatmentId = json['treatment_id'];
-    pax = json['pax'];
+    transactionProductId = json['transaction_product_id'];
+    productId = json['product_id'];
+    qty = json['qty'];
     price = json['price'];
     discount = json['discount'];
     subtotal = json['subtotal'];
@@ -156,6 +166,12 @@ class Detail {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    product =
+        json['product'] != null ? Product.fromJson(json['product']) : null;
+    productReview = json['product_review'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    treatmentId = json['treatment_id'];
+    pax = json['pax'];
     treatment = json['treatment'] != null
         ? Treatment.fromJson(json['treatment'])
         : null;
@@ -180,9 +196,9 @@ class Detail {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['transaction_treatment_id'] = transactionTreatmentId;
-    data['treatment_id'] = treatmentId;
-    data['pax'] = pax;
+    data['transaction_product_id'] = transactionProductId;
+    data['product_id'] = productId;
+    data['qty'] = qty;
     data['price'] = price;
     data['discount'] = discount;
     data['subtotal'] = subtotal;
@@ -191,6 +207,13 @@ class Detail {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (product != null) {
+      data['product'] = product!.toJson();
+    }
+    data['product_review'] = productReview;
+    data['transaction_treatment_id'] = transactionTreatmentId;
+    data['treatment_id'] = treatmentId;
+    data['pax'] = pax;
     if (treatment != null) {
       data['treatment'] = treatment!.toJson();
     }
@@ -210,6 +233,335 @@ class Detail {
       data['consultation'] = consultation!.toJson();
     }
     data['consultation_review'] = consultationReview;
+    return data;
+  }
+}
+
+class Product {
+  int? id;
+  String? name;
+  String? type;
+  String? category;
+  String? display;
+  bool? hasVariant;
+  int? minOrder;
+  int? price;
+  bool? productIsActive;
+  int? productStock;
+  String? productTreshold;
+  String? productSku;
+  double? rating;
+  int? shippingProductWeight;
+  String? shippingProductWeightType;
+  int? shippingProductSizeLength;
+  int? shippingProductSizeWidth;
+  int? shippingProductSizeHeight;
+  String? shipping;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  SkincareDetail? skincareDetail;
+  dynamic drugDetail;
+  List<MediaProducts>? mediaProducts;
+
+  Product(
+      {this.id,
+      this.name,
+      this.type,
+      this.category,
+      this.display,
+      this.hasVariant,
+      this.minOrder,
+      this.price,
+      this.productIsActive,
+      this.productStock,
+      this.productTreshold,
+      this.productSku,
+      this.rating,
+      this.shippingProductWeight,
+      this.shippingProductWeightType,
+      this.shippingProductSizeLength,
+      this.shippingProductSizeWidth,
+      this.shippingProductSizeHeight,
+      this.shipping,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.skincareDetail,
+      this.drugDetail,
+      this.mediaProducts});
+
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    type = json['type'];
+    category = json['category'];
+    display = json['display'];
+    hasVariant = json['has_variant'];
+    minOrder = json['min_order'];
+    price = json['price'];
+    productIsActive = json['product_is_active'];
+    productStock = json['product_stock'];
+    productTreshold = json['product_treshold'];
+    productSku = json['product_sku'];
+    rating = double.parse(json['rating'].toString());
+    shippingProductWeight = json['shipping_product_weight'];
+    shippingProductWeightType = json['shipping_product_weight_type'];
+    shippingProductSizeLength = json['shipping_product_size_length'];
+    shippingProductSizeWidth = json['shipping_product_size_width'];
+    shippingProductSizeHeight = json['shipping_product_size_height'];
+    shipping = json['shipping'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    skincareDetail = json['skincare_detail'] != null
+        ? SkincareDetail.fromJson(json['skincare_detail'])
+        : null;
+    drugDetail = json['drug_detail'];
+    if (json['media_products'] != null) {
+      mediaProducts = <MediaProducts>[];
+      json['media_products'].forEach((v) {
+        mediaProducts!.add(MediaProducts.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['type'] = type;
+    data['category'] = category;
+    data['display'] = display;
+    data['has_variant'] = hasVariant;
+    data['min_order'] = minOrder;
+    data['price'] = price;
+    data['product_is_active'] = productIsActive;
+    data['product_stock'] = productStock;
+    data['product_treshold'] = productTreshold;
+    data['product_sku'] = productSku;
+    data['rating'] = rating;
+    data['shipping_product_weight'] = shippingProductWeight;
+    data['shipping_product_weight_type'] = shippingProductWeightType;
+    data['shipping_product_size_length'] = shippingProductSizeLength;
+    data['shipping_product_size_width'] = shippingProductSizeWidth;
+    data['shipping_product_size_height'] = shippingProductSizeHeight;
+    data['shipping'] = shipping;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (skincareDetail != null) {
+      data['skincare_detail'] = skincareDetail!.toJson();
+    }
+    data['drug_detail'] = drugDetail;
+    if (mediaProducts != null) {
+      data['media_products'] = mediaProducts!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SkincareDetail {
+  int? id;
+  int? productId;
+  String? brand;
+  String? description;
+  String? specificationTexture;
+  String? specificationBpom;
+  int? specificationNetto;
+  String? specificationNettoType;
+  String? specificationExpired;
+  String? specificationPackagingType;
+  String? specificationIngredients;
+  String? specificationHowToUse;
+  String? specificationStorageAdvice;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  SkincareDetail(
+      {this.id,
+      this.productId,
+      this.brand,
+      this.description,
+      this.specificationTexture,
+      this.specificationBpom,
+      this.specificationNetto,
+      this.specificationNettoType,
+      this.specificationExpired,
+      this.specificationPackagingType,
+      this.specificationIngredients,
+      this.specificationHowToUse,
+      this.specificationStorageAdvice,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  SkincareDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    brand = json['brand'];
+    description = json['description'];
+    specificationTexture = json['specification_texture'];
+    specificationBpom = json['specification_bpom'];
+    specificationNetto = json['specification_netto'];
+    specificationNettoType = json['specification_netto_type'];
+    specificationExpired = json['specification_expired'];
+    specificationPackagingType = json['specification_packaging_type'];
+    specificationIngredients = json['specification_ingredients'];
+    specificationHowToUse = json['specification_how_to_use'];
+    specificationStorageAdvice = json['specification_storage_advice'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['brand'] = brand;
+    data['description'] = description;
+    data['specification_texture'] = specificationTexture;
+    data['specification_bpom'] = specificationBpom;
+    data['specification_netto'] = specificationNetto;
+    data['specification_netto_type'] = specificationNettoType;
+    data['specification_expired'] = specificationExpired;
+    data['specification_packaging_type'] = specificationPackagingType;
+    data['specification_ingredients'] = specificationIngredients;
+    data['specification_how_to_use'] = specificationHowToUse;
+    data['specification_storage_advice'] = specificationStorageAdvice;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class MediaProducts {
+  int? id;
+  int? mediaId;
+  int? productId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaProducts(
+      {this.id,
+      this.mediaId,
+      this.productId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaProducts.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    productId = json['product_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['product_id'] = productId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Media(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -364,67 +716,6 @@ class MediaTreatments {
   }
 }
 
-class Media {
-  int? id;
-  String? filename;
-  String? ext;
-  int? size;
-  String? mime;
-  String? path;
-  String? destination;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.destination,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
-  Media.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    filename = json['filename'];
-    ext = json['ext'];
-    size = json['size'];
-    mime = json['mime'];
-    path = json['path'];
-    destination = json['destination'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['filename'] = filename;
-    data['ext'] = ext;
-    data['size'] = size;
-    data['mime'] = mime;
-    data['path'] = path;
-    data['destination'] = destination;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    return data;
-  }
-}
-
 class Clinic {
   int? id;
   String? name;
@@ -449,7 +740,7 @@ class Clinic {
   String? picPhone;
   String? contractExpiredDate;
   dynamic status;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -511,7 +802,7 @@ class Clinic {
     picPhone = json['pic_phone'];
     contractExpiredDate = json['contract_expired_date'];
     status = json['status'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -563,7 +854,7 @@ class Consultation {
   int? medicalHistoryId;
   String? code;
   int? duration;
-  dynamic endDate;
+  String? endDate;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -644,7 +935,7 @@ class Consultation {
 class Doctor {
   int? id;
   String? fullname;
-  dynamic username;
+  String? username;
   String? email;
   String? password;
   String? noPhone;
@@ -670,7 +961,7 @@ class Doctor {
   dynamic npwpImage;
   dynamic specialist;
   dynamic dob;
-  int? rating;
+  double? rating;
   bool? finishRegister;
   dynamic statusSchedule;
   dynamic since;
@@ -754,7 +1045,7 @@ class Doctor {
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
     dob = json['dob'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     finishRegister = json['finish_register'];
     statusSchedule = json['status_schedule'];
     since = json['since'];

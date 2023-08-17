@@ -25,7 +25,7 @@ class _ReservasiPageState extends State<ReservasiPage> {
   @override
   void initState() {
     super.initState();
-    stateTreatment.pax.value = 0;
+    stateTreatment.pax.value = 1;
   }
 
   @override
@@ -147,13 +147,17 @@ class _ReservasiPageState extends State<ReservasiPage> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      if (stateTreatment.pax.value > 0) {
+                      if (stateTreatment.pax.value > 1) {
                         stateTreatment.pax.value -= 1;
                       }
                     },
-                    child: Icon(
-                      Icons.remove_circle_outline,
-                      color: greenColor,
+                    child: Obx(
+                      () => Icon(
+                        Icons.remove_circle_outline,
+                        color: stateTreatment.pax.value <= 1
+                            ? greyColor
+                            : greenColor,
+                      ),
                     ),
                   ),
                   const SizedBox(
