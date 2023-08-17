@@ -45,13 +45,9 @@ class CartController extends StateClass {
           "price": filterData[i].product!.price,
           "totalPrice": filterData[i].product!.price! * filterData[i].qty!,
         });
-
-        totalAmount.value += filterData[i].product!.price! * filterData[i].qty!;
       }
 
       print("checklist ${checklist.length}");
-      print("checklist $checklist");
-      print("totalAmount ${totalAmount.value}");
     });
     isLoading.value = false;
     return filterData;
@@ -59,8 +55,8 @@ class CartController extends StateClass {
 
   onChecklist(int number, bool isAll) async {
     print("number $number");
-
     if (isAll) {
+      print("semua");
       isAllSelected.value = !isAllSelected.value;
       if (isAllSelected.value) {
         checkedList.clear();
@@ -75,6 +71,7 @@ class CartController extends StateClass {
         }
       }
     } else {
+      print("salah satu");
       if (checklist[number]['isSelected']) {
         checklist[number]['isSelected'] = false;
         checkedList.removeWhere(
@@ -85,16 +82,19 @@ class CartController extends StateClass {
       }
     }
 
-    print("checkedList $checkedList");
-    print("checkedList ${checkedList.length}");
+    print("checkedList total ${checkedList.length}");
     int sum = 0;
+    int sumD = 0;
     for (var i = 0; i < checklist.length; i++) {
+      sum += int.parse(checklist[i]['totalPrice'].toString());
       if (checklist[i]['isSelected']) {
-        sum += int.parse(checklist[i]['totalPrice'].toString());
+        sumD += int.parse(checklist[i]['totalPrice'].toString());
       }
     }
 
-    totalAmountSelected.value = sum;
+    totalAmountSelected.value = sumD;
+    totalAmount.value = sum;
+
     if (totalAmountSelected.value < totalAmount.value) {
       isAllSelected.value = false;
     }
@@ -104,17 +104,33 @@ class CartController extends StateClass {
     }
   }
 
-  // increment(int index) {
-  //   checklist[index]['qty'] += 1;
-  //   checklist[index]['totalPrice'] =
-  //       checklist[index]['price'] * checklist[index]['qty'];
-  // }
+  increment(int index) {
+    checklist[index]['qty'] += 1;
+    checklist[index]['totalPrice'] =
+        checklist[index]['price'] * checklist[index]['qty'];
+    int sum = 0;
+    for (var i = 0; i < checklist.length; i++) {
+      if (checklist[i]['isSelected']) {
+        sum += int.parse(checklist[i]['totalPrice'].toString());
+      }
+    }
 
-  // decrement(int index) {
-  //   checklist[index]['qty'] -= 1;
-  //   checklist[index]['totalPrice'] =
-  //       checklist[index]['price'] * checklist[index]['qty'];
-  // }
+    totalAmountSelected.value = sum;
+  }
+
+  decrement(int index) {
+    checklist[index]['qty'] -= 1;
+    checklist[index]['totalPrice'] =
+        checklist[index]['price'] * checklist[index]['qty'];
+    int sum = 0;
+    for (var i = 0; i < checklist.length; i++) {
+      if (checklist[i]['isSelected']) {
+        sum += int.parse(checklist[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountSelected.value = sum;
+  }
 
   addCart(BuildContext context, int productId, int qty, String notes) async {
     isLoading.value = true;
@@ -144,6 +160,7 @@ class CartController extends StateClass {
   deleteCart(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      Get.back();
       var res = await CartService().deleteCart(id);
       print('res $res');
       if (res['success'] != true && res['message'] != 'Success') {
@@ -172,11 +189,6 @@ class CartController extends StateClass {
           message: res['message'],
         );
       }
-      Get.back();
-      Get.back();
-
-      SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Produk berhasil dihapus');
     });
     isLoading.value = false;
   }

@@ -1,14 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
@@ -17,7 +23,7 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.da
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import '../../controller/customer/solution/skincare_controller.dart';
 import '../../core/currency_format.dart';
 import '../../core/global.dart';
@@ -35,6 +41,7 @@ class SolutionPage extends StatefulWidget {
 
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
+  final MedicineController medicineController = Get.put(MedicineController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final SkincareController stateSkincare = Get.put(SkincareController());
 
@@ -51,13 +58,17 @@ class _SolutionPageState extends State<SolutionPage> {
     'IPL.png',
     'Laser.png',
   ];
+  List<Data2> drugRecipe = [];
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      stateTreatment.getTreatment(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
+      drugRecipe.addAll(await medicineController.getDrugRecipe(context, page));
+      stateSkincare.getSkincare(context);
+      stateTreatment.getTreatment(context);
     });
   }
 
@@ -330,130 +341,22 @@ class _SolutionPageState extends State<SolutionPage> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 25,
-                      ),
+                      padding: EdgeInsets.only(right: 20, left: 25),
                       child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => const DetailSkinCarePage(),
-                              //   ),
-                              // );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 12),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                border: Border.all(
-                                    color: subwhiteColor, width: 0.6),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 135,
-                                    width: 120,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/noroid.png'),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                      left: 8,
-                                      right: 8,
-                                      bottom: 10,
-                                    ),
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 130),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Noroid Soothing Cream 80ml',
-                                          style: blackRegulerTextStyle.copyWith(
-                                              fontSize: 13),
-                                        ),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          'Rp152.500',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 15),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          'Per Tube',
-                                          style: subGreyTextStyle.copyWith(
-                                              fontSize: 12,
-                                              color: const Color(0xFF9B9B9B)),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          'Dapat dibeli hingga 20 April 2023',
-                                          style: grenTextStyle.copyWith(
-                                            fontSize: 11,
-                                            fontWeight: medium,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 14,
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                bottom: 5,
-                                                top: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: greenColor,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                '+ Keranjang',
-                                                style: whiteTextStyle.copyWith(
-                                                    fontSize: 12),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          const ProdukKeranjang(
-                              namaBrand: 'ISISPHARMA',
-                              namaProduk: 'Teenderm Gel',
-                              diskonProduk: '20%',
-                              hargaDiskon: 'Rp250.000',
-                              harga: 'Rp200.000',
-                              urlImg: 'assets/images/catabria.png',
-                              rating: '4.9 (120k)')
-                        ],
+                        children: drugRecipe.map((e) {
+                          return ProdukObat(
+                            medicine: MedicineModel.fromJson(
+                                jsonDecode(jsonEncode(e.product))),
+                            productId: e.product!.id!.toInt(),
+                            namaBrand: e.product?.name ?? '-',
+                            harga: CurrencyFormat.convertToIdr(
+                                e.product?.price, 0),
+                            urlImg:
+                                '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                            duedate:
+                                ConvertDate.defaultDate(e.dueDate.toString()),
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),

@@ -347,14 +347,13 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                       const Spacer(),
                       InkWell(
                         onTap: () async {
-                          // await showDialog(
-                          //   context: context,
-                          //   builder: (context) =>
-                          //       AlertInfomasi(function: () async {
-                          //     await state.deleteCart(context, widget.cartId);
-                          //   }),
-                          // );
-                          await state.deleteCart(context, widget.cartId);
+                          await showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertInfomasi(function: () async {
+                              await state.deleteCart(context, widget.cartId);
+                            }),
+                          );
                         },
                         child: Image.asset(
                           'assets/icons/trash.png',
@@ -373,22 +372,39 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         ),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.remove,
-                              size: 15,
-                              color: greyColor,
+                            InkWell(
+                              onTap: () {
+                                if (state.checklist[widget.index]['qty'] > 1) {
+                                  state.decrement(widget.index);
+                                  setState(() {});
+                                }
+                              },
+                              child: Icon(
+                                Icons.remove,
+                                size: 15,
+                                color: state.checklist[widget.index]['qty'] <= 1
+                                    ? greyColor
+                                    : greenColor,
+                              ),
                             ),
                             const SizedBox(
                               width: 21,
                             ),
-                            Text('${widget.qty}'),
+                            Text(state.checklist[widget.index]['qty']
+                                .toString()),
                             const SizedBox(
                               width: 21,
                             ),
-                            Icon(
-                              Icons.add,
-                              size: 15,
-                              color: greenColor,
+                            InkWell(
+                              onTap: () {
+                                state.increment(widget.index);
+                                setState(() {});
+                              },
+                              child: Icon(
+                                Icons.add,
+                                size: 15,
+                                color: greenColor,
+                              ),
                             ),
                           ],
                         ),

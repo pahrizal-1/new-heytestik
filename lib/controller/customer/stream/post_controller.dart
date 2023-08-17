@@ -44,7 +44,8 @@ class PostController extends StateClass {
     isLoading.value = false;
   }
 
-  Future<dynamic> postPolling(BuildContext context, StreamPostModel postModel, {required Function() doInPost}) async {
+  Future<dynamic> postPolling(BuildContext context, StreamPostModel postModel,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {
@@ -65,7 +66,8 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamFollowed(followedStreamIndex.value, search: search.value);
+        data = await PostServices()
+            .getStreamFollowed(followedStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
@@ -82,7 +84,8 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamInterest(interestStreamIndex.value, search: search.value);
+        data = await PostServices()
+            .getStreamInterest(interestStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
@@ -99,7 +102,8 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getTrendingStream(trendingStreamIndex.value, search: search.value);
+        data = await PostServices()
+            .getTrendingStream(trendingStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
@@ -116,7 +120,8 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamHome(homeStreamIndex.value, search: search.value);
+        data = await PostServices()
+            .getStreamHome(homeStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
 
@@ -128,7 +133,8 @@ class PostController extends StateClass {
     }
   }
 
-  Future<List<StreamCommentModel>> getComment(BuildContext context, int page, int postID) async {
+  Future<List<StreamCommentModel>> getComment(
+      BuildContext context, int page, int postID) async {
     try {
       isLoading.value = true;
       List<StreamCommentModel> data = [];
@@ -144,7 +150,8 @@ class PostController extends StateClass {
     }
   }
 
-  Future<List<StreamCommentReplyModel>> getCommentReplies(BuildContext context, int page, int postID, int commentID) async {
+  Future<List<StreamCommentReplyModel>> getCommentReplies(
+      BuildContext context, int page, int postID, int commentID) async {
     try {
       isLoading.value = true;
       List<StreamCommentReplyModel> data = [];
@@ -180,7 +187,8 @@ class PostController extends StateClass {
     }
   }
 
-  void pickPolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+  void pickPolling(
+      BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
       isLoading.value = true;
       PostServices().pickPolling(streamID, pollingID, optionID);
@@ -190,7 +198,8 @@ class PostController extends StateClass {
     }
   }
 
-  void deletePolling(BuildContext context, int streamID, int pollingID, int optionID) async {
+  void deletePolling(
+      BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
       isLoading.value = true;
       PostServices().deletePolling(streamID, pollingID, optionID);
@@ -240,7 +249,8 @@ class PostController extends StateClass {
     }
   }
 
-  void likeCommentReply(BuildContext context, int postID, int commentID, int replyID) async {
+  void likeCommentReply(
+      BuildContext context, int postID, int commentID, int replyID) async {
     try {
       isLoading.value = true;
       PostServices().likeCommentReply(postID, commentID, replyID);
@@ -250,7 +260,8 @@ class PostController extends StateClass {
     }
   }
 
-  void unlikeCommentReply(BuildContext context, int postID, int commentID, int replyID) async {
+  void unlikeCommentReply(
+      BuildContext context, int postID, int commentID, int replyID) async {
     try {
       isLoading.value = true;
       PostServices().unlikeCommentReply(postID, commentID, replyID);

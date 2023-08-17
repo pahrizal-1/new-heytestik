@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
@@ -11,6 +12,7 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
     as PaymentMethod;
 
 class OrderProductController extends StateClass {
+  final CartController cart = Get.put(CartController());
   RxInt totalPaymentMethod = 0.obs;
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
@@ -97,13 +99,15 @@ class OrderProductController extends StateClass {
       bank.value = '';
       expireTime.value = '';
       List productItem = [];
-
+      List idProduct = [];
       print('listProductItem ${listProductItem.length}');
       for (int i = 0; i < listProductItem.length; i++) {
         productItem.add({
           "product_id": listProductItem[i]['product_id'],
           "qty": listProductItem[i]['qty'],
         });
+
+        idProduct.add(listProductItem[i]['product_id']);
       }
       print('productItem ${productItem.length}');
       print('productItem $productItem');
@@ -132,6 +136,9 @@ class OrderProductController extends StateClass {
       print('orderId ${orderId.value}');
       print('bank ${bank.value}');
       print('expireTime ${expireTime.value}');
+
+      // hapus produk di keranjang, pake id produk
+      await cart.deleteManyCart(context, idProduct);
       doInPost();
       clearVariabel();
     });
