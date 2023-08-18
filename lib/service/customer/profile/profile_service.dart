@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
+import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
 
 class ProfileService extends ProviderClass {
@@ -15,6 +16,43 @@ class ProfileService extends ProviderClass {
     var response = await networkingConfig.doUpdateFinish(
       '/profile/close-account',
     );
+
+    return response;
+  }
+
+  Future<CustomerProfileModel> getProfileCust() async {
+    var response = await networkingConfig.doGet(
+      '/profile/user',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    var jsonResponse = CustomerProfileModel.fromJson(response);
+    return jsonResponse;
+  }
+
+  Future<dynamic> changeProfile(dynamic data) async {
+    var response = await networkingConfig.doUpdate(
+      '/profile/user',
+      data,
+    );
+
+    return response;
+  }
+
+  Future verifSend(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/verification/send',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'Accept': '*/*',
+        'Connection': 'keep-alive',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('hasil' + response.toString());
 
     return response;
   }

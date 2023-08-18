@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_email_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nomor_customer_profil_page.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 
-class PilihMetodeVerifikasiProfil extends StatelessWidget {
+class PilihMetodeVerifikasiProfil extends StatefulWidget {
   const PilihMetodeVerifikasiProfil({super.key});
 
+  @override
+  State<PilihMetodeVerifikasiProfil> createState() => _PilihMetodeVerifikasiProfilState();
+}
+
+class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfil> {
+  final ProfileController state = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,11 +75,12 @@ class PilihMetodeVerifikasiProfil extends StatelessWidget {
                 height: 29,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  state.verifyCode(context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UbahEmailCostumerProfilPage(),
+                      builder: (context) => const UbahNomorCustomerProfilPage(),
                     ),
                   );
                 },
@@ -113,10 +122,11 @@ class PilihMetodeVerifikasiProfil extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIL');
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UbahNomorCustomerProfilPage(),
+                      builder: (context) => const UbahEmailCostumerProfilPage(),
                     ),
                   );
                 },

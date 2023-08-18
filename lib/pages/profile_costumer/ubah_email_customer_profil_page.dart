@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 
-class UbahEmailCostumerProfilPage extends StatelessWidget {
+class UbahEmailCostumerProfilPage extends StatefulWidget {
   const UbahEmailCostumerProfilPage({super.key});
+
+  @override
+  State<UbahEmailCostumerProfilPage> createState() => _UbahEmailCostumerProfilPageState();
+}
+
+class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPage> {
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +73,7 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
             ),
             TextFormField(
               readOnly: true,
+              controller: state.emailController,
               decoration: InputDecoration(
                 labelText: 'Email Terdaftar',
                 enabledBorder: OutlineInputBorder(
@@ -96,6 +106,7 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
               height: 21,
             ),
             TextFormField(
+              controller: state.emailBaruController,
               decoration: InputDecoration(
                 labelText: 'Email Baru',
                 enabledBorder: OutlineInputBorder(
@@ -142,7 +153,7 @@ class UbahEmailCostumerProfilPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const VerifikasiSetingsPage()));
+                        builder: (context) => const VerifikasiEmailSetingsPage()));
               },
             )
           ],

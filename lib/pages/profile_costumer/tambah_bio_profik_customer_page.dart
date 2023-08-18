@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
 
-class TambahBioProfikCustomer extends StatelessWidget {
+class TambahBioProfikCustomer extends StatefulWidget {
   const TambahBioProfikCustomer({super.key});
+
+  @override
+  State<TambahBioProfikCustomer> createState() => _TambahBioProfikCustomerState();
+}
+
+class _TambahBioProfikCustomerState extends State<TambahBioProfikCustomer> {
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +56,7 @@ class TambahBioProfikCustomer extends StatelessWidget {
               height: 10,
             ),
             TextFormField(
+              controller: state.bioController,
               maxLines: 5,
               maxLength: 150,
               decoration: InputDecoration(
@@ -81,6 +91,7 @@ class TambahBioProfikCustomer extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
+                state.updateBio(context);
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(

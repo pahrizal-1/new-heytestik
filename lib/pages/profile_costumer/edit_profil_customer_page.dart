@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,11 +11,16 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_bio_profik_cu
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_jenis_kelamin_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nama_profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nomor_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_tanggal_lahir_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../core/global.dart';
+import '../../widget/button_widget.dart';
+import '../../widget/loading_widget.dart';
 
 class EditProfilCostomer extends StatefulWidget {
   const EditProfilCostomer({super.key});
@@ -29,10 +35,12 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
   @override
   void initState() {
     super.initState();
-    state.init();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.init();
+      state.getProfile(context);
+    });
+    // state.getProfile(context);
   }
-
-  File? image;
 
   Future pickImage() async {
     try {
@@ -40,7 +48,14 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
       if (image == null) return;
 
       final imageTempory = File(image.path);
-      setState(() => this.image = imageTempory);
+      setState(() {
+        state.image = imageTempory;
+        final bytes = imageTempory.readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        state.fileImg64 = "data:/png;base64,$img64";
+        state.isSave.value = true;
+      });
+      // setState(() => this.state.image = imageTempory);
     } on PlatformException catch (e) {
       print('Failed to pick : $e');
     }
@@ -60,6 +75,8 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
             children: [
               InkWell(
                 onTap: () {
+                    state.image = null;
+                    state.isSave.value = false;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -78,335 +95,394 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-            ),
-            child: Column(
-              children: [
-                image != null
-                    ? ClipOval(
-                        child: Image.file(
-                          image!,
-                          width: 75,
-                          height: 75,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Container(
-                        height: 75,
-                        width: 75,
-                        decoration: const BoxDecoration(
-                          color: Color(0xffD9D9D9),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/icons/person-white.png',
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                ),
+                child: Column(
+                  children: [
+                    state.image != null
+                        ? ClipOval(
+                            child: Image.file(
+                              state.image!,
+                              width: 75,
+                              height: 75,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 20,
-                            height: 20,
+                          )
+                        : Container(
+                            height: 75,
+                            width: 75,
                             decoration: BoxDecoration(
+                              color: Color(0xffD9D9D9),
                               shape: BoxShape.circle,
-                              color: greenColor,
+                              image: DecorationImage(
+                                image: state.imgNetwork.value != null ? NetworkImage('${Global.FILE}' +
+                                        '/' + state.imgNetwork.value) as ImageProvider : AssetImage(
+                                  'assets/icons/person-white.png',
+                                ),
+                              ),
                             ),
-                            child: Icon(
-                              Icons.add,
-                              size: 20,
-                              color: whiteColor,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: greenColor,
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: whiteColor,
+                                ),
+                              ),
                             ),
                           ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        pickImage();
+                      },
+                      child: Text(
+                        'Ubah Foto Profil',
+                        style: grenTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Visibility(
+                      visible: state.isSave.value,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: ButtonGreenWidget(
+                          title: 'Simpan',
+                          onPressed: () {
+                            state.updateProfile(context);
+                            // state.verifyCode(context);
+                          },
                         ),
                       ),
-                const SizedBox(
-                  height: 6,
+                    )
+                  ],
                 ),
-                InkWell(
-                  onTap: () {
-                    pickImage();
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              dividergrey(),
+              Padding(
+                padding: lsymetric.copyWith(top: 15, bottom: 25),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Info Profil',
+                          style: blackTextStyle.copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          width: 61,
+                        ),
+                        Image.asset(
+                          'assets/icons/alert-new.png',
+                          width: 20,
+                          color: greyColor,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UbahNamaProfilCustomer(),
+                          ),
+                        );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Nama',
+                            style: subTitleTextStyle.copyWith(fontSize: 15),
+                          ),
+                          const SizedBox(
+                            width: 82,
+                          ),
+                          Text(
+                            state.name.value,
+                            style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15, color: blackColor),
+                            textAlign: TextAlign.start,
+                          ),
+                          const Spacer(),
+                          Image.asset(
+                            'assets/icons/arrow-left-hight.png',
+                            width: 25,
+                            color: blackColor,
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        String refresh = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TamBahanUserNameProfilCustomer()));
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Username',
+                            style: subTitleTextStyle.copyWith(fontSize: 15),
+                          ),
+                          const SizedBox(
+                            width: 53,
+                          ),
+                          Text(
+                            state.username.value,
+                            style: blackRegulerTextStyle.copyWith(fontSize: 15),
+                            textAlign: TextAlign.start,
+                          ),
+                          const Spacer(),
+                          Image.asset(
+                            'assets/icons/arrow-left-hight.png',
+                            width: 25,
+                            color: blackColor,
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        String refresh = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const TambahBioProfikCustomer()));
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Bio',
+                            style: subTitleTextStyle.copyWith(fontSize: 15),
+                          ),
+                          const SizedBox(
+                            width: 100,
+                          ),
+                          Expanded(
+                            child: Text(
+                              state.bio.value,
+                              style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15,
+                              ),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Spacer(),
+                          Image.asset(
+                            'assets/icons/arrow-left-hight.png',
+                            width: 25,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const dividergreen(),
+              Padding(
+                padding: lsymetric.copyWith(top: 17, bottom: 17),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Info Profil',
+                          style: blackTextStyle.copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Image.asset(
+                          'assets/icons/alert-new.png',
+                          width: 20,
+                          color: greyColor,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'User ID',
+                          style: subTitleTextStyle.copyWith(fontSize: 15),
+                        ),
+                        const SizedBox(
+                          width: 74,
+                        ),
+                        Text(
+                          state.idUser.value,
+                          style: blackRegulerTextStyle.copyWith(
+                              fontSize: 15, color: blackColor),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextProfil(
+                      onPressed: () async {
+                        String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const PilihMetodeVerifikasiProfil(),
+                          ),
+                        );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      title2: state.email.value,
+                      titlel: 'Email',
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextProfil(
+                      onPressed: () async {
+                        String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                // const UbahNomorCustomerProfilPage(),
+                                const PilihMetodeVerifikasiProfil(),
+                          ),
+                        );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      title2: state.noHp.value,
+                      titlel: 'Nomor HP',
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextProfil(
+                      onPressed: () async {
+                        String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const UbahJenisKelaminProfilPage(),
+                          ),
+                        );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      title2: state.gender.value,
+                      titlel: 'Jenis Kelamin',
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextProfil(
+                      title2: state.dob.value,
+                      onPressed: () async {
+                        String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const UbahTanggalLahirProfilCustomer(),
+                          ),
+                        );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getProfile(context);
+                          });
+                        }
+                      },
+                      titlel: 'Tanggal Lahir',
+                    )
+                  ],
+                ),
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 17,
+              ),
+              Center(
+                child: InkWell(
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialogLogout(
+                        title: 'Apakah Kamu yakin ingin menutup akun?',
+                        function: () async {
+                          await state.closeAccount(context, doInPost: () async {
+                            await state.logout(context);
+                          });
+                        },
+                      ),
+                    );
                   },
                   child: Text(
-                    'Ubah Foto Profil',
+                    'Tutup Akun',
                     style: grenTextStyle.copyWith(fontSize: 15),
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          dividergrey(),
-          Padding(
-            padding: lsymetric.copyWith(top: 15, bottom: 25),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Info Profil',
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      width: 61,
-                    ),
-                    Image.asset(
-                      'assets/icons/alert-new.png',
-                      width: 20,
-                      color: greyColor,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const UbahNamaProfilCustomer()));
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'Nama',
-                        style: subTitleTextStyle.copyWith(fontSize: 15),
-                      ),
-                      const SizedBox(
-                        width: 82,
-                      ),
-                      Text(
-                        state.dataUser['fullname'],
-                        style: blackRegulerTextStyle.copyWith(
-                            fontSize: 15, color: blackColor),
-                        textAlign: TextAlign.start,
-                      ),
-                      const Spacer(),
-                      Image.asset(
-                        'assets/icons/arrow-left-hight.png',
-                        width: 25,
-                        color: blackColor,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const TamBahanUserNameProfilCustomer()));
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'Username',
-                        style: subTitleTextStyle.copyWith(fontSize: 15),
-                      ),
-                      const SizedBox(
-                        width: 53,
-                      ),
-                      Text(
-                        'Buat username yang unik',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                        textAlign: TextAlign.start,
-                      ),
-                      const Spacer(),
-                      Image.asset(
-                        'assets/icons/arrow-left-hight.png',
-                        width: 25,
-                        color: blackColor,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const TambahBioProfikCustomer()));
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'Bio',
-                        style: subTitleTextStyle.copyWith(fontSize: 15),
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Tulis bio tentangmu ',
-                          style: blackRegulerTextStyle.copyWith(
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const Spacer(),
-                      Image.asset(
-                        'assets/icons/arrow-left-hight.png',
-                        width: 25,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          Padding(
-            padding: lsymetric.copyWith(top: 17, bottom: 17),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Info Profil',
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Image.asset(
-                      'assets/icons/alert-new.png',
-                      width: 20,
-                      color: greyColor,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'User ID',
-                      style: subTitleTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const SizedBox(
-                      width: 74,
-                    ),
-                    Text(
-                      '-',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 15, color: blackColor),
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                TextProfil(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const PilihMetodeVerifikasiProfil(),
-                      ),
-                    );
-                  },
-                  title2: state.dataUser['email'],
-                  titlel: 'Email',
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                TextProfil(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const PilihMetodeVerifikasiProfil(),
-                      ),
-                    );
-                  },
-                  title2: state.dataUser['no_phone'],
-                  titlel: 'Nomor HP',
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                TextProfil(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const UbahJenisKelaminProfilPage(),
-                      ),
-                    );
-                  },
-                  title2: state.dataUser['gender'],
-                  titlel: 'Jenis Kelamin',
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                TextProfil(
-                  title2: '-',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const UbahTanggalLahirProfilCustomer(),
-                      ),
-                    );
-                  },
-                  titlel: 'Tanggal Lahir',
-                )
-              ],
-            ),
-          ),
-          dividergrey(),
-          const SizedBox(
-            height: 17,
-          ),
-          Center(
-            child: InkWell(
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialogLogout(
-                    title: 'Apakah Kamu yakin ingin menutup akun?',
-                    function: () async {
-                      await state.closeAccount(context, doInPost: () async {
-                        await state.logout(context);
-                      });
-                    },
-                  ),
-                );
-              },
-              child: Text(
-                'Tutup Akun',
-                style: grenTextStyle.copyWith(fontSize: 15),
-              ),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

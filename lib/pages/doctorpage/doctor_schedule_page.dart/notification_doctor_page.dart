@@ -15,7 +15,8 @@ class NotificationDoctorPage extends StatefulWidget {
 }
 
 class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
-  final NotificationCustomerController state = Get.put(NotificationCustomerController());
+  final NotificationCustomerController state =
+      Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];
@@ -23,7 +24,8 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      notifications.addAll(await state.getNotification(context, page));
+      state.getNotificationDoctor(context, page);
+      // notifications.addAll(await state.getNotification(context, page));
       setState(() {});
     });
     controller.addListener(() {
@@ -32,7 +34,8 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            notifications.addAll(await state.getNotification(context, page));
+            // notifications.addAll(await state.getNotification(context, page));
+            state.getNotificationDoctor(context, page);
             setState(() {});
           });
         }
@@ -49,73 +52,79 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
         backgroundColor: greenColor,
         title: Text(
           "Notifikasi",
-          style: TextStyle(letterSpacing: 1.5, fontFamily: 'ProximaNova', fontWeight: bold, color: whiteColor),
+          style: TextStyle(
+              letterSpacing: 1.5,
+              fontFamily: 'ProximaNova',
+              fontWeight: bold,
+              color: whiteColor),
         ),
       ),
       body: ListView.builder(
-        itemCount: notifications.length,
+        itemCount: state.notif.length,
         controller: controller,
         itemBuilder: (context, index) {
+          print('list ' + state.notif.toString());
           return Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, top: 27),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            notifications[index].title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            notifications[index].body,
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      timeago.format(DateTime.parse(notifications[index].createdAt)),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ],
-                ),
-                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFF24A7A0),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    child: Text(
-                      "Chat Dokter",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                if (notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           Text(
+                //             notifications[index].title,
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 16.0,
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             height: 8.0,
+                //           ),
+                //           Text(
+                //             notifications[index].body,
+                //             style: TextStyle(
+                //               color: Colors.grey,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: 8.0,
+                //     ),
+                //     Text(
+                //       timeago.format(DateTime.parse(notifications[index].createdAt)),
+                //       style: TextStyle(
+                //         color: Colors.grey,
+                //         fontSize: 12.0,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
+                //   Container(
+                //     decoration: BoxDecoration(
+                //       color: Color(0xFF24A7A0),
+                //       borderRadius: BorderRadius.circular(8),
+                //     ),
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 16.0,
+                //       vertical: 8.0,
+                //     ),
+                //     child: Text(
+                //       "Chat Dokter",
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ),
+                if (state.notif[index]['type'] ==
+                    'CONSULTATION_DOCTOR_SCHEDULE')
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.0,
@@ -151,7 +160,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                                     width: 8.0,
                                   ),
                                   Text(
-                                    notifications[index].data['customer_name'],
+                                    state.notif[index]['data']['customer_name'],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
@@ -163,19 +172,19 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                                 height: 8.0,
                               ),
                               Text(
-                                "Jadwal : ${DateFormat('dd MMMM yyyy | hh:mm').format(DateTime.parse(notifications[index].data['schedule_date']))}",
+                                "Jadwal : ${DateFormat('dd MMMM yyyy | hh:mm').format(DateTime.parse(state.notif[index]['data']['schedule_date']))}",
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
                               ),
                               Text(
-                                "Category : ${notifications[index].data['category']}",
+                                "Category : ${state.notif[index]['data']['category']}",
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
                               ),
                               Text(
-                                "Topic : ${notifications[index].data['topic']}",
+                                "Topic : ${state.notif[index]['data']['topic']}",
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
@@ -187,8 +196,11 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                           width: 8.0,
                         ),
                         InkWell(
-                          onTap: (){
-                            state.postApprove(context, notifications[index].data['consultation_doctor_schedule_id']);
+                          onTap: () {
+                            state.postApprove(
+                                context,
+                                state.notif[index]['data']
+                                    ['consultation_doctor_schedule_id']);
                             // Navigator.pop(context);
                           },
                           child: Container(
@@ -211,10 +223,10 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                       ],
                     ),
                   ),
-                if (notifications[index].type != "GENERAL")
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                // if (notifications[index].type != "GENERAL")
+                //   const SizedBox(
+                //     height: 16.0,
+                //   ),
                 dividergrey(),
               ],
             ),

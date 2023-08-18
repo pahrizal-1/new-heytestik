@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../widget/button_widget.dart';
 
 class UbahTanggalLahirProfilCustomer extends StatefulWidget {
@@ -15,6 +17,8 @@ class UbahTanggalLahirProfilCustomer extends StatefulWidget {
 class _UbahTanggalLahirProfilCustomerState
     extends State<UbahTanggalLahirProfilCustomer> {
   TextEditingController _dateController = TextEditingController();
+  final ProfileController state = Get.put(ProfileController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,7 @@ class _UbahTanggalLahirProfilCustomerState
               onTap: () {
                 _selectDate();
               },
-              controller: _dateController,
+              controller: state.dateController,
               decoration: InputDecoration(
                 suffixIcon: Icon(
                   Icons.keyboard_arrow_down,
@@ -115,6 +119,7 @@ class _UbahTanggalLahirProfilCustomerState
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
+                state.updateDob(context);
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
@@ -136,7 +141,7 @@ class _UbahTanggalLahirProfilCustomerState
 
     if (_picked != null) {
       setState(() {
-        _dateController.text = _picked.toString().split(" ")[0];
+        state.dateController.text = _picked.toString().split(" ")[0];
       });
     }
   }

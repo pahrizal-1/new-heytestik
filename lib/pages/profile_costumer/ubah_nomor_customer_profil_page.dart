@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/verifikasi_setings_page.dart';
 
-class UbahNomorCustomerProfilPage extends StatelessWidget {
+class UbahNomorCustomerProfilPage extends StatefulWidget {
   const UbahNomorCustomerProfilPage({super.key});
+
+  @override
+  State<UbahNomorCustomerProfilPage> createState() => _UbahNomorCustomerProfilPageState();
+}
+
+class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPage> {
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +76,7 @@ class UbahNomorCustomerProfilPage extends StatelessWidget {
             SizedBox(
               height: 40,
               child: TextFormField(
+                controller: state.nomorHpController,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(
@@ -108,8 +118,9 @@ class UbahNomorCustomerProfilPage extends StatelessWidget {
               height: 38,
             ),
             ButtonGreenWidget(
-              title: 'Simpan',
+              title: 'Lanjut',
               onPressed: () {
+                // state.verifyCode(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(

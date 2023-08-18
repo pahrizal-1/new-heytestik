@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
 
 class UbahJenisKelaminProfilPage extends StatefulWidget {
@@ -14,6 +16,15 @@ class UbahJenisKelaminProfilPage extends StatefulWidget {
 class _UbahJenisKelaminProfilPageState
     extends State<UbahJenisKelaminProfilPage> {
   int isSelected = 0;
+  final ProfileController state = Get.put(ProfileController());
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.getProfile(context);
+    });
+    // state.getProfile(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +99,7 @@ class _UbahJenisKelaminProfilPageState
                       onTap: () {
                         setState(() {
                           isSelected = 0;
+                          state.gender.value = 'Laki-laki';
                         });
                       },
                       child: Container(
@@ -96,7 +108,7 @@ class _UbahJenisKelaminProfilPageState
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                              isSelected == 0
+                              state.gender.value == 'Laki-laki'
                                   ? 'assets/icons/gender-laki-laki-green.png'
                                   : 'assets/icons/gender-laki-laki.png',
                             ),
@@ -111,6 +123,7 @@ class _UbahJenisKelaminProfilPageState
                       onTap: () {
                         setState(() {
                           isSelected = 1;
+                          state.gender.value = 'Perempuan';
                         });
                       },
                       child: Container(
@@ -118,7 +131,8 @@ class _UbahJenisKelaminProfilPageState
                         width: 75.6,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(isSelected == 1
+                                image: AssetImage(state.gender.value ==
+                                        'Perempuan'
                                     ? 'assets/icons/gender-perempuan-green.png'
                                     : 'assets/icons/gender-perempuan.png'))),
                       ),
@@ -131,7 +145,12 @@ class _UbahJenisKelaminProfilPageState
               ),
               Padding(
                 padding: lsymetric,
-                child: ButtonGreenWidget(title: 'Simpan'),
+                child: ButtonGreenWidget(
+                  onPressed: (){
+                    state.updateGender(context);
+                  },
+                  title: 'Simpan',
+                ),
               )
             ],
           ),
