@@ -6,6 +6,8 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart';
+import 'package:heystetik_mobileapps/models/customer/product_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
@@ -79,6 +81,43 @@ class SolutionService extends ProviderClass {
     );
 
     return LookupModel.fromJson(response);
+  }
+
+  Future<OverviewProductModel> getOverviewProduct(int id) async {
+    print("id $id");
+    var response = await networkingConfig.doGet(
+      '/solution/product-review/$id/overview',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return OverviewProductModel.fromJson(response);
+  }
+
+  Future<ProductReviewModel> getReviewProduct(int page, int take, int productId,
+      {Map<String, dynamic>? filter}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": take,
+      "product_id": 1,
+    };
+// id na masih hardcode
+    if (filter != null) {
+      params.addAll(filter);
+    }
+    print("params $params");
+    var response = await networkingConfig.doGet(
+      '/solution/product-review',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return ProductReviewModel.fromJson(response);
   }
 
   Future<ConcernModel> getConcern() async {
