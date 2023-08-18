@@ -32,7 +32,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
   bool isVisibelity = false;
   int page = 1;
   int take = 10;
-
+  bool? help;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -724,18 +724,25 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 ),
                                 Row(
                                   children: [
-                                    Image.asset(
-                                      'assets/icons/like.png',
-                                      width: 15,
-                                      color: greenColor,
+                                    InkWell(
+                                      onTap: () async {
+                                        print("help");
+                                      },
+                                      child: Image.asset(
+                                        'assets/icons/like.png',
+                                        width: 15,
+                                        color: greyColor,
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 7,
                                     ),
                                     Text(
                                       '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
-                                      style: grenTextStyle.copyWith(
-                                          fontSize: 13, fontWeight: regular),
+                                      style: greyTextStyle.copyWith(
+                                        fontSize: 13,
+                                        fontWeight: regular,
+                                      ),
                                     ),
                                     const Spacer(),
                                     element.replyReview == null
@@ -836,29 +843,6 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                           }).toList(),
                         ),
                 ),
-                // ComentUlasanaCustomer(
-                //   namaUser: 'Singa',
-                //   namaProduk: 'Teenderm Gel 40ml',
-                //   bulan: '',
-                //   comentUser:
-                //       'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
-                //   balasanComent: 'Saran Beli Obat Kuat',
-                //   imgUser: 'assets/images/doctor-img.png',
-                //   like: '100',
-                //   namaBalasan: 'Udin',
-                // ),
-                // ComentUlasanaCustomer(
-                //   namaUser: 'Singa',
-                //   namaProduk: 'Teenderm Gel 40ml',
-                //   bulan: '',
-                //   comentUser:
-                //       'Aku suka banggeeeettt sama cleanser Isispharma ini.Nggak bikin muka aku ketarik dan bikin calming bangeet.Recommended deh! makasih dok, sudah rekomendasiinaku produk ini. Luvvv sekeboooonnn!',
-                //   balasanComent: 'Saran Beli Obat Kuat',
-                //   imgUser: 'assets/images/doctor-img.png',
-                //   like: '100',
-                //   comentImg: 'assets/images/treat1.png',
-                //   namaBalasan: 'Udin',
-                // ),
                 Obx(
                   () => state.isLoadingProductReviewSkincare.value
                       ? Padding(
