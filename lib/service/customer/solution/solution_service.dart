@@ -101,9 +101,9 @@ class SolutionService extends ProviderClass {
     Map<String, dynamic> params = {
       "page": page,
       "take": take,
-      "product_id": 1,
+      "product_id": productId,
     };
-// id na masih hardcode
+
     if (filter != null) {
       params.addAll(filter);
     }

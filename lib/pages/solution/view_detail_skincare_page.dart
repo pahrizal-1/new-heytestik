@@ -37,7 +37,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
   final CartController cart = Get.put(CartController());
-  bool isVisibelity = true;
+  bool isVisibelity = false;
 
   @override
   void initState() {
@@ -482,7 +482,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Obx(
                           () => Text(
-                            '${state.overviewSkincare.value.avgRating}',
+                            '${state.overviewSkincare.value.avgRating ?? 0.0}',
                             style: blackHigtTextStyle.copyWith(fontSize: 30),
                           ),
                         ),
@@ -501,7 +501,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.satisfiedPercentage}% Sobat Hey',
+                                    '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 12,
                                         fontStyle: FontStyle.italic),
@@ -519,7 +519,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.totalRating} rating',
+                                    '${state.overviewSkincare.value.totalRating ?? 0} rating',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -536,7 +536,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.totalReview} ulasan',
+                                    '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -569,7 +569,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgEffectivenessRating}',
+                                    '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -587,7 +587,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countEffectivenessRating} ulasan',
+                                        '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -614,7 +614,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgTextureRating}',
+                                    '${state.overviewSkincare.value.avgTextureRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -632,7 +632,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countTextureRating} ulasan',
+                                        '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -659,7 +659,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgPackagingRating}',
+                                    '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -677,7 +677,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countPackagingRating} ulasan',
+                                        '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -880,6 +880,118 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ),
                                   const SizedBox(
                                     height: 22,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/like.png',
+                                        width: 15,
+                                        color: greenColor,
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 13, fontWeight: regular),
+                                      ),
+                                      const Spacer(),
+                                      element.replyReview == null
+                                          ? Container()
+                                          : InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  isVisibelity = !isVisibelity;
+                                                });
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  isVisibelity
+                                                      ? Text(
+                                                          'Lihat Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        )
+                                                      : Text(
+                                                          'Tutup Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  const Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    color: Color(0xff6B6B6B),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Visibility(
+                                    visible: isVisibelity,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: 2,
+                                          decoration:
+                                              BoxDecoration(color: greenColor),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Penjual ',
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                            fontSize: 13,
+                                                            color:
+                                                                subTitleColor),
+                                                  ),
+                                                  Text(
+                                                    timeago.format(
+                                                        DateTime.parse(element
+                                                            .createdAt
+                                                            .toString())),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                subTitleColor,
+                                                            fontSize: 13),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                element.replyReview ?? '',
+                                                style: subTitleTextStyle,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
                                   ),
                                 ],
                               );

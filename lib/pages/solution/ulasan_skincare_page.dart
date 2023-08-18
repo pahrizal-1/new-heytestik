@@ -12,7 +12,6 @@ import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
-import '../../widget/coment_ulasan_widgets.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
@@ -30,7 +29,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
   ScrollController scrollController = ScrollController();
   final SkincareController state = Get.put(SkincareController());
   List<ProductReviewModel.Data2> reviews = [];
-  bool isVisibelity = true;
+  bool isVisibelity = false;
   int page = 1;
   int take = 10;
 
@@ -165,7 +164,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                           ),
                           Obx(
                             () => Text(
-                              '${state.overviewSkincare.value.avgRating}',
+                              '${state.overviewSkincare.value.avgRating ?? 0.0}',
                               style: blackHigtTextStyle.copyWith(fontSize: 30),
                             ),
                           ),
@@ -184,7 +183,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.satisfiedPercentage}% Sobat Hey',
+                                      '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic),
@@ -202,7 +201,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.totalRating} rating',
+                                      '${state.overviewSkincare.value.totalRating ?? 0} rating',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -219,7 +218,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                   ),
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.totalReview} ulasan',
+                                      '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -252,7 +251,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgEffectivenessRating}',
+                                      '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -271,7 +270,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countEffectivenessRating} ulasan',
+                                          '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -299,7 +298,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgTextureRating}',
+                                      '${state.overviewSkincare.value.avgTextureRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -318,7 +317,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countTextureRating} ulasan',
+                                          '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -346,7 +345,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgPackagingRating}',
+                                      '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -365,7 +364,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countPackagingRating} ulasan',
+                                          '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -734,40 +733,48 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                       width: 7,
                                     ),
                                     Text(
-                                      '6 orang terbantu',
+                                      '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
                                       style: grenTextStyle.copyWith(
                                           fontSize: 13, fontWeight: regular),
                                     ),
                                     const Spacer(),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          isVisibelity = !isVisibelity;
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          isVisibelity
-                                              ? Text(
-                                                  'Liat Balesan',
-                                                  style: blackRegulerTextStyle
-                                                      .copyWith(fontSize: 13),
-                                                )
-                                              : Text(
-                                                  'Tutup Balasan',
-                                                  style: blackRegulerTextStyle
-                                                      .copyWith(fontSize: 13),
+                                    element.replyReview == null
+                                        ? Container()
+                                        : InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                isVisibelity = !isVisibelity;
+                                              });
+                                            },
+                                            child: Row(
+                                              children: [
+                                                isVisibelity
+                                                    ? Text(
+                                                        'Lihat Balasan',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
+                                                      )
+                                                    : Text(
+                                                        'Tutup Balasan',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
+                                                      ),
+                                                const SizedBox(
+                                                  width: 4,
                                                 ),
-                                          const SizedBox(
-                                            width: 4,
+                                                const Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Color(0xff6B6B6B),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          const Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: Color(0xff6B6B6B),
-                                          )
-                                        ],
-                                      ),
-                                    ),
                                   ],
                                 ),
                                 const SizedBox(
@@ -794,14 +801,16 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  'Klinik Utama Lithea',
+                                                  'Penjual ',
                                                   style: blackHigtTextStyle
                                                       .copyWith(
                                                           fontSize: 13,
                                                           color: subTitleColor),
                                                 ),
                                                 Text(
-                                                  ' 1 bulan lalu',
+                                                  timeago.format(DateTime.parse(
+                                                      element.createdAt
+                                                          .toString())),
                                                   style: blackRegulerTextStyle
                                                       .copyWith(
                                                           color: subTitleColor,
@@ -810,7 +819,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                               ],
                                             ),
                                             Text(
-                                              'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
+                                              element.replyReview ?? '',
                                               style: subTitleTextStyle,
                                             )
                                           ],
