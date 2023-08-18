@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
+import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -48,6 +49,24 @@ class SolutionService extends ProviderClass {
     );
 
     return DetailSkincareSolutionModel.fromJson(response);
+  }
+
+  Future<RelatedProductSkincareModel> relatedProductSkincare(
+      int id, int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare/$id/related',
+      params: {
+        "page": page,
+        "take": 10,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return RelatedProductSkincareModel.fromJson(response);
   }
 
   Future<LookupModel> getLookup() async {

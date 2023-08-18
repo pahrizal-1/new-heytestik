@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -36,7 +35,8 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+      clinics.addAll(await stateTreatment.getClinic(context, page,
+          search: search, filter: filter));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -45,7 +45,8 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+            clinics.addAll(await stateTreatment.getClinic(context, page,
+                search: search, filter: filter));
             setState(() {});
           });
         }
@@ -149,7 +150,9 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                   page = 1;
                                   search = searchController.text;
                                   clinics.clear();
-                                  clinics.addAll(await stateTreatment.getClinic(context, page, search: search));
+                                  clinics.addAll(await stateTreatment.getClinic(
+                                      context, page,
+                                      search: search));
                                   setState(() {});
                                 },
                                 decoration: InputDecoration(
@@ -219,12 +222,12 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                 page = 1;
                                 clinics.addAll(
                                   await stateTreatment.getClinic(
-                                  context,
-                                  page,
-                                  search: search,
-                                  filter: filter,
-                                ),
-                              );
+                                    context,
+                                    page,
+                                    search: search,
+                                    filter: filter,
+                                  ),
+                                );
                               }
                               setState(() {});
                             });
@@ -252,7 +255,9 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                             page = 1;
                             filter['treatment_type[]'] = value;
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           });
                         },
@@ -294,13 +299,17 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           if (filter.containsKey("rating[]")) {
                             filter.remove('rating[]');
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           } else {
                             filter['rating[]'] = '4';
                             filter['rating[]'] = '5';
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           }
                         },
@@ -311,12 +320,16 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           if (filter.containsKey("open_now")) {
                             filter['open_now'] = false;
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           } else {
                             filter['open_now'] = true;
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           }
                         },
@@ -327,7 +340,9 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           if (promo) {
                             promo = false;
                             clinics.clear();
-                            clinics.addAll(await stateTreatment.getClinic(context, page, search: search, filter: filter));
+                            clinics.addAll(await stateTreatment.getClinic(
+                                context, page,
+                                search: search, filter: filter));
                             setState(() {});
                           } else {
                             promo = true;

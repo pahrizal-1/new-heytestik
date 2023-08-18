@@ -1015,7 +1015,7 @@ class ProductReview {
     effectivenessRating = json['effectiveness_rating'];
     textureRating = json['texture_rating'];
     packagingRating = json['packaging_rating'];
-    avgRating = json['avg_rating'];
+    avgRating = double.parse(json['avg_rating'].toString());
     review = json['review'];
     replyReview = json['reply_review'];
     usageDuration = json['usage_duration'];

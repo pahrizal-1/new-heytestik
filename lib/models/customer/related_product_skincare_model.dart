@@ -1,11 +1,11 @@
-class DetailSkincareSolutionModel {
+class RelatedProductSkincareModel {
   bool? success;
   String? message;
   Data? data;
 
-  DetailSkincareSolutionModel({this.success, this.message, this.data});
+  RelatedProductSkincareModel({this.success, this.message, this.data});
 
-  DetailSkincareSolutionModel.fromJson(Map<String, dynamic> json) {
+  RelatedProductSkincareModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -23,6 +23,34 @@ class DetailSkincareSolutionModel {
 }
 
 class Data {
+  List<Data2>? data;
+  Meta? meta;
+
+  Data({this.data, this.meta});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <Data2>[];
+      json['data'].forEach((v) {
+        data!.add(Data2.fromJson(v));
+      });
+    }
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data2 {
   int? id;
   String? name;
   String? type;
@@ -33,14 +61,14 @@ class Data {
   int? price;
   bool? productIsActive;
   int? productStock;
-  dynamic productTreshold;
-  dynamic productSku;
+  String? productTreshold;
+  String? productSku;
   double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
-  dynamic shippingProductSizeLength;
-  dynamic shippingProductSizeWidth;
-  dynamic shippingProductSizeHeight;
+  int? shippingProductSizeLength;
+  int? shippingProductSizeWidth;
+  int? shippingProductSizeHeight;
   String? shipping;
   dynamic createdBy;
   dynamic updatedBy;
@@ -49,40 +77,41 @@ class Data {
   dynamic deletedAt;
   List<MediaProducts>? mediaProducts;
   SkincareDetail? skincareDetail;
+  dynamic drugDetail;
   // List<Null>? productConcerns;
-  bool? wishlist;
 
-  Data(
-      {this.id,
-      this.name,
-      this.type,
-      this.category,
-      this.display,
-      this.hasVariant,
-      this.minOrder,
-      this.price,
-      this.productIsActive,
-      this.productStock,
-      this.productTreshold,
-      this.productSku,
-      this.rating,
-      this.shippingProductWeight,
-      this.shippingProductWeightType,
-      this.shippingProductSizeLength,
-      this.shippingProductSizeWidth,
-      this.shippingProductSizeHeight,
-      this.shipping,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.mediaProducts,
-      this.skincareDetail,
-      // this.productConcerns,
-      this.wishlist});
+  Data2({
+    this.id,
+    this.name,
+    this.type,
+    this.category,
+    this.display,
+    this.hasVariant,
+    this.minOrder,
+    this.price,
+    this.productIsActive,
+    this.productStock,
+    this.productTreshold,
+    this.productSku,
+    this.rating,
+    this.shippingProductWeight,
+    this.shippingProductWeightType,
+    this.shippingProductSizeLength,
+    this.shippingProductSizeWidth,
+    this.shippingProductSizeHeight,
+    this.shipping,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.mediaProducts,
+    this.skincareDetail,
+    this.drugDetail,
+    // this.productConcerns,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     type = json['type'];
@@ -95,7 +124,7 @@ class Data {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = double.parse((json['rating'] ?? 0).toString());
+    rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
@@ -116,13 +145,13 @@ class Data {
     skincareDetail = json['skincare_detail'] != null
         ? SkincareDetail.fromJson(json['skincare_detail'])
         : null;
+    drugDetail = json['drug_detail'];
     // if (json['product_concerns'] != null) {
     //   productConcerns = <Null>[];
     //   json['product_concerns'].forEach((v) {
     //     productConcerns!.add(Null.fromJson(v));
     //   });
     // }
-    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -157,11 +186,11 @@ class Data {
     if (skincareDetail != null) {
       data['skincare_detail'] = skincareDetail!.toJson();
     }
+    data['drug_detail'] = drugDetail;
     // if (productConcerns != null) {
     //   data['product_concerns'] =
     //       productConcerns!.map((v) => v.toJson()).toList();
     // }
-    data['wishlist'] = wishlist;
     return data;
   }
 }
@@ -359,6 +388,43 @@ class SkincareDetail {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class Meta {
+  int? page;
+  int? take;
+  int? itemCount;
+  int? pageCount;
+  bool? hasPreviousPage;
+  bool? hasNextPage;
+
+  Meta(
+      {this.page,
+      this.take,
+      this.itemCount,
+      this.pageCount,
+      this.hasPreviousPage,
+      this.hasNextPage});
+
+  Meta.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    take = json['take'];
+    itemCount = json['itemCount'];
+    pageCount = json['pageCount'];
+    hasPreviousPage = json['hasPreviousPage'];
+    hasNextPage = json['hasNextPage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    data['take'] = take;
+    data['itemCount'] = itemCount;
+    data['pageCount'] = pageCount;
+    data['hasPreviousPage'] = hasPreviousPage;
+    data['hasNextPage'] = hasNextPage;
     return data;
   }
 }

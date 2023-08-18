@@ -46,7 +46,9 @@ class TreatmentReviewModel {
       helpfulCount: json['helpful_count'],
       senderFullName: json['user']['fullname'],
       itemName: json['transaction_treatment_item']['treatment']['name'],
-      media: (json['media_treatment_reviews'] as List).map((document) => MediaTreatmentReviewModel.fromJson(document)).toList(),
+      media: (json['media_treatment_reviews'] as List)
+          .map((document) => MediaTreatmentReviewModel.fromJson(document))
+          .toList(),
     );
   }
 }

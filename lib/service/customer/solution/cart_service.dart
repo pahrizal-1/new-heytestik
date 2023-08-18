@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
+import 'package:heystetik_mobileapps/models/customer/recently_product_viewed_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class CartService extends ProviderClass {
@@ -25,6 +26,23 @@ class CartService extends ProviderClass {
     );
 
     return CartModel.fromJson(response);
+  }
+
+  Future<RecentlyProductViewedModel> recentlyProductViewed(int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/recently-viewed',
+      params: {
+        "page": page,
+        "take": 10,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return RecentlyProductViewedModel.fromJson(response);
   }
 
   Future<dynamic> addCart(dynamic data) async {

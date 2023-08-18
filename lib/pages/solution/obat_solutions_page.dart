@@ -319,7 +319,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                   spacing: 15,
                   runSpacing: 12,
                   children: medicines.map((medicine) {
-                    return KonsultasProduk(
+                    return KonsultasiProduk(
                       medicine: medicine,
                     );
                   }).toList(),
@@ -333,8 +333,8 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
   }
 }
 
-class KonsultasProduk extends StatelessWidget {
-  const KonsultasProduk({
+class KonsultasiProduk extends StatelessWidget {
+  const KonsultasiProduk({
     Key? key,
     required this.medicine,
   }) : super(key: key);

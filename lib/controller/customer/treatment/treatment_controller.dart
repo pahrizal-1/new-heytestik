@@ -230,6 +230,7 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
     List<TreatmentReviewModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print("id asd asd $treatmentID");
       data = await TreatmentService()
           .getTreatmentReview(page, treatmentID, filter: filter);
     });

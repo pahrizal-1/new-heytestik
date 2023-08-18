@@ -347,7 +347,7 @@ class _SelesaiPembayaranSolusionPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const CaraPembyaranPage());
+                              Get.to(const CaraPembayaranPage());
                             },
                             child: Center(
                               child: Text(

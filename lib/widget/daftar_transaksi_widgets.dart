@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
@@ -227,7 +228,7 @@ class TransaksiKonsultan extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(const CaraPembyaranPage());
+                        Get.to(const CaraPembayaranPage());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -427,17 +428,22 @@ class TransaksiProduk extends StatelessWidget {
               ),
               const Spacer(),
               product?.status.toString() == 'SELESAI'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: greenColor,
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Ulas',
-                          style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(UlasanSetingsPage());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 22, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Ulas',
+                            style: whiteTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )
@@ -446,18 +452,23 @@ class TransaksiProduk extends StatelessWidget {
                 width: 5,
               ),
               product?.status.toString() == 'SELESAI'
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Beli Lagi',
-                          style: grenTextStyle.copyWith(fontSize: 13),
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(const ObatSolutionsPage());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Beli Lagi',
+                            style: grenTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                       ),
                     )
@@ -465,7 +476,7 @@ class TransaksiProduk extends StatelessWidget {
               product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
                   ? InkWell(
                       onTap: () {
-                        Get.to(const CaraPembyaranPage());
+                        Get.to(const CaraPembayaranPage());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -711,7 +722,7 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(const CaraPembyaranPage());
+                        Get.to(const CaraPembayaranPage());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

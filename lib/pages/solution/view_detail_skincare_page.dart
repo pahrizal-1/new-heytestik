@@ -44,7 +44,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.detailSkincare(context, widget.productId);
-      state.getSkincare(context);
+      // state.getSkincare(context);
+      state.relatedProductSkincare(context, widget.productId);
     });
   }
 
@@ -873,119 +874,136 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Obx(
-                    () => Center(
-                      child: LoadingWidget(
-                        isLoading: state.isLoadingSkincare.value,
-                        child: Wrap(
-                          spacing: 23,
-                          runSpacing: 12,
-                          children: state.skincare
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      productId: e.mediaProducts![0].productId!
-                                          .toInt(),
-                                    ));
-                                  },
-                                  child: Produkheight(
-                                    produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
-                                    namaProduk: e.name.toString(),
-                                    diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg:
-                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                    // rating: '4.9 (120k)',
-                                    rating: e.rating.toString(),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
+              Obx(
+                () => Center(
+                  child: LoadingWidget(
+                    isLoading: state.isLoadingRelatedSkincare.value,
+                    child: state.relatedSkincare.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Belum ada data',
+                              style: TextStyle(
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                                fontSize: 20,
+                              ),
+                            ),
+                          )
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 25),
+                              child: Wrap(
+                                spacing: 23,
+                                runSpacing: 12,
+                                children: state.relatedSkincare
+                                    .map(
+                                      (e) => InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  DetailSkinCarePage(
+                                                productId: e.id!.toInt(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Produkheight(
+                                          produkId: e.id!.toInt(),
+                                          namaBrand: e.skincareDetail!.brand
+                                              .toString(),
+                                          namaProduk: e.name.toString(),
+                                          diskonProduk: '20',
+                                          hargaDiskon:
+                                              CurrencyFormat.convertToIdr(
+                                                  e.price, 0),
+                                          harga: CurrencyFormat.convertToIdr(
+                                              e.price, 0),
+                                          urlImg:
+                                              '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                          // rating: '4.9 (120k)',
+                                          rating: e.rating.toString(),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 27,
-              ),
-              Divider(
-                thickness: 2,
-                color: borderColor,
-              ),
-              const SizedBox(
-                height: 17,
-              ),
-              Padding(
-                padding: lsymetric,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Skincare Pilihan Untukmu',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Obx(
-                    () => Center(
-                      child: LoadingWidget(
-                        isLoading: state.isLoadingSkincare.value,
-                        child: Wrap(
-                          spacing: 23,
-                          runSpacing: 12,
-                          children: state.skincare
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      productId: e.mediaProducts![0].productId!
-                                          .toInt(),
-                                    ));
-                                  },
-                                  child: Produkheight(
-                                    produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
-                                    namaProduk: e.name.toString(),
-                                    diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg:
-                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                    // rating: '4.9 (120k)',
-                                    rating: e.rating.toString(),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // const SizedBox(
+              //   height: 27,
+              // ),
+              // Divider(
+              //   thickness: 2,
+              //   color: borderColor,
+              // ),
+              // const SizedBox(
+              //   height: 17,
+              // ),
+              // Padding(
+              //   padding: lsymetric,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         'Skincare Pilihan Untukmu',
+              //         style: blackHigtTextStyle.copyWith(fontSize: 18),
+              //       ),
+              //       const SizedBox(
+              //         height: 25,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Padding(
+              //     padding: EdgeInsets.only(left: 25),
+              //     child: Obx(
+              //       () => Center(
+              //         child: LoadingWidget(
+              //           isLoading: state.isLoadingSkincare.value,
+              //           child: Wrap(
+              //             spacing: 23,
+              //             runSpacing: 12,
+              //             children: state.skincare
+              //                 .map(
+              //                   (e) => InkWell(
+              //                     onTap: () {
+              //                       Get.to(DetailSkinCarePage(
+              //                         productId: e.mediaProducts![0].productId!
+              //                             .toInt(),
+              //                       ));
+              //                     },
+              //                     child: Produkheight(
+              //                       produkId: e.id!.toInt(),
+              //                       namaBrand:
+              //                           e.skincareDetail!.brand.toString(),
+              //                       namaProduk: e.name.toString(),
+              //                       diskonProduk: '20',
+              //                       hargaDiskon:
+              //                           CurrencyFormat.convertToIdr(e.price, 0),
+              //                       harga:
+              //                           CurrencyFormat.convertToIdr(e.price, 0),
+              //                       urlImg:
+              //                           '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+              //                       // rating: '4.9 (120k)',
+              //                       rating: e.rating.toString(),
+              //                     ),
+              //                   ),
+              //                 )
+              //                 .toList(),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
