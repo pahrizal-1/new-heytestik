@@ -65,7 +65,8 @@ class _ComentUlasanaCustomerState extends State<ComentUlasanaCustomer> {
                       ),
                       Text(
                         widget.namaProduk,
-                        style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                        style: blackHigtTextStyle.copyWith(
+                            fontSize: 13, fontWeight: regular),
                       ),
                     ],
                   ),
@@ -120,7 +121,8 @@ class _ComentUlasanaCustomerState extends State<ComentUlasanaCustomer> {
               ),
               Text(
                 widget.comentUser,
-                style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                style: greyTextStyle.copyWith(
+                    fontSize: 13, color: const Color(0xff6B6B6B)),
               ),
               const SizedBox(
                 height: 13,
