@@ -30,6 +30,7 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
   ScrollController scrollController = ScrollController();
   final SkincareController state = Get.put(SkincareController());
   List<ProductReviewModel.Data2> reviews = [];
+  bool isVisibelity = true;
   int page = 1;
   int take = 10;
 
@@ -721,6 +722,105 @@ class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
                                 ),
                                 const SizedBox(
                                   height: 22,
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/like.png',
+                                      width: 15,
+                                      color: greenColor,
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    Text(
+                                      '6 orang terbantu',
+                                      style: grenTextStyle.copyWith(
+                                          fontSize: 13, fontWeight: regular),
+                                    ),
+                                    const Spacer(),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isVisibelity = !isVisibelity;
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          isVisibelity
+                                              ? Text(
+                                                  'Liat Balesan',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(fontSize: 13),
+                                                )
+                                              : Text(
+                                                  'Tutup Balasan',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(fontSize: 13),
+                                                ),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          const Icon(
+                                            Icons.keyboard_arrow_down,
+                                            color: Color(0xff6B6B6B),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Visibility(
+                                  visible: isVisibelity,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 2,
+                                        decoration:
+                                            BoxDecoration(color: greenColor),
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Klinik Utama Lithea',
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(
+                                                          fontSize: 13,
+                                                          color: subTitleColor),
+                                                ),
+                                                Text(
+                                                  ' 1 bulan lalu',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(
+                                                          color: subTitleColor,
+                                                          fontSize: 13),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
+                                              style: subTitleTextStyle,
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
                                 ),
                               ],
                             );

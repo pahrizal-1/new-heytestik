@@ -32,7 +32,7 @@ class _BalasanCepatPageState extends State<BalasanCepatPage> {
         automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Padding(
-          padding: const EdgeInsets.only(left: 6),
+          padding: const EdgeInsets.only(left: 15),
           child: Row(
             children: [
               InkWell(
@@ -167,12 +167,8 @@ class CardTambhan extends StatelessWidget {
   final String subTitle;
   final int? id;
 
-  const CardTambhan({
-    super.key,
-    required this.title,
-    required this.subTitle,
-    this.id
-  });
+  const CardTambhan(
+      {super.key, required this.title, required this.subTitle, this.id});
 
   @override
   Widget build(BuildContext context) {
