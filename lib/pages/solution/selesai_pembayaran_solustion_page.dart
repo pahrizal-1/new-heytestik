@@ -240,7 +240,7 @@ class _SelesaiPembayaranSolusionPageState
                                         title: 'Nomor Virtual Account',
                                         title2: '',
                                       ),
-                                      Text(
+                                      SelectableText(
                                         state.virtualAccount.value,
                                         style: blackTextStyle.copyWith(
                                             fontSize: 15),

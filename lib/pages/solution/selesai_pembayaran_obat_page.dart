@@ -237,7 +237,7 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                                         title: 'Nomor Virtual Account',
                                         title2: '',
                                       ),
-                                      Text(
+                                      SelectableText(
                                         state.virtualAccount.value,
                                         style: blackTextStyle.copyWith(
                                             fontSize: 15),
