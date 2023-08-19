@@ -16,7 +16,7 @@ import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
-import '../../models/treatment_review.dart';
+import '../../models/treatment_review_model.dart' as TreatmentReview;
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
@@ -48,11 +48,12 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   int currentIndex = 0;
   bool? isFavourite;
   int page = 1;
-
+  bool isVisibelity = false;
   Map<String, dynamic> dataOverview = {};
   List<Data2> treatments = [];
-  List<TreatmentReviewModel> reviews = [];
-
+  List<TreatmentReview.Data2> reviews = [];
+  bool? help;
+  Map<String, int> helpReview = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -60,7 +61,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
       treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
           context, page, widget.treatment.clinic!.id!));
       reviews.addAll(await stateTreatment.getTreatmentReview(
-          context, page, widget.treatment.id!));
+          context, page, 3, widget.treatment.id!));
       dataOverview = await stateTreatment.getTreatmentOverview(
           context, widget.treatment.id!);
       setState(() {});
@@ -588,130 +589,271 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         ),
                       ],
                     ),
-                    if (reviews.isNotEmpty)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 11,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/doctor1.png',
-                                width: 40,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    reviews.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Belum ada ulasan',
+                              style: TextStyle(
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                                fontSize: 15,
                               ),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              Column(
+                            ),
+                          )
+                        : Column(
+                            children: reviews.map((element) {
+                              return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    reviews[0].senderFullName,
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 15),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/doctor1.png',
+                                        width: 40,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            element.user?.fullname ?? '-',
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 15),
+                                          ),
+                                          Text(
+                                            element.transactionTreatmentItem
+                                                    ?.treatment!.name ??
+                                                '-',
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                                fontWeight: regular),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.more_vert)
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: List.generate(5, (index) {
+                                          return Image.asset(
+                                            'assets/icons/stars-new.png',
+                                            width: 12,
+                                            color: element.avgRating! > index
+                                                ? const Color(0xffFFC36A)
+                                                : Color.fromRGBO(
+                                                    155, 155, 155, 0.61),
+                                          );
+                                        }),
+                                      ),
+                                      const SizedBox(
+                                        width: 13,
+                                      ),
+                                      Text(
+                                        timeago.format(DateTime.parse(
+                                            element.createdAt.toString())),
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
                                   ),
                                   Text(
-                                    widget.treatment.name ?? "-",
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 13, fontWeight: regular),
+                                    element.review ?? '-',
+                                    style: greyTextStyle.copyWith(
+                                        fontSize: 13,
+                                        color: const Color(0xff6B6B6B)),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children:
+                                        element.mediaTreatmentReviews!.map((e) {
+                                      return Container(
+                                        height: 72,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        child: Image.network(
+                                          '${Global.FILE}/${e.media!.path.toString()}',
+                                          width: 72,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  const SizedBox(
+                                    height: 22,
+                                  ),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          print("help");
+
+                                          if (help ?? element.helped!) {
+                                            stateTreatment.unHelped(
+                                                context, element.id!);
+                                            setState(() {
+                                              help = false;
+                                              helpReview["${element.id}"] =
+                                                  (helpReview["${element.id}"] ??
+                                                          0) -
+                                                      1;
+                                            });
+                                          } else {
+                                            stateTreatment.helped(
+                                                context, element.id!);
+                                            setState(() {
+                                              help = true;
+                                              helpReview["${element.id}"] =
+                                                  (helpReview["${element.id}"] ??
+                                                          0) +
+                                                      1;
+                                            });
+                                          }
+                                        },
+                                        child: Image.asset(
+                                          'assets/icons/like.png',
+                                          width: 15,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                        style: grenTextStyle.copyWith(
+                                          fontSize: 13,
+                                          fontWeight: regular,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      element.replyReview == null
+                                          ? Container()
+                                          : InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  isVisibelity = !isVisibelity;
+                                                });
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  isVisibelity
+                                                      ? Text(
+                                                          'Lihat Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        )
+                                                      : Text(
+                                                          'Tutup Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  const Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    color: Color(0xff6B6B6B),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Visibility(
+                                    visible: isVisibelity,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: 2,
+                                          decoration:
+                                              BoxDecoration(color: greenColor),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Penjual ',
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                            fontSize: 13,
+                                                            color:
+                                                                subTitleColor),
+                                                  ),
+                                                  Text(
+                                                    timeago.format(
+                                                        DateTime.parse(element
+                                                            .createdAt
+                                                            .toString())),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                subTitleColor,
+                                                            fontSize: 13),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                element.replyReview ?? '',
+                                                style: subTitleTextStyle,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
                                   ),
                                 ],
-                              ),
-                              const Spacer(),
-                              const Icon(Icons.more_vert)
-                            ],
+                              );
+                            }).toList(),
                           ),
-                          const SizedBox(
-                            height: 13,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                  width: 60,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: 6,
-                                    itemBuilder: (context, index) {
-                                      return Icon(
-                                        Icons.star,
-                                        size: 12,
-                                        color:
-                                            reviews[0].averageRating.toInt() >
-                                                    index
-                                                ? Color(0xffFFC36A)
-                                                : Colors.grey,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Text(
-                                  timeago.format(
-                                      DateTime.parse(reviews[0].createdAt)),
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 13,
-                          ),
-                          Text(
-                            reviews[0].review,
-                            style: greyTextStyle.copyWith(
-                                fontSize: 13, color: const Color(0xff6B6B6B)),
-                          ),
-                          const SizedBox(
-                            height: 13,
-                          ),
-                          SizedBox(
-                            height: 100,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: reviews[0].media.length,
-                              itemBuilder: (context, index) {
-                                return Image.network(
-                                  '${Global.FILE}/${reviews[0].media[index].path}',
-                                  // width: 100,
-                                  fit: BoxFit.fill,
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  width: 16.0,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    if (!reviews.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24),
-                        child: Center(
-                          child: Text(
-                            'Belum ada ulasan',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontFamily: 'ProximaNova',
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                    const SizedBox(
-                      height: 13,
-                    ),
                   ],
                 ),
               ),

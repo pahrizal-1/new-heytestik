@@ -9,7 +9,8 @@ import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_mode
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/lookup_treatment.dart';
 import 'package:heystetik_mobileapps/models/treatment_detail.dart';
-import 'package:heystetik_mobileapps/models/treatment_review.dart';
+import 'package:heystetik_mobileapps/models/treatment_review_model.dart'
+    as TreatmentReview;
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
 
 class TreatmentController extends StateClass {
@@ -29,6 +30,9 @@ class TreatmentController extends StateClass {
   RxList<ClinicDataModel> dataClinic =
       List<ClinicDataModel>.empty(growable: true).obs;
   Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
+
+  RxList<TreatmentReview.Data2> treatmentReview =
+      List<TreatmentReview.Data2>.empty().obs;
 
   getDataUser() async {
     dataUser = await LocalStorage().getDataUser();
@@ -221,22 +225,29 @@ class TreatmentController extends StateClass {
     return responseTreatment.value.data!.data!;
   }
 
-  Future<List<TreatmentReviewModel>> getTreatmentReview(
+  Future<List<TreatmentReview.Data2>> getTreatmentReview(
     BuildContext context,
     int page,
-    int treatmentID, {
+    int take,
+    int id, {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-    List<TreatmentReviewModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("id asd asd $treatmentID");
-      data = await TreatmentService()
-          .getTreatmentReview(page, treatmentID, filter: filter);
+      var res = await TreatmentService()
+          .getTreatmentReview(page, take, id, filter: filter);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      treatmentReview.value = res.data!.data!;
     });
     isLoading.value = false;
 
-    return data;
+    return treatmentReview.value;
   }
 
   Future<List<LookupTreatmentModel>> getLookupTreatment(
@@ -249,5 +260,35 @@ class TreatmentController extends StateClass {
     isLoading.value = false;
 
     return data;
+  }
+
+  void helped(BuildContext context, int reviewId) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await TreatmentService().helped(reviewId);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+    // isLoading.value = false;
+  }
+
+  void unHelped(BuildContext context, int reviewId) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await TreatmentService().unHelped(reviewId);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+
+    // isLoading.value = false;
   }
 }
