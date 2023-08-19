@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 
 import '../../models/medicine.dart';
 import '../../theme/theme.dart';
@@ -387,7 +386,10 @@ class DetailObatPage extends StatelessWidget {
                         }
                       ];
 
-                      Get.to(PembayaranProduk(pesan: product));
+                      Get.to(PembayaranProduk(
+                        pesan: product,
+                        isCart: false,
+                      ));
                     },
                     child: Container(
                       padding:

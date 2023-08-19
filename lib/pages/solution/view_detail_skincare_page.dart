@@ -1262,7 +1262,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         }
                       ];
 
-                      Get.to(PembayaranProduk(pesan: product));
+                      Get.to(PembayaranProduk(
+                        pesan: product,
+                        isCart: false,
+                      ));
                     },
                     child: Container(
                       decoration: BoxDecoration(

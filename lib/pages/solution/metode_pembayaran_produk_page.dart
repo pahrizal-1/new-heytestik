@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
@@ -13,10 +15,10 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import '../../widget/show_dialog_sousions_payment.dart';
 
 class MetodePembayaranProduk extends StatefulWidget {
-  const MetodePembayaranProduk({super.key});
+  bool isCart;
+  MetodePembayaranProduk({required this.isCart, super.key});
 
   @override
   State<MetodePembayaranProduk> createState() => _MetodePembayaranProdukState();
@@ -402,6 +404,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
 
                     await state.orderProduct(
                       context,
+                      widget.isCart,
                       doInPost: () async {
                         Get.offAll(SelesaikanPembayaranProdukPage(
                           orderId: state.orderId.value,

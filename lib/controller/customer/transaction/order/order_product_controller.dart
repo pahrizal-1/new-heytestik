@@ -92,14 +92,15 @@ class OrderProductController extends StateClass {
     totalAmount.value = sum;
   }
 
-  orderProduct(BuildContext context, {required Function() doInPost}) async {
+  orderProduct(BuildContext context, bool isCart,
+      {required Function() doInPost}) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       orderId.value = '';
       bank.value = '';
       expireTime.value = '';
       List productItem = [];
-      List idProduct = [];
+      List listIdProduct = [];
       print('listProductItem ${listProductItem.length}');
       for (int i = 0; i < listProductItem.length; i++) {
         productItem.add({
@@ -107,7 +108,7 @@ class OrderProductController extends StateClass {
           "qty": listProductItem[i]['qty'],
         });
 
-        idProduct.add(listProductItem[i]['product_id']);
+        listIdProduct.add(listProductItem[i]['product_id']);
       }
       print('productItem ${productItem.length}');
       print('productItem $productItem');
@@ -137,8 +138,14 @@ class OrderProductController extends StateClass {
       print('bank ${bank.value}');
       print('expireTime ${expireTime.value}');
 
-      // hapus produk di keranjang, pake id produk
-      await cart.deleteManyCart(context, idProduct);
+      if (isCart) {
+        print('dari keranjang');
+        // hapus produk di keranjang, pake id produk
+        await cart.deleteManyCart(context, listIdProduct);
+      } else {
+        print('bukan dari keranjang');
+      }
+
       doInPost();
       clearVariabel();
     });
