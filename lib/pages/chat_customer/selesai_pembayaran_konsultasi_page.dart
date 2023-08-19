@@ -43,10 +43,10 @@ class _SelesaikanPembayaranKonsultasiState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.bank.value = widget.bank;
       state.expirytime.value = widget.expireTime;
-      state.getTransactionStatus(context, widget.orderId);
+      await state.getTransactionStatus(context, widget.orderId);
       setTime();
       startTimer();
     });
@@ -122,9 +122,12 @@ class _SelesaikanPembayaranKonsultasiState
           backgroundColor: greenColor,
           title: Row(
             children: [
-              Text(
-                state.bank.value.toUpperCase(),
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              Obx(
+                () => Text(
+                  state.bank.value.toUpperCase(),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                ),
               ),
             ],
           ),
@@ -159,7 +162,7 @@ class _SelesaikanPembayaranKonsultasiState
                                 title2: '',
                               ),
                               Text(
-                                state.expirytime.value != '-'
+                                state.expirytime.value.isNotEmpty
                                     ? ConvertDate.transactionDate(
                                         state.expirytime.value,
                                       )
