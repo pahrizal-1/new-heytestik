@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../theme/theme.dart';
+import '../bantuan_mihey/home_bantuan_minhey_page.dart';
 import '../tabbar/tabbar_customer.dart';
 
 class AkunHomePage extends StatefulWidget {
@@ -705,29 +706,34 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 const SizedBox(
                   height: 18,
                 ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/minhey.png',
-                      width: 24,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Bantuan',
-                          style: blackHigtTextStyle.copyWith(fontSize: 15),
-                        ),
-                        Text(
-                          ' MinHey',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 15, fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Get.to(HomeMinheyPage());
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/minhey.png',
+                        width: 24,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Bantuan',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
+                          Text(
+                            ' MinHey',
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 15, fontStyle: FontStyle.italic),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

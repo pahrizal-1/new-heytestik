@@ -360,10 +360,12 @@ class KonsultasiProduk extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
+          color: whiteColor,
           border: Border.all(color: borderColor, width: 0.2),
           borderRadius: BorderRadius.circular(7),
         ),
         width: 164,
+        height: 315,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

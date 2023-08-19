@@ -481,7 +481,7 @@ class _SolutionPageState extends State<SolutionPage> {
                     height: 15,
                   ),
                   SizedBox(
-                    height: 222,
+                    height: 240,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: stateTreatment.treatment.length,
@@ -499,13 +499,13 @@ class _SolutionPageState extends State<SolutionPage> {
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8),
-                              height: 222,
+                              height: 230,
                               width: 150,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
                                       'assets/images/${asset[index % 3]}'),
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(7),
                               ),

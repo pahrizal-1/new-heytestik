@@ -189,100 +189,98 @@ class ProdukObat extends StatelessWidget {
       onTap: () {
         Get.to(DetailObatPage(medicine: medicine));
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              border: Border.all(color: borderColor, width: 0.2),
-              borderRadius: BorderRadius.circular(7),
-            ),
-            width: 164,
-            child: Column(
-              children: [
-                Image.network(
-                  urlImg,
-                  width: 164,
+      child: Container(
+        margin: const EdgeInsets.only(right: 15),
+        decoration: BoxDecoration(
+          color: whiteColor,
+          border: Border.all(color: borderColor, width: 0.2),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        width: 164,
+        child: Column(
+          children: [
+            Container(
+              height: 140,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(urlImg),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 11, right: 10, bottom: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        namaBrand,
-                        style: blackTextStyle.copyWith(
-                          fontSize: 13,
-                          fontWeight: regular,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        harga,
-                        style: blackHigtTextStyle.copyWith(fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'Per Tube',
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 12, color: const Color(0xFF9B9B9B)),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'Dapat dibeli hingga $duedate',
-                        style: grenTextStyle.copyWith(
-                          fontSize: 11,
-                          fontWeight: medium,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Container(
-                        height: 30,
-                        child: TextButton(
-                          onPressed: () {
-                            medicineController.addMedicineToCart(
-                              context,
-                              productId,
-                            );
-                            SnackbarWidget.getSuccessSnackbar(
-                              context,
-                              'Info',
-                              'Produk ditambahkan ke keranjang',
-                            );
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: greenColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '+ Keranjang',
-                              style: whiteTextStyle.copyWith(fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 11, right: 10, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    namaBrand,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 13,
+                      fontWeight: regular,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    harga,
+                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    'Per Tube',
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 12, color: const Color(0xFF9B9B9B)),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    'Dapat dibeli hingga $duedate',
+                    style: grenTextStyle.copyWith(
+                      fontSize: 11,
+                      fontWeight: medium,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    height: 30,
+                    child: TextButton(
+                      onPressed: () {
+                        medicineController.addMedicineToCart(
+                          context,
+                          productId,
+                        );
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          'Produk ditambahkan ke keranjang',
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '+ Keranjang',
+                          style: whiteTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

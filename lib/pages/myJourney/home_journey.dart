@@ -632,10 +632,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                     width: 36,
                                                     decoration: BoxDecoration(
                                                       image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          '${Global.FILE}/${state.dataHistoryConsultation[index].doctor?.mediaUserProfilePicture?.media?.path}',
-                                                        ),
-                                                      ),
+                                                          image: NetworkImage(
+                                                            '${Global.FILE}/${state.dataHistoryConsultation[index].doctor?.mediaUserProfilePicture?.media?.path}',
+                                                          ),
+                                                          fit: BoxFit.cover),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               25),
@@ -999,13 +999,13 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                   width: 50,
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        '${Global.FILE}/${state.dataScheduleTreatment.value[index].treatment!.mediaTreatments?[0].media?.path}',
-                                                      ),
-                                                    ),
+                                                        image: NetworkImage(
+                                                          '${Global.FILE}/${state.dataScheduleTreatment.value[index].treatment!.mediaTreatments?[0].media?.path}',
+                                                        ),
+                                                        fit: BoxFit.fill),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            2),
+                                                            7),
                                                   ),
                                                 ),
                                                 const SizedBox(
