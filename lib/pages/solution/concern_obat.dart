@@ -559,8 +559,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                         ),
                       ),
                       content: Wrap(
-                        spacing: 15,
-                        runSpacing: 12,
+                        spacing: 50,
                         children: medicines.map((medicine) {
                           return KonsultasiProduk(
                             medicine: medicine,
