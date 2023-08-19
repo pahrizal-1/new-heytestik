@@ -17,11 +17,11 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/more_dialog_transaksi_widget.dart';
 
-class SelesaiPembayaranPage extends StatefulWidget {
+class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
   String bank;
   String orderId;
   String expireTime;
-  SelesaiPembayaranPage({
+  SelesaikanPembayaranKonsultasiPage({
     this.bank = '',
     this.orderId = '',
     this.expireTime = '',
@@ -29,10 +29,12 @@ class SelesaiPembayaranPage extends StatefulWidget {
   });
 
   @override
-  State<SelesaiPembayaranPage> createState() => _SelesaiPembayaranPageState();
+  State<SelesaikanPembayaranKonsultasiPage> createState() =>
+      _SelesaikanPembayaranKonsultasiState();
 }
 
-class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
+class _SelesaikanPembayaranKonsultasiState
+    extends State<SelesaikanPembayaranKonsultasiPage> {
   final HistoryConsultationController state =
       Get.put(HistoryConsultationController());
   Timer? countdownTimer;
