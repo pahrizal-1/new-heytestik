@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -31,8 +32,10 @@ class DetailObatPage extends StatefulWidget {
 
 class _DetailObatPageState extends State<DetailObatPage> {
   MedicineController medicineController = Get.put(MedicineController());
+  final SkincareController state = Get.put(SkincareController());
   bool isVisibelity = false;
-
+  bool? help;
+  Map<String, int> helpReview = {};
   @override
   void initState() {
     super.initState();
@@ -764,18 +767,50 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Image.asset(
-                                      'assets/icons/like.png',
-                                      width: 15,
-                                      color: greenColor,
+                                    InkWell(
+                                      onTap: () async {
+                                        print("help");
+
+                                        if (help ?? element.helped!) {
+                                          state.unHelped(context, element.id!);
+                                          setState(() {
+                                            help = false;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) -
+                                                    1;
+                                          });
+                                        } else {
+                                          state.helped(context, element.id!);
+                                          setState(() {
+                                            help = true;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) +
+                                                    1;
+                                          });
+                                        }
+                                      },
+                                      child: Image.asset(
+                                        'assets/icons/like.png',
+                                        width: 15,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 7,
                                     ),
                                     Text(
-                                      '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
+                                      '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
                                       style: grenTextStyle.copyWith(
-                                          fontSize: 13, fontWeight: regular),
+                                        fontSize: 13,
+                                        fontWeight: regular,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
+                                      ),
                                     ),
                                     const Spacer(),
                                     element.replyReview == null

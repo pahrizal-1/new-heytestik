@@ -33,6 +33,8 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   int page = 1;
   int take = 10;
   bool? help;
+  Map<String, int> helpReview = {};
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -727,21 +729,46 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     InkWell(
                                       onTap: () async {
                                         print("help");
+
+                                        if (help ?? element.helped!) {
+                                          state.unHelped(context, element.id!);
+                                          setState(() {
+                                            help = false;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) -
+                                                    1;
+                                          });
+                                        } else {
+                                          state.helped(context, element.id!);
+                                          setState(() {
+                                            help = true;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) +
+                                                    1;
+                                          });
+                                        }
                                       },
                                       child: Image.asset(
                                         'assets/icons/like.png',
                                         width: 15,
-                                        color: greyColor,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
                                       ),
                                     ),
                                     const SizedBox(
                                       width: 7,
                                     ),
                                     Text(
-                                      '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
+                                      '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
                                       style: greyTextStyle.copyWith(
                                         fontSize: 13,
                                         fontWeight: regular,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
                                       ),
                                     ),
                                     const Spacer(),

@@ -187,4 +187,34 @@ class SkincareController extends StateClass {
     });
     isLoadingLookup.value = false;
   }
+
+  void helped(BuildContext context, int reviewId) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().helped(reviewId);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
+  void unHelped(BuildContext context, int reviewId) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().unHelped(reviewId);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+
+    isLoading.value = false;
+  }
 }

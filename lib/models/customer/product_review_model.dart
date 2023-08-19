@@ -75,32 +75,35 @@ class Data2 {
   List<MediaBeforeConditionProductReviews>? mediaBeforeConditionProductReviews;
   List<MediaAfterConditionProductReviews>? mediaAfterConditionProductReviews;
   Count? cCount;
+  bool? helped;
 
-  Data2(
-      {this.id,
-      this.transactionProductId,
-      this.transactionProductItemId,
-      this.productId,
-      this.userId,
-      this.effectivenessRating,
-      this.textureRating,
-      this.packagingRating,
-      this.avgRating,
-      this.review,
-      this.replyReview,
-      this.usageDuration,
-      this.wouldRecommend,
-      this.wouldRepurchase,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.user,
-      this.transactionProductItem,
-      this.mediaBeforeConditionProductReviews,
-      this.mediaAfterConditionProductReviews,
-      this.cCount});
+  Data2({
+    this.id,
+    this.transactionProductId,
+    this.transactionProductItemId,
+    this.productId,
+    this.userId,
+    this.effectivenessRating,
+    this.textureRating,
+    this.packagingRating,
+    this.avgRating,
+    this.review,
+    this.replyReview,
+    this.usageDuration,
+    this.wouldRecommend,
+    this.wouldRepurchase,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.user,
+    this.transactionProductItem,
+    this.mediaBeforeConditionProductReviews,
+    this.mediaAfterConditionProductReviews,
+    this.cCount,
+    this.helped,
+  });
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -142,6 +145,7 @@ class Data2 {
       });
     }
     cCount = json['_count'] != null ? Count.fromJson(json['_count']) : null;
+    helped = json['helped'];
   }
 
   Map<String, dynamic> toJson() {
@@ -182,6 +186,7 @@ class Data2 {
     if (cCount != null) {
       data['_count'] = cCount!.toJson();
     }
+    data['helped'] = helped;
     return data;
   }
 }

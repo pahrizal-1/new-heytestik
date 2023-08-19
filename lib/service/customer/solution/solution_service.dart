@@ -216,4 +216,36 @@ class SolutionService extends ProviderClass {
 
     print(response);
   }
+
+  Future helped(int reviewId) async {
+    var response = await networkingConfig.doPost(
+      '/solution/product-review/helpful',
+      data: {
+        "product_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
+  }
+
+  Future unHelped(int reviewId) async {
+    var response = await networkingConfig.doDelete(
+      '/solution/product-review/helpful',
+      data: {
+        "product_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
+  }
 }
