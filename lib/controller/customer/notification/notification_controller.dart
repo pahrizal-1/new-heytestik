@@ -24,12 +24,15 @@ class NotificationCustomerController extends StateClass {
   }
 
   Future getNotificationDoctor(BuildContext context, int page) async {
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       print('masuk sini');
       var dataD =
           await NotificationCustomerServices().listNotificationDoctor(page);
+      notif.value = [];
       notif.value = dataD;
     });
+    isLoading.value = false;
     // return data.value.data!.data;
   }
 
