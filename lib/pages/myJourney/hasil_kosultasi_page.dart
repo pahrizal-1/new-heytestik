@@ -32,6 +32,7 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 3,
         automaticallyImplyLeading: false,
