@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -281,10 +282,17 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: etalaseController.filterData.map((element) {
-                            return CirkelCategory(
-                              title: element.name ?? "-",
-                              img:
-                                  "${Global.FILE}/${element.mediaConcern!.media!.path!}",
+                            return InkWell(
+                              onTap: () {
+                                Get.to(ConcernObatPage(
+                                  idConcern: element.id!.toInt(),
+                                ));
+                              },
+                              child: CirkelCategory(
+                                title: element.name ?? "-",
+                                img:
+                                    "${Global.FILE}/${element.mediaConcern!.media!.path!}",
+                              ),
                             );
                           }).toList(),
                         ),

@@ -166,6 +166,24 @@ class SolutionService extends ProviderClass {
     return MedicineModel.fromJson(response);
   }
 
+  Future<MedicineModel> getMedicineByConcern(int page, List concern) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare',
+      params: {
+        "page": page,
+        "take": 100,
+        "order": "desc",
+        "concern_ids[]": concern,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return MedicineModel.fromJson(response);
+  }
+
   Future<DrugRecipeModel> getDrugRecipe(int page) async {
     var response = await networkingConfig.doGet(
       '/solution/drug-recipe',

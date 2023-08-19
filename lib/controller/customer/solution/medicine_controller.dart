@@ -33,6 +33,18 @@ class MedicineController extends StateClass {
     return data;
   }
 
+  Future<List<Medicine.Data2>> getMedicineByConcern(
+      BuildContext context, int page, List concern) async {
+    isLoading.value = true;
+    List<Medicine.Data2> data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().getMedicineByConcern(page, concern);
+      data = res.data!.data!;
+    });
+    isLoading.value = false;
+    return data;
+  }
+
   Future<List<Data2>> getDrugRecipe(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
