@@ -292,12 +292,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                   ),
                                 );
                               }
-                              // Get.to(SelesaiPembayaranPage(
-                              //   bank: 'BCA',
-                              //   orderId:
-                              //       'CONSULTATION.08d4990f-0eda-49ae-9a3f-75fe1d54cda2',
-                              //   expireTime: '2023-07-23 10:43:52',
-                              // ));
+
                               await state.order(
                                 context,
                                 widget.interestConditionId!.toInt(),
