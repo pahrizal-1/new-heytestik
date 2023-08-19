@@ -139,7 +139,6 @@ class SkincareController extends StateClass {
     });
     isLoadingProductReviewSkincare.value = false;
 
-    print(productReview.value);
     return productReview.value;
   }
 

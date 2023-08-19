@@ -714,7 +714,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UlasanPageSkincare(
+                                builder: (context) => UlasanProdukPage(
                                     productId: widget.productId),
                               ),
                             );
@@ -729,7 +729,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     const SizedBox(
                       height: 11,
                     ),
-                    state.productReview.isEmpty
+                    Obx(() => state.productReview.isEmpty
                         ? Center(
                             child: Text(
                               'Belum ada ulasan',
@@ -996,9 +996,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 ],
                               );
                             }).toList(),
-                          )
+                          )),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 18,
               ),
               const Divider(
                 thickness: 6,

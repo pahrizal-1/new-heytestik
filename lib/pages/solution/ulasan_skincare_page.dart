@@ -17,15 +17,15 @@ import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class UlasanPageSkincare extends StatefulWidget {
+class UlasanProdukPage extends StatefulWidget {
   int productId;
-  UlasanPageSkincare({required this.productId, super.key});
+  UlasanProdukPage({required this.productId, super.key});
 
   @override
-  State<UlasanPageSkincare> createState() => _UlasanPageSkincareState();
+  State<UlasanProdukPage> createState() => _UlasanProdukPageState();
 }
 
-class _UlasanPageSkincareState extends State<UlasanPageSkincare> {
+class _UlasanProdukPageState extends State<UlasanProdukPage> {
   ScrollController scrollController = ScrollController();
   final SkincareController state = Get.put(SkincareController());
   List<ProductReviewModel.Data2> reviews = [];

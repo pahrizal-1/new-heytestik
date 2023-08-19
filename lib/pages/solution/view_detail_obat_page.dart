@@ -5,9 +5,10 @@ import 'package:heystetik_mobileapps/controller/customer/solution/medicine_contr
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import '../../models/medicine.dart';
 import '../../theme/theme.dart';
 import '../../widget/pencarian_search_widget.dart';
@@ -16,7 +17,7 @@ import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'keranjang_page.dart';
 
-class DetailObatPage extends StatelessWidget {
+class DetailObatPage extends StatefulWidget {
   const DetailObatPage({
     super.key,
     required this.medicine,
@@ -25,9 +26,24 @@ class DetailObatPage extends StatelessWidget {
   final MedicineModel medicine;
 
   @override
-  Widget build(BuildContext context) {
-    MedicineController medicineController = Get.put(MedicineController());
+  State<DetailObatPage> createState() => _DetailObatPageState();
+}
 
+class _DetailObatPageState extends State<DetailObatPage> {
+  MedicineController medicineController = Get.put(MedicineController());
+  bool isVisibelity = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      medicineController.getOverviewProduct(context, widget.medicine.id);
+      medicineController.getReviewProduct(context, 1, 3, widget.medicine.id);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0XffFFFFFF),
       appBar: AppBar(
@@ -135,7 +151,7 @@ class DetailObatPage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                  '${Global.FILE}/${medicine.media[0]}',
+                  '${Global.FILE}/${widget.medicine.media[0]}',
                 ),
               ),
             ),
@@ -149,7 +165,7 @@ class DetailObatPage extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      CurrencyFormat.convertToIdr(medicine.price, 2),
+                      CurrencyFormat.convertToIdr(widget.medicine.price, 2),
                       style: blackHigtTextStyle.copyWith(fontSize: 20),
                     ),
                     const Spacer(),
@@ -162,7 +178,7 @@ class DetailObatPage extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  medicine.name,
+                  widget.medicine.name,
                   style: blackRegulerTextStyle.copyWith(color: blackColor),
                 ),
                 const SizedBox(
@@ -193,7 +209,7 @@ class DetailObatPage extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            '${medicine.rating}',
+                            '${widget.medicine.rating}',
                             style: blackHigtTextStyle.copyWith(fontSize: 13),
                           ),
                         ],
@@ -271,24 +287,24 @@ class DetailObatPage extends StatelessWidget {
                 TitleDetail(
                   ontap: () {},
                   title1: 'Concern',
-                  title2: medicine.display,
+                  title2: widget.medicine.display,
                   textColor: greenColor,
                 ),
                 TitleDetail(
                   title1: 'Bentuk Obat',
-                  title2: medicine.form,
+                  title2: widget.medicine.form,
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
                 TitleDetail(
                   title1: 'No. BPOM',
-                  title2: medicine.BPOM,
+                  title2: widget.medicine.BPOM,
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
                 TitleDetail(
                   title1: 'Manufaktur',
-                  title2: medicine.manufacture,
+                  title2: widget.medicine.manufacture,
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
@@ -297,25 +313,26 @@ class DetailObatPage extends StatelessWidget {
                 ),
                 DescripsiText(
                   title1: 'Deskripsi',
-                  subtitle2: medicine.description,
+                  subtitle2: widget.medicine.description,
                 ),
                 DescripsiText(
                   title1: 'Indikasi',
-                  subtitle2: medicine.indication,
+                  subtitle2: widget.medicine.indication,
                 ),
                 DescripsiText(
                   title1: 'Komposisi',
-                  subtitle2: medicine.composition,
+                  subtitle2: widget.medicine.composition,
                 ),
                 DescripsiText(
-                    title1: 'Dosis & Aturan Pakai', subtitle2: medicine.doses),
+                    title1: 'Dosis & Aturan Pakai',
+                    subtitle2: widget.medicine.doses),
                 DescripsiText(
                   title1: 'Perhatian',
-                  subtitle2: medicine.attention,
+                  subtitle2: widget.medicine.attention,
                 ),
                 DescripsiText(
                   title1: 'Kontra indikasi',
-                  subtitle2: medicine.contradiction,
+                  subtitle2: widget.medicine.contradiction,
                   isLast: true,
                 ),
                 // DescripsiText(
@@ -326,6 +343,538 @@ class DetailObatPage extends StatelessWidget {
             ),
           ),
           const dividergreen(),
+          const SizedBox(
+            height: 18,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      size: 24,
+                      color: Color(0xffFFC36A),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Obx(
+                      () => Text(
+                        '${medicineController.overviewMedicine.value.avgRating ?? 0.0}',
+                        style: blackHigtTextStyle.copyWith(fontSize: 30),
+                      ),
+                    ),
+                    Text(
+                      '/5.0',
+                      style: subGreyTextStyle.copyWith(
+                          fontSize: 12, color: const Color(0XffCCCCCC)),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.satisfiedPercentage ?? 0}% Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 12, fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                            Text(
+                              ' merasa puas',
+                              style: blackHigtTextStyle.copyWith(fontSize: 12),
+                            ),
+                            const Icon(Icons.keyboard_arrow_right)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.totalRating ?? 0} rating',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Icon(
+                              Icons.circle,
+                              size: 6,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.totalReview ?? 0} ulasan',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        margin: const EdgeInsets.only(right: 3),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: const Color(0xffCCCCCC)),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.avgEffectivenessRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Effectiveness',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
+                                ),
+                                Obx(
+                                  () => Text(
+                                    '${medicineController.overviewMedicine.value.countEffectivenessRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        margin: const EdgeInsets.only(right: 3),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: const Color(0xffCCCCCC)),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.avgTextureRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Texture',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
+                                ),
+                                Obx(
+                                  () => Text(
+                                    '${medicineController.overviewMedicine.value.countTextureRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        margin: const EdgeInsets.only(right: 3),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(color: const Color(0xffCCCCCC)),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                '${medicineController.overviewMedicine.value.avgPackagingRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Packaging',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
+                                ),
+                                Obx(
+                                  () => Text(
+                                    '${medicineController.overviewMedicine.value.countPackagingRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Ulasan',
+                          style: blackHigtTextStyle.copyWith(fontSize: 18),
+                        ),
+                        Text(
+                          ' Sobat Hey',
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 18, fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UlasanProdukPage(
+                              productId: widget.medicine.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        '  Lihat Semua',
+                        style: grenTextStyle.copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 11,
+                ),
+                Obx(
+                  () => medicineController.productReview.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Belum ada ulasan',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 15,
+                            ),
+                          ),
+                        )
+                      : Column(
+                          children:
+                              medicineController.productReview.map((element) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/doctor1.png',
+                                      width: 40,
+                                    ),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          element.user?.fullname ?? '-',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          element.transactionProductItem
+                                                  ?.product?.type ??
+                                              '-',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 13,
+                                              fontWeight: regular),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.more_vert)
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Row(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: List.generate(5, (index) {
+                                        return Image.asset(
+                                          'assets/icons/stars-new.png',
+                                          width: 12,
+                                          color: element.avgRating! > index
+                                              ? const Color(0xffFFC36A)
+                                              : Color.fromRGBO(
+                                                  155, 155, 155, 0.61),
+                                        );
+                                      }),
+                                    ),
+                                    const SizedBox(
+                                      width: 13,
+                                    ),
+                                    Text(
+                                      timeago.format(DateTime.parse(
+                                          element.createdAt.toString())),
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Text(
+                                  element.review ?? '-',
+                                  style: greyTextStyle.copyWith(
+                                      fontSize: 13,
+                                      color: const Color(0xff6B6B6B)),
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Text(
+                                  'Before',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: element
+                                      .mediaBeforeConditionProductReviews!
+                                      .map((e) {
+                                    return Container(
+                                      height: 72,
+                                      width: 82,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Image.network(
+                                        '${Global.FILE}/${e.media!.path.toString()}',
+                                        width: 72,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Text(
+                                  'After',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  height: 13,
+                                ),
+                                Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: element
+                                      .mediaAfterConditionProductReviews!
+                                      .map((e) {
+                                    return Container(
+                                      height: 72,
+                                      width: 82,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Image.network(
+                                        '${Global.FILE}/${e.media!.path.toString()}',
+                                        width: 72,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(
+                                  height: 22,
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/like.png',
+                                      width: 15,
+                                      color: greenColor,
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    Text(
+                                      '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
+                                      style: grenTextStyle.copyWith(
+                                          fontSize: 13, fontWeight: regular),
+                                    ),
+                                    const Spacer(),
+                                    element.replyReview == null
+                                        ? Container()
+                                        : InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                isVisibelity = !isVisibelity;
+                                              });
+                                            },
+                                            child: Row(
+                                              children: [
+                                                isVisibelity
+                                                    ? Text(
+                                                        'Lihat Balasan',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
+                                                      )
+                                                    : Text(
+                                                        'Tutup Balasan',
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
+                                                      ),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                const Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Color(0xff6B6B6B),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Visibility(
+                                  visible: isVisibelity,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 2,
+                                        decoration:
+                                            BoxDecoration(color: greenColor),
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Penjual ',
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(
+                                                          fontSize: 13,
+                                                          color: subTitleColor),
+                                                ),
+                                                Text(
+                                                  timeago.format(DateTime.parse(
+                                                      element.createdAt
+                                                          .toString())),
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(
+                                                          color: subTitleColor,
+                                                          fontSize: 13),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              element.replyReview ?? '',
+                                              style: subTitleTextStyle,
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                )
+              ],
+            ),
+          ),
           const SizedBox(
             height: 18,
           ),
@@ -375,14 +924,14 @@ class DetailObatPage extends StatelessWidget {
                     onTap: () {
                       List product = [
                         {
-                          "product_id": medicine.id,
-                          "productName": medicine.name,
-                          "img": medicine.media[0],
+                          "product_id": widget.medicine.id,
+                          "productName": widget.medicine.name,
+                          "img": widget.medicine.media[0],
                           "qty": 1,
                           "notes": '-',
                           "isSelected": true,
-                          "price": medicine.price,
-                          "totalPrice": medicine.price * 1,
+                          "price": widget.medicine.price,
+                          "totalPrice": widget.medicine.price * 1,
                         }
                       ];
 
@@ -415,7 +964,7 @@ class DetailObatPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       medicineController.addMedicineToCart(
-                          context, medicine.id);
+                          context, widget.medicine.id);
                       SnackbarWidget.getSuccessSnackbar(
                         context,
                         'Info',
