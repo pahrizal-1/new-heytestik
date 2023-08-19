@@ -33,6 +33,7 @@ class _ApprovePageState extends State<ApprovePage> {
         leading: IconButton(
           onPressed: () {
             Get.back();
+            state.close();
           },
           icon: Icon(
             Icons.arrow_back,
