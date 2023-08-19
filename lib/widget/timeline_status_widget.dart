@@ -65,7 +65,8 @@ class TimeLineStatusPengrimanWidgets extends StatelessWidget {
       child: TimelineTile(
         isFirst: isFirst,
         isLast: isLast,
-        beforeLineStyle: LineStyle(color: isPast ? subTitleColor : greenColor),
+        beforeLineStyle:
+            LineStyle(thickness: 2, color: isPast ? subTitleColor : greenColor),
         indicatorStyle: IndicatorStyle(
           width: 15,
           height: 15,
