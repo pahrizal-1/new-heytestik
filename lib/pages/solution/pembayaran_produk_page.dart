@@ -15,7 +15,8 @@ import 'metode_pembayaran_produk_page.dart';
 
 class PembayaranProduk extends StatefulWidget {
   List pesan;
-  PembayaranProduk({required this.pesan, super.key});
+  bool isCart;
+  PembayaranProduk({required this.pesan, required this.isCart, super.key});
 
   @override
   State<PembayaranProduk> createState() => _PembayaranProdukState();
@@ -144,7 +145,9 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
                   }
 
                   // redirect
-                  Get.to(MetodePembayaranProduk());
+                  Get.to(MetodePembayaranProduk(
+                    isCart: widget.isCart,
+                  ));
                 },
               )
             ],

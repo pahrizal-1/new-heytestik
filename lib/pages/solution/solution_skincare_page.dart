@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
@@ -10,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -27,7 +30,7 @@ class SolutionSkincare1Page extends StatefulWidget {
 
 class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
   final SkincareController state = Get.put(SkincareController());
-
+  List display = [];
   int _current = 0;
   final List<String> images = [
     'assets/images/001.png',
@@ -47,7 +50,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.getLookup(context);
+      state.getLookup(context, 'SKINCARE_CATEGORY');
+      state.getLookup(context, 'SKINCARE_DISPLAY');
       state.getSkincare(context);
     });
   }
@@ -354,7 +358,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                     crossAxisCount: 4,
                                     childAspectRatio: 1,
                                   ),
-                                  itemCount: state.lookup.length,
+                                  itemCount: state.lookupCategory.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Container(
@@ -369,14 +373,14 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                           Get.to(
                                             CategorySkinCare(
                                               category: state
-                                                  .lookup[index].value
+                                                  .lookupCategory[index].value
                                                   .toString(),
                                             ),
                                           );
                                         },
                                         child: Center(
                                           child: Text(
-                                            state.lookup[index].value
+                                            state.lookupCategory[index].value
                                                 .toString(),
                                             style: const TextStyle(
                                                 fontSize: 10,
@@ -416,9 +420,163 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                Image.asset(
-                                  'assets/icons/filters.png',
-                                  width: 78,
+                                InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isDismissible: false,
+                                      context: context,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.only(
+                                          topEnd: Radius.circular(25),
+                                          topStart: Radius.circular(25),
+                                        ),
+                                      ),
+                                      builder: (context) => Wrap(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                                top: 36,
+                                                bottom: 40),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Filter',
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(fontSize: 20),
+                                                ),
+                                                const SizedBox(
+                                                  height: 31,
+                                                ),
+                                                Text(
+                                                  'Pilihan Display',
+                                                  style: blackTextStyle
+                                                      .copyWith(fontSize: 15),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    children: state
+                                                        .lookupDisplay
+                                                        .map((e) {
+                                                      return CardSearch(
+                                                        title:
+                                                            e.value.toString(),
+                                                        onTap: () {
+                                                          print("d ${e.value}");
+                                                          display.add(e.value
+                                                              .toString());
+
+                                                          print(
+                                                              "ddd  $display");
+                                                        },
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 28,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        width: 165,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color:
+                                                                    greenColor),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        7)),
+                                                        height: 50,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Batal',
+                                                            style: grenTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Expanded(
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          Navigator.pop(
+                                                              context);
+                                                          print(
+                                                              "ddd  $display");
+                                                          await state
+                                                              .getSkincareByDisplay(
+                                                                  context,
+                                                                  display);
+
+                                                          display.clear();
+                                                        },
+                                                        child: Container(
+                                                          width: 165,
+                                                          decoration: BoxDecoration(
+                                                              color: greenColor,
+                                                              border: Border.all(
+                                                                  color:
+                                                                      greenColor),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7)),
+                                                          height: 50,
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Simpan',
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          bold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'assets/icons/filters.png',
+                                    width: 78,
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 5,

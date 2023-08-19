@@ -1,50 +1,49 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
-import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../theme/theme.dart';
-import '../../widget/more_dialog_transaksi_widget.dart';
+import '../../widget/Text_widget.dart';
+import '../chat_customer/cara_pembayaran_page.dart';
 
-class SelesaiPembayaranPage extends StatefulWidget {
+// ignore: must_be_immutable
+class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   String bank;
   String orderId;
   String expireTime;
-  SelesaiPembayaranPage({
-    this.bank = '',
-    this.orderId = '',
-    this.expireTime = '',
-    super.key,
-  });
+  final Data2 treatment;
+  SelesaikanPembayaranTreatmentPage(
+      {this.bank = '',
+      this.orderId = '',
+      this.expireTime = '',
+      required this.treatment,
+      super.key});
 
   @override
-  State<SelesaiPembayaranPage> createState() => _SelesaiPembayaranPageState();
+  State<SelesaikanPembayaranTreatmentPage> createState() =>
+      _SelesaikanPembayaranTreatmentPageState();
 }
 
-class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
-  final HistoryConsultationController state =
-      Get.put(HistoryConsultationController());
+class _SelesaikanPembayaranTreatmentPageState
+    extends State<SelesaikanPembayaranTreatmentPage> {
+  final HistoryTreatmentController state =
+      Get.put(HistoryTreatmentController());
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.bank.value = widget.bank;
-      state.expirytime.value = widget.expireTime;
-      state.getTransactionStatus(context, widget.orderId);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getTransactionStatus(context, widget.orderId);
       setTime();
       startTimer();
     });
@@ -95,6 +94,14 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
     });
   }
 
+  Future<bool> onWillPop() async {
+    showDialog(
+      context: context,
+      builder: (context) => const AlertDialogTransaksi(),
+    );
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -104,14 +111,6 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
 
-    Future<bool> onWillPop() async {
-      showDialog(
-        context: context,
-        builder: (context) => const AlertDialogTransaksi(),
-      );
-      return Future.value(false);
-    }
-
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
@@ -120,9 +119,12 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
           backgroundColor: greenColor,
           title: Row(
             children: [
-              Text(
-                state.bank.value.toUpperCase(),
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              Obx(
+                () => Text(
+                  state.bank.value.toUpperCase(),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                ),
               ),
             ],
           ),
@@ -249,16 +251,9 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                     ],
                                   ),
                                   const Spacer(),
-                                  InkWell(
-                                    // onTap: () {
-                                    //   Clipboard.getData(
-                                    //       state.virtualAccount.value);
-                                    // },
-                                    child: Text(
-                                      'Salin',
-                                      style:
-                                          grenTextStyle.copyWith(fontSize: 14),
-                                    ),
+                                  Text(
+                                    'Salin',
+                                    style: grenTextStyle.copyWith(fontSize: 14),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -315,14 +310,20 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                   InkWell(
                                     onTap: () {
                                       showModalBottomSheet(
+                                        isDismissible: false,
                                         context: context,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20)),
+                                        backgroundColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.only(
+                                            topEnd: Radius.circular(25),
+                                            topStart: Radius.circular(25),
+                                          ),
                                         ),
                                         builder: (context) =>
-                                            const TransaksiMoreDialog(),
+                                            PesananTreatmentMoreDialog(
+                                          treatment: widget.treatment,
+                                        ),
                                       );
                                     },
                                     child: Text(
@@ -349,13 +350,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CaraPembayaranPage(),
-                                ),
-                              );
+                              Get.to(const CaraPembayaranPage());
                             },
                             child: Center(
                               child: Text(
@@ -385,7 +380,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                             height: 18,
                           ),
                           const Text(
-                            'Setelah pembayaranmu terkonfirmasi, pihak klinik akan segera menghubungi kamu. Pastikan nomer HP-mu aktif ya :)',
+                            'Setelah pembayaranmu terkonfirmasi, pihak klinik akan segera menghubungi kamu.Pastikan nomer HP-mu aktif ya :)',
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(
@@ -397,12 +392,40 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                               await state.getTransactionStatus(
                                   context, widget.orderId);
                             },
-                          )
+                          ),
+                          // const SizedBox(
+                          //   height: 7,
+                          // ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       border: Border.all(color: borderColor),
+                          //       borderRadius: BorderRadius.circular(8)),
+                          //   width: MediaQuery.of(context).size.width,
+                          //   height: 51,
+                          //   child: TextButton(
+                          //     onPressed: () {
+                          //       // Navigator.push(
+                          //       //   context,
+                          //       //   MaterialPageRoute(
+                          //       //     builder: (context) => Resevasi3Page(),
+                          //       //   ),
+                          //       // );
+                          //     },
+                          //     style: TextButton.styleFrom(
+                          //       backgroundColor: whiteColor,
+                          //     ),
+                          //     child: Text(
+                          //       'Ganti metode pembayaran',
+                          //       style: TextStyle(
+                          //         fontSize: 16,
+                          //         color: blackColor,
+                          //         fontWeight: bold,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30,
                     ),
                   ],
                 ),
@@ -411,6 +434,119 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PesananTreatmentMoreDialog extends StatelessWidget {
+  final Data2 treatment;
+  PesananTreatmentMoreDialog({
+    Key? key,
+    required this.treatment,
+  }) : super(key: key);
+  final HistoryTreatmentController state =
+      Get.put(HistoryTreatmentController());
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Detail Harga',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                'Klinik Utama Lithea Jakarta Selatan',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Text(
+                'Harga',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              const TextBoldSpacebetwen(
+                title: 'Peeling TCA Ringan (1x)',
+                title2: 'Rp290.400',
+                title1: '',
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                'Biaya Lainnya',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const TextBoldSpacebetwen(
+                title: 'Pajak',
+                title2: 'Termasuk',
+                title1: '',
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const TextBoldSpacebetwen(
+                title: 'Biaya transaksi',
+                title2: 'Rp0',
+                title1: '',
+              ),
+              const SizedBox(
+                height: 19,
+              ),
+              dividergrey(),
+              // TextBoldSpacebetwen(
+              //   title: 'Total Pembayaran',
+              //   title2: state.grossAmount.value == '-'
+              //       ? ''
+              //       : Text(
+              //           CurrencyFormat.convertToIdr(
+              //               double.parse(state.grossAmount.value), 0),
+              //         ),
+              //   title1: '',
+              // ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -14,7 +14,7 @@ import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -37,14 +37,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
   final CartController cart = Get.put(CartController());
-  bool isVisibelity = true;
+  bool isVisibelity = false;
+
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.detailSkincare(context, widget.productId);
-      // state.getSkincare(context);
+      state.getOverviewProduct(context, widget.productId);
+      state.getReviewProduct(context, 1, 3, widget.productId);
       state.relatedProductSkincare(context, widget.productId);
     });
   }
@@ -478,9 +480,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Text(
-                          '5.0',
-                          style: blackHigtTextStyle.copyWith(fontSize: 30),
+                        Obx(
+                          () => Text(
+                            '${state.overviewSkincare.value.avgRating ?? 0.0}',
+                            style: blackHigtTextStyle.copyWith(fontSize: 30),
+                          ),
                         ),
                         Text(
                           '/5.0',
@@ -495,11 +499,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  '99% Sobat Hey',
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic),
+                                  ),
                                 ),
                                 Text(
                                   ' merasa puas',
@@ -511,10 +517,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  '110 rating',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.totalRating ?? 0} rating',
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -526,10 +534,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(
-                                  '100 ulasan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  ),
                                 ),
                               ],
                             ),
@@ -557,10 +567,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Text(
-                                  '5.0',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -569,14 +581,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Perawatan',
+                                      'Effectiveness',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Text(
-                                      '54 ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                    Obx(
+                                      () => Text(
+                                        '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
+                                      ),
                                     ),
                                   ],
                                 )
@@ -598,10 +612,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Text(
-                                  '5.0',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.avgTextureRating ?? 0}',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -610,14 +626,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Pelayanan',
+                                      'Texture',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Text(
-                                      '16 ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                    Obx(
+                                      () => Text(
+                                        '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
+                                      ),
                                     ),
                                   ],
                                 )
@@ -639,10 +657,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Text(
-                                  '5.0',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
+                                Obx(
+                                  () => Text(
+                                    '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -651,14 +671,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Manajemen',
+                                      'Packaging',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Text(
-                                      '54 ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
+                                    Obx(
+                                      () => Text(
+                                        '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
+                                      ),
                                     ),
                                   ],
                                 )
@@ -692,8 +714,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const UlasanPageSkincare(),
+                                builder: (context) => UlasanProdukPage(
+                                    productId: widget.productId),
                               ),
                             );
                           },
@@ -707,93 +729,279 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     const SizedBox(
                       height: 11,
                     ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/doctor1.png',
-                          width: 40,
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Jessy',
-                              style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    Obx(() => state.productReview.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Belum ada ulasan',
+                              style: TextStyle(
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                                fontSize: 15,
+                              ),
                             ),
-                            Text(
-                              'Perawatan Peeling TCA Ringan',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 13, fontWeight: regular),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        const Icon(Icons.more_vert)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Color(0xffFFC36A),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Text(
-                          '1 Bulan Yang lalu',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 12, fontWeight: regular),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Text(
-                      'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-                      style: greyTextStyle.copyWith(
-                          fontSize: 13, color: const Color(0xff6B6B6B)),
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Image.asset(
-                      'assets/images/review-wajah.png',
-                      width: 72,
-                    ),
-                    const SizedBox(
-                      height: 22,
-                    ),
+                          )
+                        : Column(
+                            children: state.productReview.map((element) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/doctor1.png',
+                                        width: 40,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            element.user?.fullname ?? '-',
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 15),
+                                          ),
+                                          Text(
+                                            element.transactionProductItem
+                                                    ?.product?.type ??
+                                                '-',
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                                fontWeight: regular),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.more_vert)
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: List.generate(5, (index) {
+                                          return Image.asset(
+                                            'assets/icons/stars-new.png',
+                                            width: 12,
+                                            color: element.avgRating! > index
+                                                ? const Color(0xffFFC36A)
+                                                : Color.fromRGBO(
+                                                    155, 155, 155, 0.61),
+                                          );
+                                        }),
+                                      ),
+                                      const SizedBox(
+                                        width: 13,
+                                      ),
+                                      Text(
+                                        timeago.format(DateTime.parse(
+                                            element.createdAt.toString())),
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Text(
+                                    element.review ?? '-',
+                                    style: greyTextStyle.copyWith(
+                                        fontSize: 13,
+                                        color: const Color(0xff6B6B6B)),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Text(
+                                    'Before',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: element
+                                        .mediaBeforeConditionProductReviews!
+                                        .map((e) {
+                                      return Container(
+                                        height: 72,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        child: Image.network(
+                                          '${Global.FILE}/${e.media!.path.toString()}',
+                                          width: 72,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Text(
+                                    'After',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: element
+                                        .mediaAfterConditionProductReviews!
+                                        .map((e) {
+                                      return Container(
+                                        height: 72,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        child: Image.network(
+                                          '${Global.FILE}/${e.media!.path.toString()}',
+                                          width: 72,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  const SizedBox(
+                                    height: 22,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/like.png',
+                                        width: 15,
+                                        color: greenColor,
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        '${element.cCount?.productReviewHelpfuls ?? 0} orang terbantu',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 13, fontWeight: regular),
+                                      ),
+                                      const Spacer(),
+                                      element.replyReview == null
+                                          ? Container()
+                                          : InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  isVisibelity = !isVisibelity;
+                                                });
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  isVisibelity
+                                                      ? Text(
+                                                          'Lihat Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        )
+                                                      : Text(
+                                                          'Tutup Balasan',
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
+                                                        ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  const Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    color: Color(0xff6B6B6B),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Visibility(
+                                    visible: isVisibelity,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: 2,
+                                          decoration:
+                                              BoxDecoration(color: greenColor),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Penjual ',
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                            fontSize: 13,
+                                                            color:
+                                                                subTitleColor),
+                                                  ),
+                                                  Text(
+                                                    timeago.format(
+                                                        DateTime.parse(element
+                                                            .createdAt
+                                                            .toString())),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                subTitleColor,
+                                                            fontSize: 13),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                element.replyReview ?? '',
+                                                style: subTitleTextStyle,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          )),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 18,
               ),
               const Divider(
                 thickness: 6,
@@ -1057,7 +1265,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         }
                       ];
 
-                      Get.to(PembayaranProduk(pesan: product));
+                      Get.to(PembayaranProduk(
+                        pesan: product,
+                        isCart: false,
+                      ));
                     },
                     child: Container(
                       decoration: BoxDecoration(

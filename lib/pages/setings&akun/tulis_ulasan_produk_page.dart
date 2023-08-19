@@ -871,7 +871,7 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
 
     state.isMinorLoading.value = true;
     for (int i = 0; i < hasil.length; i++) {
-      String path = await downloadFile(hasil[i]);
+      String path = await downloadFileFromUrl(hasil[i]);
 
       if (condition == 'after') {
         state.afterConditions.add(path);

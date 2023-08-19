@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -292,17 +292,12 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                   ),
                                 );
                               }
-                              // Get.to(SelesaiPembayaranPage(
-                              //   bank: 'BCA',
-                              //   orderId:
-                              //       'CONSULTATION.08d4990f-0eda-49ae-9a3f-75fe1d54cda2',
-                              //   expireTime: '2023-07-23 10:43:52',
-                              // ));
+
                               await state.order(
                                 context,
                                 widget.interestConditionId!.toInt(),
                                 doInPost: () async {
-                                  Get.offAll(SelesaiPembayaranPage(
+                                  Get.offAll(SelesaikanPembayaranKonsultasiPage(
                                     orderId: state.orderId.value,
                                     bank: state.bank.value,
                                     expireTime: state.expireTime.value,

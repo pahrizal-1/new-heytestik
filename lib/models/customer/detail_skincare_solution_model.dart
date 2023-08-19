@@ -33,14 +33,14 @@ class Data {
   int? price;
   bool? productIsActive;
   int? productStock;
-  String? productTreshold;
-  String? productSku;
-  int? rating;
+  dynamic productTreshold;
+  dynamic productSku;
+  double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
-  int? shippingProductSizeLength;
-  int? shippingProductSizeWidth;
-  int? shippingProductSizeHeight;
+  dynamic shippingProductSizeLength;
+  dynamic shippingProductSizeWidth;
+  dynamic shippingProductSizeHeight;
   String? shipping;
   dynamic createdBy;
   dynamic updatedBy;
@@ -49,7 +49,8 @@ class Data {
   dynamic deletedAt;
   List<MediaProducts>? mediaProducts;
   SkincareDetail? skincareDetail;
-  dynamic drugDetail;
+  // List<Null>? productConcerns;
+  bool? wishlist;
 
   Data(
       {this.id,
@@ -78,7 +79,8 @@ class Data {
       this.deletedAt,
       this.mediaProducts,
       this.skincareDetail,
-      this.drugDetail});
+      // this.productConcerns,
+      this.wishlist});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -93,7 +95,7 @@ class Data {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = json['rating'];
+    rating = double.parse((json['rating'] ?? 0).toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
@@ -114,7 +116,13 @@ class Data {
     skincareDetail = json['skincare_detail'] != null
         ? SkincareDetail.fromJson(json['skincare_detail'])
         : null;
-    drugDetail = json['drug_detail'];
+    // if (json['product_concerns'] != null) {
+    //   productConcerns = <Null>[];
+    //   json['product_concerns'].forEach((v) {
+    //     productConcerns!.add(Null.fromJson(v));
+    //   });
+    // }
+    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -149,7 +157,11 @@ class Data {
     if (skincareDetail != null) {
       data['skincare_detail'] = skincareDetail!.toJson();
     }
-    data['drug_detail'] = drugDetail;
+    // if (productConcerns != null) {
+    //   data['product_concerns'] =
+    //       productConcerns!.map((v) => v.toJson()).toList();
+    // }
+    data['wishlist'] = wishlist;
     return data;
   }
 }

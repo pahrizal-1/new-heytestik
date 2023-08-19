@@ -22,7 +22,8 @@ class TransaksiKonsultan extends StatelessWidget {
   final String keluhan;
   final String harga;
   final String expireDate;
-  const TransaksiKonsultan({
+  bool doneReview;
+  TransaksiKonsultan({
     super.key,
     required this.namaDokter,
     required this.tanggal,
@@ -32,6 +33,7 @@ class TransaksiKonsultan extends StatelessWidget {
     required this.harga,
     required this.img,
     this.expireDate = '',
+    this.doneReview = false,
   });
 
   @override
@@ -178,25 +180,27 @@ class TransaksiKonsultan extends StatelessWidget {
               ),
               const Spacer(),
               progres == 'Selesai'
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(UlasanSetingsPage());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 22, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Ulas',
-                            style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? doneReview
+                      ? Container()
+                      : InkWell(
+                          onTap: () {
+                            Get.to(UlasanSetingsPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 22, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: greenColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Ulas',
+                                style: whiteTextStyle.copyWith(fontSize: 13),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        )
                   : Container(),
               const SizedBox(
                 width: 5,
@@ -257,7 +261,11 @@ class TransaksiKonsultan extends StatelessWidget {
 
 class TransaksiProduk extends StatelessWidget {
   Detail? product;
-  TransaksiProduk({super.key, required this.product});
+
+  TransaksiProduk({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -428,25 +436,27 @@ class TransaksiProduk extends StatelessWidget {
               ),
               const Spacer(),
               product?.status.toString() == 'SELESAI'
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(UlasanSetingsPage());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 22, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Ulas',
-                            style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? product!.transactionProductItems![0].productReview == null
+                      ? InkWell(
+                          onTap: () {
+                            Get.to(UlasanSetingsPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 22, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: greenColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Ulas',
+                                style: whiteTextStyle.copyWith(fontSize: 13),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        )
+                      : Container()
                   : Container(),
               const SizedBox(
                 width: 5,
@@ -512,7 +522,7 @@ class TransaksiTreatment extends StatelessWidget {
   final String progres;
   // final String img;
   // final String namaKlink;
-
+  bool doneReview;
   final String harga;
   // final Data2 treatment;
   final bool isConsultation;
@@ -529,6 +539,7 @@ class TransaksiTreatment extends StatelessWidget {
     // required this.treatment,
     // required this.img,
     this.isConsultation = false,
+    this.doneReview = false,
   });
 
   @override
@@ -671,25 +682,27 @@ class TransaksiTreatment extends StatelessWidget {
               ),
               const Spacer(),
               progres == 'Selesai'
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(UlasanSetingsPage());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 22, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Ulas',
-                            style: whiteTextStyle.copyWith(fontSize: 13),
+                  ? doneReview
+                      ? Container()
+                      : InkWell(
+                          onTap: () {
+                            Get.to(UlasanSetingsPage());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 22, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: greenColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Ulas',
+                                style: whiteTextStyle.copyWith(fontSize: 13),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        )
                   : Container(),
               const SizedBox(
                 width: 5,

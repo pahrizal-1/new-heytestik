@@ -508,7 +508,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
 
     state.isMinorLoading.value = true;
     for (int i = 0; i < hasil.length; i++) {
-      String path = await downloadFile(hasil[i]);
+      String path = await downloadFileFromUrl(hasil[i]);
       state.listImage.add(path);
       setState(() {});
       print('oGalleryMyJourney ${state.listImage}');

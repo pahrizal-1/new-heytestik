@@ -3,23 +3,25 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_product_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import '../../theme/theme.dart';
-import '../../widget/Text_widget.dart';
-import '../chat_customer/cara_pembayaran_page.dart';
 
-class SelesaiPembayaranObatPage extends StatefulWidget {
+import '../../theme/theme.dart';
+import '../../widget/more_dialog_transaksi_widget.dart';
+
+class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
   String bank;
   String orderId;
   String expireTime;
-
-  SelesaiPembayaranObatPage({
+  SelesaikanPembayaranKonsultasiPage({
     this.bank = '',
     this.orderId = '',
     this.expireTime = '',
@@ -27,12 +29,14 @@ class SelesaiPembayaranObatPage extends StatefulWidget {
   });
 
   @override
-  State<SelesaiPembayaranObatPage> createState() =>
-      _SelesaiPembayaranObatPageState();
+  State<SelesaikanPembayaranKonsultasiPage> createState() =>
+      _SelesaikanPembayaranKonsultasiState();
 }
 
-class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
-  final HistoryProductController state = Get.put(HistoryProductController());
+class _SelesaikanPembayaranKonsultasiState
+    extends State<SelesaikanPembayaranKonsultasiPage> {
+  final HistoryConsultationController state =
+      Get.put(HistoryConsultationController());
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
 
@@ -40,6 +44,8 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.bank.value = widget.bank;
+      state.expirytime.value = widget.expireTime;
       await state.getTransactionStatus(context, widget.orderId);
       setTime();
       startTimer();
@@ -91,14 +97,6 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
     });
   }
 
-  Future<bool> onWillPop() async {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialogTransaksi(),
-    );
-    return Future.value(false);
-  }
-
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -108,6 +106,14 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
 
+    Future<bool> onWillPop() async {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+      return Future.value(false);
+    }
+
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
@@ -116,9 +122,12 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
           backgroundColor: greenColor,
           title: Row(
             children: [
-              Text(
-                state.bank.value.toUpperCase(),
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              Obx(
+                () => Text(
+                  state.bank.value.toUpperCase(),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                ),
               ),
             ],
           ),
@@ -153,7 +162,7 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                                 title2: '',
                               ),
                               Text(
-                                state.expirytime.value != '-'
+                                state.expirytime.value.isNotEmpty
                                     ? ConvertDate.transactionDate(
                                         state.expirytime.value,
                                       )
@@ -237,7 +246,7 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                                         title: 'Nomor Virtual Account',
                                         title2: '',
                                       ),
-                                      Text(
+                                      SelectableText(
                                         state.virtualAccount.value,
                                         style: blackTextStyle.copyWith(
                                             fontSize: 15),
@@ -245,9 +254,16 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                                     ],
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    'Salin',
-                                    style: grenTextStyle.copyWith(fontSize: 14),
+                                  InkWell(
+                                    // onTap: () {
+                                    //   Clipboard.getData(
+                                    //       state.virtualAccount.value);
+                                    // },
+                                    child: Text(
+                                      'Salin',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -266,31 +282,65 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const TextSpaceBetween(
-                                title: 'Total Pembayaran',
-                                title2: '',
-                              ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  state.grossAmount.value == '-'
-                                      ? Container()
-                                      : Text(
-                                          CurrencyFormat.convertToIdr(
-                                              double.parse(
-                                                  state.grossAmount.value),
-                                              0),
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const TextSpaceBetween(
+                                        title: 'Total Pembayaran',
+                                        title2: '',
+                                      ),
+                                      Row(
+                                        children: [
+                                          state.grossAmount.value == '-'
+                                              ? Container()
+                                              : Text(
+                                                  CurrencyFormat.convertToIdr(
+                                                      double.parse(state
+                                                          .grossAmount.value),
+                                                      0),
+                                                  style: blackTextStyle
+                                                      .copyWith(fontSize: 15),
+                                                ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Image.asset(
+                                            'assets/icons/salin_icons.png',
+                                            width: 14,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
                                         ),
+                                        builder: (context) =>
+                                            const TransaksiMoreDialog(),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Lihat Detail',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
+                                  ),
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  Image.asset(
-                                    'assets/icons/salin_icons.png',
-                                    width: 14,
-                                  )
                                 ],
-                              )
+                              ),
                             ],
                           ),
                           const SizedBox(
@@ -304,7 +354,13 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const CaraPembayaranPage());
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CaraPembayaranPage(),
+                                ),
+                              );
                             },
                             child: Center(
                               child: Text(
@@ -333,17 +389,25 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
                           const SizedBox(
                             height: 18,
                           ),
+                          const Text(
+                            'Setelah pembayaranmu terkonfirmasi, pihak klinik akan segera menghubungi kamu. Pastikan nomer HP-mu aktif ya :)',
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
                           ButtonGreenWidget(
                             title: 'Saya sudah melakukan pembayaran',
                             onPressed: () async {
                               await state.getTransactionStatus(
-                                context,
-                                widget.orderId,
-                              );
+                                  context, widget.orderId);
                             },
-                          ),
+                          )
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),

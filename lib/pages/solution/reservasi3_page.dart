@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_solustion_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -488,7 +488,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                       widget.treatment.id!.toInt(),
                       widget.pax,
                       doInPost: () async {
-                        Get.offAll(SelesaiPembayaranSolusionPage(
+                        Get.offAll(SelesaikanPembayaranTreatmentPage(
                           treatment: widget.treatment,
                           orderId: state.orderId.value,
                           bank: state.bank.value,

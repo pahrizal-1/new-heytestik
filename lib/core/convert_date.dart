@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 class ConvertDate {
   static String defaultDate(String value) {
+    if (value.isEmpty || value == '' || value == '-') return "";
     DateTime tdata = DateTime.parse(value);
     final DateFormat formatter = DateFormat('dd MMM yyyy');
     final String formatted = formatter.format(tdata);
@@ -9,6 +10,7 @@ class ConvertDate {
   }
 
   static String transactionDate(String value) {
+    if (value.isEmpty || value == '' || value == '-') return "";
     DateTime tdata = DateTime.parse(value);
     var day = DateFormat('EEEE').format(tdata);
     var hari = '';
@@ -57,6 +59,7 @@ class ConvertDate {
   }
 
   static String normalDate(String value) {
+    if (value.isEmpty || value == '' || value == '-') return "";
     DateTime tdata = DateTime.parse(value);
     var day = DateFormat('EEEE').format(tdata);
     var hari = '';
@@ -105,6 +108,7 @@ class ConvertDate {
   }
 
   static String payBefore(String value) {
+    if (value.isEmpty || value == '' || value == '-') return "";
     DateTime tdata = DateTime.parse('2023-08-03T23:50:27+07:00');
     // '13 Mei, 17:12',
     print('tdata $tdata');
@@ -116,6 +120,7 @@ class ConvertDate {
   }
 
   static String schedule(String value) {
+    if (value.isEmpty || value == '' || value == '-') return "";
     DateTime tdata = DateTime.parse('2023-08-03T23:50:27+07:00');
     // '13 Mei, 17:12',
     print('tdata $tdata');

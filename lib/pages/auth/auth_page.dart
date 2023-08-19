@@ -72,6 +72,34 @@ class AuthPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
+              Text.rich(
+                TextSpan(
+                  text: 'Dengan ‘Masuk’ atau ‘Daftar’, kamu setuju dengan',
+                  style: greyTextStyle.copyWith(fontSize: 13),
+                  children: [
+                    TextSpan(
+                      text: " Kebijakan Privasi",
+                      style: grenTextStyle.copyWith(
+                        fontSize: 13,
+                      ),
+                      children: [
+                        TextSpan(
+                            text: " dan",
+                            style: greyTextStyle.copyWith(fontSize: 13),
+                            children: [
+                              TextSpan(
+                                  text: " Syarat dan Ketentuan",
+                                  style: grenTextStyle.copyWith(fontSize: 13))
+                            ]),
+                      ],
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),

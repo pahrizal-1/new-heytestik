@@ -5,10 +5,21 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
+import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
+    as ProductReviewModel;
 
 class MedicineController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
   List<Data2> data = [];
+
+  Rx<Overview.Data> overviewMedicine = Overview.Data.fromJson({}).obs;
+  RxList<ProductReviewModel.Data2> productReview =
+      List<ProductReviewModel.Data2>.empty().obs;
+
+  // RxBool isLoadingOverviewMedicine = false.obs;
+  RxBool isLoadingProductReviewMedicine = false.obs;
 
   Future<List<MedicineModel>> getMedicine(
       BuildContext context, int page) async {
@@ -38,5 +49,40 @@ class MedicineController extends StateClass {
     });
 
     isLoading.value = false;
+  }
+
+  getOverviewProduct(BuildContext context, int id) async {
+    // isLoadingOverviewMedicine.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().getOverviewProduct(id);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      overviewMedicine.value = res.data!;
+    });
+    // isLoadingOverviewMedicine.value = false;
+  }
+
+  Future<List<ProductReviewModel.Data2>> getReviewProduct(
+      BuildContext context, int page, int take, int id) async {
+    isLoadingProductReviewMedicine.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().getReviewProduct(page, take, id);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      productReview.value = res.data!.data!;
+    });
+    isLoadingProductReviewMedicine.value = false;
+
+    return productReview.value;
   }
 }

@@ -60,7 +60,7 @@ class _EditBalasanChatState extends State<EditBalasanChat> {
               ],
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 state.updateQuickChat(context, widget.id);
               },
               child: Text(
@@ -124,17 +124,10 @@ class _EditBalasanChatState extends State<EditBalasanChat> {
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(
-                        focusColor: greenColor,
-                        fillColor: greenColor,
-                        hoverColor: greenColor,
-                        hintStyle: blackTextStyle.copyWith(
-                            fontSize: 15, fontWeight: regular),
-                        hintText:
-                            'Jerawat atau disebut juga dengan acne vulgaris (AV) adalah suatu penyakit peradangan kronis dari kelenjar pilosebasea yang ditandai adanya komedo, papul, kista, dan pustul. Bagian tubuh yang kerap ditumbuhi jerawat antara lain daerah wajah, bahu, lengan atas, dada, dan punggung.'),
-                    style: blackTextStyle.copyWith(
-                        fontSize: 15,
-                        color: const Color(0Xff323232),
-                        fontWeight: regular),
+                      focusColor: greenColor,
+                      fillColor: greenColor,
+                      hoverColor: greenColor,
+                    ),
                   ),
                 ),
                 const Spacer(),
