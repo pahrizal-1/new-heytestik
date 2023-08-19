@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
@@ -34,13 +35,14 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   int take = 10;
   bool? help;
   Map<String, int> helpReview = {};
-
+  Map<String, dynamic> filter = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.getOverviewProduct(context, widget.productId);
-      reviews.addAll(
-          await state.getReviewProduct(context, page, take, widget.productId));
+      reviews.addAll(await state.getReviewProduct(
+          context, page, take, widget.productId,
+          filter: filter));
       setState(() {});
     });
 
@@ -52,7 +54,8 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             state.isLoadingMore.value = true;
             reviews.addAll(await state.getReviewProduct(
-                context, page, take, widget.productId));
+                context, page, take, widget.productId,
+                filter: filter));
             setState(() {});
             state.isLoadingMore.value = false;
           });
@@ -393,29 +396,44 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                     padding: const EdgeInsets.only(left: 26, top: 9, right: 26),
                     child: Row(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 5),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: borderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Center(
-                            child: Text(
-                              'Dengan Foto',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 15),
-                            ),
-                          ),
+                        FiklterTreatment(
+                          title: 'Dengan Foto',
+                          onTap: () async {
+                            if (filter.containsKey("has_photo")) {
+                              filter['has_photo'] = false;
+                              page = 1;
+                              reviews.clear();
+                              reviews.addAll(await state.getReviewProduct(
+                                  context, page, 10, widget.productId,
+                                  filter: filter));
+                              setState(() {});
+                            } else {
+                              filter['has_photo'] = true;
+                              page = 1;
+                              reviews.clear();
+                              reviews.addAll(await state.getReviewProduct(
+                                  context, page, 10, widget.productId,
+                                  filter: filter));
+                              setState(() {});
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          width: 5.0,
                         ),
                         InkWell(
                           onTap: () {
                             customeshomodal(
-                                context, RatingDenganUlasanWidgets());
+                                    context, RatingDenganUlasanWidgets())
+                                .then((value) async {
+                              filter['rating[]'] = value ?? [];
+                              page = 1;
+                              reviews.clear();
+                              reviews.addAll(await state.getReviewProduct(
+                                  context, page, 10, widget.productId,
+                                  filter: filter));
+                              setState(() {});
+                            });
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 5),
@@ -448,8 +466,16 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           onTap: () {
                             customeshomodal(
                               context,
-                              const TopikUlasanWidgets(),
-                            );
+                              const TopikUlasanProdukWidgets(),
+                            ).then((value) async {
+                              filter['topic[]'] = value ?? [];
+                              page = 1;
+                              reviews.clear();
+                              reviews.addAll(await state.getReviewProduct(
+                                  context, page, 10, widget.productId,
+                                  filter: filter));
+                              setState(() {});
+                            });
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 5),
@@ -505,15 +531,20 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                       children: [
                                         Row(
                                           children: [
-                                            Image.asset(
-                                              'assets/icons/danger-icons.png',
-                                              width: 12,
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Image.asset(
+                                                'assets/icons/danger-icons.png',
+                                                width: 12,
+                                              ),
                                             ),
                                             const SizedBox(
                                               width: 22,
                                             ),
                                             Text(
-                                              'Topik Ulasan',
+                                              'Urutkan Berdasarkan',
                                               style: blackHigtTextStyle
                                                   .copyWith(fontSize: 20),
                                             ),
@@ -522,17 +553,72 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                         const SizedBox(
                                           height: 39,
                                         ),
-                                        const FilterTapTreatment(
+                                        FilterTapTreatment(
                                           title: 'Paling Membantu',
+                                          onTap: () async {
+                                            filter['sorting_type'] =
+                                                'PALING_MEMBANTU';
+                                            page = 1;
+                                            reviews.clear();
+                                            reviews.addAll(
+                                                await state.getReviewProduct(
+                                                    context,
+                                                    page,
+                                                    10,
+                                                    widget.productId,
+                                                    filter: filter));
+                                            setState(() {});
+                                          },
                                         ),
-                                        const FilterTapTreatment(
+                                        FilterTapTreatment(
                                           title: 'Terbaru',
+                                          onTap: () async {
+                                            filter['sorting_type'] = 'TERBARU';
+                                            page = 1;
+                                            reviews.clear();
+                                            reviews.addAll(
+                                                await state.getReviewProduct(
+                                                    context,
+                                                    page,
+                                                    10,
+                                                    widget.productId,
+                                                    filter: filter));
+                                            setState(() {});
+                                          },
                                         ),
-                                        const FilterTapTreatment(
+                                        FilterTapTreatment(
                                           title: 'Rating Tertinggi',
+                                          onTap: () async {
+                                            filter['sorting_type'] =
+                                                'RATING_TERTINGGI';
+                                            page = 1;
+                                            reviews.clear();
+                                            reviews.addAll(
+                                                await state.getReviewProduct(
+                                                    context,
+                                                    page,
+                                                    10,
+                                                    widget.productId,
+                                                    filter: filter));
+                                            setState(() {});
+                                          },
                                         ),
-                                        const FilterTapTreatment(
+                                        FilterTapTreatment(
                                           title: 'Rating Terendah',
+                                          onTap: () async {
+                                            filter['sorting_type'] =
+                                                'RATING_TERENDAH';
+                                            page = 1;
+                                            reviews.clear();
+                                            reviews.addAll(
+                                                await state.getReviewProduct(
+                                                    context,
+                                                    page,
+                                                    10,
+                                                    widget.productId,
+                                                    filter: filter));
+                                            setState(() {});
+                                          },
                                         ),
                                       ],
                                     ),

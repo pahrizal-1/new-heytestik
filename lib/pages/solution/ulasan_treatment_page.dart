@@ -43,6 +43,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   ScrollController listScrollController = ScrollController();
   bool? help;
   Map<String, int> helpReview = {};
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -402,7 +403,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         onTap: () {
                           customeshomodal(context, RatingDenganUlasanWidgets())
                               .then((value) async {
-                            filter['rating[]'] = value;
+                            filter['rating[]'] = value ?? [];
                             page = 1;
                             reviews.clear();
                             reviews.addAll(
@@ -446,7 +447,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             context,
                             const TopikUlasanWidgets(),
                           ).then((value) async {
-                            filter['topic[]'] = value;
+                            filter['topic[]'] = value ?? [];
                             page = 1;
                             reviews.clear();
                             reviews.addAll(
@@ -639,28 +640,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                   ),
                 ),
               ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   itemCount: reviews.length,
-              //   itemBuilder: (context, index) {
-              //     return ComentUlasanaCustomer(
-              //       namaUser: reviews[index].user?.fullname ?? '-',
-              //       namaProduk: reviews[index]
-              //               .transactionTreatmentItem
-              //               ?.treatment
-              //               ?.name ??
-              //           '-',
-              //       bulan: timeago
-              //           .format(DateTime.parse(reviews[index].createdAt)),
-              //       comentUser: reviews[index].review,
-              //       balasanComent: 'Saran Beli Obat Kuat',
-              //       imgUser: 'assets/images/doctor-img.png',
-              //       like: '100',
-              //       namaBalasan: 'Udin',
-              //     );
-              //   },
-              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 27, left: 26, right: 26),
                 child: reviews.isEmpty
@@ -917,7 +896,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         }).toList(),
                       ),
               ),
-
               Obx(
                 () => treatmentController.isLoading.value
                     ? Padding(

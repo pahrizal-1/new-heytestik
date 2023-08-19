@@ -77,3 +77,77 @@ class TopikUlasanWidgets extends StatelessWidget {
     );
   }
 }
+
+class TopikUlasanProdukWidgets extends StatelessWidget {
+  const TopikUlasanProdukWidgets({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> topic = [];
+    return Wrap(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 33,
+            right: 33,
+            top: 30,
+            bottom: 40,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 12,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 22,
+                  ),
+                  Text(
+                    'Topik Ulasan',
+                    style: blackHigtTextStyle.copyWith(fontSize: 20),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 39,
+              ),
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("EFFECTIVENESS");
+                },
+                title: 'Effectivitas',
+              ),
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("TEXTURE");
+                },
+                title: 'Texture',
+              ),
+              FilterTapTreatment(
+                onTap: () {
+                  topic.add("PACKAGING");
+                },
+                title: 'Packaging',
+              ),
+              ButtonGreenWidget(
+                title: 'Terapkan Filter',
+                onPressed: () {
+                  Navigator.pop(context, topic);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
