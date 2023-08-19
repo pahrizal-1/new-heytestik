@@ -63,7 +63,7 @@ class HistoryConsultationController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
-          await TransactionService().transactionStatusTreatment(orderId);
+          await TransactionService().transactionStatusConsultation(orderId);
 
       if (transactionStatus.value.success! &&
           transactionStatus.value.message == 'Success') {
