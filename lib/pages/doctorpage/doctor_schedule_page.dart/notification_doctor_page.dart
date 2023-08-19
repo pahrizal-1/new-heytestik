@@ -74,60 +74,46 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       child: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text(
-                    //             notifications[index].title,
-                    //             style: TextStyle(
-                    //               fontWeight: FontWeight.bold,
-                    //               fontSize: 16.0,
-                    //             ),
-                    //           ),
-                    //           SizedBox(
-                    //             height: 8.0,
-                    //           ),
-                    //           Text(
-                    //             notifications[index].body,
-                    //             style: TextStyle(
-                    //               color: Colors.grey,
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: 8.0,
-                    //     ),
-                    //     Text(
-                    //       timeago.format(DateTime.parse(notifications[index].createdAt)),
-                    //       style: TextStyle(
-                    //         color: Colors.grey,
-                    //         fontSize: 12.0,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
-                    //   Container(
-                    //     decoration: BoxDecoration(
-                    //       color: Color(0xFF24A7A0),
-                    //       borderRadius: BorderRadius.circular(8),
-                    //     ),
-                    //     padding: EdgeInsets.symmetric(
-                    //       horizontal: 16.0,
-                    //       vertical: 8.0,
-                    //     ),
-                    //     child: Text(
-                    //       "Chat Dokter",
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
+                    if (state.notif[index]['type'] == 'CONSULTATION_REVIEW')
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.notif[index]['title'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                // SizedBox(
+                                //   height: 8.0,
+                                // ),
+                                // Text(
+                                //   state.notif[index]['body'],
+                                //   style: TextStyle(
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            timeago.format(DateTime.parse(
+                                state.notif[index]['created_at'])),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+
                     if (state.notif[index]['type'] ==
                         'CONSULTATION_DOCTOR_SCHEDULE')
                       Container(
