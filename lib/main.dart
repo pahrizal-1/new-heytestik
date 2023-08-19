@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_status_page.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -27,7 +28,8 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   playSound: true,
 );
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -115,7 +120,7 @@ class MyApp extends StatelessWidget {
         title: 'Heystetik Mobile Apps',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
-        home: const SplashScreenPage(),
+        home: const DetailStatusPage(),
       ),
     );
   }

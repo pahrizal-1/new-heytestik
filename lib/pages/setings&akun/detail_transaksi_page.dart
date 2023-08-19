@@ -5,6 +5,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
+import 'detail_status_page.dart';
+
 class DetailTransaksiPage extends StatelessWidget {
   const DetailTransaksiPage({super.key});
 
@@ -65,7 +67,7 @@ class DetailTransaksiPage extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.to(InvoiceHeystetikPage());
+                        Get.to(DetailStatusPage());
                       },
                       child: Text(
                         'Lihat Detail',
@@ -110,6 +112,9 @@ class DetailTransaksiPage extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 9,
                 ),
                 TextSpaceBetween(
                   title: 'Tanggal Pembelian',
@@ -309,6 +314,9 @@ class DetailTransaksiPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 9,
+                      ),
                       Table(
                         children: [
                           TableRow(
@@ -334,7 +342,7 @@ class DetailTransaksiPage extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                'INST000101010',
+                                'Rina\n085211234567\nJalan Sultan Iskandar Muda, no 7A & 7B, RT.9/RW.9, South Kebayoran Lama, Kebayoran Lama, Jakarta 12240',
                                 style: grenTextStyle.copyWith(
                                     fontSize: 15,
                                     color: blackColor,
@@ -349,7 +357,71 @@ class DetailTransaksiPage extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
+          dividergreen(),
+          Padding(
+            padding: lsymetric.copyWith(top: 21, bottom: 21),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Rincian Pembayarann',
+                  style: blackTextStyle.copyWith(fontSize: 18),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextSpaceBetween(
+                  title: 'Metode Pembayaran',
+                  title2: 'BCA Virtual Account',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                TextSpaceBetween(
+                  title: 'Total Harga (5 barang)',
+                  title2: 'Rp940.400 ',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                TextSpaceBetween(
+                  title: 'Total Ongkos Kirim (0.5kg)',
+                  title2: 'Rp3.000',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                TextSpaceBetween(
+                  title: 'Diskon Ongkos Kirim',
+                  title2: '-',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                TextSpaceBetween(
+                  title: 'Diskon Promo',
+                  title2: '-Rp140.000',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                TextSpaceBetween(
+                  title: 'PPN',
+                  title2: '-',
+                ),
+                SizedBox(
+                  height: 9,
+                ),
+                dividergrey(),
+                TextBoldSpacebetwen(
+                  title: 'Total Tagihan',
+                  title2: 'Rp903.400',
+                  title1: '',
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
