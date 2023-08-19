@@ -221,7 +221,7 @@ class TransactionTreatmentItems {
   String? updatedAt;
   dynamic deletedAt;
   Treatment? treatment;
-  dynamic treatmentReview;
+  TreatmentReview? treatmentReview;
 
   TransactionTreatmentItems(
       {this.id,
@@ -255,7 +255,9 @@ class TransactionTreatmentItems {
     treatment = json['treatment'] != null
         ? Treatment.fromJson(json['treatment'])
         : null;
-    treatmentReview = json['treatment_review'];
+    treatmentReview = json['treatment_review'] != null
+        ? TreatmentReview.fromJson(json['treatment_review'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -275,7 +277,9 @@ class TransactionTreatmentItems {
     if (treatment != null) {
       data['treatment'] = treatment!.toJson();
     }
-    data['treatment_review'] = treatmentReview;
+    if (treatmentReview != null) {
+      data['treatment_review'] = treatmentReview!.toJson();
+    }
     return data;
   }
 }
@@ -375,6 +379,83 @@ class Treatment {
     if (clinic != null) {
       data['clinic'] = clinic!.toJson();
     }
+    return data;
+  }
+}
+
+class TreatmentReview {
+  int? id;
+  String? transactionTreatmentId;
+  int? transactionTreatmentItemId;
+  int? treatmentId;
+  int? userId;
+  int? careRating;
+  int? serviceRating;
+  int? managementRating;
+  double? avgRating;
+  String? review;
+  dynamic replyReview;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  TreatmentReview(
+      {this.id,
+      this.transactionTreatmentId,
+      this.transactionTreatmentItemId,
+      this.treatmentId,
+      this.userId,
+      this.careRating,
+      this.serviceRating,
+      this.managementRating,
+      this.avgRating,
+      this.review,
+      this.replyReview,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  TreatmentReview.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    transactionTreatmentItemId = json['transaction_treatment_item_id'];
+    treatmentId = json['treatment_id'];
+    userId = json['user_id'];
+    careRating = json['care_rating'];
+    serviceRating = json['service_rating'];
+    managementRating = json['management_rating'];
+    avgRating = double.parse(json['avg_rating'].toString());
+    review = json['review'];
+    replyReview = json['reply_review'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['transaction_treatment_id'] = transactionTreatmentId;
+    data['transaction_treatment_item_id'] = transactionTreatmentItemId;
+    data['treatment_id'] = treatmentId;
+    data['user_id'] = userId;
+    data['care_rating'] = careRating;
+    data['service_rating'] = serviceRating;
+    data['management_rating'] = managementRating;
+    data['avg_rating'] = avgRating;
+    data['review'] = review;
+    data['reply_review'] = replyReview;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

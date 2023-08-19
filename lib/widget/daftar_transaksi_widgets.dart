@@ -181,7 +181,8 @@ class TransaksiKonsultan extends StatelessWidget {
               const Spacer(),
               progres == 'Selesai'
                   ? doneReview
-                      ? InkWell(
+                      ? Container()
+                      : InkWell(
                           onTap: () {
                             Get.to(UlasanSetingsPage());
                           },
@@ -200,7 +201,6 @@ class TransaksiKonsultan extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container()
                   : Container(),
               const SizedBox(
                 width: 5,
@@ -436,7 +436,7 @@ class TransaksiProduk extends StatelessWidget {
               ),
               const Spacer(),
               product?.status.toString() == 'SELESAI'
-                  ? product!.transactionProductItems![0].productReview != null
+                  ? product!.transactionProductItems![0].productReview == null
                       ? InkWell(
                           onTap: () {
                             Get.to(UlasanSetingsPage());
@@ -683,7 +683,8 @@ class TransaksiTreatment extends StatelessWidget {
               const Spacer(),
               progres == 'Selesai'
                   ? doneReview
-                      ? InkWell(
+                      ? Container()
+                      : InkWell(
                           onTap: () {
                             Get.to(UlasanSetingsPage());
                           },
@@ -702,7 +703,6 @@ class TransaksiTreatment extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container()
                   : Container(),
               const SizedBox(
                 width: 5,
