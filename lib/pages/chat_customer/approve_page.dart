@@ -33,6 +33,7 @@ class _ApprovePageState extends State<ApprovePage> {
         leading: IconButton(
           onPressed: () {
             Get.back();
+            state.close();
           },
           icon: Icon(
             Icons.arrow_back,
@@ -88,13 +89,15 @@ class _ApprovePageState extends State<ApprovePage> {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
-            ),
+            state.status.value.isEmpty
+                ? SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      color: greenColor,
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               height: 50,
             ),
@@ -117,6 +120,7 @@ class _ApprovePageState extends State<ApprovePage> {
                       state.status.value.isEmpty
                           ? state.resendTime.value.toString()
                           : state.status.value,
+                      textAlign: TextAlign.center,
                       style: blackTextStyle.copyWith(fontSize: 18),
                     ),
                   ),
@@ -124,10 +128,12 @@ class _ApprovePageState extends State<ApprovePage> {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(
-                  'detik',
-                  style: grenTextStyle.copyWith(fontSize: 18),
-                ),
+                state.status.value.isEmpty
+                    ? Text(
+                        'detik',
+                        style: grenTextStyle.copyWith(fontSize: 18),
+                      )
+                    : Container()
               ],
             )
           ],

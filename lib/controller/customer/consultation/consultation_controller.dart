@@ -110,6 +110,7 @@ class ConsultationController extends StateClass {
       socket?.onConnect((data) async {
         print('Connection established');
         eventApp();
+        infoLog();
 
         // await recentChatt();
       });
@@ -121,6 +122,36 @@ class ConsultationController extends StateClass {
       });
     } catch (e) {
       print('error nih $e');
+    }
+  }
+
+  infoLog() {
+    print("logInfo");
+    socket?.on('log', (logInfo) {
+      print('logInfo $logInfo');
+      print('logInfo ${logInfo['success']}');
+      // if (logInfo['success'] == false) {
+      //   Navigator.pop(context);
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Text(logInfo['message']),
+      //       backgroundColor: Colors.red,
+      //     ),
+      //   );
+      // }
+    });
+    print("logInfo");
+  }
+
+  // CLOSE / DISCONNECTED (udah dipanggil)
+  close() {
+    try {
+      socket?.disconnect();
+      socket?.close();
+      socket?.destroy();
+      print('SOCKET DISCONNECTED');
+    } catch (e) {
+      print("error close $e");
     }
   }
 

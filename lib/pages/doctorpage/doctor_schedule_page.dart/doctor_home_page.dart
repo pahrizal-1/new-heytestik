@@ -340,6 +340,9 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                   .status ==
                                               'PENDING'
                                           ? InkWell(
+                                            onTap: (){
+                                              state.postApprove(context ,state.findSchedule.value!.data!.data![i].id!.toInt());
+                                            },
                                               child: Container(
                                                 height: 35,
                                                 width: 80,
