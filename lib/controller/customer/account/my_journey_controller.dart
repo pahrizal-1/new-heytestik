@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,8 +39,9 @@ class MyJourneyController extends StateClass {
   Rx<HistoryConsultationDoctorNote.Data> historyConsultationDoctorNote =
       HistoryConsultationDoctorNote.Data.fromJson({}).obs;
   var dataUser;
-  RxString fullName = ''.obs;
+  RxString fullName = '-'.obs;
   RxString phone = ''.obs;
+  RxBool doctorNote = false.obs;
 
   Rx<ScheduleTreatment.MyJourneyScheduleTreatmentModel>
       responseScheduleTreatment =
@@ -86,17 +88,21 @@ class MyJourneyController extends StateClass {
   getHistoryConsultationDoctorNote(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        dataUser = await LocalStorage().getDataUser();
-        fullName.value = dataUser['fullname'];
-        phone.value = dataUser['no_phone'];
-        HistoryConsultationDoctorNote
-                .MyJourneyHistoryConsultationDoctorNoteModel res =
-            await MyJourneysService().getHistoryConsultationDoctorNote(id);
-        historyConsultationDoctorNote.value = res.data!;
-      } catch (e) {
-        print('hehehehe $e');
+      dataUser = await LocalStorage().getDataUser();
+      fullName.value = dataUser['fullname'];
+      phone.value = dataUser['no_phone'];
+      var res = await MyJourneysService().getHistoryConsultationDoctorNote(id);
+      print('rescdata ${jsonDecode(jsonEncode(res.data))}');
+
+      if (res.data == null) {
+        print('null euyyy');
+        doctorNote.value = false;
+        return;
       }
+
+      historyConsultationDoctorNote.value = res.data!;
+      doctorNote.value = true;
+      print('res ${jsonDecode(jsonEncode(res))}');
     });
     isLoading.value = false;
   }
