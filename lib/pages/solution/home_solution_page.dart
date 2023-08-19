@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/controller/customer/account/location_contro
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
@@ -24,6 +23,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../controller/customer/solution/skincare_controller.dart';
 import '../../core/currency_format.dart';
 import '../../core/global.dart';
@@ -314,52 +314,61 @@ class _SolutionPageState extends State<SolutionPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 29,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Resep solusi buat kamu ✨',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18),
+                  drugRecipe.isEmpty
+                      ? Container()
+                      : const SizedBox(
+                          height: 29,
                         ),
-                        const Spacer(),
-                        Text(
-                          'Lihat Semua',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                  drugRecipe.isEmpty
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Resep solusi buat kamu ✨',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
+                              const Spacer(),
+                              Text(
+                                'Lihat Semua',
+                                style: grenTextStyle.copyWith(fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20, left: 25),
-                      child: Row(
-                        children: drugRecipe.map((e) {
-                          return ProdukObat(
-                            medicine: MedicineModel.fromJson(
-                                jsonDecode(jsonEncode(e.product))),
-                            productId: e.product!.id!.toInt(),
-                            namaBrand: e.product?.name ?? '-',
-                            harga: CurrencyFormat.convertToIdr(
-                                e.product?.price, 0),
-                            urlImg:
-                                '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
-                            duedate:
-                                ConvertDate.defaultDate(e.dueDate.toString()),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
+                  drugRecipe.isEmpty
+                      ? Container()
+                      : const SizedBox(
+                          height: 16,
+                        ),
+                  drugRecipe.isEmpty
+                      ? Container()
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 20, left: 25),
+                            child: Row(
+                              children: drugRecipe.map((e) {
+                                return ProdukObat(
+                                  medicine: Medicine.Data2.fromJson(
+                                      jsonDecode(jsonEncode(e.product))),
+                                  productId: e.product!.id!.toInt(),
+                                  namaBrand: e.product?.name ?? '-',
+                                  harga: CurrencyFormat.convertToIdr(
+                                      e.product?.price, 0),
+                                  urlImg:
+                                      '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                                  duedate: ConvertDate.defaultDate(
+                                      e.dueDate.toString()),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
                   const SizedBox(
                     height: 28,
                   ),

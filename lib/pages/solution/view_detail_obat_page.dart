@@ -9,8 +9,8 @@ import 'package:heystetik_mobileapps/pages/solution/ulasan_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../../models/medicine.dart';
 import '../../theme/theme.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../widget/pencarian_search_widget.dart';
 import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/snackbar_widget.dart';
@@ -23,7 +23,7 @@ class DetailObatPage extends StatefulWidget {
     required this.medicine,
   });
 
-  final MedicineModel medicine;
+  final Medicine.Data2 medicine;
 
   @override
   State<DetailObatPage> createState() => _DetailObatPageState();
@@ -37,8 +37,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      medicineController.getOverviewProduct(context, widget.medicine.id);
-      medicineController.getReviewProduct(context, 1, 3, widget.medicine.id);
+      medicineController.getOverviewProduct(context, widget.medicine.id!);
+      medicineController.getReviewProduct(context, 1, 3, widget.medicine.id!);
     });
   }
 
@@ -151,7 +151,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                  '${Global.FILE}/${widget.medicine.media[0]}',
+                  '${Global.FILE}/${widget.medicine.mediaProducts?[0].media?.path}',
                 ),
               ),
             ),
@@ -178,7 +178,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
                   height: 15,
                 ),
                 Text(
-                  widget.medicine.name,
+                  widget.medicine.name ?? '-',
                   style: blackRegulerTextStyle.copyWith(color: blackColor),
                 ),
                 const SizedBox(
@@ -287,24 +287,24 @@ class _DetailObatPageState extends State<DetailObatPage> {
                 TitleDetail(
                   ontap: () {},
                   title1: 'Concern',
-                  title2: widget.medicine.display,
+                  title2: widget.medicine.display ?? '-',
                   textColor: greenColor,
                 ),
                 TitleDetail(
                   title1: 'Bentuk Obat',
-                  title2: widget.medicine.form,
+                  title2: widget.medicine.drugDetail?.specificationForm ?? '-',
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
                 TitleDetail(
                   title1: 'No. BPOM',
-                  title2: widget.medicine.BPOM,
+                  title2: widget.medicine.drugDetail!.specificationBpom ?? '-',
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
                 TitleDetail(
                   title1: 'Manufaktur',
-                  title2: widget.medicine.manufacture,
+                  title2: widget.medicine.drugDetail?.manufacture ?? '-',
                   textColor: blackColor,
                   fontWeight: regular,
                 ),
@@ -312,27 +312,31 @@ class _DetailObatPageState extends State<DetailObatPage> {
                   height: 16,
                 ),
                 DescripsiText(
-                  title1: 'Deskripsi',
-                  subtitle2: widget.medicine.description,
-                ),
+                    title1: 'Deskripsi',
+                    subtitle2: widget.medicine.drugDetail?.description ?? '-'),
                 DescripsiText(
                   title1: 'Indikasi',
-                  subtitle2: widget.medicine.indication,
+                  subtitle2: widget.medicine.drugDetail?.indication ?? '-',
                 ),
                 DescripsiText(
                   title1: 'Komposisi',
-                  subtitle2: widget.medicine.composition,
+                  subtitle2:
+                      widget.medicine.drugDetail?.specificationIngredients ??
+                          '-',
                 ),
                 DescripsiText(
                     title1: 'Dosis & Aturan Pakai',
-                    subtitle2: widget.medicine.doses),
+                    subtitle2:
+                        widget.medicine.drugDetail?.specificationDose ?? '-'),
                 DescripsiText(
                   title1: 'Perhatian',
-                  subtitle2: widget.medicine.attention,
+                  subtitle2: widget
+                          .medicine.drugDetail?.specificationSpecialAttention ??
+                      '-',
                 ),
                 DescripsiText(
                   title1: 'Kontra indikasi',
-                  subtitle2: widget.medicine.contradiction,
+                  subtitle2: widget.medicine.drugDetail?.contradiction ?? '-',
                   isLast: true,
                 ),
                 // DescripsiText(
@@ -591,7 +595,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => UlasanProdukPage(
-                              productId: widget.medicine.id,
+                              productId: widget.medicine.id!,
                             ),
                           ),
                         );
@@ -926,12 +930,12 @@ class _DetailObatPageState extends State<DetailObatPage> {
                         {
                           "product_id": widget.medicine.id,
                           "productName": widget.medicine.name,
-                          "img": widget.medicine.media[0],
+                          "img": widget.medicine.mediaProducts?[0].media?.path,
                           "qty": 1,
                           "notes": '-',
                           "isSelected": true,
                           "price": widget.medicine.price,
-                          "totalPrice": widget.medicine.price * 1,
+                          "totalPrice": widget.medicine.price! * 1,
                         }
                       ];
 
@@ -964,7 +968,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
                   child: InkWell(
                     onTap: () async {
                       medicineController.addMedicineToCart(
-                          context, widget.medicine.id);
+                          context, widget.medicine.id!);
                       SnackbarWidget.getSuccessSnackbar(
                         context,
                         'Info',

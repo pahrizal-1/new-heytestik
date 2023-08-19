@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
-
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
@@ -171,7 +170,7 @@ class ProdukObat extends StatelessWidget {
   final String urlImg;
   final String duedate;
   final int productId;
-  final MedicineModel medicine;
+  final Medicine.Data2 medicine;
   ProdukObat({
     Key? key,
     required this.namaBrand,

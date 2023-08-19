@@ -5,7 +5,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/filter_tambah_obat.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -32,7 +32,7 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
   final DoctorConsultationController stateDoctor =
       Get.put(DoctorConsultationController());
   int page = 1;
-  List<MedicineModel> medicines = [];
+  List<Medicine.Data2> medicines = [];
   List toogle = [];
   bool isSelcted = false;
   @override
@@ -235,10 +235,11 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: medicines.length,
                             itemBuilder: (ctx, index) {
-                              String? img;
-                              for (var i in medicines[index].media) {
-                                img = i;
-                              }
+                              // String? img;
+                              // for (var i
+                              //     in medicines[index].mediaProducts!.length) {
+                              //   img = i;
+                              // }
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 29),
                                 child: Container(
@@ -266,11 +267,12 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                   width: 0.5,
                                                   color: borderColor),
                                               image: DecorationImage(
-                                                image: medicines[index]
-                                                        .media
+                                                image: medicines[
+                                                            index]
+                                                        .mediaProducts!
                                                         .isNotEmpty
                                                     ? NetworkImage(
-                                                            '${Global.FILE}/${img}')
+                                                            '${Global.FILE}/${medicines[index].mediaProducts![0].media?.path}')
                                                         as ImageProvider
                                                     : AssetImage(
                                                         'assets/images/penting1.png'),
@@ -350,10 +352,14 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                       'name':
                                                           medicines[index].name,
                                                       'image': medicines[index]
-                                                          .media,
-                                                      'penggunaan':
-                                                          medicines[index]
-                                                              .doses,
+                                                          .mediaProducts?[0]
+                                                          .media
+                                                          ?.path,
+                                                      'penggunaan': medicines[
+                                                                  index]
+                                                              .drugDetail
+                                                              ?.specificationDose ??
+                                                          '-',
                                                       'harga': medicines[index]
                                                           .price,
                                                     });

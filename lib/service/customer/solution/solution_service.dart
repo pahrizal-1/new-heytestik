@@ -150,27 +150,20 @@ class SolutionService extends ProviderClass {
     return ConcernModel.fromJson(response);
   }
 
-  Future<List<MedicineModel>> getMedicine(int page) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/drug',
-        params: {
-          "page": page,
-          "take": 10,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
+  Future<MedicineModel> getMedicine(int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
 
-      return (response['data']['data'] as List)
-          .map((e) => MedicineModel.fromJson(e))
-          .toList();
-    } catch (error) {
-      print(error);
-      return [];
-    }
+    return MedicineModel.fromJson(response);
   }
 
   Future<DrugRecipeModel> getDrugRecipe(int page) async {

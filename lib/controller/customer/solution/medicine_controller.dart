@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
@@ -21,12 +21,13 @@ class MedicineController extends StateClass {
   // RxBool isLoadingOverviewMedicine = false.obs;
   RxBool isLoadingProductReviewMedicine = false.obs;
 
-  Future<List<MedicineModel>> getMedicine(
+  Future<List<Medicine.Data2>> getMedicine(
       BuildContext context, int page) async {
     isLoading.value = true;
-    List<MedicineModel> data = [];
+    List<Medicine.Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data = await SolutionService().getMedicine(page);
+      var res = await SolutionService().getMedicine(page);
+      data = res.data!.data!;
     });
     isLoading.value = false;
     return data;
