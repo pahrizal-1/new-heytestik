@@ -60,18 +60,25 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
           ),
         ),
         actions: [
-          state.doctorNote.value
-              ? Padding(
-                  padding: const EdgeInsets.only(
-                    right: 23,
-                  ),
-                  child: Image.asset(
-                    'assets/icons/download-icons.png',
-                    width: 24,
-                    height: 24,
-                  ),
-                )
-              : Container(),
+          Obx(
+            () => state.doctorNote.value
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                      right: 23,
+                    ),
+                    child: InkWell(
+                      onTap: () async {
+                        print("unduh unduh");
+                      },
+                      child: Image.asset(
+                        'assets/icons/download-icons.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  )
+                : Container(),
+          ),
         ],
       ),
       body: Obx(
