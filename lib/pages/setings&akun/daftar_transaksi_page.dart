@@ -430,6 +430,11 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 img: history[index].detail?.consultation == null
                                     ? '-'
                                     : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                                doneReview:
+                                    history[index].detail?.consultationReview ==
+                                            null
+                                        ? false
+                                        : true,
                               );
                             }
 
@@ -456,6 +461,13 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                 : '-',
                                 harga: CurrencyFormat.convertToIdr(
                                     history[index].detail?.totalPaid, 0),
+                                doneReview: history[index]
+                                            .detail!
+                                            .transactionTreatmentItems?[0]
+                                            .treatmentReview ==
+                                        null
+                                    ? false
+                                    : true,
                               );
                             }
 
