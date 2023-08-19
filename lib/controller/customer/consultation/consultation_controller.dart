@@ -27,6 +27,7 @@ class ConsultationController extends StateClass {
   RxInt resendTime = 200.obs;
   Timer? _timer;
   IO.Socket? socket;
+  RxString status = ''.obs;
 
   getUser() async {
     username.value = await LocalStorage().getFullName();
@@ -55,6 +56,7 @@ class ConsultationController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       startVerifyCountTime();
+      status.value = '';
       initiate.value = await ConsultationService().initiateChat(orderId);
 
       print(jsonDecode(jsonEncode(initiate.value)));
@@ -69,7 +71,15 @@ class ConsultationController extends StateClass {
         );
       }
 
-      connectSocket(Get.context!);
+      if (initiate.value!.success == true &&
+          initiate.value!.message == 'Success') {
+        resendTime.value == 200;
+        timeCondition();
+        connectSocket(Get.context!);
+
+        status.value =
+            'Data anda sedang di review oleh dokter, harap tunggu yaa';
+      }
     });
     isLoading.value = false;
   }

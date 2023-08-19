@@ -113,9 +113,13 @@ class _ApprovePageState extends State<ApprovePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(
-                  () => Text(
-                    state.resendTime.value.toString(),
-                    style: blackTextStyle.copyWith(fontSize: 18),
+                  () => Expanded(
+                    child: Text(
+                      state.status.value.isEmpty
+                          ? state.resendTime.value.toString()
+                          : state.status.value,
+                      style: blackTextStyle.copyWith(fontSize: 18),
+                    ),
                   ),
                 ),
                 const SizedBox(
