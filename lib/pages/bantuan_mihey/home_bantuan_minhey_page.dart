@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/pilih_transaksi_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -268,18 +269,7 @@ class HomeMinheyPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadiusDirectional.only(
-                          topEnd: Radius.circular(25),
-                          topStart: Radius.circular(25),
-                        ),
-                      ),
-                      builder: (context) => PilihTranskasiMinheyPage(),
-                    );
+                    Get.to(PilihTranskasiMinheyPage());
                   },
                   child: Text(
                     'Pilih Transaksi Lain',
