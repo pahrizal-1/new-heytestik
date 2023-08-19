@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
@@ -5,11 +7,13 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import '../../models/customer/transaction_history_model.dart';
 import '../../theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
+    as Treatment;
 
 class MenungguPemayaranPage extends StatefulWidget {
   MenungguPemayaranPage({super.key});
@@ -183,36 +187,57 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             }
 
                             if (history[index].transactionType == 'TREATMENT') {
-                              return TransaksiTreatment(
-                                item: history[index]
-                                    .detail
-                                    ?.transactionTreatmentItems,
-                                tanggal: ConvertDate.defaultDate(
-                                    history[index].detail?.createdAt ?? '-'),
-                                expireDate:
-                                    history[index].detail?.paymentExpiryTime ==
-                                            null
-                                        ? ''
-                                        : ConvertDate.payBefore(history[index]
-                                                .detail
-                                                ?.paymentExpiryTime ??
-                                            '-'),
-                                pesanan: 'Treatment',
-                                progres: history[index].detail?.status ==
-                                        'MENUNGGU_PEMBAYARAN'
-                                    ? 'Menunggu Pembayaran'
-                                    : history[index].detail?.status ==
-                                            'MENUNGGU_KONFIRMASI_KLINIK'
-                                        ? 'Menunggu Konfirmasi Klinik'
-                                        : history[index].detail?.status ==
-                                                'KLINIK_MENGKONFIRMASI'
-                                            ? 'Klinik Mengkonfirmasi'
-                                            : history[index].detail?.status ==
-                                                    'SELESAI'
-                                                ? 'Selesai'
-                                                : '-',
-                                harga: CurrencyFormat.convertToIdr(
-                                    history[index].detail?.totalPaid, 0),
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(SelesaikanPembayaranTreatmentPage(
+                                    orderId:
+                                        history[index].transactionId.toString(),
+                                    bank: '',
+                                    expireTime: '',
+                                    treatment: Treatment.Data2.fromJson(
+                                      jsonDecode(
+                                        jsonEncode(
+                                          history[index]
+                                              .detail!
+                                              .transactionTreatmentItems?[0]
+                                              .treatment,
+                                        ),
+                                      ),
+                                    ),
+                                  ));
+                                },
+                                child: TransaksiTreatment(
+                                  item: history[index]
+                                      .detail
+                                      ?.transactionTreatmentItems,
+                                  tanggal: ConvertDate.defaultDate(
+                                      history[index].detail?.createdAt ?? '-'),
+                                  expireDate: history[index]
+                                              .detail
+                                              ?.paymentExpiryTime ==
+                                          null
+                                      ? ''
+                                      : ConvertDate.payBefore(history[index]
+                                              .detail
+                                              ?.paymentExpiryTime ??
+                                          '-'),
+                                  pesanan: 'Treatment',
+                                  progres: history[index].detail?.status ==
+                                          'MENUNGGU_PEMBAYARAN'
+                                      ? 'Menunggu Pembayaran'
+                                      : history[index].detail?.status ==
+                                              'MENUNGGU_KONFIRMASI_KLINIK'
+                                          ? 'Menunggu Konfirmasi Klinik'
+                                          : history[index].detail?.status ==
+                                                  'KLINIK_MENGKONFIRMASI'
+                                              ? 'Klinik Mengkonfirmasi'
+                                              : history[index].detail?.status ==
+                                                      'SELESAI'
+                                                  ? 'Selesai'
+                                                  : '-',
+                                  harga: CurrencyFormat.convertToIdr(
+                                      history[index].detail?.totalPaid, 0),
+                                ),
                               );
                             }
 

@@ -15,12 +15,12 @@ import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
 // ignore: must_be_immutable
-class SelesaiPembayaranSolusionPage extends StatefulWidget {
+class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   String bank;
   String orderId;
   String expireTime;
   final Data2 treatment;
-  SelesaiPembayaranSolusionPage(
+  SelesaikanPembayaranTreatmentPage(
       {this.bank = '',
       this.orderId = '',
       this.expireTime = '',
@@ -28,12 +28,12 @@ class SelesaiPembayaranSolusionPage extends StatefulWidget {
       super.key});
 
   @override
-  State<SelesaiPembayaranSolusionPage> createState() =>
-      _SelesaiPembayaranSolusionPageState();
+  State<SelesaikanPembayaranTreatmentPage> createState() =>
+      _SelesaikanPembayaranTreatmentPageState();
 }
 
-class _SelesaiPembayaranSolusionPageState
-    extends State<SelesaiPembayaranSolusionPage> {
+class _SelesaikanPembayaranTreatmentPageState
+    extends State<SelesaikanPembayaranTreatmentPage> {
   final HistoryTreatmentController state =
       Get.put(HistoryTreatmentController());
   Timer? countdownTimer;
