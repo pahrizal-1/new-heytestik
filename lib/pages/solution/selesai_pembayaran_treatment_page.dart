@@ -119,9 +119,12 @@ class _SelesaikanPembayaranTreatmentPageState
           backgroundColor: greenColor,
           title: Row(
             children: [
-              Text(
-                state.bank.value.toUpperCase(),
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              Obx(
+                () => Text(
+                  state.bank.value.toUpperCase(),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                ),
               ),
             ],
           ),

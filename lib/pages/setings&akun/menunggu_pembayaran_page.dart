@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -242,8 +243,18 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             }
 
                             if (history[index].transactionType == 'PRODUCT') {
-                              return TransaksiProduk(
-                                product: history[index].detail,
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(SelesaikanPembayaranProdukPage(
+                                    orderId:
+                                        history[index].transactionId.toString(),
+                                    bank: '',
+                                    expireTime: '',
+                                  ));
+                                },
+                                child: TransaksiProduk(
+                                  product: history[index].detail,
+                                ),
                               );
                             }
                           },

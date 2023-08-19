@@ -14,12 +14,12 @@ import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
-class SelesaiPembayaranObatPage extends StatefulWidget {
+class SelesaikanPembayaranProdukPage extends StatefulWidget {
   String bank;
   String orderId;
   String expireTime;
 
-  SelesaiPembayaranObatPage({
+  SelesaikanPembayaranProdukPage({
     this.bank = '',
     this.orderId = '',
     this.expireTime = '',
@@ -27,11 +27,12 @@ class SelesaiPembayaranObatPage extends StatefulWidget {
   });
 
   @override
-  State<SelesaiPembayaranObatPage> createState() =>
-      _SelesaiPembayaranObatPageState();
+  State<SelesaikanPembayaranProdukPage> createState() =>
+      _SelesaiPembayaranProdukPageState();
 }
 
-class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
+class _SelesaiPembayaranProdukPageState
+    extends State<SelesaikanPembayaranProdukPage> {
   final HistoryProductController state = Get.put(HistoryProductController());
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
@@ -116,9 +117,12 @@ class _SelesaiPembayaranObatPageState extends State<SelesaiPembayaranObatPage> {
           backgroundColor: greenColor,
           title: Row(
             children: [
-              Text(
-                state.bank.value.toUpperCase(),
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              Obx(
+                () => Text(
+                  state.bank.value.toUpperCase(),
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                ),
               ),
             ],
           ),

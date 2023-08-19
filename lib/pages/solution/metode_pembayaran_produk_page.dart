@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -403,7 +403,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                     await state.orderProduct(
                       context,
                       doInPost: () async {
-                        Get.offAll(SelesaiPembayaranObatPage(
+                        Get.offAll(SelesaikanPembayaranProdukPage(
                           orderId: state.orderId.value,
                           bank: state.bank.value,
                           expireTime: state.expireTime.value,
