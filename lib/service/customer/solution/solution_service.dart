@@ -41,6 +41,24 @@ class SolutionService extends ProviderClass {
     return SkincareModel.fromJson(response);
   }
 
+  Future<SkincareModel> getSkincareByDisplay(List display) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare',
+      params: {
+        "page": 1,
+        "take": 100,
+        "order": "desc",
+        "display[]": display,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return SkincareModel.fromJson(response);
+  }
+
   Future<DetailSkincareSolutionModel> detailSkincare(int id) async {
     var response = await networkingConfig.doGet(
       '/solution/skincare/$id',
@@ -71,9 +89,9 @@ class SolutionService extends ProviderClass {
     return RelatedProductSkincareModel.fromJson(response);
   }
 
-  Future<LookupModel> getLookup() async {
+  Future<LookupModel> getLookup(String category) async {
     var response = await networkingConfig.doGet(
-      '/lookup?page=1&take=100&order=desc&category[]=SKINCARE_CATEGORY&search=',
+      '/lookup?page=1&take=100&order=desc&category[]=$category&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

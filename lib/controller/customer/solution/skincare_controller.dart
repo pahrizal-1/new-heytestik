@@ -20,7 +20,8 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 
 class SkincareController extends StateClass {
-  List<Lookup.Data2> lookup = [];
+  List<Lookup.Data2> lookupDisplay = [];
+  List<Lookup.Data2> lookupCategory = [];
   List<Skincare.Data2> skincare = [];
   RxList<Skincare.Data2> filterData = List<Skincare.Data2>.empty().obs;
   Rx<DetailSkincare.Data> skincareDetail = DetailSkincare.Data.fromJson({}).obs;
@@ -64,6 +65,27 @@ class SkincareController extends StateClass {
         );
       }
       filterData.value = res.data!.data!;
+    });
+    isLoadingSkincare.value = false;
+  }
+
+  getSkincareByDisplay(BuildContext context, List display) async {
+    isLoadingSkincare.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
+        skincare.clear();
+        var res = await SolutionService().getSkincareByDisplay(display);
+
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        skincare = res.data!.data!;
+      } catch (e) {
+        print("haeheh $e");
+      }
     });
     isLoadingSkincare.value = false;
   }
@@ -137,18 +159,32 @@ class SkincareController extends StateClass {
     isLoadingRelatedSkincare.value = false;
   }
 
-  getLookup(BuildContext context) async {
+  getLookup(BuildContext context, String category) async {
     isLoadingLookup.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getLookup();
+      if (category == 'SKINCARE_DISPLAY') {
+        var res = await SolutionService().getLookup(category);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        lookupDisplay = res.data!.data!;
       }
-      lookup = res.data!.data!;
+
+      if (category == 'SKINCARE_CATEGORY') {
+        var res = await SolutionService().getLookup(category);
+
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        lookupCategory = res.data!.data!;
+      }
     });
     isLoadingLookup.value = false;
   }
