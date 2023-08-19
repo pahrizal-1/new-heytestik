@@ -31,18 +31,42 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
       setState(() {});
     });
     controller.addListener(() {
-      if (controller.position.atEdge) {
-        bool isTop = controller.position.pixels == 0;
-        if (!isTop) {
-          page += 1;
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            // notifications.addAll(await state.getNotification(context, page));
-            state.getNotificationDoctor(context, page);
-            setState(() {});
-          });
-        }
+      if (controller.offset == controller.position.maxScrollExtent) {
+        page += 1;
+        // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        //   // notifications.addAll(await state.getNotification(context, page));
+        //   state.getNotificationDoctor(context, page);
+        //   setState(() {});
+        // });
+      } else {
+        page -= 1;
+        // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        //   // notifications.addAll(await state.getNotification(context, page));
+        //   state.getNotificationDoctor(context, page);
+        //   setState(() {});
+        // });
       }
     });
+    // controller.addListener(() {
+    //   if (controller.position.atEdge) {
+    //     bool isTop = controller.position.pixels == 0;
+    //     if (!isTop) {
+    //       page += 1;
+    //       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //         // notifications.addAll(await state.getNotification(context, page));
+    //         state.getNotificationDoctor(context, page);
+    //         setState(() {});
+    //       });
+    //     } else {
+    //       page -= 1;
+    //       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //         // notifications.addAll(await state.getNotification(context, page));
+    //         state.getNotificationDoctor(context, page);
+    //         setState(() {});
+    //       });
+    //     }
+    //   }
+    // },);
     super.initState();
   }
 
