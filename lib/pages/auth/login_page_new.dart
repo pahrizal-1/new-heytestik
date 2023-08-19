@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/button_widget.dart';
-import 'auth_page.dart';
 
 class LoginPageNew extends StatelessWidget {
   const LoginPageNew({super.key});

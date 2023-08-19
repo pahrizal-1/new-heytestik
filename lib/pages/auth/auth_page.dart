@@ -4,8 +4,6 @@ import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
-import 'login_page_new.dart';
-
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
@@ -52,7 +50,7 @@ class AuthPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPageNew(),
+                      builder: (context) => const OptionLoginPage(),
                     ),
                   );
                 },
