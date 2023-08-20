@@ -142,7 +142,8 @@ class ProfileController extends StateClass {
 
   verifyCode(BuildContext context, String method, String type) async {
     isLoading.value = true;
-    try {
+    // try {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (method == 'EMAIL') {
         var data = {
           "method": method,
@@ -151,6 +152,12 @@ class ProfileController extends StateClass {
           "email": emailBaruController.text,
         };
         var response = await ProfileService().verifSend(data);
+        if (response['success'] != true && response['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: response['message'],
+          );
+        }
       } else {
         print('method  ' + method.toString());
         var data = {
@@ -160,10 +167,17 @@ class ProfileController extends StateClass {
           "no_phone": nomorHpController.text
         };
         var response = await ProfileService().verifSend(data);
+        if (response['success'] != true && response['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: response['message'],
+          );
+        }
       }
-    } catch (e) {
-      print('error' + e.toString());
-    }
+    });
+    // catch (e) {
+    //   print('error' + e.toString());
+    // }
 
     // await ErrorConfig.doAndSolveCatchInContext(context, () async {
     //   // if (email.text.isEmpty) {
