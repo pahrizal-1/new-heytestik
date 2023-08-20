@@ -76,7 +76,6 @@ class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfi
               ),
               InkWell(
                 onTap: () async {
-                  state.verifyCode(context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -122,7 +121,7 @@ class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfi
               ),
               InkWell(
                 onTap: () {
-                  state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIL');
+                  // state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIL');
                   Navigator.push(
                     context,
                     MaterialPageRoute(

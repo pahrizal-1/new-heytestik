@@ -11,10 +11,12 @@ class UbahEmailCostumerProfilPage extends StatefulWidget {
   const UbahEmailCostumerProfilPage({super.key});
 
   @override
-  State<UbahEmailCostumerProfilPage> createState() => _UbahEmailCostumerProfilPageState();
+  State<UbahEmailCostumerProfilPage> createState() =>
+      _UbahEmailCostumerProfilPageState();
 }
 
-class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPage> {
+class _UbahEmailCostumerProfilPageState
+    extends State<UbahEmailCostumerProfilPage> {
   final ProfileController state = Get.put(ProfileController());
 
   @override
@@ -30,6 +32,7 @@ class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPag
             children: [
               InkWell(
                 onTap: () {
+                  state.emailBaruController.text ='';
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -150,10 +153,12 @@ class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPag
             ButtonGreenWidget(
               title: 'Lanjut',
               onPressed: () {
+                state.verifyCode(context, 'WHATSAPP', 'CHANGE_EMAIl');
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const VerifikasiEmailSetingsPage()));
+                        builder: (context) =>
+                            const VerifikasiEmailSetingsPage()));
               },
             )
           ],

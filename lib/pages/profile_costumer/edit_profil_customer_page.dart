@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/profile_control
 import 'package:heystetik_mobileapps/pages/profile_costumer/pilih_metode_verifikasi_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_bio_profik_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/tambah_username_profil_costomer_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_email_customer_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_jenis_kelamin_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nama_profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_nomor_customer_profil_page.dart';
@@ -75,8 +76,8 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
             children: [
               InkWell(
                 onTap: () {
-                    state.image = null;
-                    state.isSave.value = false;
+                  state.image = null;
+                  state.isSave.value = false;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -122,10 +123,13 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                               color: Color(0xffD9D9D9),
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: state.imgNetwork.value != null ? NetworkImage('${Global.FILE}' +
-                                        '/' + state.imgNetwork.value) as ImageProvider : AssetImage(
-                                  'assets/icons/person-white.png',
-                                ),
+                                image: state.imgNetwork.value != null
+                                    ? NetworkImage('${Global.FILE}' +
+                                        '/' +
+                                        state.imgNetwork.value) as ImageProvider
+                                    : AssetImage(
+                                        'assets/icons/person-white.png',
+                                      ),
                               ),
                             ),
                             child: Align(
@@ -375,9 +379,10 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const PilihMetodeVerifikasiProfil(),
-                          ),
+                              builder: (context) =>
+                                  UbahEmailCostumerProfilPage()
+                              // const PilihMetodeVerifikasiProfil(),
+                              ),
                         );
                         if (refresh == 'refresh') {
                           setState(() {
@@ -397,8 +402,8 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                // const UbahNomorCustomerProfilPage(),
-                                const PilihMetodeVerifikasiProfil(),
+                                const UbahNomorCustomerProfilPage(),
+                            // const PilihMetodeVerifikasiProfil(),
                           ),
                         );
                         if (refresh == 'refresh') {

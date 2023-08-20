@@ -64,6 +64,8 @@ class ConsultationController extends StateClass {
           initiate.value!.message != 'Success') {
         resendTime.value == 200;
         timeCondition();
+        connectSocket(Get.context!);
+        close();
         Get.back();
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
