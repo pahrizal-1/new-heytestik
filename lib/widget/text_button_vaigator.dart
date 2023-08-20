@@ -375,13 +375,14 @@ class ChatBottomCostomer extends StatelessWidget {
                                       onTap: onCamera,
                                       child: Row(
                                         children: [
+                                          //Ambil Cera
                                           Text(
                                             'Camera',
                                             style: blackRegulerTextStyle
                                                 .copyWith(fontSize: 13),
                                           ),
                                           const SizedBox(
-                                            width: 10,
+                                            width: 9,
                                           ),
                                           const Spacer(),
                                           Container(
