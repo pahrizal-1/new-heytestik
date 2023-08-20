@@ -840,6 +840,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         ),
       ),
       bottomNavigationBar: ChatBottomCostomer(
+        onCamera: () {
+          pickCamera();
+        },
+        onGallery: () {
+          pickgalery();
+        },
         textC: state.messageController,
         roomId: widget.roomId,
         senderId: widget.senderId,
@@ -861,6 +867,22 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         },
       ),
     );
+  }
+
+  Future pickCamera() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
+  }
+
+  Future pickgalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) return;
+    imagePath = File(returnedImage.path);
   }
 }
 

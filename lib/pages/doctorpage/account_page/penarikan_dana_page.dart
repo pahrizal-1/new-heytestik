@@ -42,27 +42,30 @@ class _PenarikanDanaState extends State<PenarikanDana> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context, 'refresh');
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 22,
-                      color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context, 'refresh');
+                      },
+                      child: const Icon(
+                        Icons.arrow_back,
+                        size: 22,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Penarikan Saldo',
-                    style:
-                        whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Penarikan Saldo',
+                      style: whiteTextStyle.copyWith(
+                          fontWeight: bold, fontSize: 20),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -161,9 +164,18 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                             keyboardType: TextInputType.number,
                             controller: state.nominalPenarikan,
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(top: 15),
                               fillColor: greenColor,
                               hoverColor: greenColor,
-                              hintText: 'RP',
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 11),
+                                child: Text(
+                                  'Rp',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 20),
+                                ),
+                              ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: greenColor),
                               ),
@@ -476,7 +488,7 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                 state.saveBank(context);
                               },
                               style: TextButton.styleFrom(
-                                backgroundColor: const Color(0XffD9D9D9),
+                                backgroundColor: greenColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
