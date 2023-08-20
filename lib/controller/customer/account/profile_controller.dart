@@ -56,7 +56,7 @@ class ProfileController extends StateClass {
   RxBool isSave = false.obs;
   RxString imgNetwork = ''.obs;
 
-  startVerifyCountTime()  {
+  startVerifyCountTime() {
     // await timeCondition();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       resendTime.value = resendTime.value - 1;
@@ -151,7 +151,7 @@ class ProfileController extends StateClass {
           "email": emailBaruController.text,
         };
         var response = await ProfileService().verifSend(data);
-      } else if (method == 'WHATSAPP') {
+      } else {
         print('method  ' + method.toString());
         var data = {
           "method": method,
