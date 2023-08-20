@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as TreatmentModel;
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
-import 'package:heystetik_mobileapps/models/treatment_review.dart';
+import 'package:heystetik_mobileapps/models/treatment_review_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../models/clinic.dart';
@@ -273,42 +273,61 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future<List<TreatmentReviewModel>> getTreatmentReview(
-    int page,
-    int treatmentID, {
-    Map<String, dynamic>? filter,
-  }) async {
-    try {
-      Map<String, dynamic> params = {
-        "page": page,
-        "take": 10,
-        "treatment_id": treatmentID,
-      };
+  Future<TreatmentReviewModel> getTreatmentReview(
+      int page, int take, int treatmentID,
+      {Map<String, dynamic>? filter}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": take,
+      "treatment_id": treatmentID,
+    };
 
-      if (filter != null) {
-        params.addAll(filter);
-      }
-
-      var response = await networkingConfig.doGet(
-        '/solution/treatment-review',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      var dataBaru = (response['data']['data'] as List)
-          .map((docs) => TreatmentReviewModel.fromJson(docs))
-          .toList();
-      print("INI DATA BARU");
-      print(dataBaru);
-
-      return dataBaru;
-    } catch (error) {
-      print("error $error hahahah");
-      throw error;
+    if (filter != null) {
+      params.addAll(filter);
     }
+
+    var response = await networkingConfig.doGet(
+      '/solution/treatment-review',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return TreatmentReviewModel.fromJson(response);
+  }
+
+  Future helped(int reviewId) async {
+    var response = await networkingConfig.doPost(
+      '/solution/treatment-review/helpful',
+      data: {
+        "treatment_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
+  }
+
+  Future unHelped(int reviewId) async {
+    var response = await networkingConfig.doDelete(
+      '/solution/treatment-review/helpful',
+      data: {
+        "treatment_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
   }
 
   Future<TreatmentModel.TreatmentModel> getAllTreatment(

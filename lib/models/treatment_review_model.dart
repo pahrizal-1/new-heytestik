@@ -1,11 +1,11 @@
-class ProductReviewModel {
+class TreatmentReviewModel {
   bool? success;
   String? message;
   Data? data;
 
-  ProductReviewModel({this.success, this.message, this.data});
+  TreatmentReviewModel({this.success, this.message, this.data});
 
-  ProductReviewModel.fromJson(Map<String, dynamic> json) {
+  TreatmentReviewModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -52,96 +52,75 @@ class Data {
 
 class Data2 {
   int? id;
-  String? transactionProductId;
-  int? transactionProductItemId;
-  int? productId;
+  String? transactionTreatmentId;
+  int? transactionTreatmentItemId;
+  int? treatmentId;
   int? userId;
-  int? effectivenessRating;
-  int? textureRating;
-  int? packagingRating;
-  double? avgRating;
+  int? careRating;
+  int? serviceRating;
+  int? managementRating;
+  int? avgRating;
   String? review;
   dynamic replyReview;
-  String? usageDuration;
-  String? wouldRecommend;
-  String? wouldRepurchase;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
   User? user;
-  TransactionProductItem? transactionProductItem;
-  List<MediaBeforeConditionProductReviews>? mediaBeforeConditionProductReviews;
-  List<MediaAfterConditionProductReviews>? mediaAfterConditionProductReviews;
+  TransactionTreatmentItem? transactionTreatmentItem;
+  List<MediaTreatmentReviews>? mediaTreatmentReviews;
   Count? cCount;
   bool? helped;
 
-  Data2({
-    this.id,
-    this.transactionProductId,
-    this.transactionProductItemId,
-    this.productId,
-    this.userId,
-    this.effectivenessRating,
-    this.textureRating,
-    this.packagingRating,
-    this.avgRating,
-    this.review,
-    this.replyReview,
-    this.usageDuration,
-    this.wouldRecommend,
-    this.wouldRepurchase,
-    this.createdBy,
-    this.updatedBy,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.user,
-    this.transactionProductItem,
-    this.mediaBeforeConditionProductReviews,
-    this.mediaAfterConditionProductReviews,
-    this.cCount,
-    this.helped,
-  });
+  Data2(
+      {this.id,
+      this.transactionTreatmentId,
+      this.transactionTreatmentItemId,
+      this.treatmentId,
+      this.userId,
+      this.careRating,
+      this.serviceRating,
+      this.managementRating,
+      this.avgRating,
+      this.review,
+      this.replyReview,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.user,
+      this.transactionTreatmentItem,
+      this.mediaTreatmentReviews,
+      this.cCount,
+      this.helped});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    transactionProductId = json['transaction_product_id'];
-    transactionProductItemId = json['transaction_product_item_id'];
-    productId = json['product_id'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    transactionTreatmentItemId = json['transaction_treatment_item_id'];
+    treatmentId = json['treatment_id'];
     userId = json['user_id'];
-    effectivenessRating = json['effectiveness_rating'];
-    textureRating = json['texture_rating'];
-    packagingRating = json['packaging_rating'];
-    avgRating = double.parse(json['avg_rating'].toString());
+    careRating = json['care_rating'];
+    serviceRating = json['service_rating'];
+    managementRating = json['management_rating'];
+    avgRating = json['avg_rating'];
     review = json['review'];
     replyReview = json['reply_review'];
-    usageDuration = json['usage_duration'];
-    wouldRecommend = json['would_recommend'];
-    wouldRepurchase = json['would_repurchase'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
-    transactionProductItem = json['transaction_product_item'] != null
-        ? TransactionProductItem.fromJson(json['transaction_product_item'])
+    transactionTreatmentItem = json['transaction_treatment_item'] != null
+        ? TransactionTreatmentItem.fromJson(json['transaction_treatment_item'])
         : null;
-    if (json['media_before_condition_product_reviews'] != null) {
-      mediaBeforeConditionProductReviews =
-          <MediaBeforeConditionProductReviews>[];
-      json['media_before_condition_product_reviews'].forEach((v) {
-        mediaBeforeConditionProductReviews!
-            .add(MediaBeforeConditionProductReviews.fromJson(v));
-      });
-    }
-    if (json['media_after_condition_product_reviews'] != null) {
-      mediaAfterConditionProductReviews = <MediaAfterConditionProductReviews>[];
-      json['media_after_condition_product_reviews'].forEach((v) {
-        mediaAfterConditionProductReviews!
-            .add(MediaAfterConditionProductReviews.fromJson(v));
+    if (json['media_treatment_reviews'] != null) {
+      mediaTreatmentReviews = <MediaTreatmentReviews>[];
+      json['media_treatment_reviews'].forEach((v) {
+        mediaTreatmentReviews!.add(MediaTreatmentReviews.fromJson(v));
       });
     }
     cCount = json['_count'] != null ? Count.fromJson(json['_count']) : null;
@@ -151,19 +130,16 @@ class Data2 {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['transaction_product_id'] = transactionProductId;
-    data['transaction_product_item_id'] = transactionProductItemId;
-    data['product_id'] = productId;
+    data['transaction_treatment_id'] = transactionTreatmentId;
+    data['transaction_treatment_item_id'] = transactionTreatmentItemId;
+    data['treatment_id'] = treatmentId;
     data['user_id'] = userId;
-    data['effectiveness_rating'] = effectivenessRating;
-    data['texture_rating'] = textureRating;
-    data['packaging_rating'] = packagingRating;
+    data['care_rating'] = careRating;
+    data['service_rating'] = serviceRating;
+    data['management_rating'] = managementRating;
     data['avg_rating'] = avgRating;
     data['review'] = review;
     data['reply_review'] = replyReview;
-    data['usage_duration'] = usageDuration;
-    data['would_recommend'] = wouldRecommend;
-    data['would_repurchase'] = wouldRepurchase;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
@@ -172,16 +148,12 @@ class Data2 {
     if (user != null) {
       data['user'] = user!.toJson();
     }
-    if (transactionProductItem != null) {
-      data['transaction_product_item'] = transactionProductItem!.toJson();
+    if (transactionTreatmentItem != null) {
+      data['transaction_treatment_item'] = transactionTreatmentItem!.toJson();
     }
-    if (mediaBeforeConditionProductReviews != null) {
-      data['media_before_condition_product_reviews'] =
-          mediaBeforeConditionProductReviews!.map((v) => v.toJson()).toList();
-    }
-    if (mediaAfterConditionProductReviews != null) {
-      data['media_after_condition_product_reviews'] =
-          mediaAfterConditionProductReviews!.map((v) => v.toJson()).toList();
+    if (mediaTreatmentReviews != null) {
+      data['media_treatment_reviews'] =
+          mediaTreatmentReviews!.map((v) => v.toJson()).toList();
     }
     if (cCount != null) {
       data['_count'] = cCount!.toJson();
@@ -208,6 +180,11 @@ class User {
   dynamic verificationCodeEmail;
   dynamic provinceId;
   dynamic cityId;
+  dynamic dob;
+  dynamic bio;
+  bool? finishRegister;
+  dynamic verifiedEmailAt;
+  dynamic verifiedPhoneAt;
   dynamic education;
   dynamic practiceLocation;
   dynamic joinDate;
@@ -219,9 +196,7 @@ class User {
   dynamic npwpNo;
   dynamic npwpImage;
   dynamic specialist;
-  dynamic dob;
-  double? rating;
-  bool? finishRegister;
+  int? rating;
   dynamic statusSchedule;
   dynamic since;
   dynamic start;
@@ -231,7 +206,7 @@ class User {
   String? updatedAt;
   dynamic deletedAt;
   dynamic refreshToken;
-  MediaUserProfilePicture? mediaUserProfilePicture;
+  dynamic mediaUserProfilePicture;
 
   User(
       {this.id,
@@ -250,6 +225,11 @@ class User {
       this.verificationCodeEmail,
       this.provinceId,
       this.cityId,
+      this.dob,
+      this.bio,
+      this.finishRegister,
+      this.verifiedEmailAt,
+      this.verifiedPhoneAt,
       this.education,
       this.practiceLocation,
       this.joinDate,
@@ -261,9 +241,7 @@ class User {
       this.npwpNo,
       this.npwpImage,
       this.specialist,
-      this.dob,
       this.rating,
-      this.finishRegister,
       this.statusSchedule,
       this.since,
       this.start,
@@ -292,6 +270,11 @@ class User {
     verificationCodeEmail = json['verification_code_email'];
     provinceId = json['provinceId'];
     cityId = json['cityId'];
+    dob = json['dob'];
+    bio = json['bio'];
+    finishRegister = json['finish_register'];
+    verifiedEmailAt = json['verified_email_at'];
+    verifiedPhoneAt = json['verified_phone_at'];
     education = json['education'];
     practiceLocation = json['practice_location'];
     joinDate = json['join_date'];
@@ -303,9 +286,7 @@ class User {
     npwpNo = json['npwp_no'];
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
-    dob = json['dob'];
-    rating = double.parse(json['rating'].toString());
-    finishRegister = json['finish_register'];
+    rating = json['rating'];
     statusSchedule = json['status_schedule'];
     since = json['since'];
     start = json['start'];
@@ -315,9 +296,7 @@ class User {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     refreshToken = json['refresh_token'];
-    mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
-        : null;
+    mediaUserProfilePicture = json['media_user_profile_picture'];
   }
 
   Map<String, dynamic> toJson() {
@@ -338,6 +317,11 @@ class User {
     data['verification_code_email'] = verificationCodeEmail;
     data['provinceId'] = provinceId;
     data['cityId'] = cityId;
+    data['dob'] = dob;
+    data['bio'] = bio;
+    data['finish_register'] = finishRegister;
+    data['verified_email_at'] = verifiedEmailAt;
+    data['verified_phone_at'] = verifiedPhoneAt;
     data['education'] = education;
     data['practice_location'] = practiceLocation;
     data['join_date'] = joinDate;
@@ -349,9 +333,7 @@ class User {
     data['npwp_no'] = npwpNo;
     data['npwp_image'] = npwpImage;
     data['specialist'] = specialist;
-    data['dob'] = dob;
     data['rating'] = rating;
-    data['finish_register'] = finishRegister;
     data['status_schedule'] = statusSchedule;
     data['since'] = since;
     data['start'] = start;
@@ -361,17 +343,165 @@ class User {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['refresh_token'] = refreshToken;
-    if (mediaUserProfilePicture != null) {
-      data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
+    data['media_user_profile_picture'] = mediaUserProfilePicture;
+    return data;
+  }
+}
+
+class TransactionTreatmentItem {
+  int? id;
+  String? transactionTreatmentId;
+  int? treatmentId;
+  int? pax;
+  int? price;
+  int? discount;
+  int? subtotal;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Treatment? treatment;
+
+  TransactionTreatmentItem(
+      {this.id,
+      this.transactionTreatmentId,
+      this.treatmentId,
+      this.pax,
+      this.price,
+      this.discount,
+      this.subtotal,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.treatment});
+
+  TransactionTreatmentItem.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    treatmentId = json['treatment_id'];
+    pax = json['pax'];
+    price = json['price'];
+    discount = json['discount'];
+    subtotal = json['subtotal'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    treatment = json['treatment'] != null
+        ? Treatment.fromJson(json['treatment'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['transaction_treatment_id'] = transactionTreatmentId;
+    data['treatment_id'] = treatmentId;
+    data['pax'] = pax;
+    data['price'] = price;
+    data['discount'] = discount;
+    data['subtotal'] = subtotal;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (treatment != null) {
+      data['treatment'] = treatment!.toJson();
     }
     return data;
   }
 }
 
-class MediaUserProfilePicture {
+class Treatment {
+  int? id;
+  int? clinicId;
+  String? name;
+  String? category;
+  String? description;
+  String? duration;
+  String? downtime;
+  String? treatmentType;
+  String? treatmentStep;
+  int? price;
+  bool? isActive;
+  int? rating;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Treatment(
+      {this.id,
+      this.clinicId,
+      this.name,
+      this.category,
+      this.description,
+      this.duration,
+      this.downtime,
+      this.treatmentType,
+      this.treatmentStep,
+      this.price,
+      this.isActive,
+      this.rating,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Treatment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    clinicId = json['clinic_id'];
+    name = json['name'];
+    category = json['category'];
+    description = json['description'];
+    duration = json['duration'];
+    downtime = json['downtime'];
+    treatmentType = json['treatment_type'];
+    treatmentStep = json['treatment_step'];
+    price = json['price'];
+    isActive = json['is_active'];
+    rating = json['rating'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['clinic_id'] = clinicId;
+    data['name'] = name;
+    data['category'] = category;
+    data['description'] = description;
+    data['duration'] = duration;
+    data['downtime'] = downtime;
+    data['treatment_type'] = treatmentType;
+    data['treatment_step'] = treatmentStep;
+    data['price'] = price;
+    data['is_active'] = isActive;
+    data['rating'] = rating;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class MediaTreatmentReviews {
   int? id;
   int? mediaId;
-  int? userId;
+  int? treatmentReviewId;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -379,10 +509,10 @@ class MediaUserProfilePicture {
   dynamic deletedAt;
   Media? media;
 
-  MediaUserProfilePicture(
+  MediaTreatmentReviews(
       {this.id,
       this.mediaId,
-      this.userId,
+      this.treatmentReviewId,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
@@ -390,10 +520,10 @@ class MediaUserProfilePicture {
       this.deletedAt,
       this.media});
 
-  MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
+  MediaTreatmentReviews.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     mediaId = json['media_id'];
-    userId = json['user_id'];
+    treatmentReviewId = json['treatment_review_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -406,7 +536,7 @@ class MediaUserProfilePicture {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['media_id'] = mediaId;
-    data['user_id'] = userId;
+    data['treatment_review_id'] = treatmentReviewId;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
@@ -480,297 +610,18 @@ class Media {
   }
 }
 
-class TransactionProductItem {
-  int? id;
-  String? transactionProductId;
-  int? productId;
-  int? qty;
-  int? price;
-  int? discount;
-  int? subtotal;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  Product? product;
-
-  TransactionProductItem(
-      {this.id,
-      this.transactionProductId,
-      this.productId,
-      this.qty,
-      this.price,
-      this.discount,
-      this.subtotal,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.product});
-
-  TransactionProductItem.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    transactionProductId = json['transaction_product_id'];
-    productId = json['product_id'];
-    qty = json['qty'];
-    price = json['price'];
-    discount = json['discount'];
-    subtotal = json['subtotal'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['transaction_product_id'] = transactionProductId;
-    data['product_id'] = productId;
-    data['qty'] = qty;
-    data['price'] = price;
-    data['discount'] = discount;
-    data['subtotal'] = subtotal;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (product != null) {
-      data['product'] = product!.toJson();
-    }
-    return data;
-  }
-}
-
-class Product {
-  int? id;
-  String? name;
-  String? type;
-  String? category;
-  String? display;
-  bool? hasVariant;
-  int? minOrder;
-  int? price;
-  bool? productIsActive;
-  int? productStock;
-  String? productTreshold;
-  String? productSku;
-  double? rating;
-  int? shippingProductWeight;
-  String? shippingProductWeightType;
-  int? shippingProductSizeLength;
-  int? shippingProductSizeWidth;
-  int? shippingProductSizeHeight;
-  String? shipping;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-
-  Product(
-      {this.id,
-      this.name,
-      this.type,
-      this.category,
-      this.display,
-      this.hasVariant,
-      this.minOrder,
-      this.price,
-      this.productIsActive,
-      this.productStock,
-      this.productTreshold,
-      this.productSku,
-      this.rating,
-      this.shippingProductWeight,
-      this.shippingProductWeightType,
-      this.shippingProductSizeLength,
-      this.shippingProductSizeWidth,
-      this.shippingProductSizeHeight,
-      this.shipping,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    type = json['type'];
-    category = json['category'];
-    display = json['display'];
-    hasVariant = json['has_variant'];
-    minOrder = json['min_order'];
-    price = json['price'];
-    productIsActive = json['product_is_active'];
-    productStock = json['product_stock'];
-    productTreshold = json['product_treshold'];
-    productSku = json['product_sku'];
-    rating = json['rating'];
-    shippingProductWeight = json['shipping_product_weight'];
-    shippingProductWeightType = json['shipping_product_weight_type'];
-    shippingProductSizeLength = json['shipping_product_size_length'];
-    shippingProductSizeWidth = json['shipping_product_size_width'];
-    shippingProductSizeHeight = json['shipping_product_size_height'];
-    shipping = json['shipping'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['type'] = type;
-    data['category'] = category;
-    data['display'] = display;
-    data['has_variant'] = hasVariant;
-    data['min_order'] = minOrder;
-    data['price'] = price;
-    data['product_is_active'] = productIsActive;
-    data['product_stock'] = productStock;
-    data['product_treshold'] = productTreshold;
-    data['product_sku'] = productSku;
-    data['rating'] = rating;
-    data['shipping_product_weight'] = shippingProductWeight;
-    data['shipping_product_weight_type'] = shippingProductWeightType;
-    data['shipping_product_size_length'] = shippingProductSizeLength;
-    data['shipping_product_size_width'] = shippingProductSizeWidth;
-    data['shipping_product_size_height'] = shippingProductSizeHeight;
-    data['shipping'] = shipping;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    return data;
-  }
-}
-
-class MediaBeforeConditionProductReviews {
-  int? id;
-  int? mediaId;
-  int? productReviewId;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  Media? media;
-
-  MediaBeforeConditionProductReviews(
-      {this.id,
-      this.mediaId,
-      this.productReviewId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
-
-  MediaBeforeConditionProductReviews.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    mediaId = json['media_id'];
-    productReviewId = json['product_review_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    media = json['media'] != null ? Media.fromJson(json['media']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['media_id'] = mediaId;
-    data['product_review_id'] = productReviewId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (media != null) {
-      data['media'] = media!.toJson();
-    }
-    return data;
-  }
-}
-
-class MediaAfterConditionProductReviews {
-  int? id;
-  int? mediaId;
-  int? productReviewId;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  Media? media;
-
-  MediaAfterConditionProductReviews(
-      {this.id,
-      this.mediaId,
-      this.productReviewId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
-
-  MediaAfterConditionProductReviews.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    mediaId = json['media_id'];
-    productReviewId = json['product_review_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    media = json['media'] != null ? Media.fromJson(json['media']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['media_id'] = mediaId;
-    data['product_review_id'] = productReviewId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (media != null) {
-      data['media'] = media!.toJson();
-    }
-    return data;
-  }
-}
-
 class Count {
-  int? productReviewHelpfuls;
+  int? treatmentReviewHelpfuls;
 
-  Count({this.productReviewHelpfuls});
+  Count({this.treatmentReviewHelpfuls});
 
   Count.fromJson(Map<String, dynamic> json) {
-    productReviewHelpfuls = json['product_review_helpfuls'];
+    treatmentReviewHelpfuls = json['treatment_review_helpfuls'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_review_helpfuls'] = productReviewHelpfuls;
+    data['treatment_review_helpfuls'] = treatmentReviewHelpfuls;
     return data;
   }
 }

@@ -41,6 +41,7 @@ class MyJourneyController extends StateClass {
   var dataUser;
   RxString fullName = '-'.obs;
   RxString phone = ''.obs;
+  RxInt age = 0.obs;
   RxBool doctorNote = false.obs;
 
   Rx<ScheduleTreatment.MyJourneyScheduleTreatmentModel>
@@ -88,9 +89,16 @@ class MyJourneyController extends StateClass {
   getHistoryConsultationDoctorNote(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      DateTime currentDate = DateTime.now();
+
       dataUser = await LocalStorage().getDataUser();
       fullName.value = dataUser['fullname'];
       phone.value = dataUser['no_phone'];
+
+      if (dataUser['dob'] != null) {
+        age.value = currentDate.year - DateTime.parse(dataUser['dob']).year;
+      }
+
       var res = await MyJourneysService().getHistoryConsultationDoctorNote(id);
       print('rescdata ${jsonDecode(jsonEncode(res.data))}');
 

@@ -166,6 +166,24 @@ class SolutionService extends ProviderClass {
     return MedicineModel.fromJson(response);
   }
 
+  Future<MedicineModel> getMedicineByConcern(int page, List concern) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare',
+      params: {
+        "page": page,
+        "take": 100,
+        "order": "desc",
+        "concern_ids[]": concern,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return MedicineModel.fromJson(response);
+  }
+
   Future<DrugRecipeModel> getDrugRecipe(int page) async {
     var response = await networkingConfig.doGet(
       '/solution/drug-recipe',
@@ -197,5 +215,37 @@ class SolutionService extends ProviderClass {
     );
 
     print(response);
+  }
+
+  Future helped(int reviewId) async {
+    var response = await networkingConfig.doPost(
+      '/solution/product-review/helpful',
+      data: {
+        "product_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
+  }
+
+  Future unHelped(int reviewId) async {
+    var response = await networkingConfig.doDelete(
+      '/solution/product-review/helpful',
+      data: {
+        "product_review_id": reviewId,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    print(response);
+    return response;
   }
 }

@@ -634,38 +634,48 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                       () => LoadingWidget(
                         isLoading: state.isLoadingSkincare.value,
                         child: Center(
-                          child: Wrap(
-                            spacing: 23,
-                            runSpacing: 12,
-                            children: state.skincare
-                                .map(
-                                  (e) => InkWell(
-                                    onTap: () {
-                                      Get.to(DetailSkinCarePage(
-                                        // id: e.id!.toInt(),
-                                        productId: e.id!.toInt(),
-                                      ));
-                                    },
-                                    child: Produkheight(
-                                      produkId: e.id!.toInt(),
-                                      namaBrand:
-                                          e.skincareDetail!.brand.toString(),
-                                      namaProduk: e.name.toString(),
-                                      diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      harga: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      urlImg:
-                                          '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                      // rating: '4.9 (120k)',
-                                      rating: e.rating.toString(),
-                                      kota: 'Amerika Serikat',
-                                    ),
+                          child: state.skincare.isEmpty
+                              ? Text(
+                                  'Tidak ada produk',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
                                   ),
                                 )
-                                .toList(),
-                          ),
+                              : Wrap(
+                                  spacing: 23,
+                                  runSpacing: 12,
+                                  children: state.skincare
+                                      .map(
+                                        (e) => InkWell(
+                                          onTap: () {
+                                            Get.to(DetailSkinCarePage(
+                                              // id: e.id!.toInt(),
+                                              productId: e.id!.toInt(),
+                                            ));
+                                          },
+                                          child: Produkheight(
+                                            produkId: e.id!.toInt(),
+                                            namaBrand: e.skincareDetail!.brand
+                                                .toString(),
+                                            namaProduk: e.name.toString(),
+                                            diskonProduk: '20',
+                                            hargaDiskon:
+                                                CurrencyFormat.convertToIdr(
+                                                    e.price, 0),
+                                            harga: CurrencyFormat.convertToIdr(
+                                                e.price, 0),
+                                            urlImg:
+                                                '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                            // rating: '4.9 (120k)',
+                                            rating: e.rating.toString(),
+                                            kota: 'Amerika Serikat',
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                         ),
                       ),
                     ),
