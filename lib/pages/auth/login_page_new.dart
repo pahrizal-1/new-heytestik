@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
+import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
@@ -285,7 +286,7 @@ class LoginPageNew extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PhoneNumberPage(),
+                        builder: (context) => const HomeMinheyPage(),
                       ),
                     );
                   },

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -21,17 +20,6 @@ class LocalStorage {
     prefs.remove('jwtToken');
   }
 
-  // REFRESH TOKEN
-  // Future<void> setRefreshToken({required String token}) async {
-  //   SharedPreferences prefs = await getPrefs();
-  //   prefs.setString('refresh_token', token);
-  // }
-
-  // Future<String> getRefreshToken() async {
-  //   SharedPreferences prefs = await getPrefs();
-  //   return prefs.getString('refresh_token') ?? '-';
-  // }
-
   // USER ID
   Future<void> setUserID({required int userID}) async {
     SharedPreferences prefs = await getPrefs();
@@ -43,7 +31,7 @@ class LocalStorage {
     return prefs.getInt('user_id');
   }
 
-  // USERNAME
+  // FULLNAME
   Future<void> setFullName({required String fullName}) async {
     SharedPreferences prefs = await getPrefs();
     prefs.setString('full_name', fullName);
@@ -65,12 +53,7 @@ class LocalStorage {
     return prefs.getInt('role_id');
   }
 
-  // DATA USER
-  Future<void> setDataUser({required dynamic dataUser}) async {
-    SharedPreferences prefs = await getPrefs();
-    prefs.setString('data_user', jsonEncode(dataUser));
-  }
-
+  // USERNAME
   Future<void> setUsername({required String username}) async {
     SharedPreferences prefs = await getPrefs();
     prefs.setString('username', username);
@@ -78,7 +61,13 @@ class LocalStorage {
 
   Future<String> getUsername() async {
     SharedPreferences prefs = await getPrefs();
-    return prefs.getString('username') ?? "";
+    return prefs.getString('username') ?? '-';
+  }
+
+  // DATA USER
+  Future<void> setDataUser({required dynamic dataUser}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('data_user', jsonEncode(dataUser));
   }
 
   Future<dynamic> getDataUser() async {
