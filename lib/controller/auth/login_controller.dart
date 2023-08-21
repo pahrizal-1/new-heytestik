@@ -62,12 +62,12 @@ class LoginController extends StateClass {
 
       // SAVE DATA USER
       await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
-      await LocalStorage()
-          .setUsername(username: loginResponse['data']['user']['username']);
+      await LocalStorage().setUsername(
+          username: loginResponse['data']['user']['username'] ?? '');
       await LocalStorage()
           .setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage()
-          .setFullName(fullName: loginResponse['data']['user']['fullname']);
+      await LocalStorage().setFullName(
+          fullName: loginResponse['data']['user']['fullname'] ?? '');
       await LocalStorage()
           .setRoleID(roleID: loginResponse['data']['user']['roleId']);
       await LocalStorage()
