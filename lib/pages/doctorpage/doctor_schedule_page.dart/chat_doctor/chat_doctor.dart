@@ -107,7 +107,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                   widget.senderId ?? 0,
                   widget.receiverId ?? 0,
                   widget.roomCode,
-                  state.messageController.text ?? '',
+                  state.messageController.text.isNotEmpty
+                      ? state.messageController.text
+                      : '',
                   widget.senderBy ?? '',
                   widget.receiverBy ?? '',
                 );
@@ -164,7 +166,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                 widget.senderId ?? 0,
                 widget.receiverId ?? 0,
                 widget.roomCode,
-                state.messageController.text,
+                state.messageController.text.isNotEmpty
+                    ? state.messageController.text
+                    : '',
                 widget.senderBy ?? '',
                 widget.receiverBy ?? '',
               );

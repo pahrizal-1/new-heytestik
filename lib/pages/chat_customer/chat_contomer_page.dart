@@ -1272,7 +1272,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                   widget.senderId ?? 0,
                   widget.receiverId ?? 0,
                   widget.roomCode,
-                  state.messageController.text,
+                  state.messageController.text.isNotEmpty
+                      ? state.messageController.text
+                      : '',
                   widget.sendBy ?? '',
                   widget.receiverBy ?? '',
                 );
@@ -1327,7 +1329,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                 widget.senderId ?? 0,
                 widget.receiverId ?? 0,
                 widget.roomCode,
-                state.messageController.text,
+                state.messageController.text.isNotEmpty
+                    ? state.messageController.text
+                    : ' ',
                 widget.sendBy ?? '',
                 widget.receiverBy ?? '',
               );
