@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
         title: 'Heystetik Mobile Apps',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
-        home: const DetailStatusPage(),
+        home: const SplashScreenPage(),
       ),
     );
   }
