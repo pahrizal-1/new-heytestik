@@ -76,7 +76,15 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   }
 
   // image from camera
-  Future openCamera() async {
+  Future openCamera(
+    int idRoom,
+    int chatRoomId,
+    int userId,
+    int receiverId,
+    String roomCode,
+    String senderBy,
+    String receiverBy,
+  ) async {
     final XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
@@ -86,6 +94,34 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       String img64 = base64Encode(bytes);
       String baseImg64 = "data:/png;base64,$img64";
       fileImage.add(baseImg64);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PreviewImageCustomer(
+              sendMsg: () {
+                sendMessage(
+                  widget.roomId ?? 0,
+                  widget.roomId ?? 0,
+                  widget.senderId ?? 0,
+                  widget.receiverId ?? 0,
+                  widget.roomCode,
+                  state.messageController.text,
+                  widget.senderBy ?? '',
+                  widget.receiverBy ?? '',
+                );
+                // selectedMultipleImage = [];
+                Get.back();
+              },
+              idRoom: idRoom,
+              chatRoomId: chatRoomId,
+              userId: userId,
+              receiverId: receiverId,
+              roomCode: roomCode,
+              senderBy: senderBy,
+              receiverBy: receiverBy,
+              path: [imagePath],
+            ),
+          ));
       // return imagePath;
     } else {
       print("image not selected");
@@ -1023,11 +1059,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                     const SizedBox(
                                                       width: 10,
                                                     ),
-                                                    Image.asset(
-                                                      'assets/images/doctor-img.png'
-                                                          .toString(),
-                                                      width: 30,
-                                                    ),
+                                                    // Image.asset(
+                                                    //   'assets/images/doctor-img.png'
+                                                    //       .toString(),
+                                                    //   width: 30,
+                                                    // ),
                                                   ],
                                                 ),
                                                 Container(
@@ -1154,11 +1190,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         const SizedBox(
                                                           width: 10,
                                                         ),
-                                                        Image.asset(
-                                                          'assets/images/doctor-img.png'
-                                                              .toString(),
-                                                          width: 30,
-                                                        ),
+                                                        // Image.asset(
+                                                        //   'assets/images/doctor-img.png'
+                                                        //       .toString(),
+                                                        //   width: 30,
+                                                        // ),
                                                       ],
                                                     ),
                                                     Stack(
@@ -1415,7 +1451,15 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
           }
         },
         onCamera: () {
-          state.openCamera();
+          openCamera(
+            widget.roomId ?? 0,
+            widget.roomId ?? 0,
+            widget.senderId ?? 0,
+            widget.receiverId ?? 0,
+            widget.roomCode,
+            widget.senderBy ?? '',
+            widget.receiverBy ?? '',
+          );
         },
         onGallery: () {
           selectImageMultiple(
