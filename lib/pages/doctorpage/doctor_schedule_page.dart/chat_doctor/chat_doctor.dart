@@ -94,18 +94,20 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       String img64 = base64Encode(bytes);
       String baseImg64 = "data:/png;base64,$img64";
       fileImage.add(baseImg64);
+
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PreviewImageCustomer(
+            builder: (context) => PreviewImageDoctor(
               sendMsg: () {
+                print('mesg' + state.messageController.text.toString());
                 sendMessage(
                   widget.roomId ?? 0,
                   widget.roomId ?? 0,
                   widget.senderId ?? 0,
                   widget.receiverId ?? 0,
                   widget.roomCode,
-                  state.messageController.text,
+                  state.messageController.text ?? '',
                   widget.senderBy ?? '',
                   widget.receiverBy ?? '',
                 );
@@ -122,6 +124,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               path: [imagePath],
             ),
           ));
+
       // return imagePath;
     } else {
       print("image not selected");
@@ -340,7 +343,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
     // listLastChat.add(newMes);
     state.messageController.clear();
-    state.selectedMultipleImage = [];
+    selectedMultipleImage = [];
+    fileImage = [];
 
     setState(() {
       isSuggestion = false;
@@ -560,9 +564,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     children: [
                       InkWell(
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.pop(context, 'refresh');
                             selectedMultipleImage = [];
                             fileImage = [];
+                            state.messageController.text = '';
                             leaveRoom(widget.roomCode);
                             close();
                           },

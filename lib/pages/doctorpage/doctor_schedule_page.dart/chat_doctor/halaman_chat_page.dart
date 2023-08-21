@@ -334,9 +334,9 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               itemCount: state.totalRecentChatActive.value,
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
-                  onTap: () {
+                  onTap: () async {
                     print('per ${state.recentChatActive[i].id}');
-                    Navigator.push(
+                    String refresh = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatDoctorPage(
@@ -355,6 +355,13 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                             id: state.recentChatActive[i].id!.toInt(),
                           ),
                         ));
+                    
+                    if(refresh == 'refresh') {
+                      setState(() {
+                        state.totalRecentChatActive;
+                        state.recentChatActive;
+                      });
+                    }
                   },
                   child: ChatAktif(
                     id: state.recentChatActive[i].id!.toInt(),
