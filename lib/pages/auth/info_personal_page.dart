@@ -159,7 +159,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                 borderRadius: BorderRadius.circular(83),
                                 child: Image.file(
                                   imagePath!,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             )
@@ -313,7 +313,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                   'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
                         );
                       } else {
-                        await state.register(context, profileImage: imagePath, doInPost: () async {
+                        await state.register(context, profileImage: imagePath,
+                            doInPost: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
