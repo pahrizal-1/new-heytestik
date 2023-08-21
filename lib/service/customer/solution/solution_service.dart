@@ -168,7 +168,7 @@ class SolutionService extends ProviderClass {
 
   Future<MedicineModel> getMedicineByConcern(int page, List concern) async {
     var response = await networkingConfig.doGet(
-      '/solution/skincare',
+      '/solution/drug',
       params: {
         "page": page,
         "take": 100,

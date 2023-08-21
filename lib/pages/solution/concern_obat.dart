@@ -558,14 +558,16 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                           ],
                         ),
                       ),
-                      content: Wrap(
-                        spacing: 15,
-                        runSpacing: 12,
-                        children: medicines.map((medicine) {
-                          return KonsultasiProduk(
-                            medicine: medicine,
-                          );
-                        }).toList(),
+                      content: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 25, right: 25, top: 20),
+                        child: Wrap(
+                          children: medicines.map((medicine) {
+                            return KonsultasiProduk(
+                              medicine: medicine,
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ],
