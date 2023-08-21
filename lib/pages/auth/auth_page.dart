@@ -18,7 +18,7 @@ class AuthPage extends StatelessWidget {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/Auth-screen.png'),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           child: Column(

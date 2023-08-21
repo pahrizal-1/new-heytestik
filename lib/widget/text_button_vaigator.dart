@@ -308,6 +308,8 @@ class ChatBottomNavigator extends StatelessWidget {
 
 class ChatBottomCostomer extends StatelessWidget {
   final TextEditingController textC;
+  final void Function()? onCamera;
+  final void Function()? onGallery;
   final int? roomId, senderId, receiverId;
   final String? roomCode;
   final String? senderBy;
@@ -324,6 +326,8 @@ class ChatBottomCostomer extends StatelessWidget {
     this.senderBy,
     this.receiverBy,
     this.sendMsg,
+    this.onCamera,
+    this.onGallery,
   }) : super(key: key);
 
   @override
@@ -353,12 +357,87 @@ class ChatBottomCostomer extends StatelessWidget {
                       fillColor: whiteColor,
                       hintText: 'Messeges',
                       suffixIcon: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Image.asset(
-                          'assets/icons/plus-icosn.png',
-                          width: 16,
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(11.0),
+                          child: PopupMenuButton(
+                            icon: Image.asset(
+                              'assets/icons/atement.png',
+                              width: 20,
+                            ),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15)),
+                                height: 206,
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: onCamera,
+                                      child: Row(
+                                        children: [
+                                          //Ambil Cera
+                                          Text(
+                                            'Camera',
+                                            style: blackRegulerTextStyle
+                                                .copyWith(fontSize: 13),
+                                          ),
+                                          const SizedBox(
+                                            width: 9,
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                              height: 44,
+                                              width: 44,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                              decoration: BoxDecoration(
+                                                  color: greenColor,
+                                                  shape: BoxShape.circle),
+                                              child: Icon(
+                                                Icons.camera_alt,
+                                                color: Colors.white,
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: onGallery,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Gallery',
+                                            style: blackRegulerTextStyle
+                                                .copyWith(fontSize: 13),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                              height: 44,
+                                              width: 44,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                              decoration: BoxDecoration(
+                                                  color: greenColor,
+                                                  shape: BoxShape.circle),
+                                              child: Icon(
+                                                Icons.insert_photo,
+                                                color: Colors.white,
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                            ],
+                          )),
                       hintStyle: subGreyTextStyle,
                     ),
                     onChanged: (value) {
