@@ -11,10 +11,12 @@ class UbahNomorCustomerProfilPage extends StatefulWidget {
   const UbahNomorCustomerProfilPage({super.key});
 
   @override
-  State<UbahNomorCustomerProfilPage> createState() => _UbahNomorCustomerProfilPageState();
+  State<UbahNomorCustomerProfilPage> createState() =>
+      _UbahNomorCustomerProfilPageState();
 }
 
-class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPage> {
+class _UbahNomorCustomerProfilPageState
+    extends State<UbahNomorCustomerProfilPage> {
   final ProfileController state = Get.put(ProfileController());
 
   @override
@@ -31,6 +33,7 @@ class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPag
             children: [
               InkWell(
                 onTap: () {
+                  state.nomorHpController.text = '';
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -121,6 +124,7 @@ class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPag
               title: 'Lanjut',
               onPressed: () {
                 // state.verifyCode(context);
+                state.verifyCode(context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
                 Navigator.push(
                     context,
                     MaterialPageRoute(

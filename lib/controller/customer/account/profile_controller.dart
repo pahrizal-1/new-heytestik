@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -40,6 +41,8 @@ class ProfileController extends StateClass {
   TextEditingController nomorHpController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   Rx<CustomerProfileModel> profileData = CustomerProfileModel().obs;
+  RxInt resendTime = 120.obs;
+  Timer? timer;
 
   List<String> items = [
     'Laki-laki',
@@ -52,6 +55,20 @@ class ProfileController extends StateClass {
   String? fileImg64;
   RxBool isSave = false.obs;
   RxString imgNetwork = ''.obs;
+
+  startVerifyCountTime() {
+    // await timeCondition();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      resendTime.value = resendTime.value - 1;
+      if (resendTime.value <= 0) {
+        timer.cancel();
+      }
+    });
+  }
+
+  // timeCondition() {
+  //   timer!.cancel();
+  // }
 
   init() async {
     fullName.value = await LocalStorage().getFullName();
@@ -125,20 +142,42 @@ class ProfileController extends StateClass {
 
   verifyCode(BuildContext context, String method, String type) async {
     isLoading.value = true;
-    try {
-      var data = {
-        "method": method,
-        "type": type,
-        "user_id": int.parse(idUser.value)
-      };
-      print(data);
-      print('masuk sini');
-      var response = await ProfileService().verifSend(data);
-
-      print(response);
-    } catch (e) {
-      print('error' + e.toString());
-    }
+    // try {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (method == 'EMAIL') {
+        var data = {
+          "method": method,
+          "type": type,
+          "user_id": int.parse(idUser.value),
+          "email": emailBaruController.text,
+        };
+        var response = await ProfileService().verifSend(data);
+        if (response['success'] != true && response['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: response['message'],
+          );
+        }
+      } else {
+        print('method  ' + method.toString());
+        var data = {
+          "method": method,
+          "type": type,
+          "user_id": int.parse(idUser.value),
+          "no_phone": nomorHpController.text
+        };
+        var response = await ProfileService().verifSend(data);
+        if (response['success'] != true && response['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: response['message'],
+          );
+        }
+      }
+    });
+    // catch (e) {
+    //   print('error' + e.toString());
+    // }
 
     // await ErrorConfig.doAndSolveCatchInContext(context, () async {
     //   // if (email.text.isEmpty) {

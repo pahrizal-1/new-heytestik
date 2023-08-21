@@ -1017,6 +1017,7 @@ class _RatingPageState extends State<RatingPage> {
                               itemCount: state.listReview.length,
                               itemBuilder: ((context, index) {
                                 return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [

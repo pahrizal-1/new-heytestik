@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
+import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';
 
 class VerifikasiSetingsPage extends StatefulWidget {
@@ -16,8 +19,54 @@ class VerifikasiSetingsPage extends StatefulWidget {
 class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
   final ProfileController state = Get.put(ProfileController());
 
+  Timer? countdownTimer;
+  Duration myDuration = Duration(seconds: 120);
+
+  void startTimer() {
+    countdownTimer =
+        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+  }
+
+  void stopTimer() {
+    setState(() => countdownTimer!.cancel());
+  }
+
+  void resetTimer() {
+    stopTimer();
+    setState(() => myDuration = Duration(seconds: 120));
+    startTimer();
+  }
+
+  void setCountDown() {
+    final reduceSecondsBy = 1;
+    setState(() {
+      final seconds = myDuration.inSeconds - reduceSecondsBy;
+      if (seconds < 0) {
+        countdownTimer!.cancel();
+      } else {
+        myDuration = Duration(seconds: seconds);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
+
+  // @override
+  // void dispose() {
+  //   // state.timeCondition();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    String strDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = strDigits(myDuration.inMinutes.remainder(60));
+    final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -29,6 +78,7 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
             children: [
               InkWell(
                 onTap: () {
+                  // state.resendTime.value = 0;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -84,7 +134,8 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                 height: 4,
               ),
               Text(
-                '****-****-*645',
+                state.nomorHpController.text
+                    .replaceAll(RegExp(r'.(?=.{3})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -109,12 +160,20 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        '00:20',
-                        style: subTitleTextStyle,
-                      ))
+                  Text(
+                    '$minutes:$seconds',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 18),
+                  ),
+                  // SizedBox(
+                  //   width: 7,
+                  // ),
+                  // Text(
+                  //   'detik',
+                  //   style: grenTextStyle.copyWith(fontSize: 18),
+                  // ),
                 ],
               ),
               const SizedBox(
@@ -139,8 +198,17 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      state.verifyCode(
-                          context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                      if (countdownTimer!.isActive) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                                  subtitle: 'Coba beberapa saat lagi',
+                                ));
+                      } else {
+                        state.verifyCode(
+                            context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                        resetTimer();
+                      }
                     },
                     child: Text(
                       ' Kirim Ulang',
@@ -161,14 +229,62 @@ class VerifikasiEmailSetingsPage extends StatefulWidget {
   const VerifikasiEmailSetingsPage({super.key});
 
   @override
-  State<VerifikasiEmailSetingsPage> createState() => _VerifikasiEmailSetingsPageState();
+  State<VerifikasiEmailSetingsPage> createState() =>
+      _VerifikasiEmailSetingsPageState();
 }
 
-class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage> {
+class _VerifikasiEmailSetingsPageState
+    extends State<VerifikasiEmailSetingsPage> {
   final ProfileController state = Get.put(ProfileController());
+
+  Timer? countdownTimer;
+  Duration myDuration = Duration(seconds: 120);
+
+  void startTimer() {
+    countdownTimer =
+        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+  }
+
+  void stopTimer() {
+    setState(() => countdownTimer!.cancel());
+  }
+
+  void resetTimer() {
+    stopTimer();
+    setState(() => myDuration = Duration(seconds: 120));
+    startTimer();
+  }
+
+  void setCountDown() {
+    final reduceSecondsBy = 1;
+    setState(() {
+      final seconds = myDuration.inSeconds - reduceSecondsBy;
+      if (seconds < 0) {
+        countdownTimer!.cancel();
+      } else {
+        myDuration = Duration(seconds: seconds);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    // state.timeCondition();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String strDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = strDigits(myDuration.inMinutes.remainder(60));
+    final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -235,7 +351,8 @@ class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage>
                 height: 4,
               ),
               Text(
-                '*******@gmail.com',
+                state.emailBaruController.text
+                    .replaceAll(RegExp(r'.(?=.{10})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -260,12 +377,13 @@ class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage>
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        '00:20',
-                        style: subTitleTextStyle,
-                      ))
+                  Text(
+                    '$minutes:$seconds',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 18),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -290,8 +408,16 @@ class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage>
                   ),
                   GestureDetector(
                     onTap: () {
-                      state.verifyCode(
-                          context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                      if (countdownTimer!.isActive) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                                  subtitle: 'Coba beberapa saat lagi',
+                                ));
+                      } else {
+                        state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIL');
+                        resetTimer();
+                      }
                     },
                     child: Text(
                       ' Kirim Ulang',
