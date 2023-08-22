@@ -108,10 +108,8 @@ class DoctorProfileController extends StateClass {
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (args.value is PickerDateRange) {
-      startPeriod.value =
-          '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
-      endPeriod.value =
-          '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
+      startPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
+      endPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
 
       print('start date $startPeriod');
       print('end date $endPeriod');
@@ -126,8 +124,7 @@ class DoctorProfileController extends StateClass {
 
   Future getFilterStatistic() async {
     isLoading.value = true;
-    var response = await StatisticService()
-        .getStatistic(startPeriod.value, endPeriod.value);
+    var response = await StatisticService().getStatistic(startPeriod.value, endPeriod.value);
     // saldo.value = response;
     filtStatistic.add(response);
     for (var i in filtStatistic) {
@@ -229,8 +226,7 @@ class DoctorProfileController extends StateClass {
         "user_bank_account_id": bankId,
         "amount": int.parse(nominalPenarikan.text),
       };
-      var response =
-          await UserBalanceService().saveBank(data);
+      var response = await UserBalanceService().saveBank(data);
 
       if (response['success'] != true && response['message'] != 'Success') {
         throw ErrorConfig(
@@ -296,21 +292,29 @@ class DoctorProfileController extends StateClass {
     isLoading.value = true;
 
     try {
+      Map<String, dynamic> dataProfile = {
+        'fullname': nama.text,
+        'email': email.text,
+        'specialist': spesialisasi.text,
+        'no_phone': noHp.text,
+        'gender': dropdownValue.value,
+        'sip': nomorsip.text,
+        'str': nomorstr.text,
+        'education': pendidikanAkhir.text,
+        'practice_location': tempatpraktek.text,
+      };
+
+      if (date != null) {
+        dataProfile['dob'] = date!.toIso8601String();
+      }
+
+      if (imagePath != null) {
+        dataProfile['files'] = await dio.MultipartFile.fromFile(imagePath!.path);
+      }
+
       var response = await dio.Dio().patch(
         Uri.encodeFull(Global.BASE_API + '/profile/doctor'),
-        data: dio.FormData.fromMap({
-          'fullname': nama.text,
-          'email': email.text,
-          'specialist': spesialisasi.text,
-          'no_phone': noHp.text,
-          'gender': dropdownValue.value,
-          'dob': date!.toIso8601String(),
-          'sip': nomorsip.text,
-          'str': nomorstr.text,
-          'education': pendidikanAkhir.text,
-          'practice_location': tempatpraktek.text,
-          'files': await dio.MultipartFile.fromFile(imagePath!.path),
-        }),
+        data: dio.FormData.fromMap(dataProfile),
         options: dio.Options(
           headers: {
             'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -327,6 +331,9 @@ class DoctorProfileController extends StateClass {
           },
         ),
       );
+
+      print(response);
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -370,8 +377,7 @@ class DoctorProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance
-            .unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
       });
       Get.offAll(() => const LoginPage());
       print('logout dokter');

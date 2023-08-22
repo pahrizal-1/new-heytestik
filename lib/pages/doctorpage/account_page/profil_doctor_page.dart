@@ -80,12 +80,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               height: 65,
                               width: 65,
                               child: CircleAvatar(
-                                backgroundImage: state.profileData.value.data !=
-                                        null
-                                    ? NetworkImage(
-                                            '${Global.FILE}/${state.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
-                                        as ImageProvider
-                                    : AssetImage('assets/images/doctor1.png'),
+                                backgroundImage: state.profileData.value.data != null ? NetworkImage('${Global.FILE}/${state.profileData.value.data!.mediaUserProfilePicture!.media!.path}') as ImageProvider : AssetImage('assets/images/doctor1.png'),
                               ),
                             ),
                           ),
@@ -98,10 +93,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  state.profileData.value.data != null
-                                      ? state.profileData.value.data!.fullname
-                                          .toString()
-                                      : 'Oscar',
+                                  state.profileData.value.data != null ? state.profileData.value.data!.fullname.toString() : '-',
                                   style: TextStyle(
                                     fontWeight: bold,
                                     fontFamily: 'ProximaNova',
@@ -113,8 +105,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                   height: 3,
                                 ),
                                 Text(
-                                  state.profileData.value.data!.specialist ??
-                                      '-',
+                                  state.profileData.value.data!.specialist ?? '-',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,
@@ -130,8 +121,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditProfilePage()),
+                            MaterialPageRoute(builder: (context) => const EditProfilePage()),
                           );
                         },
                         child: Container(
@@ -151,8 +141,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 30, bottom: 30),
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -232,11 +221,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, top: 15),
+                                    padding: const EdgeInsets.only(left: 12, top: 15),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           height: 20,
@@ -253,12 +240,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           width: 10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Obx(() => Text(
-                                                  state.consultation.value
-                                                      .toString(),
+                                                  state.consultation.value.toString(),
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontWeight: bold,
@@ -271,11 +256,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                             ),
                                             Text(
                                               'Konsultasi',
-                                              style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 13,
-                                                  color:
-                                                      fromCssColor('#A3A3A3')),
+                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 13, color: fromCssColor('#A3A3A3')),
                                             )
                                           ],
                                         ),
@@ -299,11 +280,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, top: 15),
+                                    padding: const EdgeInsets.only(left: 12, top: 15),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           height: 20,
@@ -320,12 +299,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           width: 10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Obx(() => Text(
-                                                  state.activeDay.value
-                                                      .toString(),
+                                                  state.activeDay.value.toString(),
                                                   style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontWeight: bold,
@@ -338,11 +315,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                             ),
                                             Text(
                                               'Hari Aktif',
-                                              style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 13,
-                                                  color:
-                                                      fromCssColor('#A3A3A3')),
+                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 13, color: fromCssColor('#A3A3A3')),
                                             )
                                           ],
                                         ),
@@ -374,11 +347,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, top: 15),
+                                    padding: const EdgeInsets.only(left: 12, top: 15),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           height: 20,
@@ -395,8 +366,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           width: 10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Obx(() => Text(
                                                   state.likes.value.toString(),
@@ -412,11 +382,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                             ),
                                             Text(
                                               'Disukai',
-                                              style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 13,
-                                                  color:
-                                                      fromCssColor('#A3A3A3')),
+                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 13, color: fromCssColor('#A3A3A3')),
                                             )
                                           ],
                                         ),
@@ -429,8 +395,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RatingPage(),
+                                        builder: (context) => const RatingPage(),
                                       ),
                                     );
                                   },
@@ -450,11 +415,9 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 12, top: 15),
+                                      padding: const EdgeInsets.only(left: 12, top: 15),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             height: 20,
@@ -471,12 +434,10 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                             width: 10,
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Obx(() => Text(
-                                                    state.rating.value
-                                                        .toString(),
+                                                    state.rating.value.toString(),
                                                     style: TextStyle(
                                                       fontFamily: 'ProximaNova',
                                                       fontWeight: bold,
@@ -489,11 +450,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                               ),
                                               Text(
                                                 'Pasien Puas',
-                                                style: TextStyle(
-                                                    fontFamily: 'ProximaNova',
-                                                    fontSize: 13,
-                                                    color: fromCssColor(
-                                                        '#A3A3A3')),
+                                                style: TextStyle(fontFamily: 'ProximaNova', fontSize: 13, color: fromCssColor('#A3A3A3')),
                                               )
                                             ],
                                           ),
@@ -543,10 +500,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                             children: [
                               Text(
                                 'Saldo Saya',
-                                style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    fontSize: 15,
-                                    color: whiteColor),
+                                style: TextStyle(fontFamily: 'ProximaNova', fontSize: 15, color: whiteColor),
                               ),
                               const SizedBox(
                                 height: 3,
@@ -554,11 +508,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               Obx(
                                 () => Text(
                                   'Rp ${state.saldo.value.balance}',
-                                  style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 20,
-                                      fontWeight: bold,
-                                      color: whiteColor),
+                                  style: TextStyle(fontFamily: 'ProximaNova', fontSize: 20, fontWeight: bold, color: whiteColor),
                                 ),
                               ),
                             ],
@@ -571,10 +521,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                     ),
                     Text(
                       'Keamanan',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontWeight: bold,
-                          fontSize: 18),
+                      style: TextStyle(fontFamily: 'ProximaNova', fontWeight: bold, fontSize: 18),
                     ),
                     const SizedBox(
                       height: 10,
@@ -727,9 +674,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                         ],
                       ),
                       Icon(
-                        isSelected == 0
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
+                        isSelected == 0 ? Icons.radio_button_on : Icons.circle_outlined,
                         color: isSelected == 0 ? greenColor : blackColor,
                       ),
                     ],
@@ -779,9 +724,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                       ),
                       const Spacer(),
                       Icon(
-                        isSelected == 1
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
+                        isSelected == 1 ? Icons.radio_button_on : Icons.circle_outlined,
                         color: isSelected == 1 ? greenColor : blackColor,
                       ),
                     ],
@@ -841,9 +784,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                       ),
                       const Spacer(),
                       Icon(
-                        isSelected == 2
-                            ? Icons.radio_button_on
-                            : Icons.circle_outlined,
+                        isSelected == 2 ? Icons.radio_button_on : Icons.circle_outlined,
                         color: isSelected == 2 ? greenColor : blackColor,
                       ),
                     ],
@@ -899,19 +840,13 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                             context: context,
                             builder: (BuildContext context) {
                               return Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
+                                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                                 color: Colors.white,
                                 child: SfDateRangePicker(
                                   showActionButtons: true,
                                   onSelectionChanged: state.onSelectionChanged,
-                                  selectionMode:
-                                      DateRangePickerSelectionMode.range,
-                                  initialSelectedRange: PickerDateRange(
-                                      DateTime.now()
-                                          .subtract(const Duration(days: 4)),
-                                      DateTime.now()
-                                          .add(const Duration(days: 3))),
+                                  selectionMode: DateRangePickerSelectionMode.range,
+                                  initialSelectedRange: PickerDateRange(DateTime.now().subtract(const Duration(days: 4)), DateTime.now().add(const Duration(days: 3))),
                                   onSubmit: (value) {
                                     Get.back();
                                   },
@@ -972,10 +907,7 @@ class _BottomSheetProfileState extends State<BottomSheetProfile> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardFilter(title: 'Chat yang selesai'),
-                    CardFilter(title: 'Chat yang selesai')
-                  ],
+                  children: [CardFilter(title: 'Chat yang selesai'), CardFilter(title: 'Chat yang selesai')],
                 ),
                 const SizedBox(
                   height: 15,

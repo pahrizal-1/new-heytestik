@@ -66,20 +66,20 @@ class PhoneNumberPage extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 4),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greyColor),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greyColor),
-                  ),
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greyColor),
-                  ),
-                  focusColor: greenColor,
-                  labelText: 'Nomor Telepon',
-                  labelStyle:
-                      greyTextStyle.copyWith(fontSize: 12, fontWeight: medium)),
+                contentPadding: const EdgeInsets.only(top: 4),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: greyColor),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: greyColor),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: greyColor),
+                ),
+                focusColor: greenColor,
+                labelText: 'Nomor Telepon',
+                labelStyle: greyTextStyle.copyWith(fontSize: 12, fontWeight: medium),
+              ),
             ),
             const Spacer(),
             Obx(
@@ -88,9 +88,7 @@ class PhoneNumberPage extends StatelessWidget {
                 child: ButtonGreenWidget(
                   title: 'Kirim Kode Verifikasi',
                   onPressed: () async {
-                    await state.registerPhoneNumber(context,
-                        doInPost: () async {
-                      print('INI KESINI BISA HARUSNYA');
+                    await state.registerPhoneNumber(context, doInPost: () async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

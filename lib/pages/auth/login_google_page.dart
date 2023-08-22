@@ -18,16 +18,21 @@ class LoginGooglePage extends StatelessWidget {
           // you can use this value to show a progress bar if you want
           debugPrint("Loading: $progress%");
         },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
+        onPageStarted: (String url) {
+          print(url);
+        },
+        onPageFinished: (String url) {
+          print(url);
+        },
         onWebResourceError: (WebResourceError error) {},
         onNavigationRequest: (NavigationRequest request) {
           return NavigationDecision.navigate;
         },
       ),
     )
-    ..loadRequest(Uri.parse(
-        "${Global.BASE_API}/auth/google/login"));
+    ..loadRequest(
+      Uri.parse("${Global.BASE_API}/auth/google/login"),
+    );
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +41,12 @@ class LoginGooglePage extends StatelessWidget {
         title: const Text('Login Google'),
       ),
       body: SizedBox(
-          width: double.infinity,
-          // the most important part of this example
-          child: WebViewWidget(
-            controller: _controller,
-          )),
+        width: double.infinity,
+        // the most important part of this example
+        child: WebViewWidget(
+          controller: _controller,
+        ),
+      ),
     );
   }
 }

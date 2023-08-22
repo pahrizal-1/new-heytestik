@@ -33,16 +33,7 @@ class Data {
   String? dob;
   MediaUserProfilePicture? mediaUserProfilePicture;
 
-  Data(
-      {this.fullname,
-      this.username,
-      this.bio,
-      this.id,
-      this.email,
-      this.noPhone,
-      this.gender,
-      this.dob,
-      this.mediaUserProfilePicture});
+  Data({this.fullname, this.username, this.bio, this.id, this.email, this.noPhone, this.gender, this.dob, this.mediaUserProfilePicture});
 
   Data.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
@@ -53,10 +44,7 @@ class Data {
     noPhone = json['no_phone'];
     gender = json['gender'];
     dob = json['dob'];
-    mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? new MediaUserProfilePicture.fromJson(
-            json['media_user_profile_picture'])
-        : null;
+    mediaUserProfilePicture = json['media_user_profile_picture'] != null ? new MediaUserProfilePicture.fromJson(json['media_user_profile_picture']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -70,8 +58,7 @@ class Data {
     data['gender'] = this.gender;
     data['dob'] = this.dob;
     if (this.mediaUserProfilePicture != null) {
-      data['media_user_profile_picture'] =
-          this.mediaUserProfilePicture!.toJson();
+      data['media_user_profile_picture'] = this.mediaUserProfilePicture!.toJson();
     }
     return data;
   }
@@ -88,16 +75,7 @@ class MediaUserProfilePicture {
   Null? deletedAt;
   Media? media;
 
-  MediaUserProfilePicture(
-      {this.id,
-      this.mediaId,
-      this.userId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaUserProfilePicture({this.id, this.mediaId, this.userId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -142,19 +120,7 @@ class Media {
   String? updatedAt;
   Null? deletedAt;
 
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.destination,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Media({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.destination, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];

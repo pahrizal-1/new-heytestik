@@ -6,6 +6,8 @@ import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
+import '../../core/global.dart';
 import '../../widget/pencarian_search_widget.dart';
 import '../home/notifikasion_page.dart';
 import '../profile_costumer/profil_customer_page.dart';
@@ -21,6 +23,8 @@ class StreamHomePage extends StatefulWidget {
 class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
   final PostController postController = Get.put(PostController());
+  final ProfileController state = Get.put(ProfileController());
+
   int index = 0;
   late TabController tabController;
 
@@ -51,12 +55,17 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                     ),
                   );
                 },
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(image: AssetImage('assets/images/profiledummy.png')),
-                    borderRadius: BorderRadius.circular(25),
+                child: Obx(
+                  () => Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: state.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${state.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                      ),
+                    ),
                   ),
                 ),
               ),

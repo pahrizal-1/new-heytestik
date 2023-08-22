@@ -12,8 +12,6 @@ import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -221,10 +219,6 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                 ),
                 const SizedBox(
                   height: 22,
-                ),
-                ButtonGreenWidget(title: 'Simpan Foto Ke Galeri'),
-                const SizedBox(
-                  height: 14,
                 ),
                 ButtonWhiteWidget(
                   title: 'Lihat Journey-mu',

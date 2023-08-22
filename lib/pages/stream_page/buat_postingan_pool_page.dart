@@ -68,33 +68,22 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
               GestureDetector(
                 onTap: () {
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
-                  Iterable<Match> matches =
-                      hashtagRegExp.allMatches(hashTagController.text);
+                  Iterable<Match> matches = hashtagRegExp.allMatches(hashTagController.text);
                   List<String?> hashtags = matches.map((match) {
-                    String? hashtagText =
-                        match.group(0)?.substring(1); // Remove the '#' symbol
+                    String? hashtagText = match.group(0)?.substring(1); // Remove the '#' symbol
                     return hashtagText?.replaceAll(' ', '');
                   }).toList();
 
-                  if (hashtags.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          AlertWidget(subtitle: "Hastags Can't be Empty"),
-                    );
-                  } else {
-                    StreamPostModel postModel = StreamPostModel(
-                      content: postDescController.text,
-                      type: 'POLLING',
-                      hashtags: hashtags,
-                      endTime: DateTime.now().add(Duration(days: days)),
-                      options: optionController.map((e) => e.text).toList(),
-                    );
-                    streamController.postPolling(context, postModel,
-                        doInPost: () {
-                      Navigator.of(context).pop();
-                    });
-                  }
+                  StreamPostModel postModel = StreamPostModel(
+                    content: postDescController.text,
+                    type: 'POLLING',
+                    hashtags: hashtags,
+                    endTime: DateTime.now().add(Duration(days: days)),
+                    options: optionController.map((e) => e.text).toList(),
+                  );
+                  streamController.postPolling(context, postModel, doInPost: () {
+                    Navigator.of(context).pop();
+                  });
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -149,11 +138,8 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                         height: 2,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 4.42),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 1.5),
-                            borderRadius: BorderRadius.circular(17)),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.42),
+                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5), borderRadius: BorderRadius.circular(17)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -196,8 +182,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Apa Yang kamu Post..',
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -227,8 +212,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                   child: TextFormPollPosition(
                                     title: 'Pilihan ${i + 1}',
                                     controller: optionController[i],
-                                    isLastElement:
-                                        i == optionController.length - 1,
+                                    isLastElement: i == optionController.length - 1,
                                   ),
                                 ),
                                 SizedBox(
@@ -237,17 +221,14 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                 i == optionController.length - 1
                                     ? GestureDetector(
                                         onTap: () {
-                                          optionController
-                                              .add(TextEditingController());
+                                          optionController.add(TextEditingController());
                                           setState(() {});
                                         },
                                         child: Container(
                                           width: 24,
                                           height: 24,
                                           margin: EdgeInsets.only(bottom: 14),
-                                          decoration: BoxDecoration(
-                                              color: greenColor,
-                                              shape: BoxShape.circle),
+                                          decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
                                           child: Icon(
                                             Icons.add,
                                             color: whiteColor,
@@ -300,8 +281,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                       days = value!;
                                     });
                                   },
-                                  items: [1, 2, 3, 4, 5, 6, 7]
-                                      .map<DropdownMenuItem<int>>((int value) {
+                                  items: [1, 2, 3, 4, 5, 6, 7].map<DropdownMenuItem<int>>((int value) {
                                     return DropdownMenuItem<int>(
                                       value: value,
                                       child: Text("$value Hari"),
@@ -354,8 +334,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                     fontStyle: FontStyle.italic,
                     fontSize: 13,
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

@@ -202,20 +202,25 @@ class MyJourneyController extends StateClass {
   Future detailJourney(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      totalMyJourneyById.value = 0;
+      try {
+        totalMyJourneyById.value = 0;
 
-      MyJourneyById.MyJourneyByIdModel res =
-          await MyJourneysService().detailJourney(id);
-      print("=============");
-      myJourneyById.value = res.data!;
-      print(myJourneyById.value);
-      print("=============");
-      totalMyJourneyById.value = res.data!.mediaMyJourneys!.length;
+        var res = await MyJourneysService().detailJourney(id);
+        print("res ${jsonDecode(jsonEncode(res))}");
+        print("1 =============");
+        myJourneyById.value = res.data!;
+        print("= = = = = = = = = = =");
+        print(myJourneyById.value);
+        print("2 =============");
+        totalMyJourneyById.value = res.data!.journey!.length;
 
-      print("=============");
-      print(res.data!.mediaMyJourneys!.length);
-      print("=============");
-      print(totalMyJourneyById.value);
+        print("3 =============");
+        print(res.data!.journey!.length);
+        print("4 =============");
+        print(totalMyJourneyById.value);
+      } catch (e) {
+        print("heheh $e");
+      }
     });
     isLoading.value = false;
   }

@@ -190,11 +190,11 @@ class RegisterController extends StateClass {
         'status': true,
       };
 
-      if(province != 0) {
+      if (province != 0) {
         data['provinceId'] = province;
       }
 
-      if(city != null && city != 0) {
+      if (city != null && city != 0) {
         data['cityId'] = city;
       }
 
