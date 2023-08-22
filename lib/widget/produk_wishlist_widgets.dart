@@ -1,33 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
-
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-
+import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import '../theme/theme.dart';
 import 'alert_dialog_ulasan.dart';
 
-class ProdukWitlistSkinCare extends StatelessWidget {
-  final String namaBrand;
-  final String namaProduk;
-  final String diskonProduk;
-  final String hargaDiskon;
-  final String kota;
-  final int id;
-  final String harga;
-  final String urlImg;
-  final String rating;
-  ProdukWitlistSkinCare(
-      {super.key,
-      required this.namaBrand,
-      required this.namaProduk,
-      required this.diskonProduk,
-      required this.hargaDiskon,
-      required this.kota,
-      required this.id,
-      required this.harga,
-      required this.urlImg,
-      required this.rating});
+class ProdukWishlistSkinCare extends StatelessWidget {
+  final Data2 data;
+  ProdukWishlistSkinCare({super.key, required this.data});
 
   final WishlistController state = Get.put(WishlistController());
 
@@ -41,7 +24,9 @@ class ProdukWitlistSkinCare extends StatelessWidget {
             width: 200,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(urlImg),
+                image: NetworkImage(
+                  '${Global.FILE}/${data.product?.mediaProducts?[0].media?.path}',
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -53,7 +38,7 @@ class ProdukWitlistSkinCare extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                namaBrand,
+                data.product!.skincareDetail?.brand ?? '-',
                 style: blackTextStyle.copyWith(
                   fontSize: 13,
                 ),
@@ -62,7 +47,7 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                 height: 3,
               ),
               Text(
-                namaProduk,
+                data.product?.name ?? '-',
                 style: blackRegulerTextStyle.copyWith(
                   fontSize: 13,
                 ),
@@ -80,7 +65,7 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                         color: const Color.fromRGBO(201, 42, 42, 0.2)),
                     child: Center(
                       child: Text(
-                        '$diskonProduk%',
+                        '${CurrencyFormat.convertToIdr(data.product?.price, 0)}%',
                         style: blackHigtTextStyle.copyWith(
                             color: redColor, fontSize: 11),
                       ),
@@ -90,7 +75,7 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    hargaDiskon,
+                    CurrencyFormat.convertToIdr(data.product?.price, 0),
                     style: subGreyTextStyle.copyWith(
                       fontSize: 12,
                       decoration: TextDecoration.lineThrough,
@@ -101,13 +86,9 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                 ],
               ),
               Text(
-                harga,
+                CurrencyFormat.convertToIdr(data.product?.price, 0),
                 style: blackHigtTextStyle.copyWith(fontSize: 15),
               ),
-              const SizedBox(
-                height: 3,
-              ),
-              Text(kota, style: subTitleTextStyle),
               const SizedBox(
                 height: 3,
               ),
@@ -119,7 +100,7 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                     size: 18,
                   ),
                   Text(
-                    rating,
+                    '${data.product?.rating} (120k)',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
@@ -155,8 +136,13 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
+                                              Get.back();
+                                              Get.back();
+                                              Get.back();
                                               await state.deleteWistlist(
-                                                  context, id);
+                                                context,
+                                                data.id!.toInt(),
+                                              );
                                             }),
                                           );
                                         },
@@ -165,18 +151,6 @@ class ProdukWitlistSkinCare extends StatelessWidget {
                                           style: blackHigtTextStyle.copyWith(
                                             fontSize: 15,
                                             color: redColor,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Text(
-                                          'Detail',
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 15,
                                           ),
                                         ),
                                       ),
@@ -222,22 +196,9 @@ class ProdukWitlistSkinCare extends StatelessWidget {
   }
 }
 
-class ProdukWitlistObat extends StatelessWidget {
-  final String namaBrand;
-  final String namaProduk;
-
-  final int id;
-  final String harga;
-  final String urlImg;
-  final String rating;
-  ProdukWitlistObat(
-      {super.key,
-      required this.namaBrand,
-      required this.namaProduk,
-      required this.id,
-      required this.harga,
-      required this.urlImg,
-      required this.rating});
+class ProdukWishlistObat extends StatelessWidget {
+  final Data2 data;
+  ProdukWishlistObat({super.key, required this.data});
 
   final WishlistController state = Get.put(WishlistController());
 
@@ -251,7 +212,9 @@ class ProdukWitlistObat extends StatelessWidget {
             width: 200,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(urlImg),
+                image: NetworkImage(
+                  '${Global.FILE}/${data.product?.mediaProducts?[0].media?.path}',
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -266,7 +229,7 @@ class ProdukWitlistObat extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                namaProduk,
+                data.product?.name ?? '-',
                 style: blackHigtTextStyle.copyWith(
                   fontSize: 13,
                 ),
@@ -275,7 +238,7 @@ class ProdukWitlistObat extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                harga,
+                CurrencyFormat.convertToIdr(data.product?.price, 0),
                 style: blackHigtTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
@@ -292,7 +255,7 @@ class ProdukWitlistObat extends StatelessWidget {
                     size: 18,
                   ),
                   Text(
-                    rating,
+                    '${data.product?.rating} (120k)',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
@@ -327,8 +290,13 @@ class ProdukWitlistObat extends StatelessWidget {
                                           context: context,
                                           builder: (context) =>
                                               AlertInfomasi(function: () async {
+                                            Get.back();
+                                            Get.back();
+                                            Get.back();
                                             await state.deleteWistlist(
-                                                context, id);
+                                              context,
+                                              data.id!.toInt(),
+                                            );
                                           }),
                                         );
                                       },
@@ -337,18 +305,6 @@ class ProdukWitlistObat extends StatelessWidget {
                                         style: blackHigtTextStyle.copyWith(
                                           fontSize: 15,
                                           color: redColor,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        'Detail',
-                                        style: blackTextStyle.copyWith(
-                                          fontSize: 15,
                                         ),
                                       ),
                                     ),
@@ -379,7 +335,7 @@ class ProdukWitlistObat extends StatelessWidget {
                           borderRadius: BorderRadius.circular(7)),
                       child: Center(
                         child: Text(
-                          'Harus Resep Doctor',
+                          'Harus Resep Dokter',
                           style: grenTextStyle.copyWith(fontSize: 12),
                         ),
                       ),
