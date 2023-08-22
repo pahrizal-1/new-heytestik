@@ -45,7 +45,8 @@ class _WishListPageState extends State<WishListPage> {
         backgroundColor: Colors.transparent,
         title: Text(
           'Wishlist',
-          style: blackTextStyle.copyWith(fontSize: 20, overflow: TextOverflow.ellipsis),
+          style: blackTextStyle.copyWith(
+              fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
         actions: [
           InkWell(
@@ -84,7 +85,8 @@ class _WishListPageState extends State<WishListPage> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: Container(
               height: 60,
@@ -95,7 +97,8 @@ class _WishListPageState extends State<WishListPage> {
                 ),
                 borderRadius: BorderRadius.circular(7),
               ),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -116,9 +119,11 @@ class _WishListPageState extends State<WishListPage> {
                         state.onChangeFilterText(value);
                       },
                       onEditingComplete: () {
-                        state.getWistlist(context, search: state.searchController.text);
+                        state.getWistlist(context,
+                            search: state.searchController.text);
                       },
-                      style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
+                      style: const TextStyle(
+                          fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
                         hintText: 'Cari Wishlist',
                         border: InputBorder.none,
@@ -155,7 +160,8 @@ class _WishListPageState extends State<WishListPage> {
                           children: [
                             Text(
                               '${state.filterData.length} Produk',
-                              style: blackTextStyle.copyWith(color: const Color(0xff6B6B6B), fontSize: 15),
+                              style: blackTextStyle.copyWith(
+                                  color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
                             InkWell(
                               onTap: () {
@@ -167,7 +173,9 @@ class _WishListPageState extends State<WishListPage> {
                                 children: [
                                   Text(
                                     'Tampilan',
-                                    style: blackTextStyle.copyWith(color: const Color(0xff6B6B6B), fontSize: 15),
+                                    style: blackTextStyle.copyWith(
+                                        color: const Color(0xff6B6B6B),
+                                        fontSize: 15),
                                   ),
                                   const SizedBox(
                                     width: 4,
@@ -212,7 +220,8 @@ class _WishListPageState extends State<WishListPage> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical, // use it
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 12,
                             childAspectRatio: 0.5,
@@ -221,8 +230,11 @@ class _WishListPageState extends State<WishListPage> {
                           itemBuilder: (BuildContext context, int index) {
                             return ProdukWitlist(
                               id: state.filterData[index].id!.toInt(),
-                              namaBrand: state.filterData[index].product!.skincareDetail?.brand ?? '-',
-                              namaProduk: state.filterData[index].product?.name ?? '-',
+                              namaBrand: state.filterData[index].product!
+                                      .skincareDetail?.brand ??
+                                  '-',
+                              namaProduk:
+                                  state.filterData[index].product?.name ?? '-',
                               diskonProduk: '20',
                               hargaDiskon: CurrencyFormat.convertToIdr(
                                 state.filterData[index].product?.price,
@@ -232,8 +244,10 @@ class _WishListPageState extends State<WishListPage> {
                                 state.filterData[index].product?.price,
                                 0,
                               ),
-                              urlImg: '${Global.FILE}/${state.filterData[index].product?.mediaProducts?[0].media?.path}',
-                              rating: '${state.filterData[index].product?.rating} (120k)',
+                              urlImg:
+                                  '${Global.FILE}/${state.filterData[index].product?.mediaProducts?[0].media?.path}',
+                              rating:
+                                  '${state.filterData[index].product?.rating} (120k)',
                               kota: 'Amerika Serikat',
                             );
                           },
