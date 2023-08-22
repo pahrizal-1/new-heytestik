@@ -87,18 +87,20 @@ class MyJourneysService extends ProviderClass {
   Future<MyJourneyByIdModel> detailJourney(int id) async {
     print("service $id");
     var response = await networkingConfig.doGet(
-      '/my-journey/$id/info',
+      '/my-journey/concern/$id',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
+
+    print("response $response");
     return MyJourneyByIdModel.fromJson(response);
   }
 
   Future<dynamic> deleteJourney(int id) async {
     var response = await networkingConfig.doDelete(
-      '/my-journey/$id',
+      '/my-journey/concern/$id',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -120,7 +122,7 @@ class MyJourneysService extends ProviderClass {
     });
 
     var response = await networkingConfig.doPatch(
-      '/my-journey/$id',
+      '/my-journey/concern/$id',
       data: formData,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
