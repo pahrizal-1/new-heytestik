@@ -60,7 +60,7 @@ class Data2 {
   String? updatedAt;
   dynamic deletedAt;
   Concern? concern;
-  List<MediaMyJourneys>? mediaMyJourneys;
+  List<Journey>? journey;
 
   Data2(
       {this.id,
@@ -72,7 +72,7 @@ class Data2 {
       this.updatedAt,
       this.deletedAt,
       this.concern,
-      this.mediaMyJourneys});
+      this.journey});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -85,30 +85,29 @@ class Data2 {
     deletedAt = json['deleted_at'];
     concern =
         json['concern'] != null ? Concern.fromJson(json['concern']) : null;
-    if (json['media_my_journeys'] != null) {
-      mediaMyJourneys = <MediaMyJourneys>[];
-      json['media_my_journeys'].forEach((v) {
-        mediaMyJourneys!.add(MediaMyJourneys.fromJson(v));
+    if (json['journey'] != null) {
+      journey = <Journey>[];
+      json['journey'].forEach((v) {
+        journey!.add(Journey.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_id'] = userId;
-    data['concern_id'] = concernId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (concern != null) {
-      data['concern'] = concern!.toJson();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['concern_id'] = this.concernId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.concern != null) {
+      data['concern'] = this.concern!.toJson();
     }
-    if (mediaMyJourneys != null) {
-      data['media_my_journeys'] =
-          mediaMyJourneys!.map((v) => v.toJson()).toList();
+    if (this.journey != null) {
+      data['journey'] = this.journey!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -163,7 +162,34 @@ class Concern {
   }
 }
 
-class MediaMyJourneys {
+class Journey {
+  String? createdAt;
+  List<MediaMyJourney>? mediaMyJourney;
+
+  Journey({this.createdAt, this.mediaMyJourney});
+
+  Journey.fromJson(Map<String, dynamic> json) {
+    createdAt = json['created_at'];
+    if (json['media_my_journey'] != null) {
+      mediaMyJourney = <MediaMyJourney>[];
+      json['media_my_journey'].forEach((v) {
+        mediaMyJourney!.add(MediaMyJourney.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['created_at'] = createdAt;
+    if (mediaMyJourney != null) {
+      data['media_my_journey'] =
+          mediaMyJourney!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MediaMyJourney {
   int? id;
   int? mediaId;
   int? myJourneyId;
@@ -176,7 +202,7 @@ class MediaMyJourneys {
   dynamic deletedAt;
   Media? media;
 
-  MediaMyJourneys(
+  MediaMyJourney(
       {this.id,
       this.mediaId,
       this.myJourneyId,
@@ -189,7 +215,7 @@ class MediaMyJourneys {
       this.deletedAt,
       this.media});
 
-  MediaMyJourneys.fromJson(Map<String, dynamic> json) {
+  MediaMyJourney.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     mediaId = json['media_id'];
     myJourneyId = json['my_journey_id'];

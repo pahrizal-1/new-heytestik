@@ -37,8 +37,12 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
       for (int i = 0; i < gallery.length; i++) {
         List mediaMyJourneys = [];
         mediaMyJourneys.clear();
-        for (int a = 0; a < gallery[i].mediaMyJourneys!.length; a++) {
-          mediaMyJourneys.add({"imageSelected": false});
+        for (int a = 0; a < gallery[i].journey!.length; a++) {
+          for (int u = 0;
+              u < gallery[i].journey![a].mediaMyJourney!.length;
+              u++) {
+            mediaMyJourneys.add({"imageSelected": false});
+          }
         }
 
         data.add({
@@ -60,8 +64,12 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
             for (int i = 0; i < gallery.length; i++) {
               List mediaMyJourneys = [];
               mediaMyJourneys.clear();
-              for (int a = 0; a < gallery[i].mediaMyJourneys!.length; a++) {
-                mediaMyJourneys.add({"imageSelected": false});
+              for (int a = 0; a < gallery[i].journey!.length; a++) {
+                for (int u = 0;
+                    u < gallery[i].journey![a].mediaMyJourney!.length;
+                    u++) {
+                  mediaMyJourneys.add({"imageSelected": false});
+                }
               }
               data.add({
                 "concern": gallery[i].concern?.name,
@@ -167,213 +175,266 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
                                   const SizedBox(
                                     height: 14,
                                   ),
-                                  Wrap(spacing: 4, runSpacing: 4, children: [
-                                    for (int i = 0;
-                                        i <
-                                            gallery[index]
-                                                .mediaMyJourneys!
-                                                .length;
-                                        i++)
-                                      if (gallery[index]
-                                              .mediaMyJourneys![i]
-                                              .category ==
-                                          "INITIAL_CONDITION")
-                                        Stack(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Get.to(
-                                                  ZoomImageDetail(
-                                                      concern: gallery[index]
-                                                              .concern!
-                                                              .name ??
-                                                          '-',
-                                                      beforeImage:
-                                                          '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}',
-                                                      dateBefore: gallery[index]
-                                                          .createdAt
-                                                          .toString(),
-                                                      afterImage: gallery[index]
-                                                                  .mediaMyJourneys!
-                                                                  .length >
-                                                              4
-                                                          ? '${Global.FILE}/${gallery[index].mediaMyJourneys![i == 0 ? 4 : i == 1 ? 5 : i == 2 ? 6 : i == 3 ? 7 : 0].media?.path}'
-                                                          : '',
-                                                      dateAfter: gallery[index]
-                                                                  .mediaMyJourneys!
-                                                                  .length >
-                                                              4
-                                                          ? gallery[index]
-                                                              .mediaMyJourneys![
-                                                                  4]
-                                                              .createdAt
-                                                              .toString()
-                                                          : "-"),
-                                                );
-                                              },
-                                              child: Container(
-                                                height: 72,
-                                                width: 82,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}'),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                  for (int i = 0;
+                                      i < gallery[index].journey!.length;
+                                      i++)
+                                    Wrap(spacing: 4, runSpacing: 4, children: [
+                                      for (int a = 0;
+                                          a <
+                                              gallery[index]
+                                                  .journey![i]
+                                                  .mediaMyJourney!
+                                                  .length;
+                                          a++)
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              ZoomImageDetail(
+                                                concern: gallery[index]
+                                                        .concern!
+                                                        .name ??
+                                                    '-',
+                                                beforeImage:
+                                                    '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}',
+                                                dateBefore: gallery[index]
+                                                    .journey![i]
+                                                    .createdAt
+                                                    .toString(),
+                                                afterImage: gallery[index]
+                                                            .journey!
+                                                            .length >
+                                                        4
+                                                    ? '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}'
+                                                    : '',
+                                                dateAfter: gallery[index]
+                                                    .journey![i]
+                                                    .createdAt
+                                                    .toString(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 72,
+                                            width: 82,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}'),
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                            Positioned(
-                                              right: 0,
-                                              child: Checkbox(
-                                                value: data[index]
-                                                        ['mediaMyJourneys'][i]
-                                                    ['imageSelected'],
-                                                checkColor: whiteColor,
-                                                activeColor: greenColor,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    data[index]['mediaMyJourneys']
-                                                                [i]
-                                                            ['imageSelected'] =
-                                                        value!;
-                                                  });
-                                                  print(
-                                                      "data ke ${index + 1} gambar ke ${i + 1}");
+                                          ),
+                                        ),
+                                    ]),
+                                  // Wrap(spacing: 4, runSpacing: 4, children: [
+                                  //   for (int i = 0;
+                                  //       i <
+                                  //           gallery[index]
+                                  //               .mediaMyJourneys!
+                                  //               .length;
+                                  //       i++)
+                                  //     if (gallery[index]
+                                  //             .mediaMyJourneys![i]
+                                  //             .category ==
+                                  //         "INITIAL_CONDITION")
+                                  //       Stack(
+                                  //         children: [
+                                  //           InkWell(
+                                  //             onTap: () {
+                                  //               Get.to(
+                                  //                 ZoomImageDetail(
+                                  //                     concern: gallery[index]
+                                  //                             .concern!
+                                  //                             .name ??
+                                  //                         '-',
+                                  //                     beforeImage:
+                                  //                         '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}',
+                                  //                     dateBefore: gallery[index]
+                                  //                         .createdAt
+                                  //                         .toString(),
+                                  //                     afterImage: gallery[index]
+                                  //                                 .mediaMyJourneys!
+                                  //                                 .length >
+                                  //                             4
+                                  //                         ? '${Global.FILE}/${gallery[index].mediaMyJourneys![i == 0 ? 4 : i == 1 ? 5 : i == 2 ? 6 : i == 3 ? 7 : 0].media?.path}'
+                                  //                         : '',
+                                  //                     dateAfter: gallery[index]
+                                  //                                 .mediaMyJourneys!
+                                  //                                 .length >
+                                  //                             4
+                                  //                         ? gallery[index]
+                                  //                             .mediaMyJourneys![
+                                  //                                 4]
+                                  //                             .createdAt
+                                  //                             .toString()
+                                  //                         : "-"),
+                                  //               );
+                                  //             },
+                                  //             child: Container(
+                                  //               height: 72,
+                                  //               width: 82,
+                                  //               decoration: BoxDecoration(
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(7),
+                                  //                 image: DecorationImage(
+                                  //                   image: NetworkImage(
+                                  //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}'),
+                                  //                   fit: BoxFit.cover,
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //           Positioned(
+                                  //             right: 0,
+                                  //             child: Checkbox(
+                                  //               value: data[index]
+                                  //                       ['mediaMyJourneys'][i]
+                                  //                   ['imageSelected'],
+                                  //               checkColor: whiteColor,
+                                  //               activeColor: greenColor,
+                                  //               onChanged: (value) {
+                                  //                 setState(() {
+                                  //                   data[index]['mediaMyJourneys']
+                                  //                               [i]
+                                  //                           ['imageSelected'] =
+                                  //                       value!;
+                                  //                 });
+                                  //                 print(
+                                  //                     "data ke ${index + 1} gambar ke ${i + 1}");
 
-                                                  if (data[index]
-                                                          ['mediaMyJourneys'][i]
-                                                      ['imageSelected']) {
-                                                    var img =
-                                                        '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}';
-                                                    selectedImage.add(img);
-                                                    print(
-                                                        "selectedImage $selectedImage");
-                                                  } else {
-                                                    setState(() {
-                                                      selectedImage.removeWhere(
-                                                          (item) =>
-                                                              item ==
-                                                              '${gallery[index].mediaMyJourneys![i].media?.path}');
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                    // else if (gallery[index]
-                                    //         .mediaMyJourneys![i]
-                                    //         .category ==
-                                    //     "AFTER_CONDITION")
-                                    //   Column(
-                                    //     children: [
-                                    //       if (gallery[index]
-                                    //               .mediaMyJourneys!
-                                    //               .length >
-                                    //           4)
-                                    //         if (i == 4)
-                                    //           Text(
-                                    //             ConvertDate.defaultDate(
-                                    //                 gallery[index]
-                                    //                     .mediaMyJourneys![4]
-                                    //                     .createdAt
-                                    //                     .toString()),
-                                    //             style: blackRegulerTextStyle
-                                    //                 .copyWith(fontSize: 13),
-                                    //           ),
-                                    //       if (gallery[index]
-                                    //               .mediaMyJourneys!
-                                    //               .length >
-                                    //           4)
-                                    //         const SizedBox(
-                                    //           width: 11,
-                                    //         ),
-                                    //       Stack(
-                                    //         children: [
-                                    //           InkWell(
-                                    //             onTap: () {
-                                    //               Get.to(
-                                    //                 ZoomImageDetail(
-                                    //                   concern: gallery[index]
-                                    //                           .concern!
-                                    //                           .name ??
-                                    //                       '-',
-                                    //                   beforeImage:
-                                    //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i == 4 ? 0 : i == 5 ? 1 : i == 6 ? 2 : i == 7 ? 3 : 0].media?.path}',
-                                    //                   dateBefore:
-                                    //                       gallery[index]
-                                    //                           .createdAt
-                                    //                           .toString(),
-                                    //                   afterImage:
-                                    //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}',
-                                    //                   dateAfter: gallery[
-                                    //                           index]
-                                    //                       .mediaMyJourneys![4]
-                                    //                       .createdAt
-                                    //                       .toString(),
-                                    //                 ),
-                                    //               );
-                                    //             },
-                                    //             child: Container(
-                                    //               height: 72,
-                                    //               width: 82,
-                                    //               decoration: BoxDecoration(
-                                    //                 borderRadius:
-                                    //                     BorderRadius.circular(
-                                    //                         7),
-                                    //                 image: DecorationImage(
-                                    //                   image: NetworkImage(
-                                    //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}'),
-                                    //                   fit: BoxFit.cover,
-                                    //                 ),
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //           Positioned(
-                                    //             right: 0,
-                                    //             child: Checkbox(
-                                    //               value: data[index]
-                                    //                   ['imageSelected'],
-                                    //               checkColor: whiteColor,
-                                    //               activeColor: greenColor,
-                                    //               onChanged: (value) {
-                                    //                 setState(() {
-                                    //                   data[index][
-                                    //                           'imageSelected'] =
-                                    //                       value!;
-                                    //                 });
+                                  //                 if (data[index]
+                                  //                         ['mediaMyJourneys'][i]
+                                  //                     ['imageSelected']) {
+                                  //                   var img =
+                                  //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}';
+                                  //                   selectedImage.add(img);
+                                  //                   print(
+                                  //                       "selectedImage $selectedImage");
+                                  //                 } else {
+                                  //                   setState(() {
+                                  //                     selectedImage.removeWhere(
+                                  //                         (item) =>
+                                  //                             item ==
+                                  //                             '${gallery[index].mediaMyJourneys![i].media?.path}');
+                                  //                   });
+                                  //                 }
+                                  //               },
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       )
+                                  // else if (gallery[index]
+                                  //         .mediaMyJourneys![i]
+                                  //         .category ==
+                                  //     "AFTER_CONDITION")
+                                  //   Column(
+                                  //     children: [
+                                  //       if (gallery[index]
+                                  //               .mediaMyJourneys!
+                                  //               .length >
+                                  //           4)
+                                  //         if (i == 4)
+                                  //           Text(
+                                  //             ConvertDate.defaultDate(
+                                  //                 gallery[index]
+                                  //                     .mediaMyJourneys![4]
+                                  //                     .createdAt
+                                  //                     .toString()),
+                                  //             style: blackRegulerTextStyle
+                                  //                 .copyWith(fontSize: 13),
+                                  //           ),
+                                  //       if (gallery[index]
+                                  //               .mediaMyJourneys!
+                                  //               .length >
+                                  //           4)
+                                  //         const SizedBox(
+                                  //           width: 11,
+                                  //         ),
+                                  //       Stack(
+                                  //         children: [
+                                  //           InkWell(
+                                  //             onTap: () {
+                                  //               Get.to(
+                                  //                 ZoomImageDetail(
+                                  //                   concern: gallery[index]
+                                  //                           .concern!
+                                  //                           .name ??
+                                  //                       '-',
+                                  //                   beforeImage:
+                                  //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i == 4 ? 0 : i == 5 ? 1 : i == 6 ? 2 : i == 7 ? 3 : 0].media?.path}',
+                                  //                   dateBefore:
+                                  //                       gallery[index]
+                                  //                           .createdAt
+                                  //                           .toString(),
+                                  //                   afterImage:
+                                  //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}',
+                                  //                   dateAfter: gallery[
+                                  //                           index]
+                                  //                       .mediaMyJourneys![4]
+                                  //                       .createdAt
+                                  //                       .toString(),
+                                  //                 ),
+                                  //               );
+                                  //             },
+                                  //             child: Container(
+                                  //               height: 72,
+                                  //               width: 82,
+                                  //               decoration: BoxDecoration(
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(
+                                  //                         7),
+                                  //                 image: DecorationImage(
+                                  //                   image: NetworkImage(
+                                  //                       '${Global.FILE}/${gallery[index].mediaMyJourneys![i].media?.path}'),
+                                  //                   fit: BoxFit.cover,
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //           Positioned(
+                                  //             right: 0,
+                                  //             child: Checkbox(
+                                  //               value: data[index]
+                                  //                   ['imageSelected'],
+                                  //               checkColor: whiteColor,
+                                  //               activeColor: greenColor,
+                                  //               onChanged: (value) {
+                                  //                 setState(() {
+                                  //                   data[index][
+                                  //                           'imageSelected'] =
+                                  //                       value!;
+                                  //                 });
 
-                                    //                 print(
-                                    //                     "data ke ${index + 1} gambar ke ${i + 1}");
+                                  //                 print(
+                                  //                     "data ke ${index + 1} gambar ke ${i + 1}");
 
-                                    //                 if (data[index]
-                                    //                     ['imageSelected']) {
-                                    //                   var img =
-                                    //                       '${gallery[index].mediaMyJourneys![i].media?.path}';
-                                    //                   print("img $img");
+                                  //                 if (data[index]
+                                  //                     ['imageSelected']) {
+                                  //                   var img =
+                                  //                       '${gallery[index].mediaMyJourneys![i].media?.path}';
+                                  //                   print("img $img");
 
-                                    //                   selectedImage.add(img);
-                                    //                   print(
-                                    //                       "selectedImage $selectedImage");
-                                    //                 } else {
-                                    //                   setState(() {
-                                    //                     selectedImage.removeWhere(
-                                    //                         (item) =>
-                                    //                             item ==
-                                    //                             '${gallery[index].mediaMyJourneys![i].media?.path}');
-                                    //                   });
-                                    //                 }
-                                    //               },
-                                    //             ),
-                                    //           ),
-                                    //         ],
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                  ]),
+                                  //                   selectedImage.add(img);
+                                  //                   print(
+                                  //                       "selectedImage $selectedImage");
+                                  //                 } else {
+                                  //                   setState(() {
+                                  //                     selectedImage.removeWhere(
+                                  //                         (item) =>
+                                  //                             item ==
+                                  //                             '${gallery[index].mediaMyJourneys![i].media?.path}');
+                                  //                   });
+                                  //                 }
+                                  //               },
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ]),
                                 ],
                               );
                             }),

@@ -76,16 +76,16 @@ class _DetailGalleryMyJourneyPageState
                     state.myJourneyById.value.concern?.name ?? "-",
                     style: blackHigtTextStyle.copyWith(fontSize: 14),
                   ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    state.myJourneyById.value.createdAt == null
-                        ? ''
-                        : ConvertDate.defaultDate(
-                            state.myJourneyById.value.createdAt.toString()),
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                  ),
+                  // const SizedBox(
+                  //   height: 7,
+                  // ),
+                  // Text(
+                  //   state.myJourneyById.value.createdAt == null
+                  //       ? ''
+                  //       : ConvertDate.defaultDate(
+                  //           state.myJourneyById.value.createdAt.toString()),
+                  //   style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  // ),
                   const SizedBox(
                     height: 14,
                   ),
@@ -99,70 +99,84 @@ class _DetailGalleryMyJourneyPageState
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.totalMyJourneyById.value,
                             itemBuilder: (BuildContext context, int index) {
-                              return Wrap(
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (index == 4)
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 20),
-                                      child: Text(
-                                        ConvertDate.defaultDate(state
-                                            .myJourneyById
-                                            .value
-                                            .mediaMyJourneys![4]
-                                            .createdAt
-                                            .toString()),
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 13),
-                                      ),
+                                  Text(
+                                    ConvertDate.defaultDate(
+                                      state.myJourneyById.value.journey![index]
+                                          .createdAt
+                                          .toString(),
                                     ),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 13),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        bottom: 10, top: 10),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Get.to(
-                                          ZoomImageDetail(
-                                            concern: state.myJourneyById.value
-                                                    .concern?.name ??
-                                                '-',
-                                            beforeImage:
-                                                '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index - (index > 3 ? 4 : 0)].media?.path}',
-                                            dateBefore: state
-                                                .myJourneyById.value.createdAt
-                                                .toString(),
-                                            afterImage: state.totalMyJourneyById
-                                                        .value >
-                                                    4
-                                                ? '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index + (index > 3 ? 0 : 4)].media?.path}'
-                                                : '',
-                                            dateAfter: index > 3
-                                                ? state
-                                                    .myJourneyById
-                                                    .value
-                                                    .mediaMyJourneys![4]
-                                                    .createdAt
-                                                    .toString()
-                                                : "-",
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 400,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                              '${Global.FILE}/${state.myJourneyById.value.mediaMyJourneys?[index].media?.path}',
+                                        top: 10, bottom: 10),
+                                    child: Wrap(
+                                        spacing: 4,
+                                        runSpacing: 4,
+                                        children: [
+                                          for (int a = 0;
+                                              a <
+                                                  state
+                                                      .myJourneyById
+                                                      .value
+                                                      .journey![index]
+                                                      .mediaMyJourney!
+                                                      .length;
+                                              a++)
+                                            InkWell(
+                                              onTap: () {
+                                                Get.to(
+                                                  ZoomImageDetail(
+                                                    concern: state
+                                                            .myJourneyById
+                                                            .value
+                                                            .concern!
+                                                            .name ??
+                                                        '-',
+                                                    beforeImage:
+                                                        '${Global.FILE}/${state.myJourneyById.value.journey![index].mediaMyJourney?[a].media?.path}',
+                                                    dateBefore: state
+                                                        .myJourneyById
+                                                        .value
+                                                        .journey![index]
+                                                        .createdAt
+                                                        .toString(),
+                                                    afterImage: state
+                                                                .myJourneyById
+                                                                .value
+                                                                .journey!
+                                                                .length >
+                                                            4
+                                                        ? '${Global.FILE}/${state.myJourneyById.value.journey![index].mediaMyJourney?[a].media?.path}'
+                                                        : '',
+                                                    dateAfter: state
+                                                        .myJourneyById
+                                                        .value
+                                                        .journey![index]
+                                                        .createdAt
+                                                        .toString(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                height: 72,
+                                                width: 82,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        '${Global.FILE}/${state.myJourneyById.value.journey![index].mediaMyJourney?[a].media?.path}'),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                        ]),
                                   ),
                                 ],
                               );

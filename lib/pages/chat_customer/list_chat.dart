@@ -55,6 +55,7 @@ class _ListChatPageState extends State<ListChatPage> {
                           MaterialPageRoute(
                             builder: ((context) {
                               return ChatCostomerPage(
+                                id: state.recentChat.value!.data![i].id!.toInt(),
                                 roomId: state.recentChat.value!.data![i].id!.toInt(),
                                 roomCode: state.recentChat.value!.data![i].code.toString(),
                                 senderId: state.recentChat.value!.data![i].customerId!.toInt(),
