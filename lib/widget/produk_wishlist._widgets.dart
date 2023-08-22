@@ -7,7 +7,7 @@ import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import '../theme/theme.dart';
 import 'alert_dialog_ulasan.dart';
 
-class ProdukWitlist extends StatelessWidget {
+class ProdukWitlistSkinCare extends StatelessWidget {
   final String namaBrand;
   final String namaProduk;
   final String diskonProduk;
@@ -17,7 +17,7 @@ class ProdukWitlist extends StatelessWidget {
   final String harga;
   final String urlImg;
   final String rating;
-  ProdukWitlist(
+  ProdukWitlistSkinCare(
       {super.key,
       required this.namaBrand,
       required this.namaProduk,
@@ -207,6 +207,179 @@ class ProdukWitlist extends StatelessWidget {
                       child: Center(
                         child: Text(
                           '+ Keranjang',
+                          style: grenTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class ProdukWitlistObat extends StatelessWidget {
+  final String namaBrand;
+  final String namaProduk;
+
+  final int id;
+  final String harga;
+  final String urlImg;
+  final String rating;
+  ProdukWitlistObat(
+      {super.key,
+      required this.namaBrand,
+      required this.namaProduk,
+      required this.id,
+      required this.harga,
+      required this.urlImg,
+      required this.rating});
+
+  final WishlistController state = Get.put(WishlistController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(urlImg),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 11, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                namaProduk,
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                harga,
+                style: blackHigtTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: yellowColor,
+                    size: 18,
+                  ),
+                  Text(
+                    rating,
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 11, color: const Color(0xff9B9B9B)),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.symmetric(horizontal: 9),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: Center(
+                        child: InkWell(
+                      onTap: () async {
+                        customeshomodal(
+                          context,
+                          Padding(
+                            padding: lsymetric.copyWith(top: 25),
+                            child: Wrap(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              AlertInfomasi(function: () async {
+                                            await state.deleteWistlist(
+                                                context, id);
+                                          }),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Delete',
+                                        style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15,
+                                          color: redColor,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        'Detail',
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/icons/more-horizontal.png',
+                        width: 12,
+                      ),
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Center(
+                        child: Text(
+                          'Harus Resep Doctor',
                           style: grenTextStyle.copyWith(fontSize: 12),
                         ),
                       ),
