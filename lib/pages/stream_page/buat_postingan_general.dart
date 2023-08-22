@@ -66,25 +66,16 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
               GestureDetector(
                 onTap: () {
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
-                  Iterable<Match> matches =
-                      hashtagRegExp.allMatches(hashTagController.text);
+                  Iterable<Match> matches = hashtagRegExp.allMatches(hashTagController.text);
                   List<String?> hashtags = matches.map((match) {
-                    String? hashtagText =
-                        match.group(0)?.substring(1); // Remove the '#' symbol
+                    String? hashtagText = match.group(0)?.substring(1); // Remove the '#' symbol
                     return hashtagText?.replaceAll(' ', '');
                   }).toList();
 
                   if (postDescController.text == "") {
                     showDialog(
                       context: context,
-                      builder: (context) => AlertWidget(
-                          subtitle: "Post Description Can't be Empty"),
-                    );
-                  } else if (hashtags.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          AlertWidget(subtitle: "Hastags Can't be Empty"),
+                      builder: (context) => AlertWidget(subtitle: "Post Description Can't be Empty"),
                     );
                   } else {
                     StreamPostModel postModel = StreamPostModel(
@@ -94,8 +85,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       endTime: DateTime.now(),
                       options: [],
                     );
-                    streamController.postGeneral(context, postModel,
-                        files: imagePath, doInPost: () {
+                    streamController.postGeneral(context, postModel, files: imagePath, doInPost: () {
                       Navigator.of(context).pop();
                     });
                   }
@@ -153,11 +143,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         height: 2,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 4.42),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 1.5),
-                            borderRadius: BorderRadius.circular(17)),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.42),
+                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5), borderRadius: BorderRadius.circular(17)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -200,8 +187,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Apa Yang kamu Post..',
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -225,24 +211,20 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                           Wrap(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 32),
+                                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        final returnedImage =
-                                            await ImagePicker().pickImage(
-                                                source: ImageSource.camera);
+                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
                                         if (returnedImage == null) return;
                                         imagePath.add(File(returnedImage.path));
                                         setState(() {});
                                       },
                                       child: Text(
                                         'Kamera',
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 15, color: blackColor),
+                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                       ),
                                     ),
                                     const SizedBox(
@@ -250,17 +232,14 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        final returnedImage =
-                                            await ImagePicker().pickImage(
-                                                source: ImageSource.gallery);
+                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
                                         if (returnedImage == null) return;
                                         imagePath.add(File(returnedImage.path));
                                         setState(() {});
                                       },
                                       child: Text(
                                         'Dari galeri',
-                                        style: blackRegulerTextStyle.copyWith(
-                                            fontSize: 15, color: blackColor),
+                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                       ),
                                     ),
                                     const SizedBox(
@@ -275,10 +254,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                           },
                                           child: Text(
                                             'CANCEL',
-                                            style:
-                                                blackRegulerTextStyle.copyWith(
-                                                    fontSize: 15,
-                                                    color: blackColor),
+                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                                           ),
                                         ),
                                       ],
@@ -294,8 +270,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         width: MediaQuery.of(context).size.width - 100,
                         height: MediaQuery.of(context).size.width - 100,
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.black.withOpacity(.2)),
+                          border: Border.all(color: Colors.black.withOpacity(.2)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
@@ -328,8 +303,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         width: MediaQuery.of(context).size.width - 100,
                         height: MediaQuery.of(context).size.width - 100,
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.black.withOpacity(.2)),
+                          border: Border.all(color: Colors.black.withOpacity(.2)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ClipRRect(
@@ -368,8 +342,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     fontStyle: FontStyle.italic,
                     fontSize: 13,
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

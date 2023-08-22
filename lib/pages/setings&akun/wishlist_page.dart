@@ -29,8 +29,8 @@ class _WishListPageState extends State<WishListPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.getWistlist(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getWistlist(context);
     });
   }
 

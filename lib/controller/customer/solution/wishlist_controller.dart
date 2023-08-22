@@ -18,15 +18,13 @@ class WishlistController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       wishlist.value = await WishlistService().getWishlist(search: search);
       filterData.value = wishlist.value!.data!.data!;
+      print(filterData);
     });
     isLoading.value = false;
   }
 
   onChangeFilterText(String value) {
-    filterData.value = wishlist.value!.data!.data!
-        .where((element) =>
-            element.product!.name!.toLowerCase().contains(value.toLowerCase()))
-        .toList();
+    filterData.value = wishlist.value!.data!.data!.where((element) => element.product!.name!.toLowerCase().contains(value.toLowerCase())).toList();
   }
 
   addWishlist(BuildContext context, int productId) async {
@@ -44,8 +42,7 @@ class WishlistController extends StateClass {
         );
       }
 
-      SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Wishlist berhasil ditambahkan');
+      SnackbarWidget.getSuccessSnackbar(context, 'Info', 'Wishlist berhasil ditambahkan');
     });
     isLoading.value = false;
   }
@@ -64,8 +61,7 @@ class WishlistController extends StateClass {
       Get.back();
       Get.back();
       Get.back();
-      SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Wishlist berhasil dihapus');
+      SnackbarWidget.getSuccessSnackbar(context, 'Info', 'Wishlist berhasil dihapus');
     });
     isLoading.value = false;
   }

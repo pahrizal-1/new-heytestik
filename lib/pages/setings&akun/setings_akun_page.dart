@@ -54,8 +54,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => AkunHomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -99,10 +98,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                     ListTitleAkun(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RekeningBankSettings()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RekeningBankSettings()));
                       },
                       iconUrl: 'assets/icons/credit-card.png',
                       title: 'Rekening Bank',
@@ -113,11 +109,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                     ListTitleAkun(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const KeamananAkunPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const KeamananAkunPage()));
                       },
                       iconUrl: 'assets/icons/lock-icons.png',
                       title: 'Keamanan Akun',
@@ -220,8 +212,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                             child: const ListTitleAkun(
                               iconUrl: 'assets/icons/bersihkan-icons.png',
                               title: 'Bersihkan Cache',
-                              title1:
-                                  'Solusi cepat untuk atasi masalah aplikasi',
+                              title1: 'Solusi cepat untuk atasi masalah aplikasi',
                             ),
                           ),
                     const SizedBox(
@@ -319,8 +310,7 @@ class ListTitleAkun extends StatelessWidget {
               ),
               Text(
                 title1,
-                style: blackRegulerTextStyle.copyWith(
-                    fontSize: 12, color: blackColor),
+                style: blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
               ),
             ],
           )

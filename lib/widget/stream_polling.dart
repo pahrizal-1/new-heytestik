@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../controller/customer/stream/post_controller.dart';
+import '../core/global.dart';
 import '../pages/stream_page/komentar_stream_page.dart';
 import '../theme/theme.dart';
 
@@ -37,11 +38,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
 
   @override
   void initState() {
-    dataRemainingTime = widget.stream.endTime
-        .difference(DateTime.now())
-        .toString()
-        .split('.')[0]
-        .split(":");
+    dataRemainingTime = widget.stream.endTime.difference(DateTime.now()).toString().split('.')[0].split(":");
     allVotesCount = widget.stream.pollCount;
     streamPollOptions = widget.stream.streamPollOptions;
     super.initState();
@@ -65,12 +62,14 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
               Container(
                 height: 30,
                 width: 30,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/profiledummy.png',
-                    ),
+                    image: widget.stream.photoUser == "" || widget.stream.photoUser == "photo_profile"
+                        ? AssetImage(
+                            'assets/images/profiledummy.png',
+                          )
+                        : NetworkImage('${Global.FILE}/${widget.stream.photoUser}') as ImageProvider,
                   ),
                 ),
               ),
@@ -175,16 +174,14 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                   }
 
                   if (allVotesCount > 0 && option.value['count'] > 0) {
-                    pollPercentage =
-                        (option.value['count'] / allVotesCount) * 100;
+                    pollPercentage = (option.value['count'] / allVotesCount) * 100;
                     pollColor = (option.value['count'] / allVotesCount);
                   }
 
                   return Stack(
                     children: [
                       Container(
-                        width: (MediaQuery.of(context).size.width - 70) *
-                            pollColor,
+                        width: (MediaQuery.of(context).size.width - 70) * pollColor,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 16.0,
@@ -209,19 +206,10 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
 
                             if (indexVotes != null) {
                               streamPollOptions[indexVotes!]['count'] - 1;
-                              postController.deletePolling(
-                                  context,
-                                  widget.stream.id,
-                                  streamPollOptions[indexVotes!]
-                                      ['stream_poll_id'],
-                                  streamPollOptions[indexVotes!]['id']);
+                              postController.deletePolling(context, widget.stream.id, streamPollOptions[indexVotes!]['stream_poll_id'], streamPollOptions[indexVotes!]['id']);
                             }
 
-                            postController.pickPolling(
-                                context,
-                                widget.stream.id,
-                                option.value['stream_poll_id'],
-                                option.value['id']);
+                            postController.pickPolling(context, widget.stream.id, option.value['stream_poll_id'], option.value['id']);
                             indexVotes = option.key;
                             option.value['count'] = option.value['count'] + 1;
                             setState(() {});
@@ -247,18 +235,14 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                               Text(
                                 option.value['count'].toString(),
                                 style: TextStyle(
-                                  color: option.value['count'] > 0
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: option.value['count'] > 0 ? Colors.white : Colors.black,
                                 ),
                               ),
                               Spacer(),
                               Text(
                                 "${pollPercentage.toInt()}%",
                                 style: TextStyle(
-                                  color: pollColor > 0.9
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: pollColor > 0.9 ? Colors.white : Colors.black,
                                 ),
                               ),
                             ],
@@ -304,20 +288,22 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          Wrap(
-            children: widget.stream.hashtags.map((hashtag) {
-              return Text(
-                "#$hashtag",
-                style: grenTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: regular,
-                ),
-              );
-            }).toList(),
-          ),
+          if (widget.stream.hashtags.isNotEmpty) ...[
+            const SizedBox(
+              height: 16,
+            ),
+            Wrap(
+              children: widget.stream.hashtags.map((hashtag) {
+                return Text(
+                  "#$hashtag",
+                  style: grenTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: regular,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
           const SizedBox(
             height: 16,
           ),
@@ -339,15 +325,13 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                         postController.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) - 1;
+                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
                         postController.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) + 1;
+                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) + 1;
                         });
                       }
                     },
@@ -425,8 +409,7 @@ class _StreamPostPollingState extends State<StreamPostPolling> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          KomentarStreamPage(post: widget.stream),
+                      builder: (context) => KomentarStreamPage(post: widget.stream),
                     ),
                   );
                 },

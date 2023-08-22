@@ -12,7 +12,9 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/customer/account/profile_controller.dart';
 import '../../controller/customer/notification/notification_controller.dart';
+import '../../core/global.dart';
 import '../setings&akun/akun_home_page.dart';
 
 class HomepageCutomer extends StatefulWidget {
@@ -24,8 +26,9 @@ class HomepageCutomer extends StatefulWidget {
 
 class _HomepageCutomerState extends State<HomepageCutomer> {
   final HomeController state = Get.put(HomeController());
-  final NotificationCustomerController stateNotification =
-      Get.put(NotificationCustomerController());
+  final ProfileController stateProfile = Get.put(ProfileController());
+
+  final NotificationCustomerController stateNotification = Get.put(NotificationCustomerController());
 
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
@@ -37,6 +40,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await stateProfile.getProfile(context);
+    });
     state.init();
   }
 
@@ -60,13 +66,17 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     ),
                   );
                 },
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png')),
-                    borderRadius: BorderRadius.circular(25),
+                child: Obx(
+                  () => Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                      ),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
                   ),
                 ),
               ),
@@ -79,7 +89,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               ),
               Obx(
                 () => Text(
-                  state.username.value,
+                  stateProfile.fullName.value,
                   style: blackTextStyle.copyWith(fontSize: 18),
                 ),
               )
@@ -137,9 +147,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(7)),
+                            decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(7)),
                           );
                         },
                       );
@@ -157,11 +165,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                             builder: (BuildContext context) {
                               return Container(
                                 width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(7)),
+                                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(7)),
                               );
                             },
                           );
@@ -184,13 +189,11 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                margin: const EdgeInsets.symmetric(horizontal: 5.0),
                                 decoration: BoxDecoration(
                                   image: const DecorationImage(
                                     fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home1.png'),
+                                    image: AssetImage('assets/images/home1.png'),
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -247,8 +250,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/rambutrontok.png'),
+                              image: AssetImage('assets/images/rambutrontok.png'),
                             ),
                           ),
                         ),
@@ -300,8 +302,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/bekasjerawat.png'),
+                              image: AssetImage('assets/images/bekasjerawat.png'),
                             ),
                           ),
                         ),
@@ -355,138 +356,114 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          Container(
-                            transform: Matrix4.translationValues(0, -5, 0),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/kebotakan.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Kebotakan',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Container(
+                        transform: Matrix4.translationValues(0, -5, 0),
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/kebotakan.png'))),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/dagu.png'))),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          'Kebotakan',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'ProximaNova',
+                            fontWeight: FontWeight.w400,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Bekas\nJerawat',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/kulitkusam.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Kulit\nKusam',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage('assets/images/dagu.png'))),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/skingoals.png'))),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          'Bekas\nJerawat',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'ProximaNova',
+                            fontWeight: FontWeight.w400,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Skin Goals\nlain',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            transform: Matrix4.translationValues(0, -5, 0),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/lainnya.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Lainnya',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage('assets/images/kulitkusam.png'))),
                       ),
-                    ])
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          'Kulit\nKusam',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'ProximaNova',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/skingoals.png'))),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          'Skin Goals\nlain',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'ProximaNova',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        transform: Matrix4.translationValues(0, -5, 0),
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), image: const DecorationImage(image: AssetImage('assets/images/lainnya.png'))),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          'Lainnya',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'ProximaNova',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ])
               ],
             ),
           ),
@@ -520,8 +497,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     if (!snapshot.hasData) {
                       return shimmerWidget(
                           child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -553,8 +529,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     return snapshot.data!.data!.isEmpty
                         ? shimmerWidget(
                             child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 5, bottom: 5),
+                            padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -592,17 +567,11 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                     builder: (context) {
                                       return Center(
                                         child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 20,
-                                              right: 20,
-                                              top: 15,
-                                              bottom: 17),
+                                          padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 17),
                                           height: 150,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                          width: MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             image: const DecorationImage(
                                                 image: AssetImage(
                                                   'assets/icons/bg_wekkly.png',
@@ -611,12 +580,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                           ),
                                           child: Center(
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
                                                     GestureDetector(
                                                       onTap: () {
@@ -646,8 +613,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                                   children: [
                                                     const CircleAvatar(
                                                       maxRadius: 17,
-                                                      backgroundImage:
-                                                          AssetImage(
+                                                      backgroundImage: AssetImage(
                                                         'assets/images/profiledummy.png',
                                                       ),
                                                     ),
@@ -655,26 +621,19 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                                       width: 11,
                                                     ),
                                                     Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
-                                                          value.doctor
-                                                                  ?.fullname ??
-                                                              '-',
+                                                          value.doctor?.fullname ?? '-',
                                                           style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w700,
+                                                            fontWeight: FontWeight.w700,
                                                             color: whiteColor,
                                                             fontSize: 14,
-                                                            fontFamily:
-                                                                'ProximaNova',
+                                                            fontFamily: 'ProximaNova',
                                                           ),
                                                         ),
                                                         Text(
-                                                          value.doctorTitle ??
-                                                              '-',
+                                                          value.doctorTitle ?? '-',
                                                           style: TextStyle(
                                                             fontSize: 11,
                                                             color: whiteColor,
@@ -694,8 +653,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(right: 5),
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20, top: 16, bottom: 17),
+                                  padding: const EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 17),
                                   height: 130,
                                   width: 315,
                                   decoration: BoxDecoration(
@@ -740,8 +698,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                             width: 11,
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 value.doctor?.fullname ?? '-',
@@ -789,11 +746,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     onTap: () {},
                     child: Text(
                       'Liat Semua',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: greenColor),
+                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: greenColor),
                     ),
                   ),
                 ],
@@ -812,8 +765,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                   if (!snapshot.hasData) {
                     return shimmerWidget(
                         child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -845,8 +797,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                   return snapshot.data!.record!.isEmpty
                       ? shimmerWidget(
                           child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 5, bottom: 5),
+                          padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -886,15 +837,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                 child: SizedBox(
                                   width: 250,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         width: 250,
                                         height: 150,
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(
@@ -922,16 +871,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              ConvertDate.defaultDate(
-                                                  value.newsDate.toString()),
+                                              ConvertDate.defaultDate(value.newsDate.toString()),
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
+                                              padding: const EdgeInsets.symmetric(horizontal: 5),
                                               child: Container(
                                                 height: 5,
                                                 width: 5,
@@ -981,11 +927,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     onTap: () {},
                     child: Text(
                       'Liat Semua',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: greenColor),
+                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: greenColor),
                     ),
                   ),
                 ],
@@ -1008,12 +950,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1040,8 +977,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -1077,12 +1013,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1109,8 +1040,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,
@@ -1146,12 +1076,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           Container(
                             width: 250,
                             height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home4.png'))),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10),
@@ -1178,8 +1103,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: Container(
                                     height: 5,
                                     width: 5,

@@ -89,7 +89,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                 width: 11,
               ),
               Text(
-                state.dataUser['fullname'],
+                "Edit Profile",
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
@@ -123,10 +123,9 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                               color: Color(0xffD9D9D9),
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: state.imgNetwork.value != null
-                                    ? NetworkImage('${Global.FILE}' +
-                                        '/' +
-                                        state.imgNetwork.value) as ImageProvider
+                                fit: BoxFit.fill,
+                                image: state.imgNetwork.value != ""
+                                    ? NetworkImage('${Global.FILE}/${state.imgNetwork.value}') as ImageProvider
                                     : AssetImage(
                                         'assets/icons/person-white.png',
                                       ),
@@ -232,8 +231,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           ),
                           Text(
                             state.name.value,
-                            style: blackRegulerTextStyle.copyWith(
-                                fontSize: 15, color: blackColor),
+                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                             textAlign: TextAlign.start,
                           ),
                           const Spacer(),
@@ -250,11 +248,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                     ),
                     InkWell(
                       onTap: () async {
-                        String refresh = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    TamBahanUserNameProfilCustomer()));
+                        String refresh = await Navigator.push(context, MaterialPageRoute(builder: (context) => TamBahanUserNameProfilCustomer()));
                         if (refresh == 'refresh') {
                           setState(() {
                             state.getProfile(context);
@@ -289,11 +283,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                     ),
                     InkWell(
                       onTap: () async {
-                        String refresh = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const TambahBioProfikCustomer()));
+                        String refresh = await Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahBioProfikCustomer()));
                         if (refresh == 'refresh') {
                           setState(() {
                             state.getProfile(context);
@@ -365,8 +355,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         ),
                         Text(
                           state.idUser.value,
-                          style: blackRegulerTextStyle.copyWith(
-                              fontSize: 15, color: blackColor),
+                          style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                           textAlign: TextAlign.start,
                         ),
                       ],
@@ -378,9 +367,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       onPressed: () async {
                         String refresh = await Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  UbahEmailCostumerProfilPage()
+                          MaterialPageRoute(builder: (context) => UbahEmailCostumerProfilPage()
                               // const PilihMetodeVerifikasiProfil(),
                               ),
                         );
@@ -401,8 +388,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const UbahNomorCustomerProfilPage(),
+                            builder: (context) => const UbahNomorCustomerProfilPage(),
                             // const PilihMetodeVerifikasiProfil(),
                           ),
                         );
@@ -423,8 +409,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const UbahJenisKelaminProfilPage(),
+                            builder: (context) => const UbahJenisKelaminProfilPage(),
                           ),
                         );
                         if (refresh == 'refresh') {
@@ -445,8 +430,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const UbahTanggalLahirProfilCustomer(),
+                            builder: (context) => const UbahTanggalLahirProfilCustomer(),
                           ),
                         );
                         if (refresh == 'refresh') {

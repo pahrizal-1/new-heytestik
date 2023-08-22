@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -100,10 +101,16 @@ class ProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response = await ProfileService().getProfileCust();
       profileData.value = response;
+
       print('GetUserInfoDataDompet : ${profileData.value.data!.fullname}');
-      DateTime tdata = DateTime.parse(profileData.value.data!.dob ?? '-');
+      DateTime tdata = DateTime.now();
+      if (profileData.value.data!.dob != null) {
+        tdata = DateTime.parse(profileData.value.data!.dob ?? '-');
+      }
+
       final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
+      fullName.value = profileData.value.data!.fullname ?? '-';
       name.value = profileData.value.data!.fullname ?? '-';
       username.value = profileData.value.data!.username ?? '-';
       bio.value = profileData.value.data!.bio ?? '-';
@@ -112,8 +119,7 @@ class ProfileController extends StateClass {
       noHp.value = profileData.value.data!.noPhone ?? '-';
       gender.value = profileData.value.data!.gender ?? '-';
       dob.value = formatter.format(tdata);
-      imgNetwork.value =
-          profileData.value.data!.mediaUserProfilePicture!.media!.path!;
+      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path!;
 
       // data text editing
       fullNameController.text = profileData.value.data!.fullname ?? '-';
@@ -160,12 +166,7 @@ class ProfileController extends StateClass {
         }
       } else {
         print('method  ' + method.toString());
-        var data = {
-          "method": method,
-          "type": type,
-          "user_id": int.parse(idUser.value),
-          "no_phone": nomorHpController.text
-        };
+        var data = {"method": method, "type": type, "user_id": int.parse(idUser.value), "no_phone": nomorHpController.text};
         var response = await ProfileService().verifSend(data);
         if (response['success'] != true && response['message'] != 'Success') {
           throw ErrorConfig(
@@ -245,10 +246,7 @@ class ProfileController extends StateClass {
   updateEmail(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {
-        "email": emailBaruController.text,
-        "verification_code": otp.value
-      };
+      var data = {"email": emailBaruController.text, "verification_code": otp.value};
 
       var response = await ProfileService().changeProfile(data);
       Navigator.pop(
@@ -314,6 +312,7 @@ class ProfileController extends StateClass {
       );
       isSave.value = false;
       Navigator.pop(context);
+      getProfile(context);
     } catch (e) {
       print('err ${e}');
     }
@@ -355,17 +354,15 @@ class ProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance
-            .unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
       });
 
-      Get.offAll(() => const LoginPage());
+      Get.offAll(() => const LoginPageNew());
       print('logout customer');
     });
   }
 
-  Future<List<Data2>> getUserActivityReview(
-      BuildContext context, int page) async {
+  Future<List<Data2>> getUserActivityReview(BuildContext context, int page) async {
     try {
       isLoading.value = true;
       FinishedReviewModel userProfileReview;
@@ -393,8 +390,7 @@ class ProfileController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService()
-            .getUserActivityPost(page, search: search, postType: postType);
+        data = await ProfileService().getUserActivityPost(page, search: search, postType: postType);
         isLoading.value = false;
       });
 

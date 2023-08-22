@@ -11,6 +11,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
+import '../../controller/customer/account/profile_controller.dart';
+import '../../core/global.dart';
 import '../../widget/pencarian_search_widget.dart';
 import '../home/notifikasion_page.dart';
 import '../setings&akun/akun_home_page.dart';
@@ -25,6 +27,8 @@ class OnboardingChat extends StatefulWidget {
 
 class _OnboardingChatState extends State<OnboardingChat> {
   final ConsultationController state = Get.put(ConsultationController());
+  final ProfileController stateProfile = Get.put(ProfileController());
+
   final TextEditingController searchController = TextEditingController();
   String? search;
   @override
@@ -57,7 +61,10 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   height: 30,
                   width: 30,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(image: AssetImage('assets/images/profiledummy.png')),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                    ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),

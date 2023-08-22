@@ -6,25 +6,29 @@ import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class WishlistService extends ProviderClass {
-  WishlistService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  WishlistService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<WishlistModel> getWishlist({String? search}) async {
-    var response = await networkingConfig.doGet(
-      '/user-wishlist',
-      params: {
-        "page": 1,
-        "take": 100,
-        "order": "asc",
-        "search": search,
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
+    try {
+      var response = await networkingConfig.doGet(
+        '/user-wishlist',
+        params: {
+          "page": 1,
+          "take": 100,
+          "order": "asc",
+          "search": search,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
 
-    return WishlistModel.fromJson(response);
+      return WishlistModel.fromJson(response);
+    } catch (error) {
+      print(error.toString());
+      return WishlistModel();
+    }
   }
 
   Future<dynamic> addWishlist(dynamic data) async {

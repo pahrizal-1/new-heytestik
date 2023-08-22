@@ -18,7 +18,19 @@ class PostServices extends ProviderClass {
   PostServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> postPolling(StreamPostModel data) async {
-    FormData formData = FormData.fromMap({"content": data.content, "type": data.type, "hashtags[]": data.hashtags, "stream_poll[end_time]": data.endTime, "stream_poll[options][]": data.options, "visibility": "PUBLIC"});
+    Map<String, dynamic> params = {
+      "content": data.content,
+      "type": data.type,
+      "stream_poll[end_time]": data.endTime,
+      "stream_poll[options][]": data.options,
+      "visibility": "PUBLIC",
+    };
+
+    if (data.hashtags.isNotEmpty) {
+      params['hashtags[]'] = data.hashtags;
+    }
+
+    FormData formData = FormData.fromMap(params);
 
     var response = await networkingConfig.doPost(
       '/stream',
@@ -33,12 +45,17 @@ class PostServices extends ProviderClass {
   }
 
   Future<dynamic> postGeneral(StreamPostModel data, {List<File>? files}) async {
-    FormData formData = FormData.fromMap({
+    Map<String, dynamic> params = {
       "content": data.content,
       "type": data.type,
-      "hashtags[]": data.hashtags,
       "visibility": "PUBLIC",
-    });
+    };
+
+    if (data.hashtags.isNotEmpty) {
+      params['hashtags[]'] = data.hashtags;
+    }
+
+    FormData formData = FormData.fromMap(params);
 
     if (files != null) {
       for (File file in files) {

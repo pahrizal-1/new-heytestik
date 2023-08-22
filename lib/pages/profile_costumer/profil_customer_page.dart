@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.d
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
+import '../../core/global.dart';
 import '../../theme/theme.dart';
 
 import '../setings&akun/akun_home_page.dart';
@@ -34,6 +35,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   void initState() {
     super.initState();
     state.init();
+    state.getProfile(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       userOverview = await state.getUserOverview(context);
       setState(() {});
@@ -93,20 +95,22 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       body: ListView(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
+            padding: const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
             child: Column(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/profiledummy.png'),
+                    Obx(
+                      () => Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: state.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${state.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                          ),
                         ),
                       ),
                     ),
@@ -125,25 +129,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // Text(
-                        //   'Jakarta, 20 Tahun',
-                        //   style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       'Kering',
-                        //       style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                        //     ),
-                        //     Icon(
-                        //       Icons.keyboard_arrow_down,
-                        //       color: greenColor,
-                        //     )
-                        //   ],
-                        // ),
                         Container(
-                          padding: const EdgeInsets.only(
-                              left: 13, right: 12, top: 7, bottom: 5),
+                          padding: const EdgeInsets.only(left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(
@@ -314,10 +301,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Posts',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            color: iSelected == 0 ? greenColor : subTitleColor,
-                            fontWeight: bold),
+                        style: subTitleTextStyle.copyWith(fontSize: 15, color: iSelected == 0 ? greenColor : subTitleColor, fontWeight: bold),
                       ),
                       const SizedBox(
                         height: 14,
@@ -325,8 +309,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       Container(
                         height: 2,
                         width: 150,
-                        decoration: BoxDecoration(
-                            color: iSelected == 0 ? greenColor : subTitleColor),
+                        decoration: BoxDecoration(color: iSelected == 0 ? greenColor : subTitleColor),
                       )
                     ],
                   ),
@@ -341,10 +324,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Reviews',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            fontWeight: bold,
-                            color: iSelected == 1 ? greenColor : subTitleColor),
+                        style: subTitleTextStyle.copyWith(fontSize: 15, fontWeight: bold, color: iSelected == 1 ? greenColor : subTitleColor),
                       ),
                       const SizedBox(
                         height: 14,
