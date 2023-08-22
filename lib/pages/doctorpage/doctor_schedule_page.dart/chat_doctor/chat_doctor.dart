@@ -54,6 +54,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   bool isSuggestion = false;
   List<Data2>? msglist = [];
   List fileImage = [];
+  int page = 1;
+  int take = 10;
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
@@ -61,12 +63,24 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   File? imagePath;
   RxString mediaImg = ''.obs;
   late final NotificationService notificationService;
+  final ScrollController controller = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getRequest(widget.roomCode);
+    getRequest(widget.roomCode, take);
+    controller.addListener(
+      () {
+        if (controller.position.pixels == controller.position.maxScrollExtent) {
+          setState(() {
+            isLoading = false;
+          });
+          take += 10;
+          getRequest(widget.roomCode, take);
+        }
+      },
+    );
     connectSocket(context);
     LocalNotificationService.initialize();
     notificationService = NotificationService();
@@ -207,21 +221,21 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     print("onlineClients");
   }
 
-  Future getRequest(String roomCode) async {
-    setState(() {
-      isLoading = true;
-    });
+  Future getRequest(String roomCode, int take) async {
+    // setState(() {
+    //   isLoading = true;
+    // });
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take);
     ListMessageModel result = ListMessageModel.fromJson(response);
     setState(() {
       msglist = result.data?.data;
     });
     print('msg $response');
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
     // listLastChat.value = response;
     // isLoading.value = false;
   }
@@ -568,9 +582,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     children: [
                       InkWell(
                           onTap: () async {
-                            await Get.toNamed('');
-                            Get.back();
-                            // Navigator.pop(context, 'refresh');
+                            Navigator.pop(context, 'refresh');
                             selectedMultipleImage = [];
                             fileImage = [];
                             state.messageController.text = '';
@@ -639,6 +651,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               child: CircularProgressIndicator(),
             )
           : SingleChildScrollView(
+              controller: controller,
               child: Padding(
                 padding:
                     EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 50),
@@ -665,6 +678,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                         ? Container(
                             // height: 1000,
                             child: ListView.builder(
+                                // controller: controller,
                                 shrinkWrap: true,
                                 itemCount: msglist!.length,
                                 physics: NeverScrollableScrollPhysics(),
@@ -691,7 +705,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                               .length ==
                                           0) {
                                     return ChatRight(
-                                      imgUser: 'assets/images/doctor-img.png',
+                                      // imgUser: 'assets/images/doctor-img.png',
                                       // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                       nameUser: widget.senderBy,
                                       timetitle: formattedTime,

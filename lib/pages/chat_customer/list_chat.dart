@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
+import '../../core/global.dart';
 import 'chat_contomer_page.dart';
 
 class ListChatPage extends StatefulWidget {
@@ -20,6 +21,8 @@ class ListChatPage extends StatefulWidget {
 
 class _ListChatPageState extends State<ListChatPage> {
   final ConsultationController state = Get.put(ConsultationController());
+  String? search;
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,46 +43,80 @@ class _ListChatPageState extends State<ListChatPage> {
                 )
               : ListView.builder(
                   shrinkWrap: true,
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.recentChat!.data!.length,
                   itemBuilder: (BuildContext context, int i) {
                     return DoctorChat(
-                      ontap: () {
-                        print(state.recentChat.value!.data![i].lastChat!.senderId!);
-                        print(state.recentChat.value!.data![i].lastChat!.receiverId!);
-                        print(state.recentChat.value!.data![i].customer!.fullname);
-                        print(state.recentChat.value!.data![i].doctor!.fullname);
-                        Navigator.push(
+                      ontap: () async {
+                        print(state
+                            .recentChat.value!.data![i].lastChat!.senderId!);
+                        print(state
+                            .recentChat.value!.data![i].lastChat!.receiverId!);
+                        print(state
+                            .recentChat.value!.data![i].customer!.fullname);
+                        print(
+                            state.recentChat.value!.data![i].doctor!.fullname);
+                        String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: ((context) {
                               return ChatCostomerPage(
-                                id: state.recentChat.value!.data![i].id!.toInt(),
-                                roomId: state.recentChat.value!.data![i].id!.toInt(),
-                                roomCode: state.recentChat.value!.data![i].code.toString(),
-                                senderId: state.recentChat.value!.data![i].customerId!.toInt(),
-                                receiverId: state.recentChat.value!.data![i].doctorId!.toInt(),
-                                sendBy: state.recentChat.value!.data![i].customer!.fullname.toString(),
-                                receiverBy: state.recentChat.value!.data![i].doctor!.fullname.toString(),
+                                id: state.recentChat.value!.data![i].id!
+                                    .toInt(),
+                                roomId: state.recentChat.value!.data![i].id!
+                                    .toInt(),
+                                roomCode: state.recentChat.value!.data![i].code
+                                    .toString(),
+                                senderId: state
+                                    .recentChat.value!.data![i].customerId!
+                                    .toInt(),
+                                receiverId: state
+                                    .recentChat.value!.data![i].doctorId!
+                                    .toInt(),
+                                sendBy: state.recentChat.value!.data![i]
+                                    .customer!.fullname
+                                    .toString(),
+                                receiverBy: state
+                                    .recentChat.value!.data![i].doctor!.fullname
+                                    .toString(),
                               );
                             }),
                           ),
                         );
+                        if (refresh == 'refresh') {
+                          setState(() {
+                            state.getRecentChat(context, search: search);
+                          });
+                        }
                       },
                       // doctorId:
                       //     state.recentChat.value!.data![i].doctorId!.toInt(),
-                      doctorName: state.recentChat.value!.data?[i].doctor?.fullname ?? '',
-                      chat: state.recentChat.value!.data?[i].lastChat?.message ?? '',
-                      img: 'assets/images/doctor-img.png',
+                      doctorName:
+                          state.recentChat.value!.data?[i].doctor?.fullname ??
+                              '',
+                      chat:
+                          state.recentChat.value!.data?[i].lastChat?.message ??
+                              '',
+                      img: '${Global.FILE}/' +
+                          state.recentChat.value!.data![i].doctor!
+                              .mediaUserProfilePicture!.media!.path!,
                       time: CurrentTime.timeChat(
-                        state.recentChat.value!.data![i].lastChat!.createdAt.toString(),
+                        state.recentChat.value!.data![i].lastChat!.createdAt
+                            .toString(),
                       ),
                       // roomCode:
                       //     state.recentChat.value!.data![i].code.toString(),
-                      seen: state.recentChat.value!.data![i].lastChat!.seen ?? false,
-                      valueChat: state.recentChat.value!.data?[i].unseenCount.toString(),
-                      isMe: state.recentChat.value?.data?[i].lastChat!.senderId == state.customerId.value ? true : false,
+                      seen: state.recentChat.value!.data![i].lastChat!.seen ??
+                          false,
+                      valueChat: state.recentChat.value!.data?[i].unseenCount
+                          .toString(),
+                      isMe:
+                          state.recentChat.value?.data?[i].lastChat!.senderId ==
+                                  state.customerId.value
+                              ? true
+                              : false,
                     );
                   },
                 ),
@@ -126,12 +163,18 @@ class DoctorChat extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRect(
-              child: Image.asset(
-                img,
-                width: 52,
-                height: 52,
-                fit: BoxFit.cover,
-              ),
+              child: img != null
+                  ? Image.network(
+                      img,
+                      width: 52,
+                      height: 52,
+                    )
+                  : Image.asset(
+                      img,
+                      width: 52,
+                      height: 52,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(
               width: 10,
@@ -188,10 +231,12 @@ class DoctorChat extends StatelessWidget {
                               horizontal: 7,
                               vertical: 2,
                             ),
-                            decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                            decoration: BoxDecoration(
+                                color: greenColor, shape: BoxShape.circle),
                             child: Text(
                               valueChat.toString(),
-                              style: whiteTextStyle.copyWith(fontSize: 12, color: whiteColor),
+                              style: whiteTextStyle.copyWith(
+                                  fontSize: 12, color: whiteColor),
                             ),
                           ),
               ],
