@@ -63,6 +63,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   File? imagePath;
   RxString mediaImg = ''.obs;
   late final NotificationService notificationService;
+  final ScrollController controller = ScrollController();
+  int take = 10;
 
   @override
   void initState() {
@@ -70,7 +72,16 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     super.initState();
     print('id' + widget.id.toString());
     print('romid' + widget.roomId.toString());
-    getRequest(widget.roomCode);
+    getRequest(widget.roomCode, take);
+    controller.addListener(
+      () {
+        if (controller.position.pixels == controller.position.maxScrollExtent) {
+          setState(() {});
+          take += 10;
+          getRequest(widget.roomCode, take);
+        }
+      },
+    );
     connectSocket(context, widget.receiverBy);
     LocalNotificationService.initialize();
     notificationService = NotificationService();
@@ -103,10 +114,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   // EVENT NEW MESSAGE (udah dipanggil)
 
-  Future getRequest(String roomCode) async {
+  Future getRequest(String roomCode, int take) async {
     // isLoading.value = true;
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take);
     ListMessageModel result = ListMessageModel.fromJson(response);
     msglist = result.data?.data;
     setState(() {});
@@ -451,7 +462,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                             //         const SelesaiPembayaranPage(),
                             //   ),
                             // );
-                            Navigator.pop(context);
+                            Navigator.pop(context, 'refresh');
                             selectedMultipleImage = [];
                             fileImage = [];
                             leaveRoom(widget.roomCode);
@@ -530,6 +541,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: controller,
         child: Padding(
           padding: lsymetric.copyWith(top: 17),
           child: Column(

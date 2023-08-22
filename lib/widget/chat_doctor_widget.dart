@@ -51,8 +51,9 @@ class ChatAktif extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              img != null ? Image.network(img, width: 39,) :
               Image.asset(
-                img,
+                'assets/images/doctor-img.png',
                 width: 39,
               ),
               const SizedBox(
