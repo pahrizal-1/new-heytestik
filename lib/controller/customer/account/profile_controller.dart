@@ -144,13 +144,14 @@ class ProfileController extends StateClass {
     isLoading.value = true;
     // try {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (method == 'EMAIL') {
+      if (method == 'WHATSAPP') {
         var data = {
           "method": method,
           "type": type,
           "user_id": int.parse(idUser.value),
-          "email": emailBaruController.text,
+          "no_phone": nomorHpController.text
         };
+
         var response = await ProfileService().verifSend(data);
         if (response['success'] != true && response['message'] != 'Success') {
           throw ErrorConfig(
@@ -164,7 +165,7 @@ class ProfileController extends StateClass {
           "method": method,
           "type": type,
           "user_id": int.parse(idUser.value),
-          "no_phone": nomorHpController.text
+          "email": emailBaruController.text,
         };
         var response = await ProfileService().verifSend(data);
         if (response['success'] != true && response['message'] != 'Success') {
@@ -254,9 +255,6 @@ class ProfileController extends StateClass {
       Navigator.pop(
         context,
       );
-      Navigator.pop(
-        context,
-      );
       Navigator.pop(context, 'refresh');
       print(response);
     });
@@ -272,12 +270,6 @@ class ProfileController extends StateClass {
       };
 
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(
-        context,
-      );
-      Navigator.pop(
-        context,
-      );
       Navigator.pop(
         context,
       );

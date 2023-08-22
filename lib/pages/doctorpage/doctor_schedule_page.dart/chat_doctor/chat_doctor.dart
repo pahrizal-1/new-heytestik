@@ -567,8 +567,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                   child: Row(
                     children: [
                       InkWell(
-                          onTap: () {
-                            Navigator.pop(context, 'refresh');
+                          onTap: () async {
+                            await Get.toNamed('');
+                            Get.back();
+                            // Navigator.pop(context, 'refresh');
                             selectedMultipleImage = [];
                             fileImage = [];
                             state.messageController.text = '';
