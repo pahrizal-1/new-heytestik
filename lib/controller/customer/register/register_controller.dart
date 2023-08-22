@@ -31,8 +31,7 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  registerPhoneNumber(BuildContext context,
-      {required Function() doInPost}) async {
+  registerPhoneNumber(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (phoneNumber == null) {
@@ -154,8 +153,7 @@ class RegisterController extends StateClass {
     isLoading.value = false;
   }
 
-  register(BuildContext context,
-      {File? profileImage, required Function() doInPost}) async {
+  register(BuildContext context, {File? profileImage, required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text.isEmpty) {
