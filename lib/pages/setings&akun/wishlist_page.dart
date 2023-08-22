@@ -228,18 +228,13 @@ class _WishListPageState extends State<WishListPage> {
                           ),
                           itemCount: state.filterData.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ProdukWitlist(
+                            return ProdukWitlistObat(
                               id: state.filterData[index].id!.toInt(),
                               namaBrand: state.filterData[index].product!
                                       .skincareDetail?.brand ??
                                   '-',
                               namaProduk:
                                   state.filterData[index].product?.name ?? '-',
-                              diskonProduk: '20',
-                              hargaDiskon: CurrencyFormat.convertToIdr(
-                                state.filterData[index].product?.price,
-                                0,
-                              ),
                               harga: CurrencyFormat.convertToIdr(
                                 state.filterData[index].product?.price,
                                 0,
@@ -248,7 +243,6 @@ class _WishListPageState extends State<WishListPage> {
                                   '${Global.FILE}/${state.filterData[index].product?.mediaProducts?[0].media?.path}',
                               rating:
                                   '${state.filterData[index].product?.rating} (120k)',
-                              kota: 'Amerika Serikat',
                             );
                           },
                         ),
