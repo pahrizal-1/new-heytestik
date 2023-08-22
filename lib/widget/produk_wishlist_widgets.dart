@@ -27,7 +27,6 @@ class ProdukWishlistSkinCare extends StatelessWidget {
                 image: NetworkImage(
                   '${Global.FILE}/${data.product?.mediaProducts?[0].media?.path}',
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -208,14 +207,13 @@ class ProdukWishlistObat extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            height: 200,
-            width: 200,
+            height: 100,
+            width: 150,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
                   '${Global.FILE}/${data.product?.mediaProducts?[0].media?.path}',
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -273,56 +271,58 @@ class ProdukWishlistObat extends StatelessWidget {
                         border: Border.all(color: borderColor),
                         borderRadius: BorderRadius.circular(7)),
                     child: Center(
-                        child: InkWell(
-                      onTap: () async {
-                        customeshomodal(
-                          context,
-                          Padding(
-                            padding: lsymetric.copyWith(top: 25),
-                            child: Wrap(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              AlertInfomasi(function: () async {
-                                            Get.back();
-                                            Get.back();
-                                            Get.back();
-                                            await state.deleteWistlist(
-                                              context,
-                                              data.id!.toInt(),
-                                            );
-                                          }),
-                                        );
-                                      },
-                                      child: Text(
-                                        'Delete',
-                                        style: blackHigtTextStyle.copyWith(
-                                          fontSize: 15,
-                                          color: redColor,
+                      child: InkWell(
+                        onTap: () async {
+                          customeshomodal(
+                            context,
+                            Padding(
+                              padding: lsymetric.copyWith(top: 25),
+                              child: Wrap(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (context) => AlertInfomasi(
+                                                function: () async {
+                                              Get.back();
+                                              Get.back();
+                                              Get.back();
+                                              await state.deleteWistlist(
+                                                context,
+                                                data.id!.toInt(),
+                                              );
+                                            }),
+                                          );
+                                        },
+                                        child: Text(
+                                          'Delete',
+                                          style: blackHigtTextStyle.copyWith(
+                                            fontSize: 15,
+                                            color: redColor,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Image.asset(
-                        'assets/icons/more-horizontal.png',
-                        width: 12,
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/icons/more-horizontal.png',
+                          width: 12,
+                        ),
                       ),
-                    )),
+                    ),
                   ),
                   const SizedBox(
                     width: 4,
