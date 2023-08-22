@@ -259,13 +259,15 @@ class _WishListPageState extends State<WishListPage> {
                         ),
                 ),
               ),
-              Obx(
-                () => state.isLoading.value
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LoadingMore(),
-                      )
-                    : Container(),
+              Center(
+                child: Obx(
+                  () => state.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: LoadingMore(),
+                        )
+                      : Container(),
+                ),
               ),
             ],
           ),
