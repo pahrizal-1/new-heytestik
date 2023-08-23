@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
+import '../../../../core/global.dart';
 import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../theme/theme.dart';
 import 'chat_doctor.dart';
@@ -355,11 +356,10 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                             id: state.recentChatActive[i].id!.toInt(),
                           ),
                         ));
-                    
-                    if(refresh == 'refresh') {
+
+                    if (refresh == 'refresh') {
                       setState(() {
-                        state.totalRecentChatActive;
-                        state.recentChatActive;
+                        state.getListRecentChat(context);
                       });
                     }
                   },
@@ -372,7 +372,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                     doctorName:
                         state.recentChatActive[i].doctor!.fullname ?? '-',
                     subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                    img: 'assets/images/doctor-img.png',
+                    img: '${Global.FILE}/' + state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!,
                     // img:
                     //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
                     time: CurrentTime.timeChat(state

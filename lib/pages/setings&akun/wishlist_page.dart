@@ -27,7 +27,7 @@ class WishListPage extends StatefulWidget {
 class _WishListPageState extends State<WishListPage> {
   final WishlistController state = Get.put(WishlistController());
   final ScrollController scrollController = ScrollController();
-  bool isSelecteTampilan = true;
+
   int page = 1;
   List<Data2> wishlist = [];
 
@@ -191,37 +191,6 @@ class _WishListPageState extends State<WishListPage> {
                               style: blackTextStyle.copyWith(
                                   color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isSelecteTampilan = !isSelecteTampilan;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Tampilan',
-                                    style: blackTextStyle.copyWith(
-                                        color: const Color(0xff6B6B6B),
-                                        fontSize: 15),
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  isSelecteTampilan
-                                      ? SvgPicture.asset(
-                                          'assets/icons/tampilan1.svg',
-                                          width: 12,
-                                          height: 12,
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/icons/tampillan2.svg',
-                                          width: 12,
-                                          height: 12,
-                                        )
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -290,11 +259,15 @@ class _WishListPageState extends State<WishListPage> {
                         ),
                 ),
               ),
-              Obx(
-                () => state.isLoading.value ? LoadingMore() : Container(),
-              ),
-              const SizedBox(
-                height: 14,
+              Center(
+                child: Obx(
+                  () => state.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: LoadingMore(),
+                        )
+                      : Container(),
+                ),
               ),
             ],
           ),

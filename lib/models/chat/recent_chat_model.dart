@@ -150,6 +150,7 @@ class Doctor {
   String? updatedAt;
   dynamic deletedAt;
   dynamic refreshToken;
+  MediaUserProfilePicture? mediaUserProfilePicture;
 
   Doctor(
       {this.id,
@@ -188,7 +189,8 @@ class Doctor {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.refreshToken});
+      this.refreshToken,
+      this.mediaUserProfilePicture});
 
   Doctor.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -228,6 +230,10 @@ class Doctor {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     refreshToken = json['refresh_token'];
+    mediaUserProfilePicture = json['media_user_profile_picture'] != null
+        ? new MediaUserProfilePicture.fromJson(
+            json['media_user_profile_picture'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -269,6 +275,122 @@ class Doctor {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['refresh_token'] = refreshToken;
+    if (this.mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] =
+          this.mediaUserProfilePicture!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfilePicture {
+  int? id;
+  int? mediaId;
+  int? userId;
+  Null? createdBy;
+  Null? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  Null? deletedAt;
+  MediaUserProfile? media;
+
+  MediaUserProfilePicture(
+      {this.id,
+      this.mediaId,
+      this.userId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    userId = json['user_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? new MediaUserProfile.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['media_id'] = this.mediaId;
+    data['user_id'] = this.userId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.media != null) {
+      data['media'] = this.media!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfile {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  Null? createdBy;
+  Null? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  Null? deletedAt;
+
+  MediaUserProfile(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  MediaUserProfile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['filename'] = this.filename;
+    data['ext'] = this.ext;
+    data['size'] = this.size;
+    data['mime'] = this.mime;
+    data['path'] = this.path;
+    data['destination'] = this.destination;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }
