@@ -70,8 +70,7 @@ class _WishListPageState extends State<WishListPage> {
         backgroundColor: Colors.transparent,
         title: Text(
           'Wishlist',
-          style: blackTextStyle.copyWith(
-              fontSize: 20, overflow: TextOverflow.ellipsis),
+          style: blackTextStyle.copyWith(fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
         actions: [
           InkWell(
@@ -110,8 +109,7 @@ class _WishListPageState extends State<WishListPage> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
           child: Container(
-            padding:
-                const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
             child: Container(
               height: 60,
@@ -122,8 +120,7 @@ class _WishListPageState extends State<WishListPage> {
                 ),
                 borderRadius: BorderRadius.circular(7),
               ),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -145,12 +142,10 @@ class _WishListPageState extends State<WishListPage> {
                       // },
                       onEditingComplete: () async {
                         wishlist.clear();
-                        wishlist.addAll(await state.getWistlist(context, page,
-                            search: state.searchController.text));
+                        wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
                         setState(() {});
                       },
-                      style: const TextStyle(
-                          fontSize: 15, fontFamily: 'ProximaNova'),
+                      style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
                         hintText: 'Cari Wishlist',
                         border: InputBorder.none,
@@ -188,8 +183,7 @@ class _WishListPageState extends State<WishListPage> {
                           children: [
                             Text(
                               '${wishlist.length} Produk',
-                              style: blackTextStyle.copyWith(
-                                  color: const Color(0xff6B6B6B), fontSize: 15),
+                              style: blackTextStyle.copyWith(color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
                           ],
                         ),
@@ -217,8 +211,7 @@ class _WishListPageState extends State<WishListPage> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical, // use it
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 20,
                             childAspectRatio: 0.5,
@@ -234,6 +227,11 @@ class _WishListPageState extends State<WishListPage> {
                                 },
                                 child: ProdukWishlistSkinCare(
                                   data: wishlist[index],
+                                  onDelete: () async {
+                                    wishlist.clear();
+                                    wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
+                                    setState(() {});
+                                  },
                                 ),
                               );
                             }
@@ -252,6 +250,11 @@ class _WishListPageState extends State<WishListPage> {
                                 },
                                 child: ProdukWishlistObat(
                                   data: wishlist[index],
+                                  onDelete: () async {
+                                    wishlist.clear();
+                                    wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
+                                    setState(() {});
+                                  },
                                 ),
                               );
                             }

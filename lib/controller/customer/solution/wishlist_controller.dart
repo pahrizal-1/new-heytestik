@@ -13,12 +13,10 @@ class WishlistController extends StateClass {
   Rx<WishlistModel?> wishlist = WishlistModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
 
-  Future<List<Data2>> getWistlist(BuildContext context, int page,
-      {String? search}) async {
+  Future<List<Data2>> getWistlist(BuildContext context, int page, {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      wishlist.value =
-          await WishlistService().getWishlist(page, search: search);
+      wishlist.value = await WishlistService().getWishlist(page, search: search);
       filterData.value = wishlist.value!.data!.data!;
       print(filterData);
     });
@@ -48,8 +46,7 @@ class WishlistController extends StateClass {
         );
       }
 
-      SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Produk berhasil ditambahkan ke daftar wishlist');
+      SnackbarWidget.getSuccessSnackbar(context, 'Info', 'Produk berhasil ditambahkan ke daftar wishlist');
     });
     isLoading.value = false;
   }
@@ -65,9 +62,6 @@ class WishlistController extends StateClass {
           message: res['message'],
         );
       }
-
-      SnackbarWidget.getSuccessSnackbar(
-          context, 'Info', 'Produk berhasil dihapus dari Wishlist');
     });
     isLoading.value = false;
   }
