@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -12,12 +14,10 @@ import 'alert_dialog_ulasan.dart';
 class ProdukWishlistSkinCare extends StatefulWidget {
   final Data2 data;
   final Function() onDelete;
-  final VoidCallback? onPress;
   const ProdukWishlistSkinCare({
     super.key,
     required this.data,
     required this.onDelete,
-    this.onPress,
   });
 
   @override
@@ -26,22 +26,20 @@ class ProdukWishlistSkinCare extends StatefulWidget {
 
 class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
   final WishlistController state = Get.put(WishlistController());
+  final CartController cart = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InkWell(
-          onTap: widget.onPress,
-          child: Expanded(
-            child: Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
-                  ),
+        Expanded(
+          child: Container(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
                 ),
               ),
             ),
@@ -196,15 +194,25 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                     width: 4,
                   ),
                   Expanded(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Center(
-                        child: Text(
-                          '+ Keranjang',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                    child: InkWell(
+                      onTap: () async {
+                        await cart.addCart(
+                          context,
+                          widget.data.productId!,
+                          1,
+                          '',
+                        );
+                      },
+                      child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: greenColor),
+                            borderRadius: BorderRadius.circular(7)),
+                        child: Center(
+                          child: Text(
+                            '+ Keranjang',
+                            style: grenTextStyle.copyWith(fontSize: 12),
+                          ),
                         ),
                       ),
                     ),
@@ -222,12 +230,10 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
 class ProdukWishlistObat extends StatefulWidget {
   final Data2 data;
   final Function() onDelete;
-  final VoidCallback? onPress;
   const ProdukWishlistObat({
     super.key,
     required this.data,
     required this.onDelete,
-    this.onPress,
   });
 
   @override
@@ -236,22 +242,20 @@ class ProdukWishlistObat extends StatefulWidget {
 
 class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
   final WishlistController state = Get.put(WishlistController());
+  MedicineController medicineController = Get.put(MedicineController());
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InkWell(
-          onTap: widget.onPress,
-          child: Expanded(
-            child: Container(
-              height: 100,
-              width: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
-                  ),
+        Expanded(
+          child: Container(
+            height: 100,
+            width: 150,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
                 ),
               ),
             ),
@@ -324,12 +328,12 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                     children: [
                                       InkWell(
                                         onTap: () async {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
                                           await showDialog(
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
@@ -372,20 +376,49 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   const SizedBox(
                     width: 4,
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Center(
-                        child: Text(
-                          'Harus Resep Dokter',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                  widget.data.product!.consultationRecipeDrugs!.isNotEmpty
+                      ? Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              medicineController.addMedicineToCart(
+                                context,
+                                widget.data.productId!,
+                              );
+                              SnackbarWidget.getSuccessSnackbar(
+                                context,
+                                'Info',
+                                'Produk ditambahkan ke keranjang',
+                              );
+                            },
+                            child: Container(
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Center(
+                                child: Text(
+                                  '+ Keranjang',
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: Container(
+                            height: 30,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Harus Resep Dokter',
+                                style: grenTextStyle.copyWith(fontSize: 12),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],

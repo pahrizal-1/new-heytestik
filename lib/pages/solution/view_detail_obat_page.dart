@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/medicine_contr
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/customer/intiate_chat_model.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
@@ -75,7 +76,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
               Expanded(
                 child: Text(
                   "Detail Obat",
-                  style: blackTextStyle.copyWith(fontSize: 20, overflow: TextOverflow.ellipsis),
+                  style: blackTextStyle.copyWith(
+                      fontSize: 20, overflow: TextOverflow.ellipsis),
                 ),
               )
             ],
@@ -122,7 +124,10 @@ class _DetailObatPageState extends State<DetailObatPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const KeranjangPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
             },
             child: SvgPicture.asset(
               'assets/icons/trello-icons.svg',
@@ -133,7 +138,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -158,7 +164,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
+            padding:
+                const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -171,22 +178,28 @@ class _DetailObatPageState extends State<DetailObatPage> {
                     const Spacer(),
                     InkWell(
                       onTap: () async {
-                        if ((isWishlist ?? state.skincareDetail.value.wishlist) == true) {
+                        if ((isWishlist ??
+                                state.skincareDetail.value.wishlist) ==
+                            true) {
                           isWishlist = false;
-                          await wishlist.deleteWistlist(context, widget.medicine.id ?? 0);
+                          await wishlist.deleteWistlist(
+                              context, widget.medicine.id ?? 0);
                           setState(() {});
                         } else {
                           isWishlist = true;
-                          await wishlist.addWishlist(context, widget.medicine.id ?? 0);
+                          await wishlist.addWishlist(
+                              context, widget.medicine.id ?? 0);
                           setState(() {});
                         }
                       },
-                      child: (isWishlist ?? state.skincareDetail.value.wishlist) == true
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : Icon(Icons.favorite_outline),
+                      child:
+                          (isWishlist ?? state.skincareDetail.value.wishlist) ==
+                                  true
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : Icon(Icons.favorite_outline),
                     ),
                   ],
                 ),
@@ -327,19 +340,28 @@ class _DetailObatPageState extends State<DetailObatPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                DescripsiText(title1: 'Deskripsi', subtitle2: widget.medicine.drugDetail?.description ?? '-'),
+                DescripsiText(
+                    title1: 'Deskripsi',
+                    subtitle2: widget.medicine.drugDetail?.description ?? '-'),
                 DescripsiText(
                   title1: 'Indikasi',
                   subtitle2: widget.medicine.drugDetail?.indication ?? '-',
                 ),
                 DescripsiText(
                   title1: 'Komposisi',
-                  subtitle2: widget.medicine.drugDetail?.specificationIngredients ?? '-',
+                  subtitle2:
+                      widget.medicine.drugDetail?.specificationIngredients ??
+                          '-',
                 ),
-                DescripsiText(title1: 'Dosis & Aturan Pakai', subtitle2: widget.medicine.drugDetail?.specificationDose ?? '-'),
+                DescripsiText(
+                    title1: 'Dosis & Aturan Pakai',
+                    subtitle2:
+                        widget.medicine.drugDetail?.specificationDose ?? '-'),
                 DescripsiText(
                   title1: 'Perhatian',
-                  subtitle2: widget.medicine.drugDetail?.specificationSpecialAttention ?? '-',
+                  subtitle2: widget
+                          .medicine.drugDetail?.specificationSpecialAttention ??
+                      '-',
                 ),
                 DescripsiText(
                   title1: 'Kontra indikasi',
@@ -380,7 +402,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                     ),
                     Text(
                       '/5.0',
-                      style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0XffCCCCCC)),
+                      style: subGreyTextStyle.copyWith(
+                          fontSize: 12, color: const Color(0XffCCCCCC)),
                     ),
                     const SizedBox(
                       width: 16,
@@ -393,7 +416,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 12, fontStyle: FontStyle.italic),
                               ),
                             ),
                             Text(
@@ -408,7 +432,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.totalRating ?? 0} rating',
-                                style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                             ),
                             const SizedBox(
@@ -424,7 +449,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.totalReview ?? 0} ulasan',
-                                style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                             ),
                           ],
@@ -441,7 +467,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -454,7 +481,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.avgEffectivenessRating ?? 0}',
-                                style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                             ),
                             const SizedBox(
@@ -465,12 +493,14 @@ class _DetailObatPageState extends State<DetailObatPage> {
                               children: [
                                 Text(
                                   'Effectiveness',
-                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
                                 ),
                                 Obx(
                                   () => Text(
                                     '${medicineController.overviewMedicine.value.countEffectivenessRating ?? 0} ulasan',
-                                    style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ),
                               ],
@@ -481,7 +511,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -494,7 +525,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.avgTextureRating ?? 0}',
-                                style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                             ),
                             const SizedBox(
@@ -505,12 +537,14 @@ class _DetailObatPageState extends State<DetailObatPage> {
                               children: [
                                 Text(
                                   'Texture',
-                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
                                 ),
                                 Obx(
                                   () => Text(
                                     '${medicineController.overviewMedicine.value.countTextureRating ?? 0} ulasan',
-                                    style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ),
                               ],
@@ -521,7 +555,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
                         margin: const EdgeInsets.only(right: 3),
                         height: 50,
                         decoration: BoxDecoration(
@@ -534,7 +569,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                             Obx(
                               () => Text(
                                 '${medicineController.overviewMedicine.value.avgPackagingRating ?? 0}',
-                                style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                             ),
                             const SizedBox(
@@ -545,12 +581,14 @@ class _DetailObatPageState extends State<DetailObatPage> {
                               children: [
                                 Text(
                                   'Packaging',
-                                  style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 10, fontWeight: regular),
                                 ),
                                 Obx(
                                   () => Text(
                                     '${medicineController.overviewMedicine.value.countPackagingRating ?? 0} ulasan',
-                                    style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ),
                               ],
@@ -574,7 +612,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                         ),
                         Text(
                           ' Sobat Hey',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18, fontStyle: FontStyle.italic),
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 18, fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
@@ -613,7 +652,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                           ),
                         )
                       : Column(
-                          children: medicineController.productReview.map((element) {
+                          children:
+                              medicineController.productReview.map((element) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -627,15 +667,21 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                       width: 12,
                                     ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           element.user?.fullname ?? '-',
-                                          style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 15),
                                         ),
                                         Text(
-                                          element.transactionProductItem?.product?.type ?? '-',
-                                          style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                          element.transactionProductItem
+                                                  ?.product?.type ??
+                                              '-',
+                                          style: blackHigtTextStyle.copyWith(
+                                              fontSize: 13,
+                                              fontWeight: regular),
                                         ),
                                       ],
                                     ),
@@ -649,12 +695,16 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 Row(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: List.generate(5, (index) {
                                         return Image.asset(
                                           'assets/icons/stars-new.png',
                                           width: 12,
-                                          color: element.avgRating! > index ? const Color(0xffFFC36A) : Color.fromRGBO(155, 155, 155, 0.61),
+                                          color: element.avgRating! > index
+                                              ? const Color(0xffFFC36A)
+                                              : Color.fromRGBO(
+                                                  155, 155, 155, 0.61),
                                         );
                                       }),
                                     ),
@@ -662,8 +712,10 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                       width: 13,
                                     ),
                                     Text(
-                                      timeago.format(DateTime.parse(element.createdAt.toString())),
-                                      style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                      timeago.format(DateTime.parse(
+                                          element.createdAt.toString())),
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     )
                                   ],
                                 ),
@@ -672,14 +724,17 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 ),
                                 Text(
                                   element.review ?? '-',
-                                  style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                                  style: greyTextStyle.copyWith(
+                                      fontSize: 13,
+                                      color: const Color(0xff6B6B6B)),
                                 ),
                                 const SizedBox(
                                   height: 13,
                                 ),
                                 Text(
                                   'Before',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const SizedBox(
                                   height: 13,
@@ -687,7 +742,9 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 Wrap(
                                   spacing: 4,
                                   runSpacing: 4,
-                                  children: element.mediaBeforeConditionProductReviews!.map((e) {
+                                  children: element
+                                      .mediaBeforeConditionProductReviews!
+                                      .map((e) {
                                     return Container(
                                       height: 72,
                                       width: 82,
@@ -706,7 +763,8 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 ),
                                 Text(
                                   'After',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const SizedBox(
                                   height: 13,
@@ -714,7 +772,9 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                 Wrap(
                                   spacing: 4,
                                   runSpacing: 4,
-                                  children: element.mediaAfterConditionProductReviews!.map((e) {
+                                  children: element
+                                      .mediaAfterConditionProductReviews!
+                                      .map((e) {
                                     return Container(
                                       height: 72,
                                       width: 82,
@@ -741,20 +801,28 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                           state.unHelped(context, element.id!);
                                           setState(() {
                                             help = false;
-                                            helpReview["${element.id}"] = (helpReview["${element.id}"] ?? 0) - 1;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) -
+                                                    1;
                                           });
                                         } else {
                                           state.helped(context, element.id!);
                                           setState(() {
                                             help = true;
-                                            helpReview["${element.id}"] = (helpReview["${element.id}"] ?? 0) + 1;
+                                            helpReview["${element.id}"] =
+                                                (helpReview["${element.id}"] ??
+                                                        0) +
+                                                    1;
                                           });
                                         }
                                       },
                                       child: Image.asset(
                                         'assets/icons/like.png',
                                         width: 15,
-                                        color: help ?? element.helped! ? greenColor : greyColor,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
                                       ),
                                     ),
                                     const SizedBox(
@@ -765,7 +833,9 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                       style: grenTextStyle.copyWith(
                                         fontSize: 13,
                                         fontWeight: regular,
-                                        color: help ?? element.helped! ? greenColor : greyColor,
+                                        color: help ?? element.helped!
+                                            ? greenColor
+                                            : greyColor,
                                       ),
                                     ),
                                     const Spacer(),
@@ -782,11 +852,19 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                                 isVisibelity
                                                     ? Text(
                                                         'Lihat Balasan',
-                                                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
                                                       )
                                                     : Text(
                                                         'Tutup Balasan',
-                                                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                                        style:
+                                                            blackRegulerTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
                                                       ),
                                                 const SizedBox(
                                                   width: 4,
@@ -810,24 +888,34 @@ class _DetailObatPageState extends State<DetailObatPage> {
                                       Container(
                                         height: 60,
                                         width: 2,
-                                        decoration: BoxDecoration(color: greenColor),
+                                        decoration:
+                                            BoxDecoration(color: greenColor),
                                       ),
                                       const SizedBox(
                                         width: 7,
                                       ),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               children: [
                                                 Text(
                                                   'Penjual ',
-                                                  style: blackHigtTextStyle.copyWith(fontSize: 13, color: subTitleColor),
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(
+                                                          fontSize: 13,
+                                                          color: subTitleColor),
                                                 ),
                                                 Text(
-                                                  timeago.format(DateTime.parse(element.createdAt.toString())),
-                                                  style: blackRegulerTextStyle.copyWith(color: subTitleColor, fontSize: 13),
+                                                  timeago.format(DateTime.parse(
+                                                      element.createdAt
+                                                          .toString())),
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(
+                                                          color: subTitleColor,
+                                                          fontSize: 13),
                                                 )
                                               ],
                                             ),
@@ -892,76 +980,105 @@ class _DetailObatPageState extends State<DetailObatPage> {
       bottomNavigationBar: Wrap(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      List product = [
-                        {
-                          "product_id": widget.medicine.id,
-                          "productName": widget.medicine.name,
-                          "img": widget.medicine.mediaProducts?[0].media?.path,
-                          "qty": 1,
-                          "notes": '-',
-                          "isSelected": true,
-                          "price": widget.medicine.price,
-                          "totalPrice": widget.medicine.price! * 1,
-                        }
-                      ];
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
+            child: widget.medicine.consultationRecipeDrugs!.isNotEmpty
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            List product = [
+                              {
+                                "product_id": widget.medicine.id,
+                                "productName": widget.medicine.name,
+                                "img": widget
+                                    .medicine.mediaProducts?[0].media?.path,
+                                "qty": 1,
+                                "notes": '-',
+                                "isSelected": true,
+                                "price": widget.medicine.price,
+                                "totalPrice": widget.medicine.price! * 1,
+                              }
+                            ];
 
-                      Get.to(PembayaranProduk(
-                        pesan: product,
-                        isCart: false,
-                      ));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          'Beli Langsung',
-                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                            Get.to(PembayaranProduk(
+                              pesan: product,
+                              isCart: false,
+                            ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: greenColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Beli Langsung',
+                                style: grenTextStyle.copyWith(
+                                    fontSize: 15, fontWeight: bold),
+                              ),
+                            ),
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            medicineController.addMedicineToCart(
+                                context, widget.medicine.id!);
+                            SnackbarWidget.getSuccessSnackbar(
+                              context,
+                              'Info',
+                              'Produk ditambahkan ke keranjang',
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            width: 142,
+                            decoration: BoxDecoration(
+                                color: greenColor,
+                                border: Border.all(color: greenColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                '+ Keranjang',
+                                style: whiteTextStyle.copyWith(
+                                    fontSize: 15, fontWeight: bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                    ],
+                  )
+                : Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Text(
+                      'Harus Dengan Resep Dokter',
+                      textAlign: TextAlign.center,
+                      style: grenTextStyle.copyWith(
+                        fontSize: 18,
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      medicineController.addMedicineToCart(context, widget.medicine.id!);
-                      SnackbarWidget.getSuccessSnackbar(
-                        context,
-                        'Info',
-                        'Produk ditambahkan ke keranjang',
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      width: 142,
-                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          '+ Keranjang',
-                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 6,
-                ),
-              ],
-            ),
-          ),
+          )
         ],
       ),
     );

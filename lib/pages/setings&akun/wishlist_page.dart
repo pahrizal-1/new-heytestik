@@ -226,36 +226,38 @@ class _WishListPageState extends State<WishListPage> {
                           itemCount: wishlist.length,
                           itemBuilder: (BuildContext context, int index) {
                             if (wishlist[index].product?.type == 'SKINCARE') {
-                              return ProdukWishlistSkinCare(
-                                onPress: () {
+                              return InkWell(
+                                onTap: () {
                                   Get.to(DetailSkinCarePage(
                                     productId: wishlist[index].product!.id!,
                                   ));
                                 },
-                                data: wishlist[index],
-                                onDelete: () async {
-                                  wishlist.clear();
-                                  wishlist.addAll(await state.getWistlist(
-                                      context, page,
-                                      search: state.searchController.text));
-                                  setState(() {});
-                                },
+                                child: ProdukWishlistSkinCare(
+                                  data: wishlist[index],
+                                  onDelete: () async {
+                                    wishlist.clear();
+                                    wishlist.addAll(await state.getWistlist(
+                                        context, page,
+                                        search: state.searchController.text));
+                                    setState(() {});
+                                  },
+                                ),
                               );
                             }
                             if (wishlist[index].product?.type == 'DRUGS') {
                               return InkWell(
-                                child: ProdukWishlistObat(
-                                  onPress: () {
-                                    Get.to(
-                                      DetailObatPage(
-                                        medicine: Medicine.Data2.fromJson(
-                                          jsonDecode(
-                                            jsonEncode(wishlist[index].product),
-                                          ),
+                                onTap: () {
+                                  Get.to(
+                                    DetailObatPage(
+                                      medicine: Medicine.Data2.fromJson(
+                                        jsonDecode(
+                                          jsonEncode(wishlist[index].product),
                                         ),
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  );
+                                },
+                                child: ProdukWishlistObat(
                                   data: wishlist[index],
                                   onDelete: () async {
                                     wishlist.clear();
@@ -280,6 +282,9 @@ class _WishListPageState extends State<WishListPage> {
                         )
                       : Container(),
                 ),
+              ),
+              const SizedBox(
+                height: 15,
               ),
             ],
           ),
