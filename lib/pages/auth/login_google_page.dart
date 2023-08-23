@@ -30,6 +30,7 @@ class LoginGooglePage extends StatelessWidget {
         },
       ),
     )
+    ..setUserAgent("random")
     ..loadRequest(
       Uri.parse("${Global.BASE_API}/auth/google/login"),
     );
