@@ -1225,7 +1225,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       ),
       bottomNavigationBar: ChatBottomCostomer(
         onCamera: () {
-          // pickCamera();
           openCamera();
         },
         onGallery: () {
