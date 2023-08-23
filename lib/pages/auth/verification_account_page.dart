@@ -144,55 +144,34 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                       Container(
                         child: Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
+                                hintText: 'Masukan Email',
+                                contentPadding: EdgeInsets.only(
+                                    top: 1, bottom: 1, left: 10),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: greenColor,
                                     width: 2,
                                   ),
                                 ),
-                                border: isSelected
-                                    ? OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: greenColor,
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(7),
-                                      )
-                                    : InputBorder.none),
+                                suffixIcon: Icon(
+                                  Icons.email_outlined,
+                                  color: greyColor,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: greenColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(7),
+                                )),
                             controller: state.email,
-                            enabled: _isEnable,
                             style: blackTextStyle.copyWith(fontSize: 14),
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      SizedBox(
-                        width: 80,
-                        height: 50,
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _isEnable = !_isEnable;
-                              isSelected = !isSelected;
-                            });
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: greenColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Center(
-                            child: isSelected
-                                ? Text('Simpan', style: whiteTextStyle.copyWith(fontSize: 14))
-                                : Text(
-                                    'Ubah',
-                                    style: whiteTextStyle.copyWith(fontSize: 14),
-                                  ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   const Spacer(),
@@ -215,7 +194,8 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                   ButtonTextWidget(
                     title: 'Nanti Saja',
                     onPressed: () async {
-                      await state.registerEmailWithoutVerification(context, doInPost: () async {
+                      await state.registerEmailWithoutVerification(context,
+                          doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
