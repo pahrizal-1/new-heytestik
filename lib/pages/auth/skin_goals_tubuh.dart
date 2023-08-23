@@ -180,8 +180,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   ButtonGreenWidget(
                     title: 'Lanjut',
                     onPressed: () async {
-                      await state.bodyCorrectiveGoals(context,
-                          doInPost: () async {
+                      await state.bodyCorrectiveGoals(context, doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
