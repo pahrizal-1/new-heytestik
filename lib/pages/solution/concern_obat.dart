@@ -662,7 +662,7 @@ class KonsultasiProduk extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  medicine.consultationRecipeDrugs != null
+                  medicine.consultationRecipeDrugs!.isNotEmpty
                       ? Container(
                           height: 30,
                           child: TextButton(
