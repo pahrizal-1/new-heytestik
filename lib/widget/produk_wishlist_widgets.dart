@@ -336,7 +336,6 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                               'Produk berhasil dihapus dari Wishlist',
                             );
                           });
-                          ;
                         },
                         child: Image.asset(
                           'assets/icons/more-horizontal.png',

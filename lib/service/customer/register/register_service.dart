@@ -20,7 +20,7 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> registerPhone(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/auth/register/phone',
+      '/verification/send',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -32,7 +32,7 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> phoneVerify(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/auth/register/verify',
+      '/registration/step/phone-number',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -68,7 +68,7 @@ class RegisterService extends ProviderClass {
 
   Future<dynamic> registerEmail(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/auth/register/email',
+      '/verification/send',
       data: data,
       headers: {
         'User-Agent': await userAgent(),

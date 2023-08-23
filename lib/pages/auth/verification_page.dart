@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
+import '../../widget/more_dialog_widget.dart';
+import '../../widget/snackbar_widget.dart';
 
 class VerificationPage extends StatelessWidget {
   const VerificationPage({super.key});
@@ -75,9 +77,20 @@ class VerificationPage extends StatelessWidget {
                   'Belum mendapatkan kode?',
                   style: greyTextStyle.copyWith(fontSize: 14),
                 ),
-                Text(
-                  ' Kirim Ulang',
-                  style: grenTextStyle.copyWith(fontSize: 14),
+                GestureDetector(
+                  onTap: () async {
+                    await state.registerPhoneNumber(context, doInPost: () async {
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'OTP Berhasil Dikirim',
+                      );
+                    });
+                  },
+                  child: Text(
+                    ' Kirim Ulang',
+                    style: grenTextStyle.copyWith(fontSize: 14),
+                  ),
                 ),
               ],
             ),
@@ -92,7 +105,7 @@ class VerificationPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PersonalDataPage(),
+                          builder: (context) => const MoreDialog(),
                         ),
                       );
                     });

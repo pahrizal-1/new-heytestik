@@ -16,6 +16,9 @@ import '../../controller/customer/account/profile_controller.dart';
 import '../../controller/customer/notification/notification_controller.dart';
 import '../../core/global.dart';
 import '../setings&akun/akun_home_page.dart';
+import '../stream_page/news_home_page.dart';
+import '../stream_page/stream_home_page.dart';
+import '../tabbar/tabbar_customer.dart';
 
 class HomepageCutomer extends StatefulWidget {
   const HomepageCutomer({super.key});
@@ -136,6 +139,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           FutureBuilder(
             future: state.getSlideShow(context),
             builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
+              print("DATA INI");
               print(snapshot.data);
               if (!snapshot.hasData) {
                 return shimmerWidget(
@@ -743,7 +747,17 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TabBarCustomer(
+                            currentIndex: 2,
+                            streamIndex: 1,
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       'Liat Semua',
                       style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: greenColor),
@@ -924,7 +938,17 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TabBarCustomer(
+                            currentIndex: 2,
+                            streamIndex: 1,
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       'Liat Semua',
                       style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, fontWeight: FontWeight.bold, color: greenColor),
@@ -938,198 +962,156 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
+              child: FutureBuilder(
+                future: state.getArticle(context),
+                builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                  print(snapshot.data);
+
+                  if (!snapshot.hasData) {
+                    return shimmerWidget(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ));
+                  }
+                  return snapshot.data!.record!.isEmpty
+                      ? shimmerWidget(
+                          child: Padding(
+                          padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
-                                        ),
-                                      ),
-                                    ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                        ))
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: snapshot.data!.record!.map<Widget>((value) {
+                            return InkWell(
+                              onTap: () {
+                                _launchURL(value.link.toString());
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 250,
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                              value.thumbLink.toString(),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: const DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/home4.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          value.title.toString(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'ProximaNova',
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            height: 0.5,
+                                            leading: 0.7,
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              ConvertDate.defaultDate(value.newsDate.toString()),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                                              child: Container(
+                                                height: 5,
+                                                width: 5,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      'assets/icons/dot.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              value.author.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                              ),
+                            );
+                          }).toList(),
+                        );
+                },
               ),
             ),
           ),

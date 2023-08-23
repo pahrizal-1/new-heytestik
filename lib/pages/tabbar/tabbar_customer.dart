@@ -12,22 +12,17 @@ class TabBarCustomer extends StatefulWidget {
   const TabBarCustomer({
     Key? key,
     this.currentIndex = 0,
+    this.streamIndex = 0,
   }) : super(key: key);
 
   final int? currentIndex;
+  final int streamIndex;
 
   @override
   State<TabBarCustomer> createState() => _TabBarCustomerState();
 }
 
 class _TabBarCustomerState extends State<TabBarCustomer> {
-  List<Widget> widgetList = [
-    const HomepageCutomer(),
-    const OnboardingChat(),
-    const StreamHomePage(),
-    const SolutionPage(),
-  ];
-
   void onTap(int index) {
     setState(() {
       myIndex = index;
@@ -47,6 +42,14 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgetList = [
+      const HomepageCutomer(),
+      const OnboardingChat(),
+      StreamHomePage(
+        index: widget.streamIndex,
+      ),
+      const SolutionPage(),
+    ];
     return Scaffold(
       backgroundColor: Colors.white,
       body: widgetList[myIndex],
