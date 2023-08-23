@@ -189,7 +189,7 @@ class RegisterController extends StateClass {
 
       var data = {
         "phone_number": phoneNumber,
-        "verification_code": int.parse(code.toString()),
+        "verification_code": code.toString(),
       };
 
       var loginResponse = await RegisterService().phoneVerify(data);

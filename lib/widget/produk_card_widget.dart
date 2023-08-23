@@ -3,43 +3,19 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
-
+import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 import 'appbar_widget.dart';
 
 class ProdukCardWidget extends StatefulWidget {
   final int index;
-  final int cartId;
-  final int productId;
-  final int qty;
-  final String imageProduk;
-  final String type;
-  final String merkProduk;
-  final String penggunaanJadwal;
-  final String penggunaan;
-  final String harga;
-  final String hintText;
-  final String packagingType;
-  final String netto;
-  final String nettoType;
-  const ProdukCardWidget({
-    Key? key,
-    required this.index,
-    required this.cartId,
-    required this.productId,
-    required this.imageProduk,
-    required this.merkProduk,
-    required this.penggunaanJadwal,
-    required this.penggunaan,
-    required this.harga,
-    required this.hintText,
-    required this.type,
-    required this.packagingType,
-    this.netto = '',
-    this.nettoType = '',
-    required this.qty,
-  }) : super(key: key);
+  final Data2 data;
+
+  const ProdukCardWidget({Key? key, required this.index, required this.data})
+      : super(key: key);
 
   @override
   State<ProdukCardWidget> createState() => _ProdukCardWidgetState();
@@ -88,7 +64,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                     width: 7,
                   ),
                   Text(
-                    widget.type,
+                    widget.data.product?.type ?? '-',
                     style: blackTextStyle.copyWith(fontSize: 15),
                   ),
                 ],
@@ -149,7 +125,9 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                 decoration: BoxDecoration(
                                   border: Border.all(color: borderColor),
                                   image: DecorationImage(
-                                    image: NetworkImage(widget.imageProduk),
+                                    image: NetworkImage(
+                                      '${Global.FILE}/${widget.data.product!.mediaProducts?[0].media?.path}',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -165,7 +143,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                             MediaQuery.of(context).size.width /
                                                 1.8),
                                     child: Text(
-                                      widget.merkProduk,
+                                      widget.data.product?.name ?? '-',
                                       style: grenTextStyle.copyWith(
                                         fontSize: 14,
                                       ),
@@ -201,7 +179,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                             constraints: const BoxConstraints(
                                                 maxWidth: 80),
                                             child: Text(
-                                              widget.penggunaanJadwal,
+                                              "${widget.data.product!.skincareDetail?.specificationHowToUse ?? widget.data.product!.drugDetail!.specificationDose}",
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                                 fontSize: 12,
@@ -214,7 +192,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                             ),
                                           ),
                                           Text(
-                                            widget.penggunaan,
+                                            '0x sehari',
                                             style: TextStyle(
                                               fontFamily: 'ProximaNova',
                                               fontSize: 12,
@@ -240,7 +218,9 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          widget.harga,
+                                          CurrencyFormat.convertToIdr(
+                                              widget.data.product?.price ?? 0,
+                                              0),
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 13,
@@ -260,7 +240,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                               width: 4,
                                             ),
                                             Text(
-                                              '${widget.qty} ${widget.packagingType}',
+                                              '${widget.data.qty} ${widget.data.product?.skincareDetail?.specificationPackagingType ?? widget.data.product?.drugDetail?.specificationPackaging}',
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                                 fontSize: 10,
@@ -271,9 +251,10 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                                 ),
                                               ),
                                             ),
-                                            if (widget.type == 'SKINCARE')
+                                            if (widget.data.product?.type ==
+                                                'SKINCARE')
                                               Text(
-                                                '(${widget.netto}${widget.nettoType}) ',
+                                                '(${widget.data.product?.skincareDetail?.specificationNetto}${widget.data.product?.skincareDetail?.specificationNettoType}) ',
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   overflow:
@@ -318,7 +299,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: widget.hintText,
+                      hintText: widget.data.notes ?? '',
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 12),
                       border: OutlineInputBorder(
@@ -337,7 +318,8 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          await wishlist.addWishlist(context, widget.productId);
+                          await wishlist.addWishlist(
+                              context, widget.data.productId!);
                         },
                         child: Text(
                           'Pindahkan ke Wishlist',
@@ -351,7 +333,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                             context: context,
                             builder: (context) =>
                                 AlertInfomasi(function: () async {
-                              await state.deleteCart(context, widget.cartId);
+                              await state.deleteCart(context, widget.data.id!);
                             }),
                           );
                         },
