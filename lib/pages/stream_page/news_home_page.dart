@@ -15,57 +15,59 @@ class NewsHomePage extends StatelessWidget {
       length: 4,
       child: Scaffold(
         backgroundColor: whiteColor,
-        body: Column(
-          children: [
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: borderColor, width: 0.2),
-                borderRadius: BorderRadius.circular(7),
-              ),
-              child: TabBar(
-                labelColor: greenColor,
-                labelPadding: EdgeInsets.zero,
-                // labelStyle: grenTextStyle.copyWith(fontSize: 15),
-                unselectedLabelColor: subTitleColor,
-                labelStyle: blackHigtTextStyle.copyWith(
-                  fontSize: 12,
-                  color: const Color(0XFF9B9B9B),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: borderColor, width: 0.2),
+                  borderRadius: BorderRadius.circular(7),
                 ),
-                dividerColor: greenColor,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 2,
-                indicatorPadding: EdgeInsets.zero,
-                indicatorColor: greenColor,
+                child: TabBar(
+                  labelColor: greenColor,
+                  labelPadding: EdgeInsets.zero,
+                  // labelStyle: grenTextStyle.copyWith(fontSize: 15),
+                  unselectedLabelColor: subTitleColor,
+                  labelStyle: blackHigtTextStyle.copyWith(
+                    fontSize: 12,
+                    color: const Color(0XFF9B9B9B),
+                  ),
+                  dividerColor: greenColor,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorWeight: 2,
+                  indicatorPadding: EdgeInsets.zero,
+                  indicatorColor: greenColor,
 
-                tabs: const [
-                  Tab(
-                    text: 'Semua',
-                  ),
-                  Tab(
-                    text: 'Beauty',
-                  ),
-                  Tab(
-                    text: 'Trend & Lifestyle',
-                  ),
-                  Tab(
-                    text: 'Celebrity',
-                  ),
-                ],
+                  tabs: const [
+                    Tab(
+                      text: 'Semua',
+                    ),
+                    Tab(
+                      text: 'Beauty',
+                    ),
+                    Tab(
+                      text: 'Trend & Lifestyle',
+                    ),
+                    Tab(
+                      text: 'Celebrity',
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  AllInfoNewsPage(),
-                  BeautyInfoNewsPage(),
-                  TrenLifestyleNewsPage(),
-                  CelebrityNewsPage(),
-                ],
+              const Expanded(
+                child: TabBarView(
+                  children: [
+                    AllInfoNewsPage(),
+                    BeautyInfoNewsPage(),
+                    TrenLifestyleNewsPage(),
+                    CelebrityNewsPage(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

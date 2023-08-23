@@ -1,18 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-
+import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../theme/theme.dart';
-
+import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/produk_wishlist._widgets.dart';
+import '../../widget/produk_wishlist_widgets.dart';
 import '../solution/keranjang_page.dart';
 
 class WishListPage extends StatefulWidget {
@@ -24,14 +26,37 @@ class WishListPage extends StatefulWidget {
 
 class _WishListPageState extends State<WishListPage> {
   final WishlistController state = Get.put(WishlistController());
+  final ScrollController scrollController = ScrollController();
 
-  bool isSelecteTampilan = true;
+  int page = 1;
+  List<Data2> wishlist = [];
+
   @override
   void initState() {
-    super.initState();
+    state.searchController.clear();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await state.getWistlist(context);
+      wishlist.addAll(await state.getWistlist(context, page));
+      setState(() {});
     });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
+            wishlist.addAll(await state.getWistlist(
+              context,
+              page,
+            ));
+            setState(() {});
+            state.isLoadingMore.value = false;
+          });
+        }
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -112,11 +137,13 @@ class _WishListPageState extends State<WishListPage> {
                     constraints: const BoxConstraints(maxWidth: 300),
                     child: TextFormField(
                       controller: state.searchController,
-                      onChanged: (value) {
-                        state.onChangeFilterText(value);
-                      },
-                      onEditingComplete: () {
-                        state.getWistlist(context, search: state.searchController.text);
+                      // onChanged: (value) {
+                      //   state.onChangeFilterText(value);
+                      // },
+                      onEditingComplete: () async {
+                        wishlist.clear();
+                        wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
+                        setState(() {});
                       },
                       style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
@@ -139,8 +166,9 @@ class _WishListPageState extends State<WishListPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: ListView(
+            controller: scrollController,
             children: [
               StickyHeader(
                 header: Container(
@@ -154,38 +182,9 @@ class _WishListPageState extends State<WishListPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${state.filterData.length} Produk',
+                              '${wishlist.length} Produk',
                               style: blackTextStyle.copyWith(color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isSelecteTampilan = !isSelecteTampilan;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Tampilan',
-                                    style: blackTextStyle.copyWith(color: const Color(0xff6B6B6B), fontSize: 15),
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  isSelecteTampilan
-                                      ? SvgPicture.asset(
-                                          'assets/icons/tampilan1.svg',
-                                          width: 12,
-                                          height: 12,
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/icons/tampillan2.svg',
-                                          width: 12,
-                                          height: 12,
-                                        )
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -197,10 +196,10 @@ class _WishListPageState extends State<WishListPage> {
                 ),
                 content: Padding(
                   padding: lsymetric,
-                  child: state.filterData.isEmpty
+                  child: wishlist.isEmpty
                       ? Center(
                           child: Text(
-                            'Belum ada wishlist',
+                            'Tidak ada produk',
                             style: TextStyle(
                               fontWeight: bold,
                               fontFamily: 'ProximaNova',
@@ -214,34 +213,64 @@ class _WishListPageState extends State<WishListPage> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 12,
+                            mainAxisSpacing: 20,
                             childAspectRatio: 0.5,
                           ),
-                          itemCount: state.filterData.length,
+                          itemCount: wishlist.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ProdukWitlist(
-                              id: state.filterData[index].id!.toInt(),
-                              namaBrand: state.filterData[index].product!.skincareDetail?.brand ?? '-',
-                              namaProduk: state.filterData[index].product?.name ?? '-',
-                              diskonProduk: '20',
-                              hargaDiskon: CurrencyFormat.convertToIdr(
-                                state.filterData[index].product?.price,
-                                0,
-                              ),
-                              harga: CurrencyFormat.convertToIdr(
-                                state.filterData[index].product?.price,
-                                0,
-                              ),
-                              urlImg: '${Global.FILE}/${state.filterData[index].product?.mediaProducts?[0].media?.path}',
-                              rating: '${state.filterData[index].product?.rating} (120k)',
-                              kota: 'Amerika Serikat',
-                            );
+                            if (wishlist[index].product?.type == 'SKINCARE') {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(DetailSkinCarePage(
+                                    productId: wishlist[index].product!.id!,
+                                  ));
+                                },
+                                child: ProdukWishlistSkinCare(
+                                  data: wishlist[index],
+                                  onDelete: () async {
+                                    wishlist.clear();
+                                    wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
+                                    setState(() {});
+                                  },
+                                ),
+                              );
+                            }
+                            if (wishlist[index].product?.type == 'DRUGS') {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    DetailObatPage(
+                                      medicine: Medicine.Data2.fromJson(
+                                        jsonDecode(
+                                          jsonEncode(wishlist[index].product),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ProdukWishlistObat(
+                                  data: wishlist[index],
+                                  onDelete: () async {
+                                    wishlist.clear();
+                                    wishlist.addAll(await state.getWistlist(context, page, search: state.searchController.text));
+                                    setState(() {});
+                                  },
+                                ),
+                              );
+                            }
                           },
                         ),
                 ),
               ),
-              const SizedBox(
-                height: 14,
+              Center(
+                child: Obx(
+                  () => state.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: LoadingMore(),
+                        )
+                      : Container(),
+                ),
               ),
             ],
           ),

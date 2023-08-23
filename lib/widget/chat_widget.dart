@@ -109,10 +109,12 @@ class ChatRight extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              imgUser != null ? Image.asset(
-                imgUser.toString(),
-                width: 30,
-              ) : Container(),
+              imgUser != null
+                  ? Image.asset(
+                      imgUser.toString(),
+                      width: 30,
+                    )
+                  : Container(),
             ],
           ),
           Container(

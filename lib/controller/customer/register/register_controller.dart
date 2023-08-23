@@ -41,14 +41,16 @@ class RegisterController extends StateClass {
         );
       }
       var data = {
-        'no_phone': phoneNumber,
+        "method": "WHATSAPP",
+        "type": "REGISTRATION",
+        "no_phone": phoneNumber,
       };
 
       print(data);
 
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
-      LocalStorage().setUserID(userID: loginResponse['data']['id']);
+
       doInPost();
     });
     isLoading.value = false;
@@ -58,8 +60,9 @@ class RegisterController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        'email': email.text,
-        'userId': await LocalStorage().getUserID(),
+        "method": "EMAIL",
+        "type": "REGISTRATION",
+        "email": email.text,
       };
 
       print(data);
@@ -80,10 +83,11 @@ class RegisterController extends StateClass {
           message: 'Code harus diisi',
         );
       }
+
       var data = {
-        'userId': await LocalStorage().getUserID(),
-        'verify_type': 'email',
-        'code': int.parse(code!),
+        "user_id": await LocalStorage().getUserID(),
+        "email": email.text,
+        "verification_code": int.parse(code!),
       };
 
       var loginResponse = await RegisterService().emailVerify(data);
@@ -138,16 +142,14 @@ class RegisterController extends StateClass {
         );
       }
 
-      print(code);
-      print(await LocalStorage().getUserID());
-
       var data = {
-        'userId': await LocalStorage().getUserID(),
-        'verify_type': 'phone',
-        'code': int.parse(code.toString()),
+        "phone_number": phoneNumber,
+        "verification_code": int.parse(code.toString()),
       };
+
       var loginResponse = await RegisterService().phoneVerify(data);
-      print(loginResponse);
+      print(loginResponse['data']['id']);
+      LocalStorage().setUserID(userID: loginResponse['data']['id']);
       doInPost();
     });
     isLoading.value = false;

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
+import '../../widget/snackbar_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
   const VerificasionEmailPage({super.key});
@@ -72,10 +73,11 @@ class VerificasionEmailPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await state.resendCodeEmail(context, doInPost: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const TextMoreDialog(),
+                    await state.registerEmail(context, doInPost: () async {
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'OTP Berhasil Dikirim',
                       );
                     });
                   },

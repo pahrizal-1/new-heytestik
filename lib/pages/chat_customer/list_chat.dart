@@ -23,7 +23,6 @@ class _ListChatPageState extends State<ListChatPage> {
   final ConsultationController state = Get.put(ConsultationController());
   String? search;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,10 +163,12 @@ class DoctorChat extends StatelessWidget {
           children: [
             ClipRect(
               child: img != null
-                  ? Image.network(
-                      img,
-                      width: 52,
-                      height: 52,
+                  ? ClipRect(
+                      child: Image.network(
+                        img,
+                        width: 52,
+                        height: 52,
+                      ),
                     )
                   : Image.asset(
                       img,
