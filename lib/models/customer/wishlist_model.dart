@@ -61,17 +61,16 @@ class Data2 {
   dynamic deletedAt;
   Product? product;
 
-  Data2({
-    this.id,
-    this.userId,
-    this.productId,
-    this.createdBy,
-    this.updatedBy,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.product,
-  });
+  Data2(
+      {this.id,
+      this.userId,
+      this.productId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.product});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -82,7 +81,8 @@ class Data2 {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    product =
+        json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -129,37 +129,36 @@ class Product {
   dynamic deletedAt;
   List<MediaProducts>? mediaProducts;
   SkincareDetail? skincareDetail;
-  dynamic drugDetail;
+  DrugDetail? drugDetail;
 
-  Product({
-    this.id,
-    this.name,
-    this.type,
-    this.category,
-    this.display,
-    this.hasVariant,
-    this.minOrder,
-    this.price,
-    this.productIsActive,
-    this.productStock,
-    this.productTreshold,
-    this.productSku,
-    this.rating,
-    this.shippingProductWeight,
-    this.shippingProductWeightType,
-    this.shippingProductSizeLength,
-    this.shippingProductSizeWidth,
-    this.shippingProductSizeHeight,
-    this.shipping,
-    this.createdBy,
-    this.updatedBy,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.mediaProducts,
-    this.skincareDetail,
-    this.drugDetail,
-  });
+  Product(
+      {this.id,
+      this.name,
+      this.type,
+      this.category,
+      this.display,
+      this.hasVariant,
+      this.minOrder,
+      this.price,
+      this.productIsActive,
+      this.productStock,
+      this.productTreshold,
+      this.productSku,
+      this.rating,
+      this.shippingProductWeight,
+      this.shippingProductWeightType,
+      this.shippingProductSizeLength,
+      this.shippingProductSizeWidth,
+      this.shippingProductSizeHeight,
+      this.shipping,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.mediaProducts,
+      this.skincareDetail,
+      this.drugDetail});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -174,7 +173,7 @@ class Product {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = double.parse((json['rating'] ?? 0).toString());
+    rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
@@ -192,8 +191,12 @@ class Product {
         mediaProducts!.add(MediaProducts.fromJson(v));
       });
     }
-    skincareDetail = json['skincare_detail'] != null ? SkincareDetail.fromJson(json['skincare_detail']) : null;
-    drugDetail = json['drug_detail'];
+    skincareDetail = json['skincare_detail'] != null
+        ? SkincareDetail.fromJson(json['skincare_detail'])
+        : null;
+    drugDetail = json['drug_detail'] != null
+        ? DrugDetail.fromJson(json['drug_detail'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -228,7 +231,9 @@ class Product {
     if (skincareDetail != null) {
       data['skincare_detail'] = skincareDetail!.toJson();
     }
-    data['drug_detail'] = drugDetail;
+    if (drugDetail != null) {
+      data['drug_detail'] = drugDetail!.toJson();
+    }
     return data;
   }
 }
@@ -244,7 +249,16 @@ class MediaProducts {
   dynamic deletedAt;
   Media? media;
 
-  MediaProducts({this.id, this.mediaId, this.productId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
+  MediaProducts(
+      {this.id,
+      this.mediaId,
+      this.productId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
 
   MediaProducts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -289,7 +303,19 @@ class Media {
   String? updatedAt;
   dynamic deletedAt;
 
-  Media({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.destination, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
+  Media(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -344,7 +370,25 @@ class SkincareDetail {
   String? updatedAt;
   dynamic deletedAt;
 
-  SkincareDetail({this.id, this.productId, this.brand, this.description, this.specificationTexture, this.specificationBpom, this.specificationNetto, this.specificationNettoType, this.specificationExpired, this.specificationPackagingType, this.specificationIngredients, this.specificationHowToUse, this.specificationStorageAdvice, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
+  SkincareDetail(
+      {this.id,
+      this.productId,
+      this.brand,
+      this.description,
+      this.specificationTexture,
+      this.specificationBpom,
+      this.specificationNetto,
+      this.specificationNettoType,
+      this.specificationExpired,
+      this.specificationPackagingType,
+      this.specificationIngredients,
+      this.specificationHowToUse,
+      this.specificationStorageAdvice,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   SkincareDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -391,6 +435,99 @@ class SkincareDetail {
   }
 }
 
+class DrugDetail {
+  int? id;
+  int? productId;
+  String? manufacture;
+  String? indication;
+  String? contradiction;
+  String? description;
+  String? specificationForm;
+  String? specificationClassification;
+  String? specificationType;
+  String? specificationPackaging;
+  String? specificationCategory;
+  String? specificationBpom;
+  String? specificationIngredients;
+  String? specificationDose;
+  String? specificationSpecialAttention;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  DrugDetail(
+      {this.id,
+      this.productId,
+      this.manufacture,
+      this.indication,
+      this.contradiction,
+      this.description,
+      this.specificationForm,
+      this.specificationClassification,
+      this.specificationType,
+      this.specificationPackaging,
+      this.specificationCategory,
+      this.specificationBpom,
+      this.specificationIngredients,
+      this.specificationDose,
+      this.specificationSpecialAttention,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  DrugDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    manufacture = json['manufacture'];
+    indication = json['indication'];
+    contradiction = json['contradiction'];
+    description = json['description'];
+    specificationForm = json['specification_form'];
+    specificationClassification = json['specification_classification'];
+    specificationType = json['specification_type'];
+    specificationPackaging = json['specification_packaging'];
+    specificationCategory = json['specification_category'];
+    specificationBpom = json['specification_bpom'];
+    specificationIngredients = json['specification_ingredients'];
+    specificationDose = json['specification_dose'];
+    specificationSpecialAttention = json['specification_special_attention'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['manufacture'] = manufacture;
+    data['indication'] = indication;
+    data['contradiction'] = contradiction;
+    data['description'] = description;
+    data['specification_form'] = specificationForm;
+    data['specification_classification'] = specificationClassification;
+    data['specification_type'] = specificationType;
+    data['specification_packaging'] = specificationPackaging;
+    data['specification_category'] = specificationCategory;
+    data['specification_bpom'] = specificationBpom;
+    data['specification_ingredients'] = specificationIngredients;
+    data['specification_dose'] = specificationDose;
+    data['specification_special_attention'] = specificationSpecialAttention;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
 class Meta {
   int? page;
   int? take;
@@ -399,7 +536,13 @@ class Meta {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Meta({this.page, this.take, this.itemCount, this.pageCount, this.hasPreviousPage, this.hasNextPage});
+  Meta(
+      {this.page,
+      this.take,
+      this.itemCount,
+      this.pageCount,
+      this.hasPreviousPage,
+      this.hasNextPage});
 
   Meta.fromJson(Map<String, dynamic> json) {
     page = json['page'];

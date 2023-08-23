@@ -17,6 +17,7 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import '../../../core/global.dart';
 import '../../../models/doctor/profile_model.dart';
 import '../../../models/doctor/user_balance_model.dart' as UserBalance;
+import '../../../pages/auth/login_page_new.dart';
 import '../../../pages/tabbar/tabbar_doctor.dart';
 import '../../../service/auth/change_password_service.dart';
 import '../../../service/doctor/profile/profile_service.dart';
@@ -108,8 +109,10 @@ class DoctorProfileController extends StateClass {
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (args.value is PickerDateRange) {
-      startPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
-      endPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
+      startPeriod.value =
+          '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
+      endPeriod.value =
+          '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
 
       print('start date $startPeriod');
       print('end date $endPeriod');
@@ -124,7 +127,8 @@ class DoctorProfileController extends StateClass {
 
   Future getFilterStatistic() async {
     isLoading.value = true;
-    var response = await StatisticService().getStatistic(startPeriod.value, endPeriod.value);
+    var response = await StatisticService()
+        .getStatistic(startPeriod.value, endPeriod.value);
     // saldo.value = response;
     filtStatistic.add(response);
     for (var i in filtStatistic) {
@@ -309,7 +313,8 @@ class DoctorProfileController extends StateClass {
       }
 
       if (imagePath != null) {
-        dataProfile['files'] = await dio.MultipartFile.fromFile(imagePath!.path);
+        dataProfile['files'] =
+            await dio.MultipartFile.fromFile(imagePath!.path);
       }
 
       var response = await dio.Dio().patch(
@@ -377,9 +382,10 @@ class DoctorProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
-      Get.offAll(() => const LoginPage());
+      Get.offAll(() => const LoginPageNew());
       print('logout dokter');
     });
   }

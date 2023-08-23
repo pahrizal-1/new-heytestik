@@ -6,16 +6,17 @@ import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class WishlistService extends ProviderClass {
-  WishlistService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  WishlistService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<WishlistModel> getWishlist({String? search}) async {
+  Future<WishlistModel> getWishlist(int page, {String? search}) async {
     try {
       var response = await networkingConfig.doGet(
         '/user-wishlist',
         params: {
-          "page": 1,
-          "take": 100,
-          "order": "asc",
+          "page": page,
+          "take": 10,
+          "order": "desc",
           "search": search,
         },
         headers: {

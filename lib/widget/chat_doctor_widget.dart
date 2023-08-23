@@ -38,7 +38,6 @@ class ChatAktif extends StatelessWidget {
     required this.senderId,
     required this.receiverId,
     required this.id,
-
   });
 
   @override
@@ -51,10 +50,15 @@ class ChatAktif extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                img,
-                width: 39,
-              ),
+              img != null
+                  ? Image.network(
+                      img,
+                      width: 39,
+                    )
+                  : Image.asset(
+                      'assets/images/doctor-img.png',
+                      width: 39,
+                    ),
               const SizedBox(
                 width: 11,
               ),

@@ -368,7 +368,6 @@ class ChatBottomCostomer extends StatelessWidget {
                                   child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15)),
-                                height: 206,
                                 child: Column(
                                   children: [
                                     InkWell(
