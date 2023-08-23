@@ -12,10 +12,12 @@ import 'alert_dialog_ulasan.dart';
 class ProdukWishlistSkinCare extends StatefulWidget {
   final Data2 data;
   final Function() onDelete;
+  final VoidCallback? onPress;
   const ProdukWishlistSkinCare({
     super.key,
     required this.data,
     required this.onDelete,
+    this.onPress,
   });
 
   @override
@@ -29,14 +31,17 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Container(
-            height: 200,
-            width: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
+        InkWell(
+          onTap: widget.onPress,
+          child: Expanded(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
+                  ),
                 ),
               ),
             ),
@@ -70,11 +75,14 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   Container(
                     width: 28,
                     height: 13,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: const Color.fromRGBO(201, 42, 42, 0.2)),
                     child: Center(
                       child: Text(
                         '${CurrencyFormat.convertToIdr(widget.data.product?.price, 0)}%',
-                        style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                        style: blackHigtTextStyle.copyWith(
+                            color: redColor, fontSize: 11),
                       ),
                     ),
                   ),
@@ -108,7 +116,8 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   ),
                   Text(
                     '${widget.data.product?.rating}',
-                    style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
                 ],
               ),
@@ -120,7 +129,9 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   Container(
                     height: 30,
                     padding: const EdgeInsets.symmetric(horizontal: 9),
-                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(7)),
                     child: Center(
                       child: InkWell(
                         onTap: () async {
@@ -131,13 +142,15 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                               child: Wrap(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
                                         onTap: () async {
                                           await showDialog(
                                             context: context,
-                                            builder: (context) => AlertInfomasi(function: () async {
+                                            builder: (context) => AlertInfomasi(
+                                                function: () async {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               await state.deleteWistlist(
@@ -185,7 +198,9 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   Expanded(
                     child: Container(
                       height: 30,
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       child: Center(
                         child: Text(
                           '+ Keranjang',
@@ -207,10 +222,12 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
 class ProdukWishlistObat extends StatefulWidget {
   final Data2 data;
   final Function() onDelete;
+  final VoidCallback? onPress;
   const ProdukWishlistObat({
     super.key,
     required this.data,
     required this.onDelete,
+    this.onPress,
   });
 
   @override
@@ -224,14 +241,17 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Container(
-            height: 100,
-            width: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
+        InkWell(
+          onTap: widget.onPress,
+          child: Expanded(
+            child: Container(
+              height: 100,
+              width: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '${Global.FILE}/${widget.data.product?.mediaProducts?[0].media?.path}',
+                  ),
                 ),
               ),
             ),
@@ -273,7 +293,8 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   ),
                   Text(
                     '${widget.data.product?.rating} (120k)',
-                    style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
                 ],
               ),
@@ -285,7 +306,9 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   Container(
                     height: 30,
                     padding: const EdgeInsets.symmetric(horizontal: 9),
-                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(7)),
                     child: Center(
                       child: InkWell(
                         onTap: () async {
@@ -296,7 +319,8 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                               child: Wrap(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
                                         onTap: () async {
@@ -304,7 +328,8 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                           Navigator.pop(context);
                                           await showDialog(
                                             context: context,
-                                            builder: (context) => AlertInfomasi(function: () async {
+                                            builder: (context) => AlertInfomasi(
+                                                function: () async {
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
@@ -350,7 +375,9 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   Expanded(
                     child: Container(
                       height: 30,
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       child: Center(
                         child: Text(
                           'Harus Resep Dokter',
