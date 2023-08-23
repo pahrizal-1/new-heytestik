@@ -14,7 +14,12 @@ import '../profile_costumer/profil_customer_page.dart';
 import '../setings&akun/akun_home_page.dart';
 
 class StreamHomePage extends StatefulWidget {
-  const StreamHomePage({super.key});
+  const StreamHomePage({
+    super.key,
+    this.index = 0,
+  });
+
+  final int index;
 
   @override
   State<StreamHomePage> createState() => _StreamHomePageState();
@@ -31,6 +36,10 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
   @override
   void initState() {
     tabController = TabController(vsync: this, length: 4);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      index = widget.index;
+      setState(() {});
+    });
     super.initState();
   }
 

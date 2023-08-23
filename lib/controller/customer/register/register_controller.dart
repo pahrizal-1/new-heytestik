@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/register/register_service.dart';
 
 import '../../../core/local_storage.dart';
+import '../../../widget/snackbar_widget.dart';
 
 class RegisterController extends StateClass {
   TextEditingController fullName = TextEditingController();
@@ -41,14 +43,40 @@ class RegisterController extends StateClass {
         );
       }
       var data = {
-        'no_phone': phoneNumber,
+        "method": "WHATSAPP",
+        "type": "REGISTRATION",
+        "no_phone": phoneNumber,
       };
 
       print(data);
 
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
-      LocalStorage().setUserID(userID: loginResponse['data']['id']);
+
+      doInPost();
+    });
+    isLoading.value = false;
+  }
+
+  registerEmailWithoutVerification(BuildContext context, {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (email.text == "") {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'No Handphone harus diisi',
+        );
+      }
+
+      var data = {
+        "user_id": await LocalStorage().getUserID(),
+        "email": email.text,
+      };
+
+      print(data);
+
+      var loginResponse = await RegisterService().emailVerify(data);
+      print(loginResponse);
       doInPost();
     });
     isLoading.value = false;
@@ -57,9 +85,17 @@ class RegisterController extends StateClass {
   registerEmail(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (email.text == "") {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'No Handphone harus diisi',
+        );
+      }
+
       var data = {
-        'email': email.text,
-        'userId': await LocalStorage().getUserID(),
+        "method": "EMAIL",
+        "type": "REGISTRATION",
+        "email": email.text,
       };
 
       print(data);
@@ -80,15 +116,28 @@ class RegisterController extends StateClass {
           message: 'Code harus diisi',
         );
       }
+
       var data = {
-        'userId': await LocalStorage().getUserID(),
-        'verify_type': 'email',
-        'code': int.parse(code!),
+        "user_id": await LocalStorage().getUserID(),
+        "email": email.text,
+        "verification_code": code.toString(),
       };
 
       var loginResponse = await RegisterService().emailVerify(data);
-      print(loginResponse);
-      doInPost();
+      print("INI STATUS");
+      print(loginResponse['success']);
+      if (loginResponse['success'] == false) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          SnackbarWidget.getErrorSnackbar(
+            context,
+            'Info',
+            'Invalid verification code',
+          );
+        });
+      } else {
+        print(loginResponse);
+        doInPost();
+      }
     });
     isLoading.value = false;
   }
@@ -138,16 +187,14 @@ class RegisterController extends StateClass {
         );
       }
 
-      print(code);
-      print(await LocalStorage().getUserID());
-
       var data = {
-        'userId': await LocalStorage().getUserID(),
-        'verify_type': 'phone',
-        'code': int.parse(code.toString()),
+        "phone_number": phoneNumber,
+        "verification_code": code.toString(),
       };
+
       var loginResponse = await RegisterService().phoneVerify(data);
-      print(loginResponse);
+      print(loginResponse['data']['id']);
+      LocalStorage().setUserID(userID: loginResponse['data']['id']);
       doInPost();
     });
     isLoading.value = false;
@@ -181,26 +228,28 @@ class RegisterController extends StateClass {
         );
       }
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'gender': gender,
         'fullname': fullName.text,
-        'email': email.text,
         'password': password.text,
-        'referral_code': referralCode.text,
-        'status': true,
       };
 
       if (province != 0) {
-        data['provinceId'] = province;
+        data['province_id'] = province;
       }
 
       if (city != null && city != 0) {
-        data['cityId'] = city;
+        data['city_id'] = city;
       }
 
-      print('data $data');
+      if (profileImage != null) {
+        data['file'] = await MultipartFile.fromFile(profileImage.path);
+      }
+
+      FormData formData = FormData.fromMap(data);
+
       // return;
-      var res = await RegisterService().register(data);
+      var res = await RegisterService().register(formData);
       print('res $res');
       doInPost();
     });

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -53,9 +54,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   bool isLoading = false;
   bool isSuggestion = false;
   List<Data2>? msglist = [];
+  List itemCount = [];
   List fileImage = [];
   int page = 1;
   int take = 10;
+  int itemCountt = 0;
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
@@ -70,15 +73,52 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     // TODO: implement initState
     super.initState();
     getRequest(widget.roomCode, take);
+
+    // Timer.periodic(Duration(milliseconds: 200), (timer) {
+    //   if (mounted) {
+    //     // for (var i in itemCount) {
+    //     //     print('take' + i['itemCount'].toString());
+
+    //     //   // setState(() {
+    //     //   //   // take = i['itemCount'];
+    //     //   //   var a = json.decode(i);
+    //     //   //   print('take' + a.toString());
+    //     //   // });
+    //     //   // getRequest(widget.roomCode, take);
+    //     // }
+    //     _scrollDown();
+    //     // print('hey ' + itemCountt.toString());
+    //   } else {
+    //     timer.cancel();
+    //   }
+    // });
     controller.addListener(
       () {
-        if (controller.position.pixels == controller.position.maxScrollExtent) {
+        if (controller.position.atEdge) {
+          bool isTop = controller.position.pixels == 0;
+          if (isTop) {
+            print('At the top');
+            setState(() {
+              isLoading = false;
+            });
+            take -= 10;
+            getRequest(widget.roomCode, take);
+          }
+        } else {
+          print('At the bottom');
           setState(() {
             isLoading = false;
           });
           take += 10;
           getRequest(widget.roomCode, take);
         }
+        // if (controller.position.pixels == controller.position.maxScrollExtent) {
+        //   setState(() {
+        //     isLoading = false;
+        //   });
+        //   take += 10;
+        //   getRequest(widget.roomCode, take);
+        // }
       },
     );
     connectSocket(context);
@@ -89,8 +129,16 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     print('id ' + widget.id.toString());
   }
 
+  void _scrollDown() {
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+
   // image from camera
-  Future openCamera(
+  void openCamera(
     int idRoom,
     int chatRoomId,
     int userId,
@@ -108,9 +156,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       String img64 = base64Encode(bytes);
       String baseImg64 = "data:/png;base64,$img64";
       fileImage.add(baseImg64);
-
       Navigator.push(
-          context,
+          Get.context!,
           MaterialPageRoute(
             builder: (context) => PreviewImageDoctor(
               sendMsg: () {
@@ -140,6 +187,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               path: [imagePath],
             ),
           ));
+
 
       // return imagePath;
     } else {
@@ -230,6 +278,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     ListMessageModel result = ListMessageModel.fromJson(response);
     setState(() {
       msglist = result.data?.data;
+      itemCountt = result.data!.meta!.itemCount!.toInt();
+
+      // itemCount.add(result.data!.meta.itemCount);
     });
     print('msg $response');
 
@@ -679,6 +730,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                             // height: 1000,
                             child: ListView.builder(
                                 // controller: controller,
+                                // reverse: true,
                                 shrinkWrap: true,
                                 itemCount: msglist!.length,
                                 physics: NeverScrollableScrollPhysics(),

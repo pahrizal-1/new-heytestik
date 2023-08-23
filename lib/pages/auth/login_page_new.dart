@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_google_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/button_widget.dart';
+import '../../widget/snackbar_widget.dart';
 
 class LoginPageNew extends StatefulWidget {
   const LoginPageNew({super.key});
@@ -57,7 +59,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
               child: TextFormField(
                 controller: state.email,
                 decoration: InputDecoration(
-                  labelText: 'Email atau Nomor Handphone',
+                  labelText: 'Email',
                   labelStyle: blackTextStyle.copyWith(fontSize: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -89,42 +91,6 @@ class _LoginPageNewState extends State<LoginPageNew> {
               ' Contoh: 085211233456',
               style: subTitleTextStyle.copyWith(fontSize: 13),
             ),
-            if (usernameIsFilled) ...[
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                height: 40,
-                child: TextFormField(
-                  controller: state.password,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: blackTextStyle.copyWith(fontSize: 12),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: borderColor,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: borderColor,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-              ),
-            ],
             SizedBox(
               height: 2,
             ),
@@ -234,17 +200,22 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             ButtonGreenWidget(
               onPressed: () async {
-                if (usernameIsFilled) {
-                  await state.logIn(context, doInPost: () async {
-                    await state.redirectTo();
-                  });
+                if (state.email.value.text != "") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PinPageCustomer(),
+                    ),
+                  );
                 } else {
-                  setState(() {
-                    usernameIsFilled = true;
-                  });
+                  SnackbarWidget.getErrorSnackbar(
+                    context,
+                    'Info',
+                    'Email Tidak Boleh Kosong',
+                  );
                 }
               },
-              title: usernameIsFilled ? "Login" : 'Selanjutnya',
+              title: 'Selanjutnya',
             ),
             SizedBox(
               height: 33,

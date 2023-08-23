@@ -26,9 +26,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
   @override
   void initState() {
     super.initState();
-    _isGender =
-        Provider.of<RegisterController>(context, listen: false).gender ==
-            'Laki-laki';
+    _isGender = Provider.of<RegisterController>(context, listen: false).gender == 'Laki-laki';
   }
 
   @override
@@ -138,8 +136,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     child: GestureDetector(
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
-                        final XFile? image =
-                            await picker.pickImage(source: ImageSource.gallery);
+                        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
                         if (image != null) {
                           File imageFile = File(image.path);
@@ -222,11 +219,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                             child: Center(
-                              child: Text('Laki - laki',
-                                  style: _isGender
-                                      ? TextStyle(
-                                          color: whiteColor, fontSize: 12)
-                                      : blackTextStyle),
+                              child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
                             ),
                           ),
                         ),
@@ -258,10 +251,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                             child: Center(
                               child: Text(
                                 'Perempuan',
-                                style: _isGender
-                                    ? blackTextStyle
-                                    : TextStyle(
-                                        color: whiteColor, fontSize: 12),
+                                style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -278,16 +268,18 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
                       color: whiteColor,
                       border: Border.all(color: Color(0xffCCCCCC), width: 1),
                     ),
-                    child: Text(
-                      state.fullName.text,
+                    child: TextField(
+                      controller: state.fullName,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                      ),
                       style: blackTextStyle.copyWith(fontSize: 12),
                     ),
                   ),
@@ -302,19 +294,43 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Text(
+                    'Password',
+                    style: blackTextStyle,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: whiteColor,
+                      border: Border.all(color: Color(0xffCCCCCC), width: 1),
+                    ),
+                    child: TextField(
+                      maxLength: 6,
+                      keyboardType: TextInputType.number,
+                      obscureText: false,
+                      controller: state.password,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      style: blackTextStyle.copyWith(fontSize: 12),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ButtonGreenWidget(
-                    title: 'Verifikasi Sekarang',
+                    title: 'Simpan',
                     onPressed: () async {
                       if (state.province == 0 || state.city == 0) {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertWidget(
-                              subtitle:
-                                  'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
+                          builder: (context) => AlertWidget(subtitle: 'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
                         );
                       } else {
-                        await state.register(context, profileImage: imagePath,
-                            doInPost: () async {
+                        await state.register(context, profileImage: imagePath, doInPost: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -328,20 +344,20 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  ButtonTextWidget(
-                    title: 'Nanti Saja',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BeautyProfilPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  // ButtonTextWidget(
+                  //   title: 'Nanti Saja',
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const BeautyProfilPage(),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // const SizedBox(
+                  //   height: 50,
+                  // ),
                 ],
               ),
             ),

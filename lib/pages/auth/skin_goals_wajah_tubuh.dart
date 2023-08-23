@@ -321,8 +321,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   ButtonGreenWidget(
                     title: 'Lanjut',
                     onPressed: () async {
-                      await state.bodyCorrectiveGoals(context,
-                          doInPost: () async {
+                      await state.pastTreatmentGoals(context, doInPost: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

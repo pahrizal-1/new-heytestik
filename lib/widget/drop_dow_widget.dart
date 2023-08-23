@@ -99,16 +99,13 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
           builder: (context, AsyncSnapshot snapshot) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0XFFCCCCCC)),
-                  borderRadius: BorderRadius.circular(7)),
+              decoration: BoxDecoration(border: Border.all(color: const Color(0XFFCCCCCC)), borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 value: selectedvalue,
                 hint: Text(
                   'Provinsi',
-                  style: blackTextStyle.copyWith(
-                      color: const Color(0xff323232), fontWeight: medium),
+                  style: blackTextStyle.copyWith(color: const Color(0xff323232), fontWeight: medium),
                 ),
                 elevation: 0,
                 isExpanded: true,
@@ -169,9 +166,7 @@ class _DropDownkotaWigetState extends State<DropDownkotaWiget> {
           builder: (context, AsyncSnapshot snapshot) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0XFFCCCCCC)),
-                  borderRadius: BorderRadius.circular(7)),
+              decoration: BoxDecoration(border: Border.all(color: const Color(0XFFCCCCCC)), borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 hint: Text(

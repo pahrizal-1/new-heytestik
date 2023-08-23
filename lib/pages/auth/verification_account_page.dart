@@ -49,80 +49,84 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TimeLineIdicatorPage(
-                  iconColor: whiteColor,
-                  secondiconColor: greenColor,
-                  bgcolor: greenColor,
-                  isFirst: true,
-                  title: 'Nomor Hanpone',
-                  img: 'assets/icons/iphone1.png',
-                  width: 15,
-                  iconimg: 'assets/images/check.png',
-                ),
-                TimeLineIdicatorPage(
-                  iconColor: greenColor,
-                  secondiconColor: greenColor,
-                  bgcolor: whiteColor,
-                  isFirst: false,
-                  isLast: true,
-                  title: 'Email',
-                  img: 'assets/icons/email-icons.png',
-                  width: 25,
-                  iconimg: 'assets/images/Vector.png',
-                ),
-                TimeLineIdicatorPage(
-                  iconColor: greenColor,
-                  secondiconColor: greenColor,
-                  bgcolor: whiteColor,
-                  isFirst: true,
-                  isLast: true,
-                  title: 'Info Personal',
-                  img: 'assets/images/iphone1.png',
-                  width: 25,
-                  iconimg: 'assets/images/Vector.png',
-                ),
-                TimeLineIdicatorPage(
-                  iconColor: greenColor,
-                  secondiconColor: greenColor,
-                  bgcolor: whiteColor,
-                  isFirst: true,
-                  isLast: true,
-                  title: 'Beauty Profile',
-                  img: 'assets/icons/logo-person.png',
-                  width: 20,
-                  iconimg: 'assets/images/Vector.png',
-                ),
-                TimeLineIdicatorPage(
-                  iconColor: greenColor,
-                  secondiconColor: greenColor,
-                  bgcolor: whiteColor,
-                  isFirst: true,
-                  isLast: true,
-                  title: 'Beauty Concern',
-                  img: 'assets/icons/logo-person.png',
-                  width: 20,
-                  iconimg: 'assets/images/Vector.png',
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 23,
-            ),
-            const Divider(
-              thickness: 1,
-              color: Color(0XffCCCCCC),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TimeLineIdicatorPage(
+                iconColor: whiteColor,
+                secondiconColor: greenColor,
+                bgcolor: greenColor,
+                isFirst: true,
+                title: 'Nomor Hanpone',
+                img: 'assets/icons/iphone1.png',
+                width: 15,
+                iconimg: 'assets/images/check.png',
+              ),
+              TimeLineIdicatorPage(
+                iconColor: greenColor,
+                secondiconColor: greenColor,
+                bgcolor: whiteColor,
+                isFirst: false,
+                isLast: true,
+                title: 'Email',
+                img: 'assets/icons/email-icons.png',
+                width: 25,
+                iconimg: 'assets/images/Vector.png',
+              ),
+              TimeLineIdicatorPage(
+                iconColor: greenColor,
+                secondiconColor: greenColor,
+                bgcolor: whiteColor,
+                isFirst: true,
+                isLast: true,
+                title: 'Info Personal',
+                img: 'assets/images/iphone1.png',
+                width: 25,
+                iconimg: 'assets/images/Vector.png',
+              ),
+              TimeLineIdicatorPage(
+                iconColor: greenColor,
+                secondiconColor: greenColor,
+                bgcolor: whiteColor,
+                isFirst: true,
+                isLast: true,
+                title: 'Beauty Profile',
+                img: 'assets/icons/logo-person.png',
+                width: 20,
+                iconimg: 'assets/images/Vector.png',
+              ),
+              TimeLineIdicatorPage(
+                iconColor: greenColor,
+                secondiconColor: greenColor,
+                bgcolor: whiteColor,
+                isFirst: true,
+                isLast: true,
+                title: 'Beauty Concern',
+                img: 'assets/icons/logo-person.png',
+                width: 20,
+                iconimg: 'assets/images/Vector.png',
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 23,
+          ),
+          const Divider(
+            thickness: 1,
+            color: Color(0XffCCCCCC),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 25,
+                right: 25,
+                bottom: 40,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,22 +185,17 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                           ),
                           child: Center(
                             child: isSelected
-                                ? Text('Simpan',
-                                    style:
-                                        whiteTextStyle.copyWith(fontSize: 14))
+                                ? Text('Simpan', style: whiteTextStyle.copyWith(fontSize: 14))
                                 : Text(
                                     'Ubah',
-                                    style:
-                                        whiteTextStyle.copyWith(fontSize: 14),
+                                    style: whiteTextStyle.copyWith(fontSize: 14),
                                   ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 330,
-                  ),
+                  const Spacer(),
                   ButtonGreenWidget(
                     title: 'Verifikasi Sekarang',
                     onPressed: () async {
@@ -215,13 +214,15 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                   ),
                   ButtonTextWidget(
                     title: 'Nanti Saja',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const InfoPersonalPage(),
-                        ),
-                      );
+                    onPressed: () async {
+                      await state.registerEmailWithoutVerification(context, doInPost: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VerificasionEmailPage(),
+                          ),
+                        );
+                      });
                     },
                   ),
                   const SizedBox(
@@ -230,8 +231,8 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
