@@ -103,15 +103,15 @@ class InterestController extends StateClass {
           message: 'Pilihan Hijaber harus diisi',
         );
       }
+
       var data = {
-        'userId': await LocalStorage().getUserID(),
-        'skin_type': skinType,
-        'skin_tone_color': skinToneColor,
-        'skin_undertone_color': skinUnderToneColor,
-        'hair_type': hairType,
-        'hair_color': hairColor,
-        'hijabers': hijabers,
-        'status': true
+        "user_id": await LocalStorage().getUserID(),
+        "skin_type": skinType,
+        "skin_tone_color": skinToneColor,
+        "skin_undertone_color": skinUnderToneColor,
+        "hair_type": hairType,
+        "hair_color": hairColor,
+        "hijabers": hijabers,
       };
 
       var loginResponse = await InterestService().beautyProfile(data);
@@ -130,17 +130,18 @@ class InterestController extends StateClass {
           message: 'Budget Skincare harus diisi',
         );
       }
+
       if (treatment == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Budget Treatment harus diisi',
         );
       }
+
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'budget_for_skincare': skincare,
         'budget_for_treatment': treatment,
-        'status': true
       };
 
       var loginResponse = await InterestService().budgets(data);
@@ -150,8 +151,7 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  faceCorrectiveGoals(BuildContext context,
-      {required Function() doInPost}) async {
+  faceCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -165,9 +165,8 @@ class InterestController extends StateClass {
       }
 
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'lists': listData,
-        'status': true
       };
 
       print(data);
@@ -179,8 +178,7 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  bodyCorrectiveGoals(BuildContext context,
-      {required Function() doInPost}) async {
+  bodyCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -192,9 +190,8 @@ class InterestController extends StateClass {
       }
 
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'lists': listData,
-        'status': true
       };
 
       var loginResponse = await InterestService().bodyCorrective(data);
@@ -204,46 +201,32 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  augmentationSkinGoals(BuildContext context,
-      {required Function() doInPost}) async {
+  augmentationSkinGoals(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
       for (int i = 0; i < augmentation.length; i++) {
-        listData.add({'': ''});
+        listData.add({
+          'name_augmentation': augmentation[i],
+        });
       }
 
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'lists': augmentation,
-        'status': true
       };
 
-      var loginResponse = await InterestService().pastTreatment(data);
+      var loginResponse = await InterestService().augmentation(data);
       print(loginResponse);
       doInPost();
     });
     isLoading.value = false;
   }
 
-  pastTreatmentGoals(BuildContext context,
-      {required Function() doInPost}) async {
+  pastTreatmentGoals(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (skincare == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Budget Skincare harus diisi',
-        );
-      }
-      if (treatment == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Budget Treatment harus diisi',
-        );
-      }
-
       List<Map<String, dynamic>> listData = [];
 
       for (int i = 0; i < _pastTreatment.length; i++) {
@@ -253,9 +236,8 @@ class InterestController extends StateClass {
       }
 
       var data = {
-        'userId': await LocalStorage().getUserID(),
+        'user_id': await LocalStorage().getUserID(),
         'lists': listData,
-        'status': true
       };
 
       var loginResponse = await InterestService().pastTreatment(data);

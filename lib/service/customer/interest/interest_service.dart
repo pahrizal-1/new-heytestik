@@ -4,12 +4,11 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class InterestService extends ProviderClass {
-  InterestService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  InterestService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> infoPersonal(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/register/info-personal',
+      '/registration/step/personal-info',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -33,7 +32,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> faceCorrective(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/interest_face_corrective_skin_goals',
+      '/registration/step/interest-face-corrective-skin-goals',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -45,7 +44,19 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> bodyCorrective(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/interest_body_corrective_skin_goals',
+      '/registration/step/interest-body-corrective-skin-goals',
+      data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return response;
+  }
+
+  Future<dynamic> augmentation(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/registration/step/interest-augmentation-skin-goals',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -57,7 +68,7 @@ class InterestService extends ProviderClass {
 
   Future<dynamic> pastTreatment(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/interest_history_treatment_skin_goals',
+      '/registration/step/interest-history-treatment-skin-goals',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
@@ -68,14 +79,18 @@ class InterestService extends ProviderClass {
   }
 
   Future<dynamic> budgets(dynamic data) async {
-    var response = await networkingConfig.doPost(
-      '/interest_budget_skin_goals',
-      data: data,
-      headers: {
-        'User-Agent': await userAgent(),
-      },
-    );
+    try {
+      var response = await networkingConfig.doPost(
+        '/registration/step/interest-budget-skin-goals',
+        data: data,
+        headers: {
+          'User-Agent': await userAgent(),
+        },
+      );
 
-    return response;
+      return response;
+    } catch (error) {
+      print(error.toString());
+    }
   }
 }

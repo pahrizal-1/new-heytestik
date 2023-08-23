@@ -209,23 +209,25 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                       });
                     },
                   ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // ButtonTextWidget(
-                  //   title: 'Nanti Saja',
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => const InfoPersonalPage(),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                  // const SizedBox(
-                  //   height: 50,
-                  // )
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ButtonTextWidget(
+                    title: 'Nanti Saja',
+                    onPressed: () async {
+                      await state.registerEmailWithoutVerification(context, doInPost: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VerificasionEmailPage(),
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ),
