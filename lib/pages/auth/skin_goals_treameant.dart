@@ -172,8 +172,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   ButtonGreenWidget(
                     title: 'Simpan',
                     onPressed: () async {
-                      await state.pastTreatmentGoals(context,
-                          doInPost: () async {
+                      await state.budgets(context, doInPost: () async {
                         showDialog(
                           context: context,
                           builder: (context) => const ProfilMoreDialog(),
