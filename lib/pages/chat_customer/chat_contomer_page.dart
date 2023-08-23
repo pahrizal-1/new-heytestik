@@ -250,6 +250,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     // });
     state.messageController.clear();
     selectedMultipleImage = [];
+    fileImage = [];
     imagePath = null;
 
     // setState(() {
@@ -1224,7 +1225,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       ),
       bottomNavigationBar: ChatBottomCostomer(
         onCamera: () {
-          // pickCamera();
           openCamera();
         },
         onGallery: () {
@@ -1263,7 +1263,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   }
 
   // image from camera
-  Future openCamera() async {
+  void openCamera() async {
     final XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
@@ -1274,7 +1274,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       String baseImg64 = "data:/png;base64,$img64";
       fileImage.add(baseImg64);
       Navigator.push(
-          context,
+          Get.context!,
           MaterialPageRoute(
             builder: (context) => PreviewImageCustomer(
               sendMsg: () {
