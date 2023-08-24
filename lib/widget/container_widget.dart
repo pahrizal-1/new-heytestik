@@ -4,8 +4,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
     as Detail;
@@ -985,13 +987,7 @@ class ContainerTreatment extends StatelessWidget {
               child: ButtonGreenWidget(
                 title: 'Cari & Pilih Klinik',
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         const SearchKlinkPage(),
-                  //   ),
-                  // );
+                  // Get.to(BokingTreatment(treatment: 'cerl',));
                 },
               ),
             ),
