@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/interest/interest_service.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 import '../../../core/local_storage.dart';
 
@@ -146,7 +147,13 @@ class InterestController extends StateClass {
 
       var loginResponse = await InterestService().budgets(data);
       print(loginResponse);
-      doInPost();
+      if (loginResponse['success'] == false) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          SnackbarWidget.getErrorSnackbar(context, 'Error', loginResponse['message']);
+        });
+      } else {
+        doInPost();
+      }
     });
     isLoading.value = false;
   }

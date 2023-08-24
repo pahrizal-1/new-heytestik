@@ -43,22 +43,37 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
             onUrlChange: (UrlChange url) async {
               print("INI URL CHANGE");
               print(url.url);
-
+              setState(() {});
               if (url.url != null) {
                 if (url.url!.contains("heystetik://login?")) {
                   String token = url.url!.split("heystetik://login?token=")[1];
                   await state.logInWithGoogle(context, token, doInPost: () async {
-                    // await state.redirectTo();
+                    await state.redirectTo();
                     print("SUDAH SINI");
                   });
+                } else {
+                  print("INI ANEH");
                 }
               }
             },
-            onPageFinished: (String url) {
+            onPageFinished: (String url) async {
+              print("INI URL FINISHED");
               print(url);
+              if (url.contains("heystetik://login?")) {
+                String token = url.split("heystetik://login?token=")[1];
+                await state.logInWithGoogle(context, token, doInPost: () async {
+                  await state.redirectTo();
+                  print("SUDAH SINI");
+                });
+              } else {
+                print("INI ANEH");
+              }
             },
             onWebResourceError: (WebResourceError error) {},
             onNavigationRequest: (NavigationRequest request) {
+              if (request.url.contains("heystetik://login?")) {
+                return NavigationDecision.prevent;
+              }
               return NavigationDecision.navigate;
             },
           ),
