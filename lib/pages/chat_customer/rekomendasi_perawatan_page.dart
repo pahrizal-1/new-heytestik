@@ -238,8 +238,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationSkincare ==
-                                null
+                                .consultationRecomendationSkincare!.isEmpty
                             ? Container()
                             : Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -262,8 +261,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationSkincare ==
-                                null
+                                .consultationRecomendationSkincare!.isEmpty
                             ? Container()
                             : Row(
                                 children: [
@@ -291,16 +289,14 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       Obx(
                         () => SizedBox(
                           height: state.data.value
-                                      .consultationRecomendationSkincare ==
-                                  null
+                                  .consultationRecomendationSkincare!.isEmpty
                               ? 0
                               : 15,
                         ),
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationSkincare ==
-                                null
+                                .consultationRecomendationSkincare!.isEmpty
                             ? Container()
                             : ListView.builder(
                                 shrinkWrap: true,
@@ -321,8 +317,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationTreatment ==
-                                null
+                                .consultationRecomendationTreatment!.isEmpty
                             ? Container()
                             : Row(
                                 mainAxisAlignment:
@@ -344,16 +339,14 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       Obx(
                         () => SizedBox(
                           height: state.data.value
-                                      .consultationRecomendationTreatment ==
-                                  null
+                                  .consultationRecomendationTreatment!.isEmpty
                               ? 0
                               : 20,
                         ),
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationTreatment ==
-                                null
+                                .consultationRecomendationTreatment!.isEmpty
                             ? Container()
                             : Row(
                                 children: [
@@ -381,16 +374,14 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       Obx(
                         () => SizedBox(
                           height: state.data.value
-                                      .consultationRecomendationTreatment ==
-                                  null
+                                  .consultationRecomendationTreatment!.isEmpty
                               ? 0
                               : 15,
                         ),
                       ),
                       Obx(
                         () => state.data.value
-                                    .consultationRecomendationTreatment ==
-                                null
+                                .consultationRecomendationTreatment!.isEmpty
                             ? Container()
                             : ListView.builder(
                                 shrinkWrap: true,
