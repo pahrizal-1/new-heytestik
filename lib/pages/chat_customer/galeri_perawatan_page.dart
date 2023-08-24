@@ -69,124 +69,134 @@ class _JourneyPageState extends State<JourneyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 20),
-                        child: Text(
-                          "Kondisi Awal",
-                          style: TextStyle(
-                            fontWeight: bold,
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                            color: blackColor,
-                            fontFamily: "ProximaNova",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/before1.png"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/before2.png"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/before3.png"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/before4.png"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 20),
-                        child: Text(
-                          "Kondisi Awal",
-                          style: TextStyle(
-                            fontWeight: bold,
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                            color: blackColor,
-                            fontFamily: "ProximaNova",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/after1.png"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      WidgetPhoto,
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      WidgetPhoto,
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      WidgetPhoto,
-                      const SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  )
-                ],
-              )
-            ],
+      body: Center(
+        child: Text(
+          'My Journey Photos',
+          style: TextStyle(
+            fontWeight: bold,
+            fontFamily: 'ProximaNova',
+            fontSize: 20,
           ),
         ),
       ),
+      // body: SingleChildScrollView(
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(left: 25, right: 25),
+      //     child: Column(
+      //       children: [
+      //         Row(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //           children: [
+      //             Column(
+      //               children: [
+      //                 Padding(
+      //                   padding: const EdgeInsets.only(top: 25, bottom: 20),
+      //                   child: Text(
+      //                     "Kondisi Awal",
+      //                     style: TextStyle(
+      //                       fontWeight: bold,
+      //                       fontSize: 16,
+      //                       letterSpacing: 0.5,
+      //                       color: blackColor,
+      //                       fontFamily: "ProximaNova",
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   height: 150,
+      //                   width: 150,
+      //                   decoration: const BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: AssetImage("assets/images/before1.png"),
+      //                         fit: BoxFit.fill),
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 Container(
+      //                   height: 150,
+      //                   width: 150,
+      //                   decoration: const BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: AssetImage("assets/images/before2.png"),
+      //                         fit: BoxFit.fill),
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 Container(
+      //                   height: 150,
+      //                   width: 150,
+      //                   decoration: const BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: AssetImage("assets/images/before3.png"),
+      //                         fit: BoxFit.fill),
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 Container(
+      //                   height: 150,
+      //                   width: 150,
+      //                   decoration: const BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: AssetImage("assets/images/before4.png"),
+      //                         fit: BoxFit.fill),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //             Column(
+      //               children: [
+      //                 Padding(
+      //                   padding: const EdgeInsets.only(top: 25, bottom: 20),
+      //                   child: Text(
+      //                     "Kondisi Awal",
+      //                     style: TextStyle(
+      //                       fontWeight: bold,
+      //                       fontSize: 16,
+      //                       letterSpacing: 0.5,
+      //                       color: blackColor,
+      //                       fontFamily: "ProximaNova",
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   height: 150,
+      //                   width: 150,
+      //                   decoration: const BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: AssetImage("assets/images/after1.png"),
+      //                         fit: BoxFit.fill),
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 WidgetPhoto,
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 WidgetPhoto,
+      //                 const SizedBox(
+      //                   height: 10,
+      //                 ),
+      //                 WidgetPhoto,
+      //                 const SizedBox(
+      //                   height: 20,
+      //                 )
+      //               ],
+      //             )
+      //           ],
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

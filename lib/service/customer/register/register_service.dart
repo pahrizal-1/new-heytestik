@@ -4,7 +4,8 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class RegisterService extends ProviderClass {
-  RegisterService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  RegisterService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> register(dynamic data) async {
     var response = await networkingConfig.doPost(

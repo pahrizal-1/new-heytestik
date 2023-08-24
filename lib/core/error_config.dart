@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
@@ -21,8 +22,7 @@ class ErrorConfig implements Exception {
   static const appNoInternet = 'error_app_no_internet';
   static const appPermissionUnknow = 'error_app_permission_unknow';
   static const appPermissionCameraDenied = 'error_app_permission_camera_denied';
-  static const appPermissionLocationDenied =
-      'error_app_permission_location_denied';
+  static const appPermissionLocationDenied = 'error_app_permission_location_denied';
   static const networkRequestUnknow = 'error_network_request_unknow';
   static const networkRequest400 = 'error_network_request_bad_request';
   static const networkRequest401 = 'error_network_request_unauthorized';
@@ -67,38 +67,22 @@ class ErrorConfig implements Exception {
 
     switch (dioError.response?.statusCode) {
       case 400:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest400,
-            message: message ?? 'Bad Request');
+        return ErrorConfig(cause: ErrorConfig.networkRequest400, message: message ?? 'Bad Request');
       case 401:
         LocalStorage().removeAccessToken();
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest401,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest401, message: message ?? 'Network request error without any response');
       case 403:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest403,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest403, message: message ?? 'Network request error without any response');
       case 404:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest404,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest404, message: message ?? 'Network request error without any response');
       case 500:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest500,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest500, message: message ?? 'Network request error without any response');
       case 502:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest502,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest502, message: message ?? 'Network request error without any response');
       case 503:
-        throw ErrorConfig(
-            cause: ErrorConfig.networkRequest503,
-            message: message ?? 'Network request error without any response');
+        throw ErrorConfig(cause: ErrorConfig.networkRequest503, message: message ?? 'Network request error without any response');
       case 504:
-        return ErrorConfig(
-            cause: ErrorConfig.networkRequest504,
-            message: message ?? 'Network request error without any response');
+        return ErrorConfig(cause: ErrorConfig.networkRequest504, message: message ?? 'Network request error without any response');
       default:
         return ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -126,20 +110,17 @@ ErrorConfig handleError(
   dynamic error, {
   BuildContext? context,
 }) {
-  ErrorConfig returnedError = ErrorConfig(
-      cause: ErrorConfig.anotherUnknow, message: 'Error tidak diketahui');
+  ErrorConfig returnedError = ErrorConfig(cause: ErrorConfig.anotherUnknow, message: 'Error tidak diketahui');
 
   if (error.runtimeType == DioError) {
     DioError dioError = error;
     // Log error info
     var errorInfo = dioError.error;
     var dioMessage = dioError.message;
-    var requestPath =
-        "${dioError.requestOptions.baseUrl}${dioError.requestOptions.path}";
+    var requestPath = "${dioError.requestOptions.baseUrl}${dioError.requestOptions.path}";
     var response = dioError.response;
     var status = dioError.response?.statusCode;
-    ErrorConfig.logError(
-        'Heystetik Mobile Apps Error [DioError] : \n  error : $errorInfo\n  type : ${dioError.type}\n  message : $dioMessage\n  request path : $requestPath\n  response : $response, status : $status');
+    ErrorConfig.logError('Heystetik Mobile Apps Error [DioError] : \n  error : $errorInfo\n  type : ${dioError.type}\n  message : $dioMessage\n  request path : $requestPath\n  response : $response, status : $status');
     error = ErrorConfig.findDioError(error);
   }
 
@@ -149,8 +130,7 @@ ErrorConfig handleError(
 
     var message = error.message;
     var cause = error.cause;
-    ErrorConfig.logError(
-        'Heystetik Mobile Apps Error [ErrorConfig] : \n  cause : $cause\n  message : $message');
+    ErrorConfig.logError('Heystetik Mobile Apps Error [ErrorConfig] : \n  cause : $cause\n  message : $message');
 
     if (context == null) {
       return returnedError;
@@ -167,7 +147,7 @@ ErrorConfig handleError(
         break;
       case ErrorConfig.userUnauthorized:
         // go to login page when user unauthorized
-        Get.offAll(() => const LoginPage());
+        Get.offAll(() => const LoginPageNew());
         break;
       case ErrorConfig.appNoInternet:
         // No internet issue
@@ -194,7 +174,7 @@ ErrorConfig handleError(
         break;
       case ErrorConfig.networkRequest401:
         // go to login page when user unauthorized
-        Get.offAll(() => const LoginPage());
+        Get.offAll(() => const LoginPageNew());
         break;
       case ErrorConfig.networkRequest404:
         showDialog(
