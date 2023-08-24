@@ -4,7 +4,8 @@ import 'package:heystetik_mobileapps/pages/chat_customer/galeri_perawatan_page.d
 import 'package:heystetik_mobileapps/pages/chat_customer/gambar_journey_page.dart';
 
 class TabBarGaleryPage extends StatelessWidget {
-  const TabBarGaleryPage({super.key});
+  final int? id;
+  const TabBarGaleryPage({required this.id, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class TabBarGaleryPage extends StatelessWidget {
             Expanded(
               child: TabBarView(children: [
                 JourneyPage(),
-                GambarPage(),
+                GambarPage(id: id),
               ]),
             ),
           ],
