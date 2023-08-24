@@ -65,7 +65,7 @@ class _TabBarChatState extends State<TabBarChat> {
               child: TabBarView(children: [
                 RekomendasiPerawatan1Page(id: widget.id),
                 DetailPerawatanPage(id: widget.id),
-                TabBarGaleryPage()
+                TabBarGaleryPage(id: widget.id)
               ]),
             )
           ],

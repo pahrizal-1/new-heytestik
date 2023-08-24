@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
     as Detail;
+import 'package:heystetik_mobileapps/models/customer/gallery_file_model.dart'
+    as Gallery;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -370,8 +372,19 @@ class CustomerChatController extends StateClass {
   detailConsultation(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await DetailConsultationService().detailConsultationService(id);
+      var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
+    });
+    isLoading.value = false;
+  }
+
+  RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
+
+  galleryFile(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await DetailConsultationService().galleryFile(id);
+      gallery.value = res.data!.data!;
       print("hehehahahah" + jsonDecode(jsonEncode(res)));
     });
     isLoading.value = false;

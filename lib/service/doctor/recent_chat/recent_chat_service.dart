@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart';
+import 'package:heystetik_mobileapps/models/customer/gallery_file_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class RecentChatService extends ProviderClass {
@@ -86,7 +87,7 @@ class DetailConsultationService extends ProviderClass {
   DetailConsultationService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<DetailConsultationModel> detailConsultationService(int id) async {
+  Future<DetailConsultationModel> detailConsultation(int id) async {
     var response = await networkingConfig.doGet(
       '/consultation/$id/detail',
       headers: {
@@ -96,5 +97,17 @@ class DetailConsultationService extends ProviderClass {
     );
 
     return DetailConsultationModel.fromJson(response);
+  }
+
+  Future<GalleryFileModel> galleryFile(int id) async {
+    var response = await networkingConfig.doGet(
+      '/consultation/$id/galery/files',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return GalleryFileModel.fromJson(response);
   }
 }
