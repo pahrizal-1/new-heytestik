@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_facebook_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_google_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
@@ -266,8 +267,18 @@ class _LoginPageNewState extends State<LoginPageNew> {
               height: 12,
             ),
             InkWell(
-              child: Image.asset(
-                'assets/icons/Frame 71.png',
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginFacebookPage(),
+                  ),
+                );
+              },
+              child: InkWell(
+                child: Image.asset(
+                  'assets/icons/Frame 71.png',
+                ),
               ),
             ),
             SizedBox(

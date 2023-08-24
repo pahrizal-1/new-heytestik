@@ -94,9 +94,9 @@ class OptionLoginPage extends StatelessWidget {
               ButtonSignWidget(
                 img: 'assets/images/Frame 28.png',
                 onPressed: () async {
-                  await stateRegis.loginWithGoogle(context, doInPost: () async {
-                    print("masuk ke home home");
-                  });
+                  // await stateRegis.loginWithGoogle(context, doInPost: () async {
+                  //   print("masuk ke home home");
+                  // });
                   // Get.to(LoginGooglePage());
                   // await stateRegis.logoutWithGoogle();
                 },

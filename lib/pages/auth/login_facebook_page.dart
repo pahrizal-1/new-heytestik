@@ -10,16 +10,15 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../core/global.dart';
-import '../forget_passowrd/forget_password_email_page.dart';
 
-class LoginGooglePage extends StatefulWidget {
-  const LoginGooglePage({Key? key}) : super(key: key);
+class LoginFacebookPage extends StatefulWidget {
+  const LoginFacebookPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginGooglePage> createState() => _LoginGooglePageState();
+  State<LoginFacebookPage> createState() => _LoginFacebookPageState();
 }
 
-class _LoginGooglePageState extends State<LoginGooglePage> {
+class _LoginFacebookPageState extends State<LoginFacebookPage> {
   final LoginController state = Get.put(LoginController());
   // Create a webview controller
   WebViewController controller = WebViewController();
@@ -39,6 +38,15 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
             onPageStarted: (String url) async {
               print("INI PAGE STARTED");
               print(url);
+              if (url.contains("heystetik://login?")) {
+                String token = url.split("heystetik://login?token=")[1];
+                print("INI TOKEN");
+                print(token);
+                print("UDAH MASUK SINI");
+                await state.logInWithGoogle(context, token, doInPost: () async {
+                  await state.redirectTo();
+                });
+              }
             },
             onUrlChange: (UrlChange url) async {
               print("INI URL CHANGE");
@@ -47,9 +55,12 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
               if (url.url != null) {
                 if (url.url!.contains("heystetik://login?")) {
                   String token = url.url!.split("heystetik://login?token=")[1];
+                  print("INI TOKEN");
+                  print(token);
+                  context.loaderOverlay.show();
+                  print("UDAH MASUK SINI");
                   await state.logInWithGoogle(context, token, doInPost: () async {
-                    // await state.redirectTo();
-                    print("SUDAH SINI");
+                    await state.redirectTo();
                   });
                 }
               }
@@ -67,7 +78,7 @@ class _LoginGooglePageState extends State<LoginGooglePage> {
           Platform.isIOS ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15' + ' (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) ' + 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36',
         )
         ..loadRequest(
-          Uri.parse("${Global.BASE_API}/auth/google/login"),
+          Uri.parse("${Global.BASE_API}/auth/facebook/login"),
         );
     });
     super.initState();

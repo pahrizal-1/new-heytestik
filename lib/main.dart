@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/register/register_contr
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/detail_status_page.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'package:provider/provider.dart';
@@ -28,8 +29,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   playSound: true,
 );
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,10 +39,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -104,23 +101,25 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LoginController>(
-          create: (context) => LoginController(),
+    return GlobalLoaderOverlay(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LoginController>(
+            create: (context) => LoginController(),
+          ),
+          ChangeNotifierProvider<RegisterController>(
+            create: (context) => RegisterController(),
+          ),
+          ChangeNotifierProvider<InterestController>(
+            create: (context) => InterestController(),
+          ),
+        ],
+        child: GetMaterialApp(
+          title: 'Heystetik Mobile Apps',
+          theme: ThemeData(),
+          debugShowCheckedModeBanner: false,
+          home: const SplashScreenPage(),
         ),
-        ChangeNotifierProvider<RegisterController>(
-          create: (context) => RegisterController(),
-        ),
-        ChangeNotifierProvider<InterestController>(
-          create: (context) => InterestController(),
-        ),
-      ],
-      child: GetMaterialApp(
-        title: 'Heystetik Mobile Apps',
-        theme: ThemeData(),
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreenPage(),
       ),
     );
   }

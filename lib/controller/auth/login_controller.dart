@@ -17,6 +17,47 @@ class LoginController extends StateClass {
   TextEditingController password = TextEditingController();
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
+  logInWithGoogle(BuildContext context, String token, {required Function() doInPost}) async {
+    try {
+      isLoading.value = true;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        var data = {
+          'token': token,
+        };
+
+        var loginResponse = await LoginService().loginWithGoogle(data);
+
+        if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: loginResponse['message'],
+          );
+        }
+        print(loginResponse);
+        print(loginResponse['data']['token']);
+        print(loginResponse['data']['user']['fullname']);
+        print(loginResponse['data']['user']['roleId']);
+        print(loginResponse['data']['user']['id']);
+        print(loginResponse['data']['user']['username']);
+        print(loginResponse['data']['user']['id'].toString());
+
+        // SAVE DATA USER
+        await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
+        await LocalStorage().setUsername(username: loginResponse['data']['user']['username'] ?? '');
+        await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
+        await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname'] ?? '');
+        await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
+        await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
+        await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
+        doInPost();
+        clear();
+      });
+      isLoading.value = false;
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
   logIn(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -101,33 +142,33 @@ class LoginController extends StateClass {
     }
   }
 
-  loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        final GoogleSignIn _googleSignIn = GoogleSignIn();
-        GoogleSignInAccount? account = await _googleSignIn.signIn();
-        if (account == null) {
-          // User canceled the sign-in process.
-          return;
-        }
+  // loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     try {
+  //       final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //       GoogleSignInAccount? account = await _googleSignIn.signIn();
+  //       if (account == null) {
+  //         // User canceled the sign-in process.
+  //         return;
+  //       }
 
-        // You can now access user information through the "account" object
-        print('Display Name: ${account.displayName}');
-        print('Email: ${account.email}');
-        print('Photo URL: ${account.photoUrl}');
-        doInPost();
-      } catch (error) {
-        print('error heheh $error');
-      }
-    });
-    isLoading.value = false;
-  }
+  //       // You can now access user information through the "account" object
+  //       print('Display Name: ${account.displayName}');
+  //       print('Email: ${account.email}');
+  //       print('Photo URL: ${account.photoUrl}');
+  //       doInPost();
+  //     } catch (error) {
+  //       print('error heheh $error');
+  //     }
+  //   });
+  //   isLoading.value = false;
+  // }
 
-  logoutWithGoogle() async {
-    final _googleSignIn = GoogleSignIn();
-    GoogleSignInAccount? googleSignInAccount;
-    googleSignInAccount = await _googleSignIn.signOut();
-    print("googleSignInAccount ${googleSignInAccount?.id}");
-  }
+  // logoutWithGoogle() async {
+  //   final _googleSignIn = GoogleSignIn();
+  //   GoogleSignInAccount? googleSignInAccount;
+  //   googleSignInAccount = await _googleSignIn.signOut();
+  //   print("googleSignInAccount ${googleSignInAccount?.id}");
+  // }
 }
