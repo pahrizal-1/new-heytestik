@@ -10,6 +10,7 @@ import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';
+import '../../widget/text_form_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class InfoPersonalPage extends StatefulWidget {
@@ -26,9 +27,12 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
   @override
   void initState() {
     super.initState();
-    _isGender = Provider.of<RegisterController>(context, listen: false).gender == 'Laki-laki';
+    _isGender =
+        Provider.of<RegisterController>(context, listen: false).gender ==
+            'Laki-laki';
   }
 
+  bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<RegisterController>(context);
@@ -136,7 +140,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     child: GestureDetector(
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
-                        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                        final XFile? image =
+                            await picker.pickImage(source: ImageSource.gallery);
 
                         if (image != null) {
                           File imageFile = File(image.path);
@@ -219,7 +224,11 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                             child: Center(
-                              child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
+                              child: Text('Laki - laki',
+                                  style: _isGender
+                                      ? TextStyle(
+                                          color: whiteColor, fontSize: 12)
+                                      : blackTextStyle),
                             ),
                           ),
                         ),
@@ -251,7 +260,10 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                             child: Center(
                               child: Text(
                                 'Perempuan',
-                                style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
+                                style: _isGender
+                                    ? blackTextStyle
+                                    : TextStyle(
+                                        color: whiteColor, fontSize: 12),
                               ),
                             ),
                           ),
@@ -262,27 +274,30 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   const SizedBox(
                     height: 33,
                   ),
-                  Text(
-                    'Nama Lengkap',
-                    style: blackTextStyle,
+                  TextFormWidget(
+                    title: 'Nama Lenkap',
+                    hintText: 'Masukan Nama',
+                    controller: state.fullName,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: whiteColor,
-                      border: Border.all(color: Color(0xffCCCCCC), width: 1),
-                    ),
-                    child: TextField(
-                      controller: state.fullName,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                      style: blackTextStyle.copyWith(fontSize: 12),
-                    ),
-                  ),
+
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                  //   height: 40,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(7),
+                  //     color: whiteColor,
+                  //     border: Border.all(color: Color(0xffCCCCCC), width: 1),
+                  //   ),
+                  //   child: TextField(
+                  //     controller: state.fullName,
+                  //     decoration: InputDecoration(
+                  //       border: InputBorder.none,
+                  //     ),
+                  //     style: blackTextStyle.copyWith(fontSize: 12),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -294,30 +309,87 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    'Password',
-                    style: blackTextStyle,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: whiteColor,
-                      border: Border.all(color: Color(0xffCCCCCC), width: 1),
-                    ),
-                    child: TextField(
-                      maxLength: 6,
-                      keyboardType: TextInputType.number,
-                      obscureText: false,
-                      controller: state.password,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Pin Password', style: blackTextStyle),
+                      const SizedBox(
+                        height: 8,
                       ),
-                      style: blackTextStyle.copyWith(fontSize: 12),
-                    ),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        obscureText: _obscureText,
+                        maxLength: 6,
+                        controller: state.password,
+                        decoration: InputDecoration(
+                          fillColor: greenColor,
+                          hoverColor: greenColor,
+                          hintText: 'Masukan Pin Password',
+                          hintStyle: blackRegulerTextStyle.copyWith(
+                              fontSize: 12, color: blackColor),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greenColor,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                                  _obscureText = !_obscureText;
+                                },
+                              );
+                            },
+                            child: Icon(
+                              _obscureText
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: greyColor,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          contentPadding: const EdgeInsets.all(12),
+                        ),
+                      ),
+                    ],
                   ),
+                  TextFormWidget(
+                    controller: state.referralCode,
+                    title: 'Kode Referral',
+                    hintText: 'Nama Depan',
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  // Text(
+                  //   'Password',
+                  //   style: blackTextStyle,
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                  //   height: 40,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(7),
+                  //     color: whiteColor,
+                  //     border: Border.all(color: Color(0xffCCCCCC), width: 1),
+                  //   ),
+                  //   child: TextField(
+                  //     maxLength: 6,
+                  //     keyboardType: TextInputType.number,
+                  //     obscureText: false,
+                  //     controller: state.password,
+                  //     decoration: InputDecoration(
+                  //       border: InputBorder.none,
+                  //     ),
+                  //     style: blackTextStyle.copyWith(fontSize: 12),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -327,10 +399,13 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                       if (state.province == 0 || state.city == 0) {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertWidget(subtitle: 'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
+                          builder: (context) => AlertWidget(
+                              subtitle:
+                                  'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
                         );
                       } else {
-                        await state.register(context, profileImage: imagePath, doInPost: () async {
+                        await state.register(context, profileImage: imagePath,
+                            doInPost: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

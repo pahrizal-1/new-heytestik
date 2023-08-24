@@ -14,6 +14,7 @@ class TextFormWidget extends StatelessWidget {
     required this.title,
     required this.hintText,
     required this.controller,
+    required,
   }) : super(key: key);
 
   @override
@@ -31,6 +32,8 @@ class TextFormWidget extends StatelessWidget {
             fillColor: greenColor,
             hoverColor: greenColor,
             hintText: hintText,
+            hintStyle:
+                blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: greenColor,
