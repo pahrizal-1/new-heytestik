@@ -147,8 +147,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+    final XFile? pickedImage = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
       print('img path $imagePath');
@@ -172,22 +172,18 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
               receiverBy: receiverBy,
               path: [imagePath],
               sendMsg: () {
-                print('mesg' + state.messageController.text.toString());
-                sendMessage(
-                  widget.roomId ?? 0,
-                  widget.roomId ?? 0,
-                  widget.senderId ?? 0,
-                  widget.receiverId ?? 0,
-                  widget.roomCode,
-                  state.messageController.text.isNotEmpty
-                      ? state.messageController.text
-                      : '',
-                  widget.senderBy ?? '',
-                  widget.receiverBy ?? '',
-                );
+                var data = {
+                  "room": roomCode,
+                  "message": state.messageController.text,
+                  "files": [baseImg64]
+                };
+                _socket?.emit('sendMessage', data);
+                state.messageController.text = '';
+                fileImage = [];
+                Get.back();
+
                 // Navigator.pop(context);
                 // selectedMultipleImage = [];
-                Get.back();
               },
             ),
           ));
@@ -494,7 +490,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
           if (data is Map) {
             data = json.encode(data);
           }
-          print('Socket.IO server disconnected');
+          print('Socket.IO server disconnected' + data.toString());
         });
       });
     } catch (e) {
