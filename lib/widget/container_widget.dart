@@ -4,7 +4,12 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
+    as Detail;
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 Container ContainerSchedule = Container(
   decoration: BoxDecoration(
@@ -291,28 +296,13 @@ class ContainerSettings extends StatelessWidget {
 }
 
 class ContainerProduk extends StatelessWidget {
-  final String imageProduk;
-  final String merkProduk;
-  final String penggunaanJadwal;
-  final String penggunaan;
-  final String harga;
-  final String stock;
-  final String jenisProduk;
-
-  const ContainerProduk({
-    Key? key,
-    required this.imageProduk,
-    required this.merkProduk,
-    required this.penggunaanJadwal,
-    required this.penggunaan,
-    required this.harga,
-    required this.stock,
-    required this.jenisProduk,
-  }) : super(key: key);
+  final Detail.ConsultationRecomendationSkincare data;
+  const ContainerProduk({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
@@ -348,7 +338,8 @@ class ContainerProduk extends StatelessWidget {
                         border: Border.all(
                             width: 0.5, color: fromCssColor('#E9E9E9')),
                         image: DecorationImage(
-                          image: AssetImage(imageProduk),
+                          image: NetworkImage(
+                              '${Global.FILE}/${data.product!.mediaProducts?[0].media?.path}'),
                         ),
                       ),
                     ),
@@ -362,7 +353,7 @@ class ContainerProduk extends StatelessWidget {
                           constraints: const BoxConstraints(maxWidth: 160),
                           child: RichText(
                             text: TextSpan(
-                              text: merkProduk,
+                              text: data.product?.name ?? '-',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: greenColor,
@@ -402,7 +393,9 @@ class ContainerProduk extends StatelessWidget {
                                   constraints:
                                       const BoxConstraints(maxWidth: 80),
                                   child: Text(
-                                    penggunaanJadwal,
+                                    data.product?.skincareDetail
+                                            ?.specificationHowToUse ??
+                                        '-',
                                     style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 12,
@@ -415,7 +408,7 @@ class ContainerProduk extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  penggunaan,
+                                  '0x sehari',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 12,
@@ -437,7 +430,8 @@ class ContainerProduk extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              harga,
+                              CurrencyFormat.convertToIdr(
+                                  data.product?.price ?? 0, 0),
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 fontSize: 13,
@@ -468,7 +462,7 @@ class ContainerProduk extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  stock,
+                                  '${data.product?.productStock ?? 0}',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,
@@ -494,6 +488,7 @@ class ContainerProduk extends StatelessWidget {
                   width: 250,
                   height: 40,
                   child: TextFormField(
+                    readOnly: true,
                     decoration: InputDecoration(
                       labelText: 'Catatan',
                       enabledBorder: OutlineInputBorder(
@@ -508,7 +503,7 @@ class ContainerProduk extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: jenisProduk,
+                      hintText: data.product?.category ?? '',
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 12),
                       border: OutlineInputBorder(
@@ -531,24 +526,9 @@ class ContainerProduk extends StatelessWidget {
 }
 
 class ContainerProdukPenting extends StatelessWidget {
-  final String imageProduk;
-  final String merkProduk;
-  final String penggunaanJadwal;
-  final String penggunaan;
-  final String harga;
-  final String stock;
-  final String jenisProduk;
-
-  const ContainerProdukPenting({
-    Key? key,
-    required this.imageProduk,
-    required this.merkProduk,
-    required this.penggunaanJadwal,
-    required this.penggunaan,
-    required this.harga,
-    required this.stock,
-    required this.jenisProduk,
-  }) : super(key: key);
+  final Detail.ConsultationRecipeDrugs data;
+  const ContainerProdukPenting({Key? key, required this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -590,9 +570,8 @@ class ContainerProdukPenting extends StatelessWidget {
                             border: Border.all(
                                 width: 0.5, color: fromCssColor('#E9E9E9')),
                             image: DecorationImage(
-                              image: AssetImage(
-                                imageProduk,
-                              ),
+                              image: NetworkImage(
+                                  '${Global.FILE}/${data.product!.mediaProducts?[0].media?.path}'),
                             ),
                           ),
                         ),
@@ -606,7 +585,7 @@ class ContainerProdukPenting extends StatelessWidget {
                               constraints: const BoxConstraints(maxWidth: 160),
                               child: RichText(
                                 text: TextSpan(
-                                  text: merkProduk,
+                                  text: data.product?.name ?? '-',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     color: greenColor,
@@ -645,7 +624,9 @@ class ContainerProdukPenting extends StatelessWidget {
                                       constraints:
                                           const BoxConstraints(maxWidth: 80),
                                       child: Text(
-                                        penggunaanJadwal,
+                                        data.product?.drugDetail
+                                                ?.specificationDose ??
+                                            '-',
                                         style: TextStyle(
                                           fontFamily: 'ProximaNova',
                                           fontSize: 12,
@@ -658,7 +639,7 @@ class ContainerProdukPenting extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      penggunaan,
+                                      '0x sehari',
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         fontSize: 12,
@@ -680,7 +661,8 @@ class ContainerProdukPenting extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  harga,
+                                  CurrencyFormat.convertToIdr(
+                                      data.product?.price ?? 0, 0),
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,
@@ -710,7 +692,7 @@ class ContainerProdukPenting extends StatelessWidget {
                                       width: 5,
                                     ),
                                     Text(
-                                      stock,
+                                      '${data.product?.productStock ?? 0}',
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         fontSize: 13,
@@ -736,6 +718,7 @@ class ContainerProdukPenting extends StatelessWidget {
                       width: 250,
                       height: 40,
                       child: TextFormField(
+                        readOnly: true,
                         decoration: InputDecoration(
                           labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
@@ -750,7 +733,7 @@ class ContainerProdukPenting extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          hintText: jenisProduk,
+                          hintText: data.product?.category ?? '',
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 12),
                           border: OutlineInputBorder(
@@ -783,6 +766,237 @@ class ContainerProdukPenting extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ContainerTreatment extends StatelessWidget {
+  final Detail.ConsultationRecomendationTreatment data;
+  const ContainerTreatment({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: fromCssColor(
+            '#D9D9D9',
+          ),
+        ),
+        borderRadius: BorderRadius.circular(7),
+      ),
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 17, right: 10, bottom: 15, left: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/cekbox.svg',
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 0.5, color: fromCssColor('#E9E9E9')),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  '${Global.FILE}/${data.consultationRecomendationTreatmentClinics?[0].clinic!.mediaClinics?[0].media?.path}'),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 160),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: data.name ?? '-',
+                                  style: TextStyle(
+                                    fontFamily: 'ProximaNova',
+                                    color: greenColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 75,
+                                  child: Text(
+                                    'Cost',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  // color: Colors.amberAccent,
+                                  constraints: BoxConstraints(maxWidth: 70),
+                                  child: Text(
+                                    data.cost ?? '-',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 3,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 75,
+                                  child: Text(
+                                    'Recov. Time',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  // color: Colors.amberAccent,
+                                  constraints: BoxConstraints(maxWidth: 70),
+                                  child: Text(
+                                    data.recoveryTime ?? '-',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 75,
+                                  child: Text(
+                                    'Type',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  // color: Colors.amberAccent,
+                                  constraints: BoxConstraints(maxWidth: 70),
+                                  child: Text(
+                                    data.type ?? '-',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#9B9B9B',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Container(
+              height: 40,
+              child: ButtonGreenWidget(
+                title: 'Cari & Pilih Klinik',
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) =>
+                  //         const SearchKlinkPage(),
+                  //   ),
+                  // );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
