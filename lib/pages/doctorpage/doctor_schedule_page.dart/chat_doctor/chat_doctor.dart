@@ -155,39 +155,41 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       final bytes = File(imagePath!.path).readAsBytesSync();
       String img64 = base64Encode(bytes);
       String baseImg64 = "data:/png;base64,$img64";
-      fileImage.add(baseImg64);
-      Navigator.push(
-          Get.context!,
-          MaterialPageRoute(
-            builder: (context) => PreviewImageDoctor(
-              sendMsg: () {
-                print('mesg' + state.messageController.text.toString());
-                sendMessage(
-                  widget.roomId ?? 0,
-                  widget.roomId ?? 0,
-                  widget.senderId ?? 0,
-                  widget.receiverId ?? 0,
-                  widget.roomCode,
-                  state.messageController.text.isNotEmpty
-                      ? state.messageController.text
-                      : '',
-                  widget.senderBy ?? '',
-                  widget.receiverBy ?? '',
-                );
-                // selectedMultipleImage = [];
-                Get.back();
-              },
-              idRoom: idRoom,
-              chatRoomId: chatRoomId,
-              userId: userId,
-              receiverId: receiverId,
-              roomCode: roomCode,
-              senderBy: senderBy,
-              receiverBy: receiverBy,
-              path: [imagePath],
-            ),
-          ));
+      // show
 
+      Get.dialog(
+        PreviewImageDoctor(
+          idRoom: idRoom,
+          chatRoomId: chatRoomId,
+          userId: userId,
+          receiverId: receiverId,
+          roomCode: roomCode,
+          senderBy: senderBy,
+          receiverBy: receiverBy,
+          path: [imagePath],
+          sendMsg: () {
+            print('mesg' + state.messageController.text.toString());
+            // connectSocket(context);
+            sendMessage(
+              widget.roomId ?? 0,
+              widget.roomId ?? 0,
+              widget.senderId ?? 0,
+              widget.receiverId ?? 0,
+              widget.roomCode,
+              state.messageController.text.isNotEmpty
+                  ? state.messageController.text
+                  : '',
+              widget.senderBy ?? '',
+              widget.receiverBy ?? '',
+            );
+            Get.back();
+            // Navigator.pop(context);
+            // selectedMultipleImage = [];
+          },
+        ),
+      );
+
+      fileImage.add(baseImg64);
 
       // return imagePath;
     } else {
@@ -512,9 +514,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
       });
-      _socket?.onDisconnect((data) async {
-        print('Socket.IO server disconnected');
-      });
+      // _socket?.onDisconnect((data) async {
+      //   print('Socket.IO server disconnected');
+      // });
     } catch (e) {
       print('error nih $e');
     }

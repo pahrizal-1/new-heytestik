@@ -127,6 +127,7 @@ class Product {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  List<ConsultationRecipeDrugs>? consultationRecipeDrugs;
   List<MediaProducts>? mediaProducts;
   SkincareDetail? skincareDetail;
   DrugDetail? drugDetail;
@@ -156,6 +157,7 @@ class Product {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.consultationRecipeDrugs,
       this.mediaProducts,
       this.skincareDetail,
       this.drugDetail});
@@ -185,6 +187,12 @@ class Product {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    if (json['consultation_recipe_drugs'] != null) {
+      consultationRecipeDrugs = <ConsultationRecipeDrugs>[];
+      json['consultation_recipe_drugs'].forEach((v) {
+        consultationRecipeDrugs!.add(ConsultationRecipeDrugs.fromJson(v));
+      });
+    }
     if (json['media_products'] != null) {
       mediaProducts = <MediaProducts>[];
       json['media_products'].forEach((v) {
@@ -225,6 +233,10 @@ class Product {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (consultationRecipeDrugs != null) {
+      data['consultation_recipe_drugs'] =
+          consultationRecipeDrugs!.map((v) => v.toJson()).toList();
+    }
     if (mediaProducts != null) {
       data['media_products'] = mediaProducts!.map((v) => v.toJson()).toList();
     }
@@ -234,6 +246,71 @@ class Product {
     if (drugDetail != null) {
       data['drug_detail'] = drugDetail!.toJson();
     }
+    return data;
+  }
+}
+
+class ConsultationRecipeDrugs {
+  int? id;
+  int? consultationId;
+  int? productId;
+  int? customerId;
+  String? notes;
+  int? redeemAmount;
+  int? remainingRedeemAmount;
+  String? dueDate;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  ConsultationRecipeDrugs(
+      {this.id,
+      this.consultationId,
+      this.productId,
+      this.customerId,
+      this.notes,
+      this.redeemAmount,
+      this.remainingRedeemAmount,
+      this.dueDate,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  ConsultationRecipeDrugs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    consultationId = json['consultation_id'];
+    productId = json['product_id'];
+    customerId = json['customer_id'];
+    notes = json['notes'];
+    redeemAmount = json['redeem_amount'];
+    remainingRedeemAmount = json['remaining_redeem_amount'];
+    dueDate = json['due_date'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['consultation_id'] = consultationId;
+    data['product_id'] = productId;
+    data['customer_id'] = customerId;
+    data['notes'] = notes;
+    data['redeem_amount'] = redeemAmount;
+    data['remaining_redeem_amount'] = remainingRedeemAmount;
+    data['due_date'] = dueDate;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

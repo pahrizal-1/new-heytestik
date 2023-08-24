@@ -14,7 +14,8 @@ class AuthPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           // width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.only(left: paddingL, right: paddingL, top: 446),
+          padding:
+              const EdgeInsets.only(left: paddingL, right: paddingL, top: 446),
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/Auth-screen.png'),
@@ -83,7 +84,14 @@ class AuthPage extends StatelessWidget {
                         fontSize: 13,
                       ),
                       children: [
-                        TextSpan(text: " dan", style: greyTextStyle.copyWith(fontSize: 13), children: [TextSpan(text: " Syarat dan Ketentuan", style: grenTextStyle.copyWith(fontSize: 13))]),
+                        TextSpan(
+                            text: " dan",
+                            style: greyTextStyle.copyWith(fontSize: 13),
+                            children: [
+                              TextSpan(
+                                  text: " Syarat dan Ketentuan",
+                                  style: grenTextStyle.copyWith(fontSize: 13))
+                            ]),
                       ],
                     ),
                   ],

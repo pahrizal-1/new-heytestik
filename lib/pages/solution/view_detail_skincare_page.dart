@@ -132,7 +132,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const KeranjangPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const KeranjangPage()));
             },
             child: SvgPicture.asset(
               'assets/icons/trello-icons.svg',
@@ -143,7 +146,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AkunHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -222,17 +226,22 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         const Spacer(),
                         InkWell(
                           onTap: () async {
-                            if ((isWishlist ?? state.skincareDetail.value.wishlist) == true) {
+                            if ((isWishlist ??
+                                    state.skincareDetail.value.wishlist) ==
+                                true) {
                               isWishlist = false;
-                              await wishlist.deleteWistlist(context, widget.productId);
+                              await wishlist.deleteWistlist(
+                                  context, widget.productId);
                               setState(() {});
                             } else {
                               isWishlist = true;
-                              await wishlist.addWishlist(context, widget.productId);
+                              await wishlist.addWishlist(
+                                  context, widget.productId);
                               setState(() {});
                             }
                           },
-                          child: isWishlist ?? state.skincareDetail.value.wishlist == true
+                          child: isWishlist ??
+                                  state.skincareDetail.value.wishlist == true
                               ? Icon(
                                   Icons.favorite,
                                   color: Colors.red,
@@ -263,13 +272,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       children: [
                         Text(
                           'Terjual 0',
-                          style: blackRegulerTextStyle.copyWith(color: blackColor),
+                          style:
+                              blackRegulerTextStyle.copyWith(color: blackColor),
                         ),
                         const SizedBox(
                           width: 9,
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(7),
@@ -285,14 +296,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               ),
                               Text(
                                 '${state.skincareDetail.value.rating}',
-                                style: blackHigtTextStyle.copyWith(fontSize: 13),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 13),
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 '(0)',
-                                style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 13),
                               )
                             ],
                           ),
@@ -326,7 +339,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 children: [
                                   Text(
                                     'Ada Promo Spesial',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 15),
                                   ),
                                   Text(
                                     'Masih ada 6 kupon promo buat kamu!',
@@ -350,7 +364,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               ),
               const dividergreen(),
               Padding(
-                padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 17),
+                padding: const EdgeInsets.only(
+                    top: 12, left: 24, right: 24, bottom: 17),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -365,7 +380,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       ontap: () {
                         Get.to(
                           CategorySkinCare(
-                            category: state.skincareDetail.value.category.toString(),
+                            category:
+                                state.skincareDetail.value.category.toString(),
                           ),
                         );
                       },
@@ -377,7 +393,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       ontap: () {
                         Get.to(
                           CategorySkinCare(
-                            category: state.skincareDetail.value.display.toString(),
+                            category:
+                                state.skincareDetail.value.display.toString(),
                           ),
                         );
                       },
@@ -387,19 +404,22 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     TitleDetail(
                       title1: 'Tekstur',
-                      title2: '${state.skincareDetail.value.skincareDetail?.specificationTexture}',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationTexture}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'Kemasan',
-                      title2: '${state.skincareDetail.value.skincareDetail?.specificationPackagingType} ${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationPackagingType} ${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'No. BPOM',
-                      title2: '${state.skincareDetail.value.skincareDetail?.specificationBpom}',
+                      title2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationBpom}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
@@ -411,11 +431,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     DescripsiText(
                       title1: 'Deskripsi',
-                      subtitle2: '${state.skincareDetail.value.skincareDetail?.description}',
+                      subtitle2:
+                          '${state.skincareDetail.value.skincareDetail?.description}',
                     ),
                     DescripsiText(
                       title1: 'Petunjuk Penggunaan',
-                      subtitle2: '${state.skincareDetail.value.skincareDetail?.specificationHowToUse}',
+                      subtitle2:
+                          '${state.skincareDetail.value.skincareDetail?.specificationHowToUse}',
                     ),
                     InkWell(
                       onTap: () {
@@ -433,7 +455,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                           ),
                           const Spacer(),
                           Icon(
-                            isVisibelity ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                            isVisibelity
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_down,
                             color: greenColor,
                           )
                         ],
@@ -482,7 +506,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Text(
                           '/5.0',
-                          style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0XffCCCCCC)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 12, color: const Color(0XffCCCCCC)),
                         ),
                         const SizedBox(
                           width: 16,
@@ -495,12 +520,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 12, fontStyle: FontStyle.italic),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 Text(
                                   ' merasa puas',
-                                  style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const Icon(Icons.keyboard_arrow_right)
                               ],
@@ -510,7 +538,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.totalRating ?? 0} rating',
-                                    style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ),
                                 const SizedBox(
@@ -526,7 +555,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
-                                    style: blackTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ),
                               ],
@@ -543,12 +573,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
@@ -556,7 +588,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
                                   ),
                                 ),
                                 const SizedBox(
@@ -567,12 +600,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   children: [
                                     Text(
                                       'Effectiveness',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Obx(
                                       () => Text(
                                         '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
                                       ),
                                     ),
                                   ],
@@ -583,12 +618,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
@@ -596,7 +633,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.avgTextureRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
                                   ),
                                 ),
                                 const SizedBox(
@@ -607,12 +645,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   children: [
                                     Text(
                                       'Texture',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Obx(
                                       () => Text(
                                         '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
                                       ),
                                     ),
                                   ],
@@ -623,12 +663,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             margin: const EdgeInsets.only(right: 3),
                             height: 50,
                             decoration: BoxDecoration(
                               color: whiteColor,
-                              border: Border.all(color: const Color(0xffCCCCCC)),
+                              border:
+                                  Border.all(color: const Color(0xffCCCCCC)),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Row(
@@ -636,7 +678,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 Obx(
                                   () => Text(
                                     '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 18),
                                   ),
                                 ),
                                 const SizedBox(
@@ -647,12 +690,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   children: [
                                     Text(
                                       'Packaging',
-                                      style: blackTextStyle.copyWith(fontSize: 10, fontWeight: regular),
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 10, fontWeight: regular),
                                     ),
                                     Obx(
                                       () => Text(
                                         '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
                                       ),
                                     ),
                                   ],
@@ -676,7 +721,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             Text(
                               ' Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18, fontStyle: FontStyle.italic),
+                              style: blackHigtTextStyle.copyWith(
+                                  fontSize: 18, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
@@ -686,7 +732,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UlasanProdukPage(productId: widget.productId),
+                                builder: (context) => UlasanProdukPage(
+                                    productId: widget.productId),
                               ),
                             );
                           },
@@ -726,15 +773,21 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                         width: 12,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             element.user?.fullname ?? '-',
-                                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 15),
                                           ),
                                           Text(
-                                            element.transactionProductItem?.product?.type ?? '-',
-                                            style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+                                            element.transactionProductItem
+                                                    ?.product?.type ??
+                                                '-',
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 13,
+                                                fontWeight: regular),
                                           ),
                                         ],
                                       ),
@@ -748,12 +801,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   Row(
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: List.generate(5, (index) {
                                           return Image.asset(
                                             'assets/icons/stars-new.png',
                                             width: 12,
-                                            color: element.avgRating! > index ? const Color(0xffFFC36A) : Color.fromRGBO(155, 155, 155, 0.61),
+                                            color: element.avgRating! > index
+                                                ? const Color(0xffFFC36A)
+                                                : Color.fromRGBO(
+                                                    155, 155, 155, 0.61),
                                           );
                                         }),
                                       ),
@@ -761,8 +818,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                         width: 13,
                                       ),
                                       Text(
-                                        timeago.format(DateTime.parse(element.createdAt.toString())),
-                                        style: blackHigtTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                                        timeago.format(DateTime.parse(
+                                            element.createdAt.toString())),
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 12, fontWeight: regular),
                                       )
                                     ],
                                   ),
@@ -771,14 +830,17 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ),
                                   Text(
                                     element.review ?? '-',
-                                    style: greyTextStyle.copyWith(fontSize: 13, color: const Color(0xff6B6B6B)),
+                                    style: greyTextStyle.copyWith(
+                                        fontSize: 13,
+                                        color: const Color(0xff6B6B6B)),
                                   ),
                                   const SizedBox(
                                     height: 13,
                                   ),
                                   Text(
                                     'Before',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12),
                                   ),
                                   const SizedBox(
                                     height: 13,
@@ -786,12 +848,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   Wrap(
                                     spacing: 4,
                                     runSpacing: 4,
-                                    children: element.mediaBeforeConditionProductReviews!.map((e) {
+                                    children: element
+                                        .mediaBeforeConditionProductReviews!
+                                        .map((e) {
                                       return Container(
                                         height: 72,
                                         width: 82,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
                                         ),
                                         child: Image.network(
                                           '${Global.FILE}/${e.media!.path.toString()}',
@@ -805,7 +870,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ),
                                   Text(
                                     'After',
-                                    style: blackHigtTextStyle.copyWith(fontSize: 12),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12),
                                   ),
                                   const SizedBox(
                                     height: 13,
@@ -813,12 +879,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   Wrap(
                                     spacing: 4,
                                     runSpacing: 4,
-                                    children: element.mediaAfterConditionProductReviews!.map((e) {
+                                    children: element
+                                        .mediaAfterConditionProductReviews!
+                                        .map((e) {
                                       return Container(
                                         height: 72,
                                         width: 82,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
                                         ),
                                         child: Image.network(
                                           '${Global.FILE}/${e.media!.path.toString()}',
@@ -837,23 +906,32 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                           print("help");
 
                                           if (help ?? element.helped!) {
-                                            state.unHelped(context, element.id!);
+                                            state.unHelped(
+                                                context, element.id!);
                                             setState(() {
                                               help = false;
-                                              helpReview["${element.id}"] = (helpReview["${element.id}"] ?? 0) - 1;
+                                              helpReview["${element.id}"] =
+                                                  (helpReview["${element.id}"] ??
+                                                          0) -
+                                                      1;
                                             });
                                           } else {
                                             state.helped(context, element.id!);
                                             setState(() {
                                               help = true;
-                                              helpReview["${element.id}"] = (helpReview["${element.id}"] ?? 0) + 1;
+                                              helpReview["${element.id}"] =
+                                                  (helpReview["${element.id}"] ??
+                                                          0) +
+                                                      1;
                                             });
                                           }
                                         },
                                         child: Image.asset(
                                           'assets/icons/like.png',
                                           width: 15,
-                                          color: help ?? element.helped! ? greenColor : greyColor,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
                                         ),
                                       ),
                                       const SizedBox(
@@ -864,7 +942,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                         style: grenTextStyle.copyWith(
                                           fontSize: 13,
                                           fontWeight: regular,
-                                          color: help ?? element.helped! ? greenColor : greyColor,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
                                         ),
                                       ),
                                       const Spacer(),
@@ -881,11 +961,19 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                                   isVisibelity
                                                       ? Text(
                                                           'Lihat Balasan',
-                                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
                                                         )
                                                       : Text(
                                                           'Tutup Balasan',
-                                                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                                                          style:
+                                                              blackRegulerTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          13),
                                                         ),
                                                   const SizedBox(
                                                     width: 4,
@@ -909,24 +997,37 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                         Container(
                                           height: 60,
                                           width: 2,
-                                          decoration: BoxDecoration(color: greenColor),
+                                          decoration:
+                                              BoxDecoration(color: greenColor),
                                         ),
                                         const SizedBox(
                                           width: 7,
                                         ),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
                                                   Text(
                                                     'Penjual ',
-                                                    style: blackHigtTextStyle.copyWith(fontSize: 13, color: subTitleColor),
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                            fontSize: 13,
+                                                            color:
+                                                                subTitleColor),
                                                   ),
                                                   Text(
-                                                    timeago.format(DateTime.parse(element.createdAt.toString())),
-                                                    style: blackRegulerTextStyle.copyWith(color: subTitleColor, fontSize: 13),
+                                                    timeago.format(
+                                                        DateTime.parse(element
+                                                            .createdAt
+                                                            .toString())),
+                                                    style: blackRegulerTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                subTitleColor,
+                                                            fontSize: 13),
                                                   )
                                                 ],
                                               ),
@@ -973,7 +1074,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Text(
                           'Bagikan ulasanmu, yuk Sobat Hey :)',
-                          style: blackHigtTextStyle.copyWith(fontSize: 13, color: const Color(0XFF6B6B6B)),
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 13, color: const Color(0XFF6B6B6B)),
                         )
                       ],
                     ),
@@ -983,8 +1085,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Expanded(
                       child: Container(
                         height: 29,
-                        decoration: BoxDecoration(border: Border.all(color: greenColor, width: 1.5), borderRadius: BorderRadius.circular(3)),
-                        padding: const EdgeInsets.only(top: 6, bottom: 6, left: 10, right: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: greenColor, width: 1.5),
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: const EdgeInsets.only(
+                            top: 6, bottom: 6, left: 10, right: 10),
                         child: Center(
                           child: Text(
                             'Beri Ulasan',
@@ -1013,7 +1118,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       children: [
                         Text(
                           'Sobat Hey',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18, fontStyle: FontStyle.italic),
+                          style: blackHigtTextStyle.copyWith(
+                              fontSize: 18, fontStyle: FontStyle.italic),
                         ),
                         Text(
                           ' juga membeli ini',
@@ -1056,7 +1162,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (_) => DetailSkinCarePage(
+                                              builder: (_) =>
+                                                  DetailSkinCarePage(
                                                 productId: e.id!.toInt(),
                                               ),
                                             ),
@@ -1064,12 +1171,17 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                         },
                                         child: Produkheight(
                                           produkId: e.id!.toInt(),
-                                          namaBrand: e.skincareDetail!.brand.toString(),
+                                          namaBrand: e.skincareDetail!.brand
+                                              .toString(),
                                           namaProduk: e.name.toString(),
                                           diskonProduk: '20',
-                                          hargaDiskon: CurrencyFormat.convertToIdr(e.price, 0),
-                                          harga: CurrencyFormat.convertToIdr(e.price, 0),
-                                          urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                          hargaDiskon:
+                                              CurrencyFormat.convertToIdr(
+                                                  e.price, 0),
+                                          harga: CurrencyFormat.convertToIdr(
+                                              e.price, 0),
+                                          urlImg:
+                                              '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                           // rating: '4.9 (120k)',
                                           rating: e.rating.toString(),
                                         ),
@@ -1158,7 +1270,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
       bottomNavigationBar: Wrap(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, bottom: 11, top: 11),
             child: Row(
               children: [
                 Expanded(
@@ -1168,12 +1281,16 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     },
                     child: Container(
                       width: 142,
-                      decoration: BoxDecoration(color: greenColor, border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           'Konsultasi Dulu',
-                          style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
@@ -1189,7 +1306,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         {
                           "product_id": state.skincareDetail.value.id,
                           "productName": state.skincareDetail.value.name,
-                          "img": state.skincareDetail.value.mediaProducts?[0].media?.path,
+                          "img": state.skincareDetail.value.mediaProducts?[0]
+                              .media?.path,
                           "qty": 1,
                           "notes": '-',
                           "isSelected": true,
@@ -1204,12 +1322,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       ));
                     },
                     child: Container(
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
                       height: 40,
                       child: Center(
                         child: Text(
                           'Beli Langsung',
-                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
                         ),
                       ),
                     ),
@@ -1224,13 +1345,13 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   },
                   child: Container(
                     height: 40,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
                       border: Border.all(color: borderColor),
                     ),
                     child: Row(
-                      // ignore: prefer_const_constructors
                       children: [
                         Icon(
                           Icons.add,

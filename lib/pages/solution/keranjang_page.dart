@@ -189,67 +189,28 @@ class _KeranjangPageState extends State<KeranjangPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: cart.length,
                       itemBuilder: (BuildContext context, int i) {
-                        if (cart[i].product?.type == 'SKINCARE') {
-                          return InkWell(
-                            onTap: () {
+                        return InkWell(
+                          onTap: () {
+                            if (cart[i].product?.type == 'SKINCARE') {
                               Get.to(DetailSkinCarePage(
                                 productId: cart[i].productId!.toInt(),
                               ));
-                            },
-                            child: ProdukCardWidget(
-                              index: i,
-                              cartId: cart[i].id!.toInt(),
-                              productId: cart[i].productId!.toInt(),
-                              qty: cart[i].qty!.toInt(),
-                              imageProduk:
-                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
-                              merkProduk: '${cart[i].product?.name}',
-                              penggunaanJadwal:
-                                  '${cart[i].product?.skincareDetail?.specificationHowToUse}',
-                              penggunaan: '0x sehari',
-                              harga: CurrencyFormat.convertToIdr(
-                                  cart[i].product?.price ?? 0, 0),
-                              hintText: cart[i].notes ?? '',
-                              type: '${cart[i].product?.type}',
-                              packagingType:
-                                  '${cart[i].product?.skincareDetail?.specificationPackagingType}',
-                              netto:
-                                  '${cart[i].product?.skincareDetail?.specificationNetto}',
-                              nettoType:
-                                  '${cart[i].product?.skincareDetail?.specificationNettoType}',
-                            ),
-                          );
-                        }
-                        if (cart[i].product?.type == 'DRUGS') {
-                          return InkWell(
-                            onTap: () {
+                            }
+
+                            if (cart[i].product?.type == 'DRUGS') {
                               Get.to(
                                 DetailObatPage(
                                   medicine: Medicine.Data2.fromJson(
                                       jsonDecode(jsonEncode(cart[i].product))),
                                 ),
                               );
-                            },
-                            child: ProdukCardWidget(
-                              index: i,
-                              cartId: cart[i].id!.toInt(),
-                              productId: cart[i].productId!.toInt(),
-                              qty: cart[i].qty!.toInt(),
-                              imageProduk:
-                                  '${Global.FILE}/${cart[i].product!.mediaProducts?[0].media?.path}',
-                              merkProduk: '${cart[i].product?.name}',
-                              penggunaanJadwal:
-                                  '${cart[i].product?.drugDetail?.specificationDose}',
-                              penggunaan: '0x sehari',
-                              harga: CurrencyFormat.convertToIdr(
-                                  cart[i].product?.price ?? 0, 0),
-                              hintText: cart[i].notes ?? '',
-                              type: '${cart[i].product?.type}',
-                              packagingType:
-                                  '${cart[i].product?.drugDetail?.specificationPackaging}',
-                            ),
-                          );
-                        }
+                            }
+                          },
+                          child: ProdukCardWidget(
+                            index: i,
+                            data: cart[i],
+                          ),
+                        );
                       },
                     ),
               Obx(

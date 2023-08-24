@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -24,6 +26,7 @@ class ProdukWishlistSkinCare extends StatefulWidget {
 
 class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
   final WishlistController state = Get.put(WishlistController());
+  final CartController cart = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +73,14 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   Container(
                     width: 28,
                     height: 13,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: const Color.fromRGBO(201, 42, 42, 0.2)),
                     child: Center(
                       child: Text(
                         '${CurrencyFormat.convertToIdr(widget.data.product?.price, 0)}%',
-                        style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                        style: blackHigtTextStyle.copyWith(
+                            color: redColor, fontSize: 11),
                       ),
                     ),
                   ),
@@ -108,7 +114,8 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   ),
                   Text(
                     '${widget.data.product?.rating}',
-                    style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
                 ],
               ),
@@ -120,7 +127,9 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                   Container(
                     height: 30,
                     padding: const EdgeInsets.symmetric(horizontal: 9),
-                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(7)),
                     child: Center(
                       child: InkWell(
                         onTap: () async {
@@ -131,13 +140,15 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                               child: Wrap(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
                                         onTap: () async {
                                           await showDialog(
                                             context: context,
-                                            builder: (context) => AlertInfomasi(function: () async {
+                                            builder: (context) => AlertInfomasi(
+                                                function: () async {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               await state.deleteWistlist(
@@ -183,13 +194,25 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                     width: 4,
                   ),
                   Expanded(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
-                      child: Center(
-                        child: Text(
-                          '+ Keranjang',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                    child: InkWell(
+                      onTap: () async {
+                        await cart.addCart(
+                          context,
+                          widget.data.productId!,
+                          1,
+                          '',
+                        );
+                      },
+                      child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: greenColor),
+                            borderRadius: BorderRadius.circular(7)),
+                        child: Center(
+                          child: Text(
+                            '+ Keranjang',
+                            style: grenTextStyle.copyWith(fontSize: 12),
+                          ),
                         ),
                       ),
                     ),
@@ -219,6 +242,7 @@ class ProdukWishlistObat extends StatefulWidget {
 
 class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
   final WishlistController state = Get.put(WishlistController());
+  MedicineController medicineController = Get.put(MedicineController());
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +297,8 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   ),
                   Text(
                     '${widget.data.product?.rating} (120k)',
-                    style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 11, color: const Color(0xff9B9B9B)),
                   )
                 ],
               ),
@@ -285,7 +310,9 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   Container(
                     height: 30,
                     padding: const EdgeInsets.symmetric(horizontal: 9),
-                    decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(7)),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(7)),
                     child: Center(
                       child: InkWell(
                         onTap: () async {
@@ -296,15 +323,17 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                               child: Wrap(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
                                         onTap: () async {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
                                           await showDialog(
                                             context: context,
-                                            builder: (context) => AlertInfomasi(function: () async {
+                                            builder: (context) => AlertInfomasi(
+                                                function: () async {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
@@ -347,18 +376,49 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   const SizedBox(
                     width: 4,
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
-                      child: Center(
-                        child: Text(
-                          'Harus Resep Dokter',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                  widget.data.product!.consultationRecipeDrugs!.isNotEmpty
+                      ? Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              medicineController.addMedicineToCart(
+                                context,
+                                widget.data.productId!,
+                              );
+                              SnackbarWidget.getSuccessSnackbar(
+                                context,
+                                'Info',
+                                'Produk ditambahkan ke keranjang',
+                              );
+                            },
+                            child: Container(
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Center(
+                                child: Text(
+                                  '+ Keranjang',
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: Container(
+                            height: 30,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Harus Resep Dokter',
+                                style: grenTextStyle.copyWith(fontSize: 12),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],

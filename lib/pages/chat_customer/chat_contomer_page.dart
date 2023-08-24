@@ -346,9 +346,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
       });
-      _socket?.onDisconnect((data) async {
-        print('Socket.IO server disconnected');
-      });
+      // _socket?.onDisconnect((data) async {
+      //   print('Socket.IO server disconnected');
+      // });
     } catch (e) {
       print('error nih $e');
     }

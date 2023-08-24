@@ -41,7 +41,8 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
     if (pinController.text.isNotEmpty) {
       setState(() {
         isErr = false;
-        pinController.text = pinController.text.substring(0, pinController.text.length - 1);
+        pinController.text =
+            pinController.text.substring(0, pinController.text.length - 1);
       });
     }
   }
@@ -95,7 +96,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 1) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length >= 1)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           size: 15,
                           color: whiteColor,
                         ),
@@ -103,7 +106,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 2) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length >= 2)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -111,7 +116,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 3) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length >= 3)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -119,7 +126,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 4) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length >= 4)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -127,7 +136,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length >= 5) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length >= 5)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -135,7 +146,9 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (pinController.text.length == 6) ? Icons.circle : Icons.circle_outlined,
+                          (pinController.text.length == 6)
+                              ? Icons.circle
+                              : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -159,26 +172,31 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                           builder: (context) => Container(
                                 height: 246,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 33, top: 47, right: 45),
+                                  padding: const EdgeInsets.only(
+                                      left: 33, top: 47, right: 45),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Lupa Kata Sandi?',
-                                        style: blackTextStyle.copyWith(fontSize: 20),
+                                        style: blackTextStyle.copyWith(
+                                            fontSize: 20),
                                       ),
                                       const SizedBox(
                                         height: 28,
                                       ),
                                       Text(
                                         'Kami akan kirimkan Kata Sandi Anda\nke email yang terdaftar di akun Heystetik.',
-                                        style: blackHigtTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontWeight: regular, fontSize: 15),
                                       ),
                                       SizedBox(
                                         height: 15,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: InkWell(
@@ -195,11 +213,16 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                                                 // width: MediaQuery.of(context).size.width,
                                                 decoration: BoxDecoration(
                                                   color: whiteColor,
-                                                  border: Border.all(color: greenColor),
-                                                  borderRadius: BorderRadius.circular(7),
+                                                  border: Border.all(
+                                                      color: greenColor),
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
                                                 ),
                                                 child: Center(
-                                                  child: Text('Batal', style: TextStyle(color: greenColor, fontSize: 15)),
+                                                  child: Text('Batal',
+                                                      style: TextStyle(
+                                                          color: greenColor,
+                                                          fontSize: 15)),
                                                 ),
                                               ),
                                             ),
@@ -222,12 +245,15 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                                                 // width: MediaQuery.of(context).size.width,
                                                 decoration: BoxDecoration(
                                                   color: greenColor,
-                                                  borderRadius: BorderRadius.circular(7),
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     'Lanjut',
-                                                    style: TextStyle(color: whiteColor, fontSize: 15),
+                                                    style: TextStyle(
+                                                        color: whiteColor,
+                                                        fontSize: 15),
                                                   ),
                                                 ),
                                               ),
@@ -342,7 +368,8 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                             child: Center(
                                 child: Text(
                               '',
-                              style: whiteTextStyle.copyWith(fontSize: 25, fontWeight: bold),
+                              style: whiteTextStyle.copyWith(
+                                  fontSize: 25, fontWeight: bold),
                             )),
                           ),
                         ),
