@@ -10,15 +10,16 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../core/global.dart';
+import '../forget_passowrd/forget_password_email_page.dart';
 
-class LoginFacebookPage extends StatefulWidget {
-  const LoginFacebookPage({Key? key}) : super(key: key);
+class LoginGooglePage extends StatefulWidget {
+  const LoginGooglePage({Key? key}) : super(key: key);
 
   @override
-  State<LoginFacebookPage> createState() => _LoginFacebookPageState();
+  State<LoginGooglePage> createState() => _LoginGooglePageState();
 }
 
-class _LoginFacebookPageState extends State<LoginFacebookPage> {
+class _LoginGooglePageState extends State<LoginGooglePage> {
   final LoginController state = Get.put(LoginController());
   // Create a webview controller
   WebViewController controller = WebViewController();
@@ -38,38 +39,41 @@ class _LoginFacebookPageState extends State<LoginFacebookPage> {
             onPageStarted: (String url) async {
               print("INI PAGE STARTED");
               print(url);
-              if (url.contains("heystetik://login?")) {
-                String token = url.split("heystetik://login?token=")[1];
-                print("INI TOKEN");
-                print(token);
-                print("UDAH MASUK SINI");
-                await state.logInWithGoogle(context, token, doInPost: () async {
-                  await state.redirectTo();
-                });
-              }
             },
             onUrlChange: (UrlChange url) async {
               print("INI URL CHANGE");
               print(url.url);
-
+              setState(() {});
               if (url.url != null) {
                 if (url.url!.contains("heystetik://login?")) {
                   String token = url.url!.split("heystetik://login?token=")[1];
-                  print("INI TOKEN");
-                  print(token);
-                  context.loaderOverlay.show();
-                  print("UDAH MASUK SINI");
                   await state.logInWithGoogle(context, token, doInPost: () async {
                     await state.redirectTo();
+                    print("SUDAH SINI");
                   });
+                } else {
+                  print("INI ANEH");
                 }
               }
             },
-            onPageFinished: (String url) {
+            onPageFinished: (String url) async {
+              print("INI URL FINISHED");
               print(url);
+              if (url.contains("heystetik://login?")) {
+                String token = url.split("heystetik://login?token=")[1];
+                await state.logInWithGoogle(context, token, doInPost: () async {
+                  await state.redirectTo();
+                  print("SUDAH SINI");
+                });
+              } else {
+                print("INI ANEH");
+              }
             },
             onWebResourceError: (WebResourceError error) {},
             onNavigationRequest: (NavigationRequest request) {
+              if (request.url.contains("heystetik://login?")) {
+                return NavigationDecision.prevent;
+              }
               return NavigationDecision.navigate;
             },
           ),
