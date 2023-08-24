@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_facebook_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_google_page.dart';
+
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
@@ -275,7 +276,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginFacebookPage(),
+                    builder: (context) => LoginFacbookPage(),
                   ),
                 );
               },
