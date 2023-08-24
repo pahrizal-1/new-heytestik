@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
-import '../../../models/doctor/recent_chat_model.dart';
 
 class RecentChatService extends ProviderClass {
   RecentChatService()
@@ -52,7 +49,7 @@ class FetchMessageByRoom extends ProviderClass {
           networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),
         );
 
-  Future getFetchMessage(String roomCode,int take) async {
+  Future getFetchMessage(String roomCode, int take) async {
     var response = await networkingConfig.doGet(
       '/chat/message/${roomCode}?take=${take}&search&order=asc',
       headers: {
@@ -82,5 +79,22 @@ class LastChatService extends ProviderClass {
     var jsonResponse = response['data'];
 
     return jsonResponse;
+  }
+}
+
+class DetailConsultationService extends ProviderClass {
+  DetailConsultationService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+
+  Future<DetailConsultationModel> detailConsultationService(int id) async {
+    var response = await networkingConfig.doGet(
+      '/consultation/$id/detail',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DetailConsultationModel.fromJson(response);
   }
 }

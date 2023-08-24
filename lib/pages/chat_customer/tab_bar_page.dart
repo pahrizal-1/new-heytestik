@@ -6,7 +6,8 @@ import 'package:heystetik_mobileapps/pages/chat_customer/tab_bar_galery_page.dar
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class TabBarChat extends StatefulWidget {
-  const TabBarChat({super.key});
+  final int? id;
+  const TabBarChat({required this.id, super.key});
 
   @override
   State<TabBarChat> createState() => _TabBarChatState();
@@ -62,8 +63,8 @@ class _TabBarChatState extends State<TabBarChat> {
             ),
             Expanded(
               child: TabBarView(children: [
-                RekomendasiPerawatan1Page(),
-                DetailPerawatanPage(),
+                RekomendasiPerawatan1Page(id: widget.id),
+                DetailPerawatanPage(id: widget.id),
                 TabBarGaleryPage()
               ]),
             )

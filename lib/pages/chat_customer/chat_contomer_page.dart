@@ -491,7 +491,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TabBarChat(),
+                              builder: (context) => TabBarChat(id: widget.id),
                             ),
                           );
                         },

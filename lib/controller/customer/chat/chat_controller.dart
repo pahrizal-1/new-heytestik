@@ -4,6 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/error_config.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
+    as Detail;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -360,5 +363,17 @@ class CustomerChatController extends StateClass {
       // }
     });
     print("logInfo");
+  }
+
+  Rx<Detail.Data> data = Detail.Data.fromJson({}).obs;
+
+  detailConsultation(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await DetailConsultationService().detailConsultationService(id);
+      data.value = res.data!;
+      print("hehehahahah" + jsonDecode(jsonEncode(res)));
+    });
+    isLoading.value = false;
   }
 }
