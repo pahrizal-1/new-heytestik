@@ -1278,18 +1278,14 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
           MaterialPageRoute(
             builder: (context) => PreviewImageCustomer(
               sendMsg: () {
-                sendMessage(
-                  widget.roomId ?? 0,
-                  widget.roomId ?? 0,
-                  widget.senderId ?? 0,
-                  widget.receiverId ?? 0,
-                  widget.roomCode,
-                  state.messageController.text.isNotEmpty
-                      ? state.messageController.text
-                      : '',
-                  widget.sendBy ?? '',
-                  widget.receiverBy ?? '',
-                );
+                var data = {
+                  "room": widget.roomCode,
+                  "message": state.messageController.text,
+                  "files": [baseImg64]
+                };
+                _socket?.emit('sendMessage', data);
+                state.messageController.text = '';
+                fileImage = [];
                 // selectedMultipleImage = [];
                 Get.back();
               },
