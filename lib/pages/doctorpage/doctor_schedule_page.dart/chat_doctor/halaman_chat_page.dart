@@ -371,7 +371,9 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                         state.recentChatActive[i].customer!.fullname ?? '-',
                     doctorName:
                         state.recentChatActive[i].doctor!.fullname ?? '-',
-                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
+                    subNameTitle: '',
+                    // img: 'https://asset.kompas.com/crops/xxJOBtGmPRnsYjmTJu1Od6MnlhU=/153x0:1773x1080/1200x800/data/photo/2022/08/08/62f07b64afff9.jpg',
+
                     img: '${Global.FILE}/' + state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!,
                     // img:
                     //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
