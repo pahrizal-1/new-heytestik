@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_facebook_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_google_page.dart';
 
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../theme/theme.dart';
@@ -110,8 +112,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                   builder: (context) => Container(
                     height: 246,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 33, top: 47, right: 45),
+                      padding: const EdgeInsets.only(left: 33, top: 47, right: 45),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -124,8 +125,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                           ),
                           Text(
                             'Kami akan kirimkan Kata Sandi Anda\nke email yang terdaftar di akun Heystetik.',
-                            style: blackHigtTextStyle.copyWith(
-                                fontWeight: regular, fontSize: 15),
+                            style: blackHigtTextStyle.copyWith(fontWeight: regular, fontSize: 15),
                           ),
                           const SizedBox(
                             height: 15,
@@ -149,7 +149,9 @@ class _LoginPageNewState extends State<LoginPageNew> {
                                       child: Text(
                                         'Batal',
                                         style: TextStyle(
-                                            color: greenColor, fontSize: 15),
+                                          color: greenColor,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -195,8 +197,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 children: [
                   Text(
                     'Lupa Kata Sandi',
-                    style: grenTextStyle.copyWith(
-                        fontSize: 14, fontWeight: regular),
+                    style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                   )
                 ],
               ),
@@ -273,12 +274,16 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             InkWell(
               onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginFacbookPage(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => LoginFacebookPage(),
+                //   ),
+                // );
+                Uri _url = Uri.parse("${Global.BASE_API}/auth/facebook/login");
+                if (!await launchUrl(_url)) {
+                  throw Exception('Could not launch $_url');
+                }
               },
               child: InkWell(
                 child: Image.asset(
