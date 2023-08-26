@@ -137,7 +137,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                           ),
                         ],
                       ),
-
+          
                     if (state.notif[index]['type'] ==
                         'CONSULTATION_DOCTOR_SCHEDULE')
                       Container(

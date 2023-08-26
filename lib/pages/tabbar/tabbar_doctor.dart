@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/profil_doctor_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/halaman_chat_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/pengaturan_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
+import '../../controller/doctor/home/home_controller.dart';
+import '../../controller/websocket_chat/websocket_chat_controller.dart';
 import '../../core/global.dart';
 import '../../core/local_storage.dart';
 
@@ -20,6 +23,9 @@ class TabBarDoctor extends StatefulWidget {
 }
 
 class _TabBarDoctorState extends State<TabBarDoctor> {
+  WebSocketChatController controller = Get.put(WebSocketChatController());
+  final DoctorHomeController state = Get.put(DoctorHomeController());
+
   List<Widget> widgetList = [
     const HomePageDoctor(),
     const HalamanChatPage(),
@@ -36,14 +42,23 @@ class _TabBarDoctorState extends State<TabBarDoctor> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // InitSocket().connectSocket(context);
+    controller.connectSocket(context);
   }
 
   int myIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widgetList[myIndex],
+      body: myIndex == 0
+          ? RefreshIndicator(
+              onRefresh: () async {
+                await Future.delayed(Duration(milliseconds: 1500));
+                setState(() {
+                  state.init(context);
+                });
+              },
+              child: HomePageDoctor())
+          : widgetList[myIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {

@@ -334,6 +334,9 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.totalRecentChatActive.value,
               itemBuilder: (BuildContext context, int i) {
+            
+                print('data ${state.recentChatActive[i].customer!.mediaUserProfilePicture == null}');
+                print('cont' + state.totalRecentChatActive.value.toString());
                 return InkWell(
                   onTap: () async {
                     print('per ${state.recentChatActive[i].id}');
@@ -371,8 +374,10 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                         state.recentChatActive[i].customer!.fullname ?? '-',
                     doctorName:
                         state.recentChatActive[i].doctor!.fullname ?? '-',
-                    subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                    img: '${Global.FILE}/' + state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!,
+                    subNameTitle: '',
+                    // img: 'https://asset.kompas.com/crops/xxJOBtGmPRnsYjmTJu1Od6MnlhU=/153x0:1773x1080/1200x800/data/photo/2022/08/08/62f07b64afff9.jpg',
+
+                    img:state.recentChatActive[i].customer!.mediaUserProfilePicture == null ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg' : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
                     // img:
                     //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
                     time: CurrentTime.timeChat(state
