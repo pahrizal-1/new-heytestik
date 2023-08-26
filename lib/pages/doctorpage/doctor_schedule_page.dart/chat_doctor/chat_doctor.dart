@@ -147,49 +147,46 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+    final XFile? pickedImage = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
       print('img path $imagePath');
       final bytes = File(imagePath!.path).readAsBytesSync();
       String img64 = base64Encode(bytes);
       String baseImg64 = "data:/png;base64,$img64";
+      fileImage.add(baseImg64);
+
       // show
 
-      Get.dialog(
-        PreviewImageDoctor(
-          idRoom: idRoom,
-          chatRoomId: chatRoomId,
-          userId: userId,
-          receiverId: receiverId,
-          roomCode: roomCode,
-          senderBy: senderBy,
-          receiverBy: receiverBy,
-          path: [imagePath],
-          sendMsg: () {
-            print('mesg' + state.messageController.text.toString());
-            // connectSocket(context);
-            sendMessage(
-              widget.roomId ?? 0,
-              widget.roomId ?? 0,
-              widget.senderId ?? 0,
-              widget.receiverId ?? 0,
-              widget.roomCode,
-              state.messageController.text.isNotEmpty
-                  ? state.messageController.text
-                  : '',
-              widget.senderBy ?? '',
-              widget.receiverBy ?? '',
-            );
-            Get.back();
-            // Navigator.pop(context);
-            // selectedMultipleImage = [];
-          },
-        ),
-      );
+      Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => PreviewImageDoctor(
+              idRoom: idRoom,
+              chatRoomId: chatRoomId,
+              userId: userId,
+              receiverId: receiverId,
+              roomCode: roomCode,
+              senderBy: senderBy,
+              receiverBy: receiverBy,
+              path: [imagePath],
+              sendMsg: () {
+                var data = {
+                  "room": roomCode,
+                  "message": state.messageController.text,
+                  "files": [baseImg64]
+                };
+                _socket?.emit('sendMessage', data);
+                state.messageController.text = '';
+                fileImage = [];
+                Get.back();
 
-      fileImage.add(baseImg64);
+                // Navigator.pop(context);
+                // selectedMultipleImage = [];
+              },
+            ),
+          ));
 
       // return imagePath;
     } else {
@@ -385,33 +382,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     var dateFormatted =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
 
-    // "2023-08-05T07:22:49.127Z"
-
-    // var newMes = {
-    //   "id": 24,
-    //   "chat_room_id": chatRoomId,
-    //   "sender_id": userId,
-    //   "receiver_id": receiverId,
-    //   "message": textMessage,
-    //   "seen": false,
-    //   "created_by": null,
-    //   "updated_by": null,
-    //   "created_at": stringDateTime,
-    //   "updated_at": stringDateTime,
-    //   "deleted_at": null,
-    //   "media_chat_messages": [],
-    //   "sender": {
-    //     "fullname": senderBy,
-    //   },
-    //   "receiver": {
-    //     "fullname": receiverBy,
-    //   }
-    // };
-    // Data2 result = Data2.fromJson(newMes);
-    // setState(() {
-    //   msglist?.add(result);
-    // });
-
     // listLastChat.add(newMes);
     state.messageController.clear();
     selectedMultipleImage = [];
@@ -490,6 +460,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .enableForceNew()
+            // .enableAutoConnect()
+            // .setReconnectionDelay(1)
             .setExtraHeaders(
               {
                 'Authorization':
@@ -498,7 +470,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             )
             .build(),
       );
-
       _socket?.onConnect((data) async {
         print('Connection established');
         await joinRoom(widget.roomCode);
@@ -514,9 +485,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
       });
-      // _socket?.onDisconnect((data) async {
-      //   print('Socket.IO server disconnected');
-      // });
+      _socket?.onDisconnect((data) async {
+        setState(() {
+          if (data is Map) {
+            data = json.encode(data);
+          }
+          print('Socket.IO server disconnected' + data.toString());
+        });
+      });
     } catch (e) {
       print('error nih $e');
     }

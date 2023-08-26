@@ -346,9 +346,14 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
       });
-      // _socket?.onDisconnect((data) async {
-      //   print('Socket.IO server disconnected');
-      // });
+      _socket?.onDisconnect((data) async {
+        setState(() {
+          if (data is Map) {
+            data = json.encode(data);
+          }
+          print('Socket.IO server disconnected' + data.toString());
+        });
+      });
     } catch (e) {
       print('error nih $e');
     }
@@ -491,7 +496,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TabBarChat(),
+                              builder: (context) => TabBarChat(id: widget.id),
                             ),
                           );
                         },
@@ -757,7 +762,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                   children: [
                                                     Container(
                                                       margin: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 40),
                                                       padding:
                                                           const EdgeInsets.only(
@@ -1061,7 +1066,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 children: [
                                                   Container(
                                                     margin: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 40),
                                                     padding:
                                                         const EdgeInsets.only(
@@ -1265,7 +1270,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   // image from camera
   void openCamera() async {
     final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+        await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 50);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
       print('img path $imagePath');
@@ -1278,18 +1283,14 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
           MaterialPageRoute(
             builder: (context) => PreviewImageCustomer(
               sendMsg: () {
-                sendMessage(
-                  widget.roomId ?? 0,
-                  widget.roomId ?? 0,
-                  widget.senderId ?? 0,
-                  widget.receiverId ?? 0,
-                  widget.roomCode,
-                  state.messageController.text.isNotEmpty
-                      ? state.messageController.text
-                      : '',
-                  widget.sendBy ?? '',
-                  widget.receiverBy ?? '',
-                );
+                var data = {
+                  "room": widget.roomCode,
+                  "message": state.messageController.text,
+                  "files": [baseImg64]
+                };
+                _socket?.emit('sendMessage', data);
+                state.messageController.text = '';
+                fileImage = [];
                 // selectedMultipleImage = [];
                 Get.back();
               },
