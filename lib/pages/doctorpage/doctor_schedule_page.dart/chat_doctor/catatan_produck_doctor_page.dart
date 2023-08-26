@@ -1241,10 +1241,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   List image = [];
                   String imgList = '';
 
-                  for (var i in state.listObat[index]['image']) image.add(i);
-                  for (var imege in image) {
-                    imgList = imege;
-                  }
+                  // for (var i in state.listObat[index]['image']) image.add(i);
+                  // for (var imege in image) {
+                  //   imgList = imege;
+                  // }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1262,7 +1262,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                 image: DecorationImage(
                                   image: state.listObat[index]['image'] != null
                                       ? NetworkImage(
-                                              Global.FILE + '/' + imgList)
+                                              "${Global.FILE}/" + state.listObat[index]['image'])
                                           as ImageProvider
                                       : AssetImage("assets/images/produk1.png"),
                                 ),

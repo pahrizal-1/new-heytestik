@@ -7,13 +7,10 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get/get.dart';
 
 class WebSocketChatController extends StateClass {
-
   IO.Socket? _socket;
   RxBool isOnline = false.obs;
 
-
-
-  connectSocket(BuildContext context, dynamic ) async {
+  connectSocket(BuildContext context) async {
     try {
       _socket = IO.io(
         '${Global.BASE_API}/socket',
@@ -31,13 +28,11 @@ class WebSocketChatController extends StateClass {
 
       _socket?.onConnect((data) async {
         print('Connection established');
-       
+
         // await recentChatt();
       });
       _socket?.onConnectError((data) async {
         print('Connect Error: $data');
-
-        
       });
       _socket?.onDisconnect((data) async {
         print('Socket.IO server disconnected');
@@ -46,5 +41,4 @@ class WebSocketChatController extends StateClass {
       print('error nih $e');
     }
   }
-
 }

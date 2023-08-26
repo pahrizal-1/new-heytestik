@@ -195,6 +195,8 @@ class DoctorConsultationController extends StateClass {
 
       recentChat.value =
           await ConsultationDoctorScheduleServices().recentChat();
+      
+      print('recen ' + recentChat.toJson().toString());
 
       if (recentChat.value!.success != true &&
           recentChat.value!.message != 'Success') {
@@ -216,6 +218,7 @@ class DoctorConsultationController extends StateClass {
 
       // SET TOTAL RECENT CHAT ACTIVE
       totalRecentChatActive.value = recentChatActive.length;
+      print('total' + totalRecentChatActive.toString());
 
       // SET TOTAL RECENT CHAT DONE
       totalRecentChatDone.value = recentChatDone.length;

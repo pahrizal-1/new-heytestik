@@ -346,6 +346,10 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                                 .length -
                                                             1);
                                                   } else {
+                                                    print(medicines[index]
+                                                          .mediaProducts?[0]
+                                                          .media
+                                                          ?.path);
                                                     toogle.add(index);
                                                     stateDoctor.listObat.add({
                                                       'id': medicines[index].id,
