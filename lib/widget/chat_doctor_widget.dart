@@ -51,9 +51,18 @@ class ChatAktif extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               img != null
-                  ? Image.network(
-                      img,
-                      width: 39,
+                  ? Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            img,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     )
                   : Image.asset(
                       'assets/images/doctor-img.png',
