@@ -18,7 +18,8 @@ class LoginController extends StateClass {
   TextEditingController password = TextEditingController();
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  logInWithGoogle(BuildContext context, String token, {required Function() doInPost}) async {
+  logInWithGoogle(BuildContext context, String token,
+      {required Function() doInPost}) async {
     try {
       isLoading.value = true;
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -28,7 +29,8 @@ class LoginController extends StateClass {
 
         var loginResponse = await LoginService().loginWithGoogle(data);
 
-        if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+        if (loginResponse['success'] != true &&
+            loginResponse['message'] != 'Success') {
           throw ErrorConfig(
             cause: ErrorConfig.anotherUnknow,
             message: loginResponse['message'],
@@ -43,13 +45,20 @@ class LoginController extends StateClass {
         print(loginResponse['data']['user']['id'].toString());
 
         // SAVE DATA USER
-        await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
-        await LocalStorage().setUsername(username: loginResponse['data']['user']['username'] ?? '');
-        await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
-        await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname'] ?? '');
-        await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
-        await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
-        await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
+        await LocalStorage()
+            .setDataUser(dataUser: loginResponse['data']['user']);
+        await LocalStorage().setUsername(
+            username: loginResponse['data']['user']['username'] ?? '');
+        await LocalStorage()
+            .setAccessToken(token: loginResponse['data']['token']);
+        await LocalStorage().setFullName(
+            fullName: loginResponse['data']['user']['fullname'] ?? '');
+        await LocalStorage()
+            .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+        await LocalStorage()
+            .setUserID(userID: loginResponse['data']['user']['id']);
+        await FirebaseMessaging.instance
+            .subscribeToTopic(loginResponse['data']['user']['id'].toString());
 
         if (loginResponse['data']['user']['finish_register'] == false) {
           Get.offAll(() => const BeautyProfilPage());
@@ -93,7 +102,8 @@ class LoginController extends StateClass {
 
       var loginResponse = await LoginService().login(data);
 
-      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: loginResponse['message'],
@@ -109,12 +119,18 @@ class LoginController extends StateClass {
 
       // SAVE DATA USER
       await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
-      await LocalStorage().setUsername(username: loginResponse['data']['user']['username'] ?? '');
-      await LocalStorage().setAccessToken(token: loginResponse['data']['token']);
-      await LocalStorage().setFullName(fullName: loginResponse['data']['user']['fullname'] ?? '');
-      await LocalStorage().setRoleID(roleID: loginResponse['data']['user']['roleId']);
-      await LocalStorage().setUserID(userID: loginResponse['data']['user']['id']);
-      await FirebaseMessaging.instance.subscribeToTopic(loginResponse['data']['user']['id'].toString());
+      await LocalStorage().setUsername(
+          username: loginResponse['data']['user']['username'] ?? '');
+      await LocalStorage()
+          .setAccessToken(token: loginResponse['data']['token']);
+      await LocalStorage().setFullName(
+          fullName: loginResponse['data']['user']['fullname'] ?? '');
+      await LocalStorage()
+          .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+      await LocalStorage()
+          .setUserID(userID: loginResponse['data']['user']['id']);
+      await FirebaseMessaging.instance
+          .subscribeToTopic(loginResponse['data']['user']['id'].toString());
       doInPost();
       clear();
     });
@@ -128,7 +144,8 @@ class LoginController extends StateClass {
 
   getUrl() async {
     try {
-      var response = await Dio().get('https://77fa-103-19-109-1.ngrok-free.app');
+      var response =
+          await Dio().get('https://77fa-103-19-109-1.ngrok-free.app');
       BaseOptions(headers: {"Content-Type": "application/json"});
       print('respons ' + response.toString());
     } catch (error) {}
