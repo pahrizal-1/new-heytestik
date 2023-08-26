@@ -160,15 +160,21 @@ class DoctorChat extends StatelessWidget {
       child: InkWell(
         onTap: ontap,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRect(
               child: img != null
-                  ? ClipRect(
-                      child: Image.network(
-                        img,
-                        width: 52,
-                        height: 52,
+                  ? Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            img,
+                          ),
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     )
                   : Image.asset(
