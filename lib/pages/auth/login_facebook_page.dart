@@ -1,25 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:ua_client_hints/ua_client_hints.dart';
-
-// don't forget this line
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../core/global.dart';
-import '../forget_passowrd/forget_password_email_page.dart';
 
-class LoginGooglePage extends StatefulWidget {
-  const LoginGooglePage({Key? key}) : super(key: key);
+class LoginFacebookPage extends StatefulWidget {
+  const LoginFacebookPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginGooglePage> createState() => _LoginGooglePageState();
+  State<LoginFacebookPage> createState() => _LoginFacebookPageState();
 }
 
-class _LoginGooglePageState extends State<LoginGooglePage> {
+class _LoginFacebookPageState extends State<LoginFacebookPage> {
   final LoginController state = Get.put(LoginController());
   // Create a webview controller
   WebViewController controller = WebViewController();
