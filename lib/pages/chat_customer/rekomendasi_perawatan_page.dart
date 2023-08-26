@@ -151,7 +151,9 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       Obx(
                         () => state.data.value.consultationRecipeDrug == null
-                            ? Container()
+                            ? Text(
+                                'Hello asdasdasdsad',
+                              )
                             : Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
