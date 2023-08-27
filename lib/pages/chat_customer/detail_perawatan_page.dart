@@ -91,12 +91,16 @@ class _DetailPerawatanPageState extends State<DetailPerawatanPage> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'INV/20230513/KD',
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 15,
-                              color: const Color(0XFF323232),
-                              fontWeight: regular),
+                        Obx(
+                          () => Text(
+                            state.data.value.transactionConsultation
+                                    ?.consultationInvoice?.invoiceNumber ??
+                                '-',
+                            style: subGreyTextStyle.copyWith(
+                                fontSize: 15,
+                                color: const Color(0XFF323232),
+                                fontWeight: regular),
+                          ),
                         ),
                         SizedBox(
                           width: 9,

@@ -1,10 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
+import '../../controller/customer/chat/chat_controller.dart';
 import '../../theme/theme.dart';
 
 class InvoiceHeystetikPage extends StatelessWidget {
-  const InvoiceHeystetikPage({super.key});
+  InvoiceHeystetikPage({super.key});
+  final CustomerChatController state = Get.put(CustomerChatController());
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +91,11 @@ class InvoiceHeystetikPage extends StatelessWidget {
                   style: blackTextStyle.copyWith(fontSize: 8),
                 ),
                 const SizedBox(height: 15),
-                Text(
-                  'dr. Risty Hafinah, Sp.DV\nNPWP: 54.929.137.5-414.000',
-                  style: blackHigtTextStyle.copyWith(fontSize: 8),
+                Obx(
+                  () => Text(
+                    '${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\nNPWP: ${state.data.value.transactionConsultation?.consultationInvoice?.doctorNpwp ?? '-'}',
+                    style: blackHigtTextStyle.copyWith(fontSize: 8),
+                  ),
                 ),
                 const SizedBox(
                   height: 8,
@@ -94,9 +104,13 @@ class InvoiceHeystetikPage extends StatelessWidget {
                   'Alamat',
                   style: blackRegulerTextStyle.copyWith(fontSize: 8),
                 ),
-                Text(
-                  'Jalan Raya PKP No. 24 Kelapa Dua Wetan, Ciracas, jakarta TImur',
-                  style: blackTextStyle.copyWith(fontSize: 8),
+                Obx(
+                  () => Text(
+                    state.data.value.transactionConsultation
+                            ?.consultationInvoice?.doctorAddress ??
+                        '-',
+                    style: blackTextStyle.copyWith(fontSize: 8),
+                  ),
                 ),
               ],
             ),
@@ -109,26 +123,32 @@ class InvoiceHeystetikPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'Untuk',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
-                          color: blackColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' Rina Rasmalina',
-                            style: blackHigtTextStyle.copyWith(fontSize: 8),
+                    Obx(
+                      () => RichText(
+                        text: TextSpan(
+                          text: 'Untuk ',
+                          style: blackRegulerTextStyle.copyWith(
+                            fontSize: 8,
+                            color: blackColor,
                           ),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: state.data.value.transactionConsultation
+                                      ?.consultationInvoice?.customerName ??
+                                  '-',
+                              style: blackHigtTextStyle.copyWith(fontSize: 8),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 132,
                     ),
                     Text(
-                      'INV/20230513/KD',
+                      state.data.value.transactionConsultation
+                              ?.consultationInvoice?.invoiceNumber ??
+                          '-',
                       style: blackTextStyle.copyWith(fontSize: 8),
                       textAlign: TextAlign.start,
                     )
@@ -139,19 +159,23 @@ class InvoiceHeystetikPage extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'Untuk',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
-                          color: blackColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' 00.000.000.0-0.000',
-                            style: blackHigtTextStyle.copyWith(fontSize: 8),
+                    Obx(
+                      () => RichText(
+                        text: TextSpan(
+                          text: 'NPWP ',
+                          style: blackRegulerTextStyle.copyWith(
+                            fontSize: 8,
+                            color: blackColor,
                           ),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: state.data.value.transactionConsultation
+                                      ?.consultationInvoice?.customerNpwp ??
+                                  '-',
+                              style: blackHigtTextStyle.copyWith(fontSize: 8),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Spacer(),
@@ -164,39 +188,55 @@ class InvoiceHeystetikPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                text: 'ID Konsultasi',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8,
-                                  color: blackColor,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: ' K1Z4DWJST',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 8),
+                            Obx(
+                              () => RichText(
+                                text: TextSpan(
+                                  text: 'ID Konsultasi ',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 8,
+                                    color: blackColor,
                                   ),
-                                ],
+                                  children: [
+                                    TextSpan(
+                                      text: state
+                                              .data
+                                              .value
+                                              .transactionConsultation
+                                              ?.consultationInvoice
+                                              ?.consultationId ??
+                                          '-',
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 8),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(
                               height: 4,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Tanggal Konsultasi',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8,
-                                  color: blackColor,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: ' 12 Juni 2023',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 8),
+                            Obx(
+                              () => RichText(
+                                text: TextSpan(
+                                  text: 'Tanggal Konsultasi ',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 8,
+                                    color: blackColor,
                                   ),
-                                ],
+                                  children: [
+                                    TextSpan(
+                                      text: ConvertDate.defaultDate(state
+                                              .data
+                                              .value
+                                              .transactionConsultation
+                                              ?.consultationInvoice
+                                              ?.consultationDate ??
+                                          ''),
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 8),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -233,13 +273,21 @@ class InvoiceHeystetikPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Konsultasi dengan dr. Risty Hafinah, Sp.DV\nSIP No.503/053/DPMPTSP/DU/2020',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                    Obx(
+                      () => Text(
+                        'Konsultasi dengan ${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\nSIP No.503/053/DPMPTSP/DU/2020',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                      ),
                     ),
-                    Text(
-                      'Rp25.000',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                    Obx(
+                      () => Text(
+                        CurrencyFormat.convertToIdr(
+                            state.data.value.transactionConsultation
+                                    ?.consultationInvoice?.totalFee ??
+                                0,
+                            0),
+                        style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                      ),
                     ),
                   ],
                 ),
@@ -253,10 +301,12 @@ class InvoiceHeystetikPage extends StatelessWidget {
                     const SizedBox(
                       width: 28,
                     ),
-                    Text(
-                      'Rp25.000\nRp0',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
-                      textAlign: TextAlign.end,
+                    Obx(
+                      () => Text(
+                        '${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalFee ?? 0, 0)}\n${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalDiscount ?? 0, 0)}',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                        textAlign: TextAlign.end,
+                      ),
                     ),
                   ],
                 ),
@@ -280,10 +330,16 @@ class InvoiceHeystetikPage extends StatelessWidget {
                       const SizedBox(
                         width: 34,
                       ),
-                      Text(
-                        'Rp25.000',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
+                      Obx(
+                        () => Text(
+                          CurrencyFormat.convertToIdr(
+                              state.data.value.transactionConsultation
+                                      ?.consultationInvoice?.totalPaid ??
+                                  0,
+                              0),
+                          style: blackRegulerTextStyle.copyWith(
+                            fontSize: 8,
+                          ),
                         ),
                       ),
                     ],
@@ -292,10 +348,12 @@ class InvoiceHeystetikPage extends StatelessWidget {
                 const SizedBox(
                   height: 7,
                 ),
-                Text(
-                  'Invoice ini tidak membutuhkan stempel atau tanda tangan basah dan dibuat pada 12 Juni 2023 pukul 14:30',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 8, fontStyle: FontStyle.italic),
+                Obx(
+                  () => Text(
+                    'Invoice ini tidak membutuhkan stempel atau tanda tangan basah dan dibuat pada ${ConvertDate.defaultDate(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')} pukul ${CurrentTime.timeChat(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')}',
+                    style: blackRegulerTextStyle.copyWith(
+                        fontSize: 8, fontStyle: FontStyle.italic),
+                  ),
                 ),
                 const SizedBox(
                   height: 23,
@@ -307,9 +365,12 @@ class InvoiceHeystetikPage extends StatelessWidget {
                         style: blackRegulerTextStyle.copyWith(fontSize: 8),
                         children: [
                           TextSpan(
-                              text: ' info@heystetik.com',
-                              style: grenTextStyle.copyWith(
-                                  fontSize: 8, fontWeight: regular))
+                            text: ' info@heystetik.com',
+                            style: grenTextStyle.copyWith(
+                              fontSize: 8,
+                              fontWeight: regular,
+                            ),
+                          )
                         ]),
                   ),
                 ),
