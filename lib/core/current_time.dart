@@ -31,6 +31,10 @@ class CurrentTime {
 
   static timeChat(String value) {
     print('heheh $value');
+    if (value.isEmpty || value == '' || value == '-') {
+      print('-');
+      return '-';
+    }
     final DateTime now = DateTime.parse(value);
     final DateFormat formatter = DateFormat('HH:mm');
     final String formatted = formatter.format(now);
