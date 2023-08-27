@@ -1,12 +1,17 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
+import 'package:heystetik_mobileapps/core/download_file.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
+import 'package:ua_client_hints/ua_client_hints.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 import '../../controller/customer/chat/chat_controller.dart';
 import '../../theme/theme.dart';
 
@@ -46,7 +51,55 @@ class InvoiceHeystetikPage extends StatelessWidget {
         ),
         actions: [
           InkWell(
-              onTap: () {},
+              onTap: () async {
+                // var dir = await DownloadsPathProvider.downloadsDirectory;
+                var appStorage =
+                    await path_provider.getApplicationDocumentsDirectory();
+                print("appStorage $appStorage");
+                String savename = "file.pdf";
+                String savePath = appStorage.path + "/$savename";
+                print(savePath);
+                //output:  /storage/emulated/0/Download/banner.png
+
+                try {
+                  await Dio().download(
+                    'https://www.fluttercampus.com/sample.pdf',
+                    savePath,
+                    options: Options(
+                      responseType: ResponseType.bytes,
+                      headers: {
+                        'Authorization':
+                            'Bearer ${await LocalStorage().getAccessToken()}',
+                        'User-Agent': await userAgent(),
+                      },
+                      followRedirects: false,
+                      receiveTimeout: 0,
+                    ),
+                    onReceiveProgress: (received, total) {
+                      if (total != -1) {
+                        print(
+                            (received / total * 100).toStringAsFixed(0) + "%");
+                        //you can build progressbar feature too
+                      }
+                    },
+                  );
+                  print("File is saved to download folder.");
+                } on DioError catch (e) {
+                  print("ddd" + e.message);
+                }
+                // var heheh = await downloadAndOpenFile(
+                //   url: '${Global.BASE_API}/invoice/consultation/1/download',
+                //   name: state.data.value.transactionConsultation
+                //           ?.consultationInvoice?.invoiceNumber ??
+                //       'invoice',
+                //   headers: {
+                //     'Authorization':
+                //         'Bearer ${await LocalStorage().getAccessToken()}',
+                //     'User-Agent': await userAgent(),
+                //   },
+                // );
+                // print("heheh $heheh");
+              },
               child: Image.asset(
                 'assets/icons/download-icons.png',
                 width: 24,
@@ -274,7 +327,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                     children: [
                       Obx(
                         () => Text(
-                          'Konsultasi dengan ${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\nSIP No.503/053/DPMPTSP/DU/2020',
+                          'Konsultasi dengan ${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\n${state.data.value.transactionConsultation?.consultationInvoice?.transactionDetail}',
                           style:
                               blackRegulerTextStyle.copyWith(fontSize: 7.872),
                         ),

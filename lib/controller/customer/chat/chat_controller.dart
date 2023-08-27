@@ -389,4 +389,16 @@ class CustomerChatController extends StateClass {
     });
     isLoading.value = false;
   }
+
+  Future invoiceDownload(BuildContext context, int id) async {
+    var res;
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      res = await DetailConsultationService().invoiceDownload(id);
+
+      print("hasass" + res);
+    });
+    isLoading.value = false;
+    return res;
+  }
 }
