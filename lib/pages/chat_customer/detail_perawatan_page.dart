@@ -115,7 +115,9 @@ class _DetailPerawatanPageState extends State<DetailPerawatanPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.to(InvoiceHeystetikPage());
+                        Get.to(InvoiceHeystetikPage(
+                          id: widget.id,
+                        ));
                       },
                       child: Text(
                         'Lihat Invoice',

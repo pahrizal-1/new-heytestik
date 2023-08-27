@@ -78,7 +78,7 @@ Future downloadInvoice(String name, String url) async {
         'Content-Type': 'application/pdf'
       },
     );
-
+    print("url $url");
     // Get the document directory path
     final appDir = await path_provider.getApplicationDocumentsDirectory();
     print("appDir $appDir");

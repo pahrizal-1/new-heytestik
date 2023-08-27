@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
@@ -8,15 +7,13 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/core/download_file.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:ua_client_hints/ua_client_hints.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import '../../controller/customer/chat/chat_controller.dart';
 import '../../theme/theme.dart';
 
 class InvoiceHeystetikPage extends StatelessWidget {
-  InvoiceHeystetikPage({super.key});
+  final int? id;
+  InvoiceHeystetikPage({this.id, super.key});
   final CustomerChatController state = Get.put(CustomerChatController());
 
   @override
@@ -54,7 +51,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
               onTap: () async {
                 await downloadInvoice(
                   '${state.data.value.transactionConsultation?.consultationInvoice?.invoiceNumber}',
-                  '${Global.BASE_API}/invoice/consultation/1/download',
+                  '${Global.BASE_API}/invoice/consultation/$id/download',
                 );
               },
               child: Image.asset(
