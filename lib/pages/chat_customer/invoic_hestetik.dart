@@ -52,53 +52,10 @@ class InvoiceHeystetikPage extends StatelessWidget {
         actions: [
           InkWell(
               onTap: () async {
-                // var dir = await DownloadsPathProvider.downloadsDirectory;
-                var appStorage =
-                    await path_provider.getApplicationDocumentsDirectory();
-                print("appStorage $appStorage");
-                String savename = "file.pdf";
-                String savePath = appStorage.path + "/$savename";
-                print(savePath);
-                //output:  /storage/emulated/0/Download/banner.png
-
-                try {
-                  await Dio().download(
-                    'https://www.fluttercampus.com/sample.pdf',
-                    savePath,
-                    options: Options(
-                      responseType: ResponseType.bytes,
-                      headers: {
-                        'Authorization':
-                            'Bearer ${await LocalStorage().getAccessToken()}',
-                        'User-Agent': await userAgent(),
-                      },
-                      followRedirects: false,
-                      receiveTimeout: 0,
-                    ),
-                    onReceiveProgress: (received, total) {
-                      if (total != -1) {
-                        print(
-                            (received / total * 100).toStringAsFixed(0) + "%");
-                        //you can build progressbar feature too
-                      }
-                    },
-                  );
-                  print("File is saved to download folder.");
-                } on DioError catch (e) {
-                  print("ddd" + e.message);
-                }
-                // var heheh = await downloadAndOpenFile(
-                //   url: '${Global.BASE_API}/invoice/consultation/1/download',
-                //   name: state.data.value.transactionConsultation
-                //           ?.consultationInvoice?.invoiceNumber ??
-                //       'invoice',
-                //   headers: {
-                //     'Authorization':
-                //         'Bearer ${await LocalStorage().getAccessToken()}',
-                //     'User-Agent': await userAgent(),
-                //   },
-                // );
-                // print("heheh $heheh");
+                await downloadInvoice(
+                  '${state.data.value.transactionConsultation?.consultationInvoice?.invoiceNumber}',
+                  '${Global.BASE_API}/invoice/consultation/1/download',
+                );
               },
               child: Image.asset(
                 'assets/icons/download-icons.png',
