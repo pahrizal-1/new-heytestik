@@ -21,9 +21,12 @@ import 'package:intl/intl.dart';
 import '../../../core/convert_date.dart';
 import '../../../models/doctor/detail_constultation_model.dart'
     as DetailConstultaion;
+import '../../../models/doctor/find_doctor_note_model.dart' as DoctorNote;
 import '../../../pages/tabbar/tabbar_doctor.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
+    as Detail;
 
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
@@ -66,6 +69,10 @@ class DoctorConsultationController extends StateClass {
   List<RecentChat.Data> recentChatDone = [];
 
   List<Data2>? msglist = [];
+  Rx<DoctorNote.Data> data = DoctorNote.Data.fromJson({}).obs;
+  RxList dataDoctorNote = [].obs;
+  Rx<DoctorNote.FindDoctorNoteModel> dataFind =
+      DoctorNote.FindDoctorNoteModel.fromJson({}).obs;
 
   IO.Socket? _socket;
   RxBool isOnline = false.obs;
@@ -99,6 +106,7 @@ class DoctorConsultationController extends StateClass {
   List<int>? listItemCount = [1];
   List<TextEditingController> notesSkincare = [];
   List<TextEditingController> notesMedicine = [];
+  List findDoctorNote = [];
 
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
@@ -184,6 +192,20 @@ class DoctorConsultationController extends StateClass {
     return currentSchedule.value;
   }
 
+  detailConsultation(BuildContext context, int id) async {
+    // isLoading.value = true;
+    print('idspx' + id.toString());
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await ConsultationDoctorScheduleServices().getDoctorNote(id);
+      data.value = res.data!;
+      print('object' + data.toJson().toString());
+      print('length' + data.value.consultationRecipeDrug!.length.toString());
+      // findDoctorNote.add(res);
+      // print('res' + findDoctorNote.toString());
+    });
+    // isLoading.value = false;
+  }
+
   Future getListRecentChat(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalRecentChatActive.value = 0;
@@ -195,7 +217,7 @@ class DoctorConsultationController extends StateClass {
 
       recentChat.value =
           await ConsultationDoctorScheduleServices().recentChat();
-      
+
       print('recen ' + recentChat.toJson().toString());
 
       if (recentChat.value!.success != true &&
@@ -266,6 +288,7 @@ class DoctorConsultationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response =
           await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
+        print('data nya bpra ' + response.toString());
 
       listConstulDetail.add(response);
       listPreAssesment.value = [];
@@ -274,7 +297,11 @@ class DoctorConsultationController extends StateClass {
         idConsultation.value = i['code'];
         status.value = i['status'];
         dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
-        endDate.value = i['end_date'] ?? '-';
+        final dateString = i['end_date'] ?? '-';
+        final dateTime = DateTime.parse(dateString);
+        final format = DateFormat('HH:mm');
+        endDate.value = format.format(dateTime) ;
+        print('endD' + endDate.toString());
         pasienName.value = i['customer']['fullname'];
         topic.value = i['medical_history']['interest_condition']['name'];
         listPreAssesment.value = [];
@@ -362,8 +389,6 @@ class DoctorConsultationController extends StateClass {
 
       var postNote =
           await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
-
-      Get.off(() => const TabBarDoctor());
 
       if (postNote['success'] != true && postNote['message'] != 'Success') {
         throw ErrorConfig(

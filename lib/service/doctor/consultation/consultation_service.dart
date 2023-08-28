@@ -7,6 +7,9 @@ import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
+import '../../../models/customer/detail_consultation_model.dart';
+import '../../../models/doctor/find_doctor_note_model.dart';
+
 class ConsultationDoctorScheduleServices extends ProviderClass {
   ConsultationDoctorScheduleServices()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
@@ -60,6 +63,21 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     var jsonResponse = response['data'];
 
     return jsonResponse;
+  }
+
+  Future<FindDoctorNoteModel> getDoctorNote(int id) async {
+    var response = await networkingConfig.doGet(
+      '/consultation/$id/doctor-note',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    var jsonResponse = response;
+    print('json ' +jsonResponse.toString());
+
+    return FindDoctorNoteModel.fromJson(response);
   }
 
   Future<dynamic> postApprove(int id) async {
