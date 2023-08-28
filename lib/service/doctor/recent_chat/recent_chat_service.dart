@@ -110,4 +110,16 @@ class DetailConsultationService extends ProviderClass {
 
     return GalleryFileModel.fromJson(response);
   }
+
+  Future invoiceDownload(int id) async {
+    var response = await networkingConfig.doGet(
+      '/invoice/consultation/$id/download',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return response;
+  }
 }

@@ -1,10 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+// ignore_for_file: must_be_immutable
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/current_time.dart';
+import 'package:heystetik_mobileapps/core/download_file.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import '../../controller/customer/chat/chat_controller.dart';
 import '../../theme/theme.dart';
 
 class InvoiceHeystetikPage extends StatelessWidget {
-  const InvoiceHeystetikPage({super.key});
+  final int? id;
+  InvoiceHeystetikPage({this.id, super.key});
+  final CustomerChatController state = Get.put(CustomerChatController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +48,12 @@ class InvoiceHeystetikPage extends StatelessWidget {
         ),
         actions: [
           InkWell(
-              onTap: () {},
+              onTap: () async {
+                await downloadInvoice(
+                  '${state.data.value.transactionConsultation?.consultationInvoice?.invoiceNumber}',
+                  '${Global.BASE_API}/invoice/consultation/$id/download',
+                );
+              },
               child: Image.asset(
                 'assets/icons/download-icons.png',
                 width: 24,
@@ -49,274 +64,330 @@ class InvoiceHeystetikPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/icons/logo-hestetikc.png',
-                      width: 113,
-                      height: 27,
-                    ),
-                    Text(
-                      'INVOICE',
-                      style: blackHigtTextStyle.copyWith(fontSize: 13),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  'Invoice Konsultasi',
-                  style: blackTextStyle.copyWith(fontSize: 9.24),
-                ),
-                Text(
-                  'Invoice ini merupakan bukti pembayaran yang sah.',
-                  style: blackTextStyle.copyWith(fontSize: 8),
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  'dr. Risty Hafinah, Sp.DV\nNPWP: 54.929.137.5-414.000',
-                  style: blackHigtTextStyle.copyWith(fontSize: 8),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  'Alamat',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 8),
-                ),
-                Text(
-                  'Jalan Raya PKP No. 24 Kelapa Dua Wetan, Ciracas, jakarta TImur',
-                  style: blackTextStyle.copyWith(fontSize: 8),
-                ),
-              ],
-            ),
-          ),
-          dividergrey(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 24, right: 25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'Untuk',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
-                          color: blackColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' Rina Rasmalina',
-                            style: blackHigtTextStyle.copyWith(fontSize: 8),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 132,
-                    ),
-                    Text(
-                      'INV/20230513/KD',
-                      style: blackTextStyle.copyWith(fontSize: 8),
-                      textAlign: TextAlign.start,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'Untuk',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
-                          color: blackColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' 00.000.000.0-0.000',
-                            style: blackHigtTextStyle.copyWith(fontSize: 8),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      decoration:
-                          BoxDecoration(border: Border.all(color: borderColor)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 7, top: 7, bottom: 7, right: 7),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                text: 'ID Konsultasi',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8,
-                                  color: blackColor,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: ' K1Z4DWJST',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 8),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Tanggal Konsultasi',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 8,
-                                  color: blackColor,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: ' 12 Juni 2023',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 8),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
-                dividergrey(),
-                const SizedBox(
-                  height: 12,
-                ),
-                dividergrey(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'DETAIL TRANSAKSI',
-                      style: blackTextStyle.copyWith(fontSize: 7.872),
-                    ),
-                    Text(
-                      'TOTAL',
-                      style: blackTextStyle.copyWith(fontSize: 7.872),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                dividergrey(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Konsultasi dengan dr. Risty Hafinah, Sp.DV\nSIP No.503/053/DPMPTSP/DU/2020',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
-                    ),
-                    Text(
-                      'Rp25.000',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Subtotal\nDiskon',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
-                    ),
-                    const SizedBox(
-                      width: 28,
-                    ),
-                    Text(
-                      'Rp25.000\nRp0',
-                      style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
-                      textAlign: TextAlign.end,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 23,
-                  padding: const EdgeInsets.only(right: 8),
-                  color: const Color(0xffF1F1F1),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Image.asset(
+                        'assets/icons/logo-hestetikc.png',
+                        width: 113,
+                        height: 27,
+                      ),
                       Text(
-                        'Total',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 8,
+                        'INVOICE',
+                        style: blackHigtTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    'Invoice Konsultasi',
+                    style: blackTextStyle.copyWith(fontSize: 9.24),
+                  ),
+                  Text(
+                    'Invoice ini merupakan bukti pembayaran yang sah.',
+                    style: blackTextStyle.copyWith(fontSize: 8),
+                  ),
+                  const SizedBox(height: 15),
+                  Obx(
+                    () => Text(
+                      '${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\nNPWP: ${state.data.value.transactionConsultation?.consultationInvoice?.doctorNpwp ?? '-'}',
+                      style: blackHigtTextStyle.copyWith(fontSize: 8),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Alamat',
+                    style: blackRegulerTextStyle.copyWith(fontSize: 8),
+                  ),
+                  Obx(
+                    () => Text(
+                      state.data.value.transactionConsultation
+                              ?.consultationInvoice?.doctorAddress ??
+                          '-',
+                      style: blackTextStyle.copyWith(fontSize: 8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            dividergrey(),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 24, right: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Obx(
+                        () => RichText(
+                          text: TextSpan(
+                            text: 'Untuk ',
+                            style: blackRegulerTextStyle.copyWith(
+                              fontSize: 8,
+                              color: blackColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: state.data.value.transactionConsultation
+                                        ?.consultationInvoice?.customerName ??
+                                    '-',
+                                style: blackHigtTextStyle.copyWith(fontSize: 8),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 34,
-                      ),
+                      Spacer(),
                       Text(
-                        'Rp25.000',
-                        style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8,
+                        state.data.value.transactionConsultation
+                                ?.consultationInvoice?.invoiceNumber ??
+                            '-',
+                        style: blackTextStyle.copyWith(fontSize: 8),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    children: [
+                      Obx(
+                        () => RichText(
+                          text: TextSpan(
+                            text: 'NPWP ',
+                            style: blackRegulerTextStyle.copyWith(
+                              fontSize: 8,
+                              color: blackColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: state.data.value.transactionConsultation
+                                        ?.consultationInvoice?.customerNpwp ??
+                                    '-',
+                                style: blackHigtTextStyle.copyWith(fontSize: 8),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: borderColor)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 7, top: 7, bottom: 7, right: 7),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(
+                                () => RichText(
+                                  text: TextSpan(
+                                    text: 'ID Konsultasi ',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 8,
+                                      color: blackColor,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: state
+                                                .data
+                                                .value
+                                                .transactionConsultation
+                                                ?.consultationInvoice
+                                                ?.consultationId ??
+                                            '-',
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 8),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Obx(
+                                () => RichText(
+                                  text: TextSpan(
+                                    text: 'Tanggal Konsultasi ',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 8,
+                                      color: blackColor,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: ConvertDate.defaultDate(state
+                                                .data
+                                                .value
+                                                .transactionConsultation
+                                                ?.consultationInvoice
+                                                ?.consultationDate ??
+                                            ''),
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 8),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  'Invoice ini tidak membutuhkan stempel atau tanda tangan basah dan dibuat pada 12 Juni 2023 pukul 14:30',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 8, fontStyle: FontStyle.italic),
-                ),
-                const SizedBox(
-                  height: 23,
-                ),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Butuh bantuan? Hubungi kami di',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 8),
-                        children: [
-                          TextSpan(
+                  const SizedBox(
+                    height: 17,
+                  ),
+                  dividergrey(),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  dividergrey(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'DETAIL TRANSAKSI',
+                        style: blackTextStyle.copyWith(fontSize: 7.872),
+                      ),
+                      Text(
+                        'TOTAL',
+                        style: blackTextStyle.copyWith(fontSize: 7.872),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  dividergrey(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(
+                        () => Text(
+                          'Konsultasi dengan ${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\n${state.data.value.transactionConsultation?.consultationInvoice?.transactionDetail}',
+                          style:
+                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                          CurrencyFormat.convertToIdr(
+                              state.data.value.transactionConsultation
+                                      ?.consultationInvoice?.totalFee ??
+                                  0,
+                              0),
+                          style:
+                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Subtotal\nDiskon',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                      ),
+                      const SizedBox(
+                        width: 28,
+                      ),
+                      Obx(
+                        () => Text(
+                          '${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalFee ?? 0, 0)}\n${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalDiscount ?? 0, 0)}',
+                          style:
+                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 23,
+                    padding: const EdgeInsets.only(right: 8),
+                    color: const Color(0xffF1F1F1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Total',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 8,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 34,
+                        ),
+                        Obx(
+                          () => Text(
+                            CurrencyFormat.convertToIdr(
+                                state.data.value.transactionConsultation
+                                        ?.consultationInvoice?.totalPaid ??
+                                    0,
+                                0),
+                            style: blackRegulerTextStyle.copyWith(
+                              fontSize: 8,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Obx(
+                    () => Text(
+                      'Invoice ini tidak membutuhkan stempel atau tanda tangan basah dan dibuat pada ${ConvertDate.defaultDate(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')} pukul ${CurrentTime.timeChat(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')}',
+                      style: blackRegulerTextStyle.copyWith(
+                          fontSize: 8, fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 23,
+                  ),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                          text: 'Butuh bantuan? Hubungi kami di',
+                          style: blackRegulerTextStyle.copyWith(fontSize: 8),
+                          children: [
+                            TextSpan(
                               text: ' info@heystetik.com',
                               style: grenTextStyle.copyWith(
-                                  fontSize: 8, fontWeight: regular))
-                        ]),
+                                fontSize: 8,
+                                fontWeight: regular,
+                              ),
+                            )
+                          ]),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

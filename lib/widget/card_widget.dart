@@ -73,21 +73,32 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5),
-        decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(10), border: Border.all(color: isIconSelected1 ? greenColor : greyColor)),
+        decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(10),
+            border:
+                Border.all(color: isIconSelected1 ? greenColor : greyColor)),
         height: 40,
         width: widget.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              isIconSelected1 ? Icons.check_circle_rounded : Icons.add_circle_outline,
+              isIconSelected1
+                  ? Icons.check_circle_rounded
+                  : Icons.add_circle_outline,
               size: 16,
               color: isIconSelected1 ? greenColor : greyColor,
             ),
             const SizedBox(width: 8),
             Text(
               widget.title,
-              style: TextStyle(letterSpacing: 0.5, fontSize: 11, fontFamily: 'ProximaNova', color: isIconSelected1 ? greenColor : const Color(0xff323232), fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  letterSpacing: 0.5,
+                  fontSize: 11,
+                  fontFamily: 'ProximaNova',
+                  color: isIconSelected1 ? greenColor : const Color(0xff323232),
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -153,7 +164,9 @@ class _CardSearchState extends State<CardSearch> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             height: 30,
             decoration: BoxDecoration(
-              color: isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
+              color: isSelected
+                  ? const Color.fromRGBO(36, 167, 160, 0.2)
+                  : whiteColor,
               borderRadius: BorderRadius.circular(7),
               border: Border.all(
                 color: isSelected ? greenColor : const Color(0xffCCCCCC),
@@ -163,7 +176,9 @@ class _CardSearchState extends State<CardSearch> {
               children: [
                 Text(
                   widget.title,
-                  style: subGreyTextStyle.copyWith(fontSize: 15, color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 15,
+                      color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
                 ),
                 SizedBox(
                   width: 3,
@@ -195,7 +210,8 @@ class CardBank extends StatefulWidget {
 }
 
 class _CardBankState extends State<CardBank> {
-  final OrderConsultationController state = Get.put(OrderConsultationController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   int isSelected = 0;
   @override
@@ -212,15 +228,23 @@ class _CardBankState extends State<CardBank> {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    if (state.getPaymentMethod.value!.data![index].isActive != false) {
-                      state.idPayment.value = state.getPaymentMethod.value!.data![index].id!.toInt();
-                      state.paymentMethod.value = state.getPaymentMethod.value!.data![index].method ?? '-';
-                      state.paymentType.value = state.getPaymentMethod.value!.data![index].type ?? '-';
+                    if (state.getPaymentMethod.value!.data![index].isActive !=
+                        false) {
+                      state.idPayment.value = state
+                          .getPaymentMethod.value!.data![index].id!
+                          .toInt();
+                      state.paymentMethod.value =
+                          state.getPaymentMethod.value!.data![index].method ??
+                              '-';
+                      state.paymentType.value =
+                          state.getPaymentMethod.value!.data![index].type ??
+                              '-';
                     } else {
                       showDialog(
                         context: context,
                         builder: (context) => AlertWidget(
-                          subtitle: '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
+                          subtitle:
+                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
                         ),
                       );
                     }
@@ -246,21 +270,34 @@ class _CardBankState extends State<CardBank> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.getPaymentMethod.value!.data![index].name ?? '-',
+                                  state.getPaymentMethod.value!.data![index]
+                                          .name ??
+                                      '-',
                                   style: blackTextStyle.copyWith(fontSize: 15),
                                 ),
                                 Text(
-                                  state.getPaymentMethod.value!.data![index].description ?? '-',
-                                  style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                                  state.getPaymentMethod.value!.data![index]
+                                          .description ??
+                                      '-',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 12),
                                 )
                               ],
                             ),
                             const Spacer(),
                             Obx(
                               () => Icon(
-                                state.idPayment.value == state.getPaymentMethod.value!.data![index].id ? Icons.radio_button_on : Icons.circle_outlined,
+                                state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? Icons.radio_button_on
+                                    : Icons.circle_outlined,
                                 size: 23,
-                                color: state.idPayment.value == state.getPaymentMethod.value!.data![index].id ? greenColor : blackColor,
+                                color: state.idPayment.value ==
+                                        state.getPaymentMethod.value!
+                                            .data![index].id
+                                    ? greenColor
+                                    : blackColor,
                               ),
                             )
                           ],
@@ -328,8 +365,12 @@ class _CardBankPengrimanState extends State<CardBankPengriman> {
                           ),
                           const Spacer(),
                           Icon(
-                            isSelected == 0 ? Icons.radio_button_on : Icons.circle_outlined,
-                            color: isSelected == 0 ? greenColor : const Color(0xFF323232),
+                            isSelected == 0
+                                ? Icons.radio_button_on
+                                : Icons.circle_outlined,
+                            color: isSelected == 0
+                                ? greenColor
+                                : const Color(0xFF323232),
                           )
                         ],
                       ),
@@ -378,8 +419,12 @@ class _CardBankPengrimanState extends State<CardBankPengriman> {
                         ),
                         const Spacer(),
                         Icon(
-                          isSelected == 1 ? Icons.radio_button_on : Icons.circle_outlined,
-                          color: isSelected == 1 ? greenColor : const Color(0xFF323232),
+                          isSelected == 1
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 1
+                              ? greenColor
+                              : const Color(0xFF323232),
                         )
                       ],
                     ),
@@ -427,8 +472,12 @@ class _CardBankPengrimanState extends State<CardBankPengriman> {
                         ),
                         const Spacer(),
                         Icon(
-                          isSelected == 2 ? Icons.radio_button_on : Icons.circle_outlined,
-                          color: isSelected == 2 ? greenColor : const Color(0xFF323232),
+                          isSelected == 2
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 2
+                              ? greenColor
+                              : const Color(0xFF323232),
                         )
                       ],
                     ),
@@ -487,8 +536,12 @@ class _CardBankPengrimanState extends State<CardBankPengriman> {
                     ),
                     const Spacer(),
                     Icon(
-                      isSelected == 3 ? Icons.radio_button_on : Icons.circle_outlined,
-                      color: isSelected == 3 ? greenColor : const Color(0xFF323232),
+                      isSelected == 3
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 3
+                          ? greenColor
+                          : const Color(0xFF323232),
                     )
                   ],
                 ),
@@ -522,29 +575,36 @@ class _CardFilterState extends State<CardFilter> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(
-          () {
-            isSelected = !isSelected;
-          },
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.only(right: 6),
-        padding: EdgeInsets.symmetric(vertical: 6),
-        width: widget.width,
-        decoration: BoxDecoration(
-          color: isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
-          borderRadius: BorderRadius.circular(7),
-          border: Border.all(
-            color: isSelected ? greenColor : const Color(0xffCCCCCC),
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(
+            () {
+              isSelected = !isSelected;
+            },
+          );
+        },
+        child: Container(
+          margin: EdgeInsets.only(right: 6),
+          padding: EdgeInsets.symmetric(vertical: 6),
+          width: widget.width,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromRGBO(36, 167, 160, 0.2)
+                : whiteColor,
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(
+              color: isSelected ? greenColor : const Color(0xffCCCCCC),
+            ),
           ),
-        ),
-        child: Center(
-          child: Text(
-            widget.title,
-            style: subGreyTextStyle.copyWith(fontSize: 15, fontWeight: FontWeight.w400, color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+          child: Center(
+            child: Text(
+              widget.title,
+              style: subGreyTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+            ),
           ),
         ),
       ),
@@ -586,7 +646,8 @@ class _CardImageState extends State<CardImage> {
             height: 31,
             width: 60,
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(widget.imageBrand), fit: BoxFit.fill),
+              image: DecorationImage(
+                  image: AssetImage(widget.imageBrand), fit: BoxFit.fill),
             ),
           ),
         ),

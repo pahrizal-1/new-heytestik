@@ -136,7 +136,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                 child: RichText(
                                   text: TextSpan(
                                     text:
-                                        'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga 12 Agustus 2023',
+                                        'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
                                     style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       color: fromCssColor('#323232'),
@@ -154,9 +154,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       Obx(
                         () => state.data.value.consultationRecipeDrug == null
-                            ? Text(
-                                'Hello asdasdasdsad',
-                              )
+                            ? Container()
                             : Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
