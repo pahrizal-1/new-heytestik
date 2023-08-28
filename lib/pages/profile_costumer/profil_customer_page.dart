@@ -95,7 +95,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
+            padding:
+                const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
             child: Column(
               children: [
                 Row(
@@ -108,8 +109,12 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: state.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${state.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                            fit: BoxFit.cover,
+                            image: state.imgNetwork.value != ""
+                                ? NetworkImage(
+                                        '${Global.FILE}/${state.imgNetwork.value}')
+                                    as ImageProvider
+                                : AssetImage('assets/images/profiledummy.png'),
                           ),
                         ),
                       ),
@@ -130,7 +135,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           height: 10,
                         ),
                         Container(
-                          padding: const EdgeInsets.only(left: 13, right: 12, top: 7, bottom: 5),
+                          padding: const EdgeInsets.only(
+                              left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(
@@ -301,7 +307,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Posts',
-                        style: subTitleTextStyle.copyWith(fontSize: 15, color: iSelected == 0 ? greenColor : subTitleColor, fontWeight: bold),
+                        style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            color: iSelected == 0 ? greenColor : subTitleColor,
+                            fontWeight: bold),
                       ),
                       const SizedBox(
                         height: 14,
@@ -309,7 +318,8 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                       Container(
                         height: 2,
                         width: 150,
-                        decoration: BoxDecoration(color: iSelected == 0 ? greenColor : subTitleColor),
+                        decoration: BoxDecoration(
+                            color: iSelected == 0 ? greenColor : subTitleColor),
                       )
                     ],
                   ),
@@ -324,7 +334,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                     children: [
                       Text(
                         'Reviews',
-                        style: subTitleTextStyle.copyWith(fontSize: 15, fontWeight: bold, color: iSelected == 1 ? greenColor : subTitleColor),
+                        style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: bold,
+                            color: iSelected == 1 ? greenColor : subTitleColor),
                       ),
                       const SizedBox(
                         height: 14,
