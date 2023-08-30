@@ -19,7 +19,10 @@ import '../../../../core/local_storage.dart';
 import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widget/button_widget.dart';
+import '../../../../widget/loading_widget.dart';
 import '../../../../widget/preview_widget.dart';
+import '../../../../widget/rekomedasi_chat_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -57,7 +60,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   List itemCount = [];
   List fileImage = [];
   int page = 1;
-  int take = 10;
+  int take = 1000;
   int itemCountt = 0;
 
   List<XFile> selectedMultipleImage = [];
@@ -73,6 +76,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     // TODO: implement initState
     super.initState();
     getRequest(widget.roomCode, take);
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => state.getDetailConsltation(context, widget.id!));
 
     // Timer.periodic(Duration(milliseconds: 200), (timer) {
     //   if (mounted) {
@@ -84,43 +89,43 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     //     //   //   var a = json.decode(i);
     //     //   //   print('take' + a.toString());
     //     //   // });
-    //     //   // getRequest(widget.roomCode, take);
     //     // }
+    //     // getRequest(widget.roomCode, take);
     //     _scrollDown();
     //     // print('hey ' + itemCountt.toString());
     //   } else {
     //     timer.cancel();
     //   }
     // });
-    controller.addListener(
-      () {
-        if (controller.position.atEdge) {
-          bool isTop = controller.position.pixels == 0;
-          if (isTop) {
-            print('At the top');
-            setState(() {
-              isLoading = false;
-            });
-            take -= 10;
-            getRequest(widget.roomCode, take);
-          }
-        } else {
-          print('At the bottom');
-          setState(() {
-            isLoading = false;
-          });
-          take += 10;
-          getRequest(widget.roomCode, take);
-        }
-        // if (controller.position.pixels == controller.position.maxScrollExtent) {
-        //   setState(() {
-        //     isLoading = false;
-        //   });
-        //   take += 10;
-        //   getRequest(widget.roomCode, take);
-        // }
-      },
-    );
+    // controller.addListener(
+    //   () {
+    //     if (controller.position.atEdge) {
+    //       bool isTop = controller.position.pixels == 0;
+    //       if (isTop) {
+    //         print('At the top');
+    //         setState(() {
+    //           isLoading = false;
+    //         });
+    //         take -= 10;
+    //         getRequest(widget.roomCode, take);
+    //       }
+    //     } else {
+    //       print('At the bottom');
+    //       setState(() {
+    //         isLoading = false;
+    //       });
+    //       take += 10;
+    //       getRequest(widget.roomCode, take);
+    //     }
+    //     // if (controller.position.pixels == controller.position.maxScrollExtent) {
+    //     //   setState(() {
+    //     //     isLoading = false;
+    //     //   });
+    //     //   take += 10;
+    //     //   getRequest(widget.roomCode, take);
+    //     // }
+    //   },
+    // );
     connectSocket(context);
     LocalNotificationService.initialize();
     notificationService = NotificationService();
@@ -269,9 +274,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   }
 
   Future getRequest(String roomCode, int take) async {
-    // setState(() {
-    //   isLoading = true;
-    // });
+    setState(() {
+      isLoading = true;
+    });
     //replace your restFull API here.
     var response = await FetchMessageByRoom().getFetchMessage(roomCode, take);
     ListMessageModel result = ListMessageModel.fromJson(response);
@@ -281,11 +286,32 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
       // itemCount.add(result.data!.meta.itemCount);
     });
+
     print('msg $response');
 
-    // setState(() {
-    //   isLoading = false;
-    // });
+    setState(() {
+      isLoading = false;
+    });
+    Timer.periodic(Duration.zero, (timer) {
+      if (mounted) {
+        // for (var i in itemCount) {
+        //     print('take' + i['itemCount'].toString());
+
+        //   // setState(() {
+        //   //   // take = i['itemCount'];
+        //   //   var a = json.decode(i);
+        //   //   print('take' + a.toString());
+        //   // });
+        // }
+        // getRequest(widget.roomCode, take);
+        _scrollDown();
+        controller.dispose();
+
+        // print('hey ' + itemCountt.toString());
+      } else {
+        timer.cancel();
+      }
+    });
     // listLastChat.value = response;
     // isLoading.value = false;
   }
@@ -639,6 +665,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                   DetailPasienPage(id: widget.id ?? 0),
                             ),
                           );
+
                           print('id ' + widget.id.toString());
                         },
                         child: Container(
@@ -727,6 +754,281 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                       timetitle: formattedTime,
                                       color: subwhiteColor,
                                       title: msglist![index].message,
+                                    );
+                                  } else if (msglist![index].senderId ==
+                                          widget.senderId &&
+                                      msglist![index].message == '####') {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                widget.senderBy.toString(),
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 15,
+                                                    color: const Color(
+                                                        0xFF616161)),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: FutureBuilder(
+                                              future: state.detailConsultation(
+                                                  context, widget.id!),
+                                              builder: ((context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                }
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.done) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      12,
+                                                                  vertical: 14),
+                                                          height: 43,
+                                                          width: 270,
+                                                          decoration: BoxDecoration(
+                                                              color: greenColor,
+                                                              borderRadius: const BorderRadius
+                                                                      .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          10),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          10))),
+                                                          child: Text(
+                                                            'Rekomendasi Dokter',
+                                                            style: whiteTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      12,
+                                                                  vertical: 11),
+                                                          // height: 299,
+                                                          width: 270,
+                                                          color: whiteColor,
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Obat',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount: state
+                                                                            .data
+                                                                            .value
+                                                                            .consultationRecipeDrug
+                                                                            ?.length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return Column(
+                                                                            children: [
+                                                                              Row(
+                                                                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
+                                                                                      style: grenTextStyle.copyWith(fontSize: 12),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                      maxLines: 1,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: greyTextStyle,
+                                                                                    ),
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 5,
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        }),
+                                                              ),
+                                                              Divider(
+                                                                thickness: 2,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Skincare',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount: state
+                                                                            .data
+                                                                            .value
+                                                                            .consultationRecomendationSkincare
+                                                                            ?.length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return Column(
+                                                                            children: [
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
+                                                                                    style: grenTextStyle.copyWith(fontSize: 12),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                    style: greyTextStyle,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 5,
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        }),
+                                                              ),
+                                                              Divider(
+                                                                thickness: 2,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Treatment',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount: state
+                                                                            .data
+                                                                            .value
+                                                                            .consultationRecomendationTreatment
+                                                                            ?.length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return Column(
+                                                                            children: [
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    state.data.value.consultationRecomendationTreatment?[index].name ?? '-',
+                                                                                    style: grenTextStyle.copyWith(fontSize: 12),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 5,
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        }),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const ButtonGreenWidget(
+                                                                  title:
+                                                                      'Lihat Detail')
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                                return Container();
+                                              }),
+                                            ),
+                                          ),
+                                          // Align(
+                                          //     alignment: Alignment.centerRight,
+                                          //     child: RekomendasiDokterWidget(id: widget.id!.toInt(),)),
+                                        ],
+                                      ),
                                     );
                                   } else if (msglist![index].senderId ==
                                           widget.senderId &&
@@ -1421,7 +1723,20 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                   }
                                 }),
                           )
-                        : Container()
+                        : Container(),
+                    Obx(() => Container(
+                          height: 30,
+                          width: double.infinity,
+                          color: Colors.grey,
+                          child: Center(
+                            child: Text(
+                              "Konsultasi selesai di ${state.endDate.value}",
+                              style: whiteTextStyle.copyWith(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -1435,6 +1750,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         senderBy: widget.senderBy,
         receiverBy: widget.receiverBy,
         id: widget.id,
+        socket: _socket,
         sendMsg: () {
           sendMessage(
             widget.roomId ?? 0,

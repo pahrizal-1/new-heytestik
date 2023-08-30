@@ -374,7 +374,7 @@ class CustomerChatController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
-    });
+    }); 
     isLoading.value = false;
   }
 

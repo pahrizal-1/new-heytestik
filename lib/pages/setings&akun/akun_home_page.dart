@@ -26,7 +26,8 @@ class AkunHomePage extends StatefulWidget {
 
 class _AkunHomePageState extends State<AkunHomePage> {
   final AccountController state = Get.put(AccountController());
-  final HistoryTransactionController stateTransaction = Get.put(HistoryTransactionController());
+  final HistoryTransactionController stateTransaction =
+      Get.put(HistoryTransactionController());
   final ProfileController stateProfile = Get.put(ProfileController());
 
   bool isSelcted = false;
@@ -95,8 +96,13 @@ class _AkunHomePageState extends State<AkunHomePage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                              fit: BoxFit.cover,
+                              image: stateProfile.imgNetwork.value != ""
+                                  ? NetworkImage(
+                                          '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                                      as ImageProvider
+                                  : AssetImage(
+                                      'assets/images/profiledummy.png'),
                             ),
                           ),
                         ),
@@ -120,7 +126,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                             Obx(
                               () => Text(
                                 stateProfile.fullName.value,
-                                style: blackHigtTextStyle.copyWith(fontSize: 18),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                             ),
                           ],
@@ -136,7 +143,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                             ),
                             Text(
                               'Rp0',
-                              style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                              style:
+                                  blackRegulerTextStyle.copyWith(fontSize: 12),
                             ),
                           ],
                         ),
@@ -161,7 +169,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 isSelcted
                     ? Container(
                         margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.only(left: 15, right: 15, top: 16, bottom: 17),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, top: 16, bottom: 17),
                         decoration: BoxDecoration(
                           color: greenColor,
                           borderRadius: BorderRadius.circular(10),
@@ -233,13 +242,17 @@ class _AkunHomePageState extends State<AkunHomePage> {
                         child: Container(
                           padding: const EdgeInsets.only(left: 15),
                           height: 40,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), border: Border.all(color: const Color(0xFFCCCCCC))),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              border:
+                                  Border.all(color: const Color(0xFFCCCCCC))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'My Journey',
-                                style: blackHigtTextStyle.copyWith(fontSize: 15),
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
@@ -276,7 +289,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                         padding: const EdgeInsets.only(top: 3),
                         child: Text(
                           'Kembali ke Beranda',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                          style: blackRegulerTextStyle.copyWith(
+                              fontSize: 15, color: blackColor),
                         ),
                       ),
                     ],
@@ -291,7 +305,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 ),
                 Text(
                   'Aktivitas saya',
-                  style: blackHigtTextStyle.copyWith(fontSize: 15, color: blackColor),
+                  style: blackHigtTextStyle.copyWith(
+                      fontSize: 15, color: blackColor),
                 ),
               ],
             ),
@@ -622,7 +637,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                   },
                   child: Row(
                     children: [
-                      SvgPicture.asset('assets/icons/daftar-transaksi-icons.svg'),
+                      SvgPicture.asset(
+                          'assets/icons/daftar-transaksi-icons.svg'),
                       // Image.asset(
                       //   'assets/icons/daftar-transaksi-icons.png',
                       //   width: 16,
@@ -632,7 +648,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                       ),
                       Text(
                         'Daftar Transaksi',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       )
                     ],
                   ),
@@ -662,7 +679,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                       ),
                       Text(
                         'Wishlist',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       )
                     ],
                   ),
@@ -687,7 +705,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                       ),
                       Text(
                         'Ulasan',
-                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
                       ),
                     ],
                   ),
@@ -720,7 +739,8 @@ class _AkunHomePageState extends State<AkunHomePage> {
                           ),
                           Text(
                             ' MinHey',
-                            style: blackHigtTextStyle.copyWith(fontSize: 15, fontStyle: FontStyle.italic),
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 15, fontStyle: FontStyle.italic),
                           ),
                         ],
                       ),

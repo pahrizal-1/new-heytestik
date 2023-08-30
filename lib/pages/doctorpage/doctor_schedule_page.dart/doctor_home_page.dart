@@ -75,7 +75,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
                                     image: DecorationImage(
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                       image: stateProfile
                                                   .profileData.value.data !=
                                               null
@@ -91,7 +91,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                   padding:
                                       const EdgeInsets.only(top: 15, left: 15),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Hai,',
@@ -170,8 +171,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       ],
                     ),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: paddingL, bottom: paddingL),
+                      padding: const EdgeInsets.only(
+                          top: paddingL, bottom: paddingL),
                       child: Center(
                         child: state.startTime.value.isEmpty
                             ? Text(
@@ -184,39 +185,39 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                 ),
                               )
                             : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Obx(
-                                  () => Text(
-                                    'Jadwal Hari ini, ${state.today.value}',
-                                    style: TextStyle(
-                                      fontWeight: bold,
-                                      color: fromCssColor('#6B6B6B'),
-                                      fontSize: 16,
-                                      fontFamily: 'ProximaNova,',
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      'Jadwal Hari ini, ${state.today.value}',
+                                      style: TextStyle(
+                                        fontWeight: bold,
+                                        color: fromCssColor('#6B6B6B'),
+                                        fontSize: 16,
+                                        fontFamily: 'ProximaNova,',
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Obx(
-                                  () => Text(
-                                    state.isFirstSchedule.value
-                                        ? state.startTime.value
-                                        : state.isSecondSchedule.value
-                                            ? state.endTime.value
-                                            : 'Istirahat',
-                                    style: TextStyle(
-                                      fontWeight: bold,
-                                      fontSize: paddingL,
-                                      color: fromCssColor('#5DA89C'),
-                                      fontFamily: 'ProximaNova,',
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      state.isFirstSchedule.value
+                                          ? state.startTime.value
+                                          : state.isSecondSchedule.value
+                                              ? state.endTime.value
+                                              : 'Istirahat',
+                                      style: TextStyle(
+                                        fontWeight: bold,
+                                        fontSize: paddingL,
+                                        color: fromCssColor('#5DA89C'),
+                                        fontFamily: 'ProximaNova,',
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
                       ),
                     ),
                   ),
@@ -233,8 +234,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                             width: paddingL,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image:
-                                    AssetImage('assets/icons/calender-logo.png'),
+                                image: AssetImage(
+                                    'assets/icons/calender-logo.png'),
                               ),
                             ),
                           ),
@@ -304,8 +305,9 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10),
                                               child: Row(
                                                 children: [
                                                   Container(
@@ -315,8 +317,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                      color:
-                                                          fromCssColor('#1ACE42'),
+                                                      color: fromCssColor(
+                                                          '#1ACE42'),
                                                     ),
                                                   ),
                                                   Padding(
@@ -328,7 +330,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       style: TextStyle(
                                                         color: fromCssColor(
                                                             '#6B6B6B'),
-                                                        fontFamily: 'ProximaNova',
+                                                        fontFamily:
+                                                            'ProximaNova',
                                                         fontSize: 13,
                                                       ),
                                                     ),
@@ -344,8 +347,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                 style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 11,
-                                                    color:
-                                                        fromCssColor('#A3A3A3')),
+                                                    color: fromCssColor(
+                                                        '#A3A3A3')),
                                               ),
                                             ),
                                             Text(
@@ -353,7 +356,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 11,
-                                                  color: fromCssColor('#A3A3A3')),
+                                                  color:
+                                                      fromCssColor('#A3A3A3')),
                                             ),
                                           ],
                                         ),
@@ -373,7 +377,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                   width: 80,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(10),
+                                                        BorderRadius.circular(
+                                                            10),
                                                     color:
                                                         fromCssColor('#5DA89C'),
                                                   ),
@@ -382,7 +387,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       'Terima',
                                                       style: TextStyle(
                                                         fontWeight: bold,
-                                                        fontFamily: 'ProximaNova',
+                                                        fontFamily:
+                                                            'ProximaNova',
                                                         fontSize: 13,
                                                         color: Colors.white,
                                                       ),
@@ -399,8 +405,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       width: 80,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                            BorderRadius
+                                                                .circular(10),
                                                         color: fromCssColor(
                                                             '#FFC36A'),
                                                       ),
@@ -425,8 +431,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      color:
-                                                          fromCssColor('#6B6B6B'),
+                                                      color: fromCssColor(
+                                                          '#6B6B6B'),
                                                     ),
                                                     child: Center(
                                                       child: Text(
