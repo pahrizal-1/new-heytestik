@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
 
 import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_selesai_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
@@ -72,10 +73,10 @@ class CheckOutPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => Alamatpage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Alamatpage()));
                     },
                     child: Container(
                       width: 340,
