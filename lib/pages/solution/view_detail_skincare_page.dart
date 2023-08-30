@@ -1191,31 +1191,31 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                 ),
               ),
-              // const SizedBox(
-              //   height: 27,
-              // ),
-              // Divider(
-              //   thickness: 2,
-              //   color: borderColor,
-              // ),
-              // const SizedBox(
-              //   height: 17,
-              // ),
-              // Padding(
-              //   padding: lsymetric,
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         'Skincare Pilihan Untukmu',
-              //         style: blackHigtTextStyle.copyWith(fontSize: 18),
-              //       ),
-              //       const SizedBox(
-              //         height: 25,
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              const SizedBox(
+                height: 27,
+              ),
+              Divider(
+                thickness: 2,
+                color: borderColor,
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              Padding(
+                padding: lsymetric,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Skincare Pilihan Untukmu',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                  ],
+                ),
+              ),
               // SingleChildScrollView(
               //   scrollDirection: Axis.horizontal,
               //   child: Padding(
