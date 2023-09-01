@@ -3,6 +3,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
@@ -33,6 +34,96 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+        child: Wrap(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Tagihan',
+                      style: blackRegulerTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    // Obx(
+                    //   () => Text(
+                    //     CurrencyFormat.convertToIdr(
+                    //         state.totalAmountSelected.value, 0),
+                    //     style: blackHigtTextStyle.copyWith(fontSize: 20),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 65,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 50,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(CheckOutPage());
+                        // if (cart.isEmpty ||
+                        //     state.totalAmountSelected.value <= 0) {
+                        //   showDialog(
+                        //     context: context,
+                        //     builder: (context) => AlertWidget(
+                        //       subtitle: 'Harap pilih produk terlebih dahulu',
+                        //     ),
+                        //   );
+                        //   return;
+                        // }
+
+                        // redirect
+                        // Get.to(PembayaranProduk(
+                        //   pesan: state.checkedList,
+                        //   isCart: true,
+                        // ));
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/check_button.png',
+                            width: 17,
+                            height: 19,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Lanjut',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: whiteColor,
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
@@ -414,7 +505,6 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
     );
   }
 }
-
 
 class ResepObatDoctor extends StatelessWidget {
   const ResepObatDoctor({
