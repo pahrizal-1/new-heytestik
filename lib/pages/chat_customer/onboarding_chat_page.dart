@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
@@ -84,63 +85,54 @@ class _OnboardingChatState extends State<OnboardingChat> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PencarianPageWidget(
-                    onEditingComplete: () {
-                      search = searchController.text;
-                      state.getRecentChat(context, search: search);
-                    },
-                    searchController: searchController,
-                  ),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PencarianPageWidget(
+                        onEditingComplete: () {
+                          search = searchController.text;
+                          state.getRecentChat(context, search: search);
+                        },
+                        searchController: searchController,
+                      ),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                  color: whiteColor,
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              notificasion(context, '1', whiteColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AkunHomePage(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                  color: whiteColor,
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/notif-icons.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
       ),
       body: Obx(

@@ -16,6 +16,7 @@ import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -156,19 +157,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding: const EdgeInsets.only(top: 15),
             child: Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NotifikasionPage(),
-                      ),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/notif-icons.svg',
-                  ),
-                ),
+                notificasion(context, '1', blackColor),
                 const SizedBox(
                   width: 14,
                 ),

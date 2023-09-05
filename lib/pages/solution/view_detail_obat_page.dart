@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart'
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../controller/customer/solution/wishlist_controller.dart';
 import '../../theme/theme.dart';
@@ -84,70 +85,75 @@ class _DetailObatPageState extends State<DetailObatPage> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PencarianPageWidget(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    isDismissible: false,
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(25),
+                        topStart: Radius.circular(25),
+                      ),
+                    ),
+                    builder: (context) => const ShareShowWidget(),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/share-icons.svg',
                 ),
-                builder: (context) => const ShareShowWidget(),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/share-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const KeranjangPage()));
-            },
-            child: SvgPicture.asset(
-              'assets/icons/trello-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AkunHomePage()));
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const KeranjangPage()));
+              //   },
+              //   child: SvgPicture.asset(
+              //     'assets/icons/trello-icons.svg',
+              //   ),
+              // ),
+              keranjang(context, '1', blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AkunHomePage()));
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
       ),
       body: ListView(

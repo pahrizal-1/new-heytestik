@@ -20,6 +20,7 @@ import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.da
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
@@ -132,51 +133,57 @@ class _SolutionPageState extends State<SolutionPage> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+          Row(
+            children: [
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotifikasionPage(),
+              //       ),
+              //     );
+              //   },
+              //   child: SvgPicture.asset(
+              //     color: whiteColor,
+              //     'assets/icons/notif-icons.svg',
+              //   ),
+              // ),
+              notificasion(context, '1', whiteColor),
+              const SizedBox(
+                width: 14,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const KeranjangPage()));
+              //   },
+              //   child: SvgPicture.asset(
+              //     color: whiteColor,
+              //     'assets/icons/trello-icons.svg',
+              //   ),
+              // ),
+              keranjang(context, '1', whiteColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AkunHomePage()));
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                  color: whiteColor,
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              color: whiteColor,
-              'assets/icons/notif-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const KeranjangPage()));
-            },
-            child: SvgPicture.asset(
-              color: whiteColor,
-              'assets/icons/trello-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AkunHomePage()));
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-              color: whiteColor,
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
       ),
       body: Obx(
