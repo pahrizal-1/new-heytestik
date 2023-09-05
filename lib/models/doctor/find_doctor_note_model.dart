@@ -1,11 +1,11 @@
-class DetailConsultationModel {
+class FindDoctorNoteModel {
   bool? success;
   String? message;
   Data? data;
 
-  DetailConsultationModel({this.success, this.message, this.data});
+  FindDoctorNoteModel({this.success, this.message, this.data});
 
-  DetailConsultationModel.fromJson(Map<String, dynamic> json) {
+  FindDoctorNoteModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -41,7 +41,6 @@ class Data {
   Customer? customer;
   Doctor? doctor;
   ChatRoom? chatRoom;
-  TransactionConsultation? transactionConsultation;
   MedicalHistory? medicalHistory;
   ConsultationDoctorNote? consultationDoctorNote;
   List<ConsultationRecomendationSkincare>? consultationRecomendationSkincare;
@@ -67,7 +66,6 @@ class Data {
       this.customer,
       this.doctor,
       this.chatRoom,
-      this.transactionConsultation,
       this.medicalHistory,
       this.consultationDoctorNote,
       this.consultationRecomendationSkincare,
@@ -95,9 +93,6 @@ class Data {
     doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
     chatRoom =
         json['chat_room'] != null ? ChatRoom.fromJson(json['chat_room']) : null;
-    transactionConsultation = json['transaction_consultation'] != null
-        ? TransactionConsultation.fromJson(json['transaction_consultation'])
-        : null;
     medicalHistory = json['medical_history'] != null
         ? MedicalHistory.fromJson(json['medical_history'])
         : null;
@@ -119,9 +114,9 @@ class Data {
             .add(ConsultationRecomendationTreatment.fromJson(v));
       });
     }
-    if (json['consultation_recipe_drugs'] != null) {
+    if (json['consultation_recipe_drug'] != null) {
       consultationRecipeDrug = <ConsultationRecipeDrugs>[];
-      json['consultation_recipe_drugs'].forEach((v) {
+      json['consultation_recipe_drug'].forEach((v) {
         consultationRecipeDrug!.add(ConsultationRecipeDrugs.fromJson(v));
       });
     }
@@ -152,9 +147,6 @@ class Data {
     }
     if (chatRoom != null) {
       data['chat_room'] = chatRoom!.toJson();
-    }
-    if (transactionConsultation != null) {
-      data['transaction_consultation'] = transactionConsultation!.toJson();
     }
     if (medicalHistory != null) {
       data['medical_history'] = medicalHistory!.toJson();
@@ -592,188 +584,6 @@ class ChatRoom {
     data['customer_id'] = customerId;
     data['code'] = code;
     data['ended'] = ended;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    return data;
-  }
-}
-
-class TransactionConsultation {
-  String? id;
-  int? customerId;
-  int? medicalHistoryId;
-  int? duration;
-  int? totalFee;
-  int? totalDiscount;
-  int? totalPaid;
-  int? paymentMethodId;
-  String? orderId;
-  String? paymentStatus;
-  String? paymentExpiryTime;
-  String? status;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  ConsultationInvoice? consultationInvoice;
-
-  TransactionConsultation(
-      {this.id,
-      this.customerId,
-      this.medicalHistoryId,
-      this.duration,
-      this.totalFee,
-      this.totalDiscount,
-      this.totalPaid,
-      this.paymentMethodId,
-      this.orderId,
-      this.paymentStatus,
-      this.paymentExpiryTime,
-      this.status,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.consultationInvoice});
-
-  TransactionConsultation.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customer_id'];
-    medicalHistoryId = json['medical_history_id'];
-    duration = json['duration'];
-    totalFee = json['total_fee'];
-    totalDiscount = json['total_discount'];
-    totalPaid = json['total_paid'];
-    paymentMethodId = json['payment_method_id'];
-    orderId = json['order_id'];
-    paymentStatus = json['payment_status'];
-    paymentExpiryTime = json['payment_expiry_time'];
-    status = json['status'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    consultationInvoice = json['consultation_invoice'] != null
-        ? ConsultationInvoice.fromJson(json['consultation_invoice'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['customer_id'] = customerId;
-    data['medical_history_id'] = medicalHistoryId;
-    data['duration'] = duration;
-    data['total_fee'] = totalFee;
-    data['total_discount'] = totalDiscount;
-    data['total_paid'] = totalPaid;
-    data['payment_method_id'] = paymentMethodId;
-    data['order_id'] = orderId;
-    data['payment_status'] = paymentStatus;
-    data['payment_expiry_time'] = paymentExpiryTime;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (consultationInvoice != null) {
-      data['consultation_invoice'] = consultationInvoice!.toJson();
-    }
-    return data;
-  }
-}
-
-class ConsultationInvoice {
-  int? id;
-  int? customerId;
-  String? transactionConsultationId;
-  String? invoiceNumber;
-  String? consultationId;
-  String? consultationDate;
-  String? doctorName;
-  String? doctorNpwp;
-  String? doctorAddress;
-  String? customerName;
-  String? customerNpwp;
-  String? transactionDetail;
-  int? totalFee;
-  int? totalDiscount;
-  int? totalPaid;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-
-  ConsultationInvoice(
-      {this.id,
-      this.customerId,
-      this.transactionConsultationId,
-      this.invoiceNumber,
-      this.consultationId,
-      this.consultationDate,
-      this.doctorName,
-      this.doctorNpwp,
-      this.doctorAddress,
-      this.customerName,
-      this.customerNpwp,
-      this.transactionDetail,
-      this.totalFee,
-      this.totalDiscount,
-      this.totalPaid,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
-  ConsultationInvoice.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customer_id'];
-    transactionConsultationId = json['transaction_consultation_id'];
-    invoiceNumber = json['invoice_number'];
-    consultationId = json['consultation_id'];
-    consultationDate = json['consultation_date'];
-    doctorName = json['doctor_name'];
-    doctorNpwp = json['doctor_npwp'];
-    doctorAddress = json['doctor_address'];
-    customerName = json['customer_name'];
-    customerNpwp = json['customer_npwp'];
-    transactionDetail = json['transaction_detail'];
-    totalFee = json['total_fee'];
-    totalDiscount = json['total_discount'];
-    totalPaid = json['total_paid'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['customer_id'] = customerId;
-    data['transaction_consultation_id'] = transactionConsultationId;
-    data['invoice_number'] = invoiceNumber;
-    data['consultation_id'] = consultationId;
-    data['consultation_date'] = consultationDate;
-    data['doctor_name'] = doctorName;
-    data['doctor_npwp'] = doctorNpwp;
-    data['doctor_address'] = doctorAddress;
-    data['customer_name'] = customerName;
-    data['customer_npwp'] = customerNpwp;
-    data['transaction_detail'] = transactionDetail;
-    data['total_fee'] = totalFee;
-    data['total_discount'] = totalDiscount;
-    data['total_paid'] = totalPaid;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

@@ -13,6 +13,8 @@ import 'package:heystetik_mobileapps/service/customer/consultation/consultation_
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../core/global.dart';
+import '../../../pages/tabbar/tabbar_customer.dart';
+import '../../../widget/alert_dialog.dart';
 
 class ConsultationController extends StateClass {
   RxString username = '-'.obs;
@@ -78,6 +80,18 @@ class ConsultationController extends StateClass {
         resendTime.value == 200;
         timeCondition();
         connectSocket(Get.context!);
+        Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => const TabBarCustomer(currentIndex: 1),
+          ),
+        );
+        showDialog(
+          context: Get.context!,
+          builder: (context) => AlertWidget(
+              subtitle:
+                  'Data Anda Sudah Terkirim ke Doktor'),
+        );
 
         status.value =
             'Data anda sedang di review oleh dokter, harap tunggu yaa';

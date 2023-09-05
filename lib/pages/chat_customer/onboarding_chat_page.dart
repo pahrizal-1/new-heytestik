@@ -62,8 +62,12 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   width: 30,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                      fit: BoxFit.cover,
+                      image: stateProfile.imgNetwork.value != ""
+                          ? NetworkImage(
+                                  '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                              as ImageProvider
+                          : AssetImage('assets/images/profiledummy.png'),
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),

@@ -96,11 +96,15 @@ class _ListChatPageState extends State<ListChatPage> {
                           state.recentChat.value!.data?[i].doctor?.fullname ??
                               '',
                       chat:
-                          state.recentChat.value!.data?[i].lastChat?.message ??
-                              '',
-                      img: '${Global.FILE}/' +
-                          state.recentChat.value!.data![i].doctor!
-                              .mediaUserProfilePicture!.media!.path!,
+                          state.recentChat.value!.data?[i].lastChat!.message == '####' ? state.recentChat.value!.data![i].lastChat!.message = 'Resep Obat ' : state.recentChat.value!.data?[i].lastChat!.message ?? '-',
+                      // img: 'https://asset.kompas.com/crops/xxJOBtGmPRnsYjmTJu1Od6MnlhU=/153x0:1773x1080/1200x800/data/photo/2022/08/08/62f07b64afff9.jpg',
+                      img: state.recentChat.value!.data![i].doctor!
+                                  .mediaUserProfilePicture ==
+                              null
+                          ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
+                          : '${Global.FILE}/' +
+                              state.recentChat.value!.data![i].doctor!
+                                  .mediaUserProfilePicture!.media!.path!,
                       time: CurrentTime.timeChat(
                         state.recentChat.value!.data![i].lastChat!.createdAt
                             .toString(),
@@ -159,15 +163,21 @@ class DoctorChat extends StatelessWidget {
       child: InkWell(
         onTap: ontap,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRect(
               child: img != null
-                  ? ClipRect(
-                      child: Image.network(
-                        img,
-                        width: 52,
-                        height: 52,
+                  ? Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            img,
+                          ),
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     )
                   : Image.asset(

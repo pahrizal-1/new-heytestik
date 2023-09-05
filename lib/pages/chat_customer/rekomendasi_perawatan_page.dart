@@ -3,10 +3,14 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+
+import '../../controller/doctor/consultation/consultation_controller.dart';
+import '../../widget/button_widget.dart';
 
 class RekomendasiPerawatan1Page extends StatefulWidget {
   final int? id;
@@ -30,6 +34,96 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+        child: Wrap(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Tagihan',
+                      style: blackRegulerTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    // Obx(
+                    //   () => Text(
+                    //     CurrencyFormat.convertToIdr(
+                    //         state.totalAmountSelected.value, 0),
+                    //     style: blackHigtTextStyle.copyWith(fontSize: 20),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 65,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 50,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(CheckOutPage());
+                        // if (cart.isEmpty ||
+                        //     state.totalAmountSelected.value <= 0) {
+                        //   showDialog(
+                        //     context: context,
+                        //     builder: (context) => AlertWidget(
+                        //       subtitle: 'Harap pilih produk terlebih dahulu',
+                        //     ),
+                        //   );
+                        //   return;
+                        // }
+
+                        // redirect
+                        // Get.to(PembayaranProduk(
+                        //   pesan: state.checkedList,
+                        //   isCart: true,
+                        // ));
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/check_button.png',
+                            width: 17,
+                            height: 19,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Lanjut',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: whiteColor,
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
@@ -133,7 +227,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                 child: RichText(
                                   text: TextSpan(
                                     text:
-                                        'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga 12 Agustus 2023',
+                                        'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
                                     style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       color: fromCssColor('#323232'),
@@ -407,6 +501,216 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ResepObatDoctor extends StatelessWidget {
+  const ResepObatDoctor({
+    super.key,
+    required this.state,
+  });
+
+  final DoctorConsultationController state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            height: 43,
+            width: 270,
+            decoration: BoxDecoration(
+                color: greenColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            child: Text(
+              'Rekomendasi Dokter',
+              style: whiteTextStyle.copyWith(fontSize: 15),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+            // height: 299,
+            width: 270,
+            color: whiteColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  'Obat',
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          state.data.value.consultationRecipeDrug?.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    state
+                                            .data
+                                            .value
+                                            .consultationRecipeDrug?[index]
+                                            .product
+                                            ?.name ??
+                                        '-',
+                                    style: grenTextStyle.copyWith(fontSize: 12),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    state
+                                            .data
+                                            .value
+                                            .consultationRecipeDrug?[index]
+                                            .product
+                                            ?.drugDetail
+                                            ?.specificationDose ??
+                                        '-',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: greyTextStyle,
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  'Skincare',
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state
+                          .data.value.consultationRecomendationSkincare?.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  state
+                                          .data
+                                          .value
+                                          .consultationRecomendationSkincare![
+                                              index]
+                                          .product
+                                          ?.name ??
+                                      '-',
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
+                                Text(
+                                  state
+                                          .data
+                                          .value
+                                          .consultationRecomendationSkincare?[
+                                              index]
+                                          .product
+                                          ?.drugDetail
+                                          ?.specificationDose ??
+                                      '-',
+                                  style: greyTextStyle,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  'Treatment',
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.data.value
+                          .consultationRecomendationTreatment?.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  state
+                                          .data
+                                          .value
+                                          .consultationRecomendationTreatment?[
+                                              index]
+                                          .name ??
+                                      '-',
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const ButtonGreenWidget(title: 'Lihat Detail')
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

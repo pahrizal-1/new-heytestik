@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_treatment.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
@@ -18,7 +19,15 @@ import '../../../../theme/theme.dart';
 class CatatanDocter extends StatefulWidget {
   final String? name;
   final int? idConstul;
-  const CatatanDocter({super.key, this.name, this.idConstul});
+  final Socket? socket;
+  final String? roomCode;
+  const CatatanDocter({
+    super.key,
+    this.name,
+    this.idConstul,
+    this.socket,
+    this.roomCode,
+  });
 
   @override
   State<CatatanDocter> createState() => _CatatanDocterState();
@@ -87,7 +96,12 @@ class _CatatanDocterState extends State<CatatanDocter> {
               child: InkWell(
                 onTap: () {
                   state.postDoctorNote(context, widget.idConstul!.toInt());
-                  print('hey');
+                  var data = {
+                    "room": widget.roomCode,
+                    "message": '####',
+                  };
+                  widget.socket?.emit('sendMessage', data);
+                  Get.back();
                 },
                 child: Text(
                   'SIMPAN',
@@ -1241,10 +1255,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   List image = [];
                   String imgList = '';
 
-                  for (var i in state.listObat[index]['image']) image.add(i);
-                  for (var imege in image) {
-                    imgList = imege;
-                  }
+                  // for (var i in state.listObat[index]['image']) image.add(i);
+                  // for (var imege in image) {
+                  //   imgList = imege;
+                  // }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1261,8 +1275,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     width: 0.5, color: fromCssColor('#E9E9E9')),
                                 image: DecorationImage(
                                   image: state.listObat[index]['image'] != null
-                                      ? NetworkImage(
-                                              Global.FILE + '/' + imgList)
+                                      ? NetworkImage("${Global.FILE}/" +
+                                              state.listObat[index]['image'])
                                           as ImageProvider
                                       : AssetImage("assets/images/produk1.png"),
                                 ),

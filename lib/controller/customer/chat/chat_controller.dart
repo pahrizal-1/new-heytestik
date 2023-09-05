@@ -374,7 +374,7 @@ class CustomerChatController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
-    });
+    }); 
     isLoading.value = false;
   }
 
@@ -388,5 +388,17 @@ class CustomerChatController extends StateClass {
       print("hehehahahah" + jsonDecode(jsonEncode(res)));
     });
     isLoading.value = false;
+  }
+
+  Future invoiceDownload(BuildContext context, int id) async {
+    var res;
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      res = await DetailConsultationService().invoiceDownload(id);
+
+      print("hasass" + res);
+    });
+    isLoading.value = false;
+    return res;
   }
 }

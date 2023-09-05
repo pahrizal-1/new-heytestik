@@ -1134,64 +1134,61 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 ),
               ),
               Obx(
-                () => Center(
-                  child: LoadingWidget(
-                    isLoading: state.isLoadingRelatedSkincare.value,
-                    child: state.relatedSkincare.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Belum ada data',
-                              style: TextStyle(
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                                fontSize: 20,
-                              ),
-                            ),
-                          )
-                        : SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 25),
-                              child: Wrap(
-                                spacing: 23,
-                                runSpacing: 12,
-                                children: state.relatedSkincare
-                                    .map(
-                                      (e) => InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  DetailSkinCarePage(
-                                                productId: e.id!.toInt(),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Produkheight(
-                                          produkId: e.id!.toInt(),
-                                          namaBrand: e.skincareDetail!.brand
-                                              .toString(),
-                                          namaProduk: e.name.toString(),
-                                          diskonProduk: '20',
-                                          hargaDiskon:
-                                              CurrencyFormat.convertToIdr(
-                                                  e.price, 0),
-                                          harga: CurrencyFormat.convertToIdr(
-                                              e.price, 0),
-                                          urlImg:
-                                              '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                          // rating: '4.9 (120k)',
-                                          rating: e.rating.toString(),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
+                () => LoadingWidget(
+                  isLoading: state.isLoadingRelatedSkincare.value,
+                  child: state.relatedSkincare.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Belum ada data',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 20,
                             ),
                           ),
-                  ),
+                        )
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 25),
+                            child: Wrap(
+                              spacing: 23,
+                              runSpacing: 12,
+                              children: state.relatedSkincare
+                                  .map(
+                                    (e) => InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => DetailSkinCarePage(
+                                              productId: e.id!.toInt(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Produkheight(
+                                        produkId: e.id!.toInt(),
+                                        namaBrand:
+                                            e.skincareDetail!.brand.toString(),
+                                        namaProduk: e.name.toString(),
+                                        diskonProduk: '20',
+                                        hargaDiskon:
+                                            CurrencyFormat.convertToIdr(
+                                                e.price, 0),
+                                        harga: CurrencyFormat.convertToIdr(
+                                            e.price, 0),
+                                        urlImg:
+                                            '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                        // rating: '4.9 (120k)',
+                                        rating: e.rating.toString(),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ),
                 ),
               ),
               // const SizedBox(

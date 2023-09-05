@@ -1,25 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:ua_client_hints/ua_client_hints.dart';
-
-// don't forget this line
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../core/global.dart';
-import '../forget_passowrd/forget_password_email_page.dart';
 
-class LoginFacbookPage extends StatefulWidget {
-  const LoginFacbookPage({Key? key}) : super(key: key);
+class LoginFacebookPage extends StatefulWidget {
+  const LoginFacebookPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginFacbookPage> createState() => _LoginFacbookPageState();
+  State<LoginFacebookPage> createState() => _LoginFacebookPageState();
 }
 
-class _LoginFacbookPageState extends State<LoginFacbookPage> {
+class _LoginFacebookPageState extends State<LoginFacebookPage> {
   final LoginController state = Get.put(LoginController());
   // Create a webview controller
   WebViewController controller = WebViewController();
@@ -47,8 +41,7 @@ class _LoginFacbookPageState extends State<LoginFacbookPage> {
               if (url.url != null) {
                 if (url.url!.contains("heystetik://login?")) {
                   String token = url.url!.split("heystetik://login?token=")[1];
-                  await state.logInWithGoogle(context, token,
-                      doInPost: () async {
+                  await state.logInWithGoogle(context, token, doInPost: () async {
                     await state.redirectTo();
                     print("SUDAH SINI");
                   });
@@ -80,11 +73,7 @@ class _LoginFacbookPageState extends State<LoginFacbookPage> {
           ),
         )
         ..setUserAgent(
-          Platform.isIOS
-              ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15' +
-                  ' (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1'
-              : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) ' +
-                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36',
+          Platform.isIOS ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15' + ' (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) ' + 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36',
         )
         ..loadRequest(
           Uri.parse("${Global.BASE_API}/auth/facebook/login"),

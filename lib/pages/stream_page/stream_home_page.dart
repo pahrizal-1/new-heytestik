@@ -25,7 +25,8 @@ class StreamHomePage extends StatefulWidget {
   State<StreamHomePage> createState() => _StreamHomePageState();
 }
 
-class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStateMixin {
+class _StreamHomePageState extends State<StreamHomePage>
+    with TickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
   final PostController postController = Get.put(PostController());
   final ProfileController state = Get.put(ProfileController());
@@ -71,8 +72,12 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: state.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${state.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                        fit: BoxFit.cover,
+                        image: state.imgNetwork.value != ""
+                            ? NetworkImage(
+                                    '${Global.FILE}/${state.imgNetwork.value}')
+                                as ImageProvider
+                            : AssetImage('assets/images/profiledummy.png'),
                       ),
                     ),
                   ),
@@ -97,28 +102,32 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                   builder: (context) => PencarianPageWidget(
                     searchController: searchController,
                     onEditingComplete: () {
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((timeStamp) async {
                         postController.search.value = searchController.text;
                         postController.homeStreamIndex.value = 1;
                         postController.homeStreams.value = [];
                         await postController.getStreamHomeModel(context);
                       });
 
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((timeStamp) async {
                         postController.search.value = searchController.text;
                         postController.trendingStreamIndex.value = 1;
                         postController.trendingStreams.value = [];
                         await postController.getTrendingStream(context);
                       });
 
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((timeStamp) async {
                         postController.search.value = searchController.text;
                         postController.followedStreamIndex.value = 1;
                         postController.followedStreams.value = [];
                         await postController.getStreamFollowed(context);
                       });
 
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((timeStamp) async {
                         postController.search.value = searchController.text;
                         postController.interestStreamIndex.value = 1;
                         postController.interestStreams.value = [];
@@ -180,7 +189,8 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(left: 65, right: 72, top: 9, bottom: 8),
+                  padding: const EdgeInsets.only(
+                      left: 65, right: 72, top: 9, bottom: 8),
                   decoration: BoxDecoration(
                     color: whiteColor,
                     borderRadius: BorderRadius.circular(7),
@@ -204,7 +214,9 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                         },
                         child: Text(
                           'Stream',
-                          style: index == 0 ? grenTextStyle.copyWith(fontSize: 15) : blackTextStyle.copyWith(fontSize: 15),
+                          style: index == 0
+                              ? grenTextStyle.copyWith(fontSize: 15)
+                              : blackTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                       Container(
@@ -220,7 +232,9 @@ class _StreamHomePageState extends State<StreamHomePage> with TickerProviderStat
                         },
                         child: Text(
                           'News',
-                          style: index == 1 ? grenTextStyle.copyWith(fontSize: 15) : blackTextStyle.copyWith(fontSize: 15),
+                          style: index == 1
+                              ? grenTextStyle.copyWith(fontSize: 15)
+                              : blackTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 // import '../controller/doctor/chat/chat_controller.dart';
 
@@ -15,6 +16,7 @@ class ChatBottomNavigator extends StatelessWidget {
   final int? roomId, senderId, receiverId, id;
   final String? roomCode, senderBy, receiverBy;
   final void Function()? sendMsg;
+  final Socket? socket;
   // final void Function()? sendMsgQuick;
   final void Function(String)? onChanged;
 
@@ -32,6 +34,7 @@ class ChatBottomNavigator extends StatelessWidget {
     this.sendMsg,
     this.onChanged,
     this.id,
+    this.socket,
   }) : super(key: key);
 
   @override
@@ -123,6 +126,8 @@ class ChatBottomNavigator extends StatelessWidget {
                                             builder: (context) => CatatanDocter(
                                               name: receiverBy,
                                               idConstul: id,
+                                              roomCode: roomCode,
+                                              socket: socket,
                                             ),
                                           ),
                                         );
