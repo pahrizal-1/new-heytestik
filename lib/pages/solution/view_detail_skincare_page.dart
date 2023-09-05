@@ -168,10 +168,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                        '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
-                      ),
-                      fit: BoxFit.cover),
+                    image: NetworkImage(
+                      '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
+                    ),
+                  ),
                 ),
               ),
               Padding(
@@ -184,36 +184,38 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     Container(
-                    //       width: 28,
-                    //       height: 13,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                    //       child: Center(
-                    //         child: Text(
-                    //           '20%',
-                    //           style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 4,
-                    //     ),
-                    //     Text(
-                    //       CurrencyFormat.convertToIdr(
-                    //         state.skincareDetail.value.price ?? 0,
-                    //         0,
-                    //       ),
-                    //       style: subGreyTextStyle.copyWith(
-                    //         fontSize: 12,
-                    //         decoration: TextDecoration.lineThrough,
-                    //         decorationThickness: 2,
-                    //         color: const Color(0xff9B9B9B),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          child: Center(
+                            child: Text(
+                              '20%',
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          CurrencyFormat.convertToIdr(
+                            state.skincareDetail.value.price ?? 0,
+                            0,
+                          ),
+                          style: subGreyTextStyle.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.lineThrough,
+                            decorationThickness: 2,
+                            color: const Color(0xff9B9B9B),
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(
                       children: [
                         Text(
@@ -374,7 +376,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       style: blackHigtTextStyle.copyWith(fontSize: 18),
                     ),
                     const SizedBox(
-                      height: 12,
+                      height: 10,
                     ),
                     TitleDetail(
                       ontap: () {
@@ -424,10 +426,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       fontWeight: regular,
                     ),
                     const SizedBox(
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      height: 16,
+                      height: 18,
                     ),
                     DescripsiText(
                       title1: 'Deskripsi',

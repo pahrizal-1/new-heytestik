@@ -63,7 +63,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
               child: TextFormField(
                 controller: state.email,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Email atau Nomor Handphone',
                   labelStyle: blackTextStyle.copyWith(fontSize: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -112,7 +112,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                   builder: (context) => Container(
                     height: 246,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 33, top: 47, right: 45),
+                      padding:
+                          const EdgeInsets.only(left: 33, top: 47, right: 45),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -125,7 +126,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                           ),
                           Text(
                             'Kami akan kirimkan Kata Sandi Anda\nke email yang terdaftar di akun Heystetik.',
-                            style: blackHigtTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+                            style: blackHigtTextStyle.copyWith(
+                                fontWeight: regular, fontSize: 15),
                           ),
                           const SizedBox(
                             height: 15,
@@ -197,7 +199,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 children: [
                   Text(
                     'Lupa Kata Sandi',
-                    style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
+                    style: grenTextStyle.copyWith(
+                        fontSize: 14, fontWeight: regular),
                   )
                 ],
               ),

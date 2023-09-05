@@ -817,10 +817,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       );
                     },
                     child: Text(
-                      'Liat Semua',
+                      'Lihat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: greenColor),
                     ),
@@ -1019,10 +1019,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       );
                     },
                     child: Text(
-                      'Liat Semua',
+                      'Lihat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: greenColor),
                     ),
