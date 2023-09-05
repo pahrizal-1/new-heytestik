@@ -79,7 +79,8 @@ class VerificationPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await state.registerPhoneNumber(context, doInPost: () async {
+                    await state.registerPhoneNumber(context,
+                        doInPost: () async {
                       SnackbarWidget.getSuccessSnackbar(
                         context,
                         'Info',
