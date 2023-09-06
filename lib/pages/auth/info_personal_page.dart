@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -61,68 +60,63 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
         child: StickyHeader(
           header: Container(
             color: whiteColor,
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TimeLineIdicatorPage(
-                      iconColor: whiteColor,
-                      secondiconColor: greenColor,
-                      bgcolor: greenColor,
-                      isFirst: true,
-                      title: 'Nomor Hanpone',
-                      img: 'assets/icons/iphone1.png',
-                      width: 15,
-                      iconimg: 'assets/images/check.png',
-                    ),
-                    TimeLineIdicatorPage(
-                      iconColor: whiteColor,
-                      secondiconColor: greenColor,
-                      bgcolor: greenColor,
-                      isFirst: false,
-                      isLast: false,
-                      title: 'Email',
-                      img: 'assets/icons/email-icons.png',
-                      width: 25,
-                      iconimg: 'assets/images/check.png',
-                    ),
-                    TimeLineIdicatorPage(
-                      iconColor: greenColor,
-                      secondiconColor: greenColor,
-                      bgcolor: whiteColor,
-                      isFirst: false,
-                      isLast: true,
-                      title: 'Info Personal',
-                      img: 'assets/images/iphone1.png',
-                      width: 25,
-                      iconimg: 'assets/images/Vector.png',
-                    ),
-                    TimeLineIdicatorPage(
-                      iconColor: greenColor,
-                      secondiconColor: greenColor,
-                      bgcolor: whiteColor,
-                      isFirst: true,
-                      isLast: true,
-                      title: 'Beauty Profile',
-                      img: 'assets/icons/logo-person.png',
-                      width: 20,
-                      iconimg: 'assets/images/Vector.png',
-                    ),
-                    TimeLineIdicatorPage(
-                      iconColor: greenColor,
-                      secondiconColor: greenColor,
-                      bgcolor: whiteColor,
-                      isFirst: true,
-                      isLast: true,
-                      title: 'Beauty Concern',
-                      img: 'assets/icons/logo-person.png',
-                      width: 20,
-                      iconimg: 'assets/images/Vector.png',
-                    ),
-                  ],
+                TimeLineIdicatorPage(
+                  iconColor: whiteColor,
+                  secondiconColor: greenColor,
+                  bgcolor: greenColor,
+                  isFirst: true,
+                  title: 'Nomor Hanpone',
+                  img: 'assets/icons/iphone1.png',
+                  width: 15,
+                  iconimg: 'assets/images/check.png',
                 ),
-                dividergrey(),
+                TimeLineIdicatorPage(
+                  iconColor: whiteColor,
+                  secondiconColor: greenColor,
+                  bgcolor: greenColor,
+                  isFirst: false,
+                  isLast: false,
+                  title: 'Email',
+                  img: 'assets/icons/email-icons.png',
+                  width: 25,
+                  iconimg: 'assets/images/check.png',
+                ),
+                TimeLineIdicatorPage(
+                  iconColor: greenColor,
+                  secondiconColor: greenColor,
+                  bgcolor: whiteColor,
+                  isFirst: false,
+                  isLast: true,
+                  title: 'Info Personal',
+                  img: 'assets/images/iphone1.png',
+                  width: 25,
+                  iconimg: 'assets/images/Vector.png',
+                ),
+                TimeLineIdicatorPage(
+                  iconColor: greenColor,
+                  secondiconColor: greenColor,
+                  bgcolor: whiteColor,
+                  isFirst: true,
+                  isLast: true,
+                  title: 'Beauty Profile',
+                  img: 'assets/icons/logo-person.png',
+                  width: 20,
+                  iconimg: 'assets/images/Vector.png',
+                ),
+                TimeLineIdicatorPage(
+                  iconColor: greenColor,
+                  secondiconColor: greenColor,
+                  bgcolor: whiteColor,
+                  isFirst: true,
+                  isLast: true,
+                  title: 'Beauty Concern',
+                  img: 'assets/icons/logo-person.png',
+                  width: 20,
+                  iconimg: 'assets/images/Vector.png',
+                ),
               ],
             ),
           ),
