@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.
 import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
@@ -94,92 +95,97 @@ class _StreamHomePageState extends State<StreamHomePage>
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PencarianPageWidget(
-                    searchController: searchController,
-                    onEditingComplete: () {
-                      WidgetsBinding.instance
-                          .addPostFrameCallback((timeStamp) async {
-                        postController.search.value = searchController.text;
-                        postController.homeStreamIndex.value = 1;
-                        postController.homeStreams.value = [];
-                        await postController.getStreamHomeModel(context);
-                      });
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PencarianPageWidget(
+                        searchController: searchController,
+                        onEditingComplete: () {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) async {
+                            postController.search.value = searchController.text;
+                            postController.homeStreamIndex.value = 1;
+                            postController.homeStreams.value = [];
+                            await postController.getStreamHomeModel(context);
+                          });
 
-                      WidgetsBinding.instance
-                          .addPostFrameCallback((timeStamp) async {
-                        postController.search.value = searchController.text;
-                        postController.trendingStreamIndex.value = 1;
-                        postController.trendingStreams.value = [];
-                        await postController.getTrendingStream(context);
-                      });
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) async {
+                            postController.search.value = searchController.text;
+                            postController.trendingStreamIndex.value = 1;
+                            postController.trendingStreams.value = [];
+                            await postController.getTrendingStream(context);
+                          });
 
-                      WidgetsBinding.instance
-                          .addPostFrameCallback((timeStamp) async {
-                        postController.search.value = searchController.text;
-                        postController.followedStreamIndex.value = 1;
-                        postController.followedStreams.value = [];
-                        await postController.getStreamFollowed(context);
-                      });
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) async {
+                            postController.search.value = searchController.text;
+                            postController.followedStreamIndex.value = 1;
+                            postController.followedStreams.value = [];
+                            await postController.getStreamFollowed(context);
+                          });
 
-                      WidgetsBinding.instance
-                          .addPostFrameCallback((timeStamp) async {
-                        postController.search.value = searchController.text;
-                        postController.interestStreamIndex.value = 1;
-                        postController.interestStreams.value = [];
-                        await postController.getStreamInterest(context);
-                      });
-                    },
-                  ),
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) async {
+                            postController.search.value = searchController.text;
+                            postController.interestStreamIndex.value = 1;
+                            postController.interestStreams.value = [];
+                            await postController.getStreamInterest(context);
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                  color: blackColor,
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotifikasionPage(),
+              //       ),
+              //     );
+              //   },
+              //   child: SvgPicture.asset(
+              //     'assets/icons/notif-icons.svg',
+              //     color: blackColor,
+              //   ),
+              // ),
+              notificasion(context, '1', blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AkunHomePage(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                  color: blackColor,
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/notif-icons.svg',
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
       ),
       body: Stack(

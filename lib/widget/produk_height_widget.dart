@@ -57,7 +57,7 @@ class Produkheight extends StatelessWidget {
                     Text(
                       namaBrand,
                       style: blackTextStyle.copyWith(
-                        fontSize: 13,
+                        fontSize: 14,
                       ),
                     ),
                     const SizedBox(

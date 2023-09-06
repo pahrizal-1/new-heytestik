@@ -133,7 +133,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 54, top: 50),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
             child: FutureBuilder(
               future: state.getArticle(context, '', ''),
               builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {

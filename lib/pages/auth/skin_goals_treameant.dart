@@ -4,6 +4,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
@@ -42,10 +43,10 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+        child: StickyHeader(
+          header: Container(
+            color: whiteColor,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TimeLineIdicatorPage(
@@ -104,89 +105,87 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 23,
-            ),
-            const Divider(
-              thickness: 1,
-              color: Color(0XffCCCCCC),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: lsymetric,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Skin Goals',
-                    style: blackHigtTextStyle,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Text(
-                    'Anggaran Untuk Skincare',
-                    style: blackTextStyle.copyWith(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Kira-kira berapa budget yang kamu siapkan untuk membeli skincare-mu?',
-                    style: greyTextStyle.copyWith(fontSize: 12),
-                  ),
-                  const SizedBox(
-                    height: 19,
-                  ),
-                  const DropDownWiget(
-                    type: 1,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Text(
-                    'Anggaran Untuk Treatment',
-                    style: blackTextStyle.copyWith(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Kira-kira berapa budget yang kamu siapkan untuk melakukan treatment di klinik?',
-                    style: greyTextStyle.copyWith(fontSize: 12),
-                  ),
-                  const SizedBox(
-                    height: 19,
-                  ),
-                  const DropDownWiget(
-                    type: 2,
-                  ),
-                  const SizedBox(
-                    height: 211,
-                  ),
-                  ButtonGreenWidget(
-                    title: 'Simpan',
-                    onPressed: () async {
-                      await state.budgets(context, doInPost: () async {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const ProfilMoreDialog(),
-                        );
-                      });
-                    },
-                  ),
-                ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            const SizedBox(
-              height: 50,
-            )
-          ],
+              Padding(
+                padding: lsymetric,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Skin Goals',
+                      style: blackHigtTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Anggaran Untuk Skincare',
+                      style: blackTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Kira-kira berapa budget yang kamu siapkan untuk membeli skincare-mu?',
+                      style: greyTextStyle.copyWith(fontSize: 12),
+                    ),
+                    const SizedBox(
+                      height: 19,
+                    ),
+                    const DropDownWiget(
+                      type: 1,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Anggaran Untuk Treatment',
+                      style: blackTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Kira-kira berapa budget yang kamu siapkan untuk melakukan treatment di klinik?',
+                      style: greyTextStyle.copyWith(fontSize: 12),
+                    ),
+                    const SizedBox(
+                      height: 19,
+                    ),
+                    const DropDownWiget(
+                      type: 2,
+                    ),
+                    const SizedBox(
+                      height: 211,
+                    ),
+                    ButtonGreenWidget(
+                      title: 'Simpan',
+                      onPressed: () async {
+                        await state.budgets(context, doInPost: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const ProfilMoreDialog(),
+                          );
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );

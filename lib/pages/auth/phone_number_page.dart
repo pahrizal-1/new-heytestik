@@ -66,7 +66,7 @@ class PhoneNumberPage extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 4),
+                contentPadding: EdgeInsets.only(top: 15),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: greyColor),
                 ),
@@ -77,8 +77,9 @@ class PhoneNumberPage extends StatelessWidget {
                   borderSide: BorderSide(color: greyColor),
                 ),
                 focusColor: greenColor,
-                labelText: 'Nomor Telepon',
-                labelStyle: greyTextStyle.copyWith(fontSize: 12, fontWeight: medium),
+                hintText: 'Nomor Ponsel',
+                hintStyle:
+                    greyTextStyle.copyWith(fontSize: 12, fontWeight: medium),
               ),
             ),
             const Spacer(),
@@ -88,7 +89,8 @@ class PhoneNumberPage extends StatelessWidget {
                 child: ButtonGreenWidget(
                   title: 'Kirim Kode Verifikasi',
                   onPressed: () async {
-                    await state.registerPhoneNumber(context, doInPost: () async {
+                    await state.registerPhoneNumber(context,
+                        doInPost: () async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

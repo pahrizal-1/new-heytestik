@@ -90,12 +90,13 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 19,
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 10,
+              top: 20,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
                   child: Text(
@@ -196,27 +197,16 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 Image.network(
                   '${widget.detailNews.thumbLink}',
-                  height: 166.908,
+                  height: 200,
                   width: 350,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Html(
                   data: '${widget.detailNews.description}',
-                  style: {
-                    'html': Style(backgroundColor: Colors.white12),
-                    'table': Style(backgroundColor: Colors.grey.shade200),
-                    'td': Style(
-                      backgroundColor: Colors.grey.shade400,
-                    ),
-                    'th': Style(color: Colors.black),
-                    'tr': Style(
-                        backgroundColor: Colors.grey.shade300,
-                        border: Border(
-                            bottom: BorderSide(color: Colors.greenAccent))),
-                  },
+
                   // onLinkTap: (url) {
                   //   print('Open the url $url......');
                   // },
