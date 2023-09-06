@@ -294,14 +294,14 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 12,
-            ),
-            InkWell(
-              child: Image.asset(
-                'assets/icons/Frame 72.png',
-              ),
-            ),
+            // SizedBox(
+            //   height: 12,
+            // ),
+            // InkWell(
+            //   child: Image.asset(
+            //     'assets/icons/Frame 72.png',
+            //   ),
+            // ),
             SizedBox(
               height: 40,
             ),

@@ -55,7 +55,8 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
       body: widgetList[myIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
         child: BottomNavigationBar(
           onTap: onTap,
@@ -74,7 +75,7 @@ class _TabBarCustomerState extends State<TabBarCustomer> {
                     color: myIndex == 0 ? greenColor : greyColor,
                   ),
                 ),
-                label: 'Home'),
+                label: 'Beranda'),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: const EdgeInsets.only(bottom: 3),

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
@@ -34,7 +36,8 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.interestStreamIndex.value = postController.interestStreamIndex.value + 1;
+          postController.interestStreamIndex.value =
+              postController.interestStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             await postController.getStreamInterest(context);
           });
@@ -63,10 +66,14 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: postController.interestStreams.length,
                   itemBuilder: (context, index) {
-                    if (postController.interestStreams[index].type.toLowerCase() == 'polling') {
-                      return StreamPostPolling(stream: postController.interestStreams[index]);
+                    if (postController.interestStreams[index].type
+                            .toLowerCase() ==
+                        'polling') {
+                      return StreamPostPolling(
+                          stream: postController.interestStreams[index]);
                     }
-                    return StreamPostGeneral(stream: postController.interestStreams[index]);
+                    return StreamPostGeneral(
+                        stream: postController.interestStreams[index]);
                   },
                   separatorBuilder: (context, index) {
                     return dividergreen();

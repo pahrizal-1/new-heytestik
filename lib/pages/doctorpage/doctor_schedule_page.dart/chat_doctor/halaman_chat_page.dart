@@ -41,7 +41,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 275,
+              height: 400,
               color: whiteColor,
               width: MediaQuery.of(context).size.width,
               child: Stack(
