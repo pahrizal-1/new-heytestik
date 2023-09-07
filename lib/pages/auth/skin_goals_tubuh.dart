@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_dua.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -111,6 +112,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              dividergrey(),
               const SizedBox(
                 height: 20,
               ),
