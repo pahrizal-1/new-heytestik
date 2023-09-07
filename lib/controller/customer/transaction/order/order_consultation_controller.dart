@@ -100,7 +100,8 @@ class OrderConsultationController extends StateClass {
         .toList();
   }
 
-  getInterestConditionById(BuildContext context, int id) async {
+  getInterestConditionById(
+      BuildContext context, int id, String condition) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       index.value = 0;
@@ -120,10 +121,12 @@ class OrderConsultationController extends StateClass {
       // JIKA TIDAK ADA PERTANYAN KOSONG
       if (detail!.data!.interestConditionsQuestion!.isEmpty) {
         Get.back();
-        AlertWidget(
-          subtitle: 'Tidak ada pertanyaan',
+        showDialog(
+          context: context,
+          builder: (context) => AlertWidget(
+            subtitle: 'Belum ada Pre Assessment pada kondisi $condition',
+          ),
         );
-
         return;
       }
       // SET FIRST question

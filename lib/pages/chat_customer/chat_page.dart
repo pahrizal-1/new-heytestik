@@ -10,7 +10,12 @@ import '../../widget/appar_cutome.dart';
 
 class ChatPage extends StatefulWidget {
   final int? interestConditionId;
-  const ChatPage({super.key, required this.interestConditionId});
+  final String title;
+  const ChatPage({
+    super.key,
+    required this.interestConditionId,
+    required this.title,
+  });
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -31,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBarCustome(
         colorIcons: whiteColor,
         colorTitle: whiteColor,
-        title: 'Bekas Jerawat',
+        title: widget.title,
         bgColor: greenColor,
       ),
       body: SingleChildScrollView(
@@ -289,8 +294,12 @@ class _ChatPageState extends State<ChatPage> {
                   ButtonGreenWidget(
                     title: 'Konsul Sekarang',
                     onPressed: () {
-                      Get.to(PertanyaanAwalPage(
-                          interestConditionId: widget.interestConditionId));
+                      Get.to(
+                        PertanyaanAwalPage(
+                          interestConditionId: widget.interestConditionId,
+                          title: widget.title,
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(
