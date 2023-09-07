@@ -30,7 +30,10 @@ class LocationController extends StateClass {
     // print('masuk ${myLocation['address']}');
 
     if (myLocation != "") {
-      if (myLocation['city'] == '' || myLocation['city'] == '-' || myLocation['address'] == '' || myLocation['address'] == '-') {
+      if (myLocation['city'] == '' ||
+          myLocation['city'] == '-' ||
+          myLocation['address'] == '' ||
+          myLocation['address'] == '-') {
         isSwitch.value = false;
 
         print('masuk 1');
@@ -51,7 +54,8 @@ class LocationController extends StateClass {
     isLoading.value = true;
     final hasPermission = await locationPermission(context);
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
       latitude.value = position.latitude;
       print('latitude ${latitude.value}');
       longitude.value = position.longitude;
@@ -65,9 +69,11 @@ class LocationController extends StateClass {
   }
 
   Future getAddressFromLatLng(BuildContext context, Position position) async {
-    await placemarkFromCoordinates(latitude.value, longitude.value).then((List<Placemark> placemarks) {
+    await placemarkFromCoordinates(latitude.value, longitude.value)
+        .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
-      address.value = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
+      address.value =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
       city.value = place.subAdministrativeArea.toString();
       LocalStorage().setLocation(
         location: {
@@ -101,7 +107,8 @@ class LocationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       location.value = await AddressService().getLocation();
 
-      if (location.value.success != true && location.value.message != 'Success') {
+      if (location.value.success != true &&
+          location.value.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: location.value.message.toString(),
