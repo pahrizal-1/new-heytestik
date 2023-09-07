@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -48,6 +49,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
       body: SingleChildScrollView(
         child: StickyHeader(
           header: Container(
+            color: whiteColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -118,6 +120,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              dividergrey(),
               const SizedBox(
                 height: 20,
               ),

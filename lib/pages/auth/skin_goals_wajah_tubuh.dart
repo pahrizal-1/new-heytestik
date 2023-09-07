@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_treameant.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -111,72 +112,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TimeLineIdicatorPage(
-                    iconColor: whiteColor,
-                    secondiconColor: greenColor,
-                    bgcolor: greenColor,
-                    isFirst: true,
-                    title: 'Nomor Hanpone',
-                    img: 'assets/icons/iphone1.png',
-                    width: 15,
-                    iconimg: 'assets/images/check.png',
-                  ),
-                  TimeLineIdicatorPage(
-                    iconColor: whiteColor,
-                    secondiconColor: greenColor,
-                    bgcolor: greenColor,
-                    isFirst: false,
-                    isLast: false,
-                    title: 'Email',
-                    img: 'assets/icons/email-icons.png',
-                    width: 25,
-                    iconimg: 'assets/images/check.png',
-                  ),
-                  TimeLineIdicatorPage(
-                    iconColor: whiteColor,
-                    secondiconColor: greenColor,
-                    bgcolor: greenColor,
-                    isFirst: false,
-                    isLast: false,
-                    title: 'Info Personal',
-                    img: 'assets/images/iphone1.png',
-                    width: 25,
-                    iconimg: 'assets/images/check.png',
-                  ),
-                  TimeLineIdicatorPage(
-                    iconColor: whiteColor,
-                    secondiconColor: greenColor,
-                    bgcolor: greenColor,
-                    isFirst: false,
-                    isLast: false,
-                    title: 'Beauty Profile',
-                    img: 'assets/icons/logo-person.png',
-                    width: 20,
-                    iconimg: 'assets/images/check.png',
-                  ),
-                  TimeLineIdicatorPage(
-                    iconColor: greenColor,
-                    secondiconColor: greenColor,
-                    bgcolor: whiteColor,
-                    isFirst: false,
-                    isLast: true,
-                    title: 'Skin Goals',
-                    img: 'assets/icons/logo-person.png',
-                    width: 20,
-                    iconimg: 'assets/images/Vector.png',
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 23,
-              ),
-              const Divider(
-                thickness: 1,
-                color: Color(0XffCCCCCC),
-              ),
+              dividergrey(),
               const SizedBox(
                 height: 20,
               ),
@@ -406,9 +342,6 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 50,
-              )
             ],
           ),
         ),

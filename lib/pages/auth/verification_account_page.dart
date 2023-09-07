@@ -218,9 +218,6 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                       });
                     },
                   ),
-                  const SizedBox(
-                    height: 50,
-                  )
                 ],
               ),
             ),

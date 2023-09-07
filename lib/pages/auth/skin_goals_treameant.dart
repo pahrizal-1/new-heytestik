@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -112,6 +113,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              dividergrey(),
               const SizedBox(
                 height: 20,
               ),
@@ -168,7 +170,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                       type: 2,
                     ),
                     const SizedBox(
-                      height: 211,
+                      height: 180,
                     ),
                     Obx(
                       () => LoadingWidget(
@@ -190,9 +192,6 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 50,
-              )
             ],
           ),
         ),
