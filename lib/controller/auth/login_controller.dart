@@ -155,10 +155,10 @@ class LoginController extends StateClass {
     int? roleId = await LocalStorage().getRoleID();
     if (roleId == 2) {
       print('masuk ke doctor');
-      Get.off(() => const TabBarDoctor());
+      Get.offAll(() => const TabBarDoctor());
     } else if (roleId == 3) {
       print('masuk ke customer');
-      Get.off(() => const TabBarCustomer());
+      Get.offAll(() => const TabBarCustomer());
     }
   }
 
