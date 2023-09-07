@@ -114,7 +114,7 @@ class InterestController extends StateClass {
         "hair_color": hairColor,
         "hijabers": hijabers,
       };
-
+      print(data);
       var loginResponse = await InterestService().beautyProfile(data);
       print(loginResponse);
       doInPost();
@@ -149,7 +149,8 @@ class InterestController extends StateClass {
       print(loginResponse);
       if (loginResponse['success'] == false) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          SnackbarWidget.getErrorSnackbar(context, 'Error', loginResponse['message']);
+          SnackbarWidget.getErrorSnackbar(
+              context, 'Error', loginResponse['message']);
         });
       } else {
         doInPost();
@@ -158,7 +159,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  faceCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  faceCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -185,7 +187,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  bodyCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  bodyCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -208,7 +211,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  augmentationSkinGoals(BuildContext context, {required Function() doInPost}) async {
+  augmentationSkinGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -231,7 +235,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  pastTreatmentGoals(BuildContext context, {required Function() doInPost}) async {
+  pastTreatmentGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];

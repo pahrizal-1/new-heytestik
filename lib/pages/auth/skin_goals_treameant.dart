@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -167,16 +170,22 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                     const SizedBox(
                       height: 211,
                     ),
-                    ButtonGreenWidget(
-                      title: 'Simpan',
-                      onPressed: () async {
-                        await state.budgets(context, doInPost: () async {
-                          showDialog(
-                            context: context,
-                            builder: (context) => const ProfilMoreDialog(),
-                          );
-                        });
-                      },
+                    Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: ButtonGreenWidget(
+                          title: 'Simpan',
+                          onPressed: () async {
+                            await state.budgets(context, doInPost: () async {
+                              Get.offAll(() => const AuthPage());
+                              showDialog(
+                                context: context,
+                                builder: (context) => const ProfilMoreDialog(),
+                              );
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/theme.dart';
@@ -309,18 +311,24 @@ class BeautyProfilPage extends StatelessWidget {
               padding: lsymetric,
               child: Column(
                 children: [
-                  ButtonGreenWidget(
-                    title: 'Simpan',
-                    onPressed: () async {
-                      await state.beautifulProfile(context, doInPost: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SkinGoalsSatu(),
-                          ),
-                        );
-                      });
-                    },
+                  Obx(
+                    () => LoadingWidget(
+                      isLoading: state.isLoading.value,
+                      child: ButtonGreenWidget(
+                        title: 'Simpan',
+                        onPressed: () async {
+                          await state.beautifulProfile(context,
+                              doInPost: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SkinGoalsSatu(),
+                              ),
+                            );
+                          });
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,

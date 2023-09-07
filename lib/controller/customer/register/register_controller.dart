@@ -14,6 +14,7 @@ class RegisterController extends StateClass {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController referralCode = TextEditingController();
+  String? countryCode;
   String? phoneNumber;
   String gender = 'Laki-laki';
   int province = 0;
@@ -33,19 +34,22 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  registerPhoneNumber(BuildContext context, {required Function() doInPost}) async {
+  registerPhoneNumber(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (phoneNumber == null) {
+      if (phoneNumber == null || phoneNumber == "" || phoneNumber!.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'No Handphone harus diisi',
+          message: 'Nomor Ponsel harus diisi',
         );
       }
+      var noHp = "$countryCode$phoneNumber";
+
       var data = {
         "method": "WHATSAPP",
         "type": "REGISTRATION",
-        "no_phone": phoneNumber,
+        "no_phone": noHp,
       };
 
       print(data);
@@ -58,13 +62,14 @@ class RegisterController extends StateClass {
     isLoading.value = false;
   }
 
-  registerEmailWithoutVerification(BuildContext context, {required Function() doInPost}) async {
-    isLoading.value = true;
+  registerEmailWithoutVerification(BuildContext context,
+      {required Function() doInPost}) async {
+    isLoadingMore.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text == "") {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'No Handphone harus diisi',
+          message: 'Email harus diisi',
         );
       }
 
@@ -79,7 +84,7 @@ class RegisterController extends StateClass {
       print(loginResponse);
       doInPost();
     });
-    isLoading.value = false;
+    isLoadingMore.value = false;
   }
 
   registerEmail(BuildContext context, {required Function() doInPost}) async {
@@ -88,7 +93,7 @@ class RegisterController extends StateClass {
       if (email.text == "") {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'No Handphone harus diisi',
+          message: 'Email harus diisi',
         );
       }
 
@@ -200,7 +205,8 @@ class RegisterController extends StateClass {
     isLoading.value = false;
   }
 
-  register(BuildContext context, {File? profileImage, required Function() doInPost}) async {
+  register(BuildContext context,
+      {File? profileImage, required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (email.text.isEmpty) {
@@ -247,7 +253,7 @@ class RegisterController extends StateClass {
       }
 
       FormData formData = FormData.fromMap(data);
-
+      print('formData $formData');
       // return;
       var res = await RegisterService().register(formData);
       print('res $res');

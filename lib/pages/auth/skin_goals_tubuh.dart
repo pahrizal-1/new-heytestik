@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_dua.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -175,19 +177,24 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                     const SizedBox(
                       height: 220,
                     ),
-                    ButtonGreenWidget(
-                      title: 'Lanjut',
-                      onPressed: () async {
-                        await state.bodyCorrectiveGoals(context,
-                            doInPost: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SkinGoalsDua(),
-                            ),
-                          );
-                        });
-                      },
+                    Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: ButtonGreenWidget(
+                          title: 'Lanjut',
+                          onPressed: () async {
+                            await state.bodyCorrectiveGoals(context,
+                                doInPost: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SkinGoalsDua(),
+                                ),
+                              );
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 50,

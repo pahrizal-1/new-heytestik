@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -247,19 +249,24 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
                     const SizedBox(
                       height: 50,
                     ),
-                    ButtonGreenWidget(
-                      title: 'Lanjut',
-                      onPressed: () async {
-                        await state.faceCorrectiveGoals(context,
-                            doInPost: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SkinGoalsTubuh(),
-                            ),
-                          );
-                        });
-                      },
+                    Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: ButtonGreenWidget(
+                          title: 'Lanjut',
+                          onPressed: () async {
+                            await state.faceCorrectiveGoals(context,
+                                doInPost: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SkinGoalsTubuh(),
+                                ),
+                              );
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 50,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_treameant.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -382,19 +384,24 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                     SizedBox(
                       height: 39,
                     ),
-                    ButtonGreenWidget(
-                      title: 'Lanjut',
-                      onPressed: () async {
-                        await state.pastTreatmentGoals(context,
-                            doInPost: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SkinGoalsEmpat(),
-                            ),
-                          );
-                        });
-                      },
+                    Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: ButtonGreenWidget(
+                          title: 'Lanjut',
+                          onPressed: () async {
+                            await state.pastTreatmentGoals(context,
+                                doInPost: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SkinGoalsEmpat(),
+                                ),
+                              );
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),

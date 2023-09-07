@@ -1,6 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/info_personal_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -143,7 +144,8 @@ class MoreDialog extends StatelessWidget {
 }
 
 class TextMoreDialog extends StatelessWidget {
-  const TextMoreDialog({super.key});
+  String email;
+  TextMoreDialog({required this.email, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +171,7 @@ class TextMoreDialog extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Yey! Email rasmalina.rina@gmail.com telah berhasil terverifikasi.',
+              'Yey! Email $email telah berhasil terverifikasi.',
               style: greyTextStyle.copyWith(fontSize: 13),
             ),
             const SizedBox(
@@ -201,25 +203,8 @@ class TextMoreDialog extends StatelessWidget {
   }
 }
 
-class ProfilMoreDialog extends StatefulWidget {
+class ProfilMoreDialog extends StatelessWidget {
   const ProfilMoreDialog({super.key});
-
-  @override
-  State<ProfilMoreDialog> createState() => _ProfilMoreDialogState();
-}
-
-class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     const Duration(seconds: 1),
-  //     () => Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const AuthPage(),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +263,7 @@ class _ProfilMoreDialogState extends State<ProfilMoreDialog> {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  Get.offAll(() => const AuthPage());
+                  Get.back();
                 },
                 child: Container(
                   height: 45,
@@ -335,44 +320,47 @@ class DetailMoreDialogFilter extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Durasi Perawatan',
-                    title2: treatmentData.duration!,
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Masa Pemulihan',
-                    title2: treatmentData.downtime!,
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  TextBoldSpacebetwen(
-                    title1: '',
-                    title: 'Tipe',
-                    title2: treatmentData.category!,
-                  ),
-                  const SizedBox(
-                    height: 34,
-                  ),
-                  Text(
-                    'Detail Perawatan',
-                    style: TextStyle(color: blackColor, fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    treatmentData.treatmentStep!,
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                ]),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 34, vertical: 37),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Durasi Perawatan',
+                        title2: treatmentData.duration!,
+                      ),
+                      const SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Masa Pemulihan',
+                        title2: treatmentData.downtime!,
+                      ),
+                      const SizedBox(
+                        height: 11,
+                      ),
+                      TextBoldSpacebetwen(
+                        title1: '',
+                        title: 'Tipe',
+                        title2: treatmentData.category!,
+                      ),
+                      const SizedBox(
+                        height: 34,
+                      ),
+                      Text(
+                        'Detail Perawatan',
+                        style: TextStyle(color: blackColor, fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        treatmentData.treatmentStep!,
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                      ),
+                    ]),
               ),
             ],
           ),

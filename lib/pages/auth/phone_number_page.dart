@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,7 @@ class PhoneNumberPage extends StatelessWidget {
               height: 35,
             ),
             Text(
-              'Nomor Handphone',
+              'Nomor Ponsel',
               style: blackTextStyle,
             ),
             const SizedBox(
@@ -61,8 +62,13 @@ class PhoneNumberPage extends StatelessWidget {
                 color: blackColor,
               ),
               disableLengthCheck: true,
+              onCountryChanged: (value) {
+                state.countryCode = value.dialCode;
+              },
               onChanged: (value) {
-                state.phoneNumber = "${value.countryCode}${value.number}";
+                state.phoneNumber = value.number;
+                state.countryCode = value.countryCode;
+                print("heheh $value");
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -96,6 +102,11 @@ class PhoneNumberPage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => const VerificationPage(),
                         ),
+                      );
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'OTP Berhasil Dikirim',
                       );
                     });
                   },

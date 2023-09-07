@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -394,28 +396,35 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ButtonGreenWidget(
-                      title: 'Simpan',
-                      onPressed: () async {
-                        if (state.province == 0 || state.city == 0) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertWidget(
-                                subtitle:
-                                    'Data Provinsi Dan Kota/Kabupaten Harap Diisi'),
-                          );
-                        } else {
-                          await state.register(context, profileImage: imagePath,
-                              doInPost: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const BeautyProfilPage(),
-                              ),
-                            );
-                          });
-                        }
-                      },
+                    Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: ButtonGreenWidget(
+                          title: 'Simpan',
+                          onPressed: () async {
+                            if (state.province == 0 || state.city == 0) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertWidget(
+                                  subtitle:
+                                      'Data Provinsi Dan Kota/Kabupaten Harap Diisi',
+                                ),
+                              );
+                            } else {
+                              await state.register(context,
+                                  profileImage: imagePath, doInPost: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const BeautyProfilPage(),
+                                  ),
+                                );
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,

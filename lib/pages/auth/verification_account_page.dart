@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
-import 'package:heystetik_mobileapps/pages/auth/info_personal_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_email_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../widget/timeline_widget.dart';
@@ -17,7 +19,7 @@ class VerificationAcooutPage extends StatefulWidget {
 }
 
 class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
-  bool _isEnable = false;
+  // bool _isEnable = false;
   bool isSelected = false;
 
   @override
@@ -175,18 +177,29 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                     ],
                   ),
                   const Spacer(),
-                  ButtonGreenWidget(
-                    title: 'Verifikasi Sekarang',
-                    onPressed: () async {
-                      await state.registerEmail(context, doInPost: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerificasionEmailPage(),
-                          ),
-                        );
-                      });
-                    },
+                  Obx(
+                    () => LoadingWidget(
+                      isLoading: state.isLoading.value,
+                      child: ButtonGreenWidget(
+                        title: 'Verifikasi Sekarang',
+                        onPressed: () async {
+                          await state.registerEmail(context,
+                              doInPost: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VerificasionEmailPage(),
+                              ),
+                            );
+                            SnackbarWidget.getSuccessSnackbar(
+                              context,
+                              'Info',
+                              'OTP Berhasil Dikirim',
+                            );
+                          });
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -199,7 +212,7 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const VerificasionEmailPage(),
+                            builder: (context) => VerificasionEmailPage(),
                           ),
                         );
                       });
