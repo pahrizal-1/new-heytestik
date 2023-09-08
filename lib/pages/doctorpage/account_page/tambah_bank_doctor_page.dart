@@ -31,6 +31,7 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         titleSpacing: 0,
@@ -66,8 +67,10 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
                           readOnly: true,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                            contentPadding: EdgeInsets.only(
+                              left: 5,
+                              right: 5,
+                            ),
                             fillColor: greenColor,
                             hoverColor: greenColor,
                             focusedBorder: UnderlineInputBorder(

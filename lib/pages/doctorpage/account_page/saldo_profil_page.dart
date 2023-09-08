@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/penarikan_dana_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
@@ -35,32 +36,29 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
         titleSpacing: 0,
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context, 'refresh');
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 22,
-                    color: Colors.white,
-                  ),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context, 'refresh');
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 22,
+                  color: Colors.white,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Saldo Saya',
-                  style:
-                      whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-                ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                'Saldo Saya',
+                style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
       body: Obx(
@@ -107,25 +105,49 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                   const SizedBox(
                     height: 47,
                   ),
-                  Center(
-                    child: Text(
-                      'Saldo Saya',
-                      style: blackTextStyle.copyWith(
-                          fontSize: 15, fontWeight: regular),
+                  Container(
+                    height: 97,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: whiteColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade600,
+                          spreadRadius: 0.2,
+                          blurRadius: 0.1,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text(
+                            'Saldo Saya',
+                            style: blackTextStyle.copyWith(
+                                fontSize: 15, fontWeight: regular),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Obx(
+                          () => Center(
+                            child: Text(
+                              'Rp ${state.saldo.value.balance}',
+                              style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 20,
+                                  fontWeight: bold,
+                                  color: blackColor),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Obx(
-                    () => Center(
-                      child: Text(
-                        'Rp ${state.saldo.value.balance}',
-                        style: TextStyle(
-                            fontFamily: 'ProximaNova',
-                            fontSize: 20,
-                            fontWeight: bold,
-                            color: blackColor),
-                      ),
-                    ),
-                  ),
+
                   const SizedBox(
                     height: 35,
                   ),
@@ -146,6 +168,7 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                       }
                     },
                   ),
+
                   const SizedBox(
                     height: 48,
                   ),

@@ -154,74 +154,74 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     ),
                   ),
                 ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      transform: Matrix4.translationValues(0, -45, 0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 0.1,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: paddingL, bottom: paddingL),
-                        child: Center(
-                          child: state.startTime.value.isEmpty
-                              ? Text(
-                                  'Tidak ada jadwal',
-                                  style: TextStyle(
-                                    fontWeight: bold,
-                                    color: fromCssColor('#6B6B6B'),
-                                    fontSize: 20,
-                                    fontFamily: 'ProximaNova,',
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Obx(
-                                      () => Text(
-                                        'Jadwal Hari ini, ${state.today.value}',
-                                        style: TextStyle(
-                                          fontWeight: bold,
-                                          color: fromCssColor('#6B6B6B'),
-                                          fontSize: 16,
-                                          fontFamily: 'ProximaNova,',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Obx(
-                                      () => Text(
-                                        state.isFirstSchedule.value
-                                            ? state.startTime.value
-                                            : state.isSecondSchedule.value
-                                                ? state.endTime.value
-                                                : 'Istirahat',
-                                        style: TextStyle(
-                                          fontWeight: bold,
-                                          fontSize: paddingL,
-                                          color: fromCssColor('#5DA89C'),
-                                          fontFamily: 'ProximaNova,',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    transform: Matrix4.translationValues(0, -45, 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.1,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
                         ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: paddingL, bottom: paddingL),
+                      child: Center(
+                        child: state.startTime.value.isEmpty
+                            ? Text(
+                                'Tidak ada jadwal',
+                                style: TextStyle(
+                                  fontWeight: bold,
+                                  color: fromCssColor('#6B6B6B'),
+                                  fontSize: 20,
+                                  fontFamily: 'ProximaNova,',
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      'Jadwal Hari ini, ${state.today.value}',
+                                      style: TextStyle(
+                                        fontWeight: bold,
+                                        color: fromCssColor('#6B6B6B'),
+                                        fontSize: 16,
+                                        fontFamily: 'ProximaNova,',
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      state.isFirstSchedule.value
+                                          ? state.startTime.value
+                                          : state.isSecondSchedule.value
+                                              ? state.endTime.value
+                                              : 'Istirahat',
+                                      style: TextStyle(
+                                        fontWeight: bold,
+                                        fontSize: paddingL,
+                                        color: fromCssColor('#5DA89C'),
+                                        fontFamily: 'ProximaNova,',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
                     ),
                   ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                   child: Column(
@@ -229,18 +229,13 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            height: 23,
-                            width: paddingL,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/icons/calender-logo.png'),
-                              ),
-                            ),
+                          Image.asset(
+                            'assets/icons/calender-logo.png',
+                            width: 20,
+                            color: greenColor,
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 12,
                           ),
                           Text(
                             'Jadwal Konsultasi Dengan Pasien',
@@ -258,7 +253,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       state.totalFindSchedule.value == 0
                           ? Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(
