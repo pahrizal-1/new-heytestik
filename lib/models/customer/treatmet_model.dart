@@ -125,30 +125,31 @@ class Data2 {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['clinic_id'] = this.clinicId;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['description'] = this.description;
-    data['duration'] = this.duration;
-    data['downtime'] = this.downtime;
-    data['treatment_type'] = this.treatmentType;
-    data['treatment_step'] = this.treatmentStep;
-    data['price'] = this.price;
-    data['is_active'] = this.isActive;
-    data['rating'] = this.rating;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.clinic != null) {
-      data['clinic'] = this.clinic!.toJson();
+    data['id'] = id;
+    data['clinic_id'] = clinicId;
+    data['name'] = name;
+    data['category'] = category;
+    data['description'] = description;
+    data['duration'] = duration;
+    data['downtime'] = downtime;
+    data['treatment_type'] = treatmentType;
+    data['treatment_step'] = treatmentStep;
+    data['price'] = price;
+    data['is_active'] = isActive;
+    data['rating'] = rating;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (clinic != null) {
+      data['clinic'] = clinic!.toJson();
     }
-    if (this.mediaTreatments != null) {
-      data['media_treatments'] = this.mediaTreatments!.map((v) => v.toJson()).toList();
+    if (mediaTreatments != null) {
+      data['media_treatments'] =
+          mediaTreatments!.map((v) => v.toJson()).toList();
     }
-    data['distance'] = this.distance;
+    data['distance'] = distance;
     return data;
   }
 }
@@ -224,8 +225,8 @@ class Clinic {
     id = json['id'];
     name = json['name'];
     address = json['address'];
-    pinpointLatitude = json['pinpoint_latitude'];
-    pinpointLongitude = json['pinpoint_longitude'];
+    pinpointLatitude = double.parse(json['pinpoint_latitude'].toString());
+    pinpointLongitude = double.parse(json['pinpoint_longitude'].toString());
     pinpointAddress = json['pinpoint_address'];
     provinceId = json['province_id'];
     cityId = json['city_id'];
@@ -250,7 +251,8 @@ class Clinic {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'] ?? DateTime.now().toString();
     deletedAt = json['deleted_at'] ?? DateTime.now().toString();
-    province = json['province'] != null ? Province.fromJson(json['province']) : null;
+    province =
+        json['province'] != null ? Province.fromJson(json['province']) : null;
     city = json['city'] != null ? City.fromJson(json['city']) : null;
   }
 

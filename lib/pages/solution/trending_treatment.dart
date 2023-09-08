@@ -31,7 +31,8 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
+      treatments.addAll(await stateTreatment.getTrendingTreatment(context, page,
+          search: search));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -40,7 +41,8 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
+            treatments.addAll(await stateTreatment
+                .getTrendingTreatment(context, page, search: search));
             setState(() {});
           });
         }
@@ -119,43 +121,48 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                         ),
                         borderRadius: BorderRadius.circular(7),
                       ),
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                          ),
-                          child: Image.asset(
-                            'assets/icons/search1.png',
-                            width: 10,
-                          ),
-                        ),
-                        Container(
-                          transform: Matrix4.translationValues(0, -2, 0),
-                          constraints: const BoxConstraints(maxWidth: 250),
-                          child: TextFormField(
-                            controller: searchController,
-                            onEditingComplete: () async {
-                              search = searchController.text;
-                              page = 1;
-                              treatments.clear();
-                              treatments.addAll(await stateTreatment.getTrendingTreatment(context, page, search: search));
-                              setState(() {});
-                            },
-                            style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
-                            decoration: InputDecoration(
-                              hintText: "Cari Treatment",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontFamily: "ProximaNova",
-                                color: fromCssColor(
-                                  '#9B9B9B',
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Image.asset(
+                                'assets/icons/search1.png',
+                                width: 10,
+                              ),
+                            ),
+                            Container(
+                              transform: Matrix4.translationValues(0, -2, 0),
+                              constraints: const BoxConstraints(maxWidth: 250),
+                              child: TextFormField(
+                                controller: searchController,
+                                onEditingComplete: () async {
+                                  search = searchController.text;
+                                  page = 1;
+                                  treatments.clear();
+                                  treatments.addAll(await stateTreatment
+                                      .getTrendingTreatment(context, page,
+                                          search: search));
+                                  setState(() {});
+                                },
+                                style: const TextStyle(
+                                    fontSize: 15, fontFamily: "ProximaNova"),
+                                decoration: InputDecoration(
+                                  hintText: "Cari Treatment",
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: fromCssColor(
+                                      '#9B9B9B',
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ]),
+                          ]),
                     )),
                   ],
                 ),
@@ -180,12 +187,15 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                       children: [
                         Text(
                           'Tampilan',
-                          style: subTitleTextStyle.copyWith(color: const Color(0xff6B6B6B)),
+                          style: subTitleTextStyle.copyWith(
+                              color: const Color(0xff6B6B6B)),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
-                        isSelecteTampilan ? SvgPicture.asset('assets/icons/tampilan1.svg') : SvgPicture.asset('assets/icons/tampillan2.svg')
+                        isSelecteTampilan
+                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
+                            : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
@@ -201,27 +211,30 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                     spacing: 12,
                     children: treatments.map((element) {
                       return ProdukTreatment(
-                        namaKlinik: element.clinic!.name!,
-                        namaTreatmen: element.name!,
+                        namaKlinik: element.clinic?.name ?? '-',
+                        namaTreatmen: element.name ?? '-',
                         diskonProduk: '0',
                         hargaDiskon: '',
                         harga: element.price.toString(),
-                        urlImg: "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                        urlImg:
+                            "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                         rating: '${element.rating} (120k)',
-                        km: element.distance!,
-                        lokasiKlinik: element.clinic!.city!.name!,
+                        km: element.distance ?? '-',
+                        lokasiKlinik: element.clinic?.city?.name ?? '-',
                         treatmentData: element,
                       );
                     }).toList(),
                   )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 19),
                     child: Column(
                         children: treatments
                             .map(
                               (e) => TampilanRight(
                                 treatment: e,
-                                urlImg: "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                urlImg:
+                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                               ),
                             )
                             .toList()),

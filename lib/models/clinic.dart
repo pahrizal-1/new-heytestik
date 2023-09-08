@@ -25,7 +25,7 @@ class ClinicModel {
 class ClinicDataModel {
   final int id;
   final String name;
-  final int rating;
+  final double? rating;
   final String distance;
   final int price;
   final String logo;
@@ -45,9 +45,9 @@ class ClinicDataModel {
     return ClinicDataModel(
       id: json['id'],
       name: json['name'],
-      rating: json['rating'],
+      rating: double.parse(json['rating'].toString()),
       distance: json['distance'],
-      price: json['avg_price'],
+      price: int.parse(json['avg_price'].toString()),
       logo: json['media_clinic_logo']['media']['path'],
       city: json['city']['name'],
     );

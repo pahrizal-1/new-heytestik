@@ -669,8 +669,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           children: treatments.map((element) {
                             return ProdukTreatment(
                               treatmentData: element,
-                              namaKlinik: element.clinic!.name!,
-                              namaTreatmen: element.name!,
+                              namaKlinik: element.clinic?.name ?? '-',
+                              namaTreatmen: element.name ?? '-',
                               diskonProduk: '0',
                               hargaDiskon: '0',
                               harga: element.price!.toString(),
@@ -678,7 +678,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                               rating: '${element.rating} (120k)',
                               km: '${element.distance}',
-                              lokasiKlinik: element.clinic!.city!.name!,
+                              lokasiKlinik: element.clinic?.city?.name ?? '-',
                             );
                           }).toList(),
                         ),
