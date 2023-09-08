@@ -77,7 +77,7 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 16, left: 25, right: 25),
+                          const EdgeInsets.only(top: 16, left: 20, right: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -132,10 +132,11 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                 () => Text(
                                   'Rp ${state.saldo.value.balance}',
                                   style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 20,
-                                      fontWeight: bold,
-                                      color: blackColor),
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                    color: greyColor,
+                                  ),
                                 ),
                               ),
                             ],
@@ -164,16 +165,16 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                             keyboardType: TextInputType.number,
                             controller: state.nominalPenarikan,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(top: 15),
+                              contentPadding: EdgeInsets.only(top: 15, left: 0),
                               fillColor: greenColor,
                               hoverColor: greenColor,
                               prefixIcon: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 11),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 11),
                                 child: Text(
                                   'Rp',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 20),
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 20, color: greyColor),
                                 ),
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -199,7 +200,7 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 16, left: 25, right: 25),
+                          const EdgeInsets.only(top: 16, left: 20, right: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -230,14 +231,32 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                               children: [
                                                 Text(
                                                   '${stateBank.filterData[index].bank?.name}',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(
+                                                    fontSize: 12,
+                                                    color: blackColor,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
                                                 ),
                                                 Text(
-                                                  '${stateBank.filterData[index].accountNumber}\n${stateBank.filterData[index].name?.toUpperCase()}',
+                                                  '${stateBank.filterData[index].accountNumber} - ${stateBank.filterData[index].name?.toUpperCase()}',
+                                                  style: subTitleTextStyle
+                                                      .copyWith(
+                                                    fontSize: 12,
+                                                    color: Color(
+                                                      0xff6B6B6B,
+                                                    ),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                           ),
                                           Radio(
+                                            focusColor: greenColor,
+                                            hoverColor: greenColor,
+                                            activeColor: greenColor,
                                             value: index,
                                             groupValue: groupBank,
                                             toggleable: true,
@@ -264,15 +283,8 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 9,
-                                      ),
-                                      Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      ),
-                                      SizedBox(
-                                        height: 9,
-                                      ),
+                                        height: 10,
+                                      )
                                     ],
                                   );
                                 }),
@@ -427,7 +439,7 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                           //   ),
                           // ),
                           const SizedBox(
-                            height: 31,
+                            height: 20,
                           ),
                           InkWell(
                             onTap: () async {

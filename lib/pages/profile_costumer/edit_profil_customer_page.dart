@@ -89,7 +89,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                 width: 11,
               ),
               Text(
-                "Edit Profile",
+                "Ubah Profil",
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
@@ -131,22 +131,6 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                                     : AssetImage(
                                         'assets/icons/person-white.png',
                                       ),
-                              ),
-                            ),
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: greenColor,
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 20,
-                                  color: whiteColor,
-                                ),
                               ),
                             ),
                           ),
@@ -196,7 +180,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           style: blackTextStyle.copyWith(fontSize: 18),
                         ),
                         const SizedBox(
-                          width: 61,
+                          width: 6,
                         ),
                         Image.asset(
                           'assets/icons/alert-new.png',
@@ -339,7 +323,7 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                     Row(
                       children: [
                         Text(
-                          'Info Profil',
+                          'Info Pribadi',
                           style: blackTextStyle.copyWith(fontSize: 18),
                         ),
                         const SizedBox(

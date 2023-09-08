@@ -75,6 +75,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
               Padding(
                 padding: lsymetric.copyWith(top: 25, bottom: 24),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Row(
                     //   children: [
@@ -114,7 +115,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                     //   height: 16,
                     // ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: 50,
@@ -212,12 +213,12 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Belum ada voucher yang tersedia',
-                            style: blackTextStyle.copyWith(fontSize: 11),
+                            'Kamu bisa hemat Rp 25.000',
+                            style: blackTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            '0 voucher dipakai',
-                            style: subTitleTextStyle,
+                            '1 voucher dipakai',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
                           ),
                         ],
                       ),
@@ -227,12 +228,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                   ),
                 ),
               ),
-              const dividergreen(),
-              Padding(
-                padding: lsymetric.copyWith(top: 10),
-                child: CardTreatmentBank(),
-              ),
-              const dividergreen(),
+              CardTreatmentBank(),
               Padding(
                 padding: lsymetric.copyWith(top: 22, bottom: 22),
                 child: Column(

@@ -32,7 +32,7 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
         titleSpacing: 0,
         backgroundColor: greenColor,
         title: Padding(
-          padding: const EdgeInsets.only(left: 6),
+          padding: const EdgeInsets.only(left: 16),
           child: Row(
             children: [
               InkWell(
@@ -99,17 +99,36 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${state.filterData[index].bank?.name}',
-                                            ),
-                                            Text(
-                                              '${state.filterData[index].accountNumber}\n${state.filterData[index].name?.toUpperCase()}',
-                                            )
-                                          ],
+                                        Container(
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 230),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${state.filterData[index].bank?.name}',
+                                                style: blackRegulerTextStyle
+                                                    .copyWith(
+                                                  fontSize: 12,
+                                                  color: blackColor,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                'a.n ${state.filterData[index].accountNumber}\n${state.filterData[index].name?.toUpperCase()}',
+                                                style:
+                                                    subTitleTextStyle.copyWith(
+                                                  fontSize: 12,
+                                                  color: Color(
+                                                    0xff6B6B6B,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         const Spacer(),
                                         Column(
@@ -168,7 +187,8 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
-                                                      color: subgreyColor),
+                                                    color: borderColor,
+                                                  ),
                                                   borderRadius:
                                                       BorderRadius.circular(7),
                                                 ),
@@ -253,8 +273,11 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
               onPressed: () async {
                 // clear search
                 state.clearForm();
-                String refresh = await Navigator.push(context, MaterialPageRoute(builder: (context) => TambahBankDoctorPage()));
-                if(refresh == 'refresh'){
+                String refresh = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TambahBankDoctorPage()));
+                if (refresh == 'refresh') {
                   setState(() {
                     state.filterData;
                   });
