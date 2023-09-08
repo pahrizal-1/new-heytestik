@@ -230,51 +230,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
               const dividergreen(),
               Padding(
                 padding: lsymetric.copyWith(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Pilih Metode Pembayaran',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 19,
-                    ),
-                    Text(
-                      'Pembayaran Instan',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    CardTreatmentBank(),
-                  ],
-                ),
-              ),
-              const dividergreen(),
-              Padding(
-                padding: lsymetric.copyWith(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Transfer Virtual Account',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    CardTreatmentBank(),
-                  ],
-                ),
-              ),
-              const dividergreen(),
-              Padding(
-                padding: lsymetric.copyWith(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tranfer Bank ( Verifikasi Manual )',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    CardBankTranferManual(),
-                  ],
-                ),
+                child: CardTreatmentBank(),
               ),
               const dividergreen(),
               Padding(

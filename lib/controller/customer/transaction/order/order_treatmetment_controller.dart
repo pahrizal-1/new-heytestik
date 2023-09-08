@@ -15,19 +15,19 @@ class OrderTreatmentController extends StateClass {
   RxString arrivalDate = ''.obs;
   RxString arrivalTimeFirst = ''.obs;
   RxString arrivalTimeLast = ''.obs;
-  RxInt totalPaymentMethod = 0.obs;
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
-  Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
-      PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxList<PaymentMethod.Data> getPaymentMethod =
+      List<PaymentMethod.Data>.empty().obs;
+
   RxString orderId = ''.obs;
   RxString bank = ''.obs;
   RxString expireTime = ''.obs;
 
   initPayment(BuildContext context) async {
     isLoading.value = true;
-    getPaymentMethod.value == null;
+    getPaymentMethod.value.clear();
     await getPaymentmethod(context);
     idPayment.value = 0;
     paymentMethod.value = '';
@@ -37,8 +37,8 @@ class OrderTreatmentController extends StateClass {
 
   getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      getPaymentMethod.value = await TransactionService().paymentMethod();
-      totalPaymentMethod.value = getPaymentMethod.value!.data!.length;
+      var res = await TransactionService().paymentMethod();
+      getPaymentMethod.value = res.data!;
     });
   }
 
@@ -46,11 +46,10 @@ class OrderTreatmentController extends StateClass {
     arrivalDate.value = '';
     arrivalTimeFirst.value = '';
     arrivalTimeLast.value = '';
-    totalPaymentMethod.value = 0;
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
-    getPaymentMethod.value = null;
+    getPaymentMethod.value.clear();
     orderId.value = '';
     bank.value = '';
     expireTime.value = '';

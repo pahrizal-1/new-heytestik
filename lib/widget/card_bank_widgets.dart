@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
-
+import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
 
 class CardTreatmentBank extends StatelessWidget {
@@ -18,33 +19,48 @@ class CardTreatmentBank extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
-      child: state.totalPaymentMethod.value == 0
-          ? Container()
-          : ListView.builder(
+      child: state.getPaymentMethod.isEmpty
+          ? const Center(
+              child: Text(
+                'Tiddak ada metode pemayaran',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            )
+          : GroupedListView<Data, String>(
+              elements: state.getPaymentMethod.toList(),
+              groupBy: (element) => element.segment.toString(),
+              groupComparator: (value1, value2) => value2.compareTo(value1),
+              order: GroupedListOrder.ASC,
+              useStickyGroupSeparators: true,
               shrinkWrap: true,
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.totalPaymentMethod.value,
-              itemBuilder: (BuildContext context, int index) {
+              groupSeparatorBuilder: (String value) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  value,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              itemBuilder: (c, element) {
                 return InkWell(
                   onTap: () {
-                    if (state.getPaymentMethod.value!.data![index].isActive !=
-                        false) {
-                      state.idPayment.value = state
-                          .getPaymentMethod.value!.data![index].id!
-                          .toInt();
-                      state.paymentMethod.value =
-                          state.getPaymentMethod.value!.data![index].method ??
-                              '-';
-                      state.paymentType.value =
-                          state.getPaymentMethod.value!.data![index].type ??
-                              '-';
+                    if (element.isActive != false) {
+                      state.idPayment.value = element.id!.toInt();
+                      state.paymentMethod.value = element.method ?? '-';
+                      state.paymentType.value = element.type ?? '-';
                     } else {
                       showDialog(
                         context: context,
                         builder: (context) => AlertWidget(
                           subtitle:
-                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
+                              '${element.name}\nTidak tersedia untuk transaksi ini',
                         ),
                       );
                     }
@@ -59,9 +75,10 @@ class CardTreatmentBank extends StatelessWidget {
                         Row(
                           children: [
                             Image.network(
-                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+                              '${Global.FILE}/${element.mediaPaymentMethod!.media!.path.toString()}',
                               width: 40,
                               height: 35,
+                              color: element.isActive! ? null : blackColor,
                             ),
                             const SizedBox(
                               width: 19,
@@ -70,15 +87,13 @@ class CardTreatmentBank extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.getPaymentMethod.value!.data![index]
-                                          .name ??
-                                      '-',
+                                  element.name ?? '-',
                                   style: blackTextStyle.copyWith(fontSize: 15),
                                 ),
                                 Text(
-                                  state.getPaymentMethod.value!.data![index]
-                                          .description ??
-                                      '-',
+                                  element.isActive!
+                                      ? element.description ?? '-'
+                                      : 'Tidak tersedia untuk transaksi ini',
                                   style: blackRegulerTextStyle.copyWith(
                                       fontSize: 12),
                                 )
@@ -87,15 +102,11 @@ class CardTreatmentBank extends StatelessWidget {
                             const Spacer(),
                             Obx(
                               () => Icon(
-                                state.idPayment.value ==
-                                        state.getPaymentMethod.value!
-                                            .data![index].id
+                                state.idPayment.value == element.id
                                     ? Icons.radio_button_on
                                     : Icons.circle_outlined,
                                 size: 23,
-                                color: state.idPayment.value ==
-                                        state.getPaymentMethod.value!
-                                            .data![index].id
+                                color: state.idPayment.value == element.id
                                     ? greenColor
                                     : blackColor,
                               ),
