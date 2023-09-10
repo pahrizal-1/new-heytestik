@@ -19,6 +19,8 @@ class OrderProductController extends StateClass {
   RxString paymentType = ''.obs;
   Rx<PaymentMethod.PaymentMethodModel?> listPaymentMethod =
       PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxList<PaymentMethod.Data> getPaymentMethod =
+      List<PaymentMethod.Data>.empty().obs;
   RxString orderId = ''.obs;
   RxString bank = ''.obs;
   RxString expireTime = ''.obs;

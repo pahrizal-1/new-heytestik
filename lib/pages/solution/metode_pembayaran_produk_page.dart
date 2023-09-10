@@ -13,6 +13,7 @@ import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -184,21 +185,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                   ),
                 ),
               ),
-              const dividergreen(),
-              Padding(
-                padding: lsymetric.copyWith(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Pilih Metode Pembayaran',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    CardProductBank(),
-                  ],
-                ),
-              ),
-              const dividergreen(),
+              CardProdukBank(),
               Padding(
                 padding: lsymetric.copyWith(top: 22, bottom: 22),
                 child: Column(
@@ -424,107 +411,107 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
   }
 }
 
-class CardProductBank extends StatelessWidget {
-  CardProductBank({
-    super.key,
-  });
+// class CardProductBank extends StatelessWidget {
+//   CardProductBank({
+//     super.key,
+//   });
 
-  final OrderProductController state = Get.put(OrderProductController());
+//   final OrderProductController state = Get.put(OrderProductController());
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: state.totalPaymentMethod.value == 0
-          ? Container()
-          : ListView.builder(
-              shrinkWrap: true,
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.totalPaymentMethod.value,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    if (state.listPaymentMethod.value!.data![index].isActive !=
-                        false) {
-                      state.idPayment.value = state
-                          .listPaymentMethod.value!.data![index].id!
-                          .toInt();
-                      state.paymentMethod.value =
-                          state.listPaymentMethod.value!.data![index].method ??
-                              '-';
-                      state.paymentType.value =
-                          state.listPaymentMethod.value!.data![index].type ??
-                              '-';
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertWidget(
-                          subtitle:
-                              '${state.listPaymentMethod.value!.data![index].name}\n${state.listPaymentMethod.value!.data![index].description}',
-                        ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    height: 35,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.network(
-                              '${Global.FILE}/${state.listPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
-                              width: 40,
-                              height: 35,
-                            ),
-                            const SizedBox(
-                              width: 19,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  state.listPaymentMethod.value!.data![index]
-                                          .name ??
-                                      '-',
-                                  style: blackTextStyle.copyWith(fontSize: 15),
-                                ),
-                                Text(
-                                  state.listPaymentMethod.value!.data![index]
-                                          .description ??
-                                      '-',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
-                            const Spacer(),
-                            Obx(
-                              () => Icon(
-                                state.idPayment.value ==
-                                        state.listPaymentMethod.value!
-                                            .data![index].id
-                                    ? Icons.radio_button_on
-                                    : Icons.circle_outlined,
-                                size: 23,
-                                color: state.idPayment.value ==
-                                        state.listPaymentMethod.value!
-                                            .data![index].id
-                                    ? greenColor
-                                    : blackColor,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(top: 12),
+//       child: state.totalPaymentMethod.value == 0
+//           ? Container()
+//           : ListView.builder(
+//               shrinkWrap: true,
+//               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: state.totalPaymentMethod.value,
+//               itemBuilder: (BuildContext context, int index) {
+//                 return InkWell(
+//                   onTap: () {
+//                     if (state.listPaymentMethod.value!.data![index].isActive !=
+//                         false) {
+//                       state.idPayment.value = state
+//                           .listPaymentMethod.value!.data![index].id!
+//                           .toInt();
+//                       state.paymentMethod.value =
+//                           state.listPaymentMethod.value!.data![index].method ??
+//                               '-';
+//                       state.paymentType.value =
+//                           state.listPaymentMethod.value!.data![index].type ??
+//                               '-';
+//                     } else {
+//                       showDialog(
+//                         context: context,
+//                         builder: (context) => AlertWidget(
+//                           subtitle:
+//                               '${state.listPaymentMethod.value!.data![index].name}\n${state.listPaymentMethod.value!.data![index].description}',
+//                         ),
+//                       );
+//                     }
+//                   },
+//                   child: Container(
+//                     margin: const EdgeInsets.only(top: 10, bottom: 10),
+//                     height: 35,
+//                     child: Column(
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       children: [
+//                         Row(
+//                           children: [
+//                             Image.network(
+//                               '${Global.FILE}/${state.listPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
+//                               width: 40,
+//                               height: 35,
+//                             ),
+//                             const SizedBox(
+//                               width: 19,
+//                             ),
+//                             Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 Text(
+//                                   state.listPaymentMethod.value!.data![index]
+//                                           .name ??
+//                                       '-',
+//                                   style: blackTextStyle.copyWith(fontSize: 15),
+//                                 ),
+//                                 Text(
+//                                   state.listPaymentMethod.value!.data![index]
+//                                           .description ??
+//                                       '-',
+//                                   style: blackRegulerTextStyle.copyWith(
+//                                       fontSize: 12),
+//                                 )
+//                               ],
+//                             ),
+//                             const Spacer(),
+//                             Obx(
+//                               () => Icon(
+//                                 state.idPayment.value ==
+//                                         state.listPaymentMethod.value!
+//                                             .data![index].id
+//                                     ? Icons.radio_button_on
+//                                     : Icons.circle_outlined,
+//                                 size: 23,
+//                                 color: state.idPayment.value ==
+//                                         state.listPaymentMethod.value!
+//                                             .data![index].id
+//                                     ? greenColor
+//                                     : blackColor,
+//                               ),
+//                             )
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//     );
+//   }
+// }
