@@ -60,7 +60,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
 
   Widget buildImg1(String images) => Image.network(
         images,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
       );
   // get all treatment dibawah
   @override

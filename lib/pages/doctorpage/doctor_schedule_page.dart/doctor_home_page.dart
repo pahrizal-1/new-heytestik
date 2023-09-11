@@ -229,18 +229,13 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            height: 23,
-                            width: paddingL,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/icons/calender-logo.png'),
-                              ),
-                            ),
+                          Image.asset(
+                            'assets/icons/calender-logo.png',
+                            width: 20,
+                            color: greenColor,
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 12,
                           ),
                           Text(
                             'Jadwal Konsultasi Dengan Pasien',
@@ -258,7 +253,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       state.totalFindSchedule.value == 0
                           ? Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(

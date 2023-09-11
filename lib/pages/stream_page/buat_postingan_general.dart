@@ -5,6 +5,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/filter_publish_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controller/customer/stream/post_controller.dart';
 import '../../models/customer/stream_post.dart';
@@ -24,6 +25,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
   final TextEditingController postDescController = TextEditingController();
   String name = "-";
   int iSelected = 0;
+  bool isSelected = false;
   List<File> imagePath = [];
 
   @override
@@ -66,16 +68,19 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
               GestureDetector(
                 onTap: () {
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
-                  Iterable<Match> matches = hashtagRegExp.allMatches(hashTagController.text);
+                  Iterable<Match> matches =
+                      hashtagRegExp.allMatches(hashTagController.text);
                   List<String?> hashtags = matches.map((match) {
-                    String? hashtagText = match.group(0)?.substring(1); // Remove the '#' symbol
+                    String? hashtagText =
+                        match.group(0)?.substring(1); // Remove the '#' symbol
                     return hashtagText?.replaceAll(' ', '');
                   }).toList();
 
                   if (postDescController.text == "") {
                     showDialog(
                       context: context,
-                      builder: (context) => AlertWidget(subtitle: "Post Description Can't be Empty"),
+                      builder: (context) => AlertWidget(
+                          subtitle: "Post Description Can't be Empty"),
                     );
                   } else {
                     StreamPostModel postModel = StreamPostModel(
@@ -85,7 +90,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       endTime: DateTime.now(),
                       options: [],
                     );
-                    streamController.postGeneral(context, postModel, files: imagePath, doInPost: () {
+                    streamController.postGeneral(context, postModel,
+                        files: imagePath, doInPost: () {
                       Navigator.of(context).pop();
                     });
                   }
@@ -142,25 +148,78 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       const SizedBox(
                         height: 2,
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.42),
-                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5), borderRadius: BorderRadius.circular(17)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/network-icons.png',
-                              width: 7.151,
-                              height: 7.151,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Semua Orang',
-                              style: subTitleTextStyle.copyWith(fontSize: 10),
-                            )
-                          ],
+                      InkWell(
+                        onTap: () {
+                          customeshomodal(
+                              context,
+                              Wrap(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 25, horizontal: 20),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Siapa Yang Bisa Melihat Postingan Ini',
+                                              style: blackTextStyle.copyWith(
+                                                  fontSize: 16),
+                                            ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            FilterPublis(
+                                              title: 'Semua Orang',
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            FilterPublis(
+                                              title:
+                                                  'Hanya Orang yang Mengikuti',
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            FilterPublis(
+                                              title:
+                                                  'Hanya Orang Yang di Sebutkan',
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            FilterPublis(
+                                              title: 'Hanya Saya',
+                                            ),
+                                          ])),
+                                ],
+                              ));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 4.42),
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: borderColor, width: 1.5),
+                              borderRadius: BorderRadius.circular(17)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icons/network-icons.png',
+                                width: 7.151,
+                                height: 7.151,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Semua Orang',
+                                style: subTitleTextStyle.copyWith(fontSize: 10),
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -187,7 +246,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Apa Yang kamu Post..',
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -211,20 +271,24 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                           Wrap(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 32),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 35, vertical: 32),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+                                        final returnedImage =
+                                            await ImagePicker().pickImage(
+                                                source: ImageSource.camera);
                                         if (returnedImage == null) return;
                                         imagePath.add(File(returnedImage.path));
                                         setState(() {});
                                       },
                                       child: Text(
                                         'Kamera',
-                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 15, color: blackColor),
                                       ),
                                     ),
                                     const SizedBox(
@@ -232,14 +296,17 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                        final returnedImage =
+                                            await ImagePicker().pickImage(
+                                                source: ImageSource.gallery);
                                         if (returnedImage == null) return;
                                         imagePath.add(File(returnedImage.path));
                                         setState(() {});
                                       },
                                       child: Text(
                                         'Dari galeri',
-                                        style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                        style: blackRegulerTextStyle.copyWith(
+                                            fontSize: 15, color: blackColor),
                                       ),
                                     ),
                                     const SizedBox(
@@ -254,7 +321,10 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                           },
                                           child: Text(
                                             'CANCEL',
-                                            style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
+                                            style:
+                                                blackRegulerTextStyle.copyWith(
+                                                    fontSize: 15,
+                                                    color: blackColor),
                                           ),
                                         ),
                                       ],
@@ -270,7 +340,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         width: MediaQuery.of(context).size.width - 100,
                         height: MediaQuery.of(context).size.width - 100,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black.withOpacity(.2)),
+                          border:
+                              Border.all(color: Colors.black.withOpacity(.2)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
@@ -303,7 +374,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                         width: MediaQuery.of(context).size.width - 100,
                         height: MediaQuery.of(context).size.width - 100,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black.withOpacity(.2)),
+                          border:
+                              Border.all(color: Colors.black.withOpacity(.2)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ClipRRect(
@@ -342,7 +414,8 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                     fontStyle: FontStyle.italic,
                     fontSize: 13,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

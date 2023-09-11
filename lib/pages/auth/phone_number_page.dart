@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,7 @@ class PhoneNumberPage extends StatelessWidget {
               height: 35,
             ),
             Text(
-              'Nomor Handphone',
+              'Nomor Ponsel',
               style: blackTextStyle,
             ),
             const SizedBox(
@@ -61,12 +62,17 @@ class PhoneNumberPage extends StatelessWidget {
                 color: blackColor,
               ),
               disableLengthCheck: true,
+              onCountryChanged: (value) {
+                state.countryCode = value.dialCode;
+              },
               onChanged: (value) {
-                state.phoneNumber = "${value.countryCode}${value.number}";
+                state.phoneNumber = value.number;
+                state.countryCode = value.countryCode;
+                print("heheh $value");
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 4),
+                contentPadding: EdgeInsets.only(top: 15),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: greyColor),
                 ),
@@ -77,8 +83,9 @@ class PhoneNumberPage extends StatelessWidget {
                   borderSide: BorderSide(color: greyColor),
                 ),
                 focusColor: greenColor,
-                labelText: 'Nomor Telepon',
-                labelStyle: greyTextStyle.copyWith(fontSize: 12, fontWeight: medium),
+                hintText: 'Nomor Ponsel',
+                hintStyle:
+                    greyTextStyle.copyWith(fontSize: 12, fontWeight: medium),
               ),
             ),
             const Spacer(),
@@ -88,12 +95,18 @@ class PhoneNumberPage extends StatelessWidget {
                 child: ButtonGreenWidget(
                   title: 'Kirim Kode Verifikasi',
                   onPressed: () async {
-                    await state.registerPhoneNumber(context, doInPost: () async {
+                    await state.registerPhoneNumber(context,
+                        doInPost: () async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const VerificationPage(),
                         ),
+                      );
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'OTP Berhasil Dikirim',
                       );
                     });
                   },

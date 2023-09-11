@@ -19,7 +19,7 @@ class _OnBoarding2PageState extends State<OnBoarding2Page> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/onboarding2-new.png'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Stack(

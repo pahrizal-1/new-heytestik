@@ -34,7 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
   }
 
-  // image fromo gallery
+  // image fromo galleryo
   Future openGallery() async {
     final XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);

@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
+import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
 import '../../widget/show_dialog_sousions_payment.dart';
@@ -74,6 +75,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
               Padding(
                 padding: lsymetric.copyWith(top: 25, bottom: 24),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Row(
                     //   children: [
@@ -113,7 +115,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                     //   height: 16,
                     // ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: 50,
@@ -211,12 +213,12 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Belum ada voucher yang tersedia',
-                            style: blackTextStyle.copyWith(fontSize: 11),
+                            'Kamu bisa hemat Rp 25.000',
+                            style: blackTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            '0 voucher dipakai',
-                            style: subTitleTextStyle,
+                            '1 voucher dipakai',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
                           ),
                         ],
                       ),
@@ -226,21 +228,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                   ),
                 ),
               ),
-              const dividergreen(),
-              Padding(
-                padding: lsymetric.copyWith(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Pilih Metode Pembayaran',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    CardTreatmentBank(),
-                  ],
-                ),
-              ),
-              const dividergreen(),
+              CardTreatmentBank(),
               Padding(
                 padding: lsymetric.copyWith(top: 22, bottom: 22),
                 child: Column(
@@ -503,111 +491,6 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CardTreatmentBank extends StatelessWidget {
-  CardTreatmentBank({
-    super.key,
-  });
-
-  final OrderTreatmentController state = Get.put(OrderTreatmentController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: state.totalPaymentMethod.value == 0
-          ? Container()
-          : ListView.builder(
-              shrinkWrap: true,
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.totalPaymentMethod.value,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    if (state.getPaymentMethod.value!.data![index].isActive !=
-                        false) {
-                      state.idPayment.value = state
-                          .getPaymentMethod.value!.data![index].id!
-                          .toInt();
-                      state.paymentMethod.value =
-                          state.getPaymentMethod.value!.data![index].method ??
-                              '-';
-                      state.paymentType.value =
-                          state.getPaymentMethod.value!.data![index].type ??
-                              '-';
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertWidget(
-                          subtitle:
-                              '${state.getPaymentMethod.value!.data![index].name}\n${state.getPaymentMethod.value!.data![index].description}',
-                        ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    height: 35,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.network(
-                              '${Global.FILE}/${state.getPaymentMethod.value!.data![index].mediaPaymentMethod!.media!.path.toString()}',
-                              width: 40,
-                              height: 35,
-                            ),
-                            const SizedBox(
-                              width: 19,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  state.getPaymentMethod.value!.data![index]
-                                          .name ??
-                                      '-',
-                                  style: blackTextStyle.copyWith(fontSize: 15),
-                                ),
-                                Text(
-                                  state.getPaymentMethod.value!.data![index]
-                                          .description ??
-                                      '-',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
-                            const Spacer(),
-                            Obx(
-                              () => Icon(
-                                state.idPayment.value ==
-                                        state.getPaymentMethod.value!
-                                            .data![index].id
-                                    ? Icons.radio_button_on
-                                    : Icons.circle_outlined,
-                                size: 23,
-                                color: state.idPayment.value ==
-                                        state.getPaymentMethod.value!
-                                            .data![index].id
-                                    ? greenColor
-                                    : blackColor,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
     );
   }
 }

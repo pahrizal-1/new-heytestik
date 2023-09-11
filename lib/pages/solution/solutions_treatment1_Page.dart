@@ -7,7 +7,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
+
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
@@ -16,6 +16,7 @@ import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -156,19 +157,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding: const EdgeInsets.only(top: 15),
             child: Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NotifikasionPage(),
-                      ),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/notif-icons.svg',
-                  ),
-                ),
+                notificasion(context, '1', blackColor),
                 const SizedBox(
                   width: 14,
                 ),
@@ -680,8 +669,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           children: treatments.map((element) {
                             return ProdukTreatment(
                               treatmentData: element,
-                              namaKlinik: element.clinic!.name!,
-                              namaTreatmen: element.name!,
+                              namaKlinik: element.clinic?.name ?? '-',
+                              namaTreatmen: element.name ?? '-',
                               diskonProduk: '0',
                               hargaDiskon: '0',
                               harga: element.price!.toString(),
@@ -689,7 +678,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                               rating: '${element.rating} (120k)',
                               km: '${element.distance}',
-                              lokasiKlinik: element.clinic!.city!.name!,
+                              lokasiKlinik: element.clinic?.city?.name ?? '-',
                             );
                           }).toList(),
                         ),

@@ -51,11 +51,11 @@ class TampilanRight extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      treatment.clinic!.name!,
+                      treatment.clinic?.name ?? '-',
                       style: blackHigtTextStyle.copyWith(fontSize: 13),
                     ),
                     Text(
-                      treatment.name!,
+                      treatment.name ?? '-',
                       style: blackRegulerTextStyle.copyWith(
                           color: blackColor, fontSize: 12),
                     ),
@@ -125,7 +125,7 @@ class TampilanRight extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          treatment.distance!,
+                          treatment.distance ?? '-',
                           style: subGreyTextStyle.copyWith(
                               fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
@@ -135,7 +135,7 @@ class TampilanRight extends StatelessWidget {
                       height: 8.0,
                     ),
                     Text(
-                      treatment.clinic!.city!.name!,
+                      treatment.clinic?.city?.name ?? '-',
                       style: subGreyTextStyle.copyWith(
                           fontSize: 11, color: const Color(0xff9B9B9B)),
                     ),

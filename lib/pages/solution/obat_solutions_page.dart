@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
@@ -92,60 +93,66 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+          Row(
+            children: [
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotifikasionPage(),
+              //       ),
+              //     );
+              //   },
+              //   child: Image.asset(
+              //     'assets/icons/icon-home.png',
+              //     width: 18,
+              //     color: blackColor,
+              //   ),
+              // ),
+              notificasion(context, '1', blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const KeranjangPage(),
+              //       ),
+              //     );
+              //   },
+              //   child: Image.asset(
+              //     'assets/icons/trello1.png',
+              //     width: 21,
+              //     color: blackColor,
+              //   ),
+              // ),
+              keranjang(context, '2', blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AkunHomePage(),
+                    ),
+                  );
+                },
+                child: Image.asset(
+                  'assets/icons/humberger.png',
+                  width: 19,
+                  color: blackColor,
                 ),
-              );
-            },
-            child: Image.asset(
-              'assets/icons/icon-home.png',
-              width: 18,
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const KeranjangPage(),
-                ),
-              );
-            },
-            child: Image.asset(
-              'assets/icons/trello1.png',
-              width: 21,
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
-                ),
-              );
-            },
-            child: Image.asset(
-              'assets/icons/humberger.png',
-              width: 19,
-              color: blackColor,
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),

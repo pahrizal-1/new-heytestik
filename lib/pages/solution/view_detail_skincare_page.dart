@@ -14,6 +14,7 @@ import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -92,70 +93,75 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PencarianPageWidget(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    isDismissible: false,
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(25),
+                        topStart: Radius.circular(25),
+                      ),
+                    ),
+                    builder: (context) => const ShareShowWidget(),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/share-icons.svg',
                 ),
-                builder: (context) => const ShareShowWidget(),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/share-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const KeranjangPage()));
-            },
-            child: SvgPicture.asset(
-              'assets/icons/trello-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AkunHomePage()));
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 14,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const KeranjangPage()));
+              //   },
+              //   child: SvgPicture.asset(
+              //     'assets/icons/trello-icons.svg',
+              //   ),
+              // ),
+              keranjang(context, '1', blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AkunHomePage()));
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
       ),
       body: Obx(
@@ -168,10 +174,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                        '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
-                      ),
-                      fit: BoxFit.cover),
+                    image: NetworkImage(
+                      '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
+                    ),
+                  ),
                 ),
               ),
               Padding(
@@ -184,36 +190,38 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     Container(
-                    //       width: 28,
-                    //       height: 13,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                    //       child: Center(
-                    //         child: Text(
-                    //           '20%',
-                    //           style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 4,
-                    //     ),
-                    //     Text(
-                    //       CurrencyFormat.convertToIdr(
-                    //         state.skincareDetail.value.price ?? 0,
-                    //         0,
-                    //       ),
-                    //       style: subGreyTextStyle.copyWith(
-                    //         fontSize: 12,
-                    //         decoration: TextDecoration.lineThrough,
-                    //         decorationThickness: 2,
-                    //         color: const Color(0xff9B9B9B),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          child: Center(
+                            child: Text(
+                              '20%',
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          CurrencyFormat.convertToIdr(
+                            state.skincareDetail.value.price ?? 0,
+                            0,
+                          ),
+                          style: subGreyTextStyle.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.lineThrough,
+                            decorationThickness: 2,
+                            color: const Color(0xff9B9B9B),
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(
                       children: [
                         Text(
@@ -374,7 +382,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       style: blackHigtTextStyle.copyWith(fontSize: 18),
                     ),
                     const SizedBox(
-                      height: 12,
+                      height: 10,
                     ),
                     TitleDetail(
                       ontap: () {
@@ -424,10 +432,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       fontWeight: regular,
                     ),
                     const SizedBox(
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      height: 16,
+                      height: 18,
                     ),
                     DescripsiText(
                       title1: 'Deskripsi',

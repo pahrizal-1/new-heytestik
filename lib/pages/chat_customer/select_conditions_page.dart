@@ -123,7 +123,12 @@ class KorektifWajahPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print('interestConditionId $interestConditionId');
-          Get.to(ChatPage(interestConditionId: interestConditionId));
+          Get.to(
+            ChatPage(
+              interestConditionId: interestConditionId,
+              title: title,
+            ),
+          );
         },
         child: Column(
           children: [

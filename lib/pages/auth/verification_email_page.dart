@@ -1,6 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -89,16 +93,23 @@ class VerificasionEmailPage extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            ButtonGreenWidget(
-              title: 'Konfimasi',
-              onPressed: () async {
-                await state.verifyEmail(context, doInPost: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const TextMoreDialog(),
-                  );
-                });
-              },
+            Obx(
+              () => LoadingWidget(
+                isLoading: state.isLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Konfimasi',
+                  onPressed: () async {
+                    await state.verifyEmail(context, doInPost: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) => TextMoreDialog(
+                          email: state.email.text,
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(
               height: 72,

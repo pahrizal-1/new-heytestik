@@ -15,7 +15,12 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
   final int? interestConditionId;
-  const PertanyaanAwalPage({required this.interestConditionId, super.key});
+  final String title;
+  const PertanyaanAwalPage({
+    required this.interestConditionId,
+    required this.title,
+    super.key,
+  });
 
   @override
   State<PertanyaanAwalPage> createState() => _PertanyaanAwalPageState();
@@ -37,6 +42,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
     await state.getInterestConditionById(
       context,
       widget.interestConditionId!.toInt(),
+      widget.title,
     );
   }
 

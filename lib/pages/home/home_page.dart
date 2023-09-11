@@ -7,17 +7,15 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
-import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../controller/customer/notification/notification_controller.dart';
 import '../../core/global.dart';
 import '../setings&akun/akun_home_page.dart';
-import '../stream_page/news_home_page.dart';
-import '../stream_page/stream_home_page.dart';
 import '../tabbar/tabbar_customer.dart';
 
 class HomepageCutomer extends StatefulWidget {
@@ -105,37 +103,29 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotifikasionPage(),
+          Row(
+            children: [
+              notificasion(context, '20', blackColor),
+              const SizedBox(
+                width: 21,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AkunHomePage(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/notification-dot-black.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 21,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 26,
+              ),
+              const SizedBox(
+                width: 26,
+              )
+            ],
           ),
         ],
       ),
@@ -817,10 +807,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       );
                     },
                     child: Text(
-                      'Liat Semua',
+                      'Lihat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: greenColor),
                     ),
@@ -1019,10 +1009,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       );
                     },
                     child: Text(
-                      'Liat Semua',
+                      'Lihat Semua',
                       style: TextStyle(
                           fontFamily: 'ProximaNova',
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: greenColor),
                     ),

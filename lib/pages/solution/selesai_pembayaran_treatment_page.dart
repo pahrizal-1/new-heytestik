@@ -119,6 +119,21 @@ class _SelesaikanPembayaranTreatmentPageState
           backgroundColor: greenColor,
           title: Row(
             children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    onWillPop();
+                  });
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
               Obx(
                 () => Text(
                   state.bank.value.toUpperCase(),

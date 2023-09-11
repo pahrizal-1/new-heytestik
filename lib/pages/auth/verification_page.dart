@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 
-import 'package:heystetik_mobileapps/pages/auth/personal_data_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +78,8 @@ class VerificationPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await state.registerPhoneNumber(context, doInPost: () async {
+                    await state.registerPhoneNumber(context,
+                        doInPost: () async {
                       SnackbarWidget.getSuccessSnackbar(
                         context,
                         'Info',

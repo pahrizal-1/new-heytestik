@@ -122,7 +122,7 @@ class TitleDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 12),
+      padding: const EdgeInsets.only(top: 4, bottom: 5),
       child: InkWell(
         onTap: ontap,
         child: Column(
@@ -147,7 +147,7 @@ class TitleDetail extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 12,
+              height: 7,
             ),
             const Divider(
               thickness: 2,

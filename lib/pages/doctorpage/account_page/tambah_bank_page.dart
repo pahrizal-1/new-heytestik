@@ -9,6 +9,7 @@ class TambahBankPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(
           left: 32,
@@ -34,7 +35,7 @@ class TambahBankPage extends StatelessWidget {
                     width: 18,
                   ),
                   Text(
-                    'Tambah Rekening',
+                    'Tambah Rekening saasd',
                     style: blackHigtTextStyle.copyWith(fontSize: 20),
                   ),
                 ],
