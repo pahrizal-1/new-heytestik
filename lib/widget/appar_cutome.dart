@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../theme/theme.dart';
+import 'package:intl/intl.dart';
 
 class AppBarCustome extends StatelessWidget implements PreferredSizeWidget {
   final String title;

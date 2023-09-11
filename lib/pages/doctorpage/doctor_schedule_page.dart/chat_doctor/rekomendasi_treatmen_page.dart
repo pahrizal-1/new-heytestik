@@ -46,7 +46,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                     },
                     child: const Icon(
                       Icons.arrow_back,
-                      size: 20,
+                      size: 23,
                     ),
                   ),
                   const SizedBox(

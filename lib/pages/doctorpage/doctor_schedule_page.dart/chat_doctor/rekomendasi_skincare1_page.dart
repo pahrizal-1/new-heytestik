@@ -71,6 +71,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                 child: Icon(
                   Icons.arrow_back,
                   color: whiteColor,
+                  size: 22,
                 ),
               ),
               const SizedBox(
@@ -154,7 +155,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                             stateDoctor.listSkincare.add(i.skincare!.toJson());
                             stateDoctor.notesSkincare
                                 .add(TextEditingController(text: i.notes));
-                          stateDoctor.listItemCount!.add(i.qty!.toInt());
+                            stateDoctor.listItemCount!.add(i.qty!.toInt());
                           }
                           print(stateDoctor.listItemCount);
 

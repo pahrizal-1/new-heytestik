@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/edit_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/pin_page_lama.dart';
@@ -550,7 +549,11 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               ),
                               Obx(
                                 () => Text(
-                                  'Rp ${state.saldo.value.balance}',
+                                  // 'Rp ${state.saldo.value.balance}',
+                                  CurrencyFormat.convertToIdr(
+                                    state.saldo.value.balance,
+                                    0,
+                                  ),
                                   style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 20,

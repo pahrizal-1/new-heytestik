@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/penarikan_dana_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -135,7 +136,10 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                         Obx(
                           () => Center(
                             child: Text(
-                              'Rp ${state.saldo.value.balance}',
+                              CurrencyFormat.convertToIdr(
+                                state.saldo.value.balance,
+                                0,
+                              ),
                               style: TextStyle(
                                   fontFamily: 'ProximaNova',
                                   fontSize: 20,

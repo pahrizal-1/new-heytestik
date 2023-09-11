@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -130,7 +131,10 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                               ),
                               Obx(
                                 () => Text(
-                                  'Rp ${state.saldo.value.balance}',
+                                  CurrencyFormat.convertToIdr(
+                                    state.saldo.value.balance,
+                                    0,
+                                  ),
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 20,
