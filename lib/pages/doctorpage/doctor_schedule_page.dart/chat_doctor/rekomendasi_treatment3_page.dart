@@ -61,7 +61,7 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                     width: 5,
                   ),
                   Text(
-                    "Edit Template Treatmen",
+                    "Edit Template Treatment",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'ProximaNova',
