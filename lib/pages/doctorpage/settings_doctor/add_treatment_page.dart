@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 
-import '../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
-import '../../theme/theme.dart';
-import '../../widget/loading_widget.dart';
+import '../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import '../../../theme/theme.dart';
+import '../../../widget/loading_widget.dart';
 
 class AddTreatmentPage extends StatefulWidget {
   const AddTreatmentPage({super.key});
