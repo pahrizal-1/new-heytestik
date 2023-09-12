@@ -10,9 +10,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/location_contro
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
-import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
@@ -340,9 +338,20 @@ class _SolutionPageState extends State<SolutionPage> {
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const Spacer(),
-                              Text(
-                                'Lihat Semua',
-                                style: grenTextStyle.copyWith(fontSize: 12),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SolutionSkincare1Page(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Lihat Semua',
+                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                ),
                               ),
                             ],
                           ),

@@ -5,7 +5,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
-import '../../../setings&akun/add_treatment_page.dart';
+import '../../settings_doctor/add_treatment_page.dart';
 import 'package:get/get.dart';
 
 class RekomendasiTreatmen2Page extends StatefulWidget {

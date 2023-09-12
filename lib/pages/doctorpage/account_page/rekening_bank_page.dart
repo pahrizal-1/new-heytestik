@@ -110,18 +110,18 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                                 '${state.filterData[index].bank?.name}',
                                                 style: blackRegulerTextStyle
                                                     .copyWith(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: blackColor,
                                                 ),
                                               ),
                                               SizedBox(
-                                                height: 4,
+                                                height: 2,
                                               ),
                                               Text(
                                                 'a.n ${state.filterData[index].accountNumber}\n${state.filterData[index].name?.toUpperCase()}',
                                                 style:
                                                     subTitleTextStyle.copyWith(
-                                                  fontSize: 12,
+                                                  fontSize: 15,
                                                   color: Color(
                                                     0xff6B6B6B,
                                                   ),

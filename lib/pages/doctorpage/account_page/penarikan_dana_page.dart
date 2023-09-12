@@ -157,9 +157,11 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                     fontSize: 12, fontWeight: regular),
                               ),
                               InkWell(
-                                onTap: (){
-                                  print('ini ketarik semua ${state.saldo.value.balance}');
-                                  state.nominalPenarikan.text = state.saldo.value.balance.toString();
+                                onTap: () {
+                                  print(
+                                      'ini ketarik semua ${state.saldo.value.balance}');
+                                  state.nominalPenarikan.text =
+                                      state.saldo.value.balance.toString();
                                 },
                                 child: Text(
                                   'Tarik Semua',
@@ -340,14 +342,32 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                                         children: [
                                                           Text(
                                                             '${stateBank.filterData[index].bank?.name}',
+                                                            style:
+                                                                blackRegulerTextStyle
+                                                                    .copyWith(
+                                                              fontSize: 12,
+                                                              color: blackColor,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 3,
                                                           ),
                                                           Text(
-                                                            '${stateBank.filterData[index].accountNumber}\n${stateBank.filterData[index].name?.toUpperCase()}',
+                                                            '${stateBank.filterData[index].accountNumber} - ${stateBank.filterData[index].name?.toUpperCase()}',
+                                                            style:
+                                                                blackRegulerTextStyle
+                                                                    .copyWith(
+                                                              fontSize: 12,
+                                                              color: greyColor,
+                                                            ),
                                                           )
                                                         ],
                                                       ),
                                                     ),
                                                     Radio(
+                                                      hoverColor: greenColor,
+                                                      focusColor: greenColor,
+                                                      activeColor: greenColor,
                                                       value: index,
                                                       groupValue: groupBank,
                                                       toggleable: true,
@@ -376,16 +396,6 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                                       },
                                                     ),
                                                   ],
-                                                ),
-                                                SizedBox(
-                                                  height: 9,
-                                                ),
-                                                Divider(
-                                                  thickness: 2,
-                                                  color: Colors.grey,
-                                                ),
-                                                SizedBox(
-                                                  height: 9,
                                                 ),
                                               ],
                                             );

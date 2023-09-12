@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/pages/bantuan_mihey/pilih_transaksi_page.da
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/appar_cutome.dart';
@@ -593,11 +594,15 @@ class HomeMinheyPage extends StatelessWidget {
                   SizedBox(
                     width: 14,
                   ),
-                  Text(
-                    'Care@heystetik.com',
-                    style: grenTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: regular,
+                  InkWell(
+                    onTap: () =>
+                        launchUrl(Uri.parse('mailto:Care@heystetik.com')),
+                    child: Text(
+                      'Care@heystetik.com',
+                      style: grenTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
                     ),
                   )
                 ],
@@ -616,11 +621,15 @@ class HomeMinheyPage extends StatelessWidget {
                   SizedBox(
                     width: 14,
                   ),
-                  Text(
-                    '+62 8517 120 2394',
-                    style: grenTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: regular,
+                  InkWell(
+                    onTap: () => launchUrl(Uri.parse(
+                        'whatsapp://send?text=Hello&phone=+6285727013292')),
+                    child: Text(
+                      '+62 8517 120 2394',
+                      style: grenTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
                     ),
                   ),
                 ],

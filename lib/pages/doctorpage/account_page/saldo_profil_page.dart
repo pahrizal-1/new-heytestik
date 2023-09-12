@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/penarikan_dana_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
@@ -34,6 +34,7 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         titleSpacing: 0,
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
@@ -104,7 +105,7 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 47,
+                    height: 21,
                   ),
                   Container(
                     height: 97,
@@ -153,7 +154,7 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                   ),
 
                   const SizedBox(
-                    height: 35,
+                    height: 9,
                   ),
                   ButtonGreenWidget(
                     title: 'Tarik Saldo',

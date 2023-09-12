@@ -6,7 +6,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/profil_doctor_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/halaman_chat_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/pengaturan_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/settings_doctor/pengaturan_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
