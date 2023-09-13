@@ -24,22 +24,23 @@ Widget notificasion(
           'assets/icons/notif-icons.svg',
           color: iconsColor,
         ),
-        Positioned(
-            left: 10,
-            bottom: 12,
-            child: Container(
-              height: 10,
-              width: 10,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Center(
-                child: Text(
-                  jumlah,
-                  style: whiteTextStyle.copyWith(
-                      fontSize: 7, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ))
+        Container(
+          height: 15,
+          width: 15,
+          transform: Matrix4.translationValues(
+            9,
+            -4,
+            10,
+          ),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+          child: Center(
+            child: Text(
+              jumlah,
+              style: whiteTextStyle.copyWith(
+                  fontSize: 9, fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
       ],
     ),
   );
@@ -67,22 +68,24 @@ Widget keranjang(
             'assets/icons/trello-icons.svg',
             color: iconcolor,
           ),
-          Positioned(
-              left: 13,
-              bottom: 12,
-              child: Container(
-                height: 10,
-                width: 10,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                child: Center(
-                  child: Text(
-                    jumlah,
-                    style: whiteTextStyle.copyWith(
-                        fontSize: 7, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ))
+          Container(
+            height: 15,
+            width: 15,
+            transform: Matrix4.translationValues(
+              13,
+              -4,
+              10,
+            ),
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+            child: Center(
+              child: Text(
+                jumlah,
+                style: whiteTextStyle.copyWith(
+                    fontSize: 9, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
         ],
       ),
     ),
