@@ -14,6 +14,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/global.dart';
 import '../../../core/local_storage.dart';
+import 'chat_doctor/detail_pasien_page.dart';
 
 class HomePageDoctor extends StatefulWidget {
   const HomePageDoctor({
@@ -366,6 +367,14 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                       state.findSchedule.value!
                                                           .data!.data![i].id!
                                                           .toInt());
+                                                  setState(() {
+                                                    state
+                                                        .findSchedule
+                                                        .value!
+                                                        .data!
+                                                        .data![i]
+                                                        .status = 'DIAMBIL';
+                                                  });
                                                 },
                                                 child: Container(
                                                   height: 35,

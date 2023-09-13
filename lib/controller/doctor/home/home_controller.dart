@@ -140,12 +140,6 @@ class DoctorHomeController extends StateClass {
       var res = await ConsultationDoctorScheduleServices().postApprove(id);
       print('res' + res.toString());
       // Navigator.pop(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetailPasienPage(id: id),
-        ),
-      );
     });
     isLoading.value = false;
   }
