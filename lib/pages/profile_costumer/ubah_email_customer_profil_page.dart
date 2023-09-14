@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/email_validation.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -110,6 +111,7 @@ class _UbahEmailCostumerProfilPageState
             ),
             TextFormField(
               controller: state.emailBaruController,
+              validator: (input) => input!.isValidEmail() ? null : "Check your Email",
               decoration: InputDecoration(
                 labelText: 'Email Baru',
                 enabledBorder: OutlineInputBorder(
@@ -153,7 +155,7 @@ class _UbahEmailCostumerProfilPageState
             ButtonGreenWidget(
               title: 'Lanjut',
               onPressed: () {
-                state.verifyCode(context, 'WHATSAPP', 'CHANGE_EMAIl');
+                state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIl');
                 Navigator.push(
                     context,
                     MaterialPageRoute(
