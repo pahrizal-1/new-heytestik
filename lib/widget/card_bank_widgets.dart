@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-
 import 'package:heystetik_mobileapps/theme/theme.dart';
-
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
@@ -20,10 +19,12 @@ class CardTreatmentBank extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return state.getPaymentMethod.isEmpty
-        ? Text(
-            'Tidak ada metode pemayaran',
-            style: TextStyle(
-              fontSize: 20,
+        ? Center(
+            child: Text(
+              'Tidak ada metode pemayaran',
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
           )
         : GroupedListView<Data, String>(
@@ -241,7 +242,8 @@ class CardKonsultasiBank extends StatelessWidget {
     super.key,
   });
 
-  final OrderProductController state = Get.put(OrderProductController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   @override
   Widget build(BuildContext context) {
