@@ -75,10 +75,13 @@ class _TabBarDoctorState extends State<TabBarDoctor> {
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  'assets/icons/icon_home.svg',
-                  color: myIndex == 0 ? greenColor : greyColor,
-                ),
+                child: myIndex == 0
+                    ? SvgPicture.asset(
+                        'assets/icons/icon_home.svg',
+                      )
+                    : SvgPicture.asset(
+                        'assets/icons/home-grey.svg',
+                      ),
               ),
               label: 'Home'),
           BottomNavigationBarItem(

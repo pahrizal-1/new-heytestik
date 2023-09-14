@@ -167,105 +167,83 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 const SizedBox(
                   height: 14,
                 ),
-                isSelcted
-                    ? Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 15, top: 16, bottom: 17),
-                        decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'My Journey',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: whiteColor,
-                                    fontSize: 18,
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  'Dokumentasikan progres kulitmu setiap hari dalam penggunaan obat/skincare/treatment dan lihat perubahan yang terjadi pada kulitmu.',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: whiteColor,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Get.to(HomeMyjourney());
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'Cobain yuk!',
-                                        style: whiteTextStyle.copyWith(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_right,
-                                        color: whiteColor,
-                                        size: 15,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    : InkWell(
-                        onTap: () {
-                          setState(() {
-                            isSelcted = !isSelcted;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 15),
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              border:
-                                  Border.all(color: const Color(0xFFCCCCCC))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'My Journey',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 30,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                const SizedBox(
-                  height: 14,
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 30, right: 25, top: 23, bottom: 15),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg-my-jouney.png'),
+                  fit: BoxFit.cover,
                 ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'My Journey',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: whiteColor,
+                      fontSize: 18,
+                      fontFamily: 'ProximaNova',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    'Dokumentasikan progres kulitmu setiap hari dalam penggunaan obat/skincare/treatment dan lihat perubahan yang terjadi pada kulitmu.',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: whiteColor,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(HomeMyjourney());
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Cobain yuk!',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 13, fontWeight: bold),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          color: whiteColor,
+                          size: 30,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          Padding(
+            padding: lsymetric,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 InkWell(
                   onTap: () {
                     Navigator.push(
