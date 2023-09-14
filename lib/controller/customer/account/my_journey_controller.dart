@@ -281,4 +281,6 @@ class MyJourneyController extends StateClass {
     });
     isLoading.value = false;
   }
+
+  void init() {}
 }

@@ -1,21 +1,24 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/button_widget.dart';
 import 'hasil_kosultasi_page.dart';
@@ -27,10 +30,33 @@ class HomeMyjourney extends StatefulWidget {
   State<HomeMyjourney> createState() => _HomeMyjourneyState();
 }
 
+final HomeController state = Get.put(HomeController());
+
 // File? imagePath;
 
 class _HomeMyjourneyState extends State<HomeMyjourney> {
   final MyJourneyController state = Get.put(MyJourneyController());
+  final HomeController statemy = Get.put(HomeController());
+  final ProfileController stateProfile = Get.put(ProfileController());
+
+  final NotificationCustomerController stateNotification =
+      Get.put(NotificationCustomerController());
+
+  _launchURL(String url) async {
+    final Uri urlParse = Uri.parse(url);
+    if (!await launchUrl(urlParse)) {
+      throw Exception('Could not launch $urlParse');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await stateProfile.getProfile(context);
+    });
+    state.init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +118,33 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                   child: Row(
                     children: [
                       Obx(
-                        () => Text(
-                          state.concern.value == ""
-                              ? 'Pilih Skin Goal kamu'
-                              : state.concern.value,
-                          style: subTitleTextStyle,
-                        ),
+                        () => state.concern.value == ""
+                            ? Text(
+                                'Pilih Skin Goal kamu'
+                                // : state.concern.value,
+                                ,
+                                style: subTitleTextStyle,
+                              )
+                            : Container(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 300),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: 'Semoga aku bisa bebas dari ',
+                                      style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15,
+                                        color: blackColor,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: state.concern.value,
+                                          style: grenTextStyle.copyWith(
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      ]),
+                                ),
+                              ),
                       ),
                       const Spacer(),
                       Icon(
@@ -233,6 +280,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
             height: 33,
           ),
           const dividergreen(),
+          Image.asset(
+            'assets/images/my-journey-bg.png',
+            width: 1000,
+          ),
           Padding(
             padding:
                 const EdgeInsets.only(top: 32, left: 25, right: 25, bottom: 33),
@@ -250,215 +301,6 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                 const SizedBox(
                   height: 13,
                 ),
-
-                // Container(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                //   decoration: BoxDecoration(
-                //       border: Border.all(color: borderColor),
-                //       borderRadius: BorderRadius.circular(10)),
-                //   child: Row(
-                //     children: [
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             'Konsultasi dengan',
-                //             style: blackTextStyle.copyWith(fontSize: 13),
-                //           ),
-                //           const SizedBox(
-                //             height: 5,
-                //           ),
-                //           Row(
-                //             crossAxisAlignment: CrossAxisAlignment.center,
-                //             children: [
-                //               Container(
-                //                 height: 35,
-                //                 width: 36,
-                //                 decoration: BoxDecoration(
-                //                   image: const DecorationImage(
-                //                       image: AssetImage(
-                //                           'assets/images/doctor1.png')),
-                //                   borderRadius: BorderRadius.circular(25),
-                //                 ),
-                //               ),
-                //               const SizedBox(
-                //                 width: 5,
-                //               ),
-                //               Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 children: [
-                //                   Text(
-                //                     'dr. Risty Hafinah, Sp.DV',
-                //                     style: subTitleTextStyle.copyWith(
-                //                       fontSize: 13,
-                //                       fontWeight: bold,
-                //                     ),
-                //                   ),
-                //                   Text(
-                //                     'Kamu akan konsultasi lagi: Sel,\n12 Mar 2023; 17:30 WIB',
-                //                     style: grenTextStyle.copyWith(fontSize: 11),
-                //                   )
-                //                 ],
-                //               )
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //       const Spacer(),
-                //       Column(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Container(
-                //             decoration: BoxDecoration(
-                //               color: greenColor,
-                //               borderRadius: BorderRadius.circular(7),
-                //             ),
-                //             height: 25,
-                //             width: 74,
-                //             child: Center(
-                //               child: Text(
-                //                 'Terjadwal',
-                //                 style: whiteTextStyle.copyWith(fontSize: 10),
-                //               ),
-                //             ),
-                //           ),
-                //           const SizedBox(
-                //             height: 13,
-                //           ),
-                //           Container(
-                //             decoration: BoxDecoration(
-                //               color: whiteColor,
-                //               border: Border.all(color: greenColor),
-                //               borderRadius: BorderRadius.circular(7),
-                //             ),
-                //             height: 25,
-                //             width: 74,
-                //             child: Center(
-                //               child: Text(
-                //                 'Ingatkan Saya',
-                //                 style: grenTextStyle.copyWith(fontSize: 10),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                // InkWell(
-                //   onTap: () {
-                //     Get.to(HasilKosultasiPage());
-                //   },
-                //   child: Container(
-                //     padding: const EdgeInsets.symmetric(
-                //         horizontal: 10, vertical: 10),
-                //     decoration: BoxDecoration(
-                //         border: Border.all(color: borderColor),
-                //         borderRadius: BorderRadius.circular(10)),
-                //     child: Row(
-                //       children: [
-                //         Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Text(
-                //               'Konsultasi dengan',
-                //               style: blackTextStyle.copyWith(fontSize: 13),
-                //             ),
-                //             const SizedBox(
-                //               height: 5,
-                //             ),
-                //             Row(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Container(
-                //                   height: 35,
-                //                   width: 36,
-                //                   decoration: BoxDecoration(
-                //                     image: const DecorationImage(
-                //                         image: AssetImage(
-                //                             'assets/images/doctor1.png')),
-                //                     borderRadius: BorderRadius.circular(25),
-                //                   ),
-                //                 ),
-                //                 const SizedBox(
-                //                   width: 5,
-                //                 ),
-                //                 Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text(
-                //                       'dr. Risty Hafinah, Sp.DV',
-                //                       style: subTitleTextStyle.copyWith(
-                //                         fontSize: 13,
-                //                         fontWeight: bold,
-                //                       ),
-                //                     ),
-                //                     Text(
-                //                       '12 Feb 2023; 17:30 WIB',
-                //                       style: subTitleTextStyle.copyWith(
-                //                           fontSize: 11),
-                //                     ),
-                //                     const SizedBox(
-                //                       height: 9,
-                //                     ),
-                //                     Image.asset(
-                //                       'assets/icons/plus-icosn.png',
-                //                       width: 24,
-                //                       height: 24,
-                //                       color: Color(0xfff9B9B9B),
-                //                     )
-                //                   ],
-                //                 )
-                //               ],
-                //             ),
-                //           ],
-                //         ),
-                //         const Spacer(),
-                //         Column(
-                //           children: [
-                //             Container(
-                //               decoration: BoxDecoration(
-                //                 color: Color(0xffCCCCCC),
-                //                 borderRadius: BorderRadius.circular(7),
-                //               ),
-                //               height: 25,
-                //               width: 74,
-                //               child: Center(
-                //                 child: Text(
-                //                   'Selesai',
-                //                   style: whiteTextStyle.copyWith(fontSize: 10),
-                //                 ),
-                //               ),
-                //             ),
-                //             const SizedBox(
-                //               height: 13,
-                //             ),
-                //             Container(
-                //               decoration: BoxDecoration(
-                //                 color: whiteColor,
-                //                 border: Border.all(color: greenColor),
-                //                 borderRadius: BorderRadius.circular(7),
-                //               ),
-                //               height: 25,
-                //               width: 74,
-                //               child: Center(
-                //                 child: Text(
-                //                   'Chat Ulang',
-                //                   style: grenTextStyle.copyWith(fontSize: 10),
-                //                 ),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-
                 FutureBuilder(
                   future: state.getHistoryConsultation(context),
                   builder: (context, AsyncSnapshot snapshot) {
@@ -755,13 +597,11 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           : state.dataHistoryConsultation[index].status ==
                                                                   'READY'
                                                               ? const Color.fromARGB(
-                                                                  255,
-                                                                  255,
-                                                                  102,
-                                                                  0)
+                                                                  255, 255, 102, 0)
                                                               : state.dataHistoryConsultation[index].status ==
                                                                       'REVIEW'
-                                                                  ? const Color.fromARGB(
+                                                                  ? const Color
+                                                                      .fromARGB(
                                                                       255,
                                                                       255,
                                                                       102,
@@ -769,8 +609,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                   : state.dataHistoryConsultation[index].status ==
                                                                           'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status ==
-                                                                              'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -976,14 +815,14 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'Konsultasi dengan',
-                                              style: blackTextStyle.copyWith(
-                                                  fontSize: 13),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            // Text(
+                                            //   'Konsultasi dengan',
+                                            //   style: blackTextStyle.copyWith(
+                                            //       fontSize: 13),
+                                            // ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
                                             Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1142,7 +981,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                     ?.status ==
                                                                 'MENUNGGU_KONFIRMASI_KLINIK'
                                                             ? const Color.fromARGB(
-                                                                255, 255, 102, 0)
+                                                                255,
+                                                                255,
+                                                                102,
+                                                                0)
                                                             : state
                                                                         .dataScheduleTreatment
                                                                         .value[
@@ -1227,9 +1069,19 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TabBarCustomer(
+                            currentIndex: 2,
+                            streamIndex: 1,
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
-                      'Liat Semua',
+                      'Lihat Semua',
                       style: TextStyle(
                         fontFamily: 'ProximaNova',
                         fontSize: 12,
@@ -1245,217 +1097,164 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.only(left: 25, bottom: 10),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
+              child: FutureBuilder(
+                future: statemy.getArticle(context),
+                builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                  print(snapshot.data);
+
+                  if (!snapshot.hasData) {
+                    return shimmerWidget(
+                        child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
                                 borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ));
+                  }
+                  return snapshot.data!.record!.isEmpty
+                      ? shimmerWidget(
+                          child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 5, bottom: 5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
-                                        ),
-                                      ),
-                                    ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                        ))
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: snapshot.data!.record!.map<Widget>((value) {
+                            return InkWell(
+                              onTap: () {
+                                _launchURL(value.link.toString());
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 250,
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                              value.thumbLink.toString(),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: SizedBox(
-                      width: 250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home3.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Atasi Kebotakan Karena Alopecia Androgenetik',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ProximaNova',
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 0.5,
-                                leading: 0.7,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  '22 Februari 2023',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/icons/dot.png',
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          value.title.toString(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'ProximaNova',
+                                          ),
+                                          strutStyle: StrutStyle(
+                                            height: 0.5,
+                                            leading: 0.7,
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              ConvertDate.defaultDate(
+                                                  value.newsDate.toString()),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: Container(
+                                                height: 5,
+                                                width: 5,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      'assets/icons/dot.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              value.author.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const Text(
-                                  'Steffana Dewi',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                              ),
+                            );
+                          }).toList(),
+                        );
+                },
               ),
             ),
           ),

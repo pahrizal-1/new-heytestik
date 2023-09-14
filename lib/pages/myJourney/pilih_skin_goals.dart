@@ -41,14 +41,22 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
         bgColor: whiteColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 25, right: 25, top: 13),
+        padding: const EdgeInsets.only(left: 25, right: 25, top: 7),
         child: Obx(
           () => LoadingWidget(
             isLoading: state.isLoading.value,
             child: Stack(
               children: [
+                Positioned(
+                    top: 65,
+                    left: 6,
+                    child: Text(
+                      'Semoga aku bisa bebas dari....',
+                      style: grenTextStyle.copyWith(
+                          fontSize: 16, fontStyle: FontStyle.italic),
+                    )),
                 Padding(
-                  padding: const EdgeInsets.only(top: 70),
+                  padding: const EdgeInsets.only(top: 90),
                   child: Obx(
                     () => state.filterData.isEmpty
                         ? const Center(
@@ -73,7 +81,7 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                                 value,
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -94,7 +102,7 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                   onChange: (value) {
                     state.onChangeFilterText(value);
                   },
-                )
+                ),
               ],
             ),
           ),

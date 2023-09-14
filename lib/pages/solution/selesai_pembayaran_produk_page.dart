@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_product_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
@@ -45,6 +46,11 @@ class _SelesaiPembayaranProdukPageState
       setTime();
       startTimer();
     });
+  }
+
+  _copy() {
+    final value = ClipboardData(text: state.virtualAccount.value);
+    Clipboard.setData(value);
   }
 
   setTime() {
@@ -264,9 +270,13 @@ class _SelesaiPembayaranProdukPageState
                                     ],
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    'Salin',
-                                    style: grenTextStyle.copyWith(fontSize: 14),
+                                  InkWell(
+                                    onTap: _copy,
+                                    child: Text(
+                                      'Salin',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,

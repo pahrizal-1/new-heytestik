@@ -162,6 +162,8 @@ class SearchTextField extends StatelessWidget {
         filled: true,
         fillColor: const Color(0xffff1f1f1),
         hintText: title,
+        hintStyle: blackRegulerTextStyle.copyWith(fontSize: 15),
+        contentPadding: EdgeInsets.zero,
         prefixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),

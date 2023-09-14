@@ -78,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   width: 10,
                 ),
                 Text(
-                  'Ubah Profile',
+                  'Ubah Profil',
                   style: TextStyle(
                     fontFamily: 'ProximaNova',
                     fontWeight: bold,
@@ -113,7 +113,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: CircleAvatar(
                             backgroundImage: state.imagePath != null
                                 ? FileImage(File(state.imagePath!.path))
-                                    as ImageProvider
                                 : state.profileData.value.data!
                                             .mediaUserProfilePicture !=
                                         null
@@ -185,7 +184,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           icon: Icons.edit,
                         ),
                         TetxFromProfilEdit(
-                          title1: 'email',
+                          title1: 'Email',
                           controller: state.email,
                           icon: Icons.email,
                         ),
