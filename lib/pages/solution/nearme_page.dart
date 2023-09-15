@@ -249,7 +249,20 @@ class _NearMePageState extends State<NearMePage> {
                             ),
                           ),
                           builder: (context) => TreatmentFilter(),
-                        );
+                        ).then((value) async {
+                          treatments.clear();
+                          page = 1;
+                          filter['treatment_type[]'] = value;
+                          treatments.addAll(
+                            await stateTreatment.getNearTreatment(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
+                          setState(() {});
+                        });
                       },
                       child: Container(
                         margin: const EdgeInsets.only(left: 9),
@@ -436,8 +449,9 @@ class _NearMePageState extends State<NearMePage> {
                           .map(
                             (e) => TampilanRight(
                               treatment: e,
-                              urlImg:
-                                  "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                              urlImg: e.mediaTreatments!.isEmpty
+                                  ? ""
+                                  : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                             ),
                           )
                           .toList(),
