@@ -20,9 +20,6 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 
 class SkincareController extends StateClass {
-  List<Skincare.Data2> skincare = [];
-  RxList<Skincare.Data2> filterData = List<Skincare.Data2>.empty().obs;
-
   Rx<Skincare.SkincareModel> responseSkincare = Skincare.SkincareModel().obs;
   RxList<Skincare.Data2> dataSkincare =
       List<Skincare.Data2>.empty(growable: true).obs;
@@ -33,10 +30,8 @@ class SkincareController extends StateClass {
   RxList<ProductReviewModel.Data2> productReview =
       List<ProductReviewModel.Data2>.empty().obs;
 
-  RxBool isLoadingSkincare = false.obs;
   RxBool isLoadingDetailSkincare = false.obs;
   RxBool isLoadingRelatedSkincare = false.obs;
-  // RxBool isLoadingOverviewSkincare = false.obs;
   RxBool isLoadingProductReviewSkincare = false.obs;
   RxBool isLoadingLookup = false.obs;
 
