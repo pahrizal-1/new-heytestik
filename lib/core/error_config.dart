@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';

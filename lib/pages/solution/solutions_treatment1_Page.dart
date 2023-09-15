@@ -222,14 +222,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TreatmentSearch(
-                                  search: searchController.text),
+                                search: searchController.text,
+                              ),
                             ),
                           );
-                          // page = 1;
-                          // treatments.clear();
-                          // search = searchController.text;
-                          // treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: search));
-                          // setState(() {});
                         },
                         style: const TextStyle(
                             fontSize: 15, fontFamily: "ProximaNova"),
@@ -697,7 +693,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
 }
 
 class FilterAll extends StatefulWidget {
-  FilterAll({super.key});
+  const FilterAll({super.key});
 
   @override
   State<FilterAll> createState() => _FilterAllState();
@@ -1071,7 +1067,6 @@ class FilterTapTreatment extends StatefulWidget {
 }
 
 class _FilterTapTreatmentState extends State<FilterTapTreatment> {
-  final TreatmentController stateTreatment = Get.put(TreatmentController());
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
