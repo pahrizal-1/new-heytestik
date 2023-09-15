@@ -11,10 +11,6 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 class HistoryTransactionController extends StateClass {
   RxList historyPending = [].obs;
   RxInt totalPending = 0.obs;
-  List transactionStatus = [];
-  List transactionType = [];
-  RxString startDate = "".obs;
-  RxString endDate = "".obs;
   Rx<TransactionHistoryModel> responseHistory = TransactionHistoryModel().obs;
   RxList<Data2> dataHistory = List<Data2>.empty(growable: true).obs;
   RxList<Data2> dataHistoryPending = List<Data2>.empty(growable: true).obs;
@@ -23,15 +19,10 @@ class HistoryTransactionController extends StateClass {
       {String? search, Map<String, dynamic>? filter}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
       totalPending.value = 0;
       dataHistory.value.clear();
       responseHistory.value = await TransactionService().allHistory(
         page,
-        transactionStatus,
-        transactionType,
-        startDate.toString(),
-        endDate.toString(),
         search: search,
         filter: filter,
       );
@@ -50,9 +41,6 @@ class HistoryTransactionController extends StateClass {
       }
       print("total Pending ${totalPending.value}");
       print("data History tidak pending ${dataHistory.value.length}");
-      // } catch (e) {
-      //   print("hahahah $e");
-      // }
     });
     isLoading.value = false;
 
@@ -63,15 +51,10 @@ class HistoryTransactionController extends StateClass {
       BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
       totalPending.value = 0;
       dataHistoryPending.value.clear();
       responseHistory.value = await TransactionService().allHistory(
         page,
-        transactionStatus,
-        transactionType,
-        startDate.toString(),
-        endDate.toString(),
       );
 
       for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {
@@ -82,9 +65,6 @@ class HistoryTransactionController extends StateClass {
         }
       }
       print("dataHistoryPending ${dataHistoryPending.value.length}");
-      // } catch (e) {
-      //   print("hahahah sss Pending $e");
-      // }
     });
     isLoading.value = false;
 
