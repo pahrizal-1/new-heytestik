@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,10 +20,13 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 
 class SkincareController extends StateClass {
-  List<Lookup.Data2> lookupDisplay = [];
-  List<Lookup.Data2> lookupCategory = [];
   List<Skincare.Data2> skincare = [];
   RxList<Skincare.Data2> filterData = List<Skincare.Data2>.empty().obs;
+
+  Rx<Skincare.SkincareModel> responseSkincare = Skincare.SkincareModel().obs;
+  RxList<Skincare.Data2> dataSkincare =
+      List<Skincare.Data2>.empty(growable: true).obs;
+
   Rx<DetailSkincare.Data> skincareDetail = DetailSkincare.Data.fromJson({}).obs;
   List<RelatedProductSkincare.Data2> relatedSkincare = [];
   Rx<Overview.Data> overviewSkincare = Overview.Data.fromJson({}).obs;
@@ -37,57 +40,28 @@ class SkincareController extends StateClass {
   RxBool isLoadingProductReviewSkincare = false.obs;
   RxBool isLoadingLookup = false.obs;
 
-  getSkincare(BuildContext context) async {
-    isLoadingSkincare.value = true;
+  Future<List<Skincare.Data2>> getAllSkincare(
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
+    isLoading.value = true;
+
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getSkincare();
+      Skincare.SkincareModel data = await SolutionService().getAllSkincare(
+        page,
+        search: search,
+        filter: filter,
+      );
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      skincare = res.data!.data!;
+      responseSkincare.value = data;
+
+      dataSkincare.value.addAll(responseSkincare.value.data!.data!);
     });
-    isLoadingSkincare.value = false;
-  }
 
-  getSkincareByCategory(BuildContext context, String category) async {
-    isLoadingSkincare.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getSkincareByCategory(category);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      filterData.value = res.data!.data!;
-    });
-    isLoadingSkincare.value = false;
-  }
-
-  getSkincareByDisplay(BuildContext context, List display) async {
-    isLoadingSkincare.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        skincare.clear();
-        var res = await SolutionService().getSkincareByDisplay(display);
-
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
-        skincare = res.data!.data!;
-      } catch (e) {
-        print("haeheh $e");
-      }
-    });
-    isLoadingSkincare.value = false;
+    isLoading.value = false;
+    return responseSkincare.value.data!.data!;
   }
 
   detailSkincare(BuildContext context, int id) async {
@@ -164,34 +138,22 @@ class SkincareController extends StateClass {
     isLoadingRelatedSkincare.value = false;
   }
 
-  getLookup(BuildContext context, String category) async {
+  Future<List<Lookup.Data2>> getLookup(
+      BuildContext context, String category) async {
     isLoadingLookup.value = true;
+    List<Lookup.Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (category == 'SKINCARE_DISPLAY') {
-        var res = await SolutionService().getLookup(category);
-
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
-        lookupDisplay = res.data!.data!;
+      var res = await SolutionService().getLookup(category);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
       }
-
-      if (category == 'SKINCARE_CATEGORY') {
-        var res = await SolutionService().getLookup(category);
-
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
-        lookupCategory = res.data!.data!;
-      }
+      data.addAll(res.data!.data!);
     });
     isLoadingLookup.value = false;
+    return data;
   }
 
   void helped(BuildContext context, int reviewId) async {

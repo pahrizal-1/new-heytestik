@@ -17,46 +17,36 @@ class SolutionService extends ProviderClass {
   SolutionService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<SkincareModel> getSkincare() async {
-    var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&take=100&order=desc',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
+  Future<SkincareModel> getAllSkincare(
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+      "order": "desc"
+    };
 
-    return SkincareModel.fromJson(response);
-  }
-
-  Future<SkincareModel> getSkincareByCategory(String category) async {
-    var response = await networkingConfig.doGet(
-      '/solution/skincare?page=1&search=&category[]=$category&take=100&order=desc',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-
-    return SkincareModel.fromJson(response);
-  }
-
-  Future<SkincareModel> getSkincareByDisplay(List display) async {
-    var response = await networkingConfig.doGet(
-      '/solution/skincare',
-      params: {
-        "page": 1,
-        "take": 100,
-        "order": "desc",
-        "display[]": display,
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-
-    return SkincareModel.fromJson(response);
+    if (filter != null) {
+      params.addAll(filter);
+    }
+    print("params $params");
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/skincare',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      return SkincareModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return SkincareModel();
+    }
   }
 
   Future<DetailSkincareSolutionModel> detailSkincare(int id) async {
@@ -89,16 +79,34 @@ class SolutionService extends ProviderClass {
     return RelatedProductSkincareModel.fromJson(response);
   }
 
-  Future<LookupModel> getLookup(String category) async {
-    var response = await networkingConfig.doGet(
-      '/lookup?page=1&take=100&order=desc&category[]=$category&search=',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
+  Future<LookupModel> getLookup(
+    String category, {
+    String? search,
+  }) async {
+    Map<String, dynamic> params = {
+      "page": 1,
+      "take": 100,
+      "search": search,
+      "order": "asc",
+      "category[]": category
+    };
 
-    return LookupModel.fromJson(response);
+    print("params $params");
+
+    try {
+      var response = await networkingConfig.doGet(
+        '/lookup',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      return LookupModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return LookupModel();
+    }
   }
 
   Future<OverviewProductModel> getOverviewProduct(int id) async {
