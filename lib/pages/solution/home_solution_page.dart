@@ -402,9 +402,20 @@ class _SolutionPageState extends State<SolutionPage> {
                               fontSize: 15, fontStyle: FontStyle.italic),
                         ),
                         const Spacer(),
-                        Text(
-                          'Lihat Semua',
-                          style: grenTextStyle.copyWith(fontSize: 12),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const SolutionSkincare1Page(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Lihat Semua',
+                            style: grenTextStyle.copyWith(fontSize: 12),
+                          ),
                         ),
                       ],
                     ),
