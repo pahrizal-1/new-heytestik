@@ -27,6 +27,7 @@ class BankController extends StateClass {
   RxList<Data> filterData = List<Data>.empty().obs;
 
   Rx<ByID.BankByIdModel> detail = ByID.BankByIdModel().obs;
+  RxBool isLoadingFind = false.obs;
 
   Future<SELECTLIST.ListBankModel?> selectListBank(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -47,20 +48,18 @@ class BankController extends StateClass {
     }).toList();
   }
 
-  Future<BankModel?> listBank(BuildContext context) async {
+  listBank(BuildContext context) async {
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data.value = await BankService().listBank();
-
-      print(jsonDecode(jsonEncode(data.value)));
       filterData.value = data.value.data!;
-      print(filterData);
       filterData.refresh();
     });
-    return data.value;
+    isLoading.value = false;
   }
 
   findBank(BuildContext context, int id) async {
-    isLoading.value = true;
+    isLoadingFind.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       detail.value = await BankService().findBank(id);
       if (detail.value.success != true && detail.value.message != 'Success') {
@@ -75,7 +74,7 @@ class BankController extends StateClass {
       name.text = detail.value.data?.name ?? '-';
       accountNumber.text = detail.value.data?.accountNumber ?? '-';
     });
-    isLoading.value = false;
+    isLoadingFind.value = false;
   }
 
   clearForm() {
@@ -126,8 +125,8 @@ class BankController extends StateClass {
       }
 
       Get.back();
-      Get.back();
-
+      await listBank(context);
+      await Future.delayed(const Duration(seconds: 1));
       clearForm();
       SnackbarWidget.getSuccessSnackbar(
         context,
@@ -178,8 +177,8 @@ class BankController extends StateClass {
       }
 
       Get.back();
-      Get.back();
-
+      await listBank(context);
+      await Future.delayed(const Duration(seconds: 1));
       clearForm();
       SnackbarWidget.getSuccessSnackbar(
         context,
@@ -193,8 +192,6 @@ class BankController extends StateClass {
   deleteBank(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      Get.back();
-
       detail.value = await BankService().deleteBank(id);
       if (detail.value.success != true && detail.value.message != 'Success') {
         throw ErrorConfig(
@@ -202,14 +199,15 @@ class BankController extends StateClass {
           message: detail.value.message.toString(),
         );
       }
-      Get.back();
 
+      Get.back();
+      await listBank(context);
+      await Future.delayed(const Duration(seconds: 1));
       SnackbarWidget.getSuccessSnackbar(
         context,
         'Berhasil',
         'Bank berhasil dihapus',
       );
-      return;
     });
     isLoading.value = false;
   }

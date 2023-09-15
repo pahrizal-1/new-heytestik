@@ -11,7 +11,7 @@ import '../../widget/appbar_widget.dart';
 class TambahBankCustomerPage extends StatefulWidget {
   final int id;
   final bool isUpdate;
-  TambahBankCustomerPage({this.id = 0, this.isUpdate = false, super.key});
+  const TambahBankCustomerPage({this.id = 0, this.isUpdate = false, super.key});
 
   @override
   State<TambahBankCustomerPage> createState() => _TambahBankCustomerPageState();
@@ -43,7 +43,7 @@ class _TambahBankCustomerPageState extends State<TambahBankCustomerPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isLoadingFind.value,
           child: Padding(
             padding: const EdgeInsets.only(
               left: 25,
