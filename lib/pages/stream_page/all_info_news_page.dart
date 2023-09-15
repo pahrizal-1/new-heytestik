@@ -21,11 +21,11 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
   final NewsController state = Get.put(NewsController());
 
   int activeIndex = 0;
-  final images = [
-    'assets/images/Berjemur1-Stream.png',
-    'assets/images/Berjemur1-Stream.png',
-    'assets/images/Berjemur1-Stream.png',
-  ];
+  // final images = [
+  //   'assets/images/Berjemur1-Stream.png',
+  //   'assets/images/Berjemur1-Stream.png',
+  //   'assets/images/Berjemur1-Stream.png',
+  // ];
   int currentIndex = 0;
 
   @override
@@ -36,86 +36,108 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
           const SizedBox(
             height: 41,
           ),
-          CarouselSlider.builder(
-            itemCount: images.length,
-            itemBuilder: (context, index, realIndex) {
-              final imge = images[index];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35.48, right: 39.51),
-                    child: Column(
-                      children: [
-                        Text(
-                          'BEAUTY / CONCERN',
-                          style: grenTextStyle.copyWith(fontSize: 10),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Berjemur Berlebihan Sebabkan Kerusakan Kulit?',
-                          style: blackTextStyle.copyWith(fontSize: 19),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+          Obx(
+            () => state.totalArticel.value == 0
+                ? Container()
+                : CarouselSlider.builder(
+                    itemCount: 3,
+                    itemBuilder: (context, index, realIndex) {
+                      String cat =
+                          state.article.value!.record?[index].newscategoryId ==
+                                  '1'
+                              ? 'Treatment'
+                              : state.article.value!.record?[index]
+                                          .newscategoryId ==
+                                      '2'
+                                  ? 'Skincare'
+                                  : state.article.value!.record?[index]
+                                              .newscategoryId ==
+                                          '3'
+                                      ? 'Concern'
+                                      : '-';
+                      final image =
+                          state.article.value!.record?[index].thumbLink;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 35.48, right: 39.51),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Beauty / $cat',
+                                  style: grenTextStyle.copyWith(fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '${state.article.value!.record?[index].title}',
+                                  style: blackTextStyle.copyWith(fontSize: 19),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${ConvertDate.defaultDate(
+                                  state.article.value!.record![index].newsDate
+                                      .toString(),
+                                )} | by ${state.article.value!.record?[index].author} | ',
+                                style: subTitleTextStyle.copyWith(
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Image.asset(
+                                'assets/icons/book-menu.png',
+                                width: 9.5,
+                                height: 9.5,
+                              ),
+                              Text(
+                                ' 2 Mins',
+                                style: subTitleTextStyle.copyWith(
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: 350,
+                            height: 181,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  image.toString(),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: 300,
+                      viewportFraction: 1,
+                      onPageChanged: (index, reason) =>
+                          setState(() => activeIndex = index),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '25 Januari 2022  |  by Audrey Diwantri Alodia  | ',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 10,
-                        ),
-                      ),
-                      Image.asset(
-                        'assets/icons/book-menu.png',
-                        width: 9.5,
-                        height: 9.5,
-                      ),
-                      Text(
-                        ' 2 Mins',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 350,
-                    height: 181,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          imge,
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              );
-            },
-            options: CarouselOptions(
-              height: 300,
-              viewportFraction: 1,
-              onPageChanged: (index, reason) =>
-                  setState(() => activeIndex = index),
-            ),
           ),
           const SizedBox(
             height: 7,
@@ -123,7 +145,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
           Center(
             child: AnimatedSmoothIndicator(
               activeIndex: activeIndex,
-              count: images.length,
+              count: 3,
               effect: ScaleEffect(
                 activeDotColor: greenColor,
                 dotColor: const Color(0xffD9D9D9),
