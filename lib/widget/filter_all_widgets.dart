@@ -8,7 +8,7 @@ import '../models/lookup_treatment.dart';
 import '../pages/solution/solutions_treatment1_Page.dart';
 
 class FilterAllWidget extends StatefulWidget {
-  FilterAllWidget({super.key});
+  const FilterAllWidget({super.key});
 
   @override
   State<FilterAllWidget> createState() => _FilterAllWidgetState();
@@ -260,8 +260,12 @@ class _FilterAllWidgetState extends State<FilterAllWidget> {
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    minPrice = minPriceController.text == "" ? null : int.parse(minPriceController.text);
-                    minPrice = maxPriceController.text == "" ? null : int.parse(maxPriceController.text);
+                    minPrice = minPriceController.text == ""
+                        ? null
+                        : int.parse(minPriceController.text);
+                    maxPrice = maxPriceController.text == ""
+                        ? null
+                        : int.parse(maxPriceController.text);
 
                     Navigator.pop(context, {
                       "treatment": filter,
