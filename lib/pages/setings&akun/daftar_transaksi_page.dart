@@ -150,6 +150,32 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                     left: 26, top: 9, right: 26, bottom: 8),
                 child: Row(
                   children: [
+                    filter.isEmpty
+                        ? Container()
+                        : InkWell(
+                            onTap: () async {
+                              filter.clear();
+                              page = 1;
+                              history.clear();
+                              history.addAll(await state.getAllHistory(
+                                  context, page,
+                                  search: search, filter: filter));
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: borderColor,
+                                ),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: const Icon(Icons.close),
+                            ),
+                          ),
                     InkWell(
                       onTap: () {
                         customeshomodal(context, FilterStatusTransaksi())
@@ -303,7 +329,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                     const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => MenungguPemayaranPage());
+                    Get.to(() => MenungguPemayaranPage(
+                          search: search,
+                          filter: filter,
+                        ));
                   },
                   child: Row(
                     children: [

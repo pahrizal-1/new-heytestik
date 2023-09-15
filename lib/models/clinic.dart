@@ -47,7 +47,8 @@ class ClinicDataModel {
       name: json['name'],
       rating: double.parse(json['rating'].toString()),
       distance: json['distance'],
-      price: int.parse(json['avg_price'].toString()),
+      price: int.parse(
+          double.parse(json['avg_price'].toString()).round().toString()),
       logo: json['media_clinic_logo']['media']['path'],
       city: json['city']['name'],
     );
