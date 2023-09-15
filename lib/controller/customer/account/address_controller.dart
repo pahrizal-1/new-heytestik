@@ -31,15 +31,18 @@ class AddressController extends StateClass {
 
   Rx<ByID.AddressByIdModel> detail = ByID.AddressByIdModel().obs;
 
-  Future<ListAddressModel?> listAddress(BuildContext context) async {
+  RxBool isLoadingCheck = false.obs;
+
+  // Future<ListAddressModel?>
+  listAddress(BuildContext context) async {
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data.value = await AddressService().listAddress();
-      data.refresh();
       filterData.value = data.value.data!;
-      print(data.value.data!.length);
       filterData.refresh();
     });
-    return data.value;
+    isLoading.value = false;
+    // return data.value;
   }
 
   onChangeFilterText(String value) {
@@ -66,14 +69,13 @@ class AddressController extends StateClass {
         completeAddress.text = detail.value.data?.completeAddress ?? '-';
         noteForCourier.text = detail.value.data?.noteForCourier ?? '-';
         print('heheh ${pinpointLatitude.value}');
-        return;
       }
     });
     isLoading.value = false;
   }
 
   Future<void> getCurrentPosition(BuildContext context) async {
-    isLoading.value = true;
+    isLoadingCheck.value = true;
     final hasPermission = await locationPermission(context);
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -87,7 +89,7 @@ class AddressController extends StateClass {
     }).catchError((e) {
       debugPrint('error euy $e');
     });
-    isLoading.value = false;
+    isLoadingCheck.value = false;
   }
 
   Future getAddressFromLatLng(Position position) async {
@@ -180,15 +182,14 @@ class AddressController extends StateClass {
       print(detail.value.data!);
       if (detail.value.success! && detail.value.message == 'Success') {
         Get.back();
-        // await listAddress(context);
-        // await Future.delayed(const Duration(seconds: 1));
+        await listAddress(context);
+        await Future.delayed(const Duration(seconds: 1));
         clearForm();
         SnackbarWidget.getSuccessSnackbar(
           context,
           'Berhasil',
           'Alamat berhasil disimpan',
         );
-        return;
       }
     });
     isMinorLoading.value = false;
@@ -261,15 +262,14 @@ class AddressController extends StateClass {
       print(detail.value.data!);
       if (detail.value.success! && detail.value.message == 'Success') {
         Get.back();
-        // await listAddress(context);
-        // await Future.delayed(const Duration(seconds: 1));
+        await listAddress(context);
+        await Future.delayed(const Duration(seconds: 1));
         clearForm();
         SnackbarWidget.getSuccessSnackbar(
           context,
           'Berhasil',
           'Alamat berhasil diubah',
         );
-        return;
       }
     });
     isMinorLoading.value = false;
@@ -294,14 +294,13 @@ class AddressController extends StateClass {
       print(detail.value.data!);
       if (detail.value.success! && detail.value.message == 'Success') {
         Get.back();
-        // await listAddress(context);
-        // await Future.delayed(const Duration(seconds: 1));
+        await listAddress(context);
+        await Future.delayed(const Duration(seconds: 1));
         SnackbarWidget.getSuccessSnackbar(
           context,
           'Berhasil',
           'Berhasil diubah menjadi alamat utama',
         );
-        return;
       }
     });
     isMinorLoading.value = false;
@@ -314,14 +313,13 @@ class AddressController extends StateClass {
       print(detail.value.data!);
       if (detail.value.success! && detail.value.message == 'Success') {
         Get.back();
-        // await listAddress(context);
-        // await Future.delayed(const Duration(seconds: 1));
+        await listAddress(context);
+        await Future.delayed(const Duration(seconds: 1));
         SnackbarWidget.getSuccessSnackbar(
           context,
           'Berhasil',
           'Alamat berhasil dihapus',
         );
-        return;
       }
     });
     isLoading.value = false;

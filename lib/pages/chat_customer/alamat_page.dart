@@ -23,10 +23,12 @@ class _AlamatpageState extends State<Alamatpage> {
   @override
   void initState() {
     super.initState();
-    state.clearForm();
-    if (widget.addressId != 0) {
-      state.findAddress(context, widget.addressId);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.clearForm();
+      if (widget.addressId != 0) {
+        state.findAddress(context, widget.addressId);
+      }
+    });
   }
 
   @override
@@ -166,12 +168,17 @@ class _AlamatpageState extends State<Alamatpage> {
                           onTap: () async {
                             await state.getCurrentPosition(context);
                           },
-                          child: Text(
-                            state.pinpointLatitude.value == 0.0 &&
-                                    state.pinpointLongitude.value == 0.0
-                                ? 'CEK'
-                                : 'UBAH',
-                            style: grenTextStyle.copyWith(fontSize: 12),
+                          child: Obx(
+                            () => LoadingWidget(
+                              isLoading: state.isLoadingCheck.value,
+                              child: Text(
+                                state.pinpointLatitude.value == 0.0 &&
+                                        state.pinpointLongitude.value == 0.0
+                                    ? 'CEK'
+                                    : 'UBAH',
+                                style: grenTextStyle.copyWith(fontSize: 12),
+                              ),
+                            ),
                           ),
                         ),
                       ],
