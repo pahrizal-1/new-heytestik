@@ -56,6 +56,7 @@ class ProfileService extends ProviderClass {
 
     return response;
   }
+  
 
   Future<FinishedReviewModel> getUserActivityReview(int page) async {
     String username = await LocalStorage().getUsername();

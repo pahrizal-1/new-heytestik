@@ -33,7 +33,7 @@ class _UbahEmailCostumerProfilPageState
             children: [
               InkWell(
                 onTap: () {
-                  state.emailBaruController.text ='';
+                  state.emailBaruController.text = '';
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -111,7 +111,8 @@ class _UbahEmailCostumerProfilPageState
             ),
             TextFormField(
               controller: state.emailBaruController,
-              validator: (input) => input!.isValidEmail() ? null : "Check your Email",
+              validator: (input) =>
+                  input!.isValidEmail() ? null : "Check your Email",
               decoration: InputDecoration(
                 labelText: 'Email Baru',
                 enabledBorder: OutlineInputBorder(
@@ -152,17 +153,38 @@ class _UbahEmailCostumerProfilPageState
             const SizedBox(
               height: 28,
             ),
-            ButtonGreenWidget(
-              title: 'Lanjut',
-              onPressed: () {
-                state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIl');
+            GestureDetector(
+              onTap: () {
+                state.verifyCodeEmail(context, state.emailBaruController.text);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
                             const VerifikasiEmailSetingsPage()));
               },
-            )
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: greenColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Lanjut',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: whiteColor,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // ButtonGreenWidget(
+            //   title: 'Lanjut',
+            //   onPressed: () {},
+            // )
           ],
         ),
       ),
