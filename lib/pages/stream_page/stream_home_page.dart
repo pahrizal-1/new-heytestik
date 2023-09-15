@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
 import '../../widget/pencarian_search_widget.dart';
-import '../home/notifikasion_page.dart';
 import '../profile_costumer/profil_customer_page.dart';
 import '../setings&akun/akun_home_page.dart';
 
