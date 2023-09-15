@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 
-import '../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
-import '../../theme/theme.dart';
-import '../../widget/loading_widget.dart';
+import '../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import '../../../theme/theme.dart';
+import '../../../widget/loading_widget.dart';
 
 class AddTreatmentPage extends StatefulWidget {
   const AddTreatmentPage({super.key});
@@ -137,120 +138,88 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 20),
-                    Text(
-                      'Nama Treatment',
+                    TextFormWidget(
+                      title: 'Nama Treament',
+                      hintText: 'Peeling',
+                      controller: state.nameController,
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10.0,
+                    Text('Harga Treatment', style: blackTextStyle),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: state.costController,
+                      decoration: InputDecoration(
+                        fillColor: greenColor,
+                        hoverColor: greenColor,
+                        hintText: '100000 - 200000',
+                        hintStyle: blackRegulerTextStyle.copyWith(
+                            fontSize: 12, color: blackColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
                       ),
-                      child: Opacity(
-                          opacity: 0.7,
-                          child: TextFormField(
-                            controller: state.nameController,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              height: 1.1,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Peeling',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              filled: true,
-                            ),
-                          )),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      'Harga Treatment',
+                    Text('Waktu Pemulihan', style: blackTextStyle),
+                    const SizedBox(
+                      height: 8,
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10.0,
+                    TextFormField(
+                      controller: state.recoveryTimeController,
+                      decoration: InputDecoration(
+                        fillColor: greenColor,
+                        hoverColor: greenColor,
+                        hintText: '2 - 3 Hari',
+                        hintStyle: blackRegulerTextStyle.copyWith(
+                            fontSize: 12, color: blackColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
                       ),
-                      child: Opacity(
-                          opacity: 0.7,
-                          child: TextFormField(
-                            controller: state.costController,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              height: 1.1,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: '100000 - 200000',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              filled: true,
-                            ),
-                          )),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      'Waktu Pemulihan',
+                    Text('Tipe Treament', style: blackTextStyle),
+                    const SizedBox(
+                      height: 8,
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10.0,
+                    TextFormField(
+                      controller: state.typeController,
+                      decoration: InputDecoration(
+                        fillColor: greenColor,
+                        hoverColor: greenColor,
+                        hintText: 'Non Surgical',
+                        hintStyle: blackRegulerTextStyle.copyWith(
+                            fontSize: 12, color: blackColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: greenColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
                       ),
-                      child: Opacity(
-                          opacity: 0.7,
-                          child: TextFormField(
-                            controller: state.recoveryTimeController,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              height: 1.1,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: '2 - 3 hari',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              filled: true,
-                            ),
-                          )),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Tipe Treatment',
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10.0,
-                      ),
-                      child: Opacity(
-                          opacity: 0.7,
-                          child: TextFormField(
-                            controller: state.typeController,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              height: 1.1,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Non Surgical',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              filled: true,
-                            ),
-                          )),
                     ),
                     SizedBox(height: 10),
                     Text(

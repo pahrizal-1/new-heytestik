@@ -3,22 +3,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/address_controller.dart';
-import 'package:heystetik_mobileapps/models/customer/list_address_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
-
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import '../../theme/theme.dart';
 
-class DaftarAlamatPage extends StatelessWidget {
-  DaftarAlamatPage({super.key});
+class DaftarAlamatPage extends StatefulWidget {
+  const DaftarAlamatPage({super.key});
+
+  @override
+  State<DaftarAlamatPage> createState() => _DaftarAlamatPageState();
+}
+
+class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
   final AddressController state = Get.put(AddressController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.listAddress(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: UniqueKey(),
       appBar: AppBar(
         elevation: 0,
         titleSpacing: 0,
@@ -50,171 +60,81 @@ class DaftarAlamatPage extends StatelessWidget {
       ),
       body: Padding(
         padding: lsymetric,
-        child: ListView(
-          children: [
-            Row(
+        child: Obx(
+          () => LoadingWidget(
+            isLoading: state.isLoading.value,
+            child: ListView(
               children: [
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Center(
-                      child: TextField(
-                        controller: state.searchController,
-                        onChanged: (value) {
-                          state.onChangeFilterText(value);
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(13),
-                            child: Image.asset(
-                              'assets/icons/search1.png',
-                              width: 12,
-                              color: blackColor,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: borderColor),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Center(
+                          child: TextField(
+                            controller: state.searchController,
+                            onChanged: (value) {
+                              state.onChangeFilterText(value);
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(13),
+                                child: Image.asset(
+                                  'assets/icons/search1.png',
+                                  width: 12,
+                                  color: blackColor,
+                                ),
+                              ),
+                              hintText: 'Cari Alamat',
+                              border: InputBorder.none,
                             ),
                           ),
-                          hintText: 'Cari Alamat',
-                          border: InputBorder.none,
                         ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                Obx(
+                  () => state.filterData.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Center(
+                            child: Text(
+                              'Tidak ada alamat',
+                              style: TextStyle(
+                                fontWeight: bold,
+                                fontFamily: 'ProximaNova',
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.filterData.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return cardAddress(
+                              context,
+                              state.filterData[index].id!.toInt(),
+                              state.filterData[index].labelAddress ?? '-',
+                              state.filterData[index].recipientName ?? '-',
+                              state.filterData[index].completeAddress ?? '-',
+                              state.filterData[index].pinpointAddress ?? '-',
+                              state.filterData[index].mainAddress!,
+                              state.filterData[index],
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
-            FutureBuilder(
-              future: state.listAddress(context),
-              builder: (context, AsyncSnapshot<ListAddressModel?> snapshot) {
-                print(snapshot.connectionState);
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    children: [
-                      shimmerWidget(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 11),
-                          padding: const EdgeInsets.only(top: 14, bottom: 21),
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                        ),
-                      ),
-                      shimmerWidget(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 11),
-                          padding: const EdgeInsets.only(top: 14, bottom: 21),
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                        ),
-                      ),
-                      shimmerWidget(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 11),
-                          padding: const EdgeInsets.only(top: 14, bottom: 21),
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                        ),
-                      ),
-                      shimmerWidget(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 11),
-                          padding: const EdgeInsets.only(top: 14, bottom: 21),
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                        ),
-                      ),
-                      shimmerWidget(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 11),
-                          padding: const EdgeInsets.only(top: 14, bottom: 21),
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: borderColor),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return Obx(
-                      () => state.filterData.isEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: paddingL),
-                              child: Text(
-                                'Tidak ada data',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.filterData.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return cardAddress(
-                                  context,
-                                  state.filterData[index].id!.toInt(),
-                                  state.filterData[index].labelAddress ?? '-',
-                                  state.filterData[index].recipientName ?? '-',
-                                  state.filterData[index].completeAddress ??
-                                      '-',
-                                  state.filterData[index].pinpointAddress ??
-                                      '-',
-                                  state.filterData[index].mainAddress!,
-                                  state.filterData[index],
-                                );
-                              },
-                            ),
-                    );
-                  } else {
-                    return Center(
-                      child: Text(
-                        'Tidak ada data',
-                        style: TextStyle(
-                          fontWeight: bold,
-                          fontFamily: 'ProximaNova',
-                          fontSize: 20,
-                        ),
-                      ),
-                    );
-                  }
-                } else {
-                  return Text('Connection State: ${snapshot.connectionState}');
-                }
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -334,8 +254,10 @@ class DaftarAlamatPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: Text('Ubah Alamat',
-                              style: blackHigtTextStyle.copyWith(fontSize: 15)),
+                          child: Text(
+                            'Ubah Alamat',
+                            style: blackHigtTextStyle.copyWith(fontSize: 15),
+                          ),
                         ),
                       ),
                     ),
@@ -420,7 +342,9 @@ class DaftarAlamatPage extends StatelessWidget {
                                       child: InkWell(
                                         onTap: () async {
                                           await state.deleteAddress(
-                                              context, addressId);
+                                            context,
+                                            addressId,
+                                          );
                                         },
                                         child: Text(
                                           'Hapus Alamat',

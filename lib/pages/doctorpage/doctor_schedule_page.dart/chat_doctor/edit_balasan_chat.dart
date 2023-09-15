@@ -45,7 +45,7 @@ class _EditBalasanChatState extends State<EditBalasanChat> {
                   ),
                 ),
                 const SizedBox(
-                  width: 5,
+                  width: 9,
                 ),
                 Text(
                   'Edit Balasan Cepat',

@@ -16,7 +16,8 @@ class TreatmentFilter extends StatefulWidget {
 }
 
 class _TreatmentFilterState extends State<TreatmentFilter> {
-  final TreatmentController treatmentController = Get.put(TreatmentController());
+  final TreatmentController treatmentController =
+      Get.put(TreatmentController());
   List<String> filter = [];
   List<LookupTreatmentModel> treatments = [];
 

@@ -10,7 +10,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -213,23 +213,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                     ),
                   ),
                 ),
-                const Divider(
-                  thickness: 6,
-                  color: Color(0xffECECEC),
-                ),
-                Padding(
-                  padding: lsymetric.copyWith(top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pilih Metode Pembayaran',
-                        style: blackHigtTextStyle.copyWith(fontSize: 18),
-                      ),
-                      CardBank(),
-                    ],
-                  ),
-                ),
+                CardKonsultasiBank(),
                 const Divider(
                   thickness: 6,
                   color: Color(0xffECECEC),

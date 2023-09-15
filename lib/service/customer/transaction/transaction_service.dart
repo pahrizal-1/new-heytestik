@@ -72,11 +72,7 @@ class TransactionService extends ProviderClass {
   }
 
   Future<TransactionHistoryModel> allHistory(
-    int page,
-    List transactionStatus,
-    List transactionType,
-    String startDate,
-    String endDate, {
+    int page, {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
@@ -91,7 +87,7 @@ class TransactionService extends ProviderClass {
       if (filter != null) {
         params.addAll(filter);
       }
-
+      print("params $params");
       var response = await networkingConfig.doGet(
         '/transaction',
         params: params,

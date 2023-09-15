@@ -52,6 +52,11 @@ class _SelesaikanPembayaranKonsultasiState
     });
   }
 
+  _copy() {
+    final value = ClipboardData(text: state.virtualAccount.value);
+    Clipboard.setData(value);
+  }
+
   setTime() {
     DateTime today = DateTime.now();
     print('now $today');
@@ -270,10 +275,7 @@ class _SelesaikanPembayaranKonsultasiState
                                   ),
                                   const Spacer(),
                                   InkWell(
-                                    // onTap: () {
-                                    //   Clipboard.getData(
-                                    //       state.virtualAccount.value);
-                                    // },
+                                    onTap: _copy,
                                     child: Text(
                                       'Salin',
                                       style:

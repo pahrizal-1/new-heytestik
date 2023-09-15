@@ -17,8 +17,8 @@ class OrderProductController extends StateClass {
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
-  Rx<PaymentMethod.PaymentMethodModel?> listPaymentMethod =
-      PaymentMethod.PaymentMethodModel.fromJson({}).obs;
+  RxList<PaymentMethod.Data> getPaymentMethod =
+      List<PaymentMethod.Data>.empty().obs;
   RxString orderId = ''.obs;
   RxString bank = ''.obs;
   RxString expireTime = ''.obs;
@@ -48,8 +48,8 @@ class OrderProductController extends StateClass {
   getPaymentmethod(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      listPaymentMethod.value = await TransactionService().paymentMethod();
-      totalPaymentMethod.value = listPaymentMethod.value!.data!.length;
+      var res = await TransactionService().paymentMethod();
+      getPaymentMethod.value = res.data!;
     });
     isLoading.value = false;
   }
@@ -59,7 +59,6 @@ class OrderProductController extends StateClass {
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
-    listPaymentMethod.value = null;
     orderId.value = '';
     bank.value = '';
     expireTime.value = '';

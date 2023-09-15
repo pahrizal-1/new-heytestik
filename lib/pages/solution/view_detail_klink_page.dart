@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -865,8 +867,9 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                     diskonProduk: '0',
                                     hargaDiskon: '0',
                                     harga: element.price!.toString(),
-                                    urlImg:
-                                        "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                    urlImg: element.mediaTreatments!.isEmpty
+                                        ? ""
+                                        : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                                     rating: '${element.rating} (120k)',
                                     km: '${element.distance}',
                                     lokasiKlinik: element.clinic!.city!.name!,

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,9 +45,9 @@ class OrderConsultationController extends StateClass {
   ];
 
   List<String> listImageUser = [];
+  RxList<PaymentMethod.Data> getPaymentMethod =
+      List<PaymentMethod.Data>.empty().obs;
 
-  Rx<PaymentMethod.PaymentMethodModel?> getPaymentMethod =
-      PaymentMethod.PaymentMethodModel.fromJson({}).obs;
   RxInt totalPaymentMethod = 0.obs;
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
@@ -75,7 +75,7 @@ class OrderConsultationController extends StateClass {
     answerSelect = [];
 
     listImageUser.clear();
-    getPaymentMethod.value = null;
+    getPaymentMethod.value.clear();
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
@@ -167,7 +167,7 @@ class OrderConsultationController extends StateClass {
   initPayment(BuildContext context) async {
     isLoading.value = true;
     fullName.value = await LocalStorage().getFullName();
-    getPaymentMethod.value == null;
+    getPaymentMethod.value.clear();
     await getPaymentmethod(context);
     idPayment.value = 0;
     paymentMethod.value = '';
@@ -177,8 +177,8 @@ class OrderConsultationController extends StateClass {
 
   getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      getPaymentMethod.value = await TransactionService().paymentMethod();
-      totalPaymentMethod.value = getPaymentMethod.value!.data!.length;
+      var res = await TransactionService().paymentMethod();
+      getPaymentMethod.value = res.data!;
     });
   }
 

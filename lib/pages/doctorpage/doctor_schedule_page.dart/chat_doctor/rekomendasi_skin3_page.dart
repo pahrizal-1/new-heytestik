@@ -50,11 +50,11 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    size: 20,
+                    size: 22,
                   ),
                 ),
                 SizedBox(
-                  width: 5,
+                  width: 9,
                 ),
                 Text(
                   "Edit Template Skincare",

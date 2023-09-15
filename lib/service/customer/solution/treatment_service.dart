@@ -257,7 +257,7 @@ class TreatmentService extends ProviderClass {
       if (filter != null) {
         params.addAll(filter);
       }
-
+      print("params $params");
       var response = await networkingConfig.doGet(
         '/solution/treatment/near-me',
         params: params,
@@ -344,7 +344,7 @@ class TreatmentService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-
+    print("params $params");
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment',

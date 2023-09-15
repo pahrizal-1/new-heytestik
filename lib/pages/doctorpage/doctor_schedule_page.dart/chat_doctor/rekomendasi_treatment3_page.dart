@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import '../../../../widget/loading_widget.dart';
-import '../../../setings&akun/add_treatment_page.dart';
+import '../../settings_doctor/add_treatment_page.dart';
 
 class RekomendasiTreatmen3Page extends StatefulWidget {
   final int id;
@@ -66,7 +66,7 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                       color: Colors.white,
                       fontFamily: 'ProximaNova',
                       fontWeight: bold,
-                      fontSize: 16,
+                      fontSize: 18,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -374,7 +374,8 @@ class _RekomendasiTreatmen3PageState extends State<RekomendasiTreatmen3Page> {
                                     InkWell(
                                       onTap: () {
                                         setState(() {
-                                          state.dataTreatmentItemsById.removeAt(index);
+                                          state.dataTreatmentItemsById
+                                              .removeAt(index);
                                         });
                                       },
                                       child: Container(
