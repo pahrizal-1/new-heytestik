@@ -216,8 +216,9 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                         diskonProduk: '0',
                         hargaDiskon: '',
                         harga: element.price.toString(),
-                        urlImg:
-                            "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                        urlImg: element.mediaTreatments!.isEmpty
+                            ? ""
+                            : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                         rating: '${element.rating} (120k)',
                         km: element.distance ?? '-',
                         lokasiKlinik: element.clinic?.city?.name ?? '-',
