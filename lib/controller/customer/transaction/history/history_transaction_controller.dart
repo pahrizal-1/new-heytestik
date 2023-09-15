@@ -47,14 +47,16 @@ class HistoryTransactionController extends StateClass {
     return dataHistory;
   }
 
-  Future<List<Data2>> getAllHistoryPending(
-      BuildContext context, int page) async {
+  Future<List<Data2>> getAllHistoryPending(BuildContext context, int page,
+      {String? search, Map<String, dynamic>? filter}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       totalPending.value = 0;
       dataHistoryPending.value.clear();
       responseHistory.value = await TransactionService().allHistory(
         page,
+        search: search,
+        filter: filter,
       );
 
       for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {

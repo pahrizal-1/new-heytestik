@@ -173,7 +173,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 ),
                                 borderRadius: BorderRadius.circular(7),
                               ),
-                              child: const Icon(Icons.delete),
+                              child: const Icon(Icons.close),
                             ),
                           ),
                     InkWell(
@@ -329,7 +329,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                     const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => MenungguPemayaranPage());
+                    Get.to(() => MenungguPemayaranPage(
+                          search: search,
+                          filter: filter,
+                        ));
                   },
                   child: Row(
                     children: [

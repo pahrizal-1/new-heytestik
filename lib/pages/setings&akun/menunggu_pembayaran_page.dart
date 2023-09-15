@@ -1,5 +1,6 @@
-import 'dart:convert';
+// ignore_for_file: must_be_immutable
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
@@ -17,7 +18,13 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
 
 class MenungguPemayaranPage extends StatefulWidget {
-  MenungguPemayaranPage({super.key});
+  String? search;
+  Map<String, dynamic> filter;
+  MenungguPemayaranPage({
+    required this.search,
+    required this.filter,
+    super.key,
+  });
 
   @override
   State<MenungguPemayaranPage> createState() => _MenungguPemayaranPageState();
@@ -33,7 +40,12 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      history.addAll(await state.getAllHistoryPending(context, page));
+      history.addAll(await state.getAllHistoryPending(
+        context,
+        page,
+        search: widget.search,
+        filter: widget.filter,
+      ));
       setState(() {});
     });
 
@@ -44,7 +56,12 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             state.isLoadingMore.value = true;
-            history.addAll(await state.getAllHistoryPending(context, page));
+            history.addAll(await state.getAllHistoryPending(
+              context,
+              page,
+              search: widget.search,
+              filter: widget.filter,
+            ));
             setState(() {});
             state.isLoadingMore.value = false;
           });
@@ -257,6 +274,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                 ),
                               );
                             }
+                            return null;
                           },
                         ),
                       ),
