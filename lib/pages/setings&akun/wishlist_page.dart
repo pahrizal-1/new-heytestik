@@ -74,26 +74,30 @@ class _WishListPageState extends State<WishListPage> {
               fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
         actions: [
-          TotalKeranjang(iconcolor: blackColor),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AkunHomePage(),
+          Row(
+            children: [
+              TotalKeranjang(iconcolor: blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AkunHomePage(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
                 ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 26,
-          ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
+          )
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56.0),
