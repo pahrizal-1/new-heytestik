@@ -37,6 +37,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
   void initState() {
     super.initState();
     state.init(context);
+    stateProfile.getProfile(context);
   }
 
   @override
