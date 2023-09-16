@@ -147,6 +147,7 @@ class _NearMePageState extends State<NearMePage> {
                               child: TextFormField(
                                 controller: searchController,
                                 onEditingComplete: () async {
+                                  page = 1;
                                   search = searchController.text;
                                   treatments.clear();
                                   treatments.addAll(await stateTreatment

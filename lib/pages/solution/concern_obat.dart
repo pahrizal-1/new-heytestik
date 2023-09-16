@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -118,15 +117,18 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            if (searchController.text.isEmpty) return;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ObatSearch(
-                                  search: searchController.text,
-                                ),
+                            page = 1;
+                            search = searchController.text;
+                            medicines.clear();
+                            medicines.addAll(
+                              await state.getMedicine(
+                                context,
+                                page,
+                                search: search,
+                                filter: filter,
                               ),
                             );
+                            setState(() {});
                           },
                           style: const TextStyle(
                               fontSize: 15, fontFamily: "ProximaNova"),

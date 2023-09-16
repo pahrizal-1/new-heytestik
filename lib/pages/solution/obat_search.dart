@@ -107,7 +107,6 @@ class _ObatSearchState extends State<ObatSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            if (searchController.text.isEmpty) return;
                             print("INI GW KLIK");
                             page = 1;
                             medicines.clear();

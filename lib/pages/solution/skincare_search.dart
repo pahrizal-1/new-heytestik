@@ -111,7 +111,6 @@ class _SkincareSearchState extends State<SkincareSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            if (searchController.text.isEmpty) return;
                             print("INI GW KLIK");
                             page = 1;
                             skincare.clear();

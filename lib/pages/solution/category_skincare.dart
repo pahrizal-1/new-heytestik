@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/skincare_search.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
@@ -117,15 +116,18 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            if (searchController.text.isEmpty) return;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SkincareSearch(
-                                  search: searchController.text,
-                                ),
+                            page = 1;
+                            search = searchController.text;
+                            skincare.clear();
+                            skincare.addAll(
+                              await state.getAllSkincare(
+                                context,
+                                page,
+                                search: search,
+                                filter: filter,
                               ),
                             );
+                            setState(() {});
                           },
                           style: const TextStyle(
                               fontSize: 15, fontFamily: "ProximaNova"),

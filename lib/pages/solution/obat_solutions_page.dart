@@ -172,7 +172,6 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                   child: TextFormField(
                     controller: searchController,
                     onEditingComplete: () async {
-                      if (searchController.text.isEmpty) return;
                       Navigator.push(
                         context,
                         MaterialPageRoute(

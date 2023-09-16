@@ -184,7 +184,6 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                   child: TextFormField(
                     controller: searchController,
                     onEditingComplete: () async {
-                      if (searchController.text.isEmpty) return;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
