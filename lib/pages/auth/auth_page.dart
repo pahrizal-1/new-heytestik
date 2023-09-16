@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
-import 'package:heystetik_mobileapps/pages/auth/option_login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
