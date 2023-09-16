@@ -137,7 +137,9 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                                         children: [
                                           Text(
                                             ConvertDate.defaultDate(e
-                                                .journey![i].createdAt
+                                                .journey![i]
+                                                .mediaMyJourney![0]
+                                                .createdAt
                                                 .toString()),
                                             style: blackRegulerTextStyle
                                                 .copyWith(fontSize: 13),
