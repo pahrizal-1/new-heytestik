@@ -61,6 +61,7 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page,
       {String? search}) async {
+    print(search);
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/trending',
@@ -82,6 +83,7 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page,
       {String? search}) async {
+    print(search);
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/top-rating',
@@ -173,7 +175,7 @@ class TreatmentService extends ProviderClass {
       if (filter != null) {
         parameter.addAll(filter);
       }
-
+      print("parameter $parameter");
       var response = await networkingConfig.doGet(
         '/solution/treatment/clinic',
         params: parameter,

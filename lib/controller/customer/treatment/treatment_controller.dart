@@ -155,7 +155,7 @@ class TreatmentController extends StateClass {
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data =
-          await TreatmentService().getTopRatingTreatment(page);
+          await TreatmentService().getTopRatingTreatment(page, search: search);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
@@ -170,7 +170,8 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentModel data = await TreatmentService().getTrendingTreatment(page);
+      TreatmentModel data =
+          await TreatmentService().getTrendingTreatment(page, search: search);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
