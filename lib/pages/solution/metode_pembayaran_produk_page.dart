@@ -429,16 +429,6 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                                     title2: 'Rp290.400',
                                     title1: '',
                                   ),
-                                  const TextBoldSpacebetwen(
-                                    title: 'Peeling TCA Ringan (1x)',
-                                    title2: 'Rp290.400',
-                                    title1: '',
-                                  ),
-                                  const TextBoldSpacebetwen(
-                                    title: 'Peeling TCA Ringan (1x)',
-                                    title2: 'Rp290.400',
-                                    title1: '',
-                                  ),
                                   const SizedBox(
                                     height: 18,
                                   ),
