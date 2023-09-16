@@ -151,50 +151,51 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       InkWell(
                         onTap: () {
                           customeshomodal(
-                              context,
-                              Wrap(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 25, horizontal: 20),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Siapa Yang Bisa Melihat Postingan Ini',
-                                              style: blackTextStyle.copyWith(
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: 30,
-                                            ),
-                                            FilterPublis(
-                                              title: 'Semua Orang',
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            FilterPublis(
-                                              title:
-                                                  'Hanya Orang yang Mengikuti',
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            FilterPublis(
-                                              title:
-                                                  'Hanya Orang Yang di Sebutkan',
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            FilterPublis(
-                                              title: 'Hanya Saya',
-                                            ),
-                                          ])),
-                                ],
-                              ));
+                            context,
+                            Wrap(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 25, horizontal: 20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Siapa Yang Bisa Melihat Postingan Ini?',
+                                        style: blackTextStyle.copyWith(
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      FilterPublis(
+                                        title: 'Semua Orang',
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FilterPublis(
+                                        title: 'Hanya Orang yang Mengikuti',
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FilterPublis(
+                                        title: 'Hanya Orang Yang di Sebutkan',
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FilterPublis(
+                                        title: 'Hanya Saya',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(

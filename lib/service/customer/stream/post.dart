@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:heystetik_mobileapps/core/error_config.dart';
 // import 'package:get/get.dart' hide FormData;
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
@@ -15,7 +14,8 @@ import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
 class PostServices extends ProviderClass {
-  PostServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  PostServices()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> postPolling(StreamPostModel data) async {
     Map<String, dynamic> params = {
@@ -77,7 +77,8 @@ class PostServices extends ProviderClass {
     return response;
   }
 
-  Future<List<StreamHomeModel>> getStreamInterest(int page, {String? search}) async {
+  Future<List<StreamHomeModel>> getStreamInterest(int page,
+      {String? search}) async {
     try {
       Map<String, dynamic> params = {
         "page": page,
@@ -99,14 +100,17 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
     }
   }
 
-  Future<List<StreamHomeModel>> getStreamFollowed(int page, {String? search}) async {
+  Future<List<StreamHomeModel>> getStreamFollowed(int page,
+      {String? search}) async {
     try {
       Map<String, dynamic> params = {
         "page": page,
@@ -128,14 +132,17 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
     }
   }
 
-  Future<List<StreamHomeModel>> getTrendingStream(int page, {String? search}) async {
+  Future<List<StreamHomeModel>> getTrendingStream(int page,
+      {String? search}) async {
     try {
       Map<String, dynamic> params = {
         "page": page,
@@ -157,14 +164,17 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
     }
   }
 
-  Future<List<StreamHomeModel>> getStreamHome(int page, {String? search}) async {
+  Future<List<StreamHomeModel>> getStreamHome(int page,
+      {String? search}) async {
     try {
       Map<String, dynamic> params = {
         "page": page,
@@ -186,7 +196,9 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamHomeModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
@@ -281,14 +293,17 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamCommentModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamCommentModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
     }
   }
 
-  Future<List<StreamCommentReplyModel>> getCommentReplies(int page, int postID, int commentID) async {
+  Future<List<StreamCommentReplyModel>> getCommentReplies(
+      int page, int postID, int commentID) async {
     try {
       var response = await networkingConfig.doGet(
         '/stream/$postID/comment/$commentID/replies',
@@ -302,7 +317,9 @@ class PostServices extends ProviderClass {
         },
       );
 
-      return (response['data']['data'] as List).map((e) => StreamCommentReplyModel.fromJson(e)).toList();
+      return (response['data']['data'] as List)
+          .map((e) => StreamCommentReplyModel.fromJson(e))
+          .toList();
     } catch (error) {
       print(error);
       return [];
@@ -419,7 +436,8 @@ class PostServices extends ProviderClass {
       List<Map<String, dynamic>> userMentions = [];
 
       for (var i = 0; i < mentions.length; i++) {
-        userMentions.add({"username": mentions[i], "mention": "@${mentions[i]}"});
+        userMentions
+            .add({"username": mentions[i], "mention": "@${mentions[i]}"});
       }
 
       print(userMentions);

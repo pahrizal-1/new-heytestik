@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
-import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_general.dart';
 import '../../widget/stream_polling.dart';
@@ -34,7 +33,8 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.homeStreamIndex.value = postController.homeStreamIndex.value + 1;
+          postController.homeStreamIndex.value =
+              postController.homeStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             await postController.getStreamHomeModel(context);
           });
@@ -58,10 +58,13 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: postController.homeStreams.length,
                 itemBuilder: (context, index) {
-                  if (postController.homeStreams[index].type.toLowerCase() == 'polling') {
-                    return StreamPostPolling(stream: postController.homeStreams[index]);
+                  if (postController.homeStreams[index].type.toLowerCase() ==
+                      'polling') {
+                    return StreamPostPolling(
+                        stream: postController.homeStreams[index]);
                   }
-                  return StreamPostGeneral(stream: postController.homeStreams[index]);
+                  return StreamPostGeneral(
+                      stream: postController.homeStreams[index]);
                 },
                 separatorBuilder: (context, index) {
                   return dividergreen();
