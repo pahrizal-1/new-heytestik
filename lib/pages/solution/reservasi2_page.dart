@@ -397,10 +397,6 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                       widget.treatment.price! * stateTreatment.pax.value, 0),
                   style: blackHigtTextStyle.copyWith(fontSize: 20),
                 ),
-                const SizedBox(
-                  width: 12,
-                ),
-                const Icon(Icons.keyboard_arrow_down)
               ],
             ),
             const SizedBox(
