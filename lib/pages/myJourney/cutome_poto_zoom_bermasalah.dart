@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_bermasalah.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 
 class CustomeCameaPotoWajahBermasalah extends StatefulWidget {
@@ -110,32 +111,32 @@ class _CustomeCameaPotoWajahBermasalahState
                     SizedBox(
                       width: 61,
                     ),
-                    InkWell(
-                      onTap: () async {
-                        try {
-                          if (controller != null) {
-                            //check if contrller is not null
-                            if (controller!.value.isInitialized) {
-                              //check if controller is initialized
-                              image = await controller!
-                                  .takePicture(); //capture image
-                              state.initialConditionProblemPart =
-                                  File(image!.path);
-                              setState(() {
-                                //update UI
-                              });
-                            }
-                          }
-                        } catch (e) {
-                          print(e); //show error
-                        }
-                        Get.to(PotoBagianWajahBermasalah());
-                      },
-                      child: Image.asset(
-                        'assets/icons/button-camera.png',
-                        width: 70,
-                        height: 70,
-                      ),
+                    Obx(
+                      () => state.isLoadingCam.value
+                          ? LoadingMore()
+                          : InkWell(
+                              onTap: () async {
+                                state.isLoadingCam.value = true;
+                                if (controller != null) {
+                                  //check if contrller is not null
+                                  if (controller!.value.isInitialized) {
+                                    //check if controller is initialized
+                                    image = await controller!
+                                        .takePicture(); //capture image
+                                    state.initialConditionProblemPart =
+                                        File(image!.path);
+                                    setState(() {});
+                                    Get.to(PotoBagianWajahBermasalah());
+                                  }
+                                }
+                                state.isLoadingCam.value = false;
+                              },
+                              child: Image.asset(
+                                'assets/icons/button-camera.png',
+                                width: 70,
+                                height: 70,
+                              ),
+                            ),
                     ),
                     SizedBox(
                       width: 61,

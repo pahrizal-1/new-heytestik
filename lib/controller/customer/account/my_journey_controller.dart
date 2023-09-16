@@ -63,6 +63,8 @@ class MyJourneyController extends StateClass {
   File? initialConditionLeftSide;
   File? initialConditionProblemPart;
 
+  RxBool isLoadingCam = false.obs;
+
   Future<List<MyJourney.Data2>> getJourney(
       BuildContext context, int page) async {
     isLoading.value = true;
@@ -160,7 +162,6 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
       if (concernId.value == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -185,17 +186,15 @@ class MyJourneyController extends StateClass {
           message: res['message'],
         );
       }
-      print("heheh");
+
       concernId.value = 0;
+      concern.value = "";
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
-      print("hahah");
+
       doInPost();
-      // } catch (e) {
-      //   print("heheh $e");
-      // }
     });
     isLoading.value = false;
   }
