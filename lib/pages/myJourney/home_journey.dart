@@ -32,10 +32,6 @@ class HomeMyjourney extends StatefulWidget {
   State<HomeMyjourney> createState() => _HomeMyjourneyState();
 }
 
-final HomeController state = Get.put(HomeController());
-
-// File? imagePath;
-
 class _HomeMyjourneyState extends State<HomeMyjourney> {
   final MyJourneyController state = Get.put(MyJourneyController());
   final HomeController statemy = Get.put(HomeController());
@@ -57,7 +53,6 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await stateProfile.getProfile(context);
     });
-    state.init();
   }
 
   @override
@@ -269,7 +264,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                 ),
                 ButtonWhiteWidget(
                   title: 'Lihat Journey-mu',
-                  onPressed: () {
+                  onPressed: () async {
                     Get.to(GaleryMyJourney());
                   },
                 ),
