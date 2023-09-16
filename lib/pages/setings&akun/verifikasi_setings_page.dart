@@ -205,8 +205,8 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                                   subtitle: 'Coba beberapa saat lagi',
                                 ));
                       } else {
-                        state.verifyCode(
-                            context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                        state.verifyCodeWA(
+                            context,state.nomorHpController.text);
                         resetTimer();
                       }
                     },
@@ -415,7 +415,7 @@ class _VerifikasiEmailSetingsPageState
                                   subtitle: 'Coba beberapa saat lagi',
                                 ));
                       } else {
-                        state.verifyCode(context, 'EMAIL', 'CHANGE_EMAIL');
+                        state.verifyCodeEmail(context, state.emailBaruController.text);
                         resetTimer();
                       }
                     },

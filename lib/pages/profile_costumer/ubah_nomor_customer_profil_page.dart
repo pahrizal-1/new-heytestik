@@ -124,7 +124,7 @@ class _UbahNomorCustomerProfilPageState
               title: 'Lanjut',
               onPressed: () {
                 // state.verifyCode(context);
-                state.verifyCode(context, 'WHATSAPP', 'CHANGE_PHONE_NUMBER');
+                state.verifyCodeWA(context, state.nomorHpController.text);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
