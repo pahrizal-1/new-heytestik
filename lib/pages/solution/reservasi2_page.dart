@@ -52,7 +52,7 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
               width: 11,
             ),
             Text(
-              'Selesaikan Pemesananmu',
+              'Selesaikan Pesananmu',
               style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
             ),
           ],
@@ -105,7 +105,7 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                   height: 21,
                 ),
                 Text(
-                  'Peeling TCA Ringan',
+                  "${widget.treatment.name}",
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
                 const SizedBox(
