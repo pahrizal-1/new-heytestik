@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/my_journey_cont
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_wajah_kanan.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kanan.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class HasilPotoWajah extends StatefulWidget {
   HasilPotoWajah({super.key});
@@ -17,6 +18,35 @@ class HasilPotoWajah extends StatefulWidget {
 
 class _HasilPotoWajahState extends State<HasilPotoWajah> {
   final MyJourneyController state = Get.put(MyJourneyController());
+  File? imageFile;
+
+  Future _cropImage() async {
+    if (state.initialConditionFrontFace != null) {
+      CroppedFile? cropped = await ImageCropper().cropImage(
+          sourcePath: state.initialConditionFrontFace!.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Crop',
+                cropGridColor: Colors.black,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(title: 'Crop')
+          ]);
+
+      if (cropped != null) {
+        setState(() {
+          state.initialConditionFrontFace = File(cropped.path);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +56,15 @@ class _HasilPotoWajahState extends State<HasilPotoWajah> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 22),
-            child: Image.asset(
-              'assets/icons/zoom.png',
-              width: 28,
-              height: 28,
+          InkWell(
+            onTap: _cropImage,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 22),
+              child: Image.asset(
+                'assets/icons/zoom.png',
+                width: 28,
+                height: 28,
+              ),
             ),
           ),
         ],
@@ -59,7 +92,7 @@ class _HasilPotoWajahState extends State<HasilPotoWajah> {
                   image: FileImage(
                     File(state.initialConditionFrontFace!.path),
                   ),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

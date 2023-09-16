@@ -85,6 +85,7 @@ dependencies:
   url_launcher: ^6.1.12
   loader_overlay: ^2.3.1
   open_file: ^3.3.2
+  image_cropper: ^4.0.1
 
 dev_dependencies:
   flutter_test:
