@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -261,11 +263,16 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             InkWell(
               onTap: () async {
-                Navigator.push(
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => LoginGooglePage(),
+                //   ),
+                // );
+
+                await state.loginWithGoogle(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginGooglePage(),
-                  ),
+                  doInPost: () async {},
                 );
               },
               child: Image.asset(
@@ -294,14 +301,16 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 12,
-            // ),
-            // InkWell(
-            //   child: Image.asset(
-            //     'assets/icons/Frame 72.png',
-            //   ),
-            // ),
+            if (Platform.isIOS)
+              SizedBox(
+                height: 12,
+              ),
+            if (Platform.isIOS)
+              InkWell(
+                child: Image.asset(
+                  'assets/icons/Frame 72.png',
+                ),
+              ),
             SizedBox(
               height: 40,
             ),

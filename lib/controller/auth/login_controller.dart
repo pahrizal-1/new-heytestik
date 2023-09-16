@@ -11,68 +11,66 @@ import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/service/auth/login_service.dart';
 
-import '../../core/global.dart';
-
 class LoginController extends StateClass {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  logInWithGoogle(BuildContext context, String token,
-      {required Function() doInPost}) async {
-    try {
-      isLoading.value = true;
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        var data = {
-          'token': token,
-        };
+  // logInWithGoogle(BuildContext context, String token,
+  //     {required Function() doInPost}) async {
+  //   try {
+  //     isLoading.value = true;
+  //     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //       var data = {
+  //         'token': token,
+  //       };
 
-        var loginResponse = await LoginService().loginWithGoogle(data);
+  //       var loginResponse = await LoginService().loginWithGoogle(data);
 
-        if (loginResponse['success'] != true &&
-            loginResponse['message'] != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: loginResponse['message'],
-          );
-        }
-        print(loginResponse);
-        print(loginResponse['data']['token']);
-        print(loginResponse['data']['user']['fullname']);
-        print(loginResponse['data']['user']['roleId']);
-        print(loginResponse['data']['user']['id']);
-        print(loginResponse['data']['user']['username']);
-        print(loginResponse['data']['user']['id'].toString());
+  //       if (loginResponse['success'] != true &&
+  //           loginResponse['message'] != 'Success') {
+  //         throw ErrorConfig(
+  //           cause: ErrorConfig.anotherUnknow,
+  //           message: loginResponse['message'],
+  //         );
+  //       }
+  //       print(loginResponse);
+  //       print(loginResponse['data']['token']);
+  //       print(loginResponse['data']['user']['fullname']);
+  //       print(loginResponse['data']['user']['roleId']);
+  //       print(loginResponse['data']['user']['id']);
+  //       print(loginResponse['data']['user']['username']);
+  //       print(loginResponse['data']['user']['id'].toString());
 
-        // SAVE DATA USER
-        await LocalStorage()
-            .setDataUser(dataUser: loginResponse['data']['user']);
-        await LocalStorage().setUsername(
-            username: loginResponse['data']['user']['username'] ?? '');
-        await LocalStorage()
-            .setAccessToken(token: loginResponse['data']['token']);
-        await LocalStorage().setFullName(
-            fullName: loginResponse['data']['user']['fullname'] ?? '');
-        await LocalStorage()
-            .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-        await LocalStorage()
-            .setUserID(userID: loginResponse['data']['user']['id']);
-        await FirebaseMessaging.instance
-            .subscribeToTopic(loginResponse['data']['user']['id'].toString());
+  //       // SAVE DATA USER
+  //       await LocalStorage()
+  //           .setDataUser(dataUser: loginResponse['data']['user']);
+  //       await LocalStorage().setUsername(
+  //           username: loginResponse['data']['user']['username'] ?? '');
+  //       await LocalStorage()
+  //           .setAccessToken(token: loginResponse['data']['token']);
+  //       await LocalStorage().setFullName(
+  //           fullName: loginResponse['data']['user']['fullname'] ?? '');
+  //       await LocalStorage()
+  //           .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+  //       await LocalStorage()
+  //           .setUserID(userID: loginResponse['data']['user']['id']);
+  //       await FirebaseMessaging.instance
+  //           .subscribeToTopic(loginResponse['data']['user']['id'].toString());
 
-        if (loginResponse['data']['user']['finish_register'] == false) {
-          Get.offAll(() => const BeautyProfilPage());
-        } else {
-          doInPost();
-        }
+  //       if (loginResponse['data']['user']['finish_register'] == false) {
+  //         Get.offAll(() => const BeautyProfilPage());
+  //       } else {
+  //         doInPost();
+  //       }
 
-        clear();
-      });
-      isLoading.value = false;
-    } catch (error) {
-      print(error.toString());
-    }
-  }
+  //       clear();
+  //     });
+  //     isLoading.value = false;
+  //   } catch (error) {
+  //     print(error.toString());
+  //   }
+  // }
 
   logIn(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
@@ -162,33 +160,46 @@ class LoginController extends StateClass {
     }
   }
 
-  // loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
-  //   isLoading.value = true;
-  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
-  //     try {
-  //       final GoogleSignIn _googleSignIn = GoogleSignIn();
-  //       GoogleSignInAccount? account = await _googleSignIn.signIn();
-  //       if (account == null) {
-  //         // User canceled the sign-in process.
-  //         return;
-  //       }
+  loginWithGoogle(BuildContext context, {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
+        final GoogleSignIn _googleSignIn = GoogleSignIn();
+        GoogleSignInAccount? account = await _googleSignIn.signIn();
+        if (account == null) {
+          // User canceled the sign-in process.
+          return;
+        }
+        _googleSignIn.signIn().then((result) {
+          result?.authentication.then((googleKey) {
+            print("ddd " + googleKey.accessToken.toString());
+            print("sss " + googleKey.idToken.toString());
+            print("aaa " + _googleSignIn.currentUser!.displayName.toString());
+          }).catchError((err) {
+            print('inner error');
+          });
+        }).catchError((err) {
+          print('error occured');
+        });
 
-  //       // You can now access user information through the "account" object
-  //       print('Display Name: ${account.displayName}');
-  //       print('Email: ${account.email}');
-  //       print('Photo URL: ${account.photoUrl}');
-  //       doInPost();
-  //     } catch (error) {
-  //       print('error heheh $error');
-  //     }
-  //   });
-  //   isLoading.value = false;
-  // }
+        // You can now access user information through the "account" object
+        // print('Display Name: ${account.displayName}');
+        // print('Email: ${account.email}');
+        // print('Photo URL: ${account.photoUrl}');
+        // print('id id id : ${account.id}');
 
-  // logoutWithGoogle() async {
-  //   final _googleSignIn = GoogleSignIn();
-  //   GoogleSignInAccount? googleSignInAccount;
-  //   googleSignInAccount = await _googleSignIn.signOut();
-  //   print("googleSignInAccount ${googleSignInAccount?.id}");
-  // }
+        doInPost();
+      } catch (error) {
+        print('error heheh $error');
+      }
+    });
+    isLoading.value = false;
+  }
+
+  logoutWithGoogle() async {
+    final _googleSignIn = GoogleSignIn();
+    GoogleSignInAccount? googleSignInAccount;
+    googleSignInAccount = await _googleSignIn.signOut();
+    print("googleSignInAccount ${googleSignInAccount?.id}");
+  }
 }
