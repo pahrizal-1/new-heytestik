@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
@@ -18,6 +21,7 @@ import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 
 class DetailObatPage extends StatefulWidget {
   const DetailObatPage({
@@ -36,16 +40,22 @@ class _DetailObatPageState extends State<DetailObatPage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
   final TextEditingController searchController = TextEditingController();
+  final CartController cart = Get.put(CartController());
   bool isVisibelity = false;
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
+
+  List<Data2> totalCart = [];
+  int page = 1;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      totalCart.addAll(await cart.getCart(context, page));
       medicineController.getOverviewProduct(context, widget.medicine.id!);
       medicineController.getReviewProduct(context, 1, 3, widget.medicine.id!);
+      setState(() {});
     });
   }
 
@@ -126,18 +136,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => const KeranjangPage()));
-              //   },
-              //   child: SvgPicture.asset(
-              //     'assets/icons/trello-icons.svg',
-              //   ),
-              // ),
-              keranjang(context, '1', blackColor),
+              keranjang(context, '${totalCart.length}', blackColor),
               const SizedBox(
                 width: 14,
               ),
@@ -1039,6 +1038,9 @@ class _DetailObatPageState extends State<DetailObatPage> {
                           onTap: () async {
                             medicineController.addMedicineToCart(
                                 context, widget.medicine.id!);
+                            totalCart.clear();
+                            totalCart.addAll(await cart.getCart(context, page));
+                            setState(() {});
                             SnackbarWidget.getSuccessSnackbar(
                               context,
                               'Info',

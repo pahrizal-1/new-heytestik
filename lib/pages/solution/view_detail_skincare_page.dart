@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,7 +21,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
-
+import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 import '../../widget/Text_widget.dart';
 
 class DetailSkinCarePage extends StatefulWidget {
@@ -42,15 +42,20 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
+
+  List<Data2> totalCart = [];
+  int page = 1;
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      totalCart.addAll(await cart.getCart(context, page));
       state.detailSkincare(context, widget.productId);
       state.getOverviewProduct(context, widget.productId);
       state.getReviewProduct(context, 1, 3, widget.productId);
       state.relatedProductSkincare(context, widget.productId);
+      setState(() {});
     });
   }
 
@@ -135,18 +140,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => const KeranjangPage()));
-              //   },
-              //   child: SvgPicture.asset(
-              //     'assets/icons/trello-icons.svg',
-              //   ),
-              // ),
-              keranjang(context, '1', blackColor),
+              keranjang(context, '${totalCart.length}', blackColor),
               const SizedBox(
                 width: 14,
               ),
@@ -1346,6 +1340,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 InkWell(
                   onTap: () async {
                     await cart.addCart(context, widget.productId, 1, '');
+                    totalCart.clear();
+                    totalCart.addAll(await cart.getCart(context, page));
+                    setState(() {});
                   },
                   child: Container(
                     height: 40,
