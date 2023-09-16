@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/my_journey_cont
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:image_cropper/image_cropper.dart';
 import '../../theme/theme.dart';
 
 class PotoBagianWajahBermasalah extends StatefulWidget {
@@ -19,6 +20,34 @@ class PotoBagianWajahBermasalah extends StatefulWidget {
 class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
   final MyJourneyController state = Get.put(MyJourneyController());
 
+  Future _cropImage() async {
+    if (state.initialConditionProblemPart != null) {
+      CroppedFile? cropped = await ImageCropper().cropImage(
+          sourcePath: state.initialConditionProblemPart!.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Crop',
+                cropGridColor: Colors.black,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(title: 'Crop')
+          ]);
+
+      if (cropped != null) {
+        setState(() {
+          state.initialConditionProblemPart = File(cropped.path);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +56,15 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Image.asset(
-              'assets/icons/zoom.png',
-              width: 21,
-              height: 21,
+          InkWell(
+            onTap: _cropImage,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: Image.asset(
+                'assets/icons/zoom.png',
+                width: 21,
+                height: 21,
+              ),
             ),
           ),
         ],
