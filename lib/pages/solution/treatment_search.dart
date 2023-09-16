@@ -114,6 +114,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
+                            if (searchController.text.isEmpty) return;
                             print("INI GW KLIK");
                             page = 1;
                             treatments.clear();
