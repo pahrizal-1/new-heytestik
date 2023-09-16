@@ -242,21 +242,25 @@ class MyJourneyController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        "initial_condition_front_face": initialConditionFrontFace?.path,
-        "initial_condition_right_side": initialConditionRightSide?.path,
-        "initial_condition_left_side": initialConditionLeftSide?.path,
-        "initial_condition_problem_part": initialConditionProblemPart?.path
+        "after_condition_front_face": initialConditionFrontFace?.path,
+        "after_condition_right_side": initialConditionRightSide?.path,
+        "after_condition_left_side": initialConditionLeftSide?.path,
+        "after_condition_problem_part": initialConditionProblemPart?.path
       };
 
-      print("data $data");
-
-      var res = await MyJourneysService().afterCondition(id, data);
-      print("data $data");
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
+      print("data ssssss $data");
+      print("id id id $id");
+      try {
+        var res = await MyJourneysService().afterCondition(id, data);
+        print("dat fffff $data");
+        if (res['success'] != true && res['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res['message'],
+          );
+        }
+      } catch (e) {
+        print("ddddd $e");
       }
 
       concernId.value = 0;

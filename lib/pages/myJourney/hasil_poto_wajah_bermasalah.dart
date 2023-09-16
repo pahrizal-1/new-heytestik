@@ -166,12 +166,14 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
                         await state.detailJourney(
                             context, state.concernId.value);
                         if (state.isAfter.value) {
+                          print("PACT BARUUUUU");
                           await state
                               .afterCondition(context, state.concernId.value,
                                   doInPost: () async {
                             redirect();
                           });
                         } else {
+                          print("BUAT BARuuuuuuuU");
                           await state.saveJourney(context, doInPost: () async {
                             redirect();
                           });
