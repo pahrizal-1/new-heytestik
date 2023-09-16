@@ -68,64 +68,67 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: stateProfile
-                                                  .profileData.value.data !=
-                                              null
-                                          ? NetworkImage(
-                                                  '${Global.FILE}/${stateProfile.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
-                                              as ImageProvider
-                                          : AssetImage(
-                                              'assets/images/doctor1.png'),
+                            Obx(
+                              () => Row(
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: stateProfile
+                                                    .profileData.value.data !=
+                                                null
+                                            ? NetworkImage(
+                                                    '${Global.FILE}/${stateProfile.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
+                                                as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/doctor1.png'),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 15, left: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Hai,',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'ProximaNova',
-                                          color: whiteColor,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Obx(
-                                        () => Text(
-                                          stateProfile.profileData.value.data !=
-                                                  null
-                                              ? stateProfile.profileData.value
-                                                  .data!.fullname
-                                                  .toString()
-                                              : '-',
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15, left: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Hai,',
                                           style: TextStyle(
-                                            fontWeight: bold,
-                                            fontFamily: 'ProximaNova',
                                             fontSize: 16,
-                                            color: Colors.white,
+                                            fontFamily: 'ProximaNova',
+                                            color: whiteColor,
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Obx(
+                                          () => Text(
+                                            stateProfile.profileData.value
+                                                        .data !=
+                                                    null
+                                                ? stateProfile.profileData.value
+                                                    .data!.fullname
+                                                    .toString()
+                                                : '-',
+                                            style: TextStyle(
+                                              fontWeight: bold,
+                                              fontFamily: 'ProximaNova',
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             InkWell(
                               onTap: () {
