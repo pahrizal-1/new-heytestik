@@ -139,171 +139,175 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(55.0),
-          child: SizedBox(
-            height: 50.0,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 26, top: 9, right: 26, bottom: 8),
-                child: Row(
-                  children: [
-                    filter.isEmpty
-                        ? Container()
-                        : InkWell(
-                            onTap: () async {
-                              filter.clear();
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50.0,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 26, top: 9, right: 26, bottom: 8),
+                    child: Row(
+                      children: [
+                        filter.isEmpty
+                            ? Container()
+                            : InkWell(
+                                onTap: () async {
+                                  filter.clear();
+                                  page = 1;
+                                  history.clear();
+                                  history.addAll(await state.getAllHistory(
+                                      context, page,
+                                      search: search, filter: filter));
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: borderColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: const Icon(Icons.close),
+                                ),
+                              ),
+                        InkWell(
+                          onTap: () {
+                            customeshomodal(context, FilterStatusTransaksi())
+                                .then((value) async {
+                              filter['transaction_status[]'] = value;
                               page = 1;
                               history.clear();
                               history.addAll(await state.getAllHistory(
                                   context, page,
                                   search: search, filter: filter));
                               setState(() {});
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 5),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: borderColor,
                               ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: borderColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Row(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Status Transaksi',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                              child: const Icon(Icons.close),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const Icon(Icons.keyboard_arrow_down)
+                              ],
                             ),
                           ),
-                    InkWell(
-                      onTap: () {
-                        customeshomodal(context, FilterStatusTransaksi())
-                            .then((value) async {
-                          filter['transaction_status[]'] = value;
-                          page = 1;
-                          history.clear();
-                          history.addAll(await state.getAllHistory(
-                              context, page,
-                              search: search, filter: filter));
-                          setState(() {});
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
                         ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Status Transaksi',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15),
+                        InkWell(
+                          onTap: () {
+                            customeshomodal(context, FilterJenisTransaksi())
+                                .then((value) async {
+                              filter['transaction_type[]'] = value;
+                              page = 1;
+                              history.clear();
+                              history.addAll(await state.getAllHistory(
+                                  context, page,
+                                  search: search, filter: filter));
+                              setState(() {});
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: borderColor,
                               ),
+                              borderRadius: BorderRadius.circular(7),
                             ),
-                            const SizedBox(
-                              width: 6,
+                            child: Row(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Jenis Transaksi',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const Icon(Icons.keyboard_arrow_down)
+                              ],
                             ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
+                          ),
                         ),
-                      ),
+                        InkWell(
+                          onTap: () {
+                            customeshomodal(context, FilterTanggalTransaksi())
+                                .then((value) async {
+                              filter['start_date'] = DateTime.now()
+                                  .subtract(Duration(days: value));
+                              filter['end_date'] = DateTime.now()
+                                  .subtract(Duration(days: value));
+                              page = 1;
+                              history.clear();
+                              history.addAll(await state.getAllHistory(
+                                  context, page,
+                                  search: search, filter: filter));
+                              setState(() {});
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: borderColor,
+                              ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Row(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Tanggal Transaksi',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const Icon(Icons.keyboard_arrow_down)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        customeshomodal(context, FilterJenisTransaksi())
-                            .then((value) async {
-                          filter['transaction_type[]'] = value;
-                          page = 1;
-                          history.clear();
-                          history.addAll(await state.getAllHistory(
-                              context, page,
-                              search: search, filter: filter));
-                          setState(() {});
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Jenis Transaksi',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        customeshomodal(context, FilterTanggalTransaksi())
-                            .then((value) async {
-                          filter['start_date'] =
-                              DateTime.now().subtract(Duration(days: value));
-                          filter['end_date'] =
-                              DateTime.now().subtract(Duration(days: value));
-                          page = 1;
-                          history.clear();
-                          history.addAll(await state.getAllHistory(
-                              context, page,
-                              search: search, filter: filter));
-                          setState(() {});
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Row(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Tanggal Transaksi',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            const Icon(Icons.keyboard_arrow_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -328,10 +332,12 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                       const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
-                      Get.to(() => MenungguPemayaranPage(
-                            search: search,
-                            filter: filter,
-                          ));
+                      Get.to(
+                        () => MenungguPemayaranPage(
+                          search: search,
+                          filter: filter,
+                        ),
+                      );
                     },
                     child: Row(
                       children: [
