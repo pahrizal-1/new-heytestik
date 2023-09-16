@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/widget/filter_jenis_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -20,7 +19,7 @@ import '../../widget/filter_tanggal_transaksi.dart';
 import '../../widget/show_modal_dialog.dart';
 
 class DaftarTransaksiPage extends StatefulWidget {
-  DaftarTransaksiPage({super.key});
+  const DaftarTransaksiPage({super.key});
 
   @override
   State<DaftarTransaksiPage> createState() => _DaftarTransaksiPageState();
