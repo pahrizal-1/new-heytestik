@@ -21,7 +21,6 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
-import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 import '../../widget/Text_widget.dart';
 
 class DetailSkinCarePage extends StatefulWidget {
@@ -43,14 +42,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   bool? isWishlist;
   Map<String, int> helpReview = {};
 
-  List<Data2> totalCart = [];
-  int page = 1;
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      totalCart.addAll(await cart.getCart(context, page));
       state.detailSkincare(context, widget.productId);
       state.getOverviewProduct(context, widget.productId);
       state.getReviewProduct(context, 1, 3, widget.productId);
@@ -140,7 +136,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               const SizedBox(
                 width: 14,
               ),
-              keranjang(context, '${totalCart.length}', blackColor),
+              TotalKeranjang(iconcolor: blackColor),
               const SizedBox(
                 width: 14,
               ),
@@ -1340,9 +1336,6 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 InkWell(
                   onTap: () async {
                     await cart.addCart(context, widget.productId, 1, '');
-                    totalCart.clear();
-                    totalCart.addAll(await cart.getCart(context, page));
-                    setState(() {});
                   },
                   child: Container(
                     height: 40,

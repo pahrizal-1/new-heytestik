@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_contr
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
@@ -15,7 +16,6 @@ import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/produk_wishlist_widgets.dart';
-import '../solution/keranjang_page.dart';
 
 class WishListPage extends StatefulWidget {
   const WishListPage({super.key});
@@ -74,19 +74,7 @@ class _WishListPageState extends State<WishListPage> {
               fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const KeranjangPage(),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/trello-icons.svg',
-            ),
-          ),
+          TotalKeranjang(iconcolor: blackColor),
           const SizedBox(
             width: 14,
           ),

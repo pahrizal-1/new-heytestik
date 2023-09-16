@@ -136,37 +136,11 @@ class _SolutionPageState extends State<SolutionPage> {
         actions: [
           Row(
             children: [
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotifikasionPage(),
-              //       ),
-              //     );
-              //   },
-              //   child: SvgPicture.asset(
-              //     color: whiteColor,
-              //     'assets/icons/notif-icons.svg',
-              //   ),
-              // ),
               notificasion(context, '1', whiteColor),
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => const KeranjangPage()));
-              //   },
-              //   child: SvgPicture.asset(
-              //     color: whiteColor,
-              //     'assets/icons/trello-icons.svg',
-              //   ),
-              // ),
-              keranjang(context, '1', whiteColor),
+              TotalKeranjang(iconcolor: whiteColor),
               const SizedBox(
                 width: 14,
               ),

@@ -115,7 +115,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
               const SizedBox(
                 width: 14,
               ),
-              keranjang(context, '2', blackColor),
+              TotalKeranjang(iconcolor: blackColor),
               const SizedBox(
                 width: 14,
               ),

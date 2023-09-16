@@ -178,6 +178,7 @@ class AlertSuccessWishlist extends StatelessWidget {
             ButtonGreenWidget(
               title: 'Cek Wishlist',
               onPressed: () {
+                Get.back();
                 Get.to(const WishListPage());
               },
             ),

@@ -10,12 +10,12 @@ class CartService extends ProviderClass {
   CartService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<CartModel> getCart(int page, {String? search}) async {
+  Future<CartModel> getCart(int page, int take, {String? search}) async {
     var response = await networkingConfig.doGet(
       '/user-cart',
       params: {
         "page": page,
-        "take": 10,
+        "take": take,
         "order": "desc",
         "search": search,
       },

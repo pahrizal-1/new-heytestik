@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
@@ -14,6 +15,8 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
 
 class MedicineController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
+  CartController state = CartController();
+
   List<Data2> data = [];
 
   Rx<Overview.Data> overviewMedicine = Overview.Data.fromJson({}).obs;
@@ -58,7 +61,7 @@ class MedicineController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       SolutionService().addMedicineToCart(productID);
     });
-
+    await state.totalCartFunc();
     isLoading.value = false;
   }
 

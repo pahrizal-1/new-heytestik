@@ -127,7 +127,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
               const SizedBox(
                 width: 14,
               ),
-              keranjang(context, '2', blackColor),
+              TotalKeranjang(iconcolor: blackColor),
               const SizedBox(
                 width: 14,
               ),
