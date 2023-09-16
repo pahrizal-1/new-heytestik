@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kiri.dart'
 import '../../theme/theme.dart';
 
 class PotoBagianWajahKanan extends StatefulWidget {
-  PotoBagianWajahKanan({super.key});
+  const PotoBagianWajahKanan({super.key});
 
   @override
   State<PotoBagianWajahKanan> createState() => _PotoBagianWajahKananState();

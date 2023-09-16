@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_zoom_bermasalah.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_bermasalah.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kanan.dart';
 
 import '../../theme/theme.dart';
 
 class PotoBagianWajahKiri extends StatefulWidget {
-  PotoBagianWajahKiri({super.key});
+  const PotoBagianWajahKiri({super.key});
 
   @override
   State<PotoBagianWajahKiri> createState() => _PotoBagianWajahKiriState();

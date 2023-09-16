@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/hasil_kosultasi_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 
 class PotoBagianWajahBermasalah extends StatefulWidget {
-  PotoBagianWajahBermasalah({super.key});
+  const PotoBagianWajahBermasalah({super.key});
 
   @override
   State<PotoBagianWajahBermasalah> createState() =>
@@ -136,7 +135,26 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
                             'Info',
                             'Journey berhasil disimpan',
                           );
-                          Get.off(GaleryMyJourney());
+                          if (state.isGallery.value) {
+                            Get
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back();
+                          } else {
+                            Get
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back()
+                              ..back();
+                          }
+
+                          Get.to(GaleryMyJourney());
                         });
                       },
                       style: TextButton.styleFrom(
