@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/widget/filter_publish_widgets.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/alert_dialog.dart';
 import '../../widget/text_form_widget.dart';
 
 class BuatPostingaPollPage extends StatefulWidget {
@@ -156,7 +155,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Siapa Yang Bisa Melihat Postingan Ini',
+                                        'Siapa Yang Bisa Melihat Postingan Ini?',
                                         style: blackTextStyle.copyWith(
                                             fontSize: 16),
                                       ),
