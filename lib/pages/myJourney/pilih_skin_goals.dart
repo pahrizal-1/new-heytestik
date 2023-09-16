@@ -144,6 +144,7 @@ class PilihSkinGoalMyJourney extends StatelessWidget {
                       image: NetworkImage(
                         img,
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
