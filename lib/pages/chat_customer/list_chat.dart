@@ -176,7 +176,7 @@ class DoctorChat extends StatelessWidget {
                           image: NetworkImage(
                             img,
                           ),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     )

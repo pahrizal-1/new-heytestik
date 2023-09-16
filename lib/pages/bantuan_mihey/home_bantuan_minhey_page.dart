@@ -623,7 +623,7 @@ class HomeMinheyPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () => launchUrl(Uri.parse(
-                        'whatsapp://send?text=Hello&phone=+6285727013292')),
+                        'https://api.whatsapp.com/send?phone=6285727013292')),
                     child: Text(
                       '+62 8517 120 2394',
                       style: grenTextStyle.copyWith(

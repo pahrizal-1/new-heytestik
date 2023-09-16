@@ -435,21 +435,25 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                   width: 12,
                 ),
                 InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        isDismissible: false,
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      isDismissible: false,
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(25),
+                          topStart: Radius.circular(25),
                         ),
-                        builder: (context) => PesananMoreDialog(),
-                      );
-                    },
-                    child: Icon(Icons.keyboard_arrow_down))
+                      ),
+                      builder: (context) => PesananMoreDialog(),
+                    );
+                  },
+                  child: Icon(
+                    Icons.keyboard_arrow_up,
+                    size: 30,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
