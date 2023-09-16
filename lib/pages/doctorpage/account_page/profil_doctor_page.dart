@@ -126,12 +126,18 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                         ],
                       ),
                       InkWell(
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          String refresh = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const EditProfilePage()),
                           );
+
+                          if (refresh == 'refresh') {
+                            setState(() {
+                              state.getProfile(context);
+                            });
+                          }
                         },
                         child: Container(
                           height: 20,

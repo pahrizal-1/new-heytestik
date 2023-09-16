@@ -338,13 +338,13 @@ class DoctorProfileController extends StateClass {
       );
 
       print(response);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const TabBarDoctor(),
-        ),
-      );
+      Navigator.pop(context, 'refresh');
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const TabBarDoctor(),
+      //   ),
+      // );
     } catch (e) {
       print('err ${e}');
     }

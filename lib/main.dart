@@ -64,6 +64,7 @@ void main() async {
   );
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print("NOTIF DI TAP NIHH ${message.toMap()}");
+    print('${message.data}');
   });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
