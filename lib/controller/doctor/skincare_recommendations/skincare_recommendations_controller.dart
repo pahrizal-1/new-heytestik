@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -68,7 +66,7 @@ class SkincareRecommendationController extends StateClass {
   getSkincare(BuildContext context) async {
     isLoadingSkincare.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getSkincare();
+      var res = await SolutionService().getAllSkincare(1);
 
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
@@ -155,7 +153,8 @@ class SkincareRecommendationController extends StateClass {
   deleteTreatment(BuildContext context, int id) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
-      var res = await SkincareRecommendationService().deleteSkincareRecommendation(id);
+      var res = await SkincareRecommendationService()
+          .deleteSkincareRecommendation(id);
       getSkincareRecommendation(context);
       isLoading.value = false;
     });

@@ -234,8 +234,9 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                             .map(
                               (e) => TampilanRight(
                                 treatment: e,
-                                urlImg:
-                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                urlImg: e.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                               ),
                             )
                             .toList()),

@@ -147,6 +147,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           children: [
             Padding(
@@ -212,8 +213,9 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                             .map(
                               (e) => TampilanRight(
                                 treatment: e,
-                                urlImg:
-                                    "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                urlImg: e.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
                               ),
                             )
                             .toList()),

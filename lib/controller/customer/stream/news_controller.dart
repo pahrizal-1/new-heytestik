@@ -14,6 +14,7 @@ class NewsController extends StateClass {
   Rx<NewsCategoryModel?> category = NewsCategoryModel().obs;
   Rx<NewsTagModel?> tag = NewsTagModel().obs;
   List categoryArticle = [];
+  RxInt totalArticel = 0.obs;
 
   Future<ArticleModel?> getArticle(
       BuildContext context, String categoryId, String tagId) async {
@@ -39,6 +40,8 @@ class NewsController extends StateClass {
 
       // GET CATEGORY
       await getCategory(context);
+
+      totalArticel.value = article.value!.record!.length;
 
       for (int i = 0; i < article.value!.record!.length; i++) {
         article.value!.record![i].newscategoryId;

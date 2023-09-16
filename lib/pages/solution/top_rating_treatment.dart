@@ -240,7 +240,8 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                               (e) => TampilanRight(
                                   treatment: e,
                                   urlImg:
-                                      "${Global.FILE}/${e.mediaTreatments![0].media!.path!}"),
+                                    e.mediaTreatments!.isEmpty
+                                  ? "":  "${Global.FILE}/${e.mediaTreatments![0].media!.path!}"),
                             )
                             .toList()),
                   ),
