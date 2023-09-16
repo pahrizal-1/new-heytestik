@@ -22,30 +22,9 @@ Widget notificasion(
         ),
       );
     },
-    child: Stack(
-      children: [
-        SvgPicture.asset(
-          'assets/icons/notif-icons.svg',
-          color: iconsColor,
-        ),
-        Container(
-          height: 15,
-          width: 15,
-          transform: Matrix4.translationValues(
-            9,
-            -4,
-            10,
-          ),
-          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-          child: Center(
-            child: Text(
-              jumlah,
-              style: whiteTextStyle.copyWith(
-                  fontSize: 9, fontWeight: FontWeight.bold),
-            ),
-          ),
-        )
-      ],
+    child: SvgPicture.asset(
+      'assets/icons/notif-icons.svg',
+      color: iconsColor,
     ),
   );
 }
