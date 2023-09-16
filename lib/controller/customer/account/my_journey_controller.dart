@@ -248,19 +248,13 @@ class MyJourneyController extends StateClass {
         "after_condition_problem_part": initialConditionProblemPart?.path
       };
 
-      print("data ssssss $data");
-      print("id id id $id");
-      try {
-        var res = await MyJourneysService().afterCondition(id, data);
-        print("dat fffff $data");
-        if (res['success'] != true && res['message'] != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res['message'],
-          );
-        }
-      } catch (e) {
-        print("ddddd $e");
+      var res = await MyJourneysService().afterCondition(id, data);
+
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
       }
 
       concernId.value = 0;
