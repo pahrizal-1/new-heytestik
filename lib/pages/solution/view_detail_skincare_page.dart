@@ -11,15 +11,14 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
-import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/skincare_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 
@@ -38,6 +37,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController state = Get.put(SkincareController());
   final WishlistController wishlist = Get.put(WishlistController());
   final CartController cart = Get.put(CartController());
+  final TextEditingController searchController = TextEditingController();
   bool isVisibelity = false;
   bool? help;
   bool? isWishlist;
@@ -100,7 +100,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PencarianPageWidget(),
+                      builder: (context) => SkincareSearch(
+                        search: searchController.text,
+                      ),
                     ),
                   );
                 },
