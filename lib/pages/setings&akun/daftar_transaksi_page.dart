@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/keranjang_page.dart';
 import 'package:heystetik_mobileapps/widget/filter_jenis_transaksi.dart';
+import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
@@ -113,30 +114,27 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
           ),
         ),
         actions: [
-          const SizedBox(
-            width: 10,
-          ),
-          InkWell(
-            onTap: () {
-              Get.to(KeranjangPage());
-            },
-            child: SvgPicture.asset(
-              'assets/icons/trello-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 14,
-          ),
-          InkWell(
-            onTap: () {
-              Get.to(AkunHomePage());
-            },
-            child: SvgPicture.asset(
-              'assets/icons/humberger-icons.svg',
-            ),
-          ),
-          const SizedBox(
-            width: 26,
+          Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              TotalKeranjang(iconcolor: blackColor),
+              const SizedBox(
+                width: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(AkunHomePage());
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/humberger-icons.svg',
+                ),
+              ),
+              const SizedBox(
+                width: 26,
+              ),
+            ],
           ),
         ],
         bottom: PreferredSize(
@@ -519,6 +517,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 }
                                 return null;
                               },
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Obx(
                               () => state.isLoading.value
