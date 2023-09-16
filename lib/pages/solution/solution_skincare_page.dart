@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -20,6 +21,8 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
 import 'category_skincare.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 
 class SolutionSkincare1Page extends StatefulWidget {
   const SolutionSkincare1Page({super.key});
@@ -472,29 +475,59 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                 width: 78,
                               ),
                             ),
-                            // const SizedBox(
-                            //   width: 5,
-                            // ),
-                            // Container(
-                            //   height: 30,
-                            //   margin: const EdgeInsets.only(right: 5),
-                            //   padding: const EdgeInsets.only(left: 11.5),
-                            //   decoration: BoxDecoration(
-                            //     border: Border.all(color: borderColor),
-                            //     borderRadius: BorderRadius.circular(7),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Text(
-                            //         'Etalase Skincare',
-                            //         style: blackRegulerTextStyle.copyWith(
-                            //           fontSize: 15,
-                            //         ),
-                            //       ),
-                            //       const Icon(Icons.keyboard_arrow_down)
-                            //     ],
-                            //   ),
-                            // )
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                showModalBottomSheet(
+                                  isDismissible: false,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) => FilterEtalase(),
+                                ).then((value) async {
+                                  filter['concern_ids[]'] =
+                                      value['concern_ids'];
+                                  skincare.clear();
+                                  page = 1;
+                                  skincare.addAll(
+                                    await state.getAllSkincare(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                });
+                              },
+                              child: Container(
+                                height: 30,
+                                margin: const EdgeInsets.only(right: 5),
+                                padding: const EdgeInsets.only(left: 11.5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: borderColor),
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Etalase Skincare',
+                                      style: blackRegulerTextStyle.copyWith(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const Icon(Icons.keyboard_arrow_down)
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -633,7 +666,10 @@ class _FilterAllState extends State<FilterAll> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, {
+                      "display": [],
+                      "category": [],
+                    });
                   },
                   child: Container(
                     width: 165,
@@ -659,6 +695,122 @@ class _FilterAllState extends State<FilterAll> {
                       Navigator.pop(context, {
                         "display": display,
                         "category": category,
+                      });
+                    },
+                    child: Container(
+                      width: 165,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Simpan',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FilterEtalase extends StatefulWidget {
+  const FilterEtalase({super.key});
+
+  @override
+  State<FilterEtalase> createState() => _FilterEtalaseState();
+}
+
+class _FilterEtalaseState extends State<FilterEtalase> {
+  final EtalaseController state = Get.put(EtalaseController());
+  List<Concern.Data2> concern = [];
+  List concernIds = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      concern.addAll(await state.getConcern(context));
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filter',
+              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 31,
+            ),
+            Text(
+              'Pilih Concern',
+              style: blackRegulerTextStyle.copyWith(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ...concern.map((e) {
+              return FilterTapProduct(
+                title: e.name.toString(),
+                function: () {
+                  concernIds.add(e.id.toString());
+                },
+              );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context, {
+                      "concern_ids": [],
+                    });
+                  },
+                  child: Container(
+                    width: 165,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Batal',
+                        style: grenTextStyle.copyWith(
+                            fontSize: 15, fontWeight: bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.pop(context, {
+                        "concern_ids": concernIds,
                       });
                     },
                     child: Container(

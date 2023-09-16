@@ -158,38 +158,37 @@ class SolutionService extends ProviderClass {
     return ConcernModel.fromJson(response);
   }
 
-  Future<MedicineModel> getMedicine(int page) async {
-    var response = await networkingConfig.doGet(
-      '/solution/drug',
-      params: {
-        "page": page,
-        "take": 10,
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
+  Future<MedicineModel> getMedicine(
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+      "order": "desc"
+    };
 
-    return MedicineModel.fromJson(response);
-  }
+    if (filter != null) {
+      params.addAll(filter);
+    }
+    print("params $params");
+    try {
+      var response = await networkingConfig.doGet(
+        '/solution/drug',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
 
-  Future<MedicineModel> getMedicineByConcern(int page, List concern) async {
-    var response = await networkingConfig.doGet(
-      '/solution/drug',
-      params: {
-        "page": page,
-        "take": 100,
-        "order": "desc",
-        "concern_ids[]": concern,
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-
-    return MedicineModel.fromJson(response);
+      return MedicineModel.fromJson(response);
+    } catch (error) {
+      print(error);
+      return MedicineModel();
+    }
   }
 
   Future<DrugRecipeModel> getDrugRecipe(int page) async {

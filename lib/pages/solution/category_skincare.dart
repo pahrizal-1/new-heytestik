@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -15,6 +16,8 @@ import '../../widget/produk_height_widget.dart';
 import 'view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 
 class CategorySkinCare extends StatefulWidget {
   String category;
@@ -198,141 +201,60 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                 width: 78,
                               ),
                             ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     showModalBottomSheet(
-                            //       isDismissible: false,
-                            //       context: context,
-                            //       backgroundColor: Colors.white,
-                            //       shape: const RoundedRectangleBorder(
-                            //         borderRadius: BorderRadiusDirectional.only(
-                            //           topEnd: Radius.circular(25),
-                            //           topStart: Radius.circular(25),
-                            //         ),
-                            //       ),
-                            //       builder: (context) => Wrap(
-                            //         children: [
-                            //           Padding(
-                            //             padding: const EdgeInsets.only(
-                            //                 left: 25,
-                            //                 right: 25,
-                            //                 top: 36,
-                            //                 bottom: 20),
-                            //             child: Column(
-                            //               mainAxisAlignment:
-                            //                   MainAxisAlignment.start,
-                            //               crossAxisAlignment:
-                            //                   CrossAxisAlignment.start,
-                            //               children: [
-                            //                 Row(
-                            //                   children: [
-                            //                     InkWell(
-                            //                       onTap: () {
-                            //                         Navigator.pop(context);
-                            //                       },
-                            //                       child: Image.asset(
-                            //                         'assets/icons/danger-icons.png',
-                            //                         width: 14,
-                            //                       ),
-                            //                     ),
-                            //                     const SizedBox(
-                            //                       width: 22,
-                            //                     ),
-                            //                     Text(
-                            //                       'Filter',
-                            //                       style: blackHigtTextStyle
-                            //                           .copyWith(fontSize: 20),
-                            //                     ),
-                            //                   ],
-                            //                 ),
-                            //                 const SizedBox(
-                            //                   height: 31,
-                            //                 ),
-                            //                 const FilterTapTreatment(
-                            //                   title: 'Rating Tertinggi',
-                            //                 ),
-                            //                 const SizedBox(
-                            //                   height: 18,
-                            //                 ),
-                            //                 const FilterTapTreatment(
-                            //                   title: 'Ulasan Terbanyaki',
-                            //                 ),
-                            //                 const SizedBox(
-                            //                   height: 18,
-                            //                 ),
-                            //                 const FilterTapTreatment(
-                            //                   title: 'Treatment Terlaris',
-                            //                 ),
-                            //                 const SizedBox(
-                            //                   height: 29,
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     );
-                            //   },
-                            //   child: Container(
-                            //     margin: const EdgeInsets.only(left: 9),
-                            //     padding: const EdgeInsets.only(
-                            //         left: 10, right: 10, top: 6, bottom: 6),
-                            //     height: 30,
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(7),
-                            //       border: Border.all(color: borderColor),
-                            //     ),
-                            //     child: Row(
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       crossAxisAlignment: CrossAxisAlignment.center,
-                            //       children: [
-                            //         Text('Urutkan'),
-                            //         SizedBox(
-                            //           width: 9,
-                            //         ),
-                            //         Icon(
-                            //           Icons.keyboard_arrow_down,
-                            //           size: 15,
-                            //         )
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     // Navigator.push(
-                            //     //   context,
-                            //     //   MaterialPageRoute(
-                            //     //     builder: (context) =>
-                            //     //         const EtalaseTreatMentPage(),
-                            //     //   ),
-                            //     // );
-                            //   },
-                            //   child: Container(
-                            //     margin: const EdgeInsets.only(left: 9),
-                            //     padding: const EdgeInsets.only(
-                            //         left: 10, right: 10, top: 6, bottom: 6),
-                            //     height: 30,
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(7),
-                            //       border: Border.all(color: borderColor),
-                            //     ),
-                            //     child: Row(
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       crossAxisAlignment: CrossAxisAlignment.center,
-                            //       children: [
-                            //         Text('Retalase Treatment'),
-                            //         SizedBox(
-                            //           width: 9,
-                            //         ),
-                            //         Icon(
-                            //           Icons.keyboard_arrow_down,
-                            //           size: 15,
-                            //         )
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
+                            InkWell(
+                              onTap: () async {
+                                showModalBottomSheet(
+                                  isDismissible: false,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) => FilterEtalase(),
+                                ).then((value) async {
+                                  filter['concern_ids[]'] =
+                                      value['concern_ids'];
+                                  skincare.clear();
+                                  page = 1;
+                                  skincare.addAll(
+                                    await state.getAllSkincare(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 9),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(color: borderColor),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('Etalase Treatment'),
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -352,30 +274,6 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                           '${skincare.length} Produk',
                           style: greyTextStyle.copyWith(fontSize: 15),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     setState(() {
-                        //       isSelecteTampilan = !isSelecteTampilan;
-                        //     });
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       Text(
-                        //         'Tampilan',
-                        //         style: subTitleTextStyle.copyWith(
-                        //             color: const Color(0xff6B6B6B)),
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 4,
-                        //       ),
-                        //       isSelecteTampilan
-                        //           ? SvgPicture.asset(
-                        //               'assets/icons/tampilan1.svg')
-                        //           : SvgPicture.asset(
-                        //               'assets/icons/tampillan2.svg')
-                        //     ],
-                        //   ),
-                        // )
                       ],
                     ),
                   ),
@@ -543,6 +441,122 @@ class _FilterAllState extends State<FilterAll> {
                       Navigator.pop(context, {
                         "display": display,
                         "category": category,
+                      });
+                    },
+                    child: Container(
+                      width: 165,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Simpan',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FilterEtalase extends StatefulWidget {
+  const FilterEtalase({super.key});
+
+  @override
+  State<FilterEtalase> createState() => _FilterEtalaseState();
+}
+
+class _FilterEtalaseState extends State<FilterEtalase> {
+  final EtalaseController state = Get.put(EtalaseController());
+  List<Concern.Data2> concern = [];
+  List concernIds = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      concern.addAll(await state.getConcern(context));
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filter',
+              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 31,
+            ),
+            Text(
+              'Pilih Concern',
+              style: blackRegulerTextStyle.copyWith(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ...concern.map((e) {
+              return FilterTapProduct(
+                title: e.name.toString(),
+                function: () {
+                  concernIds.add(e.id.toString());
+                },
+              );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context, {
+                      "concern_ids": [],
+                    });
+                  },
+                  child: Container(
+                    width: 165,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Batal',
+                        style: grenTextStyle.copyWith(
+                            fontSize: 15, fontWeight: bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.pop(context, {
+                        "concern_ids": concernIds,
                       });
                     },
                     child: Container(

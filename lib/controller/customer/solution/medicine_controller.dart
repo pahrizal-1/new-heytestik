@@ -24,23 +24,19 @@ class MedicineController extends StateClass {
   RxBool isLoadingProductReviewMedicine = false.obs;
 
   Future<List<Medicine.Data2>> getMedicine(
-      BuildContext context, int page) async {
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     isLoading.value = true;
     List<Medicine.Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getMedicine(page);
-      data = res.data!.data!;
-    });
-    isLoading.value = false;
-    return data;
-  }
-
-  Future<List<Medicine.Data2>> getMedicineByConcern(
-      BuildContext context, int page, List concern) async {
-    isLoading.value = true;
-    List<Medicine.Data2> data = [];
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getMedicineByConcern(page, concern);
+      var res = await SolutionService().getMedicine(
+        page,
+        search: search,
+        filter: filter,
+      );
       data = res.data!.data!;
     });
     isLoading.value = false;
