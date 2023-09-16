@@ -64,7 +64,7 @@ void main() async {
     sound: true,
   );
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print("NOTIF DI TAP NIHH $message");
+    print("NOTIF DI TAP NIHH ${message.toMap()}");
   });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
@@ -80,10 +80,11 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+    print('Message data: ${message.toMap()}');
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      print(
+          'Message also contained a notification: ${message.notification?.toMap()}');
     }
 
     RemoteNotification? notification = message.notification;
