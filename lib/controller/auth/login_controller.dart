@@ -171,24 +171,61 @@ class LoginController extends StateClass {
           return;
         }
         _googleSignIn.signIn().then((result) {
-          result?.authentication.then((googleKey) {
-            print("ddd " + googleKey.accessToken.toString());
-            print("sss " + googleKey.idToken.toString());
-            print("aaa " + _googleSignIn.currentUser!.displayName.toString());
+          result?.authentication.then((googleKey) async {
+            print("accessToken " + googleKey.accessToken.toString());
+            print("displayName " +
+                _googleSignIn.currentUser!.displayName.toString());
+
+            var data = {
+              'token': googleKey.accessToken.toString(),
+            };
+
+            var loginResponse = await LoginService().loginWithGoogle(data);
+
+            if (loginResponse['success'] != true &&
+                loginResponse['message'] != 'Success') {
+              throw ErrorConfig(
+                cause: ErrorConfig.anotherUnknow,
+                message: loginResponse['message'],
+              );
+            }
+            print(loginResponse);
+            print(loginResponse['data']['token']);
+            print(loginResponse['data']['user']['fullname']);
+            print(loginResponse['data']['user']['roleId']);
+            print(loginResponse['data']['user']['id']);
+            print(loginResponse['data']['user']['username']);
+            print(loginResponse['data']['user']['id'].toString());
+
+            // SAVE DATA USER
+            await LocalStorage()
+                .setDataUser(dataUser: loginResponse['data']['user']);
+            await LocalStorage().setUsername(
+                username: loginResponse['data']['user']['username'] ?? '');
+            await LocalStorage()
+                .setAccessToken(token: loginResponse['data']['token']);
+            await LocalStorage().setFullName(
+                fullName: loginResponse['data']['user']['fullname'] ?? '');
+            await LocalStorage()
+                .setRoleID(roleID: loginResponse['data']['user']['roleId']);
+            await LocalStorage()
+                .setUserID(userID: loginResponse['data']['user']['id']);
+            await FirebaseMessaging.instance.subscribeToTopic(
+                loginResponse['data']['user']['id'].toString());
+
+            if (loginResponse['data']['user']['finish_register'] == false) {
+              Get.offAll(() => const BeautyProfilPage());
+            } else {
+              doInPost();
+            }
+
+            clear();
           }).catchError((err) {
             print('inner error');
           });
         }).catchError((err) {
           print('error occured');
         });
-
-        // You can now access user information through the "account" object
-        // print('Display Name: ${account.displayName}');
-        // print('Email: ${account.email}');
-        // print('Photo URL: ${account.photoUrl}');
-        // print('id id id : ${account.id}');
-
-        doInPost();
       } catch (error) {
         print('error heheh $error');
       }

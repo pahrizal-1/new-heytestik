@@ -263,17 +263,13 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             InkWell(
               onTap: () async {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => LoginGooglePage(),
-                //   ),
-                // );
-
                 await state.loginWithGoogle(
                   context,
-                  doInPost: () async {},
+                  doInPost: () async {
+                    await state.redirectTo();
+                  },
                 );
+                await state.logoutWithGoogle();
               },
               child: Image.asset(
                 'assets/images/Frame 70.png',
