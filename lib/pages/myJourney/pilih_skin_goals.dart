@@ -1,14 +1,15 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/appar_cutome.dart';
 import '../../widget/text_form_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 
 class PilihSkinGoals extends StatefulWidget {
   const PilihSkinGoals({super.key});
@@ -23,12 +24,8 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      get(context);
+      state.getConcern(context);
     });
-  }
-
-  get(BuildContext context) async {
-    await state.getInterestConditions(context);
   }
 
   @override
@@ -61,16 +58,15 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                     () => state.filterData.isEmpty
                         ? const Center(
                             child: Text(
-                              'skin goal Tidak Di Temukan',
+                              'Skin Goal Tidak Di Temukan',
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
                           )
-                        : GroupedListView<Data, String>(
-                            elements: state.filterData.toList(),
-                            groupBy: (element) =>
-                                element.category!.name.toString(),
+                        : GroupedListView<Data2, String>(
+                            elements: state.filterData.value.toList(),
+                            groupBy: (element) => element.segment.toString(),
                             groupComparator: (value1, value2) =>
                                 value2.compareTo(value1),
                             order: GroupedListOrder.ASC,
@@ -90,7 +86,8 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                               return PilihSkinGoalMyJourney(
                                 interestConditionId: element.id,
                                 title: element.name.toString(),
-                                img: 'assets/images/pelkhitam.png',
+                                img:
+                                    '${Global.FILE}/${element.mediaConcern?.media?.path}',
                               );
                             },
                           ),
@@ -144,7 +141,7 @@ class PilihSkinGoalMyJourney extends StatelessWidget {
                     color: const Color(0xffD9D9D9),
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                         img,
                       ),
                     ),

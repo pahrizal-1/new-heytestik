@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart'
-    as Interest;
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 import 'package:heystetik_mobileapps/models/customer/my_journey_by_id_model.dart'
     as MyJourneyById;
 import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_doctor_note_model.dart'
@@ -18,8 +18,8 @@ import 'package:heystetik_mobileapps/models/customer/my_journey_schedule_treatme
     as ScheduleTreatment;
 import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_model.dart'
     as HistoryConsultation;
-import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/service/customer/my_journey/my_journey_service.dart';
+import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyJourneyController extends StateClass {
@@ -51,9 +51,10 @@ class MyJourneyController extends StateClass {
       List<ScheduleTreatment.Data2>.empty(growable: true).obs;
 
   TextEditingController searchController = TextEditingController();
-  Rx<Interest.InterestConditionsModel> data =
-      Interest.InterestConditionsModel(data: []).obs;
-  RxList<Interest.Data> filterData = List<Interest.Data>.empty().obs;
+
+  Rx<Concern.ConcernModel?> data = Concern.ConcernModel.fromJson({}).obs;
+  RxList<Concern.Data2> filterData = List<Concern.Data2>.empty().obs;
+
   RxString concern = "".obs;
   RxInt concernId = 0.obs;
   RxBool isGallery = false.obs;
@@ -127,17 +128,17 @@ class MyJourneyController extends StateClass {
     return dataScheduleTreatment;
   }
 
-  getInterestConditions(BuildContext context) async {
+  getConcern(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data.value = await InterestConditionsService().getInterestConditions();
-      filterData.value = data.value.data!;
+      data.value = await SolutionService().getConcern();
+      filterData.value.addAll(data.value!.data!.data!);
     });
     isLoading.value = false;
   }
 
   onChangeFilterText(String value) {
-    filterData.value = data.value.data!
+    filterData.value = data.value!.data!.data!
         .where((element) =>
             element.name!.toLowerCase().contains(value.toLowerCase()))
         .toList();

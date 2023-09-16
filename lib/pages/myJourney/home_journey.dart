@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
@@ -120,9 +122,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                       Obx(
                         () => state.concern.value == ""
                             ? Text(
-                                'Pilih Skin Goal kamu'
-                                // : state.concern.value,
-                                ,
+                                'Pilih Skin Goal kamu',
                                 style: subTitleTextStyle,
                               )
                             : Container(
@@ -597,11 +597,13 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           : state.dataHistoryConsultation[index].status ==
                                                                   'READY'
                                                               ? const Color.fromARGB(
-                                                                  255, 255, 102, 0)
+                                                                  255,
+                                                                  255,
+                                                                  102,
+                                                                  0)
                                                               : state.dataHistoryConsultation[index].status ==
                                                                       'REVIEW'
-                                                                  ? const Color
-                                                                      .fromARGB(
+                                                                  ? const Color.fromARGB(
                                                                       255,
                                                                       255,
                                                                       102,
@@ -609,7 +611,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                   : state.dataHistoryConsultation[index].status ==
                                                                           'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status ==
+                                                                              'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -981,10 +984,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                     ?.status ==
                                                                 'MENUNGGU_KONFIRMASI_KLINIK'
                                                             ? const Color.fromARGB(
-                                                                255,
-                                                                255,
-                                                                102,
-                                                                0)
+                                                                255, 255, 102, 0)
                                                             : state
                                                                         .dataScheduleTreatment
                                                                         .value[
