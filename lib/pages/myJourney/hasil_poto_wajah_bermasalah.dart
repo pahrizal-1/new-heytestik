@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -161,33 +163,19 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
                     isLoading: state.isLoading.value,
                     child: TextButton(
                       onPressed: () async {
-                        await state.saveJourney(context, doInPost: () async {
-                          SnackbarWidget.getSuccessSnackbar(
-                            context,
-                            'Info',
-                            'Journey berhasil disimpan',
-                          );
-                          if (state.isGallery.value) {
-                            Get
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back();
-                          } else {
-                            Get
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back()
-                              ..back();
-                          }
-
-                          Get.to(GaleryMyJourney());
-                        });
+                        await state.detailJourney(
+                            context, state.concernId.value);
+                        if (state.isAfter.value) {
+                          await state
+                              .afterCondition(context, state.concernId.value,
+                                  doInPost: () async {
+                            redirect();
+                          });
+                        } else {
+                          await state.saveJourney(context, doInPost: () async {
+                            redirect();
+                          });
+                        }
                       },
                       style: TextButton.styleFrom(
                         side: BorderSide(color: greenColor, width: 2),
@@ -213,5 +201,32 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
         ),
       ),
     );
+  }
+
+  redirect() {
+    SnackbarWidget.getSuccessSnackbar(
+      context,
+      'Info',
+      'Journey berhasil disimpan',
+    );
+    if (state.isGallery.value) {
+      Get
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back();
+    } else {
+      Get
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back();
+    }
+    Get.to(GaleryMyJourney());
   }
 }

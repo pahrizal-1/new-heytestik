@@ -64,6 +64,7 @@ class MyJourneyController extends StateClass {
   File? initialConditionProblemPart;
 
   RxBool isLoadingCam = false.obs;
+  RxBool isAfter = true.obs;
 
   Future<List<MyJourney.Data2>> getJourney(
       BuildContext context, int page) async {
@@ -202,25 +203,18 @@ class MyJourneyController extends StateClass {
   Future detailJourney(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        totalMyJourneyById.value = 0;
-
-        var res = await MyJourneysService().detailJourney(id);
-        print("res ${jsonDecode(jsonEncode(res))}");
-        print("1 =============");
-        myJourneyById.value = res.data!;
-        print("= = = = = = = = = = =");
-        print(myJourneyById.value);
-        print("2 =============");
-        totalMyJourneyById.value = res.data!.journey!.length;
-
-        print("3 =============");
-        print(res.data!.journey!.length);
-        print("4 =============");
-        print(totalMyJourneyById.value);
-      } catch (e) {
-        print("heheh $e");
+      totalMyJourneyById.value = 0;
+      var res = await MyJourneysService().detailJourney(id);
+      print(jsonDecode(jsonEncode(res)));
+      if (res.data == null) {
+        print("BUAT BARU");
+        isAfter.value = false;
+      } else {
+        isAfter.value = true;
+        print("PATCH BARU");
       }
+      myJourneyById.value = res.data!;
+      totalMyJourneyById.value = res.data!.journey!.length;
     });
     isLoading.value = false;
   }
@@ -229,9 +223,8 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("id $id");
       var res = await MyJourneysService().deleteJourney(id);
-      print("res $res");
+
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -248,8 +241,6 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
-
       var data = {
         "initial_condition_front_face": initialConditionFrontFace?.path,
         "initial_condition_right_side": initialConditionRightSide?.path,
@@ -267,20 +258,16 @@ class MyJourneyController extends StateClass {
           message: res['message'],
         );
       }
-      print("heheh");
+
       concernId.value = 0;
+      concern.value = "";
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
-      print("hahah");
+
       doInPost();
-      // } catch (e) {
-      //   print("heheh $e");
-      // }
     });
     isLoading.value = false;
   }
-
-  void init() {}
 }

@@ -85,7 +85,6 @@ class MyJourneysService extends ProviderClass {
   }
 
   Future<MyJourneyByIdModel> detailJourney(int id) async {
-    print("service $id");
     var response = await networkingConfig.doGet(
       '/my-journey/concern/$id',
       headers: {
@@ -94,7 +93,6 @@ class MyJourneysService extends ProviderClass {
       },
     );
 
-    print("response $response");
     return MyJourneyByIdModel.fromJson(response);
   }
 

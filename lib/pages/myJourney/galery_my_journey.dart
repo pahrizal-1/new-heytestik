@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
@@ -365,12 +367,15 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
               children: [
                 InkWell(
                   onTap: () async {
+                    Get.back();
                     await state.deleteJourney(
                       context,
-                      e.id!.toInt(),
+                      e.concernId!.toInt(),
                       doInPost: () async {
-                        Get.back();
-                        Get.back();
+                        gallery.clear();
+                        page = 1;
+                        gallery.addAll(await state.getJourney(context, page));
+                        setState(() {});
                         SnackbarWidget.getSuccessSnackbar(
                           context,
                           'Info',
@@ -404,18 +409,6 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
                     ),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                // InkWell(
-                //   onTap: () {},
-                //   child: Text(
-                //     'Post After',
-                //     style: blackTextStyle.copyWith(
-                //       fontSize: 15,
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(
                   height: 30,
                 ),
