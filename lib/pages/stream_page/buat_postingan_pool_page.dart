@@ -28,6 +28,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
   ];
   final DateTime endDate = DateTime.now();
   int days = 1;
+  Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
 
   @override
   void initState() {
@@ -83,6 +84,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                     hashtags: hashtags,
                     endTime: DateTime.now().add(Duration(days: days)),
                     options: optionController.map((e) => e.text).toList(),
+                    visibility: visibility['visibility'].toString(),
                   );
                   streamController.postPolling(context, postModel,
                       doInPost: () {
@@ -168,7 +170,11 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                 ),
                               ],
                             ),
-                          );
+                          ).then((value) async {
+                            setState(() {
+                              visibility = value;
+                            });
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -189,7 +195,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                 width: 5,
                               ),
                               Text(
-                                'Semua Orang',
+                                visibility['title'].toString(),
                                 style: subTitleTextStyle.copyWith(fontSize: 10),
                               )
                             ],

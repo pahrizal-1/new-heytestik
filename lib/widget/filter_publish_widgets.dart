@@ -12,6 +12,7 @@ class FilterPublis extends StatefulWidget {
 
 class _FilterPublisState extends State<FilterPublis> {
   int isSelected = 0;
+  Map value = {};
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,9 @@ class _FilterPublisState extends State<FilterPublis> {
           onTap: () {
             setState(() {
               isSelected = 0;
+              value = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
             });
+            Navigator.pop(context, value);
           },
           child: Row(
             children: [
@@ -53,7 +56,12 @@ class _FilterPublisState extends State<FilterPublis> {
           onTap: () {
             setState(() {
               isSelected = 1;
+              value = {
+                'visibility': 'CIRCLE',
+                'title': 'Hanya orang yang mengikuti'
+              };
             });
+            Navigator.pop(context, value);
           },
           child: Row(
             children: [
@@ -85,7 +93,12 @@ class _FilterPublisState extends State<FilterPublis> {
           onTap: () {
             setState(() {
               isSelected = 2;
+              value = {
+                'visibility': 'CIRCLE',
+                'title': 'Hanya orang yang disebutkan'
+              };
             });
+            Navigator.pop(context, value);
           },
           child: Row(
             children: [
@@ -117,7 +130,9 @@ class _FilterPublisState extends State<FilterPublis> {
           onTap: () {
             setState(() {
               isSelected = 3;
+              value = {'visibility': 'CIRCLE', 'title': 'Hanya saya'};
             });
+            Navigator.pop(context, value);
           },
           child: Row(
             children: [

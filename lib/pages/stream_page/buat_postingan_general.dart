@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -27,6 +26,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
   int iSelected = 0;
   bool isSelected = false;
   List<File> imagePath = [];
+  Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
 
   @override
   void initState() {
@@ -89,6 +89,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                       hashtags: hashtags,
                       endTime: DateTime.now(),
                       options: [],
+                      visibility: visibility['visibility'].toString(),
                     );
                     streamController.postGeneral(context, postModel,
                         files: imagePath, doInPost: () {
@@ -178,7 +179,11 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                 ),
                               ],
                             ),
-                          );
+                          ).then((value) async {
+                            setState(() {
+                              visibility = value;
+                            });
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -199,7 +204,7 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                 width: 5,
                               ),
                               Text(
-                                'Semua Orang',
+                                visibility['title'].toString(),
                                 style: subTitleTextStyle.copyWith(fontSize: 10),
                               )
                             ],
