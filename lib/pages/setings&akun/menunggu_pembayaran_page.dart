@@ -7,8 +7,6 @@ import 'package:heystetik_mobileapps/controller/customer/transaction/history/his
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -134,73 +132,61 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                           itemBuilder: (BuildContext context, index) {
                             if (history[index].transactionType ==
                                 'CONSULTATION') {
-                              return InkWell(
-                                onTap: () {
-                                  Get.to(SelesaikanPembayaranKonsultasiPage(
-                                    orderId:
-                                        history[index].transactionId.toString(),
-                                    bank: '',
-                                    expireTime: '',
-                                  ));
-                                },
-                                child: TransaksiKonsultan(
-                                  namaDokter:
-                                      history[index].detail?.consultation ==
-                                              null
-                                          ? '-'
-                                          : history[index]
-                                                  .detail
-                                                  ?.consultation
-                                                  ?.doctor
-                                                  ?.fullname ??
-                                              '-',
-                                  expireDate: history[index]
-                                              .detail
-                                              ?.paymentExpiryTime ==
-                                          null
-                                      ? ''
-                                      : ConvertDate.payBefore(history[index]
-                                              .detail
-                                              ?.paymentExpiryTime ??
-                                          '-'),
-                                  tanggal: ConvertDate.defaultDate(
-                                      history[index].detail?.createdAt ?? '-'),
-                                  pesanan: 'Konsultasi',
-                                  progres: history[index].detail?.status ==
-                                          'MENUNGGU_PEMBAYARAN'
-                                      ? 'Menunggu Pembayaran'
-                                      : history[index].detail?.status == 'READY'
-                                          ? 'Ready'
-                                          : history[index].detail?.status ==
-                                                  'REVIEW'
-                                              ? 'Review'
-                                              : history[index].detail?.status ==
-                                                      'AKTIF'
-                                                  ? 'Aktif'
-                                                  : history[index]
-                                                              .detail
-                                                              ?.status ==
-                                                          'SELESAI'
-                                                      ? 'Selesai'
-                                                      : '-',
-                                  keluhan:
-                                      history[index].detail?.consultation ==
-                                              null
-                                          ? '-'
-                                          : history[index]
-                                                  .detail
-                                                  ?.consultation
-                                                  ?.medicalHistory
-                                                  ?.interestCondition
-                                                  ?.name ??
-                                              '-',
-                                  harga: CurrencyFormat.convertToIdr(
-                                      history[index].detail?.totalPaid, 0),
-                                  img: history[index].detail?.consultation ==
-                                          null
-                                      ? '-'
-                                      : '${Global.FILE}/${history[index].detail?.consultation?.doctor?.mediaUserProfilePicture?.media?.path}',
-                                ),
+                              return TransaksiKonsultan(
+                                namaDokter:
+                                    history[index].detail?.consultation == null
+                                        ? '-'
+                                        : history[index]
+                                                .detail
+                                                ?.consultation
+                                                ?.doctor
+                                                ?.fullname ??
+                                            '-',
+                                expireDate:
+                                    history[index].detail?.paymentExpiryTime ==
+                                            null
+                                        ? ''
+                                        : ConvertDate.payBefore(history[index]
+                                                .detail
+                                                ?.paymentExpiryTime ??
+                                            '-'),
+                                tanggal: ConvertDate.defaultDate(
+                                    history[index].detail?.createdAt ?? '-'),
+                                pesanan: 'Konsultasi',
+                                progres: history[index].detail?.status ==
+                                        'MENUNGGU_PEMBAYARAN'
+                                    ? 'Menunggu Pembayaran'
+                                    : history[index].detail?.status == 'READY'
+                                        ? 'Ready'
+                                        : history[index].detail?.status ==
+                                                'REVIEW'
+                                            ? 'Review'
+                                            : history[index].detail?.status ==
+                                                    'AKTIF'
+                                                ? 'Aktif'
+                                                : history[index]
+                                                            .detail
+                                                            ?.status ==
+                                                        'SELESAI'
+                                                    ? 'Selesai'
+                                                    : '-',
+                                keluhan:
+                                    history[index].detail?.consultation == null
+                                        ? '-'
+                                        : history[index]
+                                                .detail
+                                                ?.consultation
+                                                ?.medicalHistory
+                                                ?.interestCondition
+                                                ?.name ??
+                                            '-',
+                                harga: CurrencyFormat.convertToIdr(
+                                    history[index].detail?.totalPaid, 0),
+                                img: history[index].detail?.consultation == null
+                                    ? '-'
+                                    : '${Global.FILE}/${history[index].detail?.consultation?.doctor?.mediaUserProfilePicture?.media?.path}',
+                                orderId:
+                                    history[index].transactionId.toString(),
                               );
                             }
 
@@ -208,6 +194,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                               return InkWell(
                                 onTap: () {
                                   Get.to(SelesaikanPembayaranTreatmentPage(
+                                    isWillPop: false,
                                     orderId:
                                         history[index].transactionId.toString(),
                                     bank: '',
@@ -260,18 +247,10 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             }
 
                             if (history[index].transactionType == 'PRODUCT') {
-                              return InkWell(
-                                onTap: () {
-                                  Get.to(SelesaikanPembayaranProdukPage(
-                                    orderId:
-                                        history[index].transactionId.toString(),
-                                    bank: '',
-                                    expireTime: '',
-                                  ));
-                                },
-                                child: TransaksiProduk(
-                                  product: history[index].detail,
-                                ),
+                              return TransaksiProduk(
+                                orderId:
+                                    history[index].transactionId.toString(),
+                                product: history[index].detail,
                               );
                             }
                             return null;

@@ -17,16 +17,19 @@ import '../chat_customer/cara_pembayaran_page.dart';
 
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
+  bool isWillPop;
   String bank;
   String orderId;
   String expireTime;
   final Data2 treatment;
-  SelesaikanPembayaranTreatmentPage(
-      {this.bank = '',
-      this.orderId = '',
-      this.expireTime = '',
-      required this.treatment,
-      super.key});
+  SelesaikanPembayaranTreatmentPage({
+    required this.isWillPop,
+    this.bank = '',
+    this.orderId = '',
+    this.expireTime = '',
+    required this.treatment,
+    super.key,
+  });
 
   @override
   State<SelesaikanPembayaranTreatmentPage> createState() =>
@@ -101,10 +104,14 @@ class _SelesaikanPembayaranTreatmentPageState
   }
 
   Future<bool> onWillPop() async {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialogTransaksi(),
-    );
+    if (widget.isWillPop) {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+    } else {
+      Get.back();
+    }
     return Future.value(false);
   }
 
@@ -123,13 +130,16 @@ class _SelesaikanPembayaranTreatmentPageState
         appBar: AppBar(
           elevation: 0,
           backgroundColor: greenColor,
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               InkWell(
                 onTap: () {
-                  setState(() {
+                  if (widget.isWillPop) {
                     onWillPop();
-                  });
+                  } else {
+                    Get.back();
+                  }
                 },
                 child: Icon(
                   Icons.arrow_back,

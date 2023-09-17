@@ -413,6 +413,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                       widget.isCart,
                       doInPost: () async {
                         Get.offAll(SelesaikanPembayaranProdukPage(
+                          isWillPop: true,
                           orderId: state.orderId.value,
                           bank: state.bank.value,
                           expireTime: state.expireTime.value,
