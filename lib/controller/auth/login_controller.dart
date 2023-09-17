@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -15,62 +16,6 @@ class LoginController extends StateClass {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
-
-  // logInWithGoogle(BuildContext context, String token,
-  //     {required Function() doInPost}) async {
-  //   try {
-  //     isLoading.value = true;
-  //     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-  //       var data = {
-  //         'token': token,
-  //       };
-
-  //       var loginResponse = await LoginService().loginWithGoogle(data);
-
-  //       if (loginResponse['success'] != true &&
-  //           loginResponse['message'] != 'Success') {
-  //         throw ErrorConfig(
-  //           cause: ErrorConfig.anotherUnknow,
-  //           message: loginResponse['message'],
-  //         );
-  //       }
-  //       print(loginResponse);
-  //       print(loginResponse['data']['token']);
-  //       print(loginResponse['data']['user']['fullname']);
-  //       print(loginResponse['data']['user']['roleId']);
-  //       print(loginResponse['data']['user']['id']);
-  //       print(loginResponse['data']['user']['username']);
-  //       print(loginResponse['data']['user']['id'].toString());
-
-  //       // SAVE DATA USER
-  //       await LocalStorage()
-  //           .setDataUser(dataUser: loginResponse['data']['user']);
-  //       await LocalStorage().setUsername(
-  //           username: loginResponse['data']['user']['username'] ?? '');
-  //       await LocalStorage()
-  //           .setAccessToken(token: loginResponse['data']['token']);
-  //       await LocalStorage().setFullName(
-  //           fullName: loginResponse['data']['user']['fullname'] ?? '');
-  //       await LocalStorage()
-  //           .setRoleID(roleID: loginResponse['data']['user']['roleId']);
-  //       await LocalStorage()
-  //           .setUserID(userID: loginResponse['data']['user']['id']);
-  //       await FirebaseMessaging.instance
-  //           .subscribeToTopic(loginResponse['data']['user']['id'].toString());
-
-  //       if (loginResponse['data']['user']['finish_register'] == false) {
-  //         Get.offAll(() => const BeautyProfilPage());
-  //       } else {
-  //         doInPost();
-  //       }
-
-  //       clear();
-  //     });
-  //     isLoading.value = false;
-  //   } catch (error) {
-  //     print(error.toString());
-  //   }
-  // }
 
   logIn(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
@@ -238,5 +183,20 @@ class LoginController extends StateClass {
     GoogleSignInAccount? googleSignInAccount;
     googleSignInAccount = await _googleSignIn.signOut();
     print("googleSignInAccount ${googleSignInAccount?.id}");
+    print("logout google");
+  }
+
+  Future signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+      print("result heheh $result");
+    } catch (e) {
+      print('error hahah $e');
+    }
+  }
+
+  logoutWithFacebook() async {
+    await FacebookAuth.instance.logOut();
+    print("logout facebook");
   }
 }
