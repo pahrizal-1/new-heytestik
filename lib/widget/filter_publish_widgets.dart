@@ -94,7 +94,7 @@ class _FilterPublisState extends State<FilterPublis> {
             setState(() {
               isSelected = 2;
               value = {
-                'visibility': 'CIRCLE',
+                'visibility': 'MENTION',
                 'title': 'Hanya orang yang disebutkan'
               };
             });
@@ -130,7 +130,7 @@ class _FilterPublisState extends State<FilterPublis> {
           onTap: () {
             setState(() {
               isSelected = 3;
-              value = {'visibility': 'CIRCLE', 'title': 'Hanya saya'};
+              value = {'visibility': 'PRIVATE', 'title': 'Hanya saya'};
             });
             Navigator.pop(context, value);
           },
