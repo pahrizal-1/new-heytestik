@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,8 @@ void main() async {
     sound: true,
   );
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print(message);
+    print("NOTIF DI TAP NIHH ${message.toMap()}");
+    print('${message.data}');
   });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
@@ -80,10 +80,11 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+    print('Message data: ${message.toMap()}');
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      print(
+          'Message also contained a notification: ${message.notification?.toMap()}');
     }
 
     RemoteNotification? notification = message.notification;

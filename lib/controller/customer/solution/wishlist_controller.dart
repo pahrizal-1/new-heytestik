@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,17 +6,19 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/wishlist_service.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 class WishlistController extends StateClass {
   TextEditingController searchController = TextEditingController();
   Rx<WishlistModel?> wishlist = WishlistModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
 
-  Future<List<Data2>> getWistlist(BuildContext context, int page, {String? search}) async {
+  Future<List<Data2>> getWistlist(BuildContext context, int page,
+      {String? search}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      wishlist.value = await WishlistService().getWishlist(page, search: search);
+      wishlist.value =
+          await WishlistService().getWishlist(page, search: search);
       filterData.value = wishlist.value!.data!.data!;
       print(filterData);
     });
@@ -46,7 +48,10 @@ class WishlistController extends StateClass {
         );
       }
 
-      SnackbarWidget.getSuccessSnackbar(context, 'Info', 'Produk berhasil ditambahkan ke daftar wishlist');
+      showDialog(
+        context: context,
+        builder: (context) => AlertSuccessWishlist(),
+      );
     });
     isLoading.value = false;
   }

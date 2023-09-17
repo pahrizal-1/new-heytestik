@@ -1,5 +1,8 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
@@ -12,6 +15,8 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
 
 class MedicineController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
+  CartController state = CartController();
+
   List<Data2> data = [];
 
   Rx<Overview.Data> overviewMedicine = Overview.Data.fromJson({}).obs;
@@ -22,23 +27,19 @@ class MedicineController extends StateClass {
   RxBool isLoadingProductReviewMedicine = false.obs;
 
   Future<List<Medicine.Data2>> getMedicine(
-      BuildContext context, int page) async {
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     isLoading.value = true;
     List<Medicine.Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getMedicine(page);
-      data = res.data!.data!;
-    });
-    isLoading.value = false;
-    return data;
-  }
-
-  Future<List<Medicine.Data2>> getMedicineByConcern(
-      BuildContext context, int page, List concern) async {
-    isLoading.value = true;
-    List<Medicine.Data2> data = [];
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getMedicineByConcern(page, concern);
+      var res = await SolutionService().getMedicine(
+        page,
+        search: search,
+        filter: filter,
+      );
       data = res.data!.data!;
     });
     isLoading.value = false;
@@ -60,7 +61,7 @@ class MedicineController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       SolutionService().addMedicineToCart(productID);
     });
-
+    await state.totalCartFunc();
     isLoading.value = false;
   }
 

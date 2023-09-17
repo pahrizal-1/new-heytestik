@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
@@ -15,7 +16,6 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
-import '../../widget/show_dialog_sousions_payment.dart';
 
 // ignore: must_be_immutable
 class Resevasi3Page extends StatefulWidget {
@@ -33,6 +33,7 @@ class Resevasi3Page extends StatefulWidget {
 }
 
 class _Resevasi3PageState extends State<Resevasi3Page> {
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
   final OrderTreatmentController state = Get.put(OrderTreatmentController());
   @override
   void initState() {
@@ -165,7 +166,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => OrderanMoreDialog(),
+                              builder: (context) => order(),
                             );
                           },
                           child: const Icon(
@@ -435,21 +436,25 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                   width: 12,
                 ),
                 InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        isDismissible: false,
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      isDismissible: false,
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(25),
+                          topStart: Radius.circular(25),
                         ),
-                        builder: (context) => PesananMoreDialog(),
-                      );
-                    },
-                    child: Icon(Icons.keyboard_arrow_down))
+                      ),
+                      builder: (context) => detail(context),
+                    );
+                  },
+                  child: Icon(
+                    Icons.keyboard_arrow_up,
+                    size: 30,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -491,6 +496,201 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget order() {
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 14,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Orderan Kamu',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                '${widget.treatment.clinic?.name}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Text(
+                'Jenis Treatment',
+                style: subTitleTextStyle.copyWith(
+                  fontWeight: bold,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Text(
+                '${widget.treatment.name}',
+                style: blackRegulerTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                'Detail Pemesan',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Obx(
+                () => Text(
+                  stateTreatment.fullName.value,
+                  style: blackRegulerTextStyle.copyWith(
+                      fontWeight: bold, fontSize: 15, color: blackColor),
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Obx(
+                () => Text(
+                  stateTreatment.phone.value,
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 15, color: blackColor),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget detail(BuildContext context) {
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Detail Harga',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                '${widget.treatment.clinic?.name}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Text(
+                'Harga',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              TextBoldSpacebetwen(
+                title: '${widget.treatment.name} ${widget.pax} pax',
+                title2: CurrencyFormat.convertToIdr(
+                    widget.treatment.price! * widget.pax, 0),
+                title1: '',
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                'Biaya Lainnya',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const TextBoldSpacebetwen(
+                title: 'Pajak',
+                title2: 'Termasuk',
+                title1: '',
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const TextBoldSpacebetwen(
+                title: 'Biaya transaksi',
+                title2: 'Rp0',
+                title1: '',
+              ),
+              const SizedBox(
+                height: 19,
+              ),
+              dividergrey(),
+              TextBoldSpacebetwen(
+                title: 'Total Pembayaran',
+                title2: CurrencyFormat.convertToIdr(
+                    widget.treatment.price! * widget.pax, 0),
+                title1: '',
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

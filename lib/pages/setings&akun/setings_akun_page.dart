@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 
@@ -54,7 +55,8 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => AkunHomePage()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => AkunHomePage()));
             },
             child: SvgPicture.asset(
               'assets/icons/humberger-icons.svg',
@@ -98,7 +100,10 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                     ListTitleAkun(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RekeningBankSettings()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RekeningBankSettings()));
                       },
                       iconUrl: 'assets/icons/credit-card.png',
                       title: 'Rekening Bank',
@@ -109,7 +114,11 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                     ListTitleAkun(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const KeamananAkunPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const KeamananAkunPage()));
                       },
                       iconUrl: 'assets/icons/lock-icons.png',
                       title: 'Keamanan Akun',
@@ -212,7 +221,8 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                             child: const ListTitleAkun(
                               iconUrl: 'assets/icons/bersihkan-icons.png',
                               title: 'Bersihkan Cache',
-                              title1: 'Solusi cepat untuk atasi masalah aplikasi',
+                              title1:
+                                  'Solusi cepat untuk atasi masalah aplikasi',
                             ),
                           ),
                     const SizedBox(
@@ -229,6 +239,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                           builder: (context) => AlertDialogLogout(
                             title: 'Apakah Kamu yakin ingin keluar?',
                             function: () async {
+                              await LoginController().logoutWithGoogle();
                               await stateProfile.logout(context);
                             },
                           ),
@@ -310,7 +321,8 @@ class ListTitleAkun extends StatelessWidget {
               ),
               Text(
                 title1,
-                style: blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
+                style: blackRegulerTextStyle.copyWith(
+                    fontSize: 12, color: blackColor),
               ),
             ],
           )

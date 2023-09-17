@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable, duplicate_ignore
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 // ignore: must_be_immutable
 class AlertWidget extends StatelessWidget {
@@ -133,6 +136,59 @@ class AlertConfirmationWidget extends StatelessWidget {
   }
 }
 
+class AlertSuccessWishlist extends StatelessWidget {
+  const AlertSuccessWishlist({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(0),
+      content: Container(
+        padding: const EdgeInsets.only(
+          left: 25,
+          right: 25,
+        ),
+        height: 210,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Berhasil',
+              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Produk berhasil ditambahkan ke daftar wishlist',
+              textAlign: TextAlign.center,
+              style: greyTextStyle.copyWith(fontSize: 15),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ButtonGreenWidget(
+              title: 'Cek Wishlist',
+              onPressed: () {
+                Get.back();
+                Get.to(const WishListPage());
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class AlertDialogSucsees extends StatefulWidget {
   const AlertDialogSucsees({super.key});
 
@@ -141,18 +197,6 @@ class AlertDialogSucsees extends StatefulWidget {
 }
 
 class _AlertDialogSucseesState extends State<AlertDialogSucsees> {
-  // void initState() {
-  //   super.initState();
-  //   Timer(
-  //     const Duration(seconds: 1),
-  //     () => Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const AuthPage(),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

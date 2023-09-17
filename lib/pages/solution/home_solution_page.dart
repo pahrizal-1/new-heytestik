@@ -16,12 +16,14 @@ import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart'
 
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
-
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
+    as Skincare;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
+import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart'
+    as Drug;
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../controller/customer/solution/skincare_controller.dart';
 import '../../core/currency_format.dart';
@@ -40,7 +42,7 @@ class SolutionPage extends StatefulWidget {
 
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
-  final MedicineController medicineController = Get.put(MedicineController());
+  final MedicineController stateMedicine = Get.put(MedicineController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final SkincareController stateSkincare = Get.put(SkincareController());
 
@@ -57,7 +59,8 @@ class _SolutionPageState extends State<SolutionPage> {
     'IPL.png',
     'Laser.png',
   ];
-  List<Data2> drugRecipe = [];
+  List<Drug.Data2> drugRecipe = [];
+  List<Skincare.Data2> skincare = [];
   int page = 1;
 
   @override
@@ -65,8 +68,8 @@ class _SolutionPageState extends State<SolutionPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.initgetCurrentPosition(context);
-      drugRecipe.addAll(await medicineController.getDrugRecipe(context, page));
-      stateSkincare.getSkincare(context);
+      drugRecipe.addAll(await stateMedicine.getDrugRecipe(context, page));
+      skincare.addAll(await stateSkincare.getAllSkincare(context, page));
       stateTreatment.getTreatment(context);
     });
   }
@@ -133,37 +136,11 @@ class _SolutionPageState extends State<SolutionPage> {
         actions: [
           Row(
             children: [
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotifikasionPage(),
-              //       ),
-              //     );
-              //   },
-              //   child: SvgPicture.asset(
-              //     color: whiteColor,
-              //     'assets/icons/notif-icons.svg',
-              //   ),
-              // ),
               notificasion(context, '1', whiteColor),
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => const KeranjangPage()));
-              //   },
-              //   child: SvgPicture.asset(
-              //     color: whiteColor,
-              //     'assets/icons/trello-icons.svg',
-              //   ),
-              // ),
-              keranjang(context, '1', whiteColor),
+              TotalKeranjang(iconcolor: whiteColor),
               const SizedBox(
                 width: 14,
               ),
@@ -344,7 +321,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const SolutionSkincare1Page(),
+                                          const ObatSolutionsPage(),
                                     ),
                                   );
                                 },
@@ -451,45 +428,39 @@ class _SolutionPageState extends State<SolutionPage> {
                   const SizedBox(
                     height: 17,
                   ),
-                  Obx(
-                    () => LoadingWidget(
-                      isLoading: stateSkincare.isLoadingSkincare.value,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 25),
-                          child: Center(
-                            child: Wrap(
-                              spacing: 23,
-                              children: stateSkincare.skincare
-                                  .map(
-                                    (e) => InkWell(
-                                      onTap: () {
-                                        Get.to(DetailSkinCarePage(
-                                          productId: e.id!.toInt(),
-                                        ));
-                                      },
-                                      child: Produkheight(
-                                        produkId: e.id!.toInt(),
-                                        namaBrand:
-                                            e.skincareDetail!.brand.toString(),
-                                        namaProduk: e.name.toString(),
-                                        diskonProduk: '20',
-                                        hargaDiskon:
-                                            CurrencyFormat.convertToIdr(
-                                                e.price, 0),
-                                        harga: CurrencyFormat.convertToIdr(
-                                            e.price, 0),
-                                        urlImg:
-                                            '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                        // rating: '4.9 (120k)',
-                                        rating: e.rating.toString(),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 25),
+                      child: Center(
+                        child: Wrap(
+                          spacing: 23,
+                          children: skincare
+                              .map(
+                                (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(DetailSkinCarePage(
+                                      productId: e.id!.toInt(),
+                                    ));
+                                  },
+                                  child: Produkheight(
+                                    produkId: e.id!.toInt(),
+                                    namaBrand:
+                                        e.skincareDetail!.brand.toString(),
+                                    namaProduk: e.name.toString(),
+                                    diskonProduk: '20',
+                                    hargaDiskon:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    harga:
+                                        CurrencyFormat.convertToIdr(e.price, 0),
+                                    urlImg:
+                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                    // rating: '4.9 (120k)',
+                                    rating: e.rating.toString(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                     ),

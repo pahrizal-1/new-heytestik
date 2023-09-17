@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart'
-    as Interest;
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 import 'package:heystetik_mobileapps/models/customer/my_journey_by_id_model.dart'
     as MyJourneyById;
 import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_doctor_note_model.dart'
@@ -18,8 +18,8 @@ import 'package:heystetik_mobileapps/models/customer/my_journey_schedule_treatme
     as ScheduleTreatment;
 import 'package:heystetik_mobileapps/models/customer/my_journey_history_consultation_model.dart'
     as HistoryConsultation;
-import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/service/customer/my_journey/my_journey_service.dart';
+import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyJourneyController extends StateClass {
@@ -51,9 +51,10 @@ class MyJourneyController extends StateClass {
       List<ScheduleTreatment.Data2>.empty(growable: true).obs;
 
   TextEditingController searchController = TextEditingController();
-  Rx<Interest.InterestConditionsModel> data =
-      Interest.InterestConditionsModel(data: []).obs;
-  RxList<Interest.Data> filterData = List<Interest.Data>.empty().obs;
+
+  Rx<Concern.ConcernModel?> data = Concern.ConcernModel.fromJson({}).obs;
+  RxList<Concern.Data2> filterData = List<Concern.Data2>.empty().obs;
+
   RxString concern = "".obs;
   RxInt concernId = 0.obs;
   RxBool isGallery = false.obs;
@@ -61,6 +62,9 @@ class MyJourneyController extends StateClass {
   File? initialConditionRightSide;
   File? initialConditionLeftSide;
   File? initialConditionProblemPart;
+
+  RxBool isLoadingCam = false.obs;
+  RxBool isAfter = true.obs;
 
   Future<List<MyJourney.Data2>> getJourney(
       BuildContext context, int page) async {
@@ -127,17 +131,17 @@ class MyJourneyController extends StateClass {
     return dataScheduleTreatment;
   }
 
-  getInterestConditions(BuildContext context) async {
+  getConcern(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data.value = await InterestConditionsService().getInterestConditions();
-      filterData.value = data.value.data!;
+      data.value = await SolutionService().getConcern();
+      filterData.value.addAll(data.value!.data!.data!);
     });
     isLoading.value = false;
   }
 
   onChangeFilterText(String value) {
-    filterData.value = data.value.data!
+    filterData.value = data.value!.data!.data!
         .where((element) =>
             element.name!.toLowerCase().contains(value.toLowerCase()))
         .toList();
@@ -159,7 +163,6 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
       if (concernId.value == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -184,17 +187,15 @@ class MyJourneyController extends StateClass {
           message: res['message'],
         );
       }
-      print("heheh");
+
       concernId.value = 0;
+      concern.value = "";
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
-      print("hahah");
+
       doInPost();
-      // } catch (e) {
-      //   print("heheh $e");
-      // }
     });
     isLoading.value = false;
   }
@@ -202,25 +203,18 @@ class MyJourneyController extends StateClass {
   Future detailJourney(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        totalMyJourneyById.value = 0;
-
-        var res = await MyJourneysService().detailJourney(id);
-        print("res ${jsonDecode(jsonEncode(res))}");
-        print("1 =============");
-        myJourneyById.value = res.data!;
-        print("= = = = = = = = = = =");
-        print(myJourneyById.value);
-        print("2 =============");
-        totalMyJourneyById.value = res.data!.journey!.length;
-
-        print("3 =============");
-        print(res.data!.journey!.length);
-        print("4 =============");
-        print(totalMyJourneyById.value);
-      } catch (e) {
-        print("heheh $e");
+      totalMyJourneyById.value = 0;
+      var res = await MyJourneysService().detailJourney(id);
+      print(jsonDecode(jsonEncode(res)));
+      if (res.data == null) {
+        print("BUAT BARU");
+        isAfter.value = false;
+      } else {
+        isAfter.value = true;
+        print("PATCH BARU");
       }
+      myJourneyById.value = res.data!;
+      totalMyJourneyById.value = res.data!.journey!.length;
     });
     isLoading.value = false;
   }
@@ -229,9 +223,8 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("id $id");
       var res = await MyJourneysService().deleteJourney(id);
-      print("res $res");
+
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -248,39 +241,31 @@ class MyJourneyController extends StateClass {
       {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // try {
-
       var data = {
-        "initial_condition_front_face": initialConditionFrontFace?.path,
-        "initial_condition_right_side": initialConditionRightSide?.path,
-        "initial_condition_left_side": initialConditionLeftSide?.path,
-        "initial_condition_problem_part": initialConditionProblemPart?.path
+        "after_condition_front_face": initialConditionFrontFace?.path,
+        "after_condition_right_side": initialConditionRightSide?.path,
+        "after_condition_left_side": initialConditionLeftSide?.path,
+        "after_condition_problem_part": initialConditionProblemPart?.path
       };
 
-      print("data $data");
-
       var res = await MyJourneysService().afterCondition(id, data);
-      print("data $data");
+
       if (res['success'] != true && res['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: res['message'],
         );
       }
-      print("heheh");
+
       concernId.value = 0;
+      concern.value = "";
       initialConditionFrontFace = null;
       initialConditionRightSide = null;
       initialConditionLeftSide = null;
       initialConditionProblemPart = null;
-      print("hahah");
+
       doInPost();
-      // } catch (e) {
-      //   print("heheh $e");
-      // }
     });
     isLoading.value = false;
   }
-
-  void init() {}
 }

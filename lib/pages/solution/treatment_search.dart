@@ -147,6 +147,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           children: [
             Padding(

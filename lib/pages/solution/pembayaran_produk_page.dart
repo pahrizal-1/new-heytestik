@@ -56,7 +56,7 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
                 width: 11,
               ),
               Text(
-                'Selesaikan Pemesananmu',
+                'Selesaikan Pesananmu',
                 style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
@@ -82,7 +82,6 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
                               state.listProductItem[index]['totalPrice'], 0),
                           img:
                               "${Global.FILE}/${state.listProductItem[index]['img']}",
-                          // qty: state.listProductItem[index]['qty'].toString(),
                           productName: state.listProductItem[index]
                               ['productName'],
                           note: state.listProductItem[index]['notes'],
@@ -162,7 +161,6 @@ class ProdukPembayaran extends StatefulWidget {
   final int index;
   final String productName;
   final String price;
-  // final String qty;
   final String img;
   final String note;
   const ProdukPembayaran({
@@ -170,7 +168,6 @@ class ProdukPembayaran extends StatefulWidget {
     required this.index,
     required this.productName,
     required this.price,
-    // required this.qty,
     required this.img,
     required this.note,
   });
@@ -236,7 +233,10 @@ class _ProdukPembayaranState extends State<ProdukPembayaran> {
                         height: 30,
                         width: 500,
                         child: TextFormField(
-                          readOnly: true,
+                          onChanged: (value) {
+                            state.listProductItem[widget.index]['notes'] =
+                                value;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Catatan',
                             hintText: widget.note,

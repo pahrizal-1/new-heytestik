@@ -18,7 +18,7 @@ class CartController extends StateClass {
   RxInt totalAmountSelected = 0.obs;
   RxInt totalAmount = 0.obs;
   RxBool isAllSelected = false.obs;
-
+  RxInt totalCart = 0.obs;
   List<RecentlyProductViewed.Data2> recentlyProduct = [];
 
   Future<List<Data2>> getCart(BuildContext context, int page,
@@ -32,12 +32,18 @@ class CartController extends StateClass {
       checklist.clear();
       checkedList.clear();
 
+      int take = 10;
+
       cart.value = await CartService().getCart(
         page,
+        take,
         search: search,
       );
       filterData.value = cart.value!.data!.data!;
       print("filter ${filterData.length}");
+
+      totalCart.value = filterData.length;
+
       for (int i = 0; i < filterData.length; i++) {
         checklist.add({
           "product_id": filterData[i].id,
@@ -55,6 +61,16 @@ class CartController extends StateClass {
     });
     isLoading.value = false;
     return filterData;
+  }
+
+  totalCartFunc() async {
+    int page = 1;
+    int take = 100;
+    cart.value = await CartService().getCart(
+      page,
+      take,
+    );
+    totalCart.value = cart.value!.data!.data!.length;
   }
 
   recentlyProductViewed(BuildContext context) async {
@@ -169,7 +185,7 @@ class CartController extends StateClass {
           message: res['message'],
         );
       }
-
+      await totalCartFunc();
       SnackbarWidget.getSuccessSnackbar(
           context, 'Info', 'Produk ditambahkan ke keranjang');
     });
@@ -188,8 +204,7 @@ class CartController extends StateClass {
           message: res['message'],
         );
       }
-      Get.back();
-      Get.back();
+
       SnackbarWidget.getSuccessSnackbar(
           context, 'Info', 'Produk berhasil dihapus');
     });

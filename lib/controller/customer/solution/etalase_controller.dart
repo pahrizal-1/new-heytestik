@@ -12,13 +12,14 @@ class EtalaseController extends StateClass {
   Rx<ConcernModel?> concern = ConcernModel.fromJson({}).obs;
   RxList<Data2> filterData = List<Data2>.empty().obs;
 
-  getConcern(BuildContext context) async {
+  Future<List<Data2>> getConcern(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       concern.value = await SolutionService().getConcern();
       filterData.value = concern.value!.data!.data!;
     });
     isLoading.value = false;
+    return filterData;
   }
 
   onChangeFilterText(String value) {

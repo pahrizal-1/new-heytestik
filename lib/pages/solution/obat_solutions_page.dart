@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
+import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -17,11 +19,12 @@ import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import '../../controller/customer/solution/medicine_controller.dart';
 import '../../core/global.dart';
 import '../../theme/theme.dart';
-import '../../widget/pencarian_search_widget.dart';
 import '../../widget/produk_widget.dart';
-import '../home/notifikasion_page.dart';
 import '../setings&akun/akun_home_page.dart';
-import 'keranjang_page.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
+    as Lookup;
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 
 class ObatSolutionsPage extends StatefulWidget {
   const ObatSolutionsPage({super.key});
@@ -31,19 +34,28 @@ class ObatSolutionsPage extends StatefulWidget {
 }
 
 class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
+  final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  final MedicineController solutionController = Get.put(MedicineController());
+  final MedicineController state = Get.put(MedicineController());
   final EtalaseController etalaseController = Get.put(EtalaseController());
   int page = 1;
   List<Medicine.Data2> medicines = [];
   List<Data2> drugRecipe = [];
+  List<Concern.Data2> concern = [];
+  String? search;
+  Map<String, dynamic> filter = {};
 
   @override
   void initState() {
-    etalaseController.getConcern(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      medicines.addAll(await solutionController.getMedicine(context, page));
-      drugRecipe.addAll(await solutionController.getDrugRecipe(context, page));
+      concern.addAll(await etalaseController.getConcern(context));
+      drugRecipe.addAll(await state.getDrugRecipe(context, page));
+      medicines.addAll(await state.getMedicine(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -52,8 +64,12 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines
-                .addAll(await solutionController.getMedicine(context, page));
+            medicines.addAll(await state.getMedicine(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
             setState(() {});
           });
         }
@@ -95,41 +111,11 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         actions: [
           Row(
             children: [
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotifikasionPage(),
-              //       ),
-              //     );
-              //   },
-              //   child: Image.asset(
-              //     'assets/icons/icon-home.png',
-              //     width: 18,
-              //     color: blackColor,
-              //   ),
-              // ),
               notificasion(context, '1', blackColor),
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const KeranjangPage(),
-              //       ),
-              //     );
-              //   },
-              //   child: Image.asset(
-              //     'assets/icons/trello1.png',
-              //     width: 21,
-              //     color: blackColor,
-              //   ),
-              // ),
-              keranjang(context, '2', blackColor),
+              TotalKeranjang(iconcolor: blackColor),
               const SizedBox(
                 width: 14,
               ),
@@ -160,37 +146,56 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
-            child: InkWell(
-              onTap: () {
-                Get.to(PencarianPageWidget());
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: fromCssColor('#CCCCCC'),
-                  ),
-                  borderRadius: BorderRadius.circular(35),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: fromCssColor('#CCCCCC'),
                 ),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 10,
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 10,
+                  ),
+                  child: Image.asset(
+                    'assets/icons/search1.png',
+                    width: 10,
+                  ),
+                ),
+                Container(
+                  transform: Matrix4.translationValues(0, -2, 0),
+                  constraints: const BoxConstraints(maxWidth: 250),
+                  child: TextFormField(
+                    controller: searchController,
+                    onEditingComplete: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ObatSearch(
+                            search: searchController.text,
+                          ),
                         ),
-                        child: Image.asset(
-                          'assets/icons/search1.png',
-                          width: 10,
+                      );
+                    },
+                    style: const TextStyle(
+                        fontSize: 15, fontFamily: "ProximaNova"),
+                    decoration: InputDecoration(
+                      hintText: "Cari Obat",
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        fontFamily: "ProximaNova",
+                        color: fromCssColor(
+                          '#9B9B9B',
                         ),
                       ),
-                      Text(
-                        'Cari Obat',
-                        style: subTitleTextStyle,
-                      )
-                    ]),
-              ),
+                    ),
+                  ),
+                ),
+              ]),
             ),
           ),
         ),
@@ -323,12 +328,73 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                           const SizedBox(
                             height: 9,
                           ),
-                          Image.asset(
-                            'assets/icons/filters.png',
-                            width: 78,
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isDismissible: false,
+                                      context: context,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.only(
+                                          topEnd: Radius.circular(25),
+                                          topStart: Radius.circular(25),
+                                        ),
+                                      ),
+                                      builder: (context) => FilterAll(),
+                                    ).then((value) async {
+                                      filter['display[]'] = value['display'];
+                                      filter['category[]'] = value['category'];
+                                      medicines.clear();
+                                      page = 1;
+                                      medicines.addAll(
+                                        await state.getMedicine(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    'assets/icons/filters.png',
+                                    width: 78,
+                                  ),
+                                ),
+                                // const SizedBox(
+                                //   width: 5,
+                                // ),
+                                // Container(
+                                //   height: 30,
+                                //   margin: const EdgeInsets.only(right: 5),
+                                //   padding: const EdgeInsets.only(left: 11.5),
+                                //   decoration: BoxDecoration(
+                                //     border: Border.all(color: borderColor),
+                                //     borderRadius: BorderRadius.circular(7),
+                                //   ),
+                                //   child: Row(
+                                //     children: [
+                                //       Text(
+                                //         'Etalase Obat',
+                                //         style: blackRegulerTextStyle.copyWith(
+                                //           fontSize: 15,
+                                //         ),
+                                //       ),
+                                //       const Icon(Icons.keyboard_arrow_down)
+                                //     ],
+                                //   ),
+                                // )
+                              ],
+                            ),
                           ),
                           const SizedBox(
-                            height: 12,
+                            height: 15,
                           ),
                         ],
                       ),
@@ -530,6 +596,200 @@ class CirkelCategory extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterAll extends StatefulWidget {
+  const FilterAll({super.key});
+
+  @override
+  State<FilterAll> createState() => _FilterAllState();
+}
+
+class _FilterAllState extends State<FilterAll> {
+  final SkincareController state = Get.put(SkincareController());
+  List<Lookup.Data2> lookupDisplay = [];
+  List<Lookup.Data2> lookupCategory = [];
+  List display = [];
+  List category = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      lookupDisplay.addAll(await state.getLookup(context, 'SKINCARE_DISPLAY'));
+      lookupCategory
+          .addAll(await state.getLookup(context, 'SKINCARE_CATEGORY'));
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filter',
+              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 31,
+            ),
+            Text(
+              'Pilih Display',
+              style: blackRegulerTextStyle.copyWith(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ...lookupDisplay.map((e) {
+              return FilterTapProduct(
+                title: e.value.toString(),
+                function: () {
+                  display.add(e.value.toString());
+                },
+              );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Pilih Category',
+              style: blackRegulerTextStyle.copyWith(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ...lookupCategory.map((e) {
+              return FilterTapProduct(
+                title: e.value.toString(),
+                function: () {
+                  category.add(e.value.toString());
+                },
+              );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context, {
+                      "display": [],
+                      "category": [],
+                    });
+                  },
+                  child: Container(
+                    width: 165,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Batal',
+                        style: grenTextStyle.copyWith(
+                            fontSize: 15, fontWeight: bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.pop(context, {
+                        "display": display,
+                        "category": category,
+                      });
+                    },
+                    child: Container(
+                      width: 165,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Simpan',
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 15, fontWeight: bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FilterTapProduct extends StatefulWidget {
+  final String title;
+  Function()? function;
+
+  FilterTapProduct({
+    Key? key,
+    required this.title,
+    this.function,
+  }) : super(key: key);
+
+  @override
+  State<FilterTapProduct> createState() => _FilterTapProductState();
+}
+
+class _FilterTapProductState extends State<FilterTapProduct> {
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              widget.function == null ? () {} : widget.function!();
+              setState(() {
+                isSelected = !isSelected;
+              });
+            },
+            child: Row(
+              children: [
+                Text(
+                  widget.title,
+                  style:
+                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+                ),
+                const Spacer(),
+                Icon(
+                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                  color: isSelected ? greenColor : blackColor,
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            thickness: 1,
+            color: borderColor,
+          )
         ],
       ),
     );

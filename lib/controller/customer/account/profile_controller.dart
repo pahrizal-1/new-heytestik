@@ -10,10 +10,8 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
@@ -119,7 +117,8 @@ class ProfileController extends StateClass {
       noHp.value = profileData.value.data!.noPhone ?? '-';
       gender.value = profileData.value.data!.gender ?? '-';
       dob.value = formatter.format(tdata);
-      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path!;
+      imgNetwork.value =
+          profileData.value.data!.mediaUserProfilePicture!.media!.path!;
 
       // data text editing
       fullNameController.text = profileData.value.data!.fullname ?? '-';
@@ -146,76 +145,53 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
-  verifyCode(BuildContext context, String method, String type) async {
+  verifyCodeEmail(
+    BuildContext context,
+    String text,
+  ) async {
     isLoading.value = true;
-    // try {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (method == 'WHATSAPP') {
-        var data = {
-          "method": method,
-          "type": type,
-          "user_id": int.parse(idUser.value),
-          "no_phone": nomorHpController.text
-        };
 
-        var response = await ProfileService().verifSend(data);
-        if (response['success'] != true && response['message'] != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: response['message'],
-          );
-        }
-      } else {
-        print('method  ' + method.toString());
-        var data = {
-          "method": method,
-          "type": type,
-          "user_id": int.parse(idUser.value),
-          "email": emailBaruController.text,
-        };
-        var response = await ProfileService().verifSend(data);
-        if (response['success'] != true && response['message'] != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: response['message'],
-          );
-        }
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "method": "EMAIL",
+        "type": "CHANGE_EMAIL",
+        "user_id": int.parse(idUser.value),
+        "email": text,
+      };
+      print('email ${text}');
+      var response = await ProfileService().verifSend(data);
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
       }
     });
-    // catch (e) {
-    //   print('error' + e.toString());
-    // }
+    isLoading.value = false;
+  }
 
-    // await ErrorConfig.doAndSolveCatchInContext(context, () async {
-    //   // if (email.text.isEmpty) {
-    //   //   throw ErrorConfig(
-    //   //     cause: ErrorConfig.userInput,
-    //   //     message: 'Email harus diisi',
-    //   //   );
-    //   // }
-    //   print('response' + idUser.toString());
+  verifyCodeWA(
+    BuildContext context,
+    String text,
+  ) async {
+    isLoading.value = true;
 
-    //   // method : WHATSAPP , EMAIL
-    //   // type : CHANGE_PHONE_NUMBER, CHANGE_EMAIL
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "method": "WHATSAPP",
+        "type": "CHANGE_PHONE_NUMBER",
+        "user_id": int.parse(idUser.value),
+        "no_phone": text
+      };
 
-    //   var data = {
-    //     "method": method,
-    //     "type": type,
-    //     "user_id": idUser,
-    //   };
-    //   print(data);
-    //   print('masuk sini');
-
-    //   print(response);
-
-    //   // if (response['success'] != true &&
-    //   //     response['message'] != 'Success') {
-    //   //   throw ErrorConfig(
-    //   //     cause: ErrorConfig.anotherUnknow,
-    //   //     message: response['message'],
-    //   //   );
-    //   // }
-    // });
+      var response = await ProfileService().verifSend(data);
+      if (response['success'] != true && response['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: response['message'],
+        );
+      }
+    });
     isLoading.value = false;
   }
 
@@ -252,7 +228,10 @@ class ProfileController extends StateClass {
   updateEmail(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {"email": emailBaruController.text, "verification_code": otp.value};
+      var data = {
+        "email": emailBaruController.text,
+        "verification_code": otp.value
+      };
 
       var response = await ProfileService().changeProfile(data);
       Navigator.pop(
@@ -351,7 +330,8 @@ class ProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
 
       Get.offAll(() => const LoginPageNew());
@@ -359,7 +339,8 @@ class ProfileController extends StateClass {
     });
   }
 
-  Future<List<Data2>> getUserActivityReview(BuildContext context, int page) async {
+  Future<List<Data2>> getUserActivityReview(
+      BuildContext context, int page) async {
     try {
       isLoading.value = true;
       FinishedReviewModel userProfileReview;
@@ -387,7 +368,8 @@ class ProfileController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserActivityPost(page, search: search, postType: postType);
+        data = await ProfileService()
+            .getUserActivityPost(page, search: search, postType: postType);
         isLoading.value = false;
       });
 
