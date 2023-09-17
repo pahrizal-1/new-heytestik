@@ -7,6 +7,8 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
@@ -24,6 +26,7 @@ class TransaksiKonsultan extends StatelessWidget {
   final String harga;
   final String expireDate;
   bool doneReview;
+  final String orderId;
   TransaksiKonsultan({
     super.key,
     required this.namaDokter,
@@ -35,226 +38,249 @@ class TransaksiKonsultan extends StatelessWidget {
     required this.img,
     this.expireDate = '',
     this.doneReview = false,
+    this.orderId = '',
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(7),
-        boxShadow: [
-          BoxShadow(
-            color: blackColor,
-            blurRadius: 0.5,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    pesanan,
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                  Text(
-                    tanggal,
-                    style: blackRegulerTextStyle.copyWith(fontSize: 10),
-                  )
-                ],
-              ),
-              const Spacer(),
-              progres == 'Menunggu Pembayaran'
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text('Bayar Sebelum'),
-                        Text(
-                          expireDate,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 255, 102, 0),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                          color: progres == 'Menunggu Pembayaran'
-                              ? const Color.fromARGB(255, 255, 204, 170)
-                              : progres == 'Ready'
-                                  ? const Color.fromARGB(255, 255, 204, 170)
-                                  : progres == 'Review'
-                                      ? const Color.fromARGB(255, 255, 204, 170)
-                                      : progres == 'Aktif'
-                                          ? subgreenColor
-                                          : progres == 'Selesai'
-                                              ? subgreenColor
-                                              : subgreenColor,
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Text(
-                        progres,
-                        style: grenTextStyle.copyWith(
-                          fontSize: 10,
-                          color: progres == 'Menunggu Pembayaran'
-                              ? const Color.fromARGB(255, 255, 102, 0)
-                              : progres == 'Ready'
-                                  ? const Color.fromARGB(255, 255, 102, 0)
-                                  : progres == 'Review'
-                                      ? const Color.fromARGB(255, 255, 102, 0)
-                                      : progres == 'Aktif'
-                                          ? greenColor
-                                          : progres == 'Selesai'
-                                              ? greenColor
-                                              : greenColor,
-                        ),
-                      ),
-                    )
-            ],
-          ),
-          const SizedBox(
-            height: 7,
-          ),
-          progres == 'Menunggu Pembayaran' || progres == 'Ready'
-              ? Text(
-                  keluhan,
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                )
-              : Row(
+    return InkWell(
+      onTap: () {
+        if (progres == 'Menunggu Pembayaran') {
+          Get.to(SelesaikanPembayaranKonsultasiPage(
+            isWillPop: false,
+            orderId: orderId,
+            bank: '',
+            expireTime: '',
+          ));
+        }
+
+        if (progres == 'Ready') {
+          Get.to(SuccessPage(
+            isNotConsultation: false,
+            orderId: orderId,
+            isWillPop: false,
+          ));
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(7),
+          boxShadow: [
+            BoxShadow(
+              color: blackColor,
+              blurRadius: 0.5,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    img == '-' || img == ''
-                        ? Container()
-                        : Container(
-                            height: 37,
-                            width: 37,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              image: DecorationImage(
-                                  image: NetworkImage(img), fit: BoxFit.cover),
+                    Text(
+                      pesanan,
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                    Text(
+                      tanggal,
+                      style: blackRegulerTextStyle.copyWith(fontSize: 10),
+                    )
+                  ],
+                ),
+                const Spacer(),
+                progres == 'Menunggu Pembayaran'
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('Bayar Sebelum'),
+                          Text(
+                            expireDate,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 255, 102, 0),
                             ),
                           ),
-                    const SizedBox(
-                      width: 10,
+                        ],
+                      )
+                    : Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                            color: progres == 'Menunggu Pembayaran'
+                                ? const Color.fromARGB(255, 255, 204, 170)
+                                : progres == 'Ready'
+                                    ? const Color.fromARGB(255, 255, 204, 170)
+                                    : progres == 'Review'
+                                        ? const Color.fromARGB(
+                                            255, 255, 204, 170)
+                                        : progres == 'Aktif'
+                                            ? subgreenColor
+                                            : progres == 'Selesai'
+                                                ? subgreenColor
+                                                : subgreenColor,
+                            borderRadius: BorderRadius.circular(7)),
+                        child: Text(
+                          progres,
+                          style: grenTextStyle.copyWith(
+                            fontSize: 10,
+                            color: progres == 'Menunggu Pembayaran'
+                                ? const Color.fromARGB(255, 255, 102, 0)
+                                : progres == 'Ready'
+                                    ? const Color.fromARGB(255, 255, 102, 0)
+                                    : progres == 'Review'
+                                        ? const Color.fromARGB(255, 255, 102, 0)
+                                        : progres == 'Aktif'
+                                            ? greenColor
+                                            : progres == 'Selesai'
+                                                ? greenColor
+                                                : greenColor,
+                          ),
+                        ),
+                      )
+              ],
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            progres == 'Menunggu Pembayaran' || progres == 'Ready'
+                ? Text(
+                    keluhan,
+                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  )
+                : Row(
+                    children: [
+                      img == '-' || img == ''
+                          ? Container()
+                          : Container(
+                              height: 37,
+                              width: 37,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                image: DecorationImage(
+                                    image: NetworkImage(img),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            namaDokter,
+                            style: blackHigtTextStyle.copyWith(fontSize: 13),
+                          ),
+                          Text(
+                            keluhan,
+                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+            const SizedBox(
+              height: 14,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Harga',
+                      style: blackRegulerTextStyle.copyWith(fontSize: 13),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          namaDokter,
-                          style: blackHigtTextStyle.copyWith(fontSize: 13),
-                        ),
-                        Text(
-                          keluhan,
-                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                        ),
-                      ],
+                    Text(
+                      harga,
+                      style: blackHigtTextStyle.copyWith(fontSize: 13),
                     ),
                   ],
                 ),
-          const SizedBox(
-            height: 14,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Total Harga',
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                  ),
-                  Text(
-                    harga,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              progres == 'Selesai'
-                  ? doneReview
-                      ? Container()
-                      : InkWell(
-                          onTap: () {
-                            Get.to(UlasanSetingsPage());
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 22, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: greenColor,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Ulas',
-                                style: whiteTextStyle.copyWith(fontSize: 13),
+                const Spacer(),
+                progres == 'Selesai'
+                    ? doneReview
+                        ? Container()
+                        : InkWell(
+                            onTap: () {
+                              Get.to(UlasanSetingsPage());
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 22, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: greenColor,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Ulas',
+                                  style: whiteTextStyle.copyWith(fontSize: 13),
+                                ),
                               ),
                             ),
+                          )
+                    : Container(),
+                const SizedBox(
+                  width: 5,
+                ),
+                progres == 'Aktif' || progres == 'Selesai'
+                    ? InkWell(
+                        onTap: () {
+                          Get.to(
+                            const SelectConditionsPage(),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: greenColor),
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                        )
-                  : Container(),
-              const SizedBox(
-                width: 5,
-              ),
-              progres == 'Aktif' || progres == 'Selesai'
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(
-                          const SelectConditionsPage(),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Konsultasi lagi',
-                            style: grenTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-              progres == 'Menunggu Pembayaran'
-                  ? InkWell(
-                      onTap: () {
-                        Get.to(const CaraPembayaranPage());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Lihat cara bayar',
-                            style: grenTextStyle.copyWith(fontSize: 13),
+                          child: Center(
+                            child: Text(
+                              'Konsultasi lagi',
+                              style: grenTextStyle.copyWith(fontSize: 13),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
-        ],
+                      )
+                    : Container(),
+                progres == 'Menunggu Pembayaran'
+                    ? InkWell(
+                        onTap: () {
+                          Get.to(const CaraPembayaranPage());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: greenColor),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Lihat cara bayar',
+                              style: grenTextStyle.copyWith(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -262,16 +288,25 @@ class TransaksiKonsultan extends StatelessWidget {
 
 class TransaksiProduk extends StatelessWidget {
   Detail? product;
-
+  final String orderId;
   TransaksiProduk({
     super.key,
     required this.product,
+    this.orderId = '',
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if (product?.status.toString() == 'MENUNGGU_PEMBAYARAN') {
+          Get.to(SelesaikanPembayaranKonsultasiPage(
+            isWillPop: false,
+            orderId: orderId,
+            bank: '',
+            expireTime: '',
+          ));
+        }
         Get.to(DetailTransaksiPage());
       },
       child: Container(

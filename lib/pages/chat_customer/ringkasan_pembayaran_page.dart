@@ -282,6 +282,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                 widget.interestConditionId!.toInt(),
                                 doInPost: () async {
                                   Get.offAll(SelesaikanPembayaranKonsultasiPage(
+                                    isWillPop: true,
                                     orderId: state.orderId.value,
                                     bank: state.bank.value,
                                     expireTime: state.expireTime.value,

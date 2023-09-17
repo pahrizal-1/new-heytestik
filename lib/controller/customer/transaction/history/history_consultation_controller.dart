@@ -93,6 +93,7 @@ class HistoryConsultationController extends StateClass {
         if (statusTransaction.value == 'settlement') {
           Get.offAll(SuccessPage(
             orderId: orderId,
+            isWillPop: true,
           ));
           showDialog(
             context: context,

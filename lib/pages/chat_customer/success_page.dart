@@ -13,9 +13,13 @@ import '../../widget/button_widget.dart';
 class SuccessPage extends StatefulWidget {
   bool isNotConsultation;
   String orderId;
-
-  SuccessPage(
-      {this.isNotConsultation = false, required this.orderId, super.key});
+  bool isWillPop;
+  SuccessPage({
+    this.isNotConsultation = false,
+    required this.orderId,
+    required this.isWillPop,
+    super.key,
+  });
 
   @override
   State<SuccessPage> createState() => _SuccessPageState();
@@ -23,10 +27,14 @@ class SuccessPage extends StatefulWidget {
 
 class _SuccessPageState extends State<SuccessPage> {
   Future<bool> onWillPop() async {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialogTransaksi(),
-    );
+    if (widget.isWillPop) {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+    } else {
+      Get.back();
+    }
     return Future.value(false);
   }
 

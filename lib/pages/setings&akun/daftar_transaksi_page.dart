@@ -493,6 +493,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                             null
                                         ? false
                                         : true,
+                                    orderId:
+                                        history[index].transactionId.toString(),
                                   );
                                 }
 

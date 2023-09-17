@@ -16,11 +16,13 @@ import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 
 class SelesaikanPembayaranProdukPage extends StatefulWidget {
+  bool isWillPop;
   String bank;
   String orderId;
   String expireTime;
 
   SelesaikanPembayaranProdukPage({
+    required this.isWillPop,
     this.bank = '',
     this.orderId = '',
     this.expireTime = '',
@@ -99,10 +101,14 @@ class _SelesaiPembayaranProdukPageState
   }
 
   Future<bool> onWillPop() async {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialogTransaksi(),
-    );
+    if (widget.isWillPop) {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+    } else {
+      Get.back();
+    }
     return Future.value(false);
   }
 
@@ -121,13 +127,16 @@ class _SelesaiPembayaranProdukPageState
         appBar: AppBar(
           elevation: 0,
           backgroundColor: greenColor,
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               InkWell(
                 onTap: () {
-                  setState(() {
+                  if (widget.isWillPop) {
                     onWillPop();
-                  });
+                  } else {
+                    Get.back();
+                  }
                 },
                 child: Icon(
                   Icons.arrow_back,
