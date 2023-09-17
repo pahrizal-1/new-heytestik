@@ -162,27 +162,7 @@ class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      FilterPublis(
-                                        title: 'Semua Orang',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Orang yang Mengikuti',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Orang Yang di Sebutkan',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Saya',
-                                      ),
+                                      FilterPublis(),
                                     ],
                                   ),
                                 ),

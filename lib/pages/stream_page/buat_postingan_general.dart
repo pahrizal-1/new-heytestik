@@ -155,8 +155,11 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                             Wrap(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 25, horizontal: 20),
+                                  padding: const EdgeInsets.only(
+                                    left: 35,
+                                    right: 34,
+                                    top: 40,
+                                  ),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -164,32 +167,12 @@ class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
                                       Text(
                                         'Siapa Yang Bisa Melihat Postingan Ini?',
                                         style: blackTextStyle.copyWith(
-                                            fontSize: 16),
+                                            fontSize: 17),
                                       ),
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      FilterPublis(
-                                        title: 'Semua Orang',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Orang yang Mengikuti',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Orang Yang di Sebutkan',
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FilterPublis(
-                                        title: 'Hanya Saya',
-                                      ),
+                                      FilterPublis(),
                                     ],
                                   ),
                                 ),
