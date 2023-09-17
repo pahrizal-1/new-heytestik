@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -16,7 +15,8 @@ class NotifikasionPage extends StatefulWidget {
 }
 
 class _NotifikasionPageState extends State<NotifikasionPage> {
-  final NotificationCustomerController state = Get.put(NotificationCustomerController());
+  final NotificationCustomerController state =
+      Get.put(NotificationCustomerController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];
@@ -96,7 +96,8 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       width: 8.0,
                     ),
                     Text(
-                      timeago.format(DateTime.parse(notifications[index].createdAt)),
+                      timeago.format(
+                          DateTime.parse(notifications[index].createdAt)),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.0,
@@ -107,13 +108,16 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                 const SizedBox(
                   height: 22,
                 ),
-                if (notifications[index].type == "TRANSACTION_CONSULTATION_SUCCESS" || notifications[index].type == 'CHAT')
+                if (notifications[index].type ==
+                        "TRANSACTION_CONSULTATION_SUCCESS" ||
+                    notifications[index].type == 'CHAT')
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TabBarCustomer(currentIndex: 1),
+                          builder: (context) =>
+                              const TabBarCustomer(currentIndex: 1),
                         ),
                       );
                     },
@@ -136,19 +140,23 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                   ),
                 if (notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.05),
-                        blurRadius: 10,
-                      )
-                    ]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.05),
+                            blurRadius: 10,
+                          )
+                        ]),
                     child: Row(
                       children: [
                         Expanded(
                           child: Column(
                             children: [
-                              Text("Category : ${notifications[index].data['category']}"),
-                              Text("Topic : ${notifications[index].data['topic']}"),
+                              Text(
+                                  "Category : ${notifications[index].data['category']}"),
+                              Text(
+                                  "Topic : ${notifications[index].data['topic']}"),
                             ],
                           ),
                         ),

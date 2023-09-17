@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/account_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/home_journey.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
@@ -19,7 +18,7 @@ import '../bantuan_mihey/home_bantuan_minhey_page.dart';
 import '../tabbar/tabbar_customer.dart';
 
 class AkunHomePage extends StatefulWidget {
-  AkunHomePage({super.key});
+  const AkunHomePage({super.key});
 
   @override
   State<AkunHomePage> createState() => _AkunHomePageState();
