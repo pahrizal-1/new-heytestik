@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member, body_might_complete_normally_nullable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
@@ -29,7 +31,6 @@ class _UlasanSetingsPageState extends State<UlasanSetingsPage> {
   final ReviewController state = Get.put(ReviewController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     state.dataWaiting.value.clear();
   }
@@ -276,6 +277,7 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                                 '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
                           );
                         }
+                        return null;
                       },
                     ),
                     Obx(
