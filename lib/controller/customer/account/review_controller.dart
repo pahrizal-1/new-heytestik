@@ -90,7 +90,6 @@ class ReviewController extends StateClass {
       print("dataWaiting ${dataWaiting.value.length}");
     });
     isLoading.value = false;
-
     return dataWaiting;
   }
 
