@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_con
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
@@ -488,12 +489,13 @@ class _SolutionPageState extends State<SolutionPage> {
                           padding: const EdgeInsets.only(left: 25),
                           child: InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => const PeelinngTraetmentPage(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PeelinngTraetmentPage(),
+                                ),
+                              );
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8),
