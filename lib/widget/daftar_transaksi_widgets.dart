@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_kons
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
@@ -512,7 +513,16 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'SELESAI'
                     ? InkWell(
                         onTap: () {
-                          Get.to(const ObatSolutionsPage());
+                          if (product!
+                                  .transactionProductItems?[0].product?.type ==
+                              'DRUGS') {
+                            Get.to(const ObatSolutionsPage());
+                          }
+                          if (product!
+                                  .transactionProductItems?[0].product?.type ==
+                              'SKINCARE') {
+                            Get.to(const SolutionSkincare1Page());
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
