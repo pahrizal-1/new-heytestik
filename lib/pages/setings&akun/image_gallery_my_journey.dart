@@ -179,142 +179,162 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
                                   for (int i = 0;
                                       i < gallery[index].journey!.length;
                                       i++)
-                                    Wrap(spacing: 4, runSpacing: 4, children: [
-                                      for (int a = 0;
-                                          a <
-                                              gallery[index]
-                                                  .journey![i]
-                                                  .mediaMyJourney!
-                                                  .length;
-                                          a++)
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              ConvertDate.defaultDate(
-                                                  gallery[index]
-                                                      .journey![i]
-                                                      .mediaMyJourney![0]
-                                                      .createdAt
-                                                      .toString()),
-                                              style: blackRegulerTextStyle
-                                                  .copyWith(fontSize: 13),
-                                            ),
-                                            Stack(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      ZoomImageDetail(
-                                                        concern: gallery[index]
-                                                                .concern!
-                                                                .name ??
-                                                            '-',
-                                                        beforeImage:
-                                                            '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}',
-                                                        dateBefore: gallery[
-                                                                index]
-                                                            .journey![i]
-                                                            .mediaMyJourney![a]
-                                                            .createdAt
-                                                            .toString(),
-                                                        afterImage: gallery[
-                                                                        index]
-                                                                    .journey!
-                                                                    .length ==
-                                                                (i + 1)
-                                                            ? ''
-                                                            : gallery[index]
-                                                                        .journey!
-                                                                        .length >
-                                                                    1
-                                                                ? '${Global.FILE}/${gallery[index].journey![i + 1].mediaMyJourney?[a].media?.path}'
-                                                                : '',
-                                                        dateAfter: gallery[
-                                                                        index]
-                                                                    .journey!
-                                                                    .length ==
-                                                                (i + 1)
-                                                            ? ''
-                                                            : gallery[index]
-                                                                        .journey!
-                                                                        .length >
-                                                                    1
-                                                                ? gallery[index]
-                                                                    .journey![
-                                                                        i + 1]
-                                                                    .mediaMyJourney![
-                                                                        a]
-                                                                    .createdAt
-                                                                    .toString()
-                                                                : '',
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    height: 72,
-                                                    width: 82,
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 5),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7),
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}'),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  right: 0,
-                                                  child: Checkbox(
-                                                    value: data[index]
-                                                                ['journey'][i]
-                                                            ['mediaMyJourneys']
-                                                        [a]['imageSelected'],
-                                                    checkColor: whiteColor,
-                                                    activeColor: greenColor,
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        data[index]['journey']
-                                                                    [i][
-                                                                'mediaMyJourneys'][a]
-                                                            [
-                                                            'imageSelected'] = value!;
-                                                      });
-                                                      print(
-                                                          "data ke ${index + 1} baris ke ${i + 1} gambar ke ${a + 1}");
-
-                                                      if (data[index]['journey']
-                                                                  [i][
-                                                              'mediaMyJourneys']
-                                                          [
-                                                          a]['imageSelected']) {
-                                                        var img =
-                                                            '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney![a].media?.path}';
-                                                        selectedImage.add(img);
-                                                        setState(() {});
-                                                      } else {
-                                                        selectedImage
-                                                            .removeWhere(
-                                                                (String item) {
-                                                          return item ==
-                                                              '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney![a].media?.path}';
-                                                        });
-                                                        setState(() {});
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ConvertDate.defaultDate(gallery[index]
+                                              .journey![i]
+                                              .mediaMyJourney![0]
+                                              .createdAt
+                                              .toString()),
+                                          style: blackRegulerTextStyle.copyWith(
+                                              fontSize: 13),
                                         ),
-                                    ]),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Wrap(
+                                              spacing: 4,
+                                              runSpacing: 4,
+                                              children: [
+                                                for (int a = 0;
+                                                    a <
+                                                        gallery[index]
+                                                            .journey![i]
+                                                            .mediaMyJourney!
+                                                            .length;
+                                                    a++)
+                                                  Stack(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            ZoomImageDetail(
+                                                              concern: gallery[
+                                                                          index]
+                                                                      .concern!
+                                                                      .name ??
+                                                                  '-',
+                                                              beforeImage:
+                                                                  '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}',
+                                                              dateBefore: gallery[
+                                                                      index]
+                                                                  .journey![i]
+                                                                  .mediaMyJourney![
+                                                                      a]
+                                                                  .createdAt
+                                                                  .toString(),
+                                                              afterImage: gallery[
+                                                                              index]
+                                                                          .journey!
+                                                                          .length ==
+                                                                      (i + 1)
+                                                                  ? ''
+                                                                  : gallery[index]
+                                                                              .journey!
+                                                                              .length >
+                                                                          1
+                                                                      ? '${Global.FILE}/${gallery[index].journey![i + 1].mediaMyJourney?[a].media?.path}'
+                                                                      : '',
+                                                              dateAfter: gallery[
+                                                                              index]
+                                                                          .journey!
+                                                                          .length ==
+                                                                      (i + 1)
+                                                                  ? ''
+                                                                  : gallery[index]
+                                                                              .journey!
+                                                                              .length >
+                                                                          1
+                                                                      ? gallery[
+                                                                              index]
+                                                                          .journey![i +
+                                                                              1]
+                                                                          .mediaMyJourney![
+                                                                              a]
+                                                                          .createdAt
+                                                                          .toString()
+                                                                      : '',
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 72,
+                                                          width: 82,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  bottom: 5),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        7),
+                                                            image:
+                                                                DecorationImage(
+                                                              image: NetworkImage(
+                                                                  '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney?[a].media?.path}'),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        right: 0,
+                                                        child: Checkbox(
+                                                          value: data[index][
+                                                                      'journey'][i]
+                                                                  [
+                                                                  'mediaMyJourneys']
+                                                              [
+                                                              a]['imageSelected'],
+                                                          checkColor:
+                                                              whiteColor,
+                                                          activeColor:
+                                                              greenColor,
+                                                          onChanged: (value) {
+                                                            setState(() {
+                                                              data[index]['journey']
+                                                                          [i][
+                                                                      'mediaMyJourneys'][a]
+                                                                  [
+                                                                  'imageSelected'] = value!;
+                                                            });
+                                                            print(
+                                                                "data ke ${index + 1} baris ke ${i + 1} gambar ke ${a + 1}");
+
+                                                            if (data[index][
+                                                                        'journey'][i]
+                                                                    [
+                                                                    'mediaMyJourneys'][a]
+                                                                [
+                                                                'imageSelected']) {
+                                                              var img =
+                                                                  '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney![a].media?.path}';
+                                                              selectedImage
+                                                                  .add(img);
+                                                              setState(() {});
+                                                            } else {
+                                                              selectedImage
+                                                                  .removeWhere(
+                                                                      (String
+                                                                          item) {
+                                                                return item ==
+                                                                    '${Global.FILE}/${gallery[index].journey![i].mediaMyJourney![a].media?.path}';
+                                                              });
+                                                              setState(() {});
+                                                            }
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ]),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               );
                             }),
