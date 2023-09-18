@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 
-import '../../../models/clinic.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/clinics_model.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/treatment_recommendation_model.dart';
 import '../../../service/doctor/treatment/treatment_services.dart';
@@ -146,6 +145,7 @@ class TreatmentRecommendationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
       var res = await TreatmentServices().deleteTreatmentRecommendation(id);
+      log(res);
       getRecipeTreatement(context);
       isLoading.value = false;
     });

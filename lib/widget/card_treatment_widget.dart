@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import '../pages/solution/view_detail_klink_page.dart';
-
 class CardTreatment extends StatelessWidget {
   final String namaKlink;
   final String urlImg;

@@ -22,7 +22,6 @@ import '../../../service/auth/change_password_service.dart';
 import '../../../service/doctor/profile/profile_service.dart';
 import '../../../service/doctor/statistic/statistic_service.dart';
 import '../../../service/doctor/user_balance/user_balance_service.dart';
-import '../../../widget/snackbar_widget.dart';
 
 class DoctorProfileController extends StateClass {
   RxString selectedDate = ''.obs;
@@ -370,6 +369,7 @@ class DoctorProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
       var res = await profileService.closedAccount();
+      print(res);
       await logout(context);
       isLoading.value = false;
     });

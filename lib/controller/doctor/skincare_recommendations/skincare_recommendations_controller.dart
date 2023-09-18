@@ -155,6 +155,7 @@ class SkincareRecommendationController extends StateClass {
       isLoading.value = true;
       var res = await SkincareRecommendationService()
           .deleteSkincareRecommendation(id);
+      print(res);
       getSkincareRecommendation(context);
       isLoading.value = false;
     });

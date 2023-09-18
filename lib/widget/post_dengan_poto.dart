@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/poto_my_journey_widgets.dart';
-import 'package:heystetik_mobileapps/widget/shere_link_stream.dart';
 
-import '../pages/stream_page/komentar_stream_page.dart';
 import 'appbar_widget.dart';
 
 class PostDenganPoto extends StatelessWidget {

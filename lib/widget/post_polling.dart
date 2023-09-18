@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/widget/shere_link_stream.dart';
 
-import '../pages/stream_page/komentar_stream_page.dart';
 import '../theme/theme.dart';
 import 'appbar_widget.dart';
 
@@ -85,7 +83,8 @@ class PostPolling extends StatelessWidget {
                 height: 14,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   border: Border.all(
@@ -108,7 +107,8 @@ class PostPolling extends StatelessWidget {
                         ),
                         Text(
                           'Polling',
-                          style: grenTextStyle.copyWith(fontSize: 15, fontWeight: regular),
+                          style: grenTextStyle.copyWith(
+                              fontSize: 15, fontWeight: regular),
                         ),
                       ],
                     ),
@@ -138,7 +138,8 @@ class PostPolling extends StatelessWidget {
                       ),
                       child: Text(
                         'Botox',
-                        style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
+                        style: grenTextStyle.copyWith(
+                            fontSize: 14, fontWeight: regular),
                       ),
                     ),
                     Container(
@@ -157,7 +158,8 @@ class PostPolling extends StatelessWidget {
                       ),
                       child: Text(
                         'Threadlift',
-                        style: grenTextStyle.copyWith(fontSize: 14, fontWeight: regular),
+                        style: grenTextStyle.copyWith(
+                            fontSize: 14, fontWeight: regular),
                       ),
                     ),
                     const SizedBox(
@@ -214,7 +216,8 @@ class PostPolling extends StatelessWidget {
                         width: 21,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/icons/bookmark-icons.png'),
+                            image:
+                                AssetImage('assets/icons/bookmark-icons.png'),
                           ),
                         ),
                       ),
@@ -233,7 +236,11 @@ class PostPolling extends StatelessWidget {
                       children: [
                         Text(
                           '13',
-                          style: TextStyle(color: greyColor, fontSize: 14, fontWeight: bold, fontFamily: 'ProximaNova'),
+                          style: TextStyle(
+                              color: greyColor,
+                              fontSize: 14,
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova'),
                         ),
                         const SizedBox(
                           width: 5,
