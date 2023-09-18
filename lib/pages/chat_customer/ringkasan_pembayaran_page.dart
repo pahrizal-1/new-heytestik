@@ -285,6 +285,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                     isWillPop: true,
                                     orderId: state.orderId.value,
                                     bank: state.bank.value,
+                                    bankImage: state.bankImage.value,
                                     expireTime: state.expireTime.value,
                                   ));
                                 },

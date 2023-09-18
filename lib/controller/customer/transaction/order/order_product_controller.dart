@@ -17,6 +17,7 @@ class OrderProductController extends StateClass {
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
+  RxString bankImage = ''.obs;
   RxList<PaymentMethod.Data> getPaymentMethod =
       List<PaymentMethod.Data>.empty().obs;
   RxString orderId = ''.obs;

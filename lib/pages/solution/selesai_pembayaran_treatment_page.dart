@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -19,12 +20,14 @@ import '../chat_customer/cara_pembayaran_page.dart';
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   bool isWillPop;
   String bank;
+  String bankImage;
   String orderId;
   String expireTime;
   final Data2 treatment;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
     this.bank = '',
+    this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
     required this.treatment,
@@ -245,10 +248,15 @@ class _SelesaikanPembayaranTreatmentPageState
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
-                              Image.asset(
-                                'assets/images/logo-bca.png',
-                                width: 62,
-                              ),
+                              widget.bankImage != ''
+                                  ? Image.network(
+                                      '${Global.FILE}/${widget.bankImage}',
+                                      width: 62,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/logo-bca.png',
+                                      width: 62,
+                                    ),
                             ],
                           ),
                           const SizedBox(
