@@ -9,8 +9,8 @@ import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.da
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
@@ -300,14 +300,15 @@ class TransaksiProduk extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (product?.status.toString() == 'MENUNGGU_PEMBAYARAN') {
-          Get.to(SelesaikanPembayaranKonsultasiPage(
+          Get.to(SelesaikanPembayaranProdukPage(
             isWillPop: false,
             orderId: orderId,
             bank: '',
             expireTime: '',
           ));
         }
-        Get.to(DetailTransaksiPage());
+        // INI DIMATIIN DULU
+        // Get.to(DetailTransaksiPage());
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
