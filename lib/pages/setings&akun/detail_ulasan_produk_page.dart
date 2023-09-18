@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import '../../theme/theme.dart';
-import '../../widget/rating_dengan_ulasan_widgets.dart';
 import '../../widget/share_solusion_widget_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
