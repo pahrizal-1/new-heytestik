@@ -23,15 +23,15 @@ class LoginController extends StateClass {
       if (email.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'Email harus diisi',
+          message: 'Email atau Nomor Handphone harus diisi',
         );
       }
-      if (emailValid.hasMatch(email.text) == false) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Format email salah',
-        );
-      }
+      // if (emailValid.hasMatch(email.text) == false) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Format email salah',
+      //   );
+      // }
       if (password.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -111,10 +111,10 @@ class LoginController extends StateClass {
       try {
         final GoogleSignIn _googleSignIn = GoogleSignIn();
         GoogleSignInAccount? account = await _googleSignIn.signIn();
-        if (account == null) {
-          // User canceled the sign-in process.
-          return;
-        }
+
+        // User canceled the sign-in process.
+        if (account == null) return;
+
         _googleSignIn.signIn().then((result) {
           result?.authentication.then((googleKey) async {
             print("accessToken " + googleKey.accessToken.toString());
