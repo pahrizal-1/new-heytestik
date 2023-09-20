@@ -45,7 +45,8 @@ class VerificationPage extends StatelessWidget {
               height: 4,
             ),
             Text(
-              state.phoneNumber.toString(),
+              '0${state.phoneNumber.toString()}',
+              // state.phoneNumber.toString(),
               style: blackTextStyle.copyWith(),
             ),
             const SizedBox(
