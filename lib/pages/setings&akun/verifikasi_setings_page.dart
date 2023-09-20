@@ -206,7 +206,7 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                                 ));
                       } else {
                         state.verifyCodeWA(
-                            context,state.nomorHpController.text);
+                            context, state.nomorHpController.text);
                         resetTimer();
                       }
                     },
@@ -415,7 +415,8 @@ class _VerifikasiEmailSetingsPageState
                                   subtitle: 'Coba beberapa saat lagi',
                                 ));
                       } else {
-                        state.verifyCodeEmail(context, state.emailBaruController.text);
+                        state.verifyCodeEmail(
+                            context, state.emailBaruController.text);
                         resetTimer();
                       }
                     },

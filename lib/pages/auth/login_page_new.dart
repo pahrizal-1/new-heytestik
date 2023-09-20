@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
+import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../theme/theme.dart';
@@ -99,6 +100,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
             InkWell(
               onTap: () {
                 showModalBottomSheet(
+                  isDismissible: true,
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadiusDirectional.only(
@@ -115,9 +117,12 @@ class _LoginPageNewState extends State<LoginPageNew> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Lupa Kata Sandi?',
-                            style: blackTextStyle.copyWith(fontSize: 20),
+                          InkWell(
+                            onTap: () {},
+                            child: Text(
+                              'Lupa Kata Sandi?',
+                              style: blackTextStyle.copyWith(fontSize: 20),
+                            ),
                           ),
                           const SizedBox(
                             height: 28,

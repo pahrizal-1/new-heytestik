@@ -145,7 +145,7 @@ class VerifikasiKtpPage extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      'PPastikan foto KTP terlihat terang dan jelas.',
+                      'Pastikan foto KTP terlihat terang dan jelas.',
                       style: blackRegulerTextStyle.copyWith(
                           fontSize: 15, color: blackColor),
                     )
