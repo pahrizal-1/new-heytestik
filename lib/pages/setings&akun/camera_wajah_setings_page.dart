@@ -1,6 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/poto_wajah_page.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
 
@@ -13,6 +20,7 @@ class CameraWajahSettingsPage extends StatefulWidget {
 }
 
 class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
+  final ProfileController state = Get.put(ProfileController());
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
@@ -127,41 +135,42 @@ class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
                   color: Colors.transparent,
                   height: 24,
                 ),
-                InkWell(
-                  onTap: () async {
-                    try {
-                      if (controller != null) {
-                        //check if contrller is not null
-                        if (controller!.value.isInitialized) {
-                          //check if controller is initialized
-                          image =
-                              await controller!.takePicture(); //capture image
-                          setState(() {
-                            //update UI
-                          });
-                        }
-                      }
-                    } catch (e) {
-                      print(e); //show error
-                    }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PotoWajahPage()));
-                  },
-                  child: Image.asset(
-                    'assets/icons/button-camera.png',
-                    width: 70,
-                    height: 70,
-                  ),
+                Obx(
+                  () => state.isLoadingCam.value
+                      ? LoadingMore()
+                      : InkWell(
+                          onTap: () async {
+                            state.isLoadingCam.value = true;
+                            if (controller != null) {
+                              //check if contrller is not null
+                              if (controller!.value.isInitialized) {
+                                //check if controller is initialized
+                                image = await controller!
+                                    .takePicture(); //capture image
+                                state.facePhoto = File(image!.path);
+                                setState(() {});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PotoWajahPage(),
+                                  ),
+                                );
+                              }
+                            }
+                            state.isLoadingCam.value = false;
+                          },
+                          child: Image.asset(
+                            'assets/icons/button-camera.png',
+                            width: 70,
+                            height: 70,
+                          ),
+                        ),
                 ),
                 InkWell(
                   onTap: () {
                     setState(() {
-                      setState(() {
-                        direction = direction == 0 ? 1 : 0;
-                        loadCamera(direction);
-                      });
+                      direction = direction == 0 ? 1 : 0;
+                      loadCamera(direction);
                     });
                   },
                   child: Image.asset(

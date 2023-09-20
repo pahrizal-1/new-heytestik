@@ -55,6 +55,10 @@ class ProfileController extends StateClass {
   RxBool isSave = false.obs;
   RxString imgNetwork = ''.obs;
 
+  File? idCardPhoto;
+  File? facePhoto;
+  RxBool isLoadingCam = false.obs;
+
   startVerifyCountTime() {
     // await timeCondition();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -76,6 +80,43 @@ class ProfileController extends StateClass {
     print('fullname ${fullName.value}');
     print('dataUser $dataUser');
     print('dataUser ${dataUser['fullname']}');
+  }
+
+  Future accountVerification(BuildContext context,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      if (idCardPhoto!.path.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Foto KTP harus diisi',
+        );
+      }
+      if (facePhoto!.path.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Foto wajah harus diisi',
+        );
+      }
+      var data = {
+        "idCardPhoto": idCardPhoto?.path,
+        "facePhoto": facePhoto?.path
+      };
+      print("data $data");
+      var res = await ProfileService().accountVerification(data);
+      print("res $res");
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+
+      idCardPhoto = null;
+      facePhoto = null;
+      doInPost();
+    });
+    isLoading.value = false;
   }
 
   closeAccount(BuildContext context, {required Function() doInPost}) async {
@@ -286,6 +327,7 @@ class ProfileController extends StateClass {
           },
         ),
       );
+      print('response $response');
       isSave.value = false;
       Navigator.pop(context);
       getProfile(context);

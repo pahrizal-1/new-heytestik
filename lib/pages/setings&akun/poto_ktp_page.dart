@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_data_scan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-import 'camera_ktp_setings_page.dart';
-
 class PotoKtp extends StatelessWidget {
-  const PotoKtp({super.key});
+  PotoKtp({super.key});
+  final ProfileController state = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +56,12 @@ class PotoKtp extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
-                image: const DecorationImage(
-                    image: AssetImage(
-                      'assets/images/ktp2.png',
-                    ),
-                    fit: BoxFit.cover),
+                image: DecorationImage(
+                  image: FileImage(
+                    File(state.idCardPhoto!.path),
+                  ),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             const SizedBox(
@@ -78,12 +82,7 @@ class PotoKtp extends StatelessWidget {
                     height: 50,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CameraCutomeKTP(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       style: TextButton.styleFrom(
                         side: BorderSide(color: borderColor, width: 0.5),
