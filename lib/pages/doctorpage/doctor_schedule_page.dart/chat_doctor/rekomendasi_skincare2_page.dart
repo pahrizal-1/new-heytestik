@@ -46,7 +46,7 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                     state.subtitleController.clear();
                     state.dataSkincare = [];
                     state.notesController = [];
-                    state.itemCount = 0;
+                    state.itemCount = [];
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -410,8 +410,11 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  if (state.itemCount >= 1) {
-                                                    state.itemCount--;
+                                                  if (state.itemCount![index] >=
+                                                      1) {
+                                                    state.itemCount?[index]--;
+                                                    print(
+                                                        'state ${state.itemCount![index]}');
                                                   }
                                                 });
                                               },
@@ -427,7 +430,8 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                               ),
                                             ),
                                             Text(
-                                              state.itemCount.toString(),
+                                              state.itemCount![index]
+                                                  .toString(),
                                               style: TextStyle(
                                                 fontFamily: "ProximaNova",
                                                 fontSize: 13,
@@ -437,8 +441,9 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  if (state.itemCount >= 0) {
-                                                    state.itemCount++;
+                                                  if (state.itemCount![index] >=
+                                                      0) {
+                                                    state.itemCount?[index]++;
                                                     print('stat' +
                                                         state.itemCount
                                                             .toString());
@@ -540,6 +545,10 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
                                               .toJson());
                                           state.notesController
                                               .add(TextEditingController());
+                                          state.itemCount = List.generate(
+                                              state.solutionSkincare.length,
+                                              (_) => 1);
+                                          print('brpa ${state.itemCount}');
                                         });
                                         Navigator.pop(context);
                                       },

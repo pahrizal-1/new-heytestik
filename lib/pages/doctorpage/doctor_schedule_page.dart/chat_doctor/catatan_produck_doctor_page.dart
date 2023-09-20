@@ -871,24 +871,12 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        // if (state.listSkincare[index]['qty'] >=
-                                        //     0) {
-                                        //   state.listSkincare[index]['qty']++;
-                                        //   print('stat' +
-                                        //       state.listSkincare[index]['qty']
-                                        //           .toString());
-                                        // }
                                         if (state.listItemCount![index] >= 0) {
                                           state.listItemCount![index]++;
                                           print('stat' +
                                               state.listItemCount![index]
                                                   .toString());
                                         }
-                                        // if (state.itemCount >= 0) {
-                                        //   state.itemCount++;
-                                        //   print('stat' +
-                                        //       state.itemCount.toString());
-                                        // }
                                       });
                                     },
                                     child: Text(

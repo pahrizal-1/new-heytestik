@@ -21,7 +21,7 @@ class SkincareRecommendationController extends StateClass {
   List<TextEditingController> notesController = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
-  int itemCount = 0;
+  List<int>? itemCount = [1];
 
   getSkincareRecommendation(BuildContext context) async {
     isLoading.value = true;
@@ -111,7 +111,7 @@ class SkincareRecommendationController extends StateClass {
       subtitleController.clear();
       dataSkincare = [];
       notesController = [];
-      itemCount = 0;
+      itemCount = [];
     });
     isLoading.value = false;
   }
@@ -145,7 +145,7 @@ class SkincareRecommendationController extends StateClass {
       subtitleController.clear();
       dataSkincareById = [];
       notesController = [];
-      itemCount = 0;
+      itemCount = [];
     });
     isLoading.value = false;
   }
