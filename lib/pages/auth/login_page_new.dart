@@ -90,7 +90,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
               height: 2,
             ),
             Text(
-              ' Contoh: 085211233456',
+              ' Contoh: 85211233456',
               style: subTitleTextStyle.copyWith(fontSize: 13),
             ),
             SizedBox(
@@ -219,7 +219,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                   SnackbarWidget.getErrorSnackbar(
                     context,
                     'Info',
-                    'Email Tidak Boleh Kosong',
+                    'Email atau Nomor Handphone harus diisi',
                   );
                 }
               },
@@ -240,7 +240,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                   ),
                 ),
                 Text(
-                  'atau daftar dengan',
+                  'Atau masuk dengan',
                   style: greyTextStyle,
                 ),
                 Expanded(
@@ -307,7 +307,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const PhoneNumberPage(),
