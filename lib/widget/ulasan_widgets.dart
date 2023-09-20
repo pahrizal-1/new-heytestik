@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 

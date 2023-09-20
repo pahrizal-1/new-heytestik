@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/download_file.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/image_gallery_my_journey.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -146,10 +145,12 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            image: const DecorationImage(
-                                image: AssetImage('assets/images/penting1.png'),
-                                fit: BoxFit.cover)),
+                          borderRadius: BorderRadius.circular(4),
+                          image: DecorationImage(
+                            image: NetworkImage(widget.img),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -790,7 +791,6 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                       widget.transactionProductId,
                       widget.transactionProductItemId,
                       doInPost: () async {
-                        Get.back();
                         Get.back();
                         SnackbarWidget.getSuccessSnackbar(
                           context,

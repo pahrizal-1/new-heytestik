@@ -52,6 +52,7 @@ class OrderConsultationController extends StateClass {
   RxInt idPayment = 0.obs;
   RxString paymentMethod = ''.obs;
   RxString paymentType = ''.obs;
+  RxString bankImage = ''.obs;
   RxString orderId = ''.obs;
   RxString bank = ''.obs;
   RxString expireTime = ''.obs;

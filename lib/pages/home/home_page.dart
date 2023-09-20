@@ -43,9 +43,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.init();
       await stateProfile.getProfile(context);
     });
-    state.init();
   }
 
   @override

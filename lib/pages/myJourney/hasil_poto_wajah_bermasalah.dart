@@ -1,16 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/hasil_kosultasi_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:image_cropper/image_cropper.dart';
 import '../../theme/theme.dart';
 
 class PotoBagianWajahBermasalah extends StatefulWidget {
-  PotoBagianWajahBermasalah({super.key});
+  const PotoBagianWajahBermasalah({super.key});
 
   @override
   State<PotoBagianWajahBermasalah> createState() =>
@@ -20,6 +22,34 @@ class PotoBagianWajahBermasalah extends StatefulWidget {
 class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
   final MyJourneyController state = Get.put(MyJourneyController());
 
+  Future _cropImage() async {
+    if (state.initialConditionProblemPart != null) {
+      CroppedFile? cropped = await ImageCropper().cropImage(
+          sourcePath: state.initialConditionProblemPart!.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Crop',
+                cropGridColor: Colors.black,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(title: 'Crop')
+          ]);
+
+      if (cropped != null) {
+        setState(() {
+          state.initialConditionProblemPart = File(cropped.path);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +58,15 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Image.asset(
-              'assets/icons/zoom.png',
-              width: 21,
-              height: 21,
+          InkWell(
+            onTap: _cropImage,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: Image.asset(
+                'assets/icons/zoom.png',
+                width: 21,
+                height: 21,
+              ),
             ),
           ),
         ],
@@ -130,14 +163,21 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
                     isLoading: state.isLoading.value,
                     child: TextButton(
                       onPressed: () async {
-                        await state.saveJourney(context, doInPost: () async {
-                          SnackbarWidget.getSuccessSnackbar(
-                            context,
-                            'Info',
-                            'Journey berhasil disimpan',
-                          );
-                          Get.off(GaleryMyJourney());
-                        });
+                        await state.detailJourney(
+                            context, state.concernId.value);
+                        if (state.isAfter.value) {
+                          print("PACT BARUUUUU");
+                          await state
+                              .afterCondition(context, state.concernId.value,
+                                  doInPost: () async {
+                            redirect();
+                          });
+                        } else {
+                          print("BUAT BARuuuuuuuU");
+                          await state.saveJourney(context, doInPost: () async {
+                            redirect();
+                          });
+                        }
                       },
                       style: TextButton.styleFrom(
                         side: BorderSide(color: greenColor, width: 2),
@@ -163,5 +203,32 @@ class _PotoBagianWajahBermasalahState extends State<PotoBagianWajahBermasalah> {
         ),
       ),
     );
+  }
+
+  redirect() {
+    SnackbarWidget.getSuccessSnackbar(
+      context,
+      'Info',
+      'Journey berhasil disimpan',
+    );
+    if (state.isGallery.value) {
+      Get
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back();
+    } else {
+      Get
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back()
+        ..back();
+    }
+    Get.to(GaleryMyJourney());
   }
 }

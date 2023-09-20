@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/detail_status_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -63,8 +65,32 @@ void main() async {
     badge: true,
     sound: true,
   );
+
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print("NOTIF DI TAP NIHH ${message.toMap()}");
+    print('SASASA ${message.data}');
+    print('SASASA JENIS ${message.data['type']}');
+
+    if (message.data['type'] == "GENERAL") {
+      print('INI NOTIF GENERAL');
+      Get.to(NotifikasionPage());
+    }
+    if (message.data['type'] == "TRANSACTION_CONSULTATION_SUCCESS") {
+      print('INI NOTIF TRANSACTION_CONSULTATION_SUCCESS');
+      Get.to(const TabBarCustomer(currentIndex: 1));
+    }
+    if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
+      print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
+      Get.to(() => const TabBarDoctor());
+    }
+    if (message.data['type'] == "CONSULTATION_REVIEW") {
+      print('INI NOTIF CONSULTATION_REVIEW');
+      Get.to(const TabBarCustomer(currentIndex: 1));
+    }
+    if (message.data['type'] == "CHAT") {
+      print('INI NOTIF CHAT');
+      Get.to(const TabBarCustomer(currentIndex: 1));
+    }
   });
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
@@ -75,6 +101,8 @@ void main() async {
     provisional: true,
     sound: true,
   );
+
+  //belum dicek futsal dulu
   await FirebaseMessaging.instance.subscribeToTopic("all");
   print('User granted permission: ${settings.authorizationStatus}');
 

@@ -1,13 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_facebook_page.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_google_page.dart';
 
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/auth/login_controller.dart';
 import '../../theme/theme.dart';
@@ -261,12 +259,13 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             InkWell(
               onTap: () async {
-                Navigator.push(
+                await state.loginWithGoogle(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginGooglePage(),
-                  ),
+                  doInPost: () async {
+                    await state.redirectTo();
+                  },
                 );
+                await state.logoutWithGoogle();
               },
               child: Image.asset(
                 'assets/images/Frame 70.png',
@@ -277,16 +276,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
             ),
             InkWell(
               onTap: () async {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => LoginFacebookPage(),
-                //   ),
-                // );
-                Uri _url = Uri.parse("${Global.BASE_API}/auth/facebook/login");
-                if (!await launchUrl(_url)) {
-                  throw Exception('Could not launch $_url');
-                }
+                await state.signInWithFacebook();
+                await state.logoutWithFacebook();
               },
               child: InkWell(
                 child: Image.asset(
@@ -294,14 +285,16 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 12,
-            // ),
-            // InkWell(
-            //   child: Image.asset(
-            //     'assets/icons/Frame 72.png',
-            //   ),
-            // ),
+            if (Platform.isIOS)
+              SizedBox(
+                height: 12,
+              ),
+            if (Platform.isIOS)
+              InkWell(
+                child: Image.asset(
+                  'assets/icons/Frame 72.png',
+                ),
+              ),
             SizedBox(
               height: 40,
             ),

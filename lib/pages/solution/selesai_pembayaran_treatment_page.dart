@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -17,16 +18,21 @@ import '../chat_customer/cara_pembayaran_page.dart';
 
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
+  bool isWillPop;
   String bank;
+  String bankImage;
   String orderId;
   String expireTime;
   final Data2 treatment;
-  SelesaikanPembayaranTreatmentPage(
-      {this.bank = '',
-      this.orderId = '',
-      this.expireTime = '',
-      required this.treatment,
-      super.key});
+  SelesaikanPembayaranTreatmentPage({
+    required this.isWillPop,
+    this.bank = '',
+    this.bankImage = '',
+    this.orderId = '',
+    this.expireTime = '',
+    required this.treatment,
+    super.key,
+  });
 
   @override
   State<SelesaikanPembayaranTreatmentPage> createState() =>
@@ -101,10 +107,14 @@ class _SelesaikanPembayaranTreatmentPageState
   }
 
   Future<bool> onWillPop() async {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialogTransaksi(),
-    );
+    if (widget.isWillPop) {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialogTransaksi(),
+      );
+    } else {
+      Get.back();
+    }
     return Future.value(false);
   }
 
@@ -123,13 +133,16 @@ class _SelesaikanPembayaranTreatmentPageState
         appBar: AppBar(
           elevation: 0,
           backgroundColor: greenColor,
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               InkWell(
                 onTap: () {
-                  setState(() {
+                  if (widget.isWillPop) {
                     onWillPop();
-                  });
+                  } else {
+                    Get.back();
+                  }
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -235,10 +248,15 @@ class _SelesaikanPembayaranTreatmentPageState
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
-                              Image.asset(
-                                'assets/images/logo-bca.png',
-                                width: 62,
-                              ),
+                              widget.bankImage != ''
+                                  ? Image.network(
+                                      '${Global.FILE}/${widget.bankImage}',
+                                      width: 62,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/logo-bca.png',
+                                      width: 62,
+                                    ),
                             ],
                           ),
                           const SizedBox(

@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/service/customer/transaction/transaction_se
 
 class HistoryTransactionController extends StateClass {
   RxList historyPending = [].obs;
-  RxInt totalPending = 0.obs;
   Rx<TransactionHistoryModel> responseHistory = TransactionHistoryModel().obs;
   RxList<Data2> dataHistory = List<Data2>.empty(growable: true).obs;
   RxList<Data2> dataHistoryPending = List<Data2>.empty(growable: true).obs;
@@ -19,28 +18,13 @@ class HistoryTransactionController extends StateClass {
       {String? search, Map<String, dynamic>? filter}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      totalPending.value = 0;
       dataHistory.value.clear();
       responseHistory.value = await TransactionService().allHistory(
         page,
         search: search,
         filter: filter,
       );
-
-      print("total awal ${responseHistory.value.data!.data!.length}");
-
-      for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {
-        if (responseHistory.value.data!.data![i].detail?.status ==
-            'MENUNGGU_PEMBAYARAN') {
-          totalPending.value += 1;
-        }
-        if (responseHistory.value.data!.data![i].detail?.status !=
-            'MENUNGGU_PEMBAYARAN') {
-          dataHistory.value.add(responseHistory.value.data!.data![i]);
-        }
-      }
-      print("total Pending ${totalPending.value}");
-      print("data History tidak pending ${dataHistory.value.length}");
+      dataHistory.value.addAll(responseHistory.value.data!.data!);
     });
     isLoading.value = false;
 
@@ -51,7 +35,6 @@ class HistoryTransactionController extends StateClass {
       {String? search, Map<String, dynamic>? filter}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      totalPending.value = 0;
       dataHistoryPending.value.clear();
       responseHistory.value = await TransactionService().allHistory(
         page,
@@ -62,7 +45,6 @@ class HistoryTransactionController extends StateClass {
       for (int i = 0; i < responseHistory.value.data!.data!.length; i++) {
         if (responseHistory.value.data!.data![i].detail?.status ==
             'MENUNGGU_PEMBAYARAN') {
-          totalPending.value += 1;
           dataHistoryPending.value.add(responseHistory.value.data!.data![i]);
         }
       }

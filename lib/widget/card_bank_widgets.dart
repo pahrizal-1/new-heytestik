@@ -61,6 +61,8 @@ class CardTreatmentBank extends StatelessWidget {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
+                    state.bankImage.value =
+                        element.mediaPaymentMethod?.media?.path ?? '';
                   }
                 },
                 child: Container(
@@ -175,6 +177,8 @@ class CardProdukBank extends StatelessWidget {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
+                    state.bankImage.value =
+                        element.mediaPaymentMethod?.media?.path ?? '';
                   }
                 },
                 child: Container(
@@ -290,6 +294,8 @@ class CardKonsultasiBank extends StatelessWidget {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
+                    state.bankImage.value =
+                        element.mediaPaymentMethod?.media?.path ?? '';
                   }
                 },
                 child: Container(

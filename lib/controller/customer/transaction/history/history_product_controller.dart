@@ -57,6 +57,7 @@ class HistoryProductController extends StateClass {
           Get.offAll(SuccessPage(
             isNotConsultation: true,
             orderId: orderId,
+            isWillPop: true,
           ));
           showDialog(
             context: context,

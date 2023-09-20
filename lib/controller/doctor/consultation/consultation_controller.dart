@@ -22,11 +22,8 @@ import '../../../core/convert_date.dart';
 import '../../../models/doctor/detail_constultation_model.dart'
     as DetailConstultaion;
 import '../../../models/doctor/find_doctor_note_model.dart' as DoctorNote;
-import '../../../pages/tabbar/tabbar_doctor.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.dart'
-    as Detail;
 
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
@@ -288,7 +285,7 @@ class DoctorConsultationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response =
           await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
-        print('data nya bpra ' + response.toString());
+      print('data nya bpra ' + response.toString());
 
       listConstulDetail.add(response);
       listPreAssesment.value = [];
@@ -300,7 +297,7 @@ class DoctorConsultationController extends StateClass {
         final dateString = i['end_date'] ?? '-';
         final dateTime = DateTime.parse(dateString);
         final format = DateFormat('HH:mm');
-        endDate.value = format.format(dateTime) ;
+        endDate.value = format.format(dateTime);
         print('endD' + endDate.toString());
         pasienName.value = i['customer']['fullname'];
         topic.value = i['medical_history']['interest_condition']['name'];

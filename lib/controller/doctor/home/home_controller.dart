@@ -10,8 +10,6 @@ import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
-import '../../../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/detail_pasien_page.dart';
-
 class DoctorHomeController extends StateClass {
   RxString fullName = ''.obs;
 

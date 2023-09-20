@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,7 +90,6 @@ class ReviewController extends StateClass {
       print("dataWaiting ${dataWaiting.value.length}");
     });
     isLoading.value = false;
-
     return dataWaiting;
   }
 

@@ -482,8 +482,10 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                       widget.pax,
                       doInPost: () async {
                         Get.offAll(SelesaikanPembayaranTreatmentPage(
+                          isWillPop: true,
                           treatment: widget.treatment,
                           orderId: state.orderId.value,
+                          bankImage: state.bankImage.value,
                           bank: state.bank.value,
                           expireTime: state.expireTime.value,
                         ));

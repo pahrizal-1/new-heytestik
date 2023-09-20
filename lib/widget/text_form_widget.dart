@@ -304,84 +304,73 @@ class _TetxFromProfilEditState extends State<TetxFromProfilEdit> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 130,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Text(
-                  widget.title1,
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontSize: 13,
-                    letterSpacing: 0.5,
-                    color: fromCssColor('#999999'),
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isEnable = !_isEnable;
+          isSelected = !isSelected;
+        });
+      },
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 130,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    widget.title1,
+                    style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontSize: 13,
+                      letterSpacing: 0.5,
+                      color: fromCssColor('#999999'),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    child: Expanded(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 2, vertical: 2),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: greenColor,
-                                width: 2,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child: Expanded(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 2),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: greyColor),
                               ),
-                            ),
-                            border: isSelected
-                                ? OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: greenColor,
-                                      width: 2,
-                                    ),
-                                    borderRadius: BorderRadius.circular(7),
-                                  )
-                                : InputBorder.none),
-                        controller: widget.controller,
-                        enabled: _isEnable,
-                        style: blackTextStyle.copyWith(fontSize: 13),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: greenColor),
+                              ),
+                              border: InputBorder.none),
+                          controller: widget.controller,
+                          enabled: _isEnable,
+                          style: blackTextStyle.copyWith(fontSize: 13),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  InkWell(
-                      onTap: () {
-                        setState(() {
-                          _isEnable = !_isEnable;
-                          isSelected = !isSelected;
-                        });
-                      },
-                      child: isSelected
-                          ? Icon(Icons.check, size: 20, color: greenColor)
-                          : Icon(widget.icon,
-                              size: 20, color: fromCssColor('#999999'))),
-                ],
+                    const SizedBox(width: 10),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 35,
+            child: Center(
+              child: Divider(
+                thickness: 1,
               ),
             ),
-          ],
-        ),
-        const SizedBox(
-          height: 35,
-          child: Center(
-            child: Divider(
-              thickness: 1,
-            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

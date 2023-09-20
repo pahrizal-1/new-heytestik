@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
@@ -18,11 +19,15 @@ import '../../theme/theme.dart';
 import '../../widget/more_dialog_transaksi_widget.dart';
 
 class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
+  bool isWillPop;
   String bank;
+  String bankImage;
   String orderId;
   String expireTime;
   SelesaikanPembayaranKonsultasiPage({
+    required this.isWillPop,
     this.bank = '',
+    this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
     super.key,
@@ -112,10 +117,14 @@ class _SelesaikanPembayaranKonsultasiState
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
 
     Future<bool> onWillPop() async {
-      showDialog(
-        context: context,
-        builder: (context) => const AlertDialogTransaksi(),
-      );
+      if (widget.isWillPop) {
+        showDialog(
+          context: context,
+          builder: (context) => const AlertDialogTransaksi(),
+        );
+      } else {
+        Get.back();
+      }
       return Future.value(false);
     }
 
@@ -125,13 +134,16 @@ class _SelesaikanPembayaranKonsultasiState
         appBar: AppBar(
           elevation: 0,
           backgroundColor: greenColor,
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               InkWell(
                 onTap: () {
-                  setState(() {
+                  if (widget.isWillPop) {
                     onWillPop();
-                  });
+                  } else {
+                    Get.back();
+                  }
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -237,10 +249,15 @@ class _SelesaikanPembayaranKonsultasiState
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
-                              Image.asset(
-                                'assets/images/logo-bca.png',
-                                width: 62,
-                              ),
+                              widget.bankImage != ''
+                                  ? Image.network(
+                                      '${Global.FILE}/${widget.bankImage}',
+                                      width: 62,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/logo-bca.png',
+                                      width: 62,
+                                    ),
                             ],
                           ),
                           const SizedBox(

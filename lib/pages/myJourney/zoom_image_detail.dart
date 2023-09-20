@@ -1,7 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import '../../theme/theme.dart';
-import '../../widget/poto_my_journey_widgets.dart';
 
 class ZoomImageDetail extends StatefulWidget {
   String concern;

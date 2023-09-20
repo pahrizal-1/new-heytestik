@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_page.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -23,7 +22,6 @@ import '../../../service/auth/change_password_service.dart';
 import '../../../service/doctor/profile/profile_service.dart';
 import '../../../service/doctor/statistic/statistic_service.dart';
 import '../../../service/doctor/user_balance/user_balance_service.dart';
-import '../../../widget/snackbar_widget.dart';
 
 class DoctorProfileController extends StateClass {
   RxString selectedDate = ''.obs;
@@ -338,13 +336,13 @@ class DoctorProfileController extends StateClass {
       );
 
       print(response);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const TabBarDoctor(),
-        ),
-      );
+      Navigator.pop(context, 'refresh');
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const TabBarDoctor(),
+      //   ),
+      // );
     } catch (e) {
       print('err ${e}');
     }
@@ -371,6 +369,7 @@ class DoctorProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
       var res = await profileService.closedAccount();
+      print(res);
       await logout(context);
       isLoading.value = false;
     });
