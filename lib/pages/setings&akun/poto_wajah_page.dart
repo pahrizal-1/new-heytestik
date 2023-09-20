@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
 import '../../theme/theme.dart';
 
 class PotoWajahPage extends StatelessWidget {
-  const PotoWajahPage({super.key});
-
+  PotoWajahPage({super.key});
+  final ProfileController state = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +56,13 @@ class PotoWajahPage extends StatelessWidget {
             Container(
               height: 300,
               decoration: BoxDecoration(
-                  image: const DecorationImage(
-                    image: AssetImage(
-                      'assets/images/potowajah.png',
-                    ),
+                image: DecorationImage(
+                  image: FileImage(
+                    File(state.facePhoto!.path),
                   ),
-                  shape: BoxShape.circle),
+                ),
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(
               height: 134,
@@ -75,7 +81,9 @@ class PotoWajahPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       style: TextButton.styleFrom(
                         side: BorderSide(color: borderColor, width: 0.5),
                         backgroundColor: Colors.transparent,
@@ -101,27 +109,44 @@ class PotoWajahPage extends StatelessWidget {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialogSucsees();
+                    child: Obx(
+                      () => LoadingWidget(
+                        isLoading: state.isLoading.value,
+                        child: TextButton(
+                          onPressed: () async {
+                            await state.accountVerification(context,
+                                doInPost: () async {
+                              Get
+                                ..back()
+                                ..back()
+                                ..back()
+                                ..back()
+                                ..back()
+                                ..back()
+                                ..back();
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialogSucsees();
+                                },
+                              );
                             });
-                      },
-                      style: TextButton.styleFrom(
-                        side: BorderSide(color: greenColor, width: 2),
-                        backgroundColor: greenColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'Lanjut',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
-                          fontWeight: bold,
+                          },
+                          style: TextButton.styleFrom(
+                            side: BorderSide(color: greenColor, width: 2),
+                            backgroundColor: greenColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'Simpan',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: whiteColor,
+                              fontWeight: bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),

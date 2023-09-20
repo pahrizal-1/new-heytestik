@@ -125,13 +125,17 @@ class _VerifikasiDataSetingsPageState extends State<VerifikasiDataSetingsPage> {
             ),
             ButtonGreenWidget(
               title: 'Mulai Verifikasi',
+              color: isSelected ? greenColor : greyColor,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                if (isSelected) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const VerifikasiKtpPage()),
-                );
+                          const VerifikasiKtpPage(),
+                    ),
+                  );
+                }
               },
             ),
             const SizedBox(

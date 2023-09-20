@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
@@ -17,6 +18,24 @@ class ProfileService extends ProviderClass {
       '/profile/close-account',
     );
 
+    return response;
+  }
+
+  Future<dynamic> accountVerification(dynamic data) async {
+    FormData formData = FormData.fromMap({
+      "id_card_photo": await MultipartFile.fromFile(data['idCardPhoto']),
+      "face_photo": await MultipartFile.fromFile(data['facePhoto']),
+    });
+
+    var response = await networkingConfig.doPost(
+      '/account-verification',
+      data: formData,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'Content-type': 'multipart/form-data',
+        'User-Agent': await userAgent(),
+      },
+    );
     return response;
   }
 
@@ -56,7 +75,6 @@ class ProfileService extends ProviderClass {
 
     return response;
   }
-  
 
   Future<FinishedReviewModel> getUserActivityReview(int page) async {
     String username = await LocalStorage().getUsername();
