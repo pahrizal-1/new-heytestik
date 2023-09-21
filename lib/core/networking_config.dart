@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/rendering.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -33,24 +32,6 @@ class NetworkingConfig {
         queryParameters: params,
         options: Options(
           headers: headers,
-          // validateStatus: (statusCode) {
-          //   debugPrint('status code $statusCode');
-          //   if (statusCode == null) {
-          //     debugPrint('status code null');
-          //     return false;
-          //   }
-
-          //   if (statusCode == 400) {
-          //     // your http status code
-
-          //     // for payment
-          //     debugPrint('status code 400');
-          //     return true;
-          //   } else {
-          //     debugPrint('status code statusCode >= 200 && statusCode < 300');
-          //     return statusCode >= 200 && statusCode < 300;
-          //   }
-          // },
         ),
       );
       return response.data;
@@ -73,24 +54,6 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-
-            if (statusCode == 400) {
-              // your http status code
-
-              // for payment
-              debugPrint('status code 400');
-              return true;
-            } else {
-              debugPrint('status code statusCode >= 200 && statusCode < 300');
-              return statusCode >= 200 && statusCode < 300;
-            }
-          },
         ),
       );
       return response.data;
@@ -113,16 +76,6 @@ class NetworkingConfig {
         data: FormData.fromMap(data),
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
         ),
       );
       return response.data;
@@ -143,15 +96,6 @@ class NetworkingConfig {
         data: FormData.fromMap(data),
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
         ),
       );
       return response.data;
@@ -195,15 +139,6 @@ class NetworkingConfig {
         }),
         options: Options(
           headers: headers,
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
         ),
       );
       return response.data;
@@ -226,15 +161,6 @@ class NetworkingConfig {
             'authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
             'User-Agent': await userAgent(),
           },
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
-          },
         ),
       );
       return response.data;
@@ -254,15 +180,6 @@ class NetworkingConfig {
           headers: {
             'authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
             'User-Agent': await userAgent(),
-          },
-          validateStatus: (statusCode) {
-            debugPrint('status code $statusCode');
-            if (statusCode == null) {
-              debugPrint('status code null');
-              return false;
-            }
-            debugPrint('status code statusCode >= 200 && statusCode < 300');
-            return statusCode >= 200 && statusCode < 300;
           },
         ),
       );
@@ -319,16 +236,6 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          // validateStatus: (statusCode) {
-          //   debugPrint('status code $statusCode');
-          //   if (statusCode == null) {
-          //     debugPrint('status code null');
-          //     return false;
-          //   }
-
-          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
-          //   return statusCode >= 200 && statusCode < 300;
-          // },
         ),
       );
       return response.data;
@@ -350,16 +257,6 @@ class NetworkingConfig {
         data: data,
         options: Options(
           headers: headers,
-          // validateStatus: (statusCode) {
-          //   debugPrint('status code $statusCode');
-          //   if (statusCode == null) {
-          //     debugPrint('status code null');
-          //     return false;
-          //   }
-
-          //   debugPrint('status code statusCode >= 200 && statusCode < 300');
-          //   return statusCode >= 200 && statusCode < 300;
-          // },
         ),
       );
       return response.data;
