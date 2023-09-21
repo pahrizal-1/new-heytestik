@@ -54,12 +54,15 @@ class VerificationPage extends StatelessWidget {
             ),
             // const OtpWidget(),
             OtpTextField(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               focusedBorderColor: greenColor,
+              disabledBorderColor: borderColor,
+              enabledBorderColor: borderColor,
               numberOfFields: 5,
               fieldWidth: 50,
               borderColor: greenColor,
               showFieldAsBox: true,
-
+              borderRadius: BorderRadius.circular(7),
               onCodeChanged: (String code) {
                 print('code otp $code');
               },

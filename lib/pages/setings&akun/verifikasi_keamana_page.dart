@@ -143,6 +143,8 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 height: 18,
               ),
               OtpTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                borderRadius: BorderRadius.circular(7),
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -150,6 +152,9 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -346,6 +351,7 @@ class _VerifikasiEmailKeamananAkunPageState
                 height: 18,
               ),
               OtpTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -360,6 +366,9 @@ class _VerifikasiEmailKeamananAkunPageState
                   });
                   print(state.otp.value);
                 },
+              ),
+              const SizedBox(
+                height: 18,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
