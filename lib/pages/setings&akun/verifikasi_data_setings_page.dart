@@ -125,7 +125,7 @@ class _VerifikasiDataSetingsPageState extends State<VerifikasiDataSetingsPage> {
             ),
             ButtonGreenWidget(
               title: 'Mulai Verifikasi',
-              color: isSelected ? greenColor : greyColor,
+              color: isSelected ? greenColor : borderColor,
               onPressed: () {
                 if (isSelected) {
                   Navigator.push(
