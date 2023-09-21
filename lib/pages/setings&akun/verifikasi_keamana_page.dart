@@ -10,7 +10,8 @@ import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
 
 class VerifikasiKeamananPage extends StatefulWidget {
-  const VerifikasiKeamananPage({super.key});
+  final String noHp;
+  const VerifikasiKeamananPage({super.key, required this.noHp});
 
   @override
   State<VerifikasiKeamananPage> createState() => _VerifikasiKeamananPageState();
@@ -22,45 +23,45 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
   Timer? countdownTimer;
   Duration myDuration = Duration(seconds: 120);
 
-  // void startTimer() {
-  //   countdownTimer =
-  //       Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
-  // }
+  void startTimer() {
+    countdownTimer =
+        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+  }
 
-  // void stopTimer() {
-  //   setState(() => countdownTimer!.cancel());
-  // }
+  void stopTimer() {
+    setState(() => countdownTimer!.cancel());
+  }
 
-  // void resetTimer() {
-  //   stopTimer();
-  //   setState(() => myDuration = Duration(seconds: 120));
-  //   startTimer();
-  // }
+  void resetTimer() {
+    stopTimer();
+    setState(() => myDuration = Duration(seconds: 120));
+    startTimer();
+  }
 
-  // void setCountDown() {
-  //   final reduceSecondsBy = 1;
-  //   setState(() {
-  //     final seconds = myDuration.inSeconds - reduceSecondsBy;
-  //     if (seconds < 0) {
-  //       countdownTimer!.cancel();
-  //     } else {
-  //       myDuration = Duration(seconds: seconds);
-  //     }
-  //   });
-  // }
+  void setCountDown() {
+    final reduceSecondsBy = 1;
+    setState(() {
+      final seconds = myDuration.inSeconds - reduceSecondsBy;
+      if (seconds < 0) {
+        countdownTimer!.cancel();
+      } else {
+        myDuration = Duration(seconds: seconds);
+      }
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   startTimer();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
 
-  // @override
-  // void dispose() {
-  //   // state.timeCondition();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    // state.timeCondition();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
             children: [
               InkWell(
                 onTap: () {
-                  // state.resendTime.value = 0;
+                  state.resendTime.value = 0;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -134,8 +135,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 height: 4,
               ),
               Text(
-                state.nomorHpController.text
-                    .replaceAll(RegExp(r'.(?=.{3})'), '*'),
+                widget.noHp.replaceAll(RegExp(r'.(?=.{3})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -160,13 +160,13 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                         color: Colors.black,
                         fontSize: 18),
                   ),
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
-                  // Text(
-                  //   'detik',
-                  //   style: grenTextStyle.copyWith(fontSize: 18),
-                  // ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Text(
+                    'detik',
+                    style: grenTextStyle.copyWith(fontSize: 18),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -190,17 +190,16 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // if (countdownTimer!.isActive) {
-                      //   showDialog(
-                      //       context: context,
-                      //       builder: (context) => AlertWidget(
-                      //             subtitle: 'Coba beberapa saat lagi',
-                      //           ));
-                      // } else {
-                      //   state.verifyCodeWA(
-                      //       context, state.nomorHpController.text);
-                      //   resetTimer();
-                      // }
+                      if (countdownTimer!.isActive) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                                  subtitle: 'Coba beberapa saat lagi',
+                                ));
+                      } else {
+                        state.verifyCodeWA(context, widget.noHp);
+                        resetTimer();
+                      }
                     },
                     child: Text(
                       ' Kirim Ulang',
@@ -218,7 +217,8 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
 }
 
 class VerifikasiEmailKeamananAkunPage extends StatefulWidget {
-  const VerifikasiEmailKeamananAkunPage({super.key});
+  final String email;
+  const VerifikasiEmailKeamananAkunPage({super.key, required this.email});
 
   @override
   State<VerifikasiEmailKeamananAkunPage> createState() =>
@@ -232,45 +232,45 @@ class _VerifikasiEmailKeamananAkunPageState
   Timer? countdownTimer;
   Duration myDuration = Duration(seconds: 120);
 
-  // void startTimer() {
-  //   countdownTimer =
-  //       Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
-  // }
+  void startTimer() {
+    countdownTimer =
+        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+  }
 
-  // void stopTimer() {
-  //   setState(() => countdownTimer!.cancel());
-  // }
+  void stopTimer() {
+    setState(() => countdownTimer!.cancel());
+  }
 
-  // void resetTimer() {
-  //   stopTimer();
-  //   setState(() => myDuration = Duration(seconds: 120));
-  //   startTimer();
-  // }
+  void resetTimer() {
+    stopTimer();
+    setState(() => myDuration = Duration(seconds: 120));
+    startTimer();
+  }
 
-  // void setCountDown() {
-  //   final reduceSecondsBy = 1;
-  //   setState(() {
-  //     final seconds = myDuration.inSeconds - reduceSecondsBy;
-  //     if (seconds < 0) {
-  //       countdownTimer!.cancel();
-  //     } else {
-  //       myDuration = Duration(seconds: seconds);
-  //     }
-  //   });
-  // }
+  void setCountDown() {
+    final reduceSecondsBy = 1;
+    setState(() {
+      final seconds = myDuration.inSeconds - reduceSecondsBy;
+      if (seconds < 0) {
+        countdownTimer!.cancel();
+      } else {
+        myDuration = Duration(seconds: seconds);
+      }
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   startTimer();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
 
-  // @override
-  // void dispose() {
-  //   // state.timeCondition();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    // state.timeCondition();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -288,6 +288,7 @@ class _VerifikasiEmailKeamananAkunPageState
             children: [
               InkWell(
                 onTap: () {
+                  state.resendTime.value = 0;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -343,8 +344,7 @@ class _VerifikasiEmailKeamananAkunPageState
                 height: 4,
               ),
               Text(
-                state.emailBaruController.text
-                    .replaceAll(RegExp(r'.(?=.{10})'), '*'),
+                widget.email.replaceAll(RegExp(r'.(?=.{10})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -376,6 +376,13 @@ class _VerifikasiEmailKeamananAkunPageState
                         color: Colors.black,
                         fontSize: 18),
                   ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Text(
+                    'detik',
+                    style: grenTextStyle.copyWith(fontSize: 18),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -399,17 +406,16 @@ class _VerifikasiEmailKeamananAkunPageState
                   ),
                   GestureDetector(
                     onTap: () {
-                      // if (countdownTimer!.isActive) {
-                      //   showDialog(
-                      //       context: context,
-                      //       builder: (context) => AlertWidget(
-                      //             subtitle: 'Coba beberapa saat lagi',
-                      //           ));
-                      // } else {
-                      //   state.verifyCodeEmail(
-                      //       context, state.emailBaruController.text);
-                      //   resetTimer();
-                      // }
+                      if (countdownTimer!.isActive) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                                  subtitle: 'Coba beberapa saat lagi',
+                                ));
+                      } else {
+                        state.verifyCodeEmail(context, widget.email);
+                        resetTimer();
+                      }
                     },
                     child: Text(
                       ' Kirim Ulang',
