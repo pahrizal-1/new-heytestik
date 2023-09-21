@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
@@ -23,13 +24,9 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      get(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getInterestConditions(context);
     });
-  }
-
-  get(BuildContext context) async {
-    await state.getInterestConditions(context);
   }
 
   @override
@@ -83,7 +80,8 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                               return KorektifWajahPage(
                                 interestConditionId: element.id,
                                 title: element.name.toString(),
-                                img: 'assets/images/pelkhitam.png',
+                                img:
+                                    '${Global.FILE}/${element.mediaInterestCondition!.media!.path.toString()}',
                               );
                             },
                           ),
@@ -141,7 +139,7 @@ class KorektifWajahPage extends StatelessWidget {
                     color: const Color(0xffD9D9D9),
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                         img,
                       ),
                     ),

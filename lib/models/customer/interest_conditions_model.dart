@@ -35,6 +35,7 @@ class Data {
   dynamic deletedAt;
   Category? category;
   List<InterestConditionsQuestion>? interestConditionsQuestion;
+  MediaInterestCondition? mediaInterestCondition;
 
   Data(
       {this.id,
@@ -46,7 +47,8 @@ class Data {
       this.updatedAt,
       this.deletedAt,
       this.category,
-      this.interestConditionsQuestion});
+      this.interestConditionsQuestion,
+      this.mediaInterestCondition});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +67,9 @@ class Data {
         interestConditionsQuestion!.add(InterestConditionsQuestion.fromJson(v));
       });
     }
+    mediaInterestCondition = json['media_interest_condition'] != null
+        ? MediaInterestCondition.fromJson(json['media_interest_condition'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +88,9 @@ class Data {
     if (interestConditionsQuestion != null) {
       data['interest_conditions_question'] =
           interestConditionsQuestion!.map((v) => v.toJson()).toList();
+    }
+    if (mediaInterestCondition != null) {
+      data['media_interest_condition'] = mediaInterestCondition!.toJson();
     }
     return data;
   }
@@ -239,6 +247,118 @@ class InterestConditionsAnswer {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['interest_conditions_question_id'] = interestConditionsQuestionId;
+    return data;
+  }
+}
+
+class MediaInterestCondition {
+  int? id;
+  int? mediaId;
+  int? concernId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaInterestCondition(
+      {this.id,
+      this.mediaId,
+      this.concernId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaInterestCondition.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    concernId = json['concern_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['concern_id'] = concernId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Media(
+      {this.id,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
