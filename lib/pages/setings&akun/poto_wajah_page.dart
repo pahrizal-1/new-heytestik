@@ -36,7 +36,7 @@ class PotoWajahPage extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  'Foto KTP',
+                  'Foto Wajah',
                   style: whiteTextStyle.copyWith(
                     fontSize: 20,
                   ),
