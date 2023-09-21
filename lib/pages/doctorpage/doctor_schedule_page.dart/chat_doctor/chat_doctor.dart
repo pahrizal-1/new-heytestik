@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -20,9 +22,7 @@ import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widget/button_widget.dart';
-import '../../../../widget/loading_widget.dart';
 import '../../../../widget/preview_widget.dart';
-import '../../../../widget/rekomedasi_chat_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -740,7 +740,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                 itemCount: msglist!.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (buildex, index) {
-                                  var formatter = new DateFormat('dd-MM-yyyy');
+                                  var formatter = DateFormat('dd-MM-yyyy');
                                   String formattedTime = DateFormat('kk:mm')
                                       .format(DateTime.parse(msglist![index]
                                           .createdAt

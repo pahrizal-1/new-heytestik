@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produck_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
@@ -290,7 +289,8 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                             height: 45,
                             child: TextButton(
                               onPressed: () {
-                                state.postFinishConsultation(context, widget.id);
+                                state.postFinishConsultation(
+                                    context, widget.id);
                                 // Navigator.push(
                                 //     context,
                                 //     MaterialPageRoute(

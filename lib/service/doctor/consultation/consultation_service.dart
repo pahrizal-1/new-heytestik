@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/models/doctor/find_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
-import '../../../models/customer/detail_consultation_model.dart';
 import '../../../models/doctor/find_doctor_note_model.dart';
 
 class ConsultationDoctorScheduleServices extends ProviderClass {
@@ -75,7 +74,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     );
 
     var jsonResponse = response;
-    print('json ' +jsonResponse.toString());
+    print('json ' + jsonResponse.toString());
 
     return FindDoctorNoteModel.fromJson(response);
   }
@@ -87,6 +86,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
 
     return response;
   }
+
   Future<dynamic> postFinishReview(int id) async {
     var response = await networkingConfig.doUpdateFinish(
       '/consultation/${id}/finish-review',
@@ -94,6 +94,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
 
     return response;
   }
+
   Future<dynamic> postFinishConsultation(int id) async {
     var response = await networkingConfig.doUpdateFinish(
       '/consultation/${id}/finish',

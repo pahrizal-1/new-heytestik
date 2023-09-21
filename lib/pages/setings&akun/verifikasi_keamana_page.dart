@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/pin_baru.dart';
-import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
-import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';
 
 class VerifikasiKeamananPage extends StatefulWidget {

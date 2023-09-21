@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/catatan_produk_docter1_page.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
@@ -100,8 +98,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertWidget(
-                        subtitle:
-                            'Silahkan Pilih Terlebih Dahulu)'),
+                        subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
                   );
                 }
                 // Navigator.push(

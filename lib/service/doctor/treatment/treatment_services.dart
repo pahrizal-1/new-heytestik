@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
@@ -9,7 +7,6 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../models/doctor/treatment_recommendation_doctor/clinics_model.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/treatment_recommendation_model.dart';
-import '../../../models/clinic.dart';
 
 class TreatmentServices extends ProviderClass {
   TreatmentServices()

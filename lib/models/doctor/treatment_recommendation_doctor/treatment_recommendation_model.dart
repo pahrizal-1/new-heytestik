@@ -8,13 +8,13 @@ class TreatmentReccommendationModel {
   TreatmentReccommendationModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,19 +32,19 @@ class Data {
     if (json['data'] != null) {
       data = <Data2>[];
       json['data'].forEach((v) {
-        data!.add(new Data2.fromJson(v));
+        data!.add(Data2.fromJson(v));
       });
     }
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
@@ -91,28 +91,26 @@ class Data2 {
       recipeRecomendationTreatmentItems = <RecipeRecomendationTreatmentItems>[];
       json['recipe_recomendation_treatment_items'].forEach((v) {
         recipeRecomendationTreatmentItems!
-            .add(new RecipeRecomendationTreatmentItems.fromJson(v));
+            .add(RecipeRecomendationTreatmentItems.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
-    data['is_active'] = this.isActive;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.recipeRecomendationTreatmentItems != null) {
-      data['recipe_recomendation_treatment_items'] = this
-          .recipeRecomendationTreatmentItems!
-          .map((v) => v.toJson())
-          .toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['doctor_id'] = doctorId;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (recipeRecomendationTreatmentItems != null) {
+      data['recipe_recomendation_treatment_items'] =
+          recipeRecomendationTreatmentItems!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -161,27 +159,26 @@ class RecipeRecomendationTreatmentItems {
     if (json['clinics'] != null) {
       clinics = <Clinics>[];
       json['clinics'].forEach((v) {
-        clinics!.add(new Clinics.fromJson(v));
+        clinics!.add(Clinics.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['recipe_recomendation_treatment_id'] =
-        this.recipeRecomendationTreatmentId;
-    data['name'] = this.name;
-    data['cost'] = this.cost;
-    data['recovery_time'] = this.recoveryTime;
-    data['type'] = this.type;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.clinics != null) {
-      data['clinics'] = this.clinics!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['recipe_recomendation_treatment_id'] = recipeRecomendationTreatmentId;
+    data['name'] = name;
+    data['cost'] = cost;
+    data['recovery_time'] = recoveryTime;
+    data['type'] = type;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (clinics != null) {
+      data['clinics'] = clinics!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -219,23 +216,22 @@ class Clinics {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    clinic =
-        json['clinic'] != null ? new Clinic.fromJson(json['clinic']) : null;
+    clinic = json['clinic'] != null ? Clinic.fromJson(json['clinic']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['recipe_recomendation_treatment_item_id'] =
-        this.recipeRecomendationTreatmentItemId;
-    data['clinic_id'] = this.clinicId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.clinic != null) {
-      data['clinic'] = this.clinic!.toJson();
+        recipeRecomendationTreatmentItemId;
+    data['clinic_id'] = clinicId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (clinic != null) {
+      data['clinic'] = clinic!.toJson();
     }
     return data;
   }
@@ -336,36 +332,36 @@ class Clinic {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['address'] = this.address;
-    data['pinpoint_latitude'] = this.pinpointLatitude;
-    data['pinpoint_longitude'] = this.pinpointLongitude;
-    data['pinpoint_address'] = this.pinpointAddress;
-    data['province_id'] = this.provinceId;
-    data['city_id'] = this.cityId;
-    data['postal_code'] = this.postalCode;
-    data['registration_number'] = this.registrationNumber;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['description'] = this.description;
-    data['company_name'] = this.companyName;
-    data['company_address'] = this.companyAddress;
-    data['company_city_id'] = this.companyCityId;
-    data['company_province_id'] = this.companyProvinceId;
-    data['company_postal_code'] = this.companyPostalCode;
-    data['npwp'] = this.npwp;
-    data['pic_name'] = this.picName;
-    data['pic_phone'] = this.picPhone;
-    data['contract_expired_date'] = this.contractExpiredDate;
-    data['status'] = this.status;
-    data['rating'] = this.rating;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    data['pinpoint_latitude'] = pinpointLatitude;
+    data['pinpoint_longitude'] = pinpointLongitude;
+    data['pinpoint_address'] = pinpointAddress;
+    data['province_id'] = provinceId;
+    data['city_id'] = cityId;
+    data['postal_code'] = postalCode;
+    data['registration_number'] = registrationNumber;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['description'] = description;
+    data['company_name'] = companyName;
+    data['company_address'] = companyAddress;
+    data['company_city_id'] = companyCityId;
+    data['company_province_id'] = companyProvinceId;
+    data['company_postal_code'] = companyPostalCode;
+    data['npwp'] = npwp;
+    data['pic_name'] = picName;
+    data['pic_phone'] = picPhone;
+    data['contract_expired_date'] = contractExpiredDate;
+    data['status'] = status;
+    data['rating'] = rating;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -396,13 +392,13 @@ class Meta {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    data['take'] = this.take;
-    data['itemCount'] = this.itemCount;
-    data['pageCount'] = this.pageCount;
-    data['hasPreviousPage'] = this.hasPreviousPage;
-    data['hasNextPage'] = this.hasNextPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    data['take'] = take;
+    data['itemCount'] = itemCount;
+    data['pageCount'] = pageCount;
+    data['hasPreviousPage'] = hasPreviousPage;
+    data['hasNextPage'] = hasNextPage;
     return data;
   }
 }

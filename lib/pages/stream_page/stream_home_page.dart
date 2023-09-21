@@ -148,20 +148,6 @@ class _StreamHomePageState extends State<StreamHomePage>
               const SizedBox(
                 width: 14,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotifikasionPage(),
-              //       ),
-              //     );
-              //   },
-              //   child: SvgPicture.asset(
-              //     'assets/icons/notif-icons.svg',
-              //     color: blackColor,
-              //   ),
-              // ),
               notificasion(context, '1', blackColor),
               const SizedBox(
                 width: 14,

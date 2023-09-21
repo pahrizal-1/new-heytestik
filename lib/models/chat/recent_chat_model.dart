@@ -231,8 +231,7 @@ class Doctor {
     deletedAt = json['deleted_at'];
     refreshToken = json['refresh_token'];
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? new MediaUserProfilePicture.fromJson(
-            json['media_user_profile_picture'])
+        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
         : null;
   }
 
@@ -275,9 +274,8 @@ class Doctor {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['refresh_token'] = refreshToken;
-    if (this.mediaUserProfilePicture != null) {
-      data['media_user_profile_picture'] =
-          this.mediaUserProfilePicture!.toJson();
+    if (mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
     }
     return data;
   }
@@ -314,21 +312,22 @@ class MediaUserProfilePicture {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    media = json['media'] != null ? new MediaUserProfile.fromJson(json['media']) : null;
+    media =
+        json['media'] != null ? MediaUserProfile.fromJson(json['media']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media_id'] = this.mediaId;
-    data['user_id'] = this.userId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.media != null) {
-      data['media'] = this.media!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['user_id'] = userId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
     }
     return data;
   }
@@ -378,19 +377,19 @@ class MediaUserProfile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['filename'] = this.filename;
-    data['ext'] = this.ext;
-    data['size'] = this.size;
-    data['mime'] = this.mime;
-    data['path'] = this.path;
-    data['destination'] = this.destination;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

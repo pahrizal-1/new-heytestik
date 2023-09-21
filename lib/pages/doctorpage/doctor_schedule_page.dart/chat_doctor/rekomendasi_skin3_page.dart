@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
@@ -427,7 +427,8 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                           InkWell(
                                             onTap: () {
                                               setState(() {
-                                                if (state.itemCount![index] >= 1) {
+                                                if (state.itemCount![index] >=
+                                                    1) {
                                                   state.itemCount![index]--;
                                                 }
                                               });
@@ -453,7 +454,8 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                           InkWell(
                                             onTap: () {
                                               setState(() {
-                                                if (state.itemCount![index] >= 0) {
+                                                if (state.itemCount![index] >=
+                                                    0) {
                                                   state.itemCount![index]++;
                                                   print('stat' +
                                                       state.itemCount

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
@@ -13,8 +12,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/global.dart';
-import '../../../core/local_storage.dart';
-import 'chat_doctor/detail_pasien_page.dart';
 
 class HomePageDoctor extends StatefulWidget {
   const HomePageDoctor({

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
@@ -49,7 +51,9 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                   decoration: BoxDecoration(
                     border: Border.all(width: 0.5, color: borderColor),
                     image: DecorationImage(
-                      image: widget.urlImg != null ? NetworkImage(widget.urlImg) as ImageProvider : AssetImage(widget.urlImg),
+                      image: widget.urlImg != null
+                          ? NetworkImage(widget.urlImg) as ImageProvider
+                          : AssetImage(widget.urlImg),
                     ),
                   ),
                 ),
