@@ -45,7 +45,7 @@ class VerificationPage extends StatelessWidget {
               height: 4,
             ),
             Text(
-              '0${state.phoneNumber.toString()}',
+              '+62${state.phoneNumber.toString()}',
               // state.phoneNumber.toString(),
               style: blackTextStyle.copyWith(),
             ),
@@ -54,12 +54,15 @@ class VerificationPage extends StatelessWidget {
             ),
             // const OtpWidget(),
             OtpTextField(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               focusedBorderColor: greenColor,
+              disabledBorderColor: borderColor,
+              enabledBorderColor: borderColor,
               numberOfFields: 5,
               fieldWidth: 50,
               borderColor: greenColor,
               showFieldAsBox: true,
-
+              borderRadius: BorderRadius.circular(7),
               onCodeChanged: (String code) {
                 print('code otp $code');
               },
@@ -103,11 +106,11 @@ class VerificationPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyPhoneNumber(context, doInPost: () async {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MoreDialog(),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return MoreDialog();
+                        },
                       );
                     });
                   },

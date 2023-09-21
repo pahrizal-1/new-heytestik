@@ -61,6 +61,7 @@ class PhoneNumberPage extends StatelessWidget {
                 Icons.keyboard_arrow_down,
                 color: blackColor,
               ),
+              style: blackHigtTextStyle.copyWith(fontSize: 18),
               disableLengthCheck: true,
               onCountryChanged: (value) {
                 state.countryCode = value.dialCode;
@@ -72,7 +73,7 @@ class PhoneNumberPage extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 15),
+                contentPadding: EdgeInsets.only(top: 13),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: greyColor),
                 ),

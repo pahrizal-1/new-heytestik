@@ -87,7 +87,7 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 300,
+            height: 400,
             width: MediaQuery.of(context).size.width,
             child: controller == null
                 ? const Center(child: Text("Loading Camera..."))

@@ -377,12 +377,13 @@ class _VerifikasiEmailSetingsPageState
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Text('$minutes:$seconds', style: subTitleTextStyle),
+                  SizedBox(
+                    width: 2,
+                  ),
                   Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
+                    'detik',
+                    style: grenTextStyle.copyWith(fontSize: 12),
                   ),
                 ],
               ),

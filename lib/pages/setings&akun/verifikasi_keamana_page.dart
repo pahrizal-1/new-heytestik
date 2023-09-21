@@ -137,12 +137,14 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
               ),
               Text(
                 widget.noHp.replaceAll(RegExp(r'.(?=.{3})'), '*'),
-                style: blackTextStyle.copyWith(),
+                style: blackTextStyle.copyWith(fontSize: 14),
               ),
               const SizedBox(
                 height: 18,
               ),
               OtpTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                borderRadius: BorderRadius.circular(7),
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -151,22 +153,19 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 borderColor: greenColor,
                 showFieldAsBox: true,
               ),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
+                  Text('$minutes:$seconds', style: subTitleTextStyle),
                   SizedBox(
-                    width: 7,
+                    width: 2,
                   ),
                   Text(
                     'detik',
-                    style: grenTextStyle.copyWith(fontSize: 18),
+                    style: grenTextStyle.copyWith(fontSize: 12),
                   ),
                 ],
               ),
@@ -352,6 +351,7 @@ class _VerifikasiEmailKeamananAkunPageState
                 height: 18,
               ),
               OtpTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -367,22 +367,19 @@ class _VerifikasiEmailKeamananAkunPageState
                   print(state.otp.value);
                 },
               ),
+              const SizedBox(
+                height: 18,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
+                  Text('$minutes:$seconds', style: subTitleTextStyle),
                   SizedBox(
-                    width: 7,
+                    width: 2,
                   ),
                   Text(
                     'detik',
-                    style: grenTextStyle.copyWith(fontSize: 18),
+                    style: grenTextStyle.copyWith(fontSize: 12),
                   ),
                 ],
               ),
