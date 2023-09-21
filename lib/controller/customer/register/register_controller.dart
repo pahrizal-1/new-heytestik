@@ -115,7 +115,7 @@ class RegisterController extends StateClass {
   verifyEmail(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (code == null) {
+      if (code == "" || code == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Code harus diisi',
@@ -185,7 +185,7 @@ class RegisterController extends StateClass {
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (code == null) {
+      if (code == "" || code == null) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Code harus diisi',
@@ -196,9 +196,9 @@ class RegisterController extends StateClass {
         "phone_number": phoneNumber,
         "verification_code": code.toString(),
       };
-
+      print("data $data");
       var loginResponse = await RegisterService().phoneVerify(data);
-      print(loginResponse['data']['id']);
+      print(loginResponse);
       LocalStorage().setUserID(userID: loginResponse['data']['id']);
       doInPost();
     });
