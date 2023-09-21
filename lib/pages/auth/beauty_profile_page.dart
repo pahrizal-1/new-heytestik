@@ -12,12 +12,273 @@ import '../../widget/button_widget.dart';
 import '../../widget/drop_dow_widget.dart';
 import '../../widget/timeline_widget.dart';
 
-class BeautyProfilPage extends StatelessWidget {
+class BeautyProfilPage extends StatefulWidget {
   const BeautyProfilPage({super.key});
 
   @override
+  State<BeautyProfilPage> createState() => _BeautyProfilPageState();
+}
+
+class _BeautyProfilPageState extends State<BeautyProfilPage> {
+  int selectedIndex = 0;
+  int selectedIndex2 = 0;
+  int selectedIndex3 = 0;
+  int selectedIndex4 = 0;
+  int selectedIndex5 = 0;
+  int selectedIndex6 = 0;
+  @override
   Widget build(BuildContext context) {
     var state = Provider.of<InterestController>(context);
+
+    Column option(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex = index;
+              state.skinType = title;
+              setState(() {});
+              print(state.skinType);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
+
+    Column option2(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex2 = index;
+              state.skinToneColor = title;
+              setState(() {});
+              print(state.skinToneColor);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex2 == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
+
+    Column option3(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex3 = index;
+              state.skinUnderToneColor = title;
+              setState(() {});
+              print(state.skinUnderToneColor);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex3 == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
+
+    Column option4(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex4 = index;
+              state.hairType = title;
+              setState(() {});
+              print(state.hairType);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex4 == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
+
+    Column option5(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex5 = index;
+              state.hairColor = title;
+              setState(() {});
+              print(state.hairColor);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex5 == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
+
+    Column option6(
+      int index,
+      String img,
+      String title,
+    ) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              print('tes');
+              selectedIndex6 = index;
+              if (title == 'Hijab') {
+                state.hijabers = true;
+              } else {
+                state.hijabers = false;
+              }
+              setState(() {});
+              print(state.hijabers);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                // color: selectedIndex == index ? Colors.red : Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    selectedIndex6 == index
+                        ? 'assets/icons/chek_icons.png'
+                        : img,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            title.toString(),
+            style: greyTextStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      );
+    }
 
     return Scaffold(
       backgroundColor: whiteColor,
@@ -137,27 +398,47 @@ class BeautyProfilPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    CircleImgWidget(
-                      title: 'kering',
-                      img: 'assets/images/kulitkering.png',
-                      type: 1,
+                  children: [
+                    option(
+                      1,
+                      'assets/images/kulitkering.png',
+                      'kering',
                     ),
-                    CircleImgWidget(
-                      title: 'Normal',
-                      img: 'assets/images/kulitnormal.png',
-                      type: 1,
+                    option(
+                      2,
+                      'assets/images/kulitnormal.png',
+                      'Normal',
                     ),
-                    CircleImgWidget(
-                      title: 'kombinasi',
-                      img: 'assets/images/kulitkombinasi.png',
-                      type: 1,
+                    option(
+                      3,
+                      'assets/images/kulitkombinasi.png',
+                      'kombinasi',
                     ),
-                    CircleImgWidget(
-                      title: 'Berminyak',
-                      img: 'assets/images/kulitberminyak.png',
-                      type: 1,
+                    option(
+                      4,
+                      'assets/images/kulitberminyak.png',
+                      'Berminyak',
                     ),
+                    // CircleImgWidget(
+                    //   title: 'kering',
+                    //   img: 'assets/images/kulitkering.png',
+                    //   type: 1,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'Normal',
+                    //   img: 'assets/images/kulitnormal.png',
+                    //   type: 1,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'kombinasi',
+                    //   img: 'assets/images/kulitkombinasi.png',
+                    //   type: 1,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'Berminyak',
+                    //   img: 'assets/images/kulitberminyak.png',
+                    //   type: 1,
+                    // ),
                   ],
                 ),
               ),
@@ -175,27 +456,47 @@ class BeautyProfilPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    CircleImgWidget(
-                      title: 'Putih\nGading',
-                      img: 'assets/images/putihgading.png',
-                      type: 2,
+                  children: [
+                    option2(
+                      1,
+                      'assets/images/putihgading.png',
+                      'Putih\nGading',
                     ),
-                    CircleImgWidget(
-                      title: 'Kuning\nLangsat',
-                      img: 'assets/images/kuninglangsat.png',
-                      type: 2,
+                    option2(
+                      2,
+                      'assets/images/kuninglangsat.png',
+                      'Kuning\nLangsat',
                     ),
-                    CircleImgWidget(
-                      title: 'Sawo\nMatang',
-                      img: 'assets/images/sawomatang.png',
-                      type: 2,
+                    option2(
+                      3,
+                      'assets/images/sawomatang.png',
+                      'Sawo\nMatang',
                     ),
-                    CircleImgWidget(
-                      title: 'Gelap\n',
-                      img: 'assets/images/gelap.png',
-                      type: 2,
+                    option2(
+                      4,
+                      'assets/images/gelap.png',
+                      'Gelap\n',
                     ),
+                    // CircleImgWidget(
+                    //   title: 'Putih\nGading',
+                    //   img: 'assets/images/putihgading.png',
+                    //   type: 2,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'Kuning\nLangsat',
+                    //   img: 'assets/images/kuninglangsat.png',
+                    //   type: 2,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'Sawo\nMatang',
+                    //   img: 'assets/images/sawomatang.png',
+                    //   type: 2,
+                    // ),
+                    // CircleImgWidget(
+                    //   title: 'Gelap\n',
+                    //   img: 'assets/images/gelap.png',
+                    //   type: 2,
+                    // ),
                   ],
                 ),
               ),
@@ -211,22 +512,37 @@ class BeautyProfilPage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  CircleImgWidget(
-                    title: 'Dingin',
-                    img: 'assets/images/dingin.png',
-                    type: 3,
+                children: [
+                  option3(
+                    1,
+                    'assets/images/dingin.png',
+                    'Dingin',
                   ),
-                  CircleImgWidget(
-                    title: 'Netral',
-                    img: 'assets/images/netral.png',
-                    type: 3,
+                  option3(
+                    2,
+                    'assets/images/netral.png',
+                    'Netral',
                   ),
-                  CircleImgWidget(
-                    title: 'Hangat',
-                    img: 'assets/images/hangat.png',
-                    type: 3,
+                  option3(
+                    3,
+                    'assets/images/hangat.png',
+                    'Hangat',
                   ),
+                  // CircleImgWidget(
+                  //   title: 'Dingin',
+                  //   img: 'assets/images/dingin.png',
+                  //   type: 3,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Netral',
+                  //   img: 'assets/images/netral.png',
+                  //   type: 3,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Hangat',
+                  //   img: 'assets/images/hangat.png',
+                  //   type: 3,
+                  // ),
                 ],
               ),
               const SizedBox(
@@ -241,22 +557,37 @@ class BeautyProfilPage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  CircleImgWidget(
-                    title: 'Lurus',
-                    img: 'assets/images/rambutlurus.png',
-                    type: 4,
+                children: [
+                  option4(
+                    1,
+                    'assets/images/rambutlurus.png',
+                    'Lurus',
                   ),
-                  CircleImgWidget(
-                    title: 'Keriting',
-                    img: 'assets/images/rambutkriting.png',
-                    type: 4,
+                  option4(
+                    2,
+                    'assets/images/rambutkriting.png',
+                    'Keriting',
                   ),
-                  CircleImgWidget(
-                    title: 'Bergelombang',
-                    img: 'assets/images/rambutbergelombang.png',
-                    type: 4,
+                  option4(
+                    3,
+                    'assets/images/rambutbergelombang.png',
+                    'Bergelombang',
                   ),
+                  // CircleImgWidget(
+                  //   title: 'Lurus',
+                  //   img: 'assets/images/rambutlurus.png',
+                  //   type: 4,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Keriting',
+                  //   img: 'assets/images/rambutkriting.png',
+                  //   type: 4,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Bergelombang',
+                  //   img: 'assets/images/rambutbergelombang.png',
+                  //   type: 4,
+                  // ),
                 ],
               ),
               const SizedBox(
@@ -271,17 +602,27 @@ class BeautyProfilPage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  CircleImgWidget(
-                    title: 'Rambut\nCerah',
-                    img: 'assets/images/rambutcerah.png',
-                    type: 5,
+                children: [
+                  option5(
+                    1,
+                    'assets/images/rambutcerah.png',
+                    'Rambut\nCerah',
                   ),
-                  CircleImgWidget(
-                    title: 'Rambut\ngelap',
-                    img: 'assets/images/rambutgelap.png',
-                    type: 5,
+                  option5(
+                    2,
+                    'assets/images/rambutgelap.png',
+                    'Rambut\nGelap',
                   ),
+                  // CircleImgWidget(
+                  //   title: 'Rambut\nCerah',
+                  //   img: 'assets/images/rambutcerah.png',
+                  //   type: 5,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Rambut\ngelap',
+                  //   img: 'assets/images/rambutgelap.png',
+                  //   type: 5,
+                  // ),
                 ],
               ),
               const SizedBox(
@@ -296,17 +637,27 @@ class BeautyProfilPage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  CircleImgWidget(
-                    title: 'Hijab',
-                    img: 'assets/images/hijab.png',
-                    type: 6,
+                children: [
+                  option6(
+                    1,
+                    'assets/images/hijab.png',
+                    'Hijab',
                   ),
-                  CircleImgWidget(
-                    title: 'Non\nHijab',
-                    img: 'assets/images/nonhijab.png',
-                    type: 6,
+                  option6(
+                    2,
+                    'assets/images/nonhijab.png',
+                    'Non\nHijab',
                   ),
+                  // CircleImgWidget(
+                  //   title: 'Hijab',
+                  //   img: 'assets/images/hijab.png',
+                  //   type: 6,
+                  // ),
+                  // CircleImgWidget(
+                  //   title: 'Non\nHijab',
+                  //   img: 'assets/images/nonhijab.png',
+                  //   type: 6,
+                  // ),
                 ],
               ),
               const SizedBox(
