@@ -11,6 +11,8 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
+import 'package:heystetik_mobileapps/service/auth/change_password_service.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 import 'package:intl/intl.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -438,5 +440,21 @@ class ProfileController extends StateClass {
       print(error.toString());
       return {};
     }
+  }
+
+  updatePassword(BuildContext context, String oldpin, String newpin) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'old_password': oldpin,
+        'new_password': newpin,
+      };
+
+      var response = await ChangePasswordService().changePassword(data);
+      Get.off(() => TabBarCustomer());
+
+      print(response);
+    });
+    isLoading.value = false;
   }
 }

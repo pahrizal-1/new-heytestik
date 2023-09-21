@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
@@ -18,6 +19,7 @@ class PinbaruCustomer extends StatefulWidget {
 
 class _PinbaruCustomerState extends State<PinbaruCustomer> {
   final DoctorProfileController state = Get.put(DoctorProfileController());
+  final ProfileController stateCustomer = Get.put(ProfileController());
   final TextEditingController pinController = TextEditingController(text: '');
   String pin = '123456';
   bool isErr = false;
@@ -237,7 +239,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                         onTap: () {},
                         child: InkWell(
                           onTap: () {
-                            state.updatePassword(context, widget.pinOld,
+                            stateCustomer.updatePassword(context, widget.pinOld,
                                 state.pinNewController.text);
                             // showDialog(
                             //   context: context,
