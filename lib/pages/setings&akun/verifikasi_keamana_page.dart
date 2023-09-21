@@ -137,7 +137,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
               ),
               Text(
                 widget.noHp.replaceAll(RegExp(r'.(?=.{3})'), '*'),
-                style: blackTextStyle.copyWith(),
+                style: blackTextStyle.copyWith(fontSize: 14),
               ),
               const SizedBox(
                 height: 18,
@@ -154,19 +154,13 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
+                  Text('$minutes:$seconds', style: subTitleTextStyle),
                   SizedBox(
-                    width: 7,
+                    width: 2,
                   ),
                   Text(
                     'detik',
-                    style: grenTextStyle.copyWith(fontSize: 18),
+                    style: grenTextStyle.copyWith(fontSize: 12),
                   ),
                 ],
               ),
@@ -370,19 +364,13 @@ class _VerifikasiEmailKeamananAkunPageState
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
+                  Text('$minutes:$seconds', style: subTitleTextStyle),
                   SizedBox(
-                    width: 7,
+                    width: 2,
                   ),
                   Text(
                     'detik',
-                    style: grenTextStyle.copyWith(fontSize: 18),
+                    style: grenTextStyle.copyWith(fontSize: 12),
                   ),
                 ],
               ),

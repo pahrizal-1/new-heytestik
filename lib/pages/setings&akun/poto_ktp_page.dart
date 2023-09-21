@@ -47,8 +47,7 @@ class PotoKtp extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.only(top: 30, bottom: 50, left: 25, right: 25),
+        padding: const EdgeInsets.only(top: 30, bottom: 50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -60,6 +59,7 @@ class PotoKtp extends StatelessWidget {
                   image: FileImage(
                     File(state.idCardPhoto!.path),
                   ),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

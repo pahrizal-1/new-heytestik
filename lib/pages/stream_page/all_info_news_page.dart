@@ -121,7 +121,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                 image: NetworkImage(
                                   image.toString(),
                                 ),
-                                fit: BoxFit.fitHeight,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),

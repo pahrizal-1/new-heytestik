@@ -60,6 +60,7 @@ class PotoWajahPage extends StatelessWidget {
                   image: FileImage(
                     File(state.facePhoto!.path),
                   ),
+                  fit: BoxFit.fill,
                 ),
                 shape: BoxShape.circle,
               ),
