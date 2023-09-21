@@ -113,7 +113,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                             height: 10,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: 350,
                             height: 181,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
