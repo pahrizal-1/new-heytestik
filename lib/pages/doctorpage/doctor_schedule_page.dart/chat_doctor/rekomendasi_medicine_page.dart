@@ -1,14 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/filter_tambah_obat.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../../../controller/customer/solution/medicine_controller.dart';
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
@@ -17,7 +10,6 @@ import '../../../../theme/theme.dart';
 import '../../../../widget/alert_dialog.dart';
 import '../../../../widget/card_widget.dart';
 import '../../../../widget/loading_widget.dart';
-import 'filter_page.dart';
 
 class RecomendationMedicine extends StatefulWidget {
   const RecomendationMedicine({super.key});
@@ -347,9 +339,9 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                             1);
                                                   } else {
                                                     print(medicines[index]
-                                                          .mediaProducts?[0]
-                                                          .media
-                                                          ?.path);
+                                                        .mediaProducts?[0]
+                                                        .media
+                                                        ?.path);
                                                     toogle.add(index);
                                                     stateDoctor.listObat.add({
                                                       'id': medicines[index].id,

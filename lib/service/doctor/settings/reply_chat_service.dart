@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
-import '../../../models/doctor/reply_chat_model.dart';
 
 class ReplyChatService extends ProviderClass {
   ReplyChatService()

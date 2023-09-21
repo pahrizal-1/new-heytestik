@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_keamana_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class MetodeVerifikasiPage extends StatelessWidget {

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -95,8 +95,14 @@ class _ListChatPageState extends State<ListChatPage> {
                       doctorName:
                           state.recentChat.value!.data?[i].doctor?.fullname ??
                               '',
-                      chat:
-                          state.recentChat.value!.data?[i].lastChat!.message == '####' ? state.recentChat.value!.data![i].lastChat!.message = 'Resep Obat ' : state.recentChat.value!.data?[i].lastChat!.message ?? '-',
+                      chat: state.recentChat.value!.data?[i].lastChat!
+                                  .message ==
+                              '####'
+                          ? state.recentChat.value!.data![i].lastChat!.message =
+                              'Resep Obat '
+                          : state.recentChat.value!.data?[i].lastChat!
+                                  .message ??
+                              '-',
                       // img: 'https://asset.kompas.com/crops/xxJOBtGmPRnsYjmTJu1Od6MnlhU=/153x0:1773x1080/1200x800/data/photo/2022/08/08/62f07b64afff9.jpg',
                       img: state.recentChat.value!.data![i].doctor!
                                   .mediaUserProfilePicture ==

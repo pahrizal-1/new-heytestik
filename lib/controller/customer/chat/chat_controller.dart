@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -374,7 +376,7 @@ class CustomerChatController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
-    }); 
+    });
     isLoading.value = false;
   }
 

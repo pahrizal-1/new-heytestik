@@ -8,13 +8,13 @@ class ClinicForDoctorModel {
   ClinicForDoctorModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,19 +32,19 @@ class Data {
     if (json['data'] != null) {
       data = <DataClinic>[];
       json['data'].forEach((v) {
-        data!.add(new DataClinic.fromJson(v));
+        data!.add(DataClinic.fromJson(v));
       });
     }
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
@@ -156,23 +156,22 @@ class DataClinic {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    province = json['province'] != null
-        ? new Province.fromJson(json['province'])
-        : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    province =
+        json['province'] != null ? Province.fromJson(json['province']) : null;
     mediaClinicLogo = json['media_clinic_logo'] != null
-        ? new MediaClinicLogo.fromJson(json['media_clinic_logo'])
+        ? MediaClinicLogo.fromJson(json['media_clinic_logo'])
         : null;
     if (json['media_clinics'] != null) {
       mediaClinics = <MediaClinics>[];
       json['media_clinics'].forEach((v) {
-        mediaClinics!.add(new MediaClinics.fromJson(v));
+        mediaClinics!.add(MediaClinics.fromJson(v));
       });
     }
     if (json['treatments'] != null) {
       treatments = <Treatments>[];
       json['treatments'].forEach((v) {
-        treatments!.add(new Treatments.fromJson(v));
+        treatments!.add(Treatments.fromJson(v));
       });
     }
     avgPrice = json['avg_price'];
@@ -180,54 +179,53 @@ class DataClinic {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['address'] = this.address;
-    data['pinpoint_latitude'] = this.pinpointLatitude;
-    data['pinpoint_longitude'] = this.pinpointLongitude;
-    data['pinpoint_address'] = this.pinpointAddress;
-    data['province_id'] = this.provinceId;
-    data['city_id'] = this.cityId;
-    data['postal_code'] = this.postalCode;
-    data['registration_number'] = this.registrationNumber;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['description'] = this.description;
-    data['company_name'] = this.companyName;
-    data['company_address'] = this.companyAddress;
-    data['company_city_id'] = this.companyCityId;
-    data['company_province_id'] = this.companyProvinceId;
-    data['company_postal_code'] = this.companyPostalCode;
-    data['npwp'] = this.npwp;
-    data['pic_name'] = this.picName;
-    data['pic_phone'] = this.picPhone;
-    data['contract_expired_date'] = this.contractExpiredDate;
-    data['status'] = this.status;
-    data['rating'] = this.rating;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    data['pinpoint_latitude'] = pinpointLatitude;
+    data['pinpoint_longitude'] = pinpointLongitude;
+    data['pinpoint_address'] = pinpointAddress;
+    data['province_id'] = provinceId;
+    data['city_id'] = cityId;
+    data['postal_code'] = postalCode;
+    data['registration_number'] = registrationNumber;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['description'] = description;
+    data['company_name'] = companyName;
+    data['company_address'] = companyAddress;
+    data['company_city_id'] = companyCityId;
+    data['company_province_id'] = companyProvinceId;
+    data['company_postal_code'] = companyPostalCode;
+    data['npwp'] = npwp;
+    data['pic_name'] = picName;
+    data['pic_phone'] = picPhone;
+    data['contract_expired_date'] = contractExpiredDate;
+    data['status'] = status;
+    data['rating'] = rating;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    if (this.province != null) {
-      data['province'] = this.province!.toJson();
+    if (province != null) {
+      data['province'] = province!.toJson();
     }
-    if (this.mediaClinicLogo != null) {
-      data['media_clinic_logo'] = this.mediaClinicLogo!.toJson();
+    if (mediaClinicLogo != null) {
+      data['media_clinic_logo'] = mediaClinicLogo!.toJson();
     }
-    if (this.mediaClinics != null) {
-      data['media_clinics'] =
-          this.mediaClinics!.map((v) => v.toJson()).toList();
+    if (mediaClinics != null) {
+      data['media_clinics'] = mediaClinics!.map((v) => v.toJson()).toList();
     }
-    if (this.treatments != null) {
-      data['treatments'] = this.treatments!.map((v) => v.toJson()).toList();
+    if (treatments != null) {
+      data['treatments'] = treatments!.map((v) => v.toJson()).toList();
     }
-    data['avg_price'] = this.avgPrice;
-    data['distance'] = this.distance;
+    data['avg_price'] = avgPrice;
+    data['distance'] = distance;
     return data;
   }
 }
@@ -258,13 +256,13 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['provinces_id'] = this.provincesId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['provinces_id'] = provincesId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -288,12 +286,12 @@ class Province {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -329,21 +327,21 @@ class MediaClinicLogo {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    media = json['media'] != null ? new Media.fromJson(json['media']) : null;
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media_id'] = this.mediaId;
-    data['clinic_id'] = this.clinicId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.media != null) {
-      data['media'] = this.media!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['clinic_id'] = clinicId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
     }
     return data;
   }
@@ -393,19 +391,19 @@ class Media {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['filename'] = this.filename;
-    data['ext'] = this.ext;
-    data['size'] = this.size;
-    data['mime'] = this.mime;
-    data['path'] = this.path;
-    data['destination'] = this.destination;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -441,21 +439,21 @@ class MediaClinics {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    media = json['media'] != null ? new Media.fromJson(json['media']) : null;
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media_id'] = this.mediaId;
-    data['clinic_id'] = this.clinicId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.media != null) {
-      data['media'] = this.media!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['clinic_id'] = clinicId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
     }
     return data;
   }
@@ -505,19 +503,19 @@ class Media2 {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['filename'] = this.filename;
-    data['ext'] = this.ext;
-    data['size'] = this.size;
-    data['mime'] = this.mime;
-    data['path'] = this.path;
-    data['destination'] = this.destination;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -581,24 +579,24 @@ class Treatments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['clinic_id'] = this.clinicId;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['description'] = this.description;
-    data['duration'] = this.duration;
-    data['downtime'] = this.downtime;
-    data['treatment_type'] = this.treatmentType;
-    data['treatment_step'] = this.treatmentStep;
-    data['price'] = this.price;
-    data['is_active'] = this.isActive;
-    data['rating'] = this.rating;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['clinic_id'] = clinicId;
+    data['name'] = name;
+    data['category'] = category;
+    data['description'] = description;
+    data['duration'] = duration;
+    data['downtime'] = downtime;
+    data['treatment_type'] = treatmentType;
+    data['treatment_step'] = treatmentStep;
+    data['price'] = price;
+    data['is_active'] = isActive;
+    data['rating'] = rating;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -629,13 +627,13 @@ class Meta {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    data['take'] = this.take;
-    data['itemCount'] = this.itemCount;
-    data['pageCount'] = this.pageCount;
-    data['hasPreviousPage'] = this.hasPreviousPage;
-    data['hasNextPage'] = this.hasNextPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    data['take'] = take;
+    data['itemCount'] = itemCount;
+    data['pageCount'] = pageCount;
+    data['hasPreviousPage'] = hasPreviousPage;
+    data['hasNextPage'] = hasNextPage;
     return data;
   }
 }

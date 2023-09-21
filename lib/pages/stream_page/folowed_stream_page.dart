@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
-import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_general.dart';
 import '../../widget/stream_polling.dart';
@@ -34,7 +33,8 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.followedStreamIndex.value = postController.followedStreamIndex.value + 1;
+          postController.followedStreamIndex.value =
+              postController.followedStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             await postController.getStreamFollowed(context);
           });
@@ -63,10 +63,14 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: postController.followedStreams.length,
                   itemBuilder: (context, index) {
-                    if (postController.followedStreams[index].type.toLowerCase() == 'polling') {
-                      return StreamPostPolling(stream: postController.followedStreams[index]);
+                    if (postController.followedStreams[index].type
+                            .toLowerCase() ==
+                        'polling') {
+                      return StreamPostPolling(
+                          stream: postController.followedStreams[index]);
                     }
-                    return StreamPostGeneral(stream: postController.followedStreams[index]);
+                    return StreamPostGeneral(
+                        stream: postController.followedStreams[index]);
                   },
                   separatorBuilder: (context, index) {
                     return dividergreen();

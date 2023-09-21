@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_null_comparison
 
 import 'dart:async';
 import 'dart:convert';
@@ -606,7 +606,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                 itemCount: msglist!.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (buildex, index) {
-                                  var formatter = new DateFormat('dd-MM-yyyy');
+                                  var formatter = DateFormat('dd-MM-yyyy');
                                   String formattedTime = DateFormat('kk:mm')
                                       .format(DateTime.parse(msglist![index]
                                           .createdAt

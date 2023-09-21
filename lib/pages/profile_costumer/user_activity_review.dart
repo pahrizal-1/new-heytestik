@@ -176,6 +176,7 @@ class _UserActivityReviewState extends State<UserActivityReview> {
                                   '${reviews[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
                             );
                           }
+                          return null;
                         },
                       ),
                       Obx(

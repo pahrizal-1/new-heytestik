@@ -15,7 +15,6 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
 import '../../widget/pencarian_search_widget.dart';
-import '../home/notifikasion_page.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'list_chat.dart';
 

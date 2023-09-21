@@ -4,14 +4,11 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/linear_ulasan_widgets.dart';
-import 'package:heystetik_mobileapps/widget/rating_dengan_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/button_widget.dart';
-import '../../../widget/filter_tap_widget.dart';
 import '../../../widget/loading_widget.dart';
 
 class RatingPage extends StatefulWidget {

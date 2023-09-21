@@ -16,9 +16,7 @@ class UbahTanggalLahirProfilCustomer extends StatefulWidget {
 
 class _UbahTanggalLahirProfilCustomerState
     extends State<UbahTanggalLahirProfilCustomer> {
-  TextEditingController _dateController = TextEditingController();
   final ProfileController state = Get.put(ProfileController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,6 @@ class _UbahTanggalLahirProfilCustomerState
               decoration: InputDecoration(
                 suffixIcon: Icon(
                   Icons.keyboard_arrow_down,
-                  
                   color: greyColor,
                 ),
                 labelText: 'Tanggal Lahir',
