@@ -216,23 +216,25 @@ class _KeranjangPageState extends State<KeranjangPage> {
               Obx(
                 () => state.isLoading.value ? LoadingMore() : Container(),
               ),
-              const SizedBox(
-                height: 18,
+              SizedBox(
+                height: state.recentlyProduct.isEmpty ? 0 : 17,
               ),
-              Padding(
-                padding: lsymetric,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Kamu sempat lihat-lihat ini',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
+              state.recentlyProduct.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: lsymetric,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Kamu sempat lihat-lihat ini',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 17,
+              SizedBox(
+                height: state.recentlyProduct.isEmpty ? 0 : 17,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

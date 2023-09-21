@@ -281,10 +281,12 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                     ),
                   ),
                   TextFormField(
-                    // controller: state.notes,
                     maxLines: 6,
                     minLines: 1,
                     maxLength: 114,
+                    onChanged: (value) {
+                      state.checklist[widget.index]['notes'] = value;
+                    },
                     decoration: InputDecoration(
                       labelText: 'Catatan',
                       enabledBorder: OutlineInputBorder(

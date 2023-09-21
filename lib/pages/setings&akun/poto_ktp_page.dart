@@ -53,14 +53,13 @@ class PotoKtp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 200,
+              height: 340,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
                 image: DecorationImage(
                   image: FileImage(
                     File(state.idCardPhoto!.path),
                   ),
-                  fit: BoxFit.fill,
                 ),
               ),
             ),
