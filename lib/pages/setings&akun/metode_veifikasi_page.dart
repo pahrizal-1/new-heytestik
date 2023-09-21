@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_keamana_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
-class MetodeVerifikasiPage extends StatelessWidget {
+class MetodeVerifikasiPage extends StatefulWidget {
   const MetodeVerifikasiPage({super.key});
+
+  @override
+  State<MetodeVerifikasiPage> createState() => _MetodeVerifikasiPageState();
+}
+
+class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
+  final ProfileController state = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.getProfile(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +82,13 @@ class MetodeVerifikasiPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  state.verifyCodeWA(context, state.noHp.value);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              VerifikasiEmailKeamananAkunPage()));
+                          builder: (context) => VerifikasiKeamananPage(
+                                noHp: state.noHp.value,
+                              )));
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
@@ -97,7 +114,10 @@ class MetodeVerifikasiPage extends StatelessWidget {
                             style: blackHigtTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            '****-****-*645',
+                            state.noHp.value.isNotEmpty
+                                ? state.noHp.value
+                                    .replaceAll(RegExp(r'.(?=.{10})'), '*')
+                                : '****-****-*645',
                             style: subTitleTextStyle.copyWith(fontSize: 15),
                           ),
                         ],
@@ -111,10 +131,13 @@ class MetodeVerifikasiPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  state.verifyCodeEmail(context, state.email.value);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VerifikasiKeamananPage()));
+                          builder: (context) => VerifikasiEmailKeamananAkunPage(
+                                email: state.email.value,
+                              )));
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
@@ -140,7 +163,10 @@ class MetodeVerifikasiPage extends StatelessWidget {
                             style: blackHigtTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            'r********@g****.com',
+                            state.email.value.isNotEmpty
+                                ? state.email.value
+                                    .replaceAll(RegExp(r'.(?=.{10})'), '*')
+                                : 'c*******gmail.com',
                             style: subTitleTextStyle.copyWith(fontSize: 15),
                           ),
                         ],
