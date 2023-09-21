@@ -45,7 +45,7 @@ class VerificationPage extends StatelessWidget {
               height: 4,
             ),
             Text(
-              '0${state.phoneNumber.toString()}',
+              '+62${state.phoneNumber.toString()}',
               // state.phoneNumber.toString(),
               style: blackTextStyle.copyWith(),
             ),
@@ -106,11 +106,11 @@ class VerificationPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyPhoneNumber(context, doInPost: () async {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MoreDialog(),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return MoreDialog();
+                        },
                       );
                     });
                   },
