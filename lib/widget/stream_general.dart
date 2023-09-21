@@ -51,11 +51,14 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: widget.stream.photoUser == "" || widget.stream.photoUser == "photo_profile"
+                    image: widget.stream.photoUser == "" ||
+                            widget.stream.photoUser == "photo_profile"
                         ? AssetImage(
                             'assets/images/profiledummy.png',
                           )
-                        : NetworkImage('${Global.FILE}/${widget.stream.photoUser}') as ImageProvider,
+                        : NetworkImage(
+                                '${Global.FILE}/${widget.stream.photoUser}')
+                            as ImageProvider,
                   ),
                 ),
               ),
@@ -123,8 +126,10 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                     horizontal: 10.0,
                     vertical: 10.0,
                   ),
-                  width: MediaQuery.of(context).size.width / (1.3 * widget.stream.postImage.length),
-                  height: MediaQuery.of(context).size.width / (1.3 * widget.stream.postImage.length),
+                  width: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
+                  height: MediaQuery.of(context).size.width /
+                      (1.3 * widget.stream.postImage.length),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(.2)),
                     borderRadius: BorderRadius.circular(8),
@@ -177,13 +182,15 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                           postController.unlikePost(context, widget.stream.id);
                           setState(() {
                             like = false;
-                            postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) - 1;
+                            postLike["${widget.stream.id}"] =
+                                (postLike["${widget.stream.id}"] ?? 0) - 1;
                           });
                         } else {
                           postController.likePost(context, widget.stream.id);
                           setState(() {
                             like = true;
-                            postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) + 1;
+                            postLike["${widget.stream.id}"] =
+                                (postLike["${widget.stream.id}"] ?? 0) + 1;
                           });
                         }
                       },
@@ -260,7 +267,8 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => KomentarStreamPage(post: widget.stream),
+                      builder: (context) =>
+                          KomentarStreamPage(post: widget.stream),
                     ),
                   );
                 },

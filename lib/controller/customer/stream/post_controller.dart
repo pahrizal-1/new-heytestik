@@ -37,7 +37,7 @@ class PostController extends StateClass {
       } catch (e) {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
-          message: "Something wen't wromg please try again later",
+          message: "Something wen't wrong please try again later",
         );
       }
     });
@@ -55,7 +55,7 @@ class PostController extends StateClass {
       } catch (e) {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
-          message: "Something wen't wromg please try again later",
+          message: "Something wen't wrong please try again later",
         );
       }
     });
