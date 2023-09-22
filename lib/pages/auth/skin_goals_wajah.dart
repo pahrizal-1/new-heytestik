@@ -12,14 +12,14 @@ import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
-class SkinGoalsSatu extends StatefulWidget {
-  const SkinGoalsSatu({super.key});
+class SkinGoalsKorektifWajah extends StatefulWidget {
+  const SkinGoalsKorektifWajah({super.key});
 
   @override
-  State<SkinGoalsSatu> createState() => _SkinGoalsSatuState();
+  State<SkinGoalsKorektifWajah> createState() => _SkinGoalsKorektifWajahState();
 }
 
-class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
+class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<InterestController>(context);
@@ -213,6 +213,11 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
                           type: 1,
                         ),
                         CardSkinGoals(
+                          title: 'Kutil',
+                          width: 60,
+                          type: 1,
+                        ),
+                        CardSkinGoals(
                           title: 'Kerutan',
                           width: 90,
                           type: 1,
@@ -235,6 +240,11 @@ class _SkinGoalsSatuState extends State<SkinGoalsSatu> {
                         CardSkinGoals(
                           title: 'Gummy Smile',
                           width: 120,
+                          type: 1,
+                        ),
+                        CardSkinGoals(
+                          title: 'Tahi Lalat',
+                          width: 100,
                           type: 1,
                         ),
                         CardSkinGoals(

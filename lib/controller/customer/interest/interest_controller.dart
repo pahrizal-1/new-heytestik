@@ -19,6 +19,7 @@ class InterestController extends StateClass {
   List<String> _bodyCorrective = [];
   List<String> _pastTreatment = [];
   List<String> _augmentation = [];
+  TextEditingController searchController = TextEditingController();
 
   List<String> get faceCorrective => _faceCorrective;
   List<String> get bodyCorrective => _bodyCorrective;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_goals_treameant.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_golas_penuralan_sexsual.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -12,14 +13,14 @@ import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
-class SkinGoalsTiga extends StatefulWidget {
-  const SkinGoalsTiga({super.key});
+class SkinGolasWajahTubuh extends StatefulWidget {
+  const SkinGolasWajahTubuh({super.key});
 
   @override
-  State<SkinGoalsTiga> createState() => _SkinGoalsSatuState();
+  State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
 
-class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
+class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<InterestController>(context);
@@ -117,7 +118,7 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                 height: 20,
               ),
               Padding(
-                padding: lsymetric,
+                padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,17 +130,22 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                       height: 24,
                     ),
                     Text(
-                      'Kamu pernah treatment apa aja?',
+                      'Skin Goals Augmentation Wajah & Tubuh',
                       style: blackTextStyle.copyWith(fontSize: 18),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
+                    Text(
+                      '“Semoga aku bisa punya...”',
+                      style: grenTextStyle.copyWith(
+                          fontSize: 16, fontStyle: FontStyle.italic),
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'Kamu bisa pilih lebih dari satu treatment yang pernah kamu lakukan :)',
+                      'Bisa pilih lebih dari satu ya :)',
                       style: greyTextStyle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
@@ -149,176 +155,61 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: const [
+                      children: [
                         CardSkinGoals(
-                          title: 'Cryolipolysis',
-                          width: 120,
-                          type: 4,
+                          title: 'Hidung Mancung',
+                          width: 130,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Facial',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Electrocauter',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Filler',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'HIFU',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'IPL',
-                          width: 60,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser CO2',
+                          title: 'Pipi Tirus',
                           width: 100,
-                          type: 4,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Laser Erbium',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser Pico',
+                          title: 'Otot Tubuh',
                           width: 100,
-                          type: 4,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Laser Nd:YAG',
+                          title: 'Dagu Lancip',
                           width: 110,
-                          type: 4,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Laser Pulsed Dye',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'LED Light Therapy',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Mesotherapy',
+                          title: 'Rahang Tegas',
                           width: 110,
-                          type: 4,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Microneedling',
-                          width: 120,
-                          type: 4,
+                          title: 'Payudara Kencang',
+                          width: 150,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Peeling',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Mikrodermabrasi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Oxygen Facial',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'PRP',
-                          width: 60,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Radio Frekuensi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Skin Booster',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Subsisi',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik Botulinum Toxic',
+                          title: 'Kulit Mulus Bebas Bulu',
                           width: 160,
-                          type: 4,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Suntik DNA Salmon',
-                          width: 140,
-                          type: 4,
+                          title: 'Payudara Besar',
+                          width: 130,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Suntik Jerawat',
-                          width: 120,
-                          type: 4,
+                          title: 'Bibir Lebih Ideal',
+                          width: 130,
+                          type: 3,
                         ),
                         CardSkinGoals(
-                          title: 'Suntik Keloid',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tanam Benang',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Blepharoplasty',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Facelift',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Facial Fat Transfer',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rhinoplasty',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Liposuction',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Transfer Lemak',
-                          width: 118,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tummy Tuck',
-                          width: 105,
-                          type: 4,
+                          title: 'Bokong Berisi',
+                          width: 130,
+                          type: 3,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 39,
+                    const SizedBox(
+                      height: 120,
                     ),
                     Obx(
                       () => LoadingWidget(
@@ -326,12 +217,13 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                         child: ButtonGreenWidget(
                           title: 'Lanjut',
                           onPressed: () async {
-                            await state.pastTreatmentGoals(context,
+                            await state.augmentationSkinGoals(context,
                                 doInPost: () async {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SkinGoalsEmpat(),
+                                  builder: (context) =>
+                                      const SkinGoalsPenularan(),
                                 ),
                               );
                             });
@@ -339,6 +231,9 @@ class _SkinGoalsSatuState extends State<SkinGoalsTiga> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 30,
+                    )
                   ],
                 ),
               ),

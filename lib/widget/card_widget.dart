@@ -10,13 +10,13 @@ import '../theme/theme.dart';
 class CardSkinGoals extends StatefulWidget {
   final String title;
   final double width;
-  final int type;
+  final int? type;
 
   const CardSkinGoals({
     this.width = double.infinity,
     super.key,
     required this.title,
-    required this.type,
+    this.type,
   });
 
   @override

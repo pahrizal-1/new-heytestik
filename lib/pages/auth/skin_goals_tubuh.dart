@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_goals_dua.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -137,7 +137,8 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                     ),
                     Text(
                       '"Semoga aku bisa bebas dari...."',
-                      style: grenTextStyle.copyWith(fontSize: 16),
+                      style: grenTextStyle.copyWith(
+                          fontSize: 16, fontStyle: FontStyle.italic),
                     ),
                     const SizedBox(
                       height: 5,
@@ -190,7 +191,8 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SkinGoalsDua(),
+                                  builder: (context) =>
+                                      const SkinGolasWajahTubuh(),
                                 ),
                               );
                             });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
@@ -677,7 +678,8 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SkinGoalsSatu(),
+                                  builder: (context) =>
+                                      const SkinGoalsKorektifWajah(),
                                 ),
                               );
                             });
@@ -696,7 +698,8 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SkinGoalsSatu(),
+                              builder: (context) =>
+                                  const SkinGoalsKorektifWajah(),
                             ),
                           );
                         },
