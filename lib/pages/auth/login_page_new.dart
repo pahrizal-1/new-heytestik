@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
-
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
@@ -244,14 +242,9 @@ class _LoginPageNewState extends State<LoginPageNew> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap:(){
-                    // Get.to(BeautyProfilPage());
-                  },
-                  child: Text(
-                    'Atau masuk dengan',
-                    style: greyTextStyle,
-                  ),
+                Text(
+                  'Atau masuk dengan',
+                  style: greyTextStyle,
                 ),
                 Expanded(
                   child: Container(
@@ -341,7 +334,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const HomeMinheyPage(),

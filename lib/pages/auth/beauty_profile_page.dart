@@ -9,7 +9,6 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
-import '../../widget/drop_dow_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class BeautyProfilPage extends StatefulWidget {
