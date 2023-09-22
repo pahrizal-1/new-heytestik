@@ -159,7 +159,7 @@ class LoginController extends StateClass {
                 loginResponse['data']['user']['id'].toString());
 
             if (loginResponse['data']['user']['finish_register'] == false) {
-              Get.offAll(() => const BeautyProfilPage());
+              Get.to(() => const BeautyProfilPage());
             } else {
               doInPost();
             }
