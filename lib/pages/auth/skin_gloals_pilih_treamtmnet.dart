@@ -6,7 +6,6 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../controller/customer/interest/interest_controller.dart';
@@ -22,10 +21,15 @@ class SkinGloalsPilihTreamtmnet extends StatefulWidget {
 }
 
 class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
+  final InterestController state = Get.put(InterestController());
+  @override
+  void initState() {
+    super.initState();
+    state.filterTreatment = state.skinGoalTreatment;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -147,6 +151,10 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                     SearchTextField(
                       title: 'Cari cepat disini yuk!',
                       controller: state.searchController,
+                      onChange: (value) {
+                        state.onChangeFilterText(value);
+                        setState(() {});
+                      },
                     ),
                     const SizedBox(
                       height: 19,
@@ -155,237 +163,35 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: const [
-                        CardSkinGoals(
-                          title: 'Cryolipolysis',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Facial',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Electrocauter',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Filler',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'HIFU',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'IPL',
-                          width: 60,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser CO2',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser Erbium',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser Pico',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser Nd:YAG',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Laser Pulsed Dye',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'LED Light Therapy',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Mesotherapy',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Microneedling',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Peeling',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Mikrodermabrasi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Oxygen Facial',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'PRP',
-                          width: 60,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Radio Frekuensi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Skin Booster',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Subsisi',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik Botulinum Toxic',
-                          width: 160,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik DNA Salmon',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik Jerawat',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik Keloid',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tanam Benang',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Blepharoplasty',
-                          width: 120,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Breast Augmentation',
-                          width: 150,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Buccal Fat Removal',
-                          width: 150,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Facelift',
-                          width: 80,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Facial Fat Transfer',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rhinoplasty',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Liposuction',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Transfer Lemak',
-                          width: 118,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tummy Tuck',
-                          width: 105,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Ekstraksi Komedo',
-                          width: 140,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tattoo Removal',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Cross TCA',
-                          width: 100,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Suntik Melasma',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Yellow Laser',
-                          width: 110,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Injeksi Lipolysis',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Aspirasi',
-                          width: 90,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bedah Plong',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bedah Insisi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bedah Eksisi',
-                          width: 130,
-                          type: 4,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rhinoplasty',
-                          width: 130,
-                          type: 4,
-                        ),
+                      children: [
+                        for (int index = 0;
+                            index < state.filterTreatment.length;
+                            index++)
+                          InkWell(
+                            onTap: () {
+                              var adaGak = state.pasTreatment.firstWhereOrNull(
+                                (item) =>
+                                    item ==
+                                    state.filterTreatment[index]['treatment'],
+                              );
+
+                              if (adaGak == null) {
+                                state.filterTreatment[index]['checked'] = true;
+                                state.pasTreatment.add(
+                                    state.filterTreatment[index]['treatment']);
+                              } else {
+                                state.filterTreatment[index]['checked'] = false;
+                                state.pasTreatment.remove(
+                                    state.filterTreatment[index]['treatment']);
+                              }
+                              setState(() {});
+                            },
+                            child: CardSkinGoalsTreatment(
+                              checked: state.filterTreatment[index]['checked'],
+                              title: state.filterTreatment[index]['treatment'],
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                          ),
                       ],
                     ),
                     SizedBox(

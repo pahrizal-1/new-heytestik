@@ -279,7 +279,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     ),
                     TextFormWidget(
                       title: 'Nama Lengkap*',
-                      hintText: 'Masukan Nama',
+                      hintText: 'Masukan Nama Lengkap',
                       controller: state.fullName,
                     ),
 

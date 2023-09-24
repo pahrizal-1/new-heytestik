@@ -26,6 +26,56 @@ class InterestController extends StateClass {
   List<String> get pasTreatment => _pastTreatment;
   List<String> get augmentation => _augmentation;
 
+  List filterTreatment = [];
+  List skinGoalTreatment = [
+    {'treatment': 'Cryolipolysis', 'checked': false},
+    {'treatment': 'Facial', 'checked': false},
+    {'treatment': 'Electrocauter', 'checked': false},
+    {'treatment': 'Filler', 'checked': false},
+    {'treatment': 'HIFU', 'checked': false},
+    {'treatment': 'IPL', 'checked': false},
+    {'treatment': 'Laser CO2', 'checked': false},
+    {'treatment': 'Laser Erbium', 'checked': false},
+    {'treatment': 'Laser Pico', 'checked': false},
+    {'treatment': 'Laser Nd:YAG', 'checked': false},
+    {'treatment': 'Laser Pulsed Dye', 'checked': false},
+    {'treatment': 'LED Light Therapy', 'checked': false},
+    {'treatment': 'Mesotherapy', 'checked': false},
+    {'treatment': 'Microneedling', 'checked': false},
+    {'treatment': 'Peeling', 'checked': false},
+    {'treatment': 'Mikrodermabrasi', 'checked': false},
+    {'treatment': 'Oxygen Facial', 'checked': false},
+    {'treatment': 'PRP', 'checked': false},
+    {'treatment': 'Radio Frekuensi', 'checked': false},
+    {'treatment': 'Skin Booster', 'checked': false},
+    {'treatment': 'Subsisi', 'checked': false},
+    {'treatment': 'Suntik Botulinum Toxic', 'checked': false},
+    {'treatment': 'Suntik DNA Salmon', 'checked': false},
+    {'treatment': 'Suntik Jerawat', 'checked': false},
+    {'treatment': 'Suntik Keloid', 'checked': false},
+    {'treatment': 'Tanam Benang', 'checked': false},
+    {'treatment': 'Blepharoplasty', 'checked': false},
+    {'treatment': 'Breast Augmentation', 'checked': false},
+    {'treatment': 'Buccal Fat Removal', 'checked': false},
+    {'treatment': 'Facelift', 'checked': false},
+    {'treatment': 'Facial Fat Transfer', 'checked': false},
+    {'treatment': 'Rhinoplasty', 'checked': false},
+    {'treatment': 'Liposuction', 'checked': false},
+    {'treatment': 'Transfer Lemak', 'checked': false},
+    {'treatment': 'Tummy Tuck', 'checked': false},
+    {'treatment': 'Ekstraksi Komedo', 'checked': false},
+    {'treatment': 'Tattoo Removal', 'checked': false},
+    {'treatment': 'Cross TCA', 'checked': false},
+    {'treatment': 'Suntik Melasma', 'checked': false},
+    {'treatment': 'Yellow Laser', 'checked': false},
+    {'treatment': 'Injeksi Lipolysis', 'checked': false},
+    {'treatment': 'Aspirasi', 'checked': false},
+    {'treatment': 'Bedah Plong', 'checked': false},
+    {'treatment': 'Bedah Insisi', 'checked': false},
+    {'treatment': 'Bedah Eksisi', 'checked': false},
+    {'treatment': 'Rhinoplasty', 'checked': false},
+  ];
+
   void addFaceCorrective(String value) {
     _faceCorrective.add(value);
     notifyListeners();
@@ -64,6 +114,12 @@ class InterestController extends StateClass {
   void removeAugmentation(String value) {
     _augmentation.remove(value);
     notifyListeners();
+  }
+
+  onChangeFilterText(String value) {
+    filterTreatment = skinGoalTreatment.where((element) {
+      return element.toString().toLowerCase().contains(value.toLowerCase());
+    }).toList();
   }
 
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {
@@ -239,12 +295,13 @@ class InterestController extends StateClass {
   pastTreatmentGoals(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;
+
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
-      for (int i = 0; i < _pastTreatment.length; i++) {
+      for (int i = 0; i < pasTreatment.length; i++) {
         listData.add({
-          'name_history_treatment': _pastTreatment[i],
+          'name_history_treatment': pasTreatment[i],
         });
       }
 
@@ -252,6 +309,7 @@ class InterestController extends StateClass {
         'user_id': await LocalStorage().getUserID(),
         'lists': listData,
       };
+      print("data $data");
 
       var loginResponse = await InterestService().pastTreatment(data);
       print(loginResponse);

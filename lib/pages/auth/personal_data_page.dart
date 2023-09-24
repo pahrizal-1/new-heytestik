@@ -132,7 +132,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                 TextFormWidget(
                   controller: state.fullName,
                   title: 'Nama Lengkap',
-                  hintText: 'Nama Depan',
+                  hintText: 'Nama Lengkap',
                 ),
                 const SizedBox(
                   height: 8,
@@ -226,7 +226,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                     TextFormWidget(
                       controller: state.referralCode,
                       title: 'Kode Referral',
-                      hintText: 'Nama Depan',
+                      hintText: 'Masukkan Kode Referral',
                     ),
                     const SizedBox(
                       height: 30,

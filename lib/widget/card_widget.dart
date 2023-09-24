@@ -3,9 +3,61 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../controller/customer/interest/interest_controller.dart';
 import '../theme/theme.dart';
+
+class CardSkinGoalsTreatment extends StatefulWidget {
+  final String title;
+  final double width;
+
+  final bool checked;
+  const CardSkinGoalsTreatment({
+    this.width = double.infinity,
+    super.key,
+    required this.checked,
+    required this.title,
+  });
+
+  @override
+  State<CardSkinGoalsTreatment> createState() => _CardSkinGoalsTreatmentState();
+}
+
+class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: widget.checked ? greenColor : greyColor)),
+      height: 40,
+      width: widget.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            widget.checked
+                ? Icons.check_circle_rounded
+                : Icons.add_circle_outline,
+            size: 16,
+            color: widget.checked ? greenColor : greyColor,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            widget.title,
+            style: TextStyle(
+                letterSpacing: 0.5,
+                fontSize: 11,
+                fontFamily: 'ProximaNova',
+                color: widget.checked ? greenColor : const Color(0xff323232),
+                fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class CardSkinGoals extends StatefulWidget {
   final String title;
@@ -56,14 +108,6 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
             state.augmentation.add(widget.title);
           } else {
             state.augmentation.remove(widget.title);
-          }
-        }
-
-        if (widget.type == 4) {
-          if (isIconSelected1) {
-            state.pasTreatment.add(widget.title);
-          } else {
-            state.pasTreatment.remove(widget.title);
           }
         }
       },
