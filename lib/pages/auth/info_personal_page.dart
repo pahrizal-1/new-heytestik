@@ -278,7 +278,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                       height: 33,
                     ),
                     TextFormWidget(
-                      title: 'Nama Lenkap',
+                      title: 'Nama Lengkap*',
                       hintText: 'Masukan Nama',
                       controller: state.fullName,
                     ),
@@ -315,7 +315,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Pin Password', style: blackTextStyle),
+                        Text('Pin Password*', style: blackTextStyle),
                         const SizedBox(
                           height: 8,
                         ),
@@ -362,8 +362,8 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     ),
                     TextFormWidget(
                       controller: state.referralCode,
-                      title: 'Kode Referral',
-                      hintText: 'Nama Depan',
+                      title: 'Kode Referral (Opsional)',
+                      hintText: 'Masukan Kode Referral',
                     ),
                     const SizedBox(
                       height: 30,
@@ -429,20 +429,20 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // ButtonTextWidget(
-                    //   title: 'Nanti Saja',
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const BeautyProfilPage(),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                    // const SizedBox(
-                    //   height: 50,
-                    // ),
+                    ButtonTextWidget(
+                      title: 'Nanti Saja',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BeautyProfilPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
                   ],
                 ),
               ),

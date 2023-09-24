@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
-import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/anggaran_treameant.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
+import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
+import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
-class SkinGoalsEmpat extends StatefulWidget {
-  const SkinGoalsEmpat({super.key});
+class SkinGoalsPenularan extends StatefulWidget {
+  const SkinGoalsPenularan({super.key});
 
   @override
-  State<SkinGoalsEmpat> createState() => _SkinGoalsSatuState();
+  State<SkinGoalsPenularan> createState() => _SkinGoalsPenularanState();
 }
 
-class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
+class _SkinGoalsPenularanState extends State<SkinGoalsPenularan> {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<InterestController>(context);
@@ -130,61 +130,93 @@ class _SkinGoalsSatuState extends State<SkinGoalsEmpat> {
                       height: 24,
                     ),
                     Text(
-                      'Anggaran Untuk Skincare',
+                      'Penyakit Menular Seksual dan Masalah Kulit Lainnya',
                       style: blackTextStyle.copyWith(fontSize: 18),
                     ),
                     const SizedBox(
                       height: 20,
+                    ),
+                    Text(
+                      '“Semoga aku bisa sembuh dari...”',
+                      style: grenTextStyle.copyWith(
+                          fontSize: 16, fontStyle: FontStyle.italic),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'Kira-kira berapa budget yang kamu siapkan untuk membeli skincare-mu?',
+                      'Kamu bisa pilih lebih dari satu treatment yang pernah kamu lakukan :)',
                       style: greyTextStyle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
                       height: 19,
                     ),
-                    const DropDownWiget(
-                      type: 1,
+                    Wrap(
+                      direction: Axis.horizontal,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: const [
+                        CardSkinGoals(
+                          title: 'Kencing Nanah',
+                          width: 120,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Keputihan',
+                          width: 100,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Sifilis',
+                          width: 70,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Luka Lecet Pada Kemaluan',
+                          width: 190,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Kutil Kelamin',
+                          width: 110,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Psoriaris',
+                          width: 100,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Kutu Kemaluan',
+                          width: 120,
+                          // type: 4,
+                        ),
+                        CardSkinGoals(
+                          title: 'Eksim',
+                          width: 80,
+                          // type: 4,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      'Anggaran Untuk Treatment',
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Kira-kira berapa budget yang kamu siapkan untuk melakukan treatment di klinik?',
-                      style: greyTextStyle.copyWith(fontSize: 12),
-                    ),
-                    const SizedBox(
-                      height: 19,
-                    ),
-                    const DropDownWiget(
-                      type: 2,
-                    ),
-                    const SizedBox(
-                      height: 180,
+                    SizedBox(
+                      height: 150,
                     ),
                     Obx(
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Simpan',
+                          title: 'Lanjut',
                           onPressed: () async {
-                            await state.budgets(context, doInPost: () async {
-                              Get.offAll(() => const AuthPage());
-                              showDialog(
-                                context: context,
-                                builder: (context) => const ProfilMoreDialog(),
-                              );
-                            });
+                            // await state.pastTreatmentGoals(context,
+                            //     doInPost: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const SkinGloalsPilihTreamtmnet(),
+                              ),
+                            );
+                            // });
                           },
                         ),
                       ),

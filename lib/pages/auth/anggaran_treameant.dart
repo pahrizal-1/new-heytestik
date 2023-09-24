@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
+import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
-import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
-class SkinGoalsDua extends StatefulWidget {
-  const SkinGoalsDua({super.key});
+class AnggaranTreatment extends StatefulWidget {
+  const AnggaranTreatment({super.key});
 
   @override
-  State<SkinGoalsDua> createState() => _SkinGoalsDuaState();
+  State<AnggaranTreatment> createState() => _AnggaranTreatmentState();
 }
 
-class _SkinGoalsDuaState extends State<SkinGoalsDua> {
+class _AnggaranTreatmentState extends State<AnggaranTreatment> {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<InterestController>(context);
@@ -117,7 +118,7 @@ class _SkinGoalsDuaState extends State<SkinGoalsDua> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 23),
+                padding: lsymetric,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,94 +130,59 @@ class _SkinGoalsDuaState extends State<SkinGoalsDua> {
                       height: 24,
                     ),
                     Text(
-                      'Skin Goals Augmentation Wajah & Tubuh',
+                      'Anggaran Untuk Skincare',
+                      style: blackTextStyle.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Kira-kira berapa budget yang kamu siapkan untuk membeli skincare-mu?',
+                      style: greyTextStyle.copyWith(fontSize: 12),
+                    ),
+                    const SizedBox(
+                      height: 19,
+                    ),
+                    const DropDownWiget(
+                      type: 1,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Anggaran Untuk Treatment',
                       style: blackTextStyle.copyWith(fontSize: 18),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Text(
-                      '"Semoga aku bisa bebas dari...."',
-                      style: grenTextStyle.copyWith(fontSize: 16),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Bisa pilih lebih dari satu ya :)',
+                      'Kira-kira berapa budget yang kamu siapkan untuk melakukan treatment di klinik?',
                       style: greyTextStyle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
                       height: 19,
                     ),
-                    Wrap(
-                      direction: Axis.horizontal,
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        CardSkinGoals(
-                          title: 'Hidung Mancung',
-                          width: 130,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Pipi Tirus',
-                          width: 100,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Otot Tubuh',
-                          width: 100,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Dagu Lancip',
-                          width: 110,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rahang Tegas',
-                          width: 110,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Payudara Kencang',
-                          width: 150,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Mulus Bebas Bulu',
-                          width: 160,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Payudara Besar',
-                          width: 130,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bibir Lebih Ideal',
-                          width: 130,
-                          type: 3,
-                        ),
-                      ],
+                    const DropDownWiget(
+                      type: 2,
                     ),
                     const SizedBox(
-                      height: 180,
+                      height: 140,
                     ),
                     Obx(
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Lanjut',
+                          title: 'Simpan',
                           onPressed: () async {
-                            await state.augmentationSkinGoals(context,
-                                doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SkinGoalsTiga(),
-                                ),
+                            await state.budgets(context, doInPost: () async {
+                              Get.offAll(() => const AuthPage());
+                              showDialog(
+                                context: context,
+                                builder: (context) => const ProfilMoreDialog(),
                               );
                             });
                           },
