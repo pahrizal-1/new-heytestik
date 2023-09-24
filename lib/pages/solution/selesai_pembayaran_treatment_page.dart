@@ -24,6 +24,7 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   String orderId;
   String expireTime;
   final Data2 treatment;
+  int pax;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
     this.bank = '',
@@ -31,6 +32,7 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
     this.orderId = '',
     this.expireTime = '',
     required this.treatment,
+    this.pax = 0,
     super.key,
   });
 
@@ -363,10 +365,7 @@ class _SelesaikanPembayaranTreatmentPageState
                                             topStart: Radius.circular(25),
                                           ),
                                         ),
-                                        builder: (context) =>
-                                            PesananTreatmentMoreDialog(
-                                          treatment: widget.treatment,
-                                        ),
+                                        builder: (context) => detail(context),
                                       );
                                     },
                                     child: Text(
@@ -436,37 +435,6 @@ class _SelesaikanPembayaranTreatmentPageState
                                   context, widget.orderId);
                             },
                           ),
-                          // const SizedBox(
-                          //   height: 7,
-                          // ),
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //       border: Border.all(color: borderColor),
-                          //       borderRadius: BorderRadius.circular(8)),
-                          //   width: MediaQuery.of(context).size.width,
-                          //   height: 51,
-                          //   child: TextButton(
-                          //     onPressed: () {
-                          //       // Navigator.push(
-                          //       //   context,
-                          //       //   MaterialPageRoute(
-                          //       //     builder: (context) => Resevasi3Page(),
-                          //       //   ),
-                          //       // );
-                          //     },
-                          //     style: TextButton.styleFrom(
-                          //       backgroundColor: whiteColor,
-                          //     ),
-                          //     child: Text(
-                          //       'Ganti metode pembayaran',
-                          //       style: TextStyle(
-                          //         fontSize: 16,
-                          //         color: blackColor,
-                          //         fontWeight: bold,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -479,18 +447,8 @@ class _SelesaikanPembayaranTreatmentPageState
       ),
     );
   }
-}
 
-class PesananTreatmentMoreDialog extends StatelessWidget {
-  final Data2 treatment;
-  PesananTreatmentMoreDialog({
-    Key? key,
-    required this.treatment,
-  }) : super(key: key);
-  final HistoryTreatmentController state =
-      Get.put(HistoryTreatmentController());
-  @override
-  Widget build(BuildContext context) {
+  Widget detail(BuildContext context) {
     return Wrap(
       children: [
         Padding(
@@ -525,7 +483,7 @@ class PesananTreatmentMoreDialog extends StatelessWidget {
                 height: 22,
               ),
               Text(
-                'Klinik Utama Lithea Jakarta Selatan',
+                '${widget.treatment.clinic?.name}',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -540,9 +498,10 @@ class PesananTreatmentMoreDialog extends StatelessWidget {
               const SizedBox(
                 height: 13,
               ),
-              const TextBoldSpacebetwen(
-                title: 'Peeling TCA Ringan (1x)',
-                title2: 'Rp290.400',
+              TextBoldSpacebetwen(
+                title: '${widget.treatment.name} ${widget.pax} pax',
+                title2: CurrencyFormat.convertToIdr(
+                    widget.treatment.price! * widget.pax, 0),
                 title1: '',
               ),
               const SizedBox(
@@ -576,16 +535,12 @@ class PesananTreatmentMoreDialog extends StatelessWidget {
                 height: 19,
               ),
               dividergrey(),
-              // TextBoldSpacebetwen(
-              //   title: 'Total Pembayaran',
-              //   title2: state.grossAmount.value == '-'
-              //       ? ''
-              //       : Text(
-              //           CurrencyFormat.convertToIdr(
-              //               double.parse(state.grossAmount.value), 0),
-              //         ),
-              //   title1: '',
-              // ),
+              TextBoldSpacebetwen(
+                title: 'Total Pembayaran',
+                title2: CurrencyFormat.convertToIdr(
+                    widget.treatment.price! * widget.pax, 0),
+                title1: '',
+              ),
             ],
           ),
         ),

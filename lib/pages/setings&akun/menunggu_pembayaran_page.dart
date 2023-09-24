@@ -199,6 +199,11 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                         history[index].transactionId.toString(),
                                     bank: '',
                                     expireTime: '',
+                                    pax: history[index]
+                                            .detail!
+                                            .transactionTreatmentItems?[0]
+                                            .pax ??
+                                        0,
                                     treatment: Treatment.Data2.fromJson(
                                       jsonDecode(
                                         jsonEncode(
