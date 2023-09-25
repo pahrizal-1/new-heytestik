@@ -160,7 +160,6 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       height: 19,
                     ),
                     Wrap(
-                      direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
                       children: [
@@ -189,7 +188,6 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                             child: CardSkinGoalsTreatment(
                               checked: state.filterTreatment[index]['checked'],
                               title: state.filterTreatment[index]['treatment'],
-                              width: MediaQuery.of(context).size.width,
                             ),
                           ),
                       ],

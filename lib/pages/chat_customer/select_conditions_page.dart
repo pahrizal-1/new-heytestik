@@ -142,6 +142,7 @@ class KorektifWajahPage extends StatelessWidget {
                       image: NetworkImage(
                         img,
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
