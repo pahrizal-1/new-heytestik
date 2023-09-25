@@ -32,7 +32,7 @@ class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: widget.checked ? greenColor : greyColor)),
       height: 40,
-      width: widget.width,
+      width: 160,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
