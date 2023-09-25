@@ -101,7 +101,6 @@ void main() async {
     sound: true,
   );
 
-  //belum dicek futsal dulu
   await FirebaseMessaging.instance.subscribeToTopic("all");
   print('User granted permission: ${settings.authorizationStatus}');
 

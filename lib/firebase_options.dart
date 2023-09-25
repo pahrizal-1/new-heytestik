@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '891210093671',
     projectId: 'heystetik-fae95',
     storageBucket: 'heystetik-fae95.appspot.com',
-    iosClientId: '891210093671-sqqjt2o67i0s7vpthsd3u3eg1bstu8ba.apps.googleusercontent.com',
+    iosClientId:
+        '891210093671-sqqjt2o67i0s7vpthsd3u3eg1bstu8ba.apps.googleusercontent.com',
     iosBundleId: 'com.desacode.heystetik',
   );
 }
