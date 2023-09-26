@@ -50,9 +50,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await state.init();
-      await stateProfile.getProfile(context);
-      await stateConcern.getInterestConditions(context);
+      state.init();
+      stateProfile.getProfile(context);
+      stateConcern.getInterestConditions(context);
     });
   }
 
@@ -222,91 +222,124 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: GridView.builder(
-              itemCount: 10,
-              padding: EdgeInsets.only(top: 10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                childAspectRatio: 0.8,
-              ),
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    if (index == 9) {
-                      Get.to(SelectConditionsPage());
-                    } else {
-                      Get.to(
-                        ChatPage(
-                          interestConditionId:
-                              stateConcern.filterData[index].id,
-                          title: stateConcern.filterData[index].name ?? '-',
+          Obx(
+            () => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: stateConcern.isLoading.value
+                  ? shimmerWidget(
+                      child: GridView.builder(
+                        itemCount: 10,
+                        padding: EdgeInsets.only(top: 10),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          childAspectRatio: 1.0,
+                          mainAxisSpacing: 5.0,
+                          crossAxisSpacing: 5.0,
                         ),
-                      );
-                    }
-                  },
-                  child: index == 9
-                      ? Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/lainnya.png'),
-                                  fit: BoxFit.fill,
-                                ),
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 25,
+                            width: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/kuninglangsat.png'),
+                                fit: BoxFit.fill,
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text(
-                                'Lainnya',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'ProximaNova',
-                                  fontWeight: FontWeight.w400,
+                          );
+                        },
+                      ),
+                    )
+                  : GridView.builder(
+                      itemCount: 10,
+                      padding: EdgeInsets.only(top: 10),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        childAspectRatio: 0.8,
+                      ),
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            if (index == 9) {
+                              Get.to(SelectConditionsPage());
+                            } else {
+                              Get.to(
+                                ChatPage(
+                                  interestConditionId:
+                                      stateConcern.filterData[index].id,
+                                  title: stateConcern.filterData[index].name ??
+                                      '-',
                                 ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      '${Global.FILE}/${stateConcern.filterData[index].mediaInterestCondition!.media!.path.toString()}'),
-                                  fit: BoxFit.cover,
+                              );
+                            }
+                          },
+                          child: index == 9
+                              ? Column(
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/lainnya.png'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        'Lainnya',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'ProximaNova',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              '${Global.FILE}/${stateConcern.filterData[index].mediaInterestCondition!.media!.path.toString()}'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        stateConcern.filterData[index].name ??
+                                            '-',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'ProximaNova',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text(
-                                stateConcern.filterData[index].name ?? '-',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'ProximaNova',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                );
-              },
+                        );
+                      },
+                    ),
             ),
           ),
           Padding(
