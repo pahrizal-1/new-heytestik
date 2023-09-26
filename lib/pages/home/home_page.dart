@@ -1,12 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
@@ -28,6 +33,8 @@ class HomepageCutomer extends StatefulWidget {
 class _HomepageCutomerState extends State<HomepageCutomer> {
   final HomeController state = Get.put(HomeController());
   final ProfileController stateProfile = Get.put(ProfileController());
+  final OrderConsultationController stateConcern =
+      Get.put(OrderConsultationController());
 
   final NotificationCustomerController stateNotification =
       Get.put(NotificationCustomerController());
@@ -43,8 +50,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.init();
+      await state.init();
       await stateProfile.getProfile(context);
+      await stateConcern.getInterestConditions(context);
     });
   }
 
@@ -216,289 +224,375 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          transform: Matrix4.translationValues(0, -5, 0),
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/jerawat.png'),
-                            ),
-                          ),
+            child: GridView.builder(
+              itemCount: 10,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                childAspectRatio: 2,
+              ),
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    if (index == 9) {
+                      Get.to(SelectConditionsPage());
+                    } else {
+                      Get.to(
+                        ChatPage(
+                          interestConditionId:
+                              stateConcern.filterData[index].id,
+                          title: stateConcern.filterData[index].name ?? '-',
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Jerawat',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
+                      );
+                    }
+                  },
+                  child: index == 9
+                      ? Column(
+                          children: [
+                            Container(
+                              transform: Matrix4.translationValues(0, -5, 0),
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/lainnya.png'),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/rambutrontok.png'),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text(
+                                'Lainnya',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'ProximaNova',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Rambut\nRontok',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Container(
+                              transform: Matrix4.translationValues(0, -5, 0),
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      '${Global.FILE}/${stateConcern.filterData[index].mediaInterestCondition!.media!.path.toString()}'),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          transform: Matrix4.translationValues(0, -5, 0),
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/kerutan.png'),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text(
+                                stateConcern.filterData[index].name ?? '-',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'ProximaNova',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Kerutan',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/bekasjerawat.png'),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Bekas\nJerawat',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          transform: Matrix4.translationValues(0, -5, 0),
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/ketombe.png'),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Ketombe',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'ProximaNova',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
+                );
+              },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            transform: Matrix4.translationValues(0, -5, 0),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/kebotakan.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Kebotakan',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/dagu.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Bekas\nJerawat',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/kulitkusam.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Kulit\nKusam',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/skingoals.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Skin Goals\nlain',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            transform: Matrix4.translationValues(0, -5, 0),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/lainnya.png'))),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'Lainnya',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'ProximaNova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ])
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Column(
+          //             children: [
+          //               Container(
+          //                 transform: Matrix4.translationValues(0, -5, 0),
+          //                 height: 50,
+          //                 width: 50,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                   image: const DecorationImage(
+          //                     image: AssetImage('assets/images/jerawat.png'),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const Padding(
+          //                 padding: EdgeInsets.only(top: 5),
+          //                 child: Text(
+          //                   'Jerawat',
+          //                   textAlign: TextAlign.center,
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontWeight: FontWeight.w400,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //           Column(
+          //             children: [
+          //               Container(
+          //                 height: 50,
+          //                 width: 50,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                   image: const DecorationImage(
+          //                     image:
+          //                         AssetImage('assets/images/rambutrontok.png'),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const Padding(
+          //                 padding: EdgeInsets.only(top: 5),
+          //                 child: Text(
+          //                   'Rambut\nRontok',
+          //                   textAlign: TextAlign.center,
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontWeight: FontWeight.w400,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //           Column(
+          //             children: [
+          //               Container(
+          //                 transform: Matrix4.translationValues(0, -5, 0),
+          //                 height: 50,
+          //                 width: 50,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                   image: const DecorationImage(
+          //                     image: AssetImage('assets/images/kerutan.png'),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const Padding(
+          //                 padding: EdgeInsets.only(top: 5),
+          //                 child: Text(
+          //                   'Kerutan',
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontWeight: FontWeight.w400,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //           Column(
+          //             children: [
+          //               Container(
+          //                 height: 50,
+          //                 width: 50,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                   image: const DecorationImage(
+          //                     image:
+          //                         AssetImage('assets/images/bekasjerawat.png'),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const Padding(
+          //                 padding: EdgeInsets.only(top: 5),
+          //                 child: Text(
+          //                   'Bekas\nJerawat',
+          //                   textAlign: TextAlign.center,
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontWeight: FontWeight.w400,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //           Column(
+          //             children: [
+          //               Container(
+          //                 transform: Matrix4.translationValues(0, -5, 0),
+          //                 height: 50,
+          //                 width: 50,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                   image: const DecorationImage(
+          //                     image: AssetImage('assets/images/ketombe.png'),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const Padding(
+          //                 padding: EdgeInsets.only(top: 5),
+          //                 child: Text(
+          //                   'Ketombe',
+          //                   textAlign: TextAlign.center,
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontFamily: 'ProximaNova',
+          //                     fontWeight: FontWeight.w400,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   transform: Matrix4.translationValues(0, -5, 0),
+          //                   height: 50,
+          //                   width: 50,
+          //                   decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(30),
+          //                       image: const DecorationImage(
+          //                           fit: BoxFit.cover,
+          //                           image: AssetImage(
+          //                               'assets/images/kebotakan.png'))),
+          //                 ),
+          //                 const Padding(
+          //                   padding: EdgeInsets.only(top: 5),
+          //                   child: Text(
+          //                     'Kebotakan',
+          //                     style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontFamily: 'ProximaNova',
+          //                       fontWeight: FontWeight.w400,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   height: 50,
+          //                   width: 50,
+          //                   decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(30),
+          //                       image: const DecorationImage(
+          //                           image:
+          //                               AssetImage('assets/images/dagu.png'))),
+          //                 ),
+          //                 const Padding(
+          //                   padding: EdgeInsets.only(top: 5),
+          //                   child: Text(
+          //                     'Bekas\nJerawat',
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontFamily: 'ProximaNova',
+          //                       fontWeight: FontWeight.w400,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   height: 50,
+          //                   width: 50,
+          //                   decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(30),
+          //                       image: const DecorationImage(
+          //                           image: AssetImage(
+          //                               'assets/images/kulitkusam.png'))),
+          //                 ),
+          //                 const Padding(
+          //                   padding: EdgeInsets.only(top: 5),
+          //                   child: Text(
+          //                     'Kulit\nKusam',
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontFamily: 'ProximaNova',
+          //                       fontWeight: FontWeight.w400,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   height: 50,
+          //                   width: 50,
+          //                   decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(30),
+          //                       image: const DecorationImage(
+          //                           fit: BoxFit.cover,
+          //                           image: AssetImage(
+          //                               'assets/images/skingoals.png'))),
+          //                 ),
+          //                 const Padding(
+          //                   padding: EdgeInsets.only(top: 5),
+          //                   child: Text(
+          //                     'Skin Goals\nlain',
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontFamily: 'ProximaNova',
+          //                       fontWeight: FontWeight.w400,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //             Column(
+          //               children: [
+          //                 Container(
+          //                   transform: Matrix4.translationValues(0, -5, 0),
+          //                   height: 50,
+          //                   width: 50,
+          //                   decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(30),
+          //                       image: const DecorationImage(
+          //                           image: AssetImage(
+          //                               'assets/images/lainnya.png'))),
+          //                 ),
+          //                 const Padding(
+          //                   padding: EdgeInsets.only(top: 5),
+          //                   child: Text(
+          //                     'Lainnya',
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontFamily: 'ProximaNova',
+          //                       fontWeight: FontWeight.w400,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ])
+          //     ],
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
