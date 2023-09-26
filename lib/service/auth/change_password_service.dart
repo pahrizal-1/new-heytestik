@@ -28,4 +28,16 @@ class ChangePasswordService extends ProviderClass {
 
     return response;
   }
+
+  Future<dynamic> resetPassword(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/auth/reset-password',
+      data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return response;
+  }
 }

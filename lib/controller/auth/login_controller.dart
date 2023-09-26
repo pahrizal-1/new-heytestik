@@ -8,8 +8,10 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
+import 'package:heystetik_mobileapps/service/auth/change_password_service.dart';
 import 'package:heystetik_mobileapps/service/auth/login_service.dart';
 
 class LoginController extends StateClass {
@@ -198,5 +200,29 @@ class LoginController extends StateClass {
   logoutWithFacebook() async {
     await FacebookAuth.instance.logOut();
     print("logout facebook");
+  }
+
+  forgotPassword(
+    BuildContext context,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'email': email.text,
+      };
+
+      var loginResponse = await ChangePasswordService().resetPassword(data);
+      Get.off(LoginPageNew());
+      email.clear();
+
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
+    });
+    isLoading.value = false;
   }
 }

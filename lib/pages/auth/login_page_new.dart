@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/reset_password.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
 
 import '../../controller/auth/login_controller.dart';
@@ -166,7 +167,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    // Navigator.pop(context);
+                                    Get.to(ResetPassword());
                                   },
                                   child: Container(
                                     height: 34,
