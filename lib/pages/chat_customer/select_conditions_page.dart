@@ -131,6 +131,7 @@ class KorektifWajahPage extends StatelessWidget {
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   height: 47,
@@ -151,7 +152,7 @@ class KorektifWajahPage extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: blackTextStyle,
+                  style: blackTextStyle.copyWith(fontSize: 15),
                 ),
                 const Spacer(),
                 const Icon(
