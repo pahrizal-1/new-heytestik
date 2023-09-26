@@ -162,10 +162,9 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                               controller: state.essayController,
                               maxLines: null,
                               decoration: const InputDecoration(
-                                hintText:
-                                    'Boleh sebutkan alergimu disini ya :)',
+                                hintText: 'Boleh sebutkan Disini ya :)',
                                 hintStyle: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   height: 1.3,
                                   fontFamily: 'ProximaNova',
                                 ),
@@ -289,7 +288,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                                               : Colors.black,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 12,
+                                                          fontSize: 14,
                                                         ),
                                                       ),
                                                     ),
