@@ -223,12 +223,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: GridView.builder(
               itemCount: 10,
+              padding: EdgeInsets.only(top: 10),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 5,
-                childAspectRatio: 2,
+                childAspectRatio: 0.8,
               ),
               shrinkWrap: true,
               physics: ScrollPhysics(),
@@ -251,7 +252,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       ? Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0, -5, 0),
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
@@ -259,11 +259,12 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                 image: const DecorationImage(
                                   image:
                                       AssetImage('assets/images/lainnya.png'),
+                                  fit: BoxFit.fill,
                                 ),
                               ),
                             ),
                             const Padding(
-                              padding: EdgeInsets.only(top: 5),
+                              padding: EdgeInsets.only(top: 10),
                               child: Text(
                                 'Lainnya',
                                 textAlign: TextAlign.center,
@@ -279,7 +280,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       : Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0, -5, 0),
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
@@ -287,6 +287,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                 image: DecorationImage(
                                   image: NetworkImage(
                                       '${Global.FILE}/${stateConcern.filterData[index].mediaInterestCondition!.media!.path.toString()}'),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -308,291 +309,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               },
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Column(
-          //             children: [
-          //               Container(
-          //                 transform: Matrix4.translationValues(0, -5, 0),
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(30),
-          //                   image: const DecorationImage(
-          //                     image: AssetImage('assets/images/jerawat.png'),
-          //                   ),
-          //                 ),
-          //               ),
-          //               const Padding(
-          //                 padding: EdgeInsets.only(top: 5),
-          //                 child: Text(
-          //                   'Jerawat',
-          //                   textAlign: TextAlign.center,
-          //                   style: TextStyle(
-          //                     fontSize: 12,
-          //                     fontFamily: 'ProximaNova',
-          //                     fontWeight: FontWeight.w400,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             children: [
-          //               Container(
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(30),
-          //                   image: const DecorationImage(
-          //                     image:
-          //                         AssetImage('assets/images/rambutrontok.png'),
-          //                   ),
-          //                 ),
-          //               ),
-          //               const Padding(
-          //                 padding: EdgeInsets.only(top: 5),
-          //                 child: Text(
-          //                   'Rambut\nRontok',
-          //                   textAlign: TextAlign.center,
-          //                   style: TextStyle(
-          //                     fontSize: 12,
-          //                     fontFamily: 'ProximaNova',
-          //                     fontWeight: FontWeight.w400,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             children: [
-          //               Container(
-          //                 transform: Matrix4.translationValues(0, -5, 0),
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(30),
-          //                   image: const DecorationImage(
-          //                     image: AssetImage('assets/images/kerutan.png'),
-          //                   ),
-          //                 ),
-          //               ),
-          //               const Padding(
-          //                 padding: EdgeInsets.only(top: 5),
-          //                 child: Text(
-          //                   'Kerutan',
-          //                   style: TextStyle(
-          //                     fontSize: 12,
-          //                     fontFamily: 'ProximaNova',
-          //                     fontWeight: FontWeight.w400,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             children: [
-          //               Container(
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(30),
-          //                   image: const DecorationImage(
-          //                     image:
-          //                         AssetImage('assets/images/bekasjerawat.png'),
-          //                   ),
-          //                 ),
-          //               ),
-          //               const Padding(
-          //                 padding: EdgeInsets.only(top: 5),
-          //                 child: Text(
-          //                   'Bekas\nJerawat',
-          //                   textAlign: TextAlign.center,
-          //                   style: TextStyle(
-          //                     fontSize: 12,
-          //                     fontFamily: 'ProximaNova',
-          //                     fontWeight: FontWeight.w400,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             children: [
-          //               Container(
-          //                 transform: Matrix4.translationValues(0, -5, 0),
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(30),
-          //                   image: const DecorationImage(
-          //                     image: AssetImage('assets/images/ketombe.png'),
-          //                   ),
-          //                 ),
-          //               ),
-          //               const Padding(
-          //                 padding: EdgeInsets.only(top: 5),
-          //                 child: Text(
-          //                   'Ketombe',
-          //                   textAlign: TextAlign.center,
-          //                   style: TextStyle(
-          //                     fontSize: 12,
-          //                     fontFamily: 'ProximaNova',
-          //                     fontWeight: FontWeight.w400,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ],
-          //       )
-          //     ],
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Column(
-          //               children: [
-          //                 Container(
-          //                   transform: Matrix4.translationValues(0, -5, 0),
-          //                   height: 50,
-          //                   width: 50,
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(30),
-          //                       image: const DecorationImage(
-          //                           fit: BoxFit.cover,
-          //                           image: AssetImage(
-          //                               'assets/images/kebotakan.png'))),
-          //                 ),
-          //                 const Padding(
-          //                   padding: EdgeInsets.only(top: 5),
-          //                   child: Text(
-          //                     'Kebotakan',
-          //                     style: TextStyle(
-          //                       fontSize: 12,
-          //                       fontFamily: 'ProximaNova',
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 Container(
-          //                   height: 50,
-          //                   width: 50,
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(30),
-          //                       image: const DecorationImage(
-          //                           image:
-          //                               AssetImage('assets/images/dagu.png'))),
-          //                 ),
-          //                 const Padding(
-          //                   padding: EdgeInsets.only(top: 5),
-          //                   child: Text(
-          //                     'Bekas\nJerawat',
-          //                     textAlign: TextAlign.center,
-          //                     style: TextStyle(
-          //                       fontSize: 12,
-          //                       fontFamily: 'ProximaNova',
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 Container(
-          //                   height: 50,
-          //                   width: 50,
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(30),
-          //                       image: const DecorationImage(
-          //                           image: AssetImage(
-          //                               'assets/images/kulitkusam.png'))),
-          //                 ),
-          //                 const Padding(
-          //                   padding: EdgeInsets.only(top: 5),
-          //                   child: Text(
-          //                     'Kulit\nKusam',
-          //                     textAlign: TextAlign.center,
-          //                     style: TextStyle(
-          //                       fontSize: 12,
-          //                       fontFamily: 'ProximaNova',
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 Container(
-          //                   height: 50,
-          //                   width: 50,
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(30),
-          //                       image: const DecorationImage(
-          //                           fit: BoxFit.cover,
-          //                           image: AssetImage(
-          //                               'assets/images/skingoals.png'))),
-          //                 ),
-          //                 const Padding(
-          //                   padding: EdgeInsets.only(top: 5),
-          //                   child: Text(
-          //                     'Skin Goals\nlain',
-          //                     textAlign: TextAlign.center,
-          //                     style: TextStyle(
-          //                       fontSize: 12,
-          //                       fontFamily: 'ProximaNova',
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 Container(
-          //                   transform: Matrix4.translationValues(0, -5, 0),
-          //                   height: 50,
-          //                   width: 50,
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(30),
-          //                       image: const DecorationImage(
-          //                           image: AssetImage(
-          //                               'assets/images/lainnya.png'))),
-          //                 ),
-          //                 const Padding(
-          //                   padding: EdgeInsets.only(top: 5),
-          //                   child: Text(
-          //                     'Lainnya',
-          //                     textAlign: TextAlign.center,
-          //                     style: TextStyle(
-          //                       fontSize: 12,
-          //                       fontFamily: 'ProximaNova',
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ])
-          //     ],
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
