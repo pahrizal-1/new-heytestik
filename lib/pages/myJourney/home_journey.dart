@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
@@ -14,13 +14,13 @@ import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/button_widget.dart';
 import 'hasil_kosultasi_page.dart';
@@ -34,18 +34,11 @@ class HomeMyjourney extends StatefulWidget {
 
 class _HomeMyjourneyState extends State<HomeMyjourney> {
   final MyJourneyController state = Get.put(MyJourneyController());
-  final HomeController statemy = Get.put(HomeController());
+  final NewsController stateNews = Get.put(NewsController());
   final ProfileController stateProfile = Get.put(ProfileController());
 
   final NotificationCustomerController stateNotification =
       Get.put(NotificationCustomerController());
-
-  _launchURL(String url) async {
-    final Uri urlParse = Uri.parse(url);
-    if (!await launchUrl(urlParse)) {
-      throw Exception('Could not launch $urlParse');
-    }
-  }
 
   @override
   void initState() {
@@ -1094,10 +1087,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: statemy.getArticle(context),
+                future: stateNews.getArticle(context, '', ''),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
-                  print(snapshot.data);
-
                   if (!snapshot.hasData) {
                     return shimmerWidget(
                         child: Padding(
@@ -1165,89 +1156,112 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                         ))
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: snapshot.data!.record!.map<Widget>((value) {
-                            return InkWell(
-                              onTap: () {
-                                _launchURL(value.link.toString());
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: SizedBox(
-                                  width: 250,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 250,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              value.thumbLink.toString(),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          value.title.toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'ProximaNova',
-                                          ),
-                                          strutStyle: StrutStyle(
-                                            height: 0.5,
-                                            leading: 0.7,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              ConvertDate.defaultDate(
-                                                  value.newsDate.toString()),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
+                          children: [
+                            for (int index = 0;
+                                index < snapshot.data!.record!.length;
+                                index++)
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    ViewDetailBeutyStreamPage(
+                                      categoryId: snapshot
+                                          .data!.record![index].newscategoryId
+                                          .toString(),
+                                      category: stateNews
+                                          .categoryArticle[index].category
+                                          .toString(),
+                                      detailNews: snapshot.data!.record![index],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: SizedBox(
+                                    width: 250,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                snapshot.data!.record![index]
+                                                    .thumbLink
+                                                    .toString(),
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: Container(
-                                                height: 5,
-                                                width: 5,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      'assets/icons/dot.png',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            snapshot.data!.record![index].title
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'ProximaNova',
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 0.5,
+                                              leading: 0.7,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                ConvertDate.defaultDate(snapshot
+                                                    .data!
+                                                    .record![index]
+                                                    .newsDate
+                                                    .toString()),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                child: Container(
+                                                  height: 5,
+                                                  width: 5,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        'assets/icons/dot.png',
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Text(
-                                              value.author.toString(),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            )
-                                          ],
+                                              Text(
+                                                snapshot
+                                                    .data!.record![index].author
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            );
-                          }).toList(),
+                          ],
                         );
                 },
               ),
@@ -1257,21 +1271,4 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
       ),
     );
   }
-
-  // Future pickImageFromGalery() async {
-  //   final returnedImage =
-  //       await ImagePicker().pickImage(source: ImageSource.gallery);
-
-  //   if (returnedImage == null) {
-  //     state.isGallery.value = false;
-  //     return;
-  //   }
-
-  //   state.isGallery.value = true;
-  //   // imagePath = File(returnedImage.path);
-  //   state.initialConditionFrontFace = File(returnedImage.path);
-  //   Get.to(HasilPotoWajah());
-
-  //   print("pindahhh");
-  // }
 }

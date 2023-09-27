@@ -7,8 +7,6 @@ import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/service/customer/slideshow/slideshow_service.dart';
 import 'package:heystetik_mobileapps/service/customer/sniptips/sniptips_service.dart';
-import 'package:heystetik_mobileapps/service/customer/stream/news_service.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide FormData;
 
 class HomeController extends StateClass {
@@ -33,27 +31,5 @@ class HomeController extends StateClass {
       snipsTips.value = await SnipTipsService().getSnipsTips();
     });
     return snipsTips.value;
-  }
-
-  Future<ArticleModel?> getArticle(BuildContext context) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        Map<String, dynamic> data = {
-          'clientid': '4mfgpxctjz',
-          'clientsecretid': '7zgtlpqul693u5dyetwgvw72dm5pgp',
-          'halaman': 1,
-          // 'search_keyword': '',
-          // 'search_newscategory_id': categoryId,
-          // 'search_tag_id': tagId
-        };
-
-        var formData = FormData.fromMap(data);
-
-        article.value = await NewsService().getArticle(formData);
-      } catch (e) {
-        print("heheh $e");
-      }
-    });
-    return article.value;
   }
 }

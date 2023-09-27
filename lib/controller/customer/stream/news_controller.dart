@@ -31,12 +31,7 @@ class NewsController extends StateClass {
 
       var formData = FormData.fromMap(data);
 
-      print("SAMPE SINI GA");
       article.value = await NewsService().getArticle(formData);
-      print("INI APAAN");
-      print(article.value);
-
-      print('berapa yaa ${article.value?.record?.length}');
 
       // GET CATEGORY
       await getCategory(context);
@@ -49,15 +44,12 @@ class NewsController extends StateClass {
           (element) => element.id == article.value!.record![i].newscategoryId,
         );
 
-        print("cek ke ${i + 1} ${cek?.category}");
-
         categoryArticle.add(cek);
       }
-      print("categoryArticle $categoryArticle");
+
       return article.value;
     } catch (e) {
-      print("KENA CATCH");
-      print(e.toString());
+      print("KENA CATCH ${e.toString()}");
       return null;
     }
   }
@@ -74,17 +66,11 @@ class NewsController extends StateClass {
 
       var formData = FormData.fromMap(data);
 
-      print("SAMPE SINI GA");
       category.value = await NewsService().getNewsCategory(formData);
-      print("INI APAAN");
-      print(category.value);
-
-      print('berapa yaa ${category.value?.record?.length}');
 
       return category.value;
     } catch (e) {
-      print("KENA CATCH");
-      print(e.toString());
+      print("KENA CATCH ${e.toString()}");
       return null;
     }
   }
@@ -101,17 +87,11 @@ class NewsController extends StateClass {
 
       var formData = FormData.fromMap(data);
 
-      print("SAMPE SINI GA");
       tag.value = await NewsService().getTag(formData);
-      print("INI APAAN");
-      print(tag.value);
-
-      print('berapa yaa ${tag.value?.record?.length}');
 
       return tag.value;
     } catch (e) {
-      print("KENA CATCH");
-      print(e.toString());
+      print("KENA CATCH ${e.toString()}");
       return null;
     }
   }
