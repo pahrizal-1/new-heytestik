@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
+import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/service/auth/change_password_service.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
@@ -197,7 +198,7 @@ class ProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         "method": "EMAIL",
-        "type": "CHANGE_EMAIL",
+        "type": "CHANGE_PASSWORD",
         "user_id": int.parse(idUser.value),
         "email": text,
       };
@@ -222,7 +223,7 @@ class ProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         "method": "WHATSAPP",
-        "type": "CHANGE_PHONE_NUMBER",
+        "type": "CHANGE_PASSWORD",
         "user_id": int.parse(idUser.value),
         "no_phone": text
       };
@@ -440,6 +441,30 @@ class ProfileController extends StateClass {
       print(error.toString());
       return {};
     }
+  }
+
+  verifyOtp(
+    BuildContext context,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'type': "CHANGE_PASSWORD",
+        'verification_code': otp.value,
+      };
+
+      var loginResponse = await ChangePasswordService().verifyOTP(data);
+      Get.to(PinPageLamaCustomer());
+
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
+    });
+    isLoading.value = false;
   }
 
   updatePassword(BuildContext context, String oldpin, String newpin) async {

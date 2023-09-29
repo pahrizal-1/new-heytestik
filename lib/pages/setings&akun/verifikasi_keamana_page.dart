@@ -152,6 +152,13 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+                onSubmit: (String verifCode) {
+                  print(verifCode);
+                  setState(() {
+                    state.otp.value = verifCode;
+                  });
+                  print(state.otp.value);
+                },
               ),
               const SizedBox(
                 height: 15,
@@ -175,7 +182,8 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  Get.to(PinPageLamaCustomer());
+                  state.verifyOtp(context,);
+                  print(state.otp.value);
                 },
               ),
               const SizedBox(
@@ -389,7 +397,8 @@ class _VerifikasiEmailKeamananAkunPageState
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  Get.to(PinPageLamaCustomer());
+                  state.verifyOtp(context);
+                  // Get.to(PinPageLamaCustomer());
                 },
               ),
               const SizedBox(
