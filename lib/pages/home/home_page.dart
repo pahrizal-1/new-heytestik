@@ -258,7 +258,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       ),
                     )
                   : GridView.builder(
-                      itemCount: 10,
+                      itemCount: stateConcern.filterData.isNotEmpty ? 10 : 0,
                       padding: EdgeInsets.only(top: 10),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,

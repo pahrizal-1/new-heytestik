@@ -69,7 +69,7 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                             groupBy: (element) => element.segment.toString(),
                             groupComparator: (value1, value2) =>
                                 value2.compareTo(value1),
-                            order: GroupedListOrder.ASC,
+                            order: GroupedListOrder.DESC,
                             useStickyGroupSeparators: true,
                             groupSeparatorBuilder: (String value) => Padding(
                               padding: const EdgeInsets.all(8.0),
