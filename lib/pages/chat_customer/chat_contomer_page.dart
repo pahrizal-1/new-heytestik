@@ -684,12 +684,13 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                         'assets/images/doctor-img.png'
                                                             .toString(),
                                                         width: 30,
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ],
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 40),
                                                     padding:
                                                         const EdgeInsets.only(
@@ -813,12 +814,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                           Container(
                                                             margin:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         40),
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 12,
                                                                     top: 11,
                                                                     right: 12,
@@ -1014,7 +1015,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 14),
@@ -1023,7 +1024,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                           decoration: BoxDecoration(
                                                               color: greenColor,
                                                               borderRadius: const BorderRadius
-                                                                      .only(
+                                                                  .only(
                                                                   topLeft: Radius
                                                                       .circular(
                                                                           10),
@@ -1041,7 +1042,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 11),
@@ -1291,7 +1292,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ),
                                                 Container(
                                                   margin: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 40),
                                                   padding:
                                                       const EdgeInsets.only(
@@ -1425,12 +1426,12 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                         Container(
                                                           margin:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       40),
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   left: 12,
                                                                   top: 11,
                                                                   right: 12,
