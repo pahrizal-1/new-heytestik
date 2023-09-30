@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/home/home_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
@@ -13,6 +14,7 @@ import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
@@ -33,6 +35,7 @@ class HomepageCutomer extends StatefulWidget {
 class _HomepageCutomerState extends State<HomepageCutomer> {
   final HomeController state = Get.put(HomeController());
   final ProfileController stateProfile = Get.put(ProfileController());
+  final NewsController stateNews = Get.put(NewsController());
   final OrderConsultationController stateConcern =
       Get.put(OrderConsultationController());
 
@@ -255,7 +258,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       ),
                     )
                   : GridView.builder(
-                      itemCount: 10,
+                      itemCount: stateConcern.filterData.isNotEmpty ? 10 : 0,
                       padding: EdgeInsets.only(top: 10),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,
@@ -667,10 +670,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: state.getArticle(context),
+                future: stateNews.getArticle(context, '', ''),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
-                  print(snapshot.data);
-
                   if (!snapshot.hasData) {
                     return shimmerWidget(
                         child: Padding(
@@ -738,89 +739,112 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         ))
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: snapshot.data!.record!.map<Widget>((value) {
-                            return InkWell(
-                              onTap: () {
-                                _launchURL(value.link.toString());
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: SizedBox(
-                                  width: 250,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 250,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              value.thumbLink.toString(),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          value.title.toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'ProximaNova',
-                                          ),
-                                          strutStyle: StrutStyle(
-                                            height: 0.5,
-                                            leading: 0.7,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              ConvertDate.defaultDate(
-                                                  value.newsDate.toString()),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
+                          children: [
+                            for (int index = 0;
+                                index < snapshot.data!.record!.length;
+                                index++)
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    ViewDetailBeutyStreamPage(
+                                      categoryId: snapshot
+                                          .data!.record![index].newscategoryId
+                                          .toString(),
+                                      category: stateNews
+                                          .categoryArticle[index].category
+                                          .toString(),
+                                      detailNews: snapshot.data!.record![index],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: SizedBox(
+                                    width: 250,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                snapshot.data!.record![index]
+                                                    .thumbLink
+                                                    .toString(),
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: Container(
-                                                height: 5,
-                                                width: 5,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      'assets/icons/dot.png',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            snapshot.data!.record![index].title
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'ProximaNova',
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 0.5,
+                                              leading: 0.7,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                ConvertDate.defaultDate(snapshot
+                                                    .data!
+                                                    .record![index]
+                                                    .newsDate
+                                                    .toString()),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                child: Container(
+                                                  height: 5,
+                                                  width: 5,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        'assets/icons/dot.png',
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Text(
-                                              value.author.toString(),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            )
-                                          ],
+                                              Text(
+                                                snapshot
+                                                    .data!.record![index].author
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            );
-                          }).toList(),
+                          ],
                         );
                 },
               ),
@@ -869,10 +893,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: state.getArticle(context),
+                future: stateNews.getArticle(context, '', ''),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
-                  print(snapshot.data);
-
                   if (!snapshot.hasData) {
                     return shimmerWidget(
                         child: Padding(
@@ -940,89 +962,112 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         ))
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: snapshot.data!.record!.map<Widget>((value) {
-                            return InkWell(
-                              onTap: () {
-                                _launchURL(value.link.toString());
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: SizedBox(
-                                  width: 250,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 250,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              value.thumbLink.toString(),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          value.title.toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'ProximaNova',
-                                          ),
-                                          strutStyle: StrutStyle(
-                                            height: 0.5,
-                                            leading: 0.7,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              ConvertDate.defaultDate(
-                                                  value.newsDate.toString()),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
+                          children: [
+                            for (int index = 0;
+                                index < snapshot.data!.record!.length;
+                                index++)
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    ViewDetailBeutyStreamPage(
+                                      categoryId: snapshot
+                                          .data!.record![index].newscategoryId
+                                          .toString(),
+                                      category: stateNews
+                                          .categoryArticle[index].category
+                                          .toString(),
+                                      detailNews: snapshot.data!.record![index],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: SizedBox(
+                                    width: 250,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                snapshot.data!.record![index]
+                                                    .thumbLink
+                                                    .toString(),
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: Container(
-                                                height: 5,
-                                                width: 5,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      'assets/icons/dot.png',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            snapshot.data!.record![index].title
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'ProximaNova',
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 0.5,
+                                              leading: 0.7,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                ConvertDate.defaultDate(snapshot
+                                                    .data!
+                                                    .record![index]
+                                                    .newsDate
+                                                    .toString()),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                child: Container(
+                                                  height: 5,
+                                                  width: 5,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        'assets/icons/dot.png',
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Text(
-                                              value.author.toString(),
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                              ),
-                                            )
-                                          ],
+                                              Text(
+                                                snapshot
+                                                    .data!.record![index].author
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            );
-                          }).toList(),
+                          ],
                         );
                 },
               ),

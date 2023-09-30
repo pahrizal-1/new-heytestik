@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
 import '../../models/stream_home.dart';
@@ -31,7 +32,8 @@ class _UserActivityPostState extends State<UserActivityPost> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      activity.addAll(await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+      activity.addAll(await profileController.getUserActivityPost(context, page,
+          search: search, postType: postType));
       setState(() {});
     });
     scrollController.addListener(() {
@@ -40,7 +42,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            activity.addAll(await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+            activity.addAll(await profileController.getUserActivityPost(
+                context, page,
+                search: search, postType: postType));
             setState(() {});
           });
         }
@@ -65,7 +69,11 @@ class _UserActivityPostState extends State<UserActivityPost> {
                 children: [
                   Obx(
                     () => CircleAvatar(
-                      backgroundImage: profileController.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${profileController.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                      backgroundImage: profileController.imgNetwork.value != ""
+                          ? NetworkImage(
+                                  '${Global.FILE}/${profileController.imgNetwork.value}')
+                              as ImageProvider
+                          : AssetImage('assets/images/profiledummy.png'),
                     ),
                   ),
                   const SizedBox(
@@ -84,9 +92,19 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         padding: const EdgeInsets.only(left: 12),
                         transform: Matrix4.translationValues(0, -3, 0),
                         child: TextFormField(
-                          style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BuatPostinganPage(),
+                              ),
+                            );
+                          },
+                          style: const TextStyle(
+                              fontSize: 15, fontFamily: 'ProximaNova'),
                           decoration: InputDecoration(
-                            hintText: 'Mau share apa hari ini? Tulis disini yuk :)',
+                            hintText:
+                                'Mau share apa hari ini? Tulis disini yuk :)',
                             border: InputBorder.none,
                             hintStyle: subTitleTextStyle.copyWith(fontSize: 13),
                           ),
@@ -132,10 +150,13 @@ class _UserActivityPostState extends State<UserActivityPost> {
                           search = searchController.text;
                           page += 1;
                           activity.clear();
-                          activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                          activity = (await profileController
+                              .getUserActivityPost(context, page,
+                                  search: search, postType: postType));
                           setState(() {});
                         },
-                        style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
+                        style: const TextStyle(
+                            fontSize: 15, fontFamily: 'ProximaNova'),
                         decoration: InputDecoration(
                           hintText: 'Search Post',
                           border: InputBorder.none,
@@ -175,7 +196,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "ALL";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),
@@ -185,7 +208,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "STREAM";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),
@@ -195,7 +220,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "MY_JOURNEY";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),
@@ -205,7 +232,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "POLLING";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),
@@ -215,7 +244,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "LIKED";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),
@@ -225,7 +256,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     postType = "SAVED";
                     page += 1;
                     activity.clear();
-                    activity = (await profileController.getUserActivityPost(context, page, search: search, postType: postType));
+                    activity = (await profileController.getUserActivityPost(
+                        context, page,
+                        search: search, postType: postType));
                     setState(() {});
                   },
                 ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-
 import '../../controller/customer/account/profile_controller.dart';
 import '../../widget/button_widget.dart';
 
@@ -117,10 +116,6 @@ class _UbahTanggalLahirProfilCustomerState
               title: 'Simpan',
               onPressed: () {
                 state.updateDob(context);
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => const VerifikasiSetingsPage()));
               },
             )
           ],
@@ -131,10 +126,11 @@ class _UbahTanggalLahirProfilCustomerState
 
   Future<void> _selectDate() async {
     DateTime? _picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1990),
-        lastDate: DateTime(2100));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1990),
+      lastDate: DateTime(2100),
+    );
 
     if (_picked != null) {
       setState(() {
