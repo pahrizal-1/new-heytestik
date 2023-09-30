@@ -16,6 +16,7 @@ import 'package:heystetik_mobileapps/service/auth/login_service.dart';
 
 class LoginController extends StateClass {
   TextEditingController email = TextEditingController();
+  TextEditingController resetEmail = TextEditingController();
   TextEditingController password = TextEditingController();
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
@@ -202,18 +203,16 @@ class LoginController extends StateClass {
     print("logout facebook");
   }
 
-  forgotPassword(
-    BuildContext context,
-  ) async {
+  forgotPassword(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        'email': email.text,
+        'email': resetEmail.text,
       };
 
       var loginResponse = await ChangePasswordService().resetPassword(data);
-      Get.off(LoginPageNew());
-      email.clear();
+      doInPost();
+      resetEmail.clear();
 
       if (loginResponse['success'] != true &&
           loginResponse['message'] != 'Success') {
@@ -224,5 +223,14 @@ class LoginController extends StateClass {
       }
     });
     isLoading.value = false;
+  }
+
+  backTo(int index) async {
+    if (index == 1) {
+      Get.offAll(() => const LoginPageNew());
+    } else if (index == 2) {
+      Get.back();
+      Get.back();
+    }
   }
 }

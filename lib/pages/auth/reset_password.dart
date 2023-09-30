@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 
-class ResetPassword extends StatelessWidget {
+class ResetPassword extends StatefulWidget {
+  final int redirectTo;
+
+  const ResetPassword({super.key, required this.redirectTo});
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
   final LoginController state = Get.put(LoginController());
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         automaticallyImplyLeading: true,
+        title: Text('Lupa Kata Sandi'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.black38,
+          color: Colors.white,
           onPressed: () => Navigator.pop(context, false),
         ),
       ),
@@ -25,13 +33,42 @@ class ResetPassword extends StatelessWidget {
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Lupa Kata Sandi?",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Masukkan Alamat Email Anda",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        // textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Container(
                   width: double.infinity,
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                        controller: state.email,
+                        controller: state.resetEmail,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: "E-mail",
@@ -75,7 +112,11 @@ class ResetPassword extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                             onPressed: () {
-                              state.forgotPassword(context);
+                              state.forgotPassword(context, doInPost: () async {
+                                print(widget.redirectTo);
+                                // Navigator.pop(context);
+                                state.backTo(widget.redirectTo);
+                              });
                             },
                           ),
                         ),
