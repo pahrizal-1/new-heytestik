@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/verification_email_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/beauty_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../core/global.dart';
 import '../../theme/theme.dart';
@@ -94,6 +99,66 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       ),
       body: ListView(
         children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            height: 39,
+            color: greenColor.withOpacity(0.3),
+            child: Row(
+              children: [
+                Text(
+                  'Verifikasi Email',
+                  style: blackRegulerTextStyle.copyWith(
+                      fontSize: 10, color: blackColor),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  height: 7,
+                  width: 148,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: greenColor),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 7,
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  '80%',
+                  style: grenTextStyle.copyWith(fontSize: 13),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(VerificationAcooutPage());
+                  },
+                  child: Container(
+                    height: 20,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      'Verifikasi',
+                      style: whiteTextStyle.copyWith(fontSize: 9),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
           Padding(
             padding:
                 const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
@@ -132,13 +197,43 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 2,
+                        ),
+                        Text(
+                          'Jakarta, 20 Tahun',
+                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Kering',
+                              style:
+                                  blackRegulerTextStyle.copyWith(fontSize: 13),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return BeautyProfil();
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: greenColor,
+                              ),
+                            )
+                          ],
                         ),
                         Container(
                           padding: const EdgeInsets.only(
                               left: 13, right: 12, top: 7, bottom: 5),
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(
                               15,
                             ),
