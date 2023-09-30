@@ -17,6 +17,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/global.dart';
 import '../../widget/button_widget.dart';
@@ -424,7 +425,6 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       height: 12,
                     ),
                     TextProfil(
-                      title2: state.dob.value,
                       onPressed: () async {
                         String refresh = await Navigator.push(
                           context,
@@ -439,6 +439,8 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           });
                         }
                       },
+                      title2: DateFormat('dd-MM-yyyy')
+                          .format(DateTime.parse(state.dob.value)),
                       titlel: 'Tanggal Lahir',
                     )
                   ],

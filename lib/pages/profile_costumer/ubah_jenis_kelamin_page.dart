@@ -23,7 +23,6 @@ class _UbahJenisKelaminProfilPageState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.getProfile(context);
     });
-    // state.getProfile(context);
   }
 
   @override
@@ -130,11 +129,14 @@ class _UbahJenisKelaminProfilPageState
                         height: 97.2,
                         width: 75.6,
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(state.gender.value ==
-                                        'Perempuan'
-                                    ? 'assets/icons/gender-perempuan-green.png'
-                                    : 'assets/icons/gender-perempuan.png'))),
+                          image: DecorationImage(
+                            image: AssetImage(
+                              state.gender.value == 'Perempuan'
+                                  ? 'assets/icons/gender-perempuan-green.png'
+                                  : 'assets/icons/gender-perempuan.png',
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -146,7 +148,7 @@ class _UbahJenisKelaminProfilPageState
               Padding(
                 padding: lsymetric,
                 child: ButtonGreenWidget(
-                  onPressed: (){
+                  onPressed: () {
                     state.updateGender(context);
                   },
                   title: 'Simpan',

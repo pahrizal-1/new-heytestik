@@ -3,13 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
-import 'package:heystetik_mobileapps/pages/auth/verification_email_page.dart';
-import 'package:heystetik_mobileapps/pages/auth/verification_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/beauty_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../core/global.dart';
 import '../../theme/theme.dart';
@@ -117,8 +114,9 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                   height: 7,
                   width: 148,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: greenColor),
+                    borderRadius: BorderRadius.circular(7),
+                    color: greenColor,
+                  ),
                 ),
                 Expanded(
                   child: Container(

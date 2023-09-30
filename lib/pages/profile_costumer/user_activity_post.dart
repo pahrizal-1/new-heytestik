@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
 import '../../models/stream_home.dart';
@@ -91,6 +92,14 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         padding: const EdgeInsets.only(left: 12),
                         transform: Matrix4.translationValues(0, -3, 0),
                         child: TextFormField(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BuatPostinganPage(),
+                              ),
+                            );
+                          },
                           style: const TextStyle(
                               fontSize: 15, fontFamily: 'ProximaNova'),
                           decoration: InputDecoration(

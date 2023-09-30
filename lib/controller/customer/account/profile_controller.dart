@@ -50,7 +50,7 @@ class ProfileController extends StateClass {
     'Laki-laki',
     'Perempuan',
   ];
-  RxString gender = ''.obs;
+  RxString gender = 'Pilih jenis kelamin'.obs;
 
   Map dataUser = {};
   File? image;
@@ -159,7 +159,7 @@ class ProfileController extends StateClass {
       idUser.value = (profileData.value.data!.id ?? '-').toString();
       email.value = profileData.value.data!.email ?? '-';
       noHp.value = profileData.value.data!.noPhone ?? '-';
-      gender.value = profileData.value.data!.gender ?? '-';
+      gender.value = profileData.value.data!.gender ?? 'Pilih jenis kelamin';
       dob.value = formatter.format(tdata);
       imgNetwork.value =
           profileData.value.data!.mediaUserProfilePicture!.media!.path!;
@@ -361,7 +361,6 @@ class ProfileController extends StateClass {
       var data = {
         "dob": dateController.text,
       };
-
       var response = await ProfileService().changeProfile(data);
       Navigator.pop(context, 'refresh');
       print(response);
