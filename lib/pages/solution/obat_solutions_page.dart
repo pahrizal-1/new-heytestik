@@ -567,18 +567,19 @@ class CirkelCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: const EdgeInsets.only(right: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 45,
-            width: 45,
+            height: 48,
+            width: 48,
             decoration: BoxDecoration(
+              border: Border.all(color: borderColor, width: 0.2),
               borderRadius: BorderRadius.circular(30),
               image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
             ),
           ),
           const SizedBox(
@@ -586,15 +587,10 @@ class CirkelCategory extends StatelessWidget {
           ),
           SizedBox(
             width: 70,
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 12,
-                fontFamily: 'ProximaNova',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            child: Text(title,
+                textAlign: TextAlign.center,
+                style: blackRegulerTextStyle.copyWith(
+                    fontSize: 12, color: blackColor)),
           ),
         ],
       ),
