@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_baru.dart';
+import 'package:heystetik_mobileapps/pages/auth/reset_password.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
@@ -242,7 +243,10 @@ class _PinPageLamaCustomerState extends State<PinPageLamaCustomer> {
                                           Expanded(
                                             child: InkWell(
                                               onTap: () {
-                                                Navigator.pop(context);
+                                                // Navigator.pop(context);
+                                                Get.to(ResetPassword(
+                                                  redirectTo: 2
+                                                ));
                                               },
                                               child: Container(
                                                 height: 34,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/auth/reset_password.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/more_dilog_password.dart';
 
@@ -233,6 +234,8 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                                           Expanded(
                                             child: InkWell(
                                               onTap: () {
+                                                Get.to(ResetPassword(redirectTo: 2));
+
                                                 // Navigator.push(
                                                 //   context,
                                                 //   MaterialPageRoute(
