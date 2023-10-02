@@ -67,15 +67,12 @@ class TransaksiKonsultan extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
         decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(7),
-          boxShadow: [
-            BoxShadow(
-              color: blackColor,
-              blurRadius: 0.5,
-            ),
-          ],
-        ),
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
+            ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -315,15 +312,12 @@ class TransaksiProduk extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
         decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(7),
-          boxShadow: [
-            BoxShadow(
-              color: blackColor,
-              blurRadius: 0.5,
-            ),
-          ],
-        ),
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
+            ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -607,15 +601,12 @@ class TransaksiTreatment extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
       decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(7),
-        boxShadow: [
-          BoxShadow(
-            color: blackColor,
-            blurRadius: 0.5,
-          ),
-        ],
-      ),
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(7),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

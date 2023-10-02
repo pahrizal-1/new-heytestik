@@ -414,14 +414,11 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                   isLoading:
                       state.isLoadingMore.value ? false : state.isLoading.value,
                   child: history.isEmpty
-                      ? Center(
-                          child: Text(
-                            'Belum ada transaksi',
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontFamily: 'ProximaNova',
-                              fontSize: 20,
-                            ),
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 230),
+                          child: Center(
+                            child: Text('Belum ada transaksi',
+                                style: blackTextStyle.copyWith(fontSize: 15)),
                           ),
                         )
                       : Column(

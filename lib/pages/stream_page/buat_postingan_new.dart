@@ -276,42 +276,75 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 14, color: blackColor),
                           )
-                        : Expanded(
-                            child: TextFormField(
-                              style: grenTextStyle.copyWith(
-                                  fontSize: 14, fontWeight: regular),
-                              maxLines: 2,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: borderColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: borderColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText:
-                                    'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                                hintStyle: subTitleTextStyle.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 13,
-                                ),
-                                labelText: 'Tambahkan Hashtag',
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                labelStyle: TextStyle(
-                                  color: blackColor,
-                                ),
-                              ),
+                        :
+                        // Expanded(
+                        //     child: InkWell(
+                        //       onTap: () {
+                        //         showSearch(
+                        //             context: context,
+                        //             delegate: CustomeSearchDelected());
+                        //       },
+                        //       child: TextFormField(
+                        //         style: grenTextStyle.copyWith(
+                        //             fontSize: 14, fontWeight: regular),
+                        //         maxLines: 2,
+                        //         readOnly: true,
+                        //         decoration: InputDecoration(
+                        //           enabledBorder: OutlineInputBorder(
+                        //             borderSide: BorderSide(
+                        //               color: borderColor,
+                        //             ),
+                        //             borderRadius: BorderRadius.circular(10),
+                        //           ),
+                        //           focusedBorder: OutlineInputBorder(
+                        //             borderSide: BorderSide(
+                        //               color: borderColor,
+                        //             ),
+                        //             borderRadius: BorderRadius.circular(10),
+                        //           ),
+                        //           hintText:
+                        //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                        //           hintStyle: subTitleTextStyle.copyWith(
+                        //             fontStyle: FontStyle.italic,
+                        //             fontSize: 13,
+                        //           ),
+                        //           labelText: 'Tambahkan Hashtag',
+                        //           contentPadding: const EdgeInsets.symmetric(
+                        //               vertical: 15, horizontal: 15),
+                        //           border: OutlineInputBorder(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //           ),
+                        //           floatingLabelBehavior:
+                        //               FloatingLabelBehavior.always,
+                        //           labelStyle: TextStyle(
+                        //             color: blackColor,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                showSearch(
+                                    context: context,
+                                    delegate: CustomeSearchDelected());
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.only(
+                                      left: 13, top: 11, bottom: 11),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                                      style: subGreyTextStyle.copyWith(
+                                          color: Color(0xffA3A3A3),
+                                          fontSize: 12),
+                                    ),
+                                  )),
                             ),
                           ),
                   ],
@@ -526,6 +559,74 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomeSearchDelected extends SearchDelegate {
+  List<String> searchTerms = [
+    'ada',
+    'ada',
+    'neon',
+  ];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(
+            result,
+            style: blackRegulerTextStyle,
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
     );
   }
 }
