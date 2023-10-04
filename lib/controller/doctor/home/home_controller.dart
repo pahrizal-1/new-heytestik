@@ -25,6 +25,7 @@ class DoctorHomeController extends StateClass {
   RxString endTime2 = ''.obs;
   RxBool isFirstSchedule = false.obs;
   RxBool isSecondSchedule = false.obs;
+  RxBool isNotifications = false.obs;
 
   Rx<FindDoctorScheduleModel?> findSchedule =
       FindDoctorScheduleModel.fromJson({}).obs;
