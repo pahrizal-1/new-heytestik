@@ -324,6 +324,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               itemCount: state.totalFindSchedule.value,
                               itemBuilder: (BuildContext context, int i) {
                                 return Container(
+                                  margin: EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
