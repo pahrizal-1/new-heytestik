@@ -420,10 +420,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   }
 
   // EVENT NEW MESSAGE (udah dipanggil)
-  newMessage() async {
+  newMessagee() {
     print("newMessage");
     _socket?.on('newMessage', (newMessage) async {
-      // infoLog();
       print("newMessage $newMessage");
       print("message ${newMessage['message']}");
       print("message ${newMessage['sender']['fullname']}");
@@ -439,7 +438,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       setState(() {
         msglist?.add(result);
       });
-      print('hey $result');
+      log('hey ' + result.toString());
 
       // setState(() {
       //   msglist?.add(result);
@@ -502,7 +501,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         await readMessage(widget.roomCode);
 
         await onlineClients(widget.receiverBy ?? '');
-        await newMessage();
+        await newMessagee();
         await myMessage();
         await typingIndicator();
         await recentChatt();
@@ -804,7 +803,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 14),
@@ -813,7 +812,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                           decoration: BoxDecoration(
                                                               color: greenColor,
                                                               borderRadius: const BorderRadius
-                                                                      .only(
+                                                                  .only(
                                                                   topLeft: Radius
                                                                       .circular(
                                                                           10),
@@ -831,7 +830,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 11),
@@ -1099,7 +1098,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 40),
                                                     padding:
                                                         const EdgeInsets.only(
@@ -1223,12 +1222,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                           Container(
                                                             margin:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         40),
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 12,
                                                                     top: 11,
                                                                     right: 12,
@@ -1425,7 +1424,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                 ),
                                                 Container(
                                                   margin: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 40),
                                                   padding:
                                                       const EdgeInsets.only(
@@ -1559,12 +1558,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           margin:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       40),
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   left: 12,
                                                                   top: 11,
                                                                   right: 12,
@@ -1727,6 +1726,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     Obx(() => Container(
                           height: 30,
                           width: double.infinity,
+                          margin: EdgeInsets.only(top: 20),
                           color: Colors.grey,
                           child: Center(
                             child: Text(
