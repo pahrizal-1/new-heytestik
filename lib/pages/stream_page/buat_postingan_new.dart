@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -435,6 +433,30 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                               ),
                             ),
                           ),
+                    // Expanded(
+                    //     child: InkWell(
+                    //       onTap: () {
+                    //         showSearch(
+                    //             context: context,
+                    //             delegate: CustomeSearchDelected());
+                    //       },
+                    //       child: Container(
+                    //           padding: EdgeInsets.only(
+                    //               left: 13, top: 11, bottom: 11),
+                    //           decoration: BoxDecoration(
+                    //               border: Border.all(color: borderColor),
+                    //               borderRadius: BorderRadius.circular(7)),
+                    //           child: Align(
+                    //             alignment: Alignment.topLeft,
+                    //             child: Text(
+                    //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                    //               style: subGreyTextStyle.copyWith(
+                    //                   color: Color(0xffA3A3A3),
+                    //                   fontSize: 12),
+                    //             ),
+                    //           )),
+                    //     ),
+                    //   ),
                   ],
                 ),
               ),
