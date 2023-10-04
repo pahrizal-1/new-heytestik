@@ -30,7 +30,6 @@ class OrderConsultationController extends StateClass {
   RxInt totalQuestion = 0.obs;
   RxList totalAnswer = [].obs;
   RxInt index = 0.obs;
-  TextEditingController essayController = TextEditingController();
 
   List listsAnswer = [];
   List answerSelect = [
@@ -71,7 +70,7 @@ class OrderConsultationController extends StateClass {
     totalAnswer.clear();
     listQuestion.clear();
     index.value = 0;
-    essayController.clear();
+
     listsAnswer.clear();
     answerSelect = [];
 
@@ -108,7 +107,7 @@ class OrderConsultationController extends StateClass {
       index.value = 0;
       answerSelect.clear();
       listsAnswer.clear();
-      essayController.clear();
+
       title.value = 'Pertanyaan Awal';
       subtitle.value = 'Data Umum';
       question.value = '';
@@ -158,7 +157,7 @@ class OrderConsultationController extends StateClass {
               .toString(),
           'interest_condition_answer_id': 0,
           'interest_condition_question_id': 0,
-          'answer_description': '-'
+          'answer_description': TextEditingController(text: '')
         });
       }
     });
@@ -192,21 +191,37 @@ class OrderConsultationController extends StateClass {
       bank.value = '';
       expireTime.value = '';
 
-      print('listsAnswer ${listsAnswer.length}');
       for (int i = 0; i < listsAnswer.length; i++) {
-        if (listsAnswer[i]['interest_condition_answer_id'] != 0 &&
-            listsAnswer[i]['interest_condition_question_id'] != 0) {
-          paramAnswer.add({
-            'interest_condition_answer_id': listsAnswer[i]
-                ['interest_condition_answer_id'],
-            'interest_condition_question_id': listsAnswer[i]
-                ['interest_condition_question_id'],
-            'answer_description': listsAnswer[i]['answer_description']
-          });
+        if (listsAnswer[i]['typeAnswer'] == 'description') {
+          if (listsAnswer[i]['interest_condition_question_id'] != 0) {
+            paramAnswer.add({
+              'interest_condition_answer_id': listsAnswer[i]
+                  ['interest_condition_answer_id'],
+              'interest_condition_question_id': listsAnswer[i]
+                  ['interest_condition_question_id'],
+              'answer_description':
+                  listsAnswer[i]['answer_description'].text == ''
+                      ? '-'
+                      : listsAnswer[i]['answer_description'].text
+            });
+          }
+        } else {
+          if (listsAnswer[i]['interest_condition_answer_id'] != 0 &&
+              listsAnswer[i]['interest_condition_question_id'] != 0) {
+            paramAnswer.add({
+              'interest_condition_answer_id': listsAnswer[i]
+                  ['interest_condition_answer_id'],
+              'interest_condition_question_id': listsAnswer[i]
+                  ['interest_condition_question_id'],
+              'answer_description':
+                  listsAnswer[i]['answer_description'].text == ''
+                      ? '-'
+                      : listsAnswer[i]['answer_description'].text
+            });
+          }
         }
       }
-      print('paramAnswer ${paramAnswer.length}');
-      print('paramAnswer $paramAnswer');
+
       var reqOrder = {
         'interest_condition_id': interestConditionsId.toString(),
         'medical_history_item': paramAnswer,
@@ -214,14 +229,10 @@ class OrderConsultationController extends StateClass {
         'payment_method': paymentMethod.toString(),
         'payment_type': paymentType.toString()
       };
-      print('listImageUser $listImageUser');
+
       print('reqOrder $reqOrder');
-      print('paymentType $paymentType');
-      print('paymentMethod $paymentMethod');
-      print('listsAnswer $listsAnswer');
 
       var res = await TransactionService().orderConsultation(reqOrder);
-
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,

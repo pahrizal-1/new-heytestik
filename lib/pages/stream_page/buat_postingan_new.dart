@@ -1,13 +1,23 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
+import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/upload_poto_stream.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/filter_publish_widgets.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
+    as Concern;
 
 class BuatPostinganStream extends StatefulWidget {
   const BuatPostinganStream({super.key});
@@ -17,10 +27,14 @@ class BuatPostinganStream extends StatefulWidget {
 }
 
 class _BuatPostinganStreamState extends State<BuatPostinganStream> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final ProfileController stateProfile = Get.put(ProfileController());
+  final EtalaseController etalaseController = Get.put(EtalaseController());
   bool isSelectedHastag = true;
   bool isSelectedPoling = true;
   final TextEditingController postDescController = TextEditingController();
   final TextEditingController hashTagController = TextEditingController();
+  List<File> imagePath = [];
   final PostController streamController = Get.put(PostController());
   String name = '-';
   final List<TextEditingController> optionController = [
@@ -30,19 +44,64 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   final DateTime endDate = DateTime.now();
   int days = 1;
   Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
-
+  bool isSuggestion = false;
+  // List suggest = ['Jerawat', 'Kulit Kering'];
+  List<Concern.Data2> concern = [];
+  List<Concern.Data2> suggestConcern = [];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       name = await LocalStorage().getFullName();
+      stateProfile.getProfile(context);
+      concern.addAll(await etalaseController.getConcern(context));
       setState(() {});
     });
     super.initState();
   }
 
+  onChangeFilterText(String value) {
+    print("value $value");
+    if (value.isEmpty || value == '') {
+      print("kosong kosong");
+      setState(() {
+        suggestConcern.clear();
+        isSuggestion = false;
+      });
+    } else {
+      // print("suggestConcern $suggestConcern");
+      // RegExp hashtagRegExp = RegExp(r'\B#\w+');
+
+      // Iterable<Match> matches = hashtagRegExp.allMatches(value);
+      // print("matches $matches");
+
+      // List<String?> hashtags = matches.map((match) {
+      //   String? hashtagText =
+      //       match.group(0)?.substring(1); // Remove the '#' symbol
+      //   return hashtagText?.replaceAll(' ', '');
+      // }).toList();
+      // print("hashtags $hashtags");
+
+      suggestConcern = concern
+          .where((element) =>
+              element.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+      print("suggestConcern 222 $suggestConcern");
+      if (suggestConcern.isNotEmpty) {
+        setState(() {
+          isSuggestion = true;
+        });
+      } else {
+        setState(() {
+          isSuggestion = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -69,36 +128,44 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {
-                  //   RegExp hashtagRegExp = RegExp(r'\B#\w+');
-                  //   Iterable<Match> matches =
-                  //       hashtagRegExp.allMatches(hashTagController.text);
-                  //   List<String?> hashtags = matches.map((match) {
-                  //     String? hashtagText =
-                  //         match.group(0)?.substring(1); // Remove the '#' symbol
-                  //     return hashtagText?.replaceAll(' ', '');
-                  //   }).toList();
+                onTap: () async {
+                  print(
+                      "hashTagController ${hashTagController.text.removeAllWhitespace}");
+                  RegExp hashtagRegExp = RegExp(r'\B#\w+');
+                  Iterable<Match> matches =
+                      hashtagRegExp.allMatches(hashTagController.text);
 
-                  //   if (postDescController.text == "") {
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (context) => AlertWidget(
-                  //           subtitle: "Post Description Can't be Empty"),
-                  //     );
-                  //   } else {
-                  //     StreamPostModel postModel = StreamPostModel(
-                  //       content: postDescController.text,
-                  //       type: 'GENERAL',
-                  //       hashtags: hashtags,
-                  //       endTime: DateTime.now(),
-                  //       options: [],
-                  //       visibility: visibility['visibility'].toString(),
-                  //     );
-                  //     streamController.postGeneral(context, postModel,
-                  //         files: imagePath, doInPost: () {
-                  //       Navigator.of(context).pop();
-                  //     });
-                  //   }
+                  List<String?> hashtags = matches.map((match) {
+                    print("match $match");
+                    String? hashtagText =
+                        match.group(0)?.substring(1); // Remove the '#' symbol
+                    print("hashtagText $hashtagText");
+                    return hashtagText?.replaceAll(' ', '');
+                  }).toList();
+
+                  print("hashtags $hashtags");
+                  return;
+                  if (postDescController.text == "") {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertWidget(
+                          subtitle: "Post Description Can't be Empty"),
+                    );
+                  } else {
+                    StreamPostModel postModel = StreamPostModel(
+                      content: postDescController.text,
+                      type: 'GENERAL',
+                      hashtags: hashtags,
+                      endTime: DateTime.now(),
+                      options: [],
+                      visibility: visibility['visibility'].toString(),
+                    );
+
+                    streamController.postGeneral(context, postModel,
+                        files: imagePath, doInPost: () {
+                      Navigator.of(context).pop();
+                    });
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -132,10 +199,15 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   Container(
                     width: 32,
                     height: 32,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png'),
+                        fit: BoxFit.cover,
+                        image: stateProfile.imgNetwork.value != ""
+                            ? NetworkImage(
+                                    '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                                as ImageProvider
+                            : AssetImage('assets/images/profiledummy.png'),
                       ),
                     ),
                   ),
@@ -146,7 +218,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tes',
+                        name,
                         style: blackTextStyle.copyWith(fontSize: 14),
                       ),
                       const SizedBox(
@@ -182,7 +254,11 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                 ),
                               ],
                             ),
-                          );
+                          ).then((value) async {
+                            setState(() {
+                              visibility = value;
+                            });
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -203,7 +279,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                 width: 5,
                               ),
                               Text(
-                                'Semua Orang',
+                                visibility['title'].toString(),
                                 style: subTitleTextStyle.copyWith(fontSize: 12),
                               ),
                               Icon(
@@ -224,6 +300,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               ),
               TextFormField(
                 maxLines: 5,
+                controller: postDescController,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
@@ -276,77 +353,110 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 14, color: blackColor),
                           )
-                        :
-                        // Expanded(
-                        //     child: InkWell(
-                        //       onTap: () {
-                        //         showSearch(
-                        //             context: context,
-                        //             delegate: CustomeSearchDelected());
-                        //       },
-                        //       child: TextFormField(
-                        //         style: grenTextStyle.copyWith(
-                        //             fontSize: 14, fontWeight: regular),
-                        //         maxLines: 2,
-                        //         readOnly: true,
-                        //         decoration: InputDecoration(
-                        //           enabledBorder: OutlineInputBorder(
-                        //             borderSide: BorderSide(
-                        //               color: borderColor,
-                        //             ),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           focusedBorder: OutlineInputBorder(
-                        //             borderSide: BorderSide(
-                        //               color: borderColor,
-                        //             ),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           hintText:
-                        //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                        //           hintStyle: subTitleTextStyle.copyWith(
-                        //             fontStyle: FontStyle.italic,
-                        //             fontSize: 13,
-                        //           ),
-                        //           labelText: 'Tambahkan Hashtag',
-                        //           contentPadding: const EdgeInsets.symmetric(
-                        //               vertical: 15, horizontal: 15),
-                        //           border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           floatingLabelBehavior:
-                        //               FloatingLabelBehavior.always,
-                        //           labelStyle: TextStyle(
-                        //             color: blackColor,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                showSearch(
-                                    context: context,
-                                    delegate: CustomeSearchDelected());
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 13, top: 11, bottom: 11),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      borderRadius: BorderRadius.circular(7)),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                                      style: subGreyTextStyle.copyWith(
-                                          color: Color(0xffA3A3A3),
-                                          fontSize: 12),
+                        : Expanded(
+                            child: TextFormField(
+                              controller: hashTagController,
+                              onChanged: (value) {
+                                onChangeFilterText(value);
+                                scaffoldKey.currentState!.showBottomSheet(
+                                  (context) => Visibility(
+                                    visible: isSuggestion,
+                                    child: Container(
+                                      height: 150,
+                                      width: 420,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                      ),
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: suggestConcern.length,
+                                          itemBuilder: ((context, index) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                print(suggestConcern[index]
+                                                    .name
+                                                    .toString());
+                                                hashTagController.text =
+                                                    suggestConcern[index]
+                                                        .name
+                                                        .toString();
+                                                setState(() {});
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    suggestConcern[index]
+                                                        .name
+                                                        .toString()),
+                                              ),
+                                            );
+                                          })),
                                     ),
-                                  )),
+                                  ),
+                                );
+                              },
+                              style: grenTextStyle.copyWith(
+                                  fontSize: 14, fontWeight: regular),
+                              maxLines: 2,
+                              // readOnly: true,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: borderColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: borderColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintText:
+                                    'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                                hintStyle: subTitleTextStyle.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 13,
+                                ),
+                                labelText: 'Tambahkan Hashtag',
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                labelStyle: TextStyle(
+                                  color: blackColor,
+                                ),
+                              ),
                             ),
                           ),
+                    // Expanded(
+                    //     child: InkWell(
+                    //       onTap: () {
+                    //         showSearch(
+                    //             context: context,
+                    //             delegate: CustomeSearchDelected());
+                    //       },
+                    //       child: Container(
+                    //           padding: EdgeInsets.only(
+                    //               left: 13, top: 11, bottom: 11),
+                    //           decoration: BoxDecoration(
+                    //               border: Border.all(color: borderColor),
+                    //               borderRadius: BorderRadius.circular(7)),
+                    //           child: Align(
+                    //             alignment: Alignment.topLeft,
+                    //             child: Text(
+                    //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                    //               style: subGreyTextStyle.copyWith(
+                    //                   color: Color(0xffA3A3A3),
+                    //                   fontSize: 12),
+                    //             ),
+                    //           )),
+                    //     ),
+                    //   ),
                   ],
                 ),
               ),

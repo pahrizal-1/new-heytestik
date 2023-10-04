@@ -1775,8 +1775,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                   height: 150,
                   width: 420,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                  ),
+                      color: whiteColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(7),
+                          topRight: Radius.circular(7))),
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: Get.put(DoctorConsultationController())
