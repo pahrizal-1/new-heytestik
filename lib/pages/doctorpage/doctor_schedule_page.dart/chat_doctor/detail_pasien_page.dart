@@ -254,34 +254,36 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                     const SizedBox(
                       height: 37,
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 45,
-                      child: TextButton(
-                        onPressed: () {
-                          state.status.value == 'AKTIF'
-                              ? null
-                              : state.postFinish(context, widget.id);
+                    state.status.value == 'SELESAI'
+                        ? Container()
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: TextButton(
+                              onPressed: () {
+                                state.status.value == 'AKTIF'
+                                    ? null
+                                    : state.postFinish(context, widget.id);
 
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const TambahanSkinCare()));
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: state.status.value == 'AKTIF'
-                              ? greyColor
-                              : greenColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const TambahanSkinCare()));
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: state.status.value == 'AKTIF'
+                                    ? greyColor
+                                    : greenColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text('Pre-Assessment Review Selesai',
+                                  style: whiteTextStyle.copyWith(
+                                      fontStyle: FontStyle.italic)),
+                            ),
                           ),
-                        ),
-                        child: Text('Pre-Assessment Review Selesai',
-                            style: whiteTextStyle.copyWith(
-                                fontStyle: FontStyle.italic)),
-                      ),
-                    ),
                     SizedBox(height: 10),
                     state.status.value == 'AKTIF'
                         ? SizedBox(

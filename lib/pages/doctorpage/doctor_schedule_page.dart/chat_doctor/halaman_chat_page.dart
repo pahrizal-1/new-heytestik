@@ -36,13 +36,14 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 400,
-              color: whiteColor,
+              height: 300,
+              // color: whiteColor,
               width: MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
@@ -110,13 +111,13 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                         const Spacer(),
                                         InkWell(
                                           onTap: () async {
-                                            notificationService
-                                                .showLocalNotification(
-                                              id: 0,
-                                              title: "Time's up",
-                                              body:
-                                                  "Get back to productive activities",
-                                            );
+                                            // notificationService
+                                            //     .showLocalNotification(
+                                            //   id: 0,
+                                            //   title: "Time's up",
+                                            //   body:
+                                            //       "Get back to productive activities",
+                                            // );
                                           },
                                           child: Text(
                                             'Atur Jadwal',
@@ -185,9 +186,21 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 width: MediaQuery.of(context).size.width,
+                // height: MediaQuery.of(context).size.height,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                decoration: BoxDecoration(color: whiteColor),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.5,
+                      blurRadius: 0.5,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

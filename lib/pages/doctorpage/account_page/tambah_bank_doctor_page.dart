@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/bank_doctor_controller.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/kebijakan_privasi_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/syarat_ketentuan_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/pilih_bank_doctor_widgets.dart';
@@ -152,21 +154,21 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, bottom: 7, top: 7),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: subgreyColor),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Periksa',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 13, color: const Color(0xfF6B6B6B)),
-                        ),
-                      ),
-                    )
+                    // Container(
+                    //   padding: const EdgeInsets.only(
+                    //       left: 8, right: 8, bottom: 7, top: 7),
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(color: subgreyColor),
+                    //     borderRadius: BorderRadius.circular(7),
+                    //   ),
+                    //   child: Center(
+                    //     child: Text(
+                    //       'Periksa',
+                    //       style: blackHigtTextStyle.copyWith(
+                    //           fontSize: 13, color: const Color(0xfF6B6B6B)),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
                 const SizedBox(
@@ -205,6 +207,10 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
                     children: [
                       TextSpan(
                         text: " Kebijakan Privasi",
+                        recognizer: TapAndPanGestureRecognizer()
+                          ..onTapDown = (route) {
+                            Get.to(KebijakanPrivasiPage());
+                          },
                         style: grenTextStyle.copyWith(
                           fontSize: 13,
                         ),
@@ -215,6 +221,10 @@ class _TambahBankDoctorPageState extends State<TambahBankDoctorPage> {
                               children: [
                                 TextSpan(
                                     text: " Syarat dan Ketentuan",
+                                    recognizer: TapAndPanGestureRecognizer()
+                                      ..onTapDown = (route) {
+                                        Get.to(SyaratKetentuanPage());
+                                      },
                                     style: grenTextStyle.copyWith(fontSize: 13))
                               ]),
                         ],
