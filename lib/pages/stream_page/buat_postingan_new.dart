@@ -17,6 +17,8 @@ class BuatPostinganStream extends StatefulWidget {
 }
 
 class _BuatPostinganStreamState extends State<BuatPostinganStream> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   bool isSelectedHastag = true;
   bool isSelectedPoling = true;
   final TextEditingController postDescController = TextEditingController();
@@ -40,9 +42,12 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
     super.initState();
   }
 
+  bool isSuggestion = false;
+  TextEditingController messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -276,77 +281,113 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 14, color: blackColor),
                           )
-                        :
-                        // Expanded(
-                        //     child: InkWell(
-                        //       onTap: () {
-                        //         showSearch(
-                        //             context: context,
-                        //             delegate: CustomeSearchDelected());
-                        //       },
-                        //       child: TextFormField(
-                        //         style: grenTextStyle.copyWith(
-                        //             fontSize: 14, fontWeight: regular),
-                        //         maxLines: 2,
-                        //         readOnly: true,
-                        //         decoration: InputDecoration(
-                        //           enabledBorder: OutlineInputBorder(
-                        //             borderSide: BorderSide(
-                        //               color: borderColor,
-                        //             ),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           focusedBorder: OutlineInputBorder(
-                        //             borderSide: BorderSide(
-                        //               color: borderColor,
-                        //             ),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           hintText:
-                        //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                        //           hintStyle: subTitleTextStyle.copyWith(
-                        //             fontStyle: FontStyle.italic,
-                        //             fontSize: 13,
-                        //           ),
-                        //           labelText: 'Tambahkan Hashtag',
-                        //           contentPadding: const EdgeInsets.symmetric(
-                        //               vertical: 15, horizontal: 15),
-                        //           border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           floatingLabelBehavior:
-                        //               FloatingLabelBehavior.always,
-                        //           labelStyle: TextStyle(
-                        //             color: blackColor,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                showSearch(
-                                    context: context,
-                                    delegate: CustomeSearchDelected());
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 13, top: 11, bottom: 11),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: borderColor),
-                                      borderRadius: BorderRadius.circular(7)),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                                      style: subGreyTextStyle.copyWith(
-                                          color: Color(0xffA3A3A3),
-                                          fontSize: 12),
+                        : Expanded(
+                            child: TextFormField(
+                              controller: messageController,
+                              style: grenTextStyle.copyWith(
+                                  fontSize: 14, fontWeight: regular),
+                              maxLines: 2,
+                              onChanged: (value) {
+                                if (messageController.text == '#') {
+                                  setState(() {
+                                    isSuggestion = true;
+                                  });
+                                  scaffoldKey.currentState!.showBottomSheet(
+                                    (context) => Visibility(
+                                      visible: isSuggestion,
+                                      child: Container(
+                                        height: 150,
+                                        width: 420,
+                                        decoration: BoxDecoration(
+                                            color: whiteColor,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(7),
+                                                topRight: Radius.circular(7))),
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: 10,
+                                            itemBuilder: ((context, index) {
+                                              return GestureDetector(
+                                                onTap: () async {
+                                                  Get.back();
+                                                  setState(() {
+                                                    isSuggestion = false;
+                                                  });
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text('#udin'),
+                                                ),
+                                              );
+                                            })),
+                                      ),
                                     ),
-                                  )),
+                                  );
+                                } else if (messageController.text.isEmpty) {
+                                  Get.back;
+                                  setState(() {
+                                    isSuggestion = false;
+                                  });
+                                }
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: borderColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: borderColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintText:
+                                    'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                                hintStyle: subTitleTextStyle.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 13,
+                                ),
+                                labelText: 'Tambahkan Hashtag',
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                labelStyle: TextStyle(
+                                  color: blackColor,
+                                ),
+                              ),
                             ),
                           ),
+                    // Expanded(
+                    //     child: InkWell(
+                    //       onTap: () {
+                    //         showSearch(
+                    //             context: context,
+                    //             delegate: CustomeSearchDelected());
+                    //       },
+                    //       child: Container(
+                    //           padding: EdgeInsets.only(
+                    //               left: 13, top: 11, bottom: 11),
+                    //           decoration: BoxDecoration(
+                    //               border: Border.all(color: borderColor),
+                    //               borderRadius: BorderRadius.circular(7)),
+                    //           child: Align(
+                    //             alignment: Alignment.topLeft,
+                    //             child: Text(
+                    //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
+                    //               style: subGreyTextStyle.copyWith(
+                    //                   color: Color(0xffA3A3A3),
+                    //                   fontSize: 12),
+                    //             ),
+                    //           )),
+                    //     ),
+                    //   ),
                   ],
                 ),
               ),

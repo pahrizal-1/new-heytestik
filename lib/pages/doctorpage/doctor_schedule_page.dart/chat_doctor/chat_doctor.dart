@@ -804,7 +804,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 14),
@@ -813,7 +813,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                           decoration: BoxDecoration(
                                                               color: greenColor,
                                                               borderRadius: const BorderRadius
-                                                                      .only(
+                                                                  .only(
                                                                   topLeft: Radius
                                                                       .circular(
                                                                           10),
@@ -831,7 +831,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 11),
@@ -1099,7 +1099,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 40),
                                                     padding:
                                                         const EdgeInsets.only(
@@ -1223,12 +1223,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                           Container(
                                                             margin:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         40),
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 12,
                                                                     top: 11,
                                                                     right: 12,
@@ -1425,7 +1425,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                 ),
                                                 Container(
                                                   margin: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 40),
                                                   padding:
                                                       const EdgeInsets.only(
@@ -1559,12 +1559,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                         Container(
                                                           margin:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       40),
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   left: 12,
                                                                   top: 11,
                                                                   right: 12,
@@ -1775,8 +1775,10 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                   height: 150,
                   width: 420,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                  ),
+                      color: whiteColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(7),
+                          topRight: Radius.circular(7))),
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: Get.put(DoctorConsultationController())
