@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/account_page/penarikan_dan
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../widget/loading_widget.dart';
@@ -63,151 +64,185 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
           ),
         ),
       ),
-      body: Obx(
-        () => LoadingWidget(
-          isLoading: state.isLoading.value,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 25, right: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16, left: 25, right: 25),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/alert-circle1.png',
-                        width: 27,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text.rich(
+                  Image.asset(
+                    'assets/icons/alert-circle1.png',
+                    width: 27,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Sekarang kamu Bisa Tarik saldo',
+                        style: greyTextStyle.copyWith(fontSize: 13),
+                        children: [
                           TextSpan(
-                            text: 'Sekarang kamu Bisa Tarik saldo',
-                            style: greyTextStyle.copyWith(fontSize: 13),
+                            text: " Pada Tanggal 25 Setiap Bulannya",
+                            style: blackHigtTextStyle.copyWith(
+                                fontSize: 13, color: Color(0xFF6B6B6B)),
                             children: [
                               TextSpan(
-                                text: " Pada Tanggal 25 Setiap Bulannya",
-                                style: blackHigtTextStyle.copyWith(
-                                    fontSize: 13, color: Color(0xFF6B6B6B)),
-                                children: [
-                                  TextSpan(
-                                    text: " Ke rekening bank Yang Tersimpan.",
-                                    style: greyTextStyle.copyWith(fontSize: 13),
-                                  ),
-                                ],
+                                text: " Ke rekening bank Yang Tersimpan.",
+                                style: greyTextStyle.copyWith(fontSize: 13),
                               ),
                             ],
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  Container(
-                    height: 97,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: whiteColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade600,
-                          spreadRadius: 0.2,
-                          blurRadius: 0.1,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text(
-                            'Saldo Saya',
-                            style: blackTextStyle.copyWith(
-                                fontSize: 15, fontWeight: regular),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 21,
+              ),
+              FutureBuilder(
+                future: state.getUserBalance(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return shimmerWidget(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: whiteColor,
+                        ),
+                      ),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Container(
+                      height: 97,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: whiteColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade600,
+                            spreadRadius: 0.2,
+                            blurRadius: 0.1,
                           ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Obx(
-                          () => Center(
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
                             child: Text(
-                              CurrencyFormat.convertToIdr(
-                                state.saldo.value.balance,
-                                0,
-                              ),
-                              style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                  fontWeight: bold,
-                                  color: blackColor),
+                              'Saldo Saya',
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: regular),
                             ),
                           ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Obx(
+                            () => Center(
+                              child: Text(
+                                CurrencyFormat.convertToIdr(
+                                  state.saldo.value.balance,
+                                  0,
+                                ),
+                                style: TextStyle(
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                    color: blackColor),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Container();
+                }),
+              ),
+
+              const SizedBox(
+                height: 9,
+              ),
+              ButtonGreenWidget(
+                title: 'Tarik Saldo',
+                onPressed: () async {
+                  String refresh = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PenarikanDana()));
+                  if (refresh == 'refresh') {
+                    setState(() {
+                      state.saldo.value.balance;
+                      state.listWithDraw;
+                      state.listWithDrawHistory;
+                      print('refr');
+                    });
+                  }
+                },
+              ),
+
+              const SizedBox(
+                height: 48,
+              ),
+              Text(
+                'Riwayat Saldo Saya',
+                style: blackHigtTextStyle.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              FutureBuilder(
+                  future: state.getWithDraw(context),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return shimmerWidget(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            color: whiteColor,
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  ButtonGreenWidget(
-                    title: 'Tarik Saldo',
-                    onPressed: () async {
-                      String refresh = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PenarikanDana()));
-                      if (refresh == 'refresh') {
-                        setState(() {
-                          state.listWithDraw;
-                          state.listWithDrawHistory;
-                          state.saldo.value.balance;
-                          print('refr');
-                        });
-                      }
-                    },
-                  ),
-
-                  const SizedBox(
-                    height: 48,
-                  ),
-                  Text(
-                    'Riwayat Saldo Saya',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                      child: ListView.builder(
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Container(
+                        child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.listWithDraw.length,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: ((context, index) {
                             return _penarikandana(index);
-                          }))),
-                  // _penarikandana(),
-                  // const SizedBox(
-                  //   height: 19,
-                  // ),
-                  // _penarikandana(),
-                  // const SizedBox(
-                  //   height: 19,
-                  // ),
-                  // _penarikandana(),
-                  // const SizedBox(
-                  //   height: 19,
-                  // ),
-                  // _penarikandana(),
-                ],
-              ),
-            ),
+                          }),
+                        ),
+                      );
+                    }
+                    return Container();
+                  }))
+              // _penarikandana(),
+              // const SizedBox(
+              //   height: 19,
+              // ),
+              // _penarikandana(),
+              // const SizedBox(
+              //   height: 19,
+              // ),
+              // _penarikandana(),
+              // const SizedBox(
+              //   height: 19,
+              // ),
+              // _penarikandana(),
+            ],
           ),
         ),
       ),

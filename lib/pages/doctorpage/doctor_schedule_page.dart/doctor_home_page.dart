@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
@@ -26,15 +28,43 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
   final DoctorProfileController stateProfile =
       Get.put(DoctorProfileController());
+  final NotificationCustomerController stateNotif =
+      Get.put(NotificationCustomerController());
 
   IO.Socket? _socket;
   Timer? timer;
+
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    // Check what is inside the message object
+    RemoteNotification? notification = message.notification;
+    //AndroidNotification? android = message.notification?.android;
+
+    print("notification: $notification");
+    print("message data: ${message.data}");
+    if (notification != null) {
+      state.isNotifications.value = true;
+    } else {
+      state.isNotifications.value = false;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     state.init(context);
     stateProfile.getProfile(context);
+    setupInteractedMessage();
   }
 
   @override
@@ -138,17 +168,29 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                   ),
                                 );
                               },
-                              child: Container(
-                                height: paddingL,
-                                width: paddingL,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      'assets/icons/notification-dot.png',
+                              child: state.isNotifications.isTrue
+                                  ? Container(
+                                      height: paddingL,
+                                      width: paddingL,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'assets/icons/notification-dot.png',
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: paddingL,
+                                      width: paddingL,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'assets/icons/ic_notif.png',
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
                             ),
                           ],
                         ),

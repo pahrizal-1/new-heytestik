@@ -88,7 +88,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
-          child: ListView.builder(
+          child: state.notif.isNotEmpty ? ListView.builder(
             itemCount: state.notif.length,
             controller: controller,
             itemBuilder: (context, index) {
@@ -248,7 +248,7 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                 ),
               );
             },
-          ),
+          ) : Center(child: Text('No Notifications'),)
         ),
       ),
     );
