@@ -24,6 +24,7 @@ import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart'
+    // ignore: library_prefixes
     as Drug;
 import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../controller/customer/solution/skincare_controller.dart';

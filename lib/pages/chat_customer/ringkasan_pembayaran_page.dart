@@ -234,6 +234,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                         onTap: () {
                           showModalBottomSheet(
                             context: context,
+                            backgroundColor: whiteColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),

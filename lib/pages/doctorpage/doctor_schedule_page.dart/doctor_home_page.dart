@@ -85,7 +85,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/bg-doctoe-home.png'),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                   ),
                   child: Center(

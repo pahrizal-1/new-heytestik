@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';

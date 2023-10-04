@@ -126,7 +126,7 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                               children: [
                                 Text(
                                   'Beauty / $cat',
-                                  style: grenTextStyle.copyWith(fontSize: 10),
+                                  style: grenTextStyle.copyWith(fontSize: 12),
                                 ),
                                 const SizedBox(
                                   height: 5,
@@ -190,7 +190,7 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                       );
                     },
                     options: CarouselOptions(
-                      height: 300,
+                      height: 320,
                       viewportFraction: 1,
                       onPageChanged: (index, reason) =>
                           setState(() => activeIndex = index),

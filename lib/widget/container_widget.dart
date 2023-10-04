@@ -263,10 +263,9 @@ class ContainerSettings extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(0, 0),
+            color: Colors.grey.shade300,
+            spreadRadius: 0.2,
+            blurRadius: 0.1,
           ),
         ],
       ),
