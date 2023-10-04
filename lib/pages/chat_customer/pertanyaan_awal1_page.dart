@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
@@ -33,17 +32,13 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      get(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getInterestConditionById(
+        context,
+        widget.interestConditionId!.toInt(),
+        widget.title,
+      );
     });
-  }
-
-  get(BuildContext context) async {
-    await state.getInterestConditionById(
-      context,
-      widget.interestConditionId!.toInt(),
-      widget.title,
-    );
   }
 
   @override
@@ -152,15 +147,23 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                               ),
                             ),
                             child: TextField(
-                              onChanged: (value) {
-                                state.listsAnswer[state.index.value]
-                                    ['answer_description'] = value;
-                                if (state.listsAnswer[state.index.value]
-                                        ['answer_description'] !=
-                                    '-') {}
-                              },
-                              controller: state.essayController,
+                              controller: state.listsAnswer[state.index.value]
+                                  ['answer_description'],
                               maxLines: null,
+                              onChanged: (value) {
+                                if (state
+                                        .listsAnswer[state.index.value]
+                                            ['answer_description']
+                                        .text !=
+                                    '') {
+                                  state.listsAnswer[state.index.value]
+                                          ['interest_condition_question_id'] =
+                                      state.listQuestion[state.index.value].id;
+                                } else {
+                                  state.listsAnswer[state.index.value]
+                                      ['interest_condition_question_id'] = 0;
+                                }
+                              },
                               decoration: const InputDecoration(
                                 hintText: 'Boleh sebutkan Disini ya :)',
                                 hintStyle: TextStyle(
@@ -212,7 +215,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                               width: 1,
                                             ),
                                           ),
-                                          // height: 50,
                                           child: Padding(
                                             padding: const EdgeInsets.all(10),
                                             child: Row(
@@ -323,12 +325,9 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                 (state.listQuestion.length - 1)) {
                               print('terus nambah');
                               state.index.value += 1;
-
-                              // CHANGE TEXT
+                              // CHANGE TEXT TITLE
                               changeText();
                             }
-
-                            print('index ${state.index.value}');
                           },
                         ),
                       ),
@@ -345,20 +344,16 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                               child: ButtonWhiteWidget(
                                 title: 'Kembali',
                                 onPressed: () {
-                                  // CHANGE TEXT
+                                  // CHANGE TEXT TITLE
                                   changeText();
-
                                   if (state.index.value >= 1) {
                                     print('terus kurang');
                                     state.index.value -= 1;
-
-                                    // CHANGE TEXT
+                                    // CHANGE TEXT TITLE
                                     changeText();
                                   } else {
                                     print('abis');
                                   }
-                                  print(
-                                      'answerData ke ${state.index.value + 1} ${state.listsAnswer[state.index.value]}');
                                 },
                               ),
                             ),
@@ -371,14 +366,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                 onPressed: () async {
                                   if (state.index.value <
                                       (state.listQuestion.length - 1)) {
-                                    print('terus nambah');
                                     state.index.value += 1;
-
-                                    // CHANGE TEXT
+                                    // CHANGE TEXT TITLE
                                     changeText();
                                   } else {
-                                    print('abis');
-
                                     await showDialog(
                                       context: context,
                                       builder: (context) =>
@@ -398,9 +389,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                       ),
                                     );
                                   }
-
-                                  print(
-                                      'answerData ke ${state.index.value + 1} ${state.listsAnswer[state.index.value]}');
                                 },
                               ),
                             )
@@ -434,7 +422,6 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   }
 
   selectAnswer(int i) {
-    print('awal ${state.answerSelect[state.index.value]}');
     var idQuestion = state.listQuestion[state.index.value].id;
     var question = state.listQuestion[state.index.value].name;
     var answer = state
@@ -451,14 +438,10 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
       state.answerSelect[state.index.value]['isIconSelected'] = true;
     });
 
-    print('akhir ${state.answerSelect[state.index.value]}');
-
     // PARAM REQUEST
     state.listsAnswer[state.index.value]['interest_condition_answer_id'] =
         idAnswer;
     state.listsAnswer[state.index.value]['interest_condition_question_id'] =
         idQuestion;
-    state.listsAnswer[state.index.value]['answer_description'] =
-        state.answerSelect == 'description' ? state.essayController.text : '-';
   }
 }
