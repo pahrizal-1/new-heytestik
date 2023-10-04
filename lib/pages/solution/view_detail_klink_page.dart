@@ -32,6 +32,7 @@ class DetailKlnikPage extends StatefulWidget {
 class _DetailKlnikPageState extends State<DetailKlnikPage> {
   final TreatmentController state = Get.put(TreatmentController());
   bool isVisibelity = true;
+  bool isVisibelityJam = true;
   int activeIndex = 0;
   final images = [
     'assets/images/bg-treatment.png',
@@ -170,7 +171,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 25, left: 25, right: 25, bottom: 6),
+                    top: 25, left: 20, right: 20, bottom: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -373,31 +374,55 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                                 fontSize: 12,
                                                 fontWeight: regular),
                                           ),
+                                          Expanded(
+                                              child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                isVisibelityJam =
+                                                    !isVisibelityJam;
+                                              });
+                                            },
+                                            child: isVisibelityJam
+                                                ? Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                  )
+                                                : Icon(
+                                                    Icons.keyboard_arrow_up,
+                                                  ),
+                                          ))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      for (int i = 0;
-                                          i <
-                                              state
-                                                  .responseClinicDetail
-                                                  .value
-                                                  .data!
-                                                  .clinicOperationHours!
-                                                  .length;
-                                          i++)
-                                        TetxtInfomasi(
-                                          title: state
-                                                  .responseClinicDetail
-                                                  .value
-                                                  .data!
-                                                  .clinicOperationHours![i]
-                                                  .day ??
-                                              '-',
-                                          title2:
-                                              '${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].startTime.toString())} - ${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].endTime.toString())}WIB',
+                                      Visibility(
+                                        visible: isVisibelityJam,
+                                        child: Column(
+                                          children: [
+                                            for (int i = 0;
+                                                i <
+                                                    state
+                                                        .responseClinicDetail
+                                                        .value
+                                                        .data!
+                                                        .clinicOperationHours!
+                                                        .length;
+                                                i++)
+                                              TetxtInfomasi(
+                                                title: state
+                                                        .responseClinicDetail
+                                                        .value
+                                                        .data!
+                                                        .clinicOperationHours![
+                                                            i]
+                                                        .day ??
+                                                    '-',
+                                                title2:
+                                                    '${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].startTime.toString())} - ${ConvertDate.schedule(state.responseClinicDetail.value.data!.clinicOperationHours![i].endTime.toString())}WIB',
+                                              ),
+                                          ],
                                         ),
+                                      )
                                     ],
                                   ),
                                 ],

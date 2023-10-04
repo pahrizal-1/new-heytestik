@@ -538,8 +538,6 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                       itemBuilder: ((context, index) {
                                         return InkWell(
                                           onTap: () {
-                                            List string = [];
-
                                             setState(() {
                                               // string.add({
                                               //   'skincare': state
