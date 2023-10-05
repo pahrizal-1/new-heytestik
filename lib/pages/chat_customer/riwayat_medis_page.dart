@@ -57,8 +57,11 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: blackColor,
+                  color: whiteColor,
                 ),
+              ),
+              const SizedBox(
+                width: 11,
               ),
               Text(
                 'Riwayat Medis',
