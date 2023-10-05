@@ -27,6 +27,13 @@ class BuatPostinganStream extends StatefulWidget {
 }
 
 class _BuatPostinganStreamState extends State<BuatPostinganStream> {
+  final zoomTransformationController = TransformationController();
+
+  void _resetZoom() {
+    zoomTransformationController.value = Matrix4.identity();
+    print('reset zoom');
+  }
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final ProfileController stateProfile = Get.put(ProfileController());
   final EtalaseController etalaseController = Get.put(EtalaseController());
@@ -324,6 +331,223 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   labelStyle: TextStyle(
                     color: fromCssColor('#A3A3A3'),
                   ),
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        InteractiveViewer(
+                          transformationController:
+                              zoomTransformationController,
+                          child: Container(
+                            height: 450,
+                            width: 179,
+                            child: Image.asset(
+                              'assets/images/IPL.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 390.2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(1),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(86),
+                                bottomRight: Radius.circular(86),
+                              ),
+                            ),
+                            padding: const EdgeInsets.only(left: 6, top: 7),
+                            height: 40,
+                            width: 150,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'My Journey - Jerawat',
+                                  style:
+                                      blackTextStyle.copyWith(fontSize: 8.67),
+                                ),
+                                Text(
+                                  'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 8.67),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 2,
+                      height: 450,
+                      color: whiteColor,
+                    ),
+                    Stack(
+                      children: [
+                        InteractiveViewer(
+                          transformationController:
+                              zoomTransformationController,
+                          child: Container(
+                            height: 450,
+                            width: 170,
+                            child: Image.asset(
+                              'assets/images/IPL.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 200.2,
+                          left: 120,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                shape: BoxShape.circle),
+                            height: 40,
+                            width: 150,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 10,
+                          left: 140,
+                          child: Container(
+                            padding: EdgeInsets.all(6),
+                            height: 21,
+                            width: 21,
+                            decoration: BoxDecoration(
+                              color: blackColor.withOpacity(0.8),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              'assets/icons/remove.png',
+                              width: 1,
+                              height: 1,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 390.2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(1),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(86),
+                                bottomRight: Radius.circular(86),
+                              ),
+                            ),
+                            padding: const EdgeInsets.only(left: 6, top: 7),
+                            height: 40,
+                            width: 150,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'My Journey - Jerawat',
+                                  style:
+                                      blackTextStyle.copyWith(fontSize: 8.67),
+                                ),
+                                Text(
+                                  'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 8.67),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        InteractiveViewer(
+                          transformationController:
+                              zoomTransformationController,
+                          child: Container(
+                            height: 450,
+                            width: 170,
+                            child: Image.asset(
+                              'assets/images/IPL.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 200.2,
+                          left: 120,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                shape: BoxShape.circle),
+                            height: 40,
+                            width: 150,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 10,
+                          left: 140,
+                          child: Container(
+                            padding: EdgeInsets.all(6),
+                            height: 21,
+                            width: 21,
+                            decoration: BoxDecoration(
+                              color: blackColor.withOpacity(0.8),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              'assets/icons/remove.png',
+                              width: 1,
+                              height: 1,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 390.2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(1),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(86),
+                                bottomRight: Radius.circular(86),
+                              ),
+                            ),
+                            padding: const EdgeInsets.only(left: 6, top: 7),
+                            height: 40,
+                            width: 150,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'My Journey - Jerawat',
+                                  style:
+                                      blackTextStyle.copyWith(fontSize: 8.67),
+                                ),
+                                Text(
+                                  'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 8.67),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Padding(
