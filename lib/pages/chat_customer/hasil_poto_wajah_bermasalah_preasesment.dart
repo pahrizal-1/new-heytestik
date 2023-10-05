@@ -164,7 +164,7 @@ class _HasilPotoWajahBermasalahPreasesmentState
                   () => LoadingWidget(
                     isLoading: state.isLoading.value,
                     child: TextButton(
-                      onPressed: () async {
+                      onPressed: () {
                         // await state.detailJourney(
                         //     context, state.concernId.value);
                         // if (state.isAfter.value) {
