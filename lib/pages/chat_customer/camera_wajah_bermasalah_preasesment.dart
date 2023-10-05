@@ -73,7 +73,7 @@ class _CameraWajahBermalahPreasesmentState
 
             Positioned(
               top: 20,
-              left: 70,
+              left: 90,
               child: Row(
                 children: [
                   Text(

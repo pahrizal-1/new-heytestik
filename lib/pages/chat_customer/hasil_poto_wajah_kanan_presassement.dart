@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_bermasalah_preasesment.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/costome_poto_wajah_kiri.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kiri.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -167,7 +168,7 @@ class _HasilWajahkananPreassesmentState
                       return;
                     }
                     if (state.initialConditionRightSide != null) {
-                      Get.to(CustomeCameaPotoWajahKiri());
+                      Get.to(CameraWajahBermalahPreasesment());
                       return;
                     }
                   },
