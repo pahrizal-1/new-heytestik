@@ -5,7 +5,6 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_depan_pertanyaan.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/hasil_poto_wajah_depan_pertanyaan.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -17,7 +16,7 @@ import 'package:dotted_border/dotted_border.dart';
 
 class RiwayatMedis7Page extends StatefulWidget {
   final int? interestConditionId;
-  RiwayatMedis7Page({required this.interestConditionId, super.key});
+  const RiwayatMedis7Page({required this.interestConditionId, super.key});
 
   @override
   State<RiwayatMedis7Page> createState() => _RiwayatMedis7PageState();
@@ -274,7 +273,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                       Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: Text(
-                          'Yuk!! Ambil Poto kamu :)',
+                          'Yuk!! Ambil Foto kamu :)',
                           style: TextStyle(
                             fontWeight: bold,
                             fontSize: 15,
