@@ -101,9 +101,7 @@ class _RatingPageState extends State<RatingPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    top: 36,
-                                    left: 33,
-                                  ),
+                                      top: 36, left: 33, bottom: 20),
                                   child: Container(
                                     child: ListView.builder(
                                         shrinkWrap: true,
@@ -511,15 +509,15 @@ class _RatingPageState extends State<RatingPage> {
                                   ),
                                   builder: (context) => StatefulBuilder(
                                           builder: ((context, setState) {
-                                        return Wrap(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 33,
-                                                  right: 33,
-                                                  top: 30,
-                                                  bottom: 40),
-                                              child: Column(
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 33,
+                                              right: 33,
+                                              top: 30,
+                                              bottom: 100),
+                                          child: Wrap(
+                                            children: [
+                                              Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 crossAxisAlignment:
@@ -564,6 +562,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 0,
                                                         groupValue: groupRating,
                                                         toggleable: true,
@@ -606,6 +607,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 1,
                                                         groupValue: groupRating,
                                                         toggleable: true,
@@ -648,6 +652,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 2,
                                                         groupValue: groupRating,
                                                         toggleable: true,
@@ -690,6 +697,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 3,
                                                         groupValue: groupRating,
                                                         toggleable: true,
@@ -732,6 +742,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 4,
                                                         groupValue: groupRating,
                                                         toggleable: true,
@@ -763,8 +776,8 @@ class _RatingPageState extends State<RatingPage> {
                                                   )
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         );
                                       })));
                               // customeshomodal(
@@ -804,6 +817,7 @@ class _RatingPageState extends State<RatingPage> {
                             onTap: () {
                               showModalBottomSheet(
                                   context: context,
+                                  isScrollControlled: false,
                                   backgroundColor: Colors.white,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadiusDirectional.only(
@@ -837,7 +851,7 @@ class _RatingPageState extends State<RatingPage> {
                                                         width: 22,
                                                       ),
                                                       Text(
-                                                        'Urutan',
+                                                        'Urutkan',
                                                         style:
                                                             blackHigtTextStyle
                                                                 .copyWith(
@@ -847,7 +861,7 @@ class _RatingPageState extends State<RatingPage> {
                                                     ],
                                                   ),
                                                   const SizedBox(
-                                                    height: 39,
+                                                    height: 35,
                                                   ),
                                                   Row(
                                                     children: <Widget>[
@@ -861,6 +875,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 0,
                                                         groupValue: group1Value,
                                                         toggleable: true,
@@ -898,6 +915,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 1,
                                                         groupValue: group1Value,
                                                         toggleable: true,
@@ -933,6 +953,9 @@ class _RatingPageState extends State<RatingPage> {
                                                       ),
                                                       Spacer(),
                                                       Radio(
+                                                        focusColor: greenColor,
+                                                        activeColor: greenColor,
+                                                        hoverColor: greenColor,
                                                         value: 2,
                                                         groupValue: group1Value,
                                                         toggleable: true,
@@ -968,7 +991,10 @@ class _RatingPageState extends State<RatingPage> {
                                                       Navigator.pop(context);
                                                     },
                                                     title: 'Tampilkan',
-                                                  )
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 39,
+                                                  ),
                                                 ],
                                               ),
                                             ),

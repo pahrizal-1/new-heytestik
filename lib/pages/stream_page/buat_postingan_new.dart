@@ -27,6 +27,13 @@ class BuatPostinganStream extends StatefulWidget {
 }
 
 class _BuatPostinganStreamState extends State<BuatPostinganStream> {
+  final zoomTransformationController = TransformationController();
+
+  void _resetZoom() {
+    zoomTransformationController.value = Matrix4.identity();
+    print('reset zoom');
+  }
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final ProfileController stateProfile = Get.put(ProfileController());
   final EtalaseController etalaseController = Get.put(EtalaseController());
@@ -299,7 +306,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                 height: 17,
               ),
               TextFormField(
-                maxLines: 5,
+                maxLines: 4,
                 controller: postDescController,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
@@ -326,8 +333,20 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   ),
                 ),
               ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GetPotoStream(),
+                    GetPotoStream(),
+                    GetPotoStream(),
+                  ],
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(top: 11, bottom: 11),
+                padding: const EdgeInsets.only(top: 20, bottom: 11),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -668,6 +687,89 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class GetPotoStream extends StatelessWidget {
+  const GetPotoStream({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      width: 200,
+      child: Stack(
+        children: [
+          Image.asset(
+            'assets/images/IPL.png',
+            fit: BoxFit.fill,
+          ),
+          // Positioned(
+          //   top: 200.2,
+          //   left: 120,
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //         color: Colors.white.withOpacity(0.3),
+          //         shape: BoxShape.circle),
+          //     height: 40,
+          //     width: 150,
+          //     child: Icon(
+          //       Icons.keyboard_arrow_right,
+          //       color: whiteColor,
+          //     ),
+          //   ),
+          // ),
+          Positioned(
+            top: 10,
+            left: 170,
+            child: Container(
+              padding: EdgeInsets.all(6),
+              height: 21,
+              width: 21,
+              decoration: BoxDecoration(
+                color: blackColor.withOpacity(0.8),
+                shape: BoxShape.circle,
+              ),
+              child: Image.asset(
+                'assets/icons/remove.png',
+                width: 1,
+                height: 1,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 290.2,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(1),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(86),
+                  bottomRight: Radius.circular(86),
+                ),
+              ),
+              padding: const EdgeInsets.only(left: 6, top: 7),
+              height: 40,
+              width: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'My Journey - Jerawat',
+                    style: blackTextStyle.copyWith(fontSize: 8.67),
+                  ),
+                  Text(
+                    'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+                    style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

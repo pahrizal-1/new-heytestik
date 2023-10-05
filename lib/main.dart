@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -111,6 +112,7 @@ void main() async {
     if (message.notification != null) {
       print(
           'Message also contained a notification: ${message.notification?.toMap()}');
+      Get.put(DoctorHomeController()).isNotifications.value = true;
     }
 
     RemoteNotification? notification = message.notification;

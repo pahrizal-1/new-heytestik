@@ -1593,6 +1593,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           height: 30,
                           width: double.infinity,
                           color: Colors.grey,
+                          margin: EdgeInsets.only(top: 20),
                           child: Center(
                             child: Text(
                               "Konsultasi selesai di ${doktorState.endDate.value}",

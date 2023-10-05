@@ -34,7 +34,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
       body: ListView(
         children: [
           const SizedBox(
-            height: 41,
+            height: 20,
           ),
           Obx(
             () => state.totalArticel.value == 0
@@ -121,7 +121,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                 image: NetworkImage(
                                   image.toString(),
                                 ),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
                           ),
@@ -132,7 +132,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                       );
                     },
                     options: CarouselOptions(
-                      height: 300,
+                      height: 320,
                       viewportFraction: 1,
                       onPageChanged: (index, reason) =>
                           setState(() => activeIndex = index),

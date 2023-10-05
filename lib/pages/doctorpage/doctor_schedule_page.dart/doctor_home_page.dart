@@ -8,7 +8,9 @@ import 'package:heystetik_mobileapps/controller/customer/notification/notificati
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/notification_doctor_page.dart';
+import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -33,30 +35,31 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
 
   IO.Socket? _socket;
   Timer? timer;
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
-  Future<void> setupInteractedMessage() async {
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+  void initFirebaseMessaging() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.toMap()}');
 
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
-
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      if (message.notification != null) {
+        state.isNotifications.value = true;
+        print(
+            'Message also contained a notification: ${message.notification?.toMap()}');
+      }
+    });
   }
 
-  void _handleMessage(RemoteMessage message) {
-    // Check what is inside the message object
-    RemoteNotification? notification = message.notification;
-    //AndroidNotification? android = message.notification?.android;
-
-    print("notification: $notification");
-    print("message data: ${message.data}");
-    if (notification != null) {
+  void message() {
+    NotificationService().showLocalNotification(
+      id: 0,
+      title: "Time's up",
+      body: "Get back to productive activities",
+    );
+    setState(() {
       state.isNotifications.value = true;
-    } else {
-      state.isNotifications.value = false;
-    }
+    });
   }
 
   @override
@@ -64,7 +67,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
     super.initState();
     state.init(context);
     stateProfile.getProfile(context);
-    setupInteractedMessage();
+    // setupInteractedMessage();
+    // message();
   }
 
   @override
@@ -85,7 +89,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/bg-doctoe-home.png'),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                   ),
                   child: Center(
@@ -320,6 +324,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               itemCount: state.totalFindSchedule.value,
                               itemBuilder: (BuildContext context, int i) {
                                 return Container(
+                                  margin: EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
@@ -417,6 +422,15 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                         .data!
                                                         .data![i]
                                                         .status = 'DIAMBIL';
+
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          AlertWidget(
+                                                        subtitle:
+                                                            'Silahkan Review Terlebih Dahulu Untuk Memulai Chat Dengan Customer',
+                                                      ),
+                                                    );
                                                   });
                                                 },
                                                 child: Container(

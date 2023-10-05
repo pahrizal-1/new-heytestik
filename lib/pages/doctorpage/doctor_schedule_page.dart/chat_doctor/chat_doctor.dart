@@ -420,10 +420,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   }
 
   // EVENT NEW MESSAGE (udah dipanggil)
-  newMessage() async {
+  newMessagee() {
     print("newMessage");
     _socket?.on('newMessage', (newMessage) async {
-      // infoLog();
       print("newMessage $newMessage");
       print("message ${newMessage['message']}");
       print("message ${newMessage['sender']['fullname']}");
@@ -439,7 +438,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       setState(() {
         msglist?.add(result);
       });
-      print('hey $result');
+      log('hey ' + result.toString());
 
       // setState(() {
       //   msglist?.add(result);
@@ -502,7 +501,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         await readMessage(widget.roomCode);
 
         await onlineClients(widget.receiverBy ?? '');
-        await newMessage();
+        await newMessagee();
         await myMessage();
         await typingIndicator();
         await recentChatt();
@@ -1727,6 +1726,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     Obx(() => Container(
                           height: 30,
                           width: double.infinity,
+                          margin: EdgeInsets.only(top: 20),
                           color: Colors.grey,
                           child: Center(
                             child: Text(

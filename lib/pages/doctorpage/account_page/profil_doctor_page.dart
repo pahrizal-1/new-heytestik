@@ -44,6 +44,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: greenColor,
         automaticallyImplyLeading: false,
@@ -245,7 +246,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              'assets/icons/komen.png',
+                                              'assets/icons/konsultasi-profil.png',
                                             ),
                                           ),
                                         ),
@@ -316,7 +317,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              'assets/icons/onoff.png',
+                                              'assets/icons/hari-aktif.png',
                                             ),
                                           ),
                                         ),
@@ -391,7 +392,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              'assets/icons/love.png',
+                                              'assets/icons/disukai-profil.png',
                                             ),
                                           ),
                                         ),
@@ -469,7 +470,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                                           decoration: const BoxDecoration(
                                             image: DecorationImage(
                                               image: AssetImage(
-                                                'assets/icons/fav.png',
+                                                'assets/icons/pasierb-puas.png',
                                               ),
                                             ),
                                           ),

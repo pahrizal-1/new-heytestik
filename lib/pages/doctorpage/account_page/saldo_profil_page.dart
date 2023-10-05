@@ -129,7 +129,7 @@ class _SaldoProfilPageState extends State<SaldoProfilPage> {
                         color: whiteColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.shade600,
+                            color: Colors.grey.shade300,
                             spreadRadius: 0.2,
                             blurRadius: 0.1,
                           ),
