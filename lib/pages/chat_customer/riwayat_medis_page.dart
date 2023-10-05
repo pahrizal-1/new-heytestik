@@ -46,9 +46,28 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: greenColor,
-        title: Text(
-          'Riwayat Medis',
-          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Riwayat Medis',
+                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              ),
+            ],
+          ),
         ),
         actions: [
           Padding(
