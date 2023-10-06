@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../theme/theme.dart';
@@ -45,9 +47,39 @@ class ArtikelNews extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      category,
-                      style: grenTextStyle.copyWith(fontSize: 9),
+                    InkWell(
+                      onTap: () {
+                        print("category $category");
+                        switch (category) {
+                          case 'Treatment':
+                            Get.to(
+                              ViewDetailCategoryNews(
+                                categoryId: '1',
+                                category: 'Treatment',
+                              ),
+                            );
+                            break;
+                          case 'Skincare':
+                            Get.to(
+                              ViewDetailCategoryNews(
+                                categoryId: '2',
+                                category: 'Skincare',
+                              ),
+                            );
+                            break;
+                          default:
+                            Get.to(
+                              ViewDetailCategoryNews(
+                                categoryId: '3',
+                                category: 'Concern',
+                              ),
+                            );
+                        }
+                      },
+                      child: Text(
+                        'Beauty / $category',
+                        style: grenTextStyle.copyWith(fontSize: 9),
+                      ),
                     ),
                     Text(
                       judul,

@@ -74,7 +74,7 @@ class ViewDetailCategoryNews extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 19, right: 20, left: 20),
+          padding: const EdgeInsets.only(right: 20, left: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -90,7 +90,7 @@ class ViewDetailCategoryNews extends StatelessWidget {
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 44,
+                height: 10,
               ),
               FutureBuilder(
                 future: state.getArticle(context, categoryId, ''),
@@ -186,7 +186,7 @@ class ViewDetailCategoryNews extends StatelessWidget {
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
                                     category:
-                                        'Beauty / ${state.categoryArticle[index].category}',
+                                        state.categoryArticle[index].category,
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     penerbit: '${ConvertDate.defaultDate(
