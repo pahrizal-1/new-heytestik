@@ -163,21 +163,6 @@ class _HasilPotoWajahBermasalahPreasesmentState
                     isLoading: state.isLoading.value,
                     child: TextButton(
                       onPressed: () {
-                        // await state.detailJourney(
-                        //     context, state.concernId.value);
-                        // if (state.isAfter.value) {
-                        //   print("PACT BARUUUUU");
-                        //   await state
-                        //       .afterCondition(context, state.concernId.value,
-                        //           doInPost: () async {
-                        //     redirect();
-                        //   });
-                        // } else {
-                        //   print("BUAT BARuuuuuuuU");
-                        //   await state.saveJourney(context, doInPost: () async {
-                        //     redirect();
-                        //   });
-                        // }
                         Get.to(RiwayatMedis7Page);
                       },
                       style: TextButton.styleFrom(
