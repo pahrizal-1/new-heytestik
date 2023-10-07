@@ -117,32 +117,92 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              children: widget.stream.postImage.map((image) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 10.0,
-                  ),
-                  width: MediaQuery.of(context).size.width /
-                      (1.3 * widget.stream.postImage.length),
-                  height: MediaQuery.of(context).size.width /
-                      (1.3 * widget.stream.postImage.length),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black.withOpacity(.2)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      "${Global.FILE}/$image",
-                      fit: BoxFit.fill,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: widget.stream.postImage.map((image) {
+                  return Container(
+                    margin: EdgeInsets.only(right: 10),
+                    width: 200,
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          "${Global.FILE}/$image",
+                          fit: BoxFit.fill,
+                        ),
+                        // Positioned(
+                        //   top: 200.2,
+                        //   left: 120,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         color: Colors.white.withOpacity(0.3),
+                        //         shape: BoxShape.circle),
+                        //     height: 40,
+                        //     width: 150,
+                        //     child: Icon(
+                        //       Icons.keyboard_arrow_right,
+                        //       color: whiteColor,
+                        //     ),
+                        //   ),
+                        // ),
+
+                        // Positioned(
+                        //   top: 290.2,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white.withOpacity(1),
+                        //       borderRadius: const BorderRadius.only(
+                        //         topRight: Radius.circular(86),
+                        //         bottomRight: Radius.circular(86),
+                        //       ),
+                        //     ),
+                        //     padding: const EdgeInsets.only(left: 6, top: 7),
+                        //     height: 40,
+                        //     width: 150,
+                        //     child: Column(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           'My Journey - Jerawat',
+                        //           style:
+                        //               blackTextStyle.copyWith(fontSize: 8.67),
+                        //         ),
+                        //         Text(
+                        //           'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+                        //           style: blackRegulerTextStyle.copyWith(
+                        //               fontSize: 8.67),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+
+                  // return Container(
+                  //   margin: const EdgeInsets.symmetric(
+                  //     horizontal: 10.0,
+                  //     vertical: 10.0,
+                  //   ),
+                  //   width: MediaQuery.of(context).size.width /
+                  //       (1.3 * widget.stream.postImage.length),
+                  //   height: MediaQuery.of(context).size.width /
+                  //       (1.3 * widget.stream.postImage.length),
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(color: Colors.black.withOpacity(.2)),
+                  //     borderRadius: BorderRadius.circular(8),
+                  //   ),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.circular(8),
+                  //     child: Image.network(
+                  //       "${Global.FILE}/$image",
+                  //       fit: BoxFit.fill,
+                  //     ),
+                  //   ),
+                  // );
+                }).toList(),
+              ),
             ),
           ),
           if (widget.stream.hashtags.isNotEmpty) ...[
