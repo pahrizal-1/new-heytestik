@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
@@ -315,49 +316,54 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     const SizedBox(
                       height: 16,
                     ),
-                    Stack(
-                      children: [
-                        Image.asset(
-                          'assets/icons/coupon 2.png',
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                            left: 20,
+                    InkWell(
+                      onTap: () {
+                        Get.to(PromoPage());
+                      },
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/icons/coupon 2.png',
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/dicon1.svg',
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Ada Promo Spesial',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 15),
-                                  ),
-                                  Text(
-                                    'Masih ada 6 kupon promo buat kamu!',
-                                    style: subTitleTextStyle,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SvgPicture.asset(
-                                'assets/icons/arrow-left.svg',
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 20,
+                              left: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/dicon1.svg',
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Ada Promo Spesial',
+                                      style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      'Masih ada 6 kupon promo buat kamu!',
+                                      style: subTitleTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/icons/arrow-left.svg',
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
