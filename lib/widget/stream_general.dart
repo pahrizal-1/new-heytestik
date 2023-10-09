@@ -130,17 +130,7 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                           "${Global.FILE}/$image",
                           fit: BoxFit.fill,
                         ),
-                        // Positioned(
-                        //   top: 200.2,
-                        //   left: 120,
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //         color: Colors.white.withOpacity(0.3),
-                        //         shape: BoxShape.circle),
-                        //     height: 40,
-                        //     width: 150,
-                        //     child: Icon(
-                        //       Icons.keyboard_arrow_right,
+
                         //       color: whiteColor,
                         //     ),
                         //   ),
