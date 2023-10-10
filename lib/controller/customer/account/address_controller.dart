@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -83,24 +82,26 @@ class AddressController extends StateClass {
       pinpointLongitude.value = position.longitude;
       print('pinpointLongitude ${pinpointLongitude.value}');
 
-      getAddressFromLatLng(position);
+      // getAddressFromLatLng(position);
     }).catchError((e) {
       debugPrint('error euy $e');
     });
     isLoadingCheck.value = false;
   }
 
-  Future getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            pinpointLatitude.value, pinpointLongitude.value)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      pinpointAddress.value =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
-    }).catchError((e) {
-      debugPrint('error euy $e');
-    });
-  }
+  // INI GA KEPAKE, KARENA UDAH DI HANDEL SAMA MAPS
+
+  // Future getAddressFromLatLng(Position position) async {
+  //   await placemarkFromCoordinates(
+  //           pinpointLatitude.value, pinpointLongitude.value)
+  //       .then((List<Placemark> placemarks) {
+  //     Placemark place = placemarks[0];
+  //     pinpointAddress.value =
+  //         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
+  //   }).catchError((e) {
+  //     debugPrint('error euy $e');
+  //   });
+  // }
 
   clearForm() {
     recipientName.clear();

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
 class Alamatpage extends StatefulWidget {
   int addressId;
@@ -166,14 +167,18 @@ class _AlamatpageState extends State<Alamatpage> {
                         const Spacer(),
                         InkWell(
                           onTap: () async {
-                            await state.getCurrentPosition(context);
+                            if (state.pinpointAddress.value.isEmpty ||
+                                state.pinpointAddress.value == '') {
+                              await state.getCurrentPosition(context);
+                            }
+                            await _showModal(context);
                           },
                           child: Obx(
                             () => LoadingWidget(
                               isLoading: state.isLoadingCheck.value,
                               child: Text(
-                                state.pinpointLatitude.value == 0.0 &&
-                                        state.pinpointLongitude.value == 0.0
+                                state.pinpointAddress.value.isEmpty ||
+                                        state.pinpointAddress.value == ''
                                     ? 'CEK'
                                     : 'UBAH',
                                 style: grenTextStyle.copyWith(fontSize: 12),
@@ -304,6 +309,37 @@ class _AlamatpageState extends State<Alamatpage> {
           ),
         ),
       ),
+    );
+  }
+
+  _showModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 600,
+          child: Center(
+            child: OpenStreetMapSearchAndPick(
+              center: LatLong(
+                  state.pinpointLatitude.value, state.pinpointLongitude.value),
+              buttonColor: Colors.blue,
+              buttonText: 'Set Current Location',
+              onPicked: (pickedData) {
+                Navigator.pop(context);
+                setState(() {
+                  state.pinpointAddress.value = pickedData.addressName;
+                  state.pinpointLatitude.value = pickedData.latLong.latitude;
+                  state.pinpointLongitude.value = pickedData.latLong.longitude;
+                });
+
+                print("pinpointAddress ${state.pinpointAddress.value}");
+                print("latitude ${state.pinpointLatitude.value}");
+                print("longitude ${state.pinpointLongitude.value}");
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
