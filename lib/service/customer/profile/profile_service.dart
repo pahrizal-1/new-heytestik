@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
@@ -60,6 +62,28 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
+  Future<InterestModel> getInterest() async {
+    var response = await networkingConfig.doGet(
+      '/profile/user/interest',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return InterestModel.fromJson(response);
+  }
+
+  Future<CompletionModel> getCompletion() async {
+    var response = await networkingConfig.doGet(
+      '/profile/user/completion',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return CompletionModel.fromJson(response);
+  }
+
   Future verifSend(dynamic data) async {
     var response = await networkingConfig.doPost(
       '/verification/send',
@@ -71,7 +95,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    print('hasil' + response.toString());
 
     return response;
   }

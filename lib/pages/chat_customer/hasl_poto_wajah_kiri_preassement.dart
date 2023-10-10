@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_kanan_preassesment.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_bermasalah.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import '../../theme/theme.dart';
@@ -19,7 +17,8 @@ class HasilPotoWajahKiriPreasessment extends StatefulWidget {
 
 class _HasilPotoWajahKiriPreasessmentState
     extends State<HasilPotoWajahKiriPreasessment> {
-  final MyJourneyController state = Get.put(MyJourneyController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   Future _cropImage() async {
     if (state.initialConditionLeftSide != null) {
@@ -158,17 +157,9 @@ class _HasilPotoWajahKiriPreasessmentState
                 height: 50,
                 child: TextButton(
                   onPressed: () async {
-                    if (state.isGallery.value) {
-                      state.initialConditionProblemPart =
-                          await state.pickImageFromGalery();
-                      setState(() {});
-                      Get.to(PotoBagianWajahBermasalah());
-                      return;
-                    }
-                    if (state.initialConditionLeftSide != null) {
-                      Get.to(CameraWajahKananPreassesmnet());
-                      return;
-                    }
+                    setState(() {
+                      redirect();
+                    });
                   },
                   style: TextButton.styleFrom(
                     side: BorderSide(color: greenColor, width: 2),
@@ -178,7 +169,7 @@ class _HasilPotoWajahKiriPreasessmentState
                     ),
                   ),
                   child: Text(
-                    'Lanjut',
+                    'Simpan',
                     style: TextStyle(
                       fontSize: 15,
                       color: whiteColor,
@@ -192,5 +183,25 @@ class _HasilPotoWajahKiriPreasessmentState
         ),
       ),
     );
+  }
+
+  redirect() {
+    if (state.isGallery.value) {
+      Get
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true);
+    } else {
+      Get
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true)
+        ..back(result: true);
+    }
   }
 }

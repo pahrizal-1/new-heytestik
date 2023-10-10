@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/riwayat_medis_page.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
-import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_kanan_preassesment.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/hasil_poto_wajah_kanan_presassement.dart';
 import 'package:image_cropper/image_cropper.dart';
 import '../../theme/theme.dart';
 
@@ -20,7 +17,8 @@ class HasilPotoWajahBermasalahPreasesment extends StatefulWidget {
 
 class _HasilPotoWajahBermasalahPreasesmentState
     extends State<HasilPotoWajahBermasalahPreasesment> {
-  final MyJourneyController state = Get.put(MyJourneyController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   Future _cropImage() async {
     if (state.initialConditionProblemPart != null) {
@@ -158,28 +156,33 @@ class _HasilPotoWajahBermasalahPreasesmentState
                 color: blackColor,
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                child: Obx(
-                  () => LoadingWidget(
-                    isLoading: state.isLoading.value,
-                    child: TextButton(
-                      onPressed: () {
-                        Get.to(RiwayatMedis7Page);
-                      },
-                      style: TextButton.styleFrom(
-                        side: BorderSide(color: greenColor, width: 2),
-                        backgroundColor: greenColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'Simpan',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
-                          fontWeight: bold,
-                        ),
-                      ),
+                child: TextButton(
+                  onPressed: () async {
+                    if (state.isGallery.value) {
+                      state.initialConditionRightSide =
+                          await state.pickImageFromGalery();
+                      setState(() {});
+                      Get.to(HasilWajahKananPreassesment());
+                      return;
+                    }
+                    if (state.initialConditionProblemPart != null) {
+                      Get.to(CameraWajahKananPreassesmnet());
+                      return;
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    side: BorderSide(color: greenColor, width: 2),
+                    backgroundColor: greenColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Lanjut',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: whiteColor,
+                      fontWeight: bold,
                     ),
                   ),
                 ),
@@ -189,32 +192,5 @@ class _HasilPotoWajahBermasalahPreasesmentState
         ),
       ),
     );
-  }
-
-  redirect() {
-    SnackbarWidget.getSuccessSnackbar(
-      context,
-      'Info',
-      'Journey berhasil disimpan',
-    );
-    if (state.isGallery.value) {
-      Get
-        ..back()
-        ..back()
-        ..back()
-        ..back()
-        ..back();
-    } else {
-      Get
-        ..back()
-        ..back()
-        ..back()
-        ..back()
-        ..back()
-        ..back()
-        ..back()
-        ..back();
-    }
-    Get.to(GaleryMyJourney());
   }
 }

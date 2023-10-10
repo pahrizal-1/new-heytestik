@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/auth/anggaran_treameant.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
