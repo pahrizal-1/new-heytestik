@@ -105,7 +105,7 @@ class OrderConsultationController extends StateClass {
   onChangeFilterText(String value) {
     filterData.value = data.value.data!
         .where((element) =>
-            element.name!.toLowerCase().contains(value.toLowerCase()))
+            element.concern!.name!.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
 

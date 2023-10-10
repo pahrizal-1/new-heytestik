@@ -60,7 +60,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                         : GroupedListView<Data, String>(
                             elements: state.filterData.toList(),
                             groupBy: (element) =>
-                                element.category!.name.toString(),
+                                element.concern!.segment.toString(),
                             groupComparator: (value1, value2) =>
                                 value2.compareTo(value1),
                             order: GroupedListOrder.DESC,
@@ -79,9 +79,9 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                             itemBuilder: (c, element) {
                               return KorektifWajahPage(
                                 interestConditionId: element.id,
-                                title: element.name.toString(),
+                                title: element.concern!.name.toString(),
                                 img:
-                                    '${Global.FILE}/${element.mediaInterestCondition!.media!.path.toString()}',
+                                    '${Global.FILE}/${element.concern?.mediaConcern?.media!.path.toString()}',
                               );
                             },
                           ),

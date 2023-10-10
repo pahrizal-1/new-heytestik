@@ -276,7 +276,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                 ChatPage(
                                   interestConditionId:
                                       stateConcern.filterData[index].id,
-                                  title: stateConcern.filterData[index].name ??
+                                  title: stateConcern
+                                          .filterData[index].concern?.name ??
                                       '-',
                                 ),
                               );
@@ -320,7 +321,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                         borderRadius: BorderRadius.circular(30),
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                              '${Global.FILE}/${stateConcern.filterData[index].mediaInterestCondition!.media!.path.toString()}'),
+                                              '${Global.FILE}/${stateConcern.filterData[index].concern?.mediaConcern?.media!.path.toString()}'),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -328,7 +329,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        stateConcern.filterData[index].name ??
+                                        stateConcern.filterData[index].concern
+                                                ?.name ??
                                             '-',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
