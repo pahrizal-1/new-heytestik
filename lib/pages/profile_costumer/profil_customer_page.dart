@@ -286,13 +286,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return BeautyProfil();
-                                  },
-                                );
+                                Get.to(BeautyProfil());
                               },
                               child: Icon(
                                 Icons.keyboard_arrow_down,
