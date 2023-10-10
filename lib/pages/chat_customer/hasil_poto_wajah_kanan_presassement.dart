@@ -2,24 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_bermasalah_preasesment.dart';
-import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_kiri.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_kiri_preasesment.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/hasl_poto_wajah_kiri_preassement.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import '../../theme/theme.dart';
 
-class HasilWajahkananPreassesment extends StatefulWidget {
-  const HasilWajahkananPreassesment({super.key});
+class HasilWajahKananPreassesment extends StatefulWidget {
+  const HasilWajahKananPreassesment({super.key});
 
   @override
-  State<HasilWajahkananPreassesment> createState() =>
-      _HasilWajahkananPreassesmentState();
+  State<HasilWajahKananPreassesment> createState() =>
+      _HasilWajahKananPreassesmentState();
 }
 
-class _HasilWajahkananPreassesmentState
-    extends State<HasilWajahkananPreassesment> {
-  final MyJourneyController state = Get.put(MyJourneyController());
+class _HasilWajahKananPreassesmentState
+    extends State<HasilWajahKananPreassesment> {
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
 
   Future _cropImage() async {
     if (state.initialConditionRightSide != null) {
@@ -163,11 +164,11 @@ class _HasilWajahkananPreassesmentState
                       state.initialConditionLeftSide =
                           await state.pickImageFromGalery();
                       setState(() {});
-                      Get.to(PotoBagianWajahKiri());
+                      Get.to(HasilPotoWajahKiriPreasessment());
                       return;
                     }
                     if (state.initialConditionRightSide != null) {
-                      Get.to(CameraWajahBermalahPreasesment());
+                      Get.to(CameraWajahKiriPreasessment());
                       return;
                     }
                   },

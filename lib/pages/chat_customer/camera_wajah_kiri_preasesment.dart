@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/account/my_journey_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/hasl_poto_wajah_kiri_preassement.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -19,7 +19,8 @@ class CameraWajahKiriPreasessment extends StatefulWidget {
 
 class _CameraWajahKiriPreasessmentState
     extends State<CameraWajahKiriPreasessment> {
-  final MyJourneyController state = Get.put(MyJourneyController());
+  final OrderConsultationController state =
+      Get.put(OrderConsultationController());
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
