@@ -14,20 +14,20 @@ import 'package:heystetik_mobileapps/service/customer/address/address_service.da
 class LocationController extends StateClass {
   Rx<CustomerLocationModel> location = CustomerLocationModel().obs;
   RxBool isSwitch = false.obs;
-  RxDouble latitude = 0.0.obs;
-  RxDouble longitude = 0.0.obs;
-  RxString address = ''.obs;
+  RxString currentCity = ''.obs;
+  RxString currentAddress = ''.obs;
+  RxDouble currentLatitude = 0.0.obs;
+  RxDouble currentLongitude = 0.0.obs;
+
+  RxDouble myLatitude = 0.0.obs;
+  RxDouble myLongitude = 0.0.obs;
   RxString myAddress = ''.obs;
-  RxString city = ''.obs;
+  RxString myCity = ''.obs;
   var myLocation;
 
   initMyLocation(BuildContext context) async {
     isLoading.value = true;
     myLocation = await LocalStorage().getLocation();
-    // print("ADA DISINI");
-    // print(myLocation);
-    // print('masuk ${myLocation['city']}');
-    // print('masuk ${myLocation['address']}');
 
     if (myLocation != "") {
       if (myLocation['city'] == '' ||
@@ -45,68 +45,82 @@ class LocationController extends StateClass {
     isLoading.value = false;
   }
 
-  initgetCurrentPosition(BuildContext context) async {
-    await getCurrentPosition(context);
-    await getLocation(context);
-  }
-
   Future<void> getCurrentPosition(BuildContext context) async {
     isLoading.value = true;
     final hasPermission = await locationPermission(context);
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      latitude.value = position.latitude;
-      print('latitude ${latitude.value}');
-      longitude.value = position.longitude;
-      print('longitude ${longitude.value}');
+      currentLatitude.value = position.latitude;
+      print('currentLatitude ${currentLatitude.value}');
+      currentLongitude.value = position.longitude;
+      print('currentLongitude ${currentLongitude.value}');
 
-      getAddressFromLatLng(context, position);
+      placemarkFromCoordinates(
+        currentLatitude.value,
+        currentLongitude.value,
+      ).then((List<Placemark> placemarks) {
+        Placemark place = placemarks[0];
+        currentAddress.value =
+            '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
+        currentCity.value = place.subAdministrativeArea.toString();
+        print("currentAddress ${currentAddress.value}");
+        print("currentCity ${currentCity.value}");
+      });
     }).catchError((e) {
       debugPrint('error euy getCurrentPosition $e');
     });
     isLoading.value = false;
   }
 
-  Future getAddressFromLatLng(BuildContext context, Position position) async {
-    await placemarkFromCoordinates(latitude.value, longitude.value)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      address.value =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
-      city.value = place.subAdministrativeArea.toString();
-      LocalStorage().setLocation(
-        location: {
-          'city': city.value,
-          'address': address.value,
-        },
-      );
-
-      createLocation(context);
-    }).catchError((e) {
-      debugPrint('error euy getAddressFromLatLng $e');
-    });
-  }
-
-  createLocation(BuildContext context) async {
-    // isLoading.value = true;
+  createLocation(
+    BuildContext context,
+    double lat,
+    double long,
+    String address,
+  ) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
-        'latitude': latitude.value,
-        'longitude': longitude.value,
-        'address': address.value,
+        'latitude': lat,
+        'longitude': long,
+        'address': address,
       };
       print('data $data');
       location.value = await AddressService().createLocation(data);
+      if (location.value.success != true &&
+          location.value.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: location.value.message.toString(),
+        );
+      }
+      if (location.value.data != null) {
+        myLatitude.value = location.value.data!.latitude ?? 0.0;
+        myLongitude.value = location.value.data!.longitude ?? 0.0;
+        myAddress.value = location.value.data!.address ?? '';
+        // GET CITY
+        await placemarkFromCoordinates(lat, long)
+            .then((List<Placemark> placemarks) {
+          Placemark place = placemarks[0];
+          myCity.value = place.subAdministrativeArea.toString();
+          print("myCity ${myCity.value}");
+          LocalStorage().setLocation(
+            location: {
+              'city': place.subAdministrativeArea.toString(),
+              'address': currentAddress.value,
+            },
+          );
+        }).catchError((e) {
+          debugPrint('error euy placemarkFromCoordinates $e');
+        });
+      }
     });
-    // isLoading.value = false;
   }
 
   getLocation(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       location.value = await AddressService().getLocation();
-
       if (location.value.success != true &&
           location.value.message != 'Success') {
         throw ErrorConfig(
@@ -115,8 +129,26 @@ class LocationController extends StateClass {
         );
       }
 
-      // SET MYLOCATION
-      myAddress.value = location.value.data!.address ?? '';
+      if (location.value.data == null) {
+        print("BELUM SET LOKASI");
+        await getCurrentPosition(context);
+      } else {
+        print("SUDAH SET LOKASI");
+        myLatitude.value = location.value.data!.latitude ?? 0.0;
+        myLongitude.value = location.value.data!.longitude ?? 0.0;
+        myAddress.value = location.value.data!.address ?? '';
+        // GET CITY
+        await placemarkFromCoordinates(
+          myLatitude.value,
+          myLongitude.value,
+        ).then((List<Placemark> placemarks) {
+          Placemark place = placemarks[0];
+          myCity.value = place.subAdministrativeArea.toString();
+          print("myCity ${myCity.value}");
+        }).catchError((e) {
+          debugPrint('error euy placemarkFromCoordinates $e');
+        });
+      }
     });
     isLoading.value = false;
   }
