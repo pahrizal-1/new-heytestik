@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/edit_beauty_profil_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class BeautyProfil extends StatelessWidget {
-  const BeautyProfil({
+  BeautyProfil({
     super.key,
   });
-
+  final ProfileController state = Get.put(ProfileController());
+  final LocationController stateLocation = Get.put(LocationController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,73 +44,195 @@ class BeautyProfil extends StatelessWidget {
           SizedBox(
             height: 37,
           ),
-          Text(
-            'Rina',
-            style: blackTextStyle.copyWith(fontSize: 15),
+          Obx(
+            () => Text(
+              state.fullName.value,
+              style: blackTextStyle.copyWith(fontSize: 15),
+            ),
           ),
-          Text(
-            'Jakarta, 20 tahun',
-            style: blackRegulerTextStyle.copyWith(fontSize: 15),
+          Obx(
+            () => Text(
+              '${stateLocation.city.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
+              style: blackRegulerTextStyle.copyWith(fontSize: 15),
+            ),
           ),
           SizedBox(
             height: 19,
           ),
           tipeKulit(
             'Tipe Kulit',
-            'Kering',
+            state.interestData.value.data?.beautyProfile?.skinType ?? '-',
             'Warna Tone Kulit',
-            'Kuning Langsat',
+            state.interestData.value.data?.beautyProfile?.skinToneColor ?? '-',
           ),
           SizedBox(
             height: 19,
           ),
           tipeKulit(
             'Warna Undertone Kulit',
-            'Netral',
+            state.interestData.value.data?.beautyProfile?.skinUndertoneColor ??
+                '-',
             'Tipe Rambut',
-            'Bergelombang',
+            state.interestData.value.data?.beautyProfile?.hairType ?? '-',
           ),
           SizedBox(
             height: 19,
           ),
           tipeKulit(
             'Warna Rambut',
-            'Berwarna',
+            state.interestData.value.data?.beautyProfile?.hairColor ?? '-',
             'Hijabers',
-            'Iya',
+            state.interestData.value.data!.beautyProfile!.hijabers!
+                ? 'Iya'
+                : 'Tidak',
           ),
           SizedBox(
             height: 29,
           ),
-          skingoalstext('Skin Goals - Korektif Wajah',
-              'Bekas Jerawat, Kemerahan, Kulit Kering, Flek Hitam, Melasma'),
+          skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
           SizedBox(
             height: 19,
           ),
-          skingoalstext('Skin Goals - Korektif Tubuh', '-'),
+          skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
           SizedBox(
             height: 19,
           ),
-          skingoalstext('Skin Goals - Augmentation Wajah & Tubuh',
-              'Hidung Mancung, Rahang Tegas'),
+          skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
           SizedBox(
             height: 19,
           ),
-          skingoalstext('Pernah Treatment', 'Facial, Peeling'),
+          skinGoalPernahTreatment('Pernah Treatment'),
           SizedBox(
             height: 19,
           ),
-          skingoalstext('Anggaran Skincare', 'Rp500.000 - Rp1.000.000'),
+          skinGoalsBudget(
+            'Anggaran Skincare',
+            state.interestData.value.data?.skinGoalsBudget?.budgetForSkincare ??
+                '-',
+          ),
           SizedBox(
             height: 19,
           ),
-          skingoalstext('Anggaran Treatment', 'Rp500.000 - Rp1.000.000'),
+          skinGoalsBudget(
+            'Anggaran Treatment',
+            state.interestData.value.data?.skinGoalsBudget
+                    ?.budgetForTreatment ??
+                '-',
+          ),
         ],
       ),
     );
   }
 
-  Column skingoalstext(String title1, String title2) {
+  Column skinGoalKorektifWajah(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?state.interestData.value.data?.skinGoalsFaceCorrective
+            ?.map(
+              (value) => Text(
+                value.nameFaceCorrective.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalKorektifTubuh(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?state.interestData.value.data?.skinGoalsBodyCorrective
+            ?.map(
+              (value) => Text(
+                ' value.nameFaceCorrective.toString()',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalAugmentation(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?state.interestData.value.data?.skinGoalsAugmentation
+            ?.map(
+              (value) => Text(
+                'value.nameFaceCorrective.toString()',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalPernahTreatment(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?state.interestData.value.data?.skinGoalsHistoryTreatment
+            ?.map(
+              (value) => Text(
+                value.nameHistoryTreatment.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalsBudget(String title1, String title2) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
