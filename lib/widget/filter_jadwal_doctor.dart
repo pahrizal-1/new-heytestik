@@ -16,6 +16,8 @@ class FilterJadwalDoctor extends StatefulWidget {
 }
 
 class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
+  int jam = 0;
+  int menit = 0;
   int isSelected = -1;
   @override
   Widget build(BuildContext context) {
@@ -214,8 +216,139 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                               fontSize: 12, color: blackColor),
                                         ),
                                         SizedBox(
-                                          height: 22,
+                                          height: 50,
                                         ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      jam++;
+                                                    });
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/upButton.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 22,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      jam.toString(),
+                                                      style: blackHigtTextStyle
+                                                          .copyWith(
+                                                              fontSize: 30),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text(
+                                                      'Jam',
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 14),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 22,
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      jam--;
+                                                    });
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/button-down.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 50,
+                                            ),
+                                            Text(
+                                              ':',
+                                              style: blackHigtTextStyle,
+                                            ),
+                                            SizedBox(
+                                              width: 50,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Image.asset(
+                                                  'assets/icons/upButton.png',
+                                                  width: 30,
+                                                  height: 30,
+                                                ),
+                                                SizedBox(
+                                                  height: 22,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      '00',
+                                                      style: blackHigtTextStyle
+                                                          .copyWith(
+                                                              fontSize: 30),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text(
+                                                      'Menit',
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 14),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 22,
+                                                ),
+                                                Image.asset(
+                                                  'assets/icons/button-down.png',
+                                                  width: 30,
+                                                  height: 30,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 59, bottom: 73),
+                                          child: ButtonGreenWidget(
+                                            title: 'Konfiramsi',
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ));
