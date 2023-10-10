@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/schedule_doctor_page.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
@@ -110,7 +111,8 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                         ),
                                         const Spacer(),
                                         InkWell(
-                                          onTap: () async {
+                                          onTap: ()  {
+                                            Get.to(ScheduleDoctorPage());
                                             // notificationService
                                             //     .showLocalNotification(
                                             //   id: 0,
