@@ -142,4 +142,6 @@ class ProfileService extends ProviderClass {
       return [];
     }
   }
+
+  getCompletion() {}
 }
