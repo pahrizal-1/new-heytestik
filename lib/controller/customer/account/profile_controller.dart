@@ -67,8 +67,6 @@ class ProfileController extends StateClass {
   File? facePhoto;
   RxBool isLoadingCam = false.obs;
 
-  get interestData => null;
-
   startVerifyCountTime() {
     // await timeCondition();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
