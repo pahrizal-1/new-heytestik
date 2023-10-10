@@ -37,10 +37,11 @@ class _AlamatpageState extends State<Alamatpage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBarCustome(
-          title: 'Alamat',
-          colorIcons: whiteColor,
-          colorTitle: whiteColor,
-          bgColor: greenColor),
+        title: 'Alamat',
+        colorIcons: whiteColor,
+        colorTitle: whiteColor,
+        bgColor: greenColor,
+      ),
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
@@ -322,7 +323,7 @@ class _AlamatpageState extends State<Alamatpage> {
             child: OpenStreetMapSearchAndPick(
               center: LatLong(
                   state.pinpointLatitude.value, state.pinpointLongitude.value),
-              buttonColor: Colors.blue,
+              buttonColor: greenColor,
               buttonText: 'Set Current Location',
               onPicked: (pickedData) {
                 Navigator.pop(context);
