@@ -235,8 +235,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         padding: EdgeInsets.only(top: 10),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 5,
-                          childAspectRatio: 1.0,
-                          mainAxisSpacing: 5.0,
+                          childAspectRatio: 0.9,
+                          mainAxisSpacing: 8.0,
                           crossAxisSpacing: 5.0,
                         ),
                         shrinkWrap: true,
