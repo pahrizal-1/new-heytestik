@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
@@ -11,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/filter_jadwal_doctor.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -202,70 +204,88 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    transform: Matrix4.translationValues(0, -45, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 0.1,
-                          blurRadius: 2,
-                          offset: const Offset(0, 1),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(25),
+                          topStart: Radius.circular(25),
                         ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: paddingL, bottom: paddingL),
-                      child: Center(
-                        child: state.startTime.value.isEmpty
-                            ? Text(
-                                'Tidak ada jadwal',
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  color: fromCssColor('#6B6B6B'),
-                                  fontSize: 20,
-                                  fontFamily: 'ProximaNova,',
+                      ),
+                      context: context,
+                      builder: (context) {
+                        return FilterJadwalDoctor();
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      transform: Matrix4.translationValues(0, -45, 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: paddingL, bottom: paddingL),
+                        child: Center(
+                          child: state.startTime.value.isEmpty
+                              ? Text(
+                                  'Tidak ada jadwal',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    color: fromCssColor('#6B6B6B'),
+                                    fontSize: 20,
+                                    fontFamily: 'ProximaNova,',
+                                  ),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Obx(
+                                      () => Text(
+                                        'Jadwal Hari ini, ${state.today.value}',
+                                        style: TextStyle(
+                                          fontWeight: bold,
+                                          color: fromCssColor('#6B6B6B'),
+                                          fontSize: 16,
+                                          fontFamily: 'ProximaNova,',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Obx(
+                                      () => Text(
+                                        state.isFirstSchedule.value
+                                            ? state.startTime.value
+                                            : state.isSecondSchedule.value
+                                                ? state.endTime.value
+                                                : 'Istirahat',
+                                        style: TextStyle(
+                                          fontWeight: bold,
+                                          fontSize: paddingL,
+                                          color: fromCssColor('#5DA89C'),
+                                          fontFamily: 'ProximaNova,',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Obx(
-                                    () => Text(
-                                      'Jadwal Hari ini, ${state.today.value}',
-                                      style: TextStyle(
-                                        fontWeight: bold,
-                                        color: fromCssColor('#6B6B6B'),
-                                        fontSize: 16,
-                                        fontFamily: 'ProximaNova,',
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Obx(
-                                    () => Text(
-                                      state.isFirstSchedule.value
-                                          ? state.startTime.value
-                                          : state.isSecondSchedule.value
-                                              ? state.endTime.value
-                                              : 'Istirahat',
-                                      style: TextStyle(
-                                        fontWeight: bold,
-                                        fontSize: paddingL,
-                                        color: fromCssColor('#5DA89C'),
-                                        fontFamily: 'ProximaNova,',
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        ),
                       ),
                     ),
                   ),
