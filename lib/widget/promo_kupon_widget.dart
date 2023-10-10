@@ -6,11 +6,13 @@ class PromoVocer extends StatelessWidget {
   final String title;
   final String subTitle;
   final Color bgColor;
-  const PromoVocer({
+  final Color? textTitle;
+  PromoVocer({
     super.key,
     required this.title,
     required this.subTitle,
     required this.bgColor,
+    this.textTitle,
   });
 
   @override
@@ -30,7 +32,7 @@ class PromoVocer extends StatelessWidget {
         children: [
           Text(
             title,
-            style: blackTextStyle.copyWith(fontSize: 15),
+            style: blackTextStyle.copyWith(fontSize: 15, color: textTitle),
           ),
           const SizedBox(
             height: 6,

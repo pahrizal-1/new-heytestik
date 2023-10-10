@@ -63,7 +63,6 @@ class MyJourneyController extends StateClass {
   File? initialConditionLeftSide;
   File? initialConditionProblemPart;
 
-  RxBool isLoadingCam = false.obs;
   RxBool isAfter = true.obs;
 
   Future<List<MyJourney.Data2>> getJourney(

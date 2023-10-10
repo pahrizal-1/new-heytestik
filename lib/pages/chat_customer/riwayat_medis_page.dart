@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_depan_pertanyaan.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/hasil_poto_wajah_depan_pertanyaan.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class RiwayatMedis7Page extends StatefulWidget {
   final int? interestConditionId;
-  RiwayatMedis7Page({required this.interestConditionId, super.key});
+  const RiwayatMedis7Page({required this.interestConditionId, super.key});
 
   @override
   State<RiwayatMedis7Page> createState() => _RiwayatMedis7PageState();
@@ -24,17 +25,21 @@ class RiwayatMedis7Page extends StatefulWidget {
 class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   final OrderConsultationController state =
       Get.put(OrderConsultationController());
-  File? imagePathCamera;
-  File? imagePathGallery;
-  List listShowImage = [];
 
+  File? frontFace;
+  File? rightSide;
+  File? leftSide;
+  File? problemPart;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.listImageUser.clear();
-      imagePathCamera = null;
-      imagePathGallery = null;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      setState(() {
+        frontFace = state.initialConditionFrontFace;
+        rightSide = state.initialConditionRightSide;
+        leftSide = state.initialConditionLeftSide;
+        problemPart = state.initialConditionProblemPart;
+      });
     });
   }
 
@@ -45,9 +50,28 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: greenColor,
-        title: Text(
-          'Riwayat Medis',
-          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: whiteColor,
+                ),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Riwayat Medis',
+                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+              ),
+            ],
+          ),
         ),
         actions: [
           Padding(
@@ -135,7 +159,18 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          await openCamera();
+                          state.isGallery.value = false;
+                          setState(() {});
+                          var result =
+                              await Get.to(CameraWajahDepanPreassesment());
+                          if (result) {
+                            setState(() {
+                              frontFace = state.initialConditionFrontFace;
+                              rightSide = state.initialConditionRightSide;
+                              leftSide = state.initialConditionLeftSide;
+                              problemPart = state.initialConditionProblemPart;
+                            });
+                          }
                         },
                         child: DottedBorder(
                           borderType: BorderType.RRect,
@@ -194,7 +229,24 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                       ),
                       InkWell(
                         onTap: () async {
-                          await openGallery();
+                          state.initialConditionFrontFace =
+                              await state.pickImageFromGalery();
+                          setState(() {});
+                          if (state.initialConditionFrontFace != null) {
+                            state.isGallery.value = true;
+                            var result =
+                                await Get.to(HasilPotoWajahDepanPreassement());
+                            if (result) {
+                              setState(() {
+                                frontFace = state.initialConditionFrontFace;
+                                rightSide = state.initialConditionRightSide;
+                                leftSide = state.initialConditionLeftSide;
+                                problemPart = state.initialConditionProblemPart;
+                              });
+                            }
+                            return;
+                          }
+                          state.isGallery.value = false;
                         },
                         child: DottedBorder(
                           borderType: BorderType.RRect,
@@ -267,7 +319,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                       Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: Text(
-                          'Yuk!! Ambil Poto kamu :)',
+                          'Yuk!! Ambil Foto kamu :)',
                           style: TextStyle(
                             fontWeight: bold,
                             fontSize: 15,
@@ -283,95 +335,131 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: listShowImage.isNotEmpty
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: listShowImage.map<Widget>((value) {
-                              return Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(7),
-                                      child: Container(
-                                        height: 80,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                        ),
-                                        child: Image.file(
-                                          File(value),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          listShowImage.removeWhere(
-                                              (item) => item == value);
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: greenColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
+                    child: Row(
+                      children: [
+                        if (frontFace == null)
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/ambil-poto-kosong.png',
+                                ),
+                              ),
+                            ),
                           )
-                        : Row(
-                            children: [
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ambil-poto-kosong.png'),
-                                  ),
+                        else
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  frontFace!,
                                 ),
+                                fit: BoxFit.cover,
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ambil-poto-kosong.png'),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ambil-poto-kosong.png'),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                            ],
+                            ),
                           ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        if (problemPart == null)
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/ambil-poto-kosong.png',
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  problemPart!,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        if (rightSide == null)
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/ambil-poto-kosong.png',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  rightSide!,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        if (leftSide == null)
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/ambil-poto-kosong.png',
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  leftSide!,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 15,
@@ -670,14 +758,14 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                   ButtonGreenWidget(
                     title: 'Konfirmasi Foto',
                     onPressed: () async {
-                      print('state $imagePathCamera');
-                      print('state $imagePathGallery');
-                      if (state.listImageUser.isEmpty) {
+                      if (state.initialConditionFrontFace == null ||
+                          state.initialConditionRightSide == null ||
+                          state.initialConditionLeftSide == null ||
+                          state.initialConditionProblemPart == null) {
                         return await showDialog(
                           context: context,
                           builder: (context) => AlertWidget(
-                            subtitle:
-                                'Foto tidak boleh kosong\nFoto minimal satu',
+                            subtitle: 'Foto tidak boleh kosong',
                           ),
                         );
                       }
@@ -713,41 +801,5 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
         ),
       ),
     );
-  }
-
-  // image from camera
-  Future openCamera() async {
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        imagePathCamera = File(pickedImage.path);
-      });
-
-      print('img camera $imagePathCamera');
-      listShowImage.add(imagePathCamera!.path);
-      state.listImageUser.add(imagePathCamera!.path);
-      print('img camera ${state.listImageUser}');
-    } else {
-      print('image not selected');
-    }
-  }
-
-  // image fromo gallery
-  Future openGallery() async {
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        imagePathGallery = File(pickedImage.path);
-      });
-
-      print('img galeri $imagePathGallery');
-      listShowImage.add(imagePathGallery!.path);
-      state.listImageUser.add(imagePathGallery!.path);
-      print('img galeri ${state.listImageUser}');
-    } else {
-      print('image not selected');
-    }
   }
 }

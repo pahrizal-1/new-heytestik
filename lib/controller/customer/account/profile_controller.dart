@@ -9,7 +9,9 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -25,6 +27,9 @@ import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
 class ProfileController extends StateClass {
+  Rx<InterestModel> interestData = InterestModel().obs;
+  Rx<CompletionModel> completionData = CompletionModel().obs;
+
   RxString fullName = '-'.obs;
   RxString name = ''.obs;
   RxString username = ''.obs;
@@ -51,7 +56,7 @@ class ProfileController extends StateClass {
     'Perempuan',
   ];
   RxString gender = 'Pilih jenis kelamin'.obs;
-
+  RxInt age = 0.obs;
   Map dataUser = {};
   File? image;
   String? fileImg64;
@@ -77,8 +82,12 @@ class ProfileController extends StateClass {
   // }
 
   init() async {
+    DateTime currentDate = DateTime.now();
     fullName.value = await LocalStorage().getFullName();
     dataUser = await LocalStorage().getDataUser();
+    if (dataUser['dob'] != null) {
+      age.value = currentDate.year - DateTime.parse(dataUser['dob']).year;
+    }
 
     print('fullname ${fullName.value}');
     print('dataUser $dataUser');
@@ -138,13 +147,30 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
+  Future getInterest(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await ProfileService().getInterest();
+      interestData.value = response;
+    });
+    isLoading.value = false;
+  }
+
+  Future getCompletion(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await ProfileService().getCompletion();
+      completionData.value = response;
+    });
+    isLoading.value = false;
+  }
+
   Future getProfile(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response = await ProfileService().getProfileCust();
       profileData.value = response;
 
-      print('GetUserInfoDataDompet : ${profileData.value.data!.fullname}');
       DateTime tdata = DateTime.now();
       if (profileData.value.data!.dob != null) {
         tdata = DateTime.parse(profileData.value.data!.dob ?? '-');

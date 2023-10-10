@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/anggaran_treameant.dart';
+import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/beauty_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
@@ -28,6 +36,7 @@ class ProfilCustomerPage extends StatefulWidget {
 }
 
 class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
+  final LocationController stateLocation = Get.put(LocationController());
   final ProfileController state = Get.put(ProfileController());
   int iSelected = 0;
 
@@ -36,9 +45,12 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   @override
   void initState() {
     super.initState();
-    state.init();
-    state.getProfile(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.init();
+      state.getProfile(context);
+      state.getCompletion(context);
+      state.getInterest(context);
+      stateLocation.initgetCurrentPosition(context);
       userOverview = await state.getUserOverview(context);
       setState(() {});
     });
@@ -96,66 +108,120 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       ),
       body: ListView(
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: 39,
-            color: greenColor.withOpacity(0.3),
-            child: Row(
-              children: [
-                Text(
-                  'Verifikasi Email',
-                  style: blackRegulerTextStyle.copyWith(
-                      fontSize: 10, color: blackColor),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  height: 7,
-                  width: 148,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: greenColor,
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 7,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(7),
+          Obx(
+            () => state.completionData.value.data?.percentage == 100
+                ? Container()
+                : Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    height: 39,
+                    color: greenColor.withOpacity(0.3),
+                    child: Row(
+                      children: [
+                        Obx(
+                          () => Text(
+                            state.completionData.value.data?.title ?? '-',
+                            style: blackRegulerTextStyle.copyWith(
+                                fontSize: 10, color: blackColor),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 7,
+                            width: 185 *
+                                (int.parse((state.completionData.value.data
+                                                ?.percentage ??
+                                            0)
+                                        .toString()) /
+                                    100),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: greenColor,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 7,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Obx(
+                          () => Text(
+                            '${state.completionData.value.data?.percentage ?? 0}%',
+                            style: grenTextStyle.copyWith(fontSize: 13),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (state.completionData.value.data?.subtitle ==
+                                'Anggaran Untuk Skincare & Treatment') {
+                              Get.to(AnggaranTreatment());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Treatment yang pernah dilakukan') {
+                              Get.to(SkinGloalsPilihTreamtmnet());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Penyakit Augmentation Wajah & Tubuh') {
+                              Get.to(SkinGolasWajahTubuh());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Skin Goals Korektif Tubuh') {
+                              Get.to(SkinGoalsTubuh());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Skin Goals Korektif Wajah') {
+                              Get.to(SkinGoalsKorektifWajah());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Beauty Profile') {
+                              Get.to(BeautyProfilPage());
+                            }
+// buat nge back kao berhasil dari salsah satu ini
+                            if (state.completionData.value.data?.subtitle ==
+                                'Verifikasi Email') {
+                              Get.to(VerificationAcooutPage());
+                            }
+
+                            if (state.completionData.value.data?.subtitle ==
+                                'Verifikasi No. Handphone') {
+                              Get.to(PhoneNumberPage());
+                            }
+                          },
+                          child: Container(
+                            height: 20,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: greenColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Text(
+                              'Lengkapi',
+                              style: whiteTextStyle.copyWith(fontSize: 9),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  '80%',
-                  style: grenTextStyle.copyWith(fontSize: 13),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(VerificationAcooutPage());
-                  },
-                  child: Container(
-                    height: 20,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: greenColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      'Verifikasi',
-                      style: whiteTextStyle.copyWith(fontSize: 9),
-                    ),
-                  ),
-                )
-              ],
-            ),
           ),
           Padding(
             padding:
@@ -197,19 +263,26 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         const SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          'Jakarta, 20 Tahun',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                        Obx(
+                          () => Text(
+                            '${stateLocation.city.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
+                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          ),
                         ),
                         const SizedBox(
                           height: 2,
                         ),
                         Row(
                           children: [
-                            Text(
-                              'Kering',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 13),
+                            Obx(
+                              () => Text(
+                                state.interestData.value.data?.beautyProfile
+                                        ?.skinType ??
+                                    '-',
+                                style: blackRegulerTextStyle.copyWith(
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
                             InkWell(
                               onTap: () {

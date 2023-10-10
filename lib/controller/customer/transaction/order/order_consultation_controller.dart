@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
@@ -13,6 +14,7 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
 import 'package:heystetik_mobileapps/service/customer/interest_conditions/interest_conditions_service.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OrderConsultationController extends StateClass {
   RxString fullName = ''.obs;
@@ -43,7 +45,11 @@ class OrderConsultationController extends StateClass {
     }
   ];
 
-  List<String> listImageUser = [];
+  RxBool isGallery = false.obs;
+  File? initialConditionFrontFace;
+  File? initialConditionRightSide;
+  File? initialConditionLeftSide;
+  File? initialConditionProblemPart;
   RxList<PaymentMethod.Data> getPaymentMethod =
       List<PaymentMethod.Data>.empty().obs;
 
@@ -74,7 +80,10 @@ class OrderConsultationController extends StateClass {
     listsAnswer.clear();
     answerSelect = [];
 
-    listImageUser.clear();
+    initialConditionFrontFace == null;
+    initialConditionRightSide == null;
+    initialConditionLeftSide == null;
+    initialConditionProblemPart == null;
     getPaymentMethod.value.clear();
     idPayment.value = 0;
     paymentMethod.value = '';
@@ -96,7 +105,7 @@ class OrderConsultationController extends StateClass {
   onChangeFilterText(String value) {
     filterData.value = data.value.data!
         .where((element) =>
-            element.name!.toLowerCase().contains(value.toLowerCase()))
+            element.concern!.name!.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
 
@@ -164,6 +173,18 @@ class OrderConsultationController extends StateClass {
     isLoading.value = false;
   }
 
+  Future pickImageFromGalery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) {
+      return null;
+    }
+
+    print(File(returnedImage.path));
+    return File(returnedImage.path);
+  }
+
   initPayment(BuildContext context) async {
     isLoading.value = true;
     fullName.value = await LocalStorage().getFullName();
@@ -225,7 +246,12 @@ class OrderConsultationController extends StateClass {
       var reqOrder = {
         'interest_condition_id': interestConditionsId.toString(),
         'medical_history_item': paramAnswer,
-        'files': listImageUser,
+        'files': [
+          initialConditionFrontFace?.path,
+          initialConditionRightSide?.path,
+          initialConditionLeftSide?.path,
+          initialConditionProblemPart?.path
+        ],
         'payment_method': paymentMethod.toString(),
         'payment_type': paymentType.toString()
       };

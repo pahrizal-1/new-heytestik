@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/corcern_card_widgets.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
@@ -19,14 +20,17 @@ class AllInfoNewsPage extends StatefulWidget {
 
 class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
   final NewsController state = Get.put(NewsController());
-
+  Future<ArticleModel?>? data;
   int activeIndex = 0;
-  // final images = [
-  //   'assets/images/Berjemur1-Stream.png',
-  //   'assets/images/Berjemur1-Stream.png',
-  //   'assets/images/Berjemur1-Stream.png',
-  // ];
-  int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      data = state.getArticle(context, '', '');
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,78 +61,125 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                       : '-';
                       final image =
                           state.article.value!.record?[index].thumbLink;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 35.48, right: 39.51),
-                            child: Column(
+                      return InkWell(
+                        onTap: () {
+                          Get.to(
+                            ViewDetailBeutyStreamPage(
+                              categoryId: state
+                                  .article.value!.record![index].newscategoryId
+                                  .toString(),
+                              category: state.categoryArticle[index].category
+                                  .toString(),
+                              detailNews: state.article.value!.record![index],
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 35.48,
+                                right: 39.51,
+                              ),
+                              child: Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      switch (cat) {
+                                        case 'Treatment':
+                                          Get.to(
+                                            ViewDetailCategoryNews(
+                                              categoryId: '1',
+                                              category: 'Treatment',
+                                            ),
+                                          );
+                                          break;
+                                        case 'Skincare':
+                                          Get.to(
+                                            ViewDetailCategoryNews(
+                                              categoryId: '2',
+                                              category: 'Skincare',
+                                            ),
+                                          );
+                                          break;
+                                        default:
+                                          Get.to(
+                                            ViewDetailCategoryNews(
+                                              categoryId: '3',
+                                              category: 'Concern',
+                                            ),
+                                          );
+                                      }
+                                    },
+                                    child: Text(
+                                      'Beauty / $cat',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 10),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    '${state.article.value!.record?[index].title}',
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 19),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Beauty / $cat',
-                                  style: grenTextStyle.copyWith(fontSize: 10),
+                                  '${ConvertDate.defaultDate(
+                                    state.article.value!.record![index].newsDate
+                                        .toString(),
+                                  )} | by ${state.article.value!.record?[index].author} | ',
+                                  style: subTitleTextStyle.copyWith(
+                                    fontSize: 10,
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
+                                Image.asset(
+                                  'assets/icons/book-menu.png',
+                                  width: 9.5,
+                                  height: 9.5,
                                 ),
                                 Text(
-                                  '${state.article.value!.record?[index].title}',
-                                  style: blackTextStyle.copyWith(fontSize: 19),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(
-                                  height: 10,
+                                  ' 2 Mins',
+                                  style: subTitleTextStyle.copyWith(
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${ConvertDate.defaultDate(
-                                  state.article.value!.record![index].newsDate
-                                      .toString(),
-                                )} | by ${state.article.value!.record?[index].author} | ',
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 10,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: 350,
+                              height: 181,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    image.toString(),
+                                  ),
+                                  fit: BoxFit.fitWidth,
                                 ),
-                              ),
-                              Image.asset(
-                                'assets/icons/book-menu.png',
-                                width: 9.5,
-                                height: 9.5,
-                              ),
-                              Text(
-                                ' 2 Mins',
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: 350,
-                            height: 181,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  image.toString(),
-                                ),
-                                fit: BoxFit.fitWidth,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       );
                     },
                     options: CarouselOptions(
@@ -155,9 +206,9 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
             child: FutureBuilder(
-              future: state.getArticle(context, '', ''),
+              future: data,
               builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                 print(snapshot.connectionState);
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -254,7 +305,7 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
                                     category:
-                                        'Beauty / ${state.categoryArticle[index].category}',
+                                        state.categoryArticle[index].category,
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     tanggal: ConvertDate.defaultDate(

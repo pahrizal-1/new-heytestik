@@ -46,7 +46,7 @@ class PromoPage extends StatelessWidget {
                     // width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: whiteColor,
-                      border: Border.all(color: greyColor),
+                      border: Border.all(color: borderColor),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(7),
                           bottomLeft: Radius.circular(7)),
@@ -69,7 +69,7 @@ class PromoPage extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Pakai',
-                          style: whiteTextStyle,
+                          style: whiteTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                     ),
@@ -90,6 +90,7 @@ class PromoPage extends StatelessWidget {
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               Container(
+                width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.only(
                     left: 10, right: 87, top: 18, bottom: 18),
                 margin: const EdgeInsets.only(top: 13, bottom: 10),
@@ -103,7 +104,7 @@ class PromoPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'WELCOMING VOUCHER 25K',
+                      'HEY25K',
                       style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     SizedBox(
@@ -116,7 +117,7 @@ class PromoPage extends StatelessWidget {
                             fontSize: 13, color: Color(0xff9B9B9B)),
                         children: [
                           TextSpan(
-                              text: 'Lihat detail',
+                              text: ' \nLihat detail',
                               style: grenTextStyle.copyWith(fontSize: 13))
                         ],
                       ),
@@ -134,12 +135,13 @@ class PromoPage extends StatelessWidget {
                 'Voucher yang bisa kamu pakai',
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
-              const PromoVocer(
+              PromoVocer(
                 title: 'VOUCHER 15K',
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 2 hari lagi! ',
+                textTitle: borderColor,
               ),
-              const PromoVocer(
+              PromoVocer(
                 title: 'VOUCHER 15K',
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 4 hari lagi! ',

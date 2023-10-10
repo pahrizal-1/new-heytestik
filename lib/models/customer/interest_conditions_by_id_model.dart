@@ -21,43 +21,60 @@ class InterestConditionByIdModel {
 
 class Data {
   int? id;
-  int? interestConditionsCategoryId;
-  String? name;
+  int? concernId;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
-  Category? category;
+  Concern? concern;
+  List<InterestConditionsCharacteristics>? interestConditionsCharacteristics;
   List<InterestConditionsQuestion>? interestConditionsQuestion;
+  List<MediaInterestConditionsCharacteristics>?
+      mediaInterestConditionsCharacteristics;
 
   Data(
       {this.id,
-      this.interestConditionsCategoryId,
-      this.name,
+      this.concernId,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.category,
-      this.interestConditionsQuestion});
+      this.concern,
+      this.interestConditionsCharacteristics,
+      this.interestConditionsQuestion,
+      this.mediaInterestConditionsCharacteristics});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    interestConditionsCategoryId = json['interest_conditions_category_id'];
-    name = json['name'];
+    concernId = json['concern_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    category =
-        json['category'] != null ? Category.fromJson(json['category']) : null;
+    concern =
+        json['concern'] != null ? Concern.fromJson(json['concern']) : null;
+    if (json['interest_conditions_characteristics'] != null) {
+      interestConditionsCharacteristics = <InterestConditionsCharacteristics>[];
+      json['interest_conditions_characteristics'].forEach((v) {
+        interestConditionsCharacteristics!
+            .add(InterestConditionsCharacteristics.fromJson(v));
+      });
+    }
     if (json['interest_conditions_question'] != null) {
       interestConditionsQuestion = <InterestConditionsQuestion>[];
       json['interest_conditions_question'].forEach((v) {
         interestConditionsQuestion!.add(InterestConditionsQuestion.fromJson(v));
+      });
+    }
+    if (json['media_interest_conditions_characteristics'] != null) {
+      mediaInterestConditionsCharacteristics =
+          <MediaInterestConditionsCharacteristics>[];
+      json['media_interest_conditions_characteristics'].forEach((v) {
+        mediaInterestConditionsCharacteristics!
+            .add(MediaInterestConditionsCharacteristics.fromJson(v));
       });
     }
   }
@@ -65,45 +82,177 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['interest_conditions_category_id'] = interestConditionsCategoryId;
-    data['name'] = name;
+    data['concern_id'] = concernId;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
-    if (category != null) {
-      data['category'] = category!.toJson();
+    if (concern != null) {
+      data['concern'] = concern!.toJson();
+    }
+    if (interestConditionsCharacteristics != null) {
+      data['interest_conditions_characteristics'] =
+          interestConditionsCharacteristics!.map((v) => v.toJson()).toList();
     }
     if (interestConditionsQuestion != null) {
       data['interest_conditions_question'] =
           interestConditionsQuestion!.map((v) => v.toJson()).toList();
     }
+    if (mediaInterestConditionsCharacteristics != null) {
+      data['media_interest_conditions_characteristics'] =
+          mediaInterestConditionsCharacteristics!
+              .map((v) => v.toJson())
+              .toList();
+    }
     return data;
   }
 }
 
-class Category {
+class Concern {
   int? id;
   String? name;
+  String? segment;
+  bool? isActive;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  MediaConcern? mediaConcern;
+
+  Concern(
+      {this.id,
+      this.name,
+      this.segment,
+      this.isActive,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.mediaConcern});
+
+  Concern.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    segment = json['segment'];
+    isActive = json['is_active'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    mediaConcern = json['media_concern'] != null
+        ? MediaConcern.fromJson(json['media_concern'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['segment'] = segment;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (mediaConcern != null) {
+      data['media_concern'] = mediaConcern!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaConcern {
+  int? id;
+  int? mediaId;
+  int? concernId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaConcern(
+      {this.id,
+      this.mediaId,
+      this.concernId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaConcern.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    concernId = json['concern_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['concern_id'] = concernId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
 
-  Category(
+  Media(
       {this.id,
-      this.name,
+      this.filename,
+      this.ext,
+      this.size,
+      this.mime,
+      this.path,
+      this.destination,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt});
 
-  Category.fromJson(Map<String, dynamic> json) {
+  Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -114,7 +263,57 @@ class Category {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['name'] = name;
+    data['filename'] = filename;
+    data['ext'] = ext;
+    data['size'] = size;
+    data['mime'] = mime;
+    data['path'] = path;
+    data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class InterestConditionsCharacteristics {
+  int? id;
+  int? interestConditionsId;
+  String? characteristic;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  InterestConditionsCharacteristics(
+      {this.id,
+      this.interestConditionsId,
+      this.characteristic,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  InterestConditionsCharacteristics.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    interestConditionsId = json['interest_conditions_id'];
+    characteristic = json['characteristic'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['interest_conditions_id'] = interestConditionsId;
+    data['characteristic'] = characteristic;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
@@ -234,6 +433,57 @@ class InterestConditionsAnswer {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['interest_conditions_question_id'] = interestConditionsQuestionId;
+    return data;
+  }
+}
+
+class MediaInterestConditionsCharacteristics {
+  int? id;
+  int? mediaId;
+  int? interestConditionsId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaInterestConditionsCharacteristics(
+      {this.id,
+      this.mediaId,
+      this.interestConditionsId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaInterestConditionsCharacteristics.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    interestConditionsId = json['interest_conditions_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['interest_conditions_id'] = interestConditionsId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
     return data;
   }
 }

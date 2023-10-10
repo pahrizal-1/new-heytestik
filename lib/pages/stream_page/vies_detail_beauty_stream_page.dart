@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
 
 import 'package:heystetik_mobileapps/widget/corcern_card_widgets.dart';
@@ -98,11 +99,40 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: Text(
-                    'Beauty / ${widget.category}',
-                    style: grenTextStyle.copyWith(fontSize: 12),
-                    textAlign: TextAlign.center,
+                InkWell(
+                  onTap: () {
+                    switch (widget.category) {
+                      case 'Treatment':
+                        Get.to(
+                          ViewDetailCategoryNews(
+                            categoryId: '1',
+                            category: 'Treatment',
+                          ),
+                        );
+                        break;
+                      case 'Skincare':
+                        Get.to(
+                          ViewDetailCategoryNews(
+                            categoryId: '2',
+                            category: 'Skincare',
+                          ),
+                        );
+                        break;
+                      default:
+                        Get.to(
+                          ViewDetailCategoryNews(
+                            categoryId: '3',
+                            category: 'Concern',
+                          ),
+                        );
+                    }
+                  },
+                  child: Center(
+                    child: Text(
+                      'Beauty / ${widget.category}',
+                      style: grenTextStyle.copyWith(fontSize: 12),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 const SizedBox(

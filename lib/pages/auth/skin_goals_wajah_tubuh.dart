@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_golas_penuralan_sexsual.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -223,7 +222,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const SkinGoalsPenularan(),
+                                      const SkinGloalsPilihTreamtmnet(),
                                 ),
                               );
                             });
