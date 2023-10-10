@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
@@ -402,7 +401,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     option(
                       1,
                       'assets/images/kulitkering.png',
-                      'kering',
+                      'Kering',
                     ),
                     option(
                       2,
@@ -419,26 +418,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       'assets/images/kulitberminyak.png',
                       'Berminyak',
                     ),
-                    // CircleImgWidget(
-                    //   title: 'kering',
-                    //   img: 'assets/images/kulitkering.png',
-                    //   type: 1,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'Normal',
-                    //   img: 'assets/images/kulitnormal.png',
-                    //   type: 1,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'kombinasi',
-                    //   img: 'assets/images/kulitkombinasi.png',
-                    //   type: 1,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'Berminyak',
-                    //   img: 'assets/images/kulitberminyak.png',
-                    //   type: 1,
-                    // ),
                   ],
                 ),
               ),
@@ -477,26 +456,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       'assets/images/gelap.png',
                       'Gelap\n',
                     ),
-                    // CircleImgWidget(
-                    //   title: 'Putih\nGading',
-                    //   img: 'assets/images/putihgading.png',
-                    //   type: 2,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'Kuning\nLangsat',
-                    //   img: 'assets/images/kuninglangsat.png',
-                    //   type: 2,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'Sawo\nMatang',
-                    //   img: 'assets/images/sawomatang.png',
-                    //   type: 2,
-                    // ),
-                    // CircleImgWidget(
-                    //   title: 'Gelap\n',
-                    //   img: 'assets/images/gelap.png',
-                    //   type: 2,
-                    // ),
                   ],
                 ),
               ),
@@ -528,21 +487,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     'assets/images/hangat.png',
                     'Hangat',
                   ),
-                  // CircleImgWidget(
-                  //   title: 'Dingin',
-                  //   img: 'assets/images/dingin.png',
-                  //   type: 3,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Netral',
-                  //   img: 'assets/images/netral.png',
-                  //   type: 3,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Hangat',
-                  //   img: 'assets/images/hangat.png',
-                  //   type: 3,
-                  // ),
                 ],
               ),
               const SizedBox(
@@ -573,21 +517,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     'assets/images/rambutbergelombang.png',
                     'Bergelombang',
                   ),
-                  // CircleImgWidget(
-                  //   title: 'Lurus',
-                  //   img: 'assets/images/rambutlurus.png',
-                  //   type: 4,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Keriting',
-                  //   img: 'assets/images/rambutkriting.png',
-                  //   type: 4,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Bergelombang',
-                  //   img: 'assets/images/rambutbergelombang.png',
-                  //   type: 4,
-                  // ),
                 ],
               ),
               const SizedBox(
@@ -613,16 +542,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     'assets/images/rambutgelap.png',
                     'Rambut\nGelap',
                   ),
-                  // CircleImgWidget(
-                  //   title: 'Rambut\nCerah',
-                  //   img: 'assets/images/rambutcerah.png',
-                  //   type: 5,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Rambut\ngelap',
-                  //   img: 'assets/images/rambutgelap.png',
-                  //   type: 5,
-                  // ),
                 ],
               ),
               const SizedBox(
@@ -648,16 +567,6 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     'assets/images/nonhijab.png',
                     'Non\nHijab',
                   ),
-                  // CircleImgWidget(
-                  //   title: 'Hijab',
-                  //   img: 'assets/images/hijab.png',
-                  //   type: 6,
-                  // ),
-                  // CircleImgWidget(
-                  //   title: 'Non\nHijab',
-                  //   img: 'assets/images/nonhijab.png',
-                  //   type: 6,
-                  // ),
                 ],
               ),
               const SizedBox(
