@@ -13,7 +13,8 @@ class BeautyProfil extends StatelessWidget {
   final LocationController stateLocation = Get.put(LocationController());
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+        body: Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 60),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +122,7 @@ class BeautyProfil extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Column skinGoalKorektifWajah(String title1) {
