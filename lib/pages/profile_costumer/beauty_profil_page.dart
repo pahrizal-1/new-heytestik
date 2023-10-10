@@ -16,111 +16,116 @@ class BeautyProfil extends StatelessWidget {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 60),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'BEAUTY PROFILE',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(EditBeautyProfilPage());
-                },
-                child: Text(
-                  'Edit',
-                  style: grenTextStyle.copyWith(
-                    fontWeight: bold,
-                    fontSize: 15,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'BEAUTY PROFILE',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
                   ),
                 ),
+                InkWell(
+                  onTap: () {
+                    Get.to(EditBeautyProfilPage());
+                  },
+                  child: Text(
+                    'Edit',
+                    style: grenTextStyle.copyWith(
+                      fontWeight: bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 37,
+            ),
+            Obx(
+              () => Text(
+                state.fullName.value,
+                style: blackTextStyle.copyWith(fontSize: 15),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 37,
-          ),
-          Obx(
-            () => Text(
-              state.fullName.value,
-              style: blackTextStyle.copyWith(fontSize: 15),
             ),
-          ),
-          Obx(
-            () => Text(
-              '${stateLocation.city.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
-              style: blackRegulerTextStyle.copyWith(fontSize: 15),
+            Obx(
+              () => Text(
+                '${stateLocation.city.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
+                style: blackRegulerTextStyle.copyWith(fontSize: 15),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 19,
-          ),
-          tipeKulit(
-            'Tipe Kulit',
-            state.interestData.value.data?.beautyProfile?.skinType ?? '-',
-            'Warna Tone Kulit',
-            state.interestData.value.data?.beautyProfile?.skinToneColor ?? '-',
-          ),
-          SizedBox(
-            height: 19,
-          ),
-          tipeKulit(
-            'Warna Undertone Kulit',
-            state.interestData.value.data?.beautyProfile?.skinUndertoneColor ??
-                '-',
-            'Tipe Rambut',
-            state.interestData.value.data?.beautyProfile?.hairType ?? '-',
-          ),
-          SizedBox(
-            height: 19,
-          ),
-          tipeKulit(
-            'Warna Rambut',
-            state.interestData.value.data?.beautyProfile?.hairColor ?? '-',
-            'Hijabers',
-            state.interestData.value.data!.beautyProfile!.hijabers!
-                ? 'Iya'
-                : 'Tidak',
-          ),
-          SizedBox(
-            height: 29,
-          ),
-          skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
-          SizedBox(
-            height: 19,
-          ),
-          skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
-          SizedBox(
-            height: 19,
-          ),
-          skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
-          SizedBox(
-            height: 19,
-          ),
-          skinGoalPernahTreatment('Pernah Treatment'),
-          SizedBox(
-            height: 19,
-          ),
-          skinGoalsBudget(
-            'Anggaran Skincare',
-            state.interestData.value.data?.skinGoalsBudget?.budgetForSkincare ??
-                '-',
-          ),
-          SizedBox(
-            height: 19,
-          ),
-          skinGoalsBudget(
-            'Anggaran Treatment',
-            state.interestData.value.data?.skinGoalsBudget
-                    ?.budgetForTreatment ??
-                '-',
-          ),
-        ],
+            SizedBox(
+              height: 19,
+            ),
+            tipeKulit(
+              'Tipe Kulit',
+              state.interestData.value.data?.beautyProfile?.skinType ?? '-',
+              'Warna Tone Kulit',
+              state.interestData.value.data?.beautyProfile?.skinToneColor ??
+                  '-',
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            tipeKulit(
+              'Warna Undertone Kulit',
+              state.interestData.value.data?.beautyProfile
+                      ?.skinUndertoneColor ??
+                  '-',
+              'Tipe Rambut',
+              state.interestData.value.data?.beautyProfile?.hairType ?? '-',
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            tipeKulit(
+              'Warna Rambut',
+              state.interestData.value.data?.beautyProfile?.hairColor ?? '-',
+              'Hijabers',
+              state.interestData.value.data!.beautyProfile!.hijabers!
+                  ? 'Iya'
+                  : 'Tidak',
+            ),
+            SizedBox(
+              height: 29,
+            ),
+            skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalPernahTreatment('Pernah Treatment'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalsBudget(
+              'Anggaran Skincare',
+              state.interestData.value.data?.skinGoalsBudget
+                      ?.budgetForSkincare ??
+                  '-',
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalsBudget(
+              'Anggaran Treatment',
+              state.interestData.value.data?.skinGoalsBudget
+                      ?.budgetForTreatment ??
+                  '-',
+            ),
+          ],
+        ),
       ),
     ));
   }
