@@ -42,6 +42,7 @@ class Data {
   String? updatedAt;
   dynamic deletedAt;
   MediaPaymentMethod? mediaPaymentMethod;
+  List<HowToPays>? howToPays;
 
   Data(
       {this.id,
@@ -57,7 +58,8 @@ class Data {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.mediaPaymentMethod});
+      this.mediaPaymentMethod,
+      this.howToPays});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -76,6 +78,12 @@ class Data {
     mediaPaymentMethod = json['media_payment_method'] != null
         ? MediaPaymentMethod.fromJson(json['media_payment_method'])
         : null;
+    if (json['how_to_pays'] != null) {
+      howToPays = <HowToPays>[];
+      json['how_to_pays'].forEach((v) {
+        howToPays!.add(HowToPays.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +103,9 @@ class Data {
     data['deleted_at'] = deletedAt;
     if (mediaPaymentMethod != null) {
       data['media_payment_method'] = mediaPaymentMethod!.toJson();
+    }
+    if (howToPays != null) {
+      data['how_to_pays'] = howToPays!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -203,6 +214,55 @@ class Media {
     data['mime'] = mime;
     data['path'] = path;
     data['destination'] = destination;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class HowToPays {
+  int? id;
+  int? paymentMethodId;
+  String? name;
+  String? steps;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  HowToPays(
+      {this.id,
+      this.paymentMethodId,
+      this.name,
+      this.steps,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  HowToPays.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    paymentMethodId = json['payment_method_id'];
+    name = json['name'];
+    steps = json['steps'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['payment_method_id'] = paymentMethodId;
+    data['name'] = name;
+    data['steps'] = steps;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

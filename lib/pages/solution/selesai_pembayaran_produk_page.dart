@@ -350,7 +350,7 @@ class _SelesaiPembayaranProdukPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const CaraPembayaranPage());
+                              Get.to(CaraPembayaranPage());
                             },
                             child: Center(
                               child: Text(

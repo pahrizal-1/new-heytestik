@@ -392,7 +392,7 @@ class _SelesaikanPembayaranTreatmentPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(const CaraPembayaranPage());
+                              Get.to(CaraPembayaranPage());
                             },
                             child: Center(
                               child: Text(
