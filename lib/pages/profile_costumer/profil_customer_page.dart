@@ -50,7 +50,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       state.getProfile(context);
       state.getCompletion(context);
       state.getInterest(context);
-      stateLocation.initgetCurrentPosition(context);
+      stateLocation.getLocation(context);
       userOverview = await state.getUserOverview(context);
       setState(() {});
     });
@@ -265,7 +265,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         ),
                         Obx(
                           () => Text(
-                            '${stateLocation.city.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
+                            '${stateLocation.myCity.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
                             style: blackRegulerTextStyle.copyWith(fontSize: 13),
                           ),
                         ),

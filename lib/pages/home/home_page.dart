@@ -279,6 +279,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   title: stateConcern
                                           .filterData[index].concern?.name ??
                                       '-',
+                                  detail: stateConcern.filterData[index],
                                 ),
                               );
                             }

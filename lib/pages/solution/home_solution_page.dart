@@ -21,7 +21,7 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
-import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/maps_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart'
     // ignore: library_prefixes
@@ -69,11 +69,104 @@ class _SolutionPageState extends State<SolutionPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.initgetCurrentPosition(context);
+      state.getLocation(context);
       drugRecipe.addAll(await stateMedicine.getDrugRecipe(context, page));
       skincare.addAll(await stateSkincare.getAllSkincare(context, page));
       stateTreatment.getTreatment(context);
+      setState(() {});
     });
+  }
+
+  _showModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 600,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: spaceHeigt,
+              ),
+              Text(
+                'Pilih Lokasi',
+                style: blackHigtTextStyle.copyWith(
+                  fontWeight: regular,
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: spaceHeigt,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              ListTile(
+                onTap: () async {
+                  await state.createLocation(
+                    context,
+                    state.currentLatitude.value,
+                    state.currentLongitude.value,
+                    state.currentAddress.value,
+                  );
+                  Get.back();
+                },
+                leading: CircleAvatar(
+                  backgroundColor: greenColor,
+                  child: Icon(
+                    Icons.my_location_rounded,
+                    color: whiteColor,
+                  ),
+                ),
+                title: Text(
+                  'Lokasi saat ini',
+                  style: blackRegulerTextStyle.copyWith(
+                    fontWeight: regular,
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+                subtitle: Obx(
+                  () => Text(
+                    state.currentAddress.value,
+                  ),
+                ),
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(MapsWidget());
+                },
+                leading: CircleAvatar(
+                  backgroundColor: greenColor,
+                  child: Icon(
+                    Icons.location_on_rounded,
+                    color: whiteColor,
+                  ),
+                ),
+                title: Text(
+                  'Pilih lewat map',
+                  style: blackRegulerTextStyle.copyWith(
+                    fontWeight: regular,
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Divider(
+                thickness: 2,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -163,50 +256,158 @@ class _SolutionPageState extends State<SolutionPage> {
           )
         ],
       ),
-      body: Obx(
-        () => LoadingWidget(
-          isLoading: state.isLoading.value,
-          child: ListView(
-            children: [
-              CarouselSlider.builder(
-                itemCount: images.length,
-                itemBuilder: (context, index, realIndex) {
-                  final imge = images[index];
+      body: ListView(
+        children: [
+          CarouselSlider.builder(
+            itemCount: images.length,
+            itemBuilder: (context, index, realIndex) {
+              final imge = images[index];
 
-                  return buildImg1(imge, index);
-                },
-                options: CarouselOptions(
-                  height: 210,
-                  viewportFraction: 1,
-                  onPageChanged: (index, reason) =>
-                      setState(() => activeIndex = index),
+              return buildImg1(imge, index);
+            },
+            options: CarouselOptions(
+              height: 210,
+              viewportFraction: 1,
+              onPageChanged: (index, reason) =>
+                  setState(() => activeIndex = index),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: AnimatedSmoothIndicator(
+              activeIndex: activeIndex,
+              count: images.length,
+              effect: ScaleEffect(
+                  activeDotColor: greenColor,
+                  dotColor: const Color(0xffD9D9D9),
+                  dotWidth: 6,
+                  dotHeight: 6),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ObatSolutionsPage(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/obat_resep.png',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const SolutionSkincare1Page(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/skincare.png',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const SolutionsTreatment1Page(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/treatmean.png',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 7,
-              ),
-              Center(
-                child: AnimatedSmoothIndicator(
-                  activeIndex: activeIndex,
-                  count: images.length,
-                  effect: ScaleEffect(
-                      activeDotColor: greenColor,
-                      dotColor: const Color(0xffD9D9D9),
-                      dotWidth: 6,
-                      dotHeight: 6),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: InkWell(
+                  onTap: () async {
+                    state.getCurrentPosition(context);
+                    await _showModal(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        left: 14, top: 8, bottom: 7, right: 14),
+                    width: 340,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: borderColor, width: 0.2),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: InkWell(
+                        SvgPicture.asset('assets/icons/map.svg'),
+                        const SizedBox(
+                          width: 11,
+                        ),
+                        Obx(
+                          () => Text(
+                            state.myCity.value.isNotEmpty
+                                ? state.myCity.value
+                                : state.currentCity.value,
+                            style: blackTextStyle.copyWith(fontWeight: regular),
+                          ),
+                        ),
+                        const Spacer(),
+                        SvgPicture.asset(
+                          'assets/icons/icon_gps.svg',
+                          width: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: drugRecipe.isEmpty ? 0 : 29,
+              ),
+              drugRecipe.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Resep solusi buat kamu ✨',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          const Spacer(),
+                          InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -216,339 +417,223 @@ class _SolutionPageState extends State<SolutionPage> {
                                 ),
                               );
                             },
-                            child: Image.asset(
-                              'assets/images/obat_resep.png',
+                            child: Text(
+                              'Lihat Semua',
+                              style: grenTextStyle.copyWith(fontSize: 12),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionSkincare1Page(),
-                                ),
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/images/skincare.png',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SolutionsTreatment1Page(),
-                                ),
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/images/treatmean.png',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 29,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                          left: 14, top: 8, bottom: 7, right: 14),
-                      width: 340,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: borderColor, width: 0.2),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/icons/map.svg'),
-                          const SizedBox(
-                            width: 11,
-                          ),
-                          Obx(
-                            () => Text(
-                              state.city.value,
-                              style:
-                                  blackTextStyle.copyWith(fontWeight: regular),
-                            ),
-                          ),
-                          const Spacer(),
-                          SvgPicture.asset(
-                            'assets/icons/icon_gps.svg',
-                            width: 15,
                           ),
                         ],
                       ),
                     ),
+              SizedBox(
+                height: drugRecipe.isEmpty ? 0 : 16,
+              ),
+              drugRecipe.isEmpty
+                  ? Container()
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20, left: 25),
+                        child: Row(
+                          children: drugRecipe.map((e) {
+                            return ProdukObat(
+                              medicine: Medicine.Data2.fromJson(
+                                  jsonDecode(jsonEncode(e.product))),
+                              productId: e.product!.id!.toInt(),
+                              namaBrand: e.product?.name ?? '-',
+                              harga: CurrencyFormat.convertToIdr(
+                                  e.product?.price, 0),
+                              urlImg:
+                                  '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                              duedate:
+                                  ConvertDate.defaultDate(e.dueDate.toString()),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+              const SizedBox(
+                height: 28,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  children: [
+                    Text(
+                      'Skincare buat ',
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                    Text(
+                      'skin goals-mu!',
+                      style: blackHigtTextStyle.copyWith(
+                          fontSize: 15, fontStyle: FontStyle.italic),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SolutionSkincare1Page(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Lihat Semua',
+                        style: grenTextStyle.copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Row(
+                    children: [
+                      CardSkincare(
+                        title: 'Cleanser',
+                      ),
+                      CardSkincare(
+                        title: 'Serum',
+                      ),
+                      CardSkincare(
+                        title: 'Moisturizer',
+                      ),
+                      CardSkincare(
+                        title: 'Toner',
+                      ),
+                      CardSkincare(
+                        title: 'Eye Cream',
+                      ),
+                    ],
                   ),
-                  drugRecipe.isEmpty
-                      ? Container()
-                      : const SizedBox(
-                          height: 29,
-                        ),
-                  drugRecipe.isEmpty
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Resep solusi buat kamu ✨',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                ),
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Center(
+                    child: Wrap(
+                      spacing: 23,
+                      children: skincare
+                          .map(
+                            (e) => InkWell(
+                              onTap: () {
+                                Get.to(DetailSkinCarePage(
+                                  productId: e.id!.toInt(),
+                                ));
+                              },
+                              child: Produkheight(
+                                produkId: e.id!.toInt(),
+                                namaBrand: e.skincareDetail!.brand.toString(),
+                                namaProduk: e.name.toString(),
+                                diskonProduk: '20',
+                                hargaDiskon:
+                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                urlImg:
+                                    '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                // rating: '4.9 (120k)',
+                                rating: e.rating.toString(),
                               ),
-                              const Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ObatSolutionsPage(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Lihat Semua',
-                                  style: grenTextStyle.copyWith(fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  drugRecipe.isEmpty
-                      ? Container()
-                      : const SizedBox(
-                          height: 16,
-                        ),
-                  drugRecipe.isEmpty
-                      ? Container()
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 20, left: 25),
-                            child: Row(
-                              children: drugRecipe.map((e) {
-                                return ProdukObat(
-                                  medicine: Medicine.Data2.fromJson(
-                                      jsonDecode(jsonEncode(e.product))),
-                                  productId: e.product!.id!.toInt(),
-                                  namaBrand: e.product?.name ?? '-',
-                                  harga: CurrencyFormat.convertToIdr(
-                                      e.product?.price, 0),
-                                  urlImg:
-                                      '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
-                                  duedate: ConvertDate.defaultDate(
-                                      e.dueDate.toString()),
-                                );
-                              }).toList(),
                             ),
-                          ),
-                        ),
-                  const SizedBox(
-                    height: 28,
+                          )
+                          .toList(),
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Skincare buat ',
-                          style: blackHigtTextStyle.copyWith(fontSize: 15),
-                        ),
-                        Text(
-                          'skin goals-mu!',
-                          style: blackHigtTextStyle.copyWith(
-                              fontSize: 15, fontStyle: FontStyle.italic),
-                        ),
-                        const Spacer(),
-                        InkWell(
+                ),
+              ),
+              const SizedBox(
+                height: 41,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Text(
+                  'Rekomendasi Treatment  ',
+                  style: blackHigtTextStyle.copyWith(fontSize: 18),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 240,
+                child: Obx(
+                  () => ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: stateTreatment.treatment.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: InkWell(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const SolutionSkincare1Page(),
+                                    const PeelinngTraetmentPage(),
                               ),
                             );
                           },
-                          child: Text(
-                            'Lihat Semua',
-                            style: grenTextStyle.copyWith(fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25),
-                      child: Row(
-                        children: [
-                          CardSkincare(
-                            title: 'Cleanser',
-                          ),
-                          CardSkincare(
-                            title: 'Serum',
-                          ),
-                          CardSkincare(
-                            title: 'Moisturizer',
-                          ),
-                          CardSkincare(
-                            title: 'Toner',
-                          ),
-                          CardSkincare(
-                            title: 'Eye Cream',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25),
-                      child: Center(
-                        child: Wrap(
-                          spacing: 23,
-                          children: skincare
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      productId: e.id!.toInt(),
-                                    ));
-                                  },
-                                  child: Produkheight(
-                                    produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
-                                    namaProduk: e.name.toString(),
-                                    diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg:
-                                        '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                    // rating: '4.9 (120k)',
-                                    rating: e.rating.toString(),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 41,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Text(
-                      'Rekomendasi Treatment  ',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    height: 240,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: stateTreatment.treatment.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 25),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PeelinngTraetmentPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              height: 230,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/${asset[index % 3]}'),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(7),
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            height: 230,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/${asset[index % 3]}'),
+                                fit: BoxFit.cover,
                               ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      blackColor.withOpacity(0.5),
-                                      Colors.transparent
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.center,
-                                  ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    blackColor.withOpacity(0.5),
+                                    Colors.transparent
+                                  ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.center,
                                 ),
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 11),
-                                    child: Text(
-                                      stateTreatment
-                                          .treatment[index].treatmentType,
-                                      style: whiteTextStyle.copyWith(
-                                          fontSize: 18, fontWeight: bold),
-                                    ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 11),
+                                  child: Text(
+                                    stateTreatment
+                                        .treatment[index].treatmentType,
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 18, fontWeight: bold),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  )
-                ],
+                ),
               ),
+              const SizedBox(
+                height: 10,
+              )
             ],
           ),
-        ),
+        ],
       ),
     );
   }
