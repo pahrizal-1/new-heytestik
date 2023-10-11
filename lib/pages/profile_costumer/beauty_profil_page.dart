@@ -15,7 +15,7 @@ class BeautyProfil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30, top: 60),
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 60, bottom: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +233,7 @@ class BeautyProfil extends StatelessWidget {
                 ),
               ),
             )
-            .toList()
+            .toList(),
       ],
     );
   }
