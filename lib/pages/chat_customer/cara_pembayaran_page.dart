@@ -1,10 +1,16 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-
+import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import '../../widget/Text_widget.dart';
 
 class CaraPembayaranPage extends StatefulWidget {
-  const CaraPembayaranPage({super.key});
+  Data? paymentMethod;
+  CaraPembayaranPage({
+    super.key,
+    this.paymentMethod,
+  });
 
   @override
   State<CaraPembayaranPage> createState() => _CaraPembayaranPageState();

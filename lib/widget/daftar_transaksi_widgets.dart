@@ -256,7 +256,7 @@ class TransaksiKonsultan extends StatelessWidget {
                 progres == 'Menunggu Pembayaran'
                     ? InkWell(
                         onTap: () {
-                          Get.to(const CaraPembayaranPage());
+                          Get.to(CaraPembayaranPage());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -538,7 +538,7 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
                     ? InkWell(
                         onTap: () {
-                          Get.to(const CaraPembayaranPage());
+                          Get.to(CaraPembayaranPage());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -785,7 +785,7 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(const CaraPembayaranPage());
+                        Get.to(CaraPembayaranPage());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

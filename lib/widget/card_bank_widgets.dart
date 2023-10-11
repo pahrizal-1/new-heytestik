@@ -57,7 +57,7 @@ class CardTreatmentBank extends StatelessWidget {
             itemBuilder: (c, element) {
               return InkWell(
                 onTap: () {
-                  if (element.isActive != false) {
+                  if (element.isActive!) {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
@@ -173,7 +173,7 @@ class CardProdukBank extends StatelessWidget {
             itemBuilder: (c, element) {
               return InkWell(
                 onTap: () {
-                  if (element.isActive != false) {
+                  if (element.isActive!) {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
@@ -290,7 +290,7 @@ class CardKonsultasiBank extends StatelessWidget {
             itemBuilder: (c, element) {
               return InkWell(
                 onTap: () {
-                  if (element.isActive != false) {
+                  if (element.isActive!) {
                     state.idPayment.value = element.id!.toInt();
                     state.paymentMethod.value = element.method ?? '-';
                     state.paymentType.value = element.type ?? '-';
