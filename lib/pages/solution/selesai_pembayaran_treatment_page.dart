@@ -25,6 +25,7 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   String expireTime;
   final Data2 treatment;
   int pax;
+  int paymentMethodId;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
     this.bank = '',
@@ -33,6 +34,7 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
     this.expireTime = '',
     required this.treatment,
     this.pax = 0,
+    required this.paymentMethodId,
     super.key,
   });
 
@@ -392,7 +394,17 @@ class _SelesaikanPembayaranTreatmentPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(CaraPembayaranPage());
+                              Get.to(CaraPembayaranPage(
+                                id: widget.paymentMethodId,
+                                totalPaid: int.parse(
+                                    double.parse(state.grossAmount.value)
+                                        .round()
+                                        .toString()),
+                                vaNumber: state.virtualAccount.value,
+                                transactionType: 'Treatment',
+                                treatment: widget.treatment,
+                                pax: widget.pax,
+                              ));
                             },
                             child: Center(
                               child: Text(

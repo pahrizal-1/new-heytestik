@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page.dart';
@@ -478,8 +477,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                     ?.interestCondition
                                                     ?.name ??
                                                 '-',
-                                    harga: CurrencyFormat.convertToIdr(
-                                        history[index].detail?.totalPaid, 0),
+                                    harga: history[index].detail!.totalPaid!,
                                     img: history[index].detail?.consultation ==
                                             null
                                         ? '-'
@@ -492,6 +490,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         : true,
                                     orderId:
                                         history[index].transactionId.toString(),
+                                    paymentMethodId:
+                                        history[index].detail!.paymentMethodId!,
                                   );
                                 }
 
@@ -519,8 +519,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                         'SELESAI'
                                                     ? 'Selesai'
                                                     : '-',
-                                    harga: CurrencyFormat.convertToIdr(
-                                        history[index].detail?.totalPaid, 0),
+                                    harga: history[index].detail!.totalPaid!,
                                     doneReview: history[index]
                                                 .detail!
                                                 .transactionTreatmentItems?[0]
@@ -528,6 +527,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                             null
                                         ? false
                                         : true,
+                                    paymentMethodId:
+                                        history[index].detail!.paymentMethodId!,
                                   );
                                 }
 

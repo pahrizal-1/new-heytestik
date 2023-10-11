@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
@@ -16,6 +18,8 @@ import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.da
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
+    as Treatment;
 
 class TransaksiKonsultan extends StatelessWidget {
   final String namaDokter;
@@ -24,10 +28,11 @@ class TransaksiKonsultan extends StatelessWidget {
   final String progres;
   final String img;
   final String keluhan;
-  final String harga;
+  final int harga;
   final String expireDate;
   bool doneReview;
   final String orderId;
+  final int paymentMethodId;
   TransaksiKonsultan({
     super.key,
     required this.namaDokter,
@@ -39,7 +44,8 @@ class TransaksiKonsultan extends StatelessWidget {
     required this.img,
     this.expireDate = '',
     this.doneReview = false,
-    this.orderId = '',
+    required this.orderId,
+    required this.paymentMethodId,
   });
 
   @override
@@ -52,6 +58,7 @@ class TransaksiKonsultan extends StatelessWidget {
             orderId: orderId,
             bank: '',
             expireTime: '',
+            paymentMethodId: paymentMethodId,
           ));
         }
 
@@ -197,7 +204,7 @@ class TransaksiKonsultan extends StatelessWidget {
                       style: blackRegulerTextStyle.copyWith(fontSize: 13),
                     ),
                     Text(
-                      harga,
+                      CurrencyFormat.convertToIdr(harga, 0),
                       style: blackHigtTextStyle.copyWith(fontSize: 13),
                     ),
                   ],
@@ -256,7 +263,12 @@ class TransaksiKonsultan extends StatelessWidget {
                 progres == 'Menunggu Pembayaran'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage());
+                          Get.to(CaraPembayaranPage(
+                            id: paymentMethodId,
+                            totalPaid: harga,
+                            vaNumber: '222222222',
+                            transactionType: 'Konsultasi',
+                          ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -303,6 +315,7 @@ class TransaksiProduk extends StatelessWidget {
             orderId: orderId,
             bank: '',
             expireTime: '',
+            paymentMethodId: product!.paymentMethodId!,
           ));
         }
         // INI DIMATIIN DULU
@@ -538,7 +551,12 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage());
+                          Get.to(CaraPembayaranPage(
+                            id: product!.paymentMethodId!,
+                            totalPaid: product!.totalPaid!,
+                            vaNumber: '222222222',
+                            transactionType: 'Produk',
+                          ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -576,9 +594,10 @@ class TransaksiTreatment extends StatelessWidget {
   // final String img;
   // final String namaKlink;
   bool doneReview;
-  final String harga;
+  final int harga;
   // final Data2 treatment;
   final bool isConsultation;
+  final int paymentMethodId;
   TransaksiTreatment({
     super.key,
     required this.item,
@@ -593,6 +612,7 @@ class TransaksiTreatment extends StatelessWidget {
     // required this.img,
     this.isConsultation = false,
     this.doneReview = false,
+    required this.paymentMethodId,
   });
 
   @override
@@ -725,7 +745,7 @@ class TransaksiTreatment extends StatelessWidget {
                     style: blackRegulerTextStyle.copyWith(fontSize: 13),
                   ),
                   Text(
-                    harga,
+                    CurrencyFormat.convertToIdr(harga, 0),
                     style: blackHigtTextStyle.copyWith(fontSize: 13),
                   ),
                 ],
@@ -785,7 +805,18 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(CaraPembayaranPage());
+                        Get.to(CaraPembayaranPage(
+                          id: paymentMethodId,
+                          totalPaid: harga,
+                          vaNumber: '222222222',
+                          transactionType: 'Treatment',
+                          treatment: Treatment.Data2.fromJson(
+                            jsonDecode(
+                              jsonEncode(item![0].treatment),
+                            ),
+                          ),
+                          pax: item?[0].pax,
+                        ));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

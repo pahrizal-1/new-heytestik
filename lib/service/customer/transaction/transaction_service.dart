@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/order_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
+import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
@@ -26,6 +27,17 @@ class TransactionService extends ProviderClass {
       },
     );
     return PaymentMethodModel.fromJson(response);
+  }
+
+  Future<PaymentMethodByIdModel> paymentMethodById(int id) async {
+    var response = await networkingConfig.doGet(
+      '/payment-method/$id',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return PaymentMethodByIdModel.fromJson(response);
   }
 
   Future<OrderConsultationModel> orderConsultation(dynamic data) async {

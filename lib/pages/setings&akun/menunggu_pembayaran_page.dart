@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
@@ -180,13 +179,14 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                                 ?.interestCondition
                                                 ?.name ??
                                             '-',
-                                harga: CurrencyFormat.convertToIdr(
-                                    history[index].detail?.totalPaid, 0),
+                                harga: history[index].detail!.totalPaid!,
                                 img: history[index].detail?.consultation == null
                                     ? '-'
                                     : '${Global.FILE}/${history[index].detail?.consultation?.doctor?.mediaUserProfilePicture?.media?.path}',
                                 orderId:
                                     history[index].transactionId.toString(),
+                                paymentMethodId:
+                                    history[index].detail!.paymentMethodId!,
                               );
                             }
 
@@ -214,6 +214,8 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                         ),
                                       ),
                                     ),
+                                    paymentMethodId:
+                                        history[index].detail!.paymentMethodId!,
                                   ));
                                 },
                                 child: TransaksiTreatment(
@@ -245,8 +247,9 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                                       'SELESAI'
                                                   ? 'Selesai'
                                                   : '-',
-                                  harga: CurrencyFormat.convertToIdr(
-                                      history[index].detail?.totalPaid, 0),
+                                  harga: history[index].detail!.totalPaid!,
+                                  paymentMethodId:
+                                      history[index].detail!.paymentMethodId!,
                                 ),
                               );
                             }

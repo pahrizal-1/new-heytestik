@@ -14,7 +14,6 @@ import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-
 import '../../theme/theme.dart';
 import '../../widget/more_dialog_transaksi_widget.dart';
 
@@ -24,12 +23,14 @@ class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
   String bankImage;
   String orderId;
   String expireTime;
+  int paymentMethodId;
   SelesaikanPembayaranKonsultasiPage({
     required this.isWillPop,
     this.bank = '',
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
+    required this.paymentMethodId,
     super.key,
   });
 
@@ -388,12 +389,15 @@ class _SelesaikanPembayaranKonsultasiState
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CaraPembayaranPage(),
-                                ),
-                              );
+                              Get.to(CaraPembayaranPage(
+                                id: widget.paymentMethodId,
+                                totalPaid: int.parse(
+                                    double.parse(state.grossAmount.value)
+                                        .round()
+                                        .toString()),
+                                vaNumber: state.virtualAccount.value,
+                                transactionType: 'Konsultasi',
+                              ));
                             },
                             child: Center(
                               child: Text(
