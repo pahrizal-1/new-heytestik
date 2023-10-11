@@ -209,7 +209,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final List<XFile>? selectImage = await ImagePicker().pickMultiImage();
+    final List<XFile>? selectImage = await ImagePicker().pickMultiImage(imageQuality: 50);
     if (selectImage! != null) {
       selectedMultipleImage.addAll(selectImage);
       print('awal$selectedMultipleImage');

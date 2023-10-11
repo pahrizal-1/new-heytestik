@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/schedule_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class FilterJadwalDoctor extends StatefulWidget {
@@ -19,6 +21,30 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
   int jam = 0;
   int menit = 0;
   int isSelected = -1;
+  TimeOfDay _time = TimeOfDay.now();
+  DateTime now = DateTime.now();
+
+  void _selectTime() async {
+    TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+      print(newTime.format(context)); //output 10:51 PM
+      print(newTime.hour); //output 10:51 PM
+      print(newTime.minute); //output 10:51 PM
+      DateTime parsedTime =
+          DateTime(now.year, now.month, now.day, _time.hour, _time.minute);
+      final format = DateFormat.jm();
+      print('format ' + format.format(parsedTime).toString());
+    } else {
+      print("Time is not selected");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -99,9 +125,14 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                           SizedBox(
                             width: 6,
                           ),
-                          Text(
-                            'Edit',
-                            style: grenTextStyle.copyWith(fontSize: 12),
+                          InkWell(
+                            onTap: () {
+                              Get.to(ScheduleDoctorPage());
+                            },
+                            child: Text(
+                              'Edit',
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
                           )
                         ],
                       ),
@@ -181,8 +212,10 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                           InkWell(
                             onTap: () {
                               customeshomodal(
-                                  context,
-                                  Padding(
+                                context,
+                                StatefulBuilder(
+                                    builder: (BuildContext context, setState) {
+                                  return Padding(
                                     padding: const EdgeInsets.only(
                                         left: 20, right: 20, top: 24),
                                     child: Wrap(
@@ -228,9 +261,15 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      jam++;
-                                                    });
+                                                    if (jam != 24) {
+                                                      setState(() {
+                                                        jam++;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        jam = 0;
+                                                      });
+                                                    }
                                                   },
                                                   child: Image.asset(
                                                     'assets/icons/upButton.png',
@@ -272,9 +311,15 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      jam--;
-                                                    });
+                                                    if (jam <= 0) {
+                                                      setState(() {
+                                                        jam = 0;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        jam--;
+                                                      });
+                                                    }
                                                   },
                                                   child: Image.asset(
                                                     'assets/icons/button-down.png',
@@ -296,10 +341,23 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                             ),
                                             Column(
                                               children: [
-                                                Image.asset(
-                                                  'assets/icons/upButton.png',
-                                                  width: 30,
-                                                  height: 30,
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (menit != 60) {
+                                                      setState(() {
+                                                        menit++;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        menit = 0;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/upButton.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   height: 22,
@@ -311,7 +369,7 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '00',
+                                                      menit.toString(),
                                                       style: blackHigtTextStyle
                                                           .copyWith(
                                                               fontSize: 30),
@@ -333,10 +391,23 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                                 SizedBox(
                                                   height: 22,
                                                 ),
-                                                Image.asset(
-                                                  'assets/icons/button-down.png',
-                                                  width: 30,
-                                                  height: 30,
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (menit <= 0) {
+                                                      setState(() {
+                                                        menit = 0;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        menit--;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/button-down.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -351,7 +422,9 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                                         )
                                       ],
                                     ),
-                                  ));
+                                  );
+                                }),
+                              );
                             },
                             child: Container(
                               width: 81,

@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/schedule_doctor_page.dart';
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
+import 'package:heystetik_mobileapps/widget/filter_jadwal_doctor.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../../../core/global.dart';
@@ -111,8 +112,25 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                         ),
                                         const Spacer(),
                                         InkWell(
-                                          onTap: ()  {
-                                            Get.to(ScheduleDoctorPage());
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor: Colors.white,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadiusDirectional
+                                                        .only(
+                                                  topEnd: Radius.circular(25),
+                                                  topStart: Radius.circular(25),
+                                                ),
+                                              ),
+                                              context: context,
+                                              builder: (context) {
+                                                return FilterJadwalDoctor();
+                                              },
+                                            );
+                                            // Get.to(ScheduleDoctorPage());
                                             // notificationService
                                             //     .showLocalNotification(
                                             //   id: 0,
