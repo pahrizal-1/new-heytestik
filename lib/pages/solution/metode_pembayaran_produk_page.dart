@@ -418,6 +418,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                           bankImage: state.bankImage.value,
                           bank: state.bank.value,
                           expireTime: state.expireTime.value,
+                          paymentMethodId: state.idPayment.value,
                         ));
                       },
                     );

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -25,6 +27,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.searchController.clear();
       await state.getInterestConditions(context);
     });
   }
@@ -82,6 +85,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                                 title: element.concern!.name.toString(),
                                 img:
                                     '${Global.FILE}/${element.concern?.mediaConcern?.media!.path.toString()}',
+                                detail: element,
                               );
                             },
                           ),
@@ -107,11 +111,13 @@ class KorektifWajahPage extends StatelessWidget {
   final int? interestConditionId;
   final String title;
   final String img;
-  const KorektifWajahPage({
+  Data detail;
+  KorektifWajahPage({
     super.key,
     required this.interestConditionId,
     required this.title,
     required this.img,
+    required this.detail,
   });
 
   @override
@@ -125,6 +131,7 @@ class KorektifWajahPage extends StatelessWidget {
             ChatPage(
               interestConditionId: interestConditionId,
               title: title,
+              detail: detail,
             ),
           );
         },

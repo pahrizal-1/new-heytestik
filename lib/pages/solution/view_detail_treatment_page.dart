@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,7 +16,9 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
 import '../../widget/loading_widget.dart';
@@ -81,6 +85,26 @@ class _BokingTreatmentState extends State<BokingTreatment> {
       }
     });
     super.initState();
+  }
+
+  _whatsapp() async {
+    var contact = "+6281287639838";
+    var androidUrl = "whatsapp://send?phone=$contact&text=Hi";
+    var iosUrl = "https://wa.me/$contact?text=${Uri.parse('Hi')}";
+
+    try {
+      if (Platform.isIOS) {
+        await launchUrl(Uri.parse(iosUrl));
+      } else {
+        await launchUrl(Uri.parse(androidUrl));
+      }
+    } on Exception {
+      SnackbarWidget.getErrorSnackbar(
+        context,
+        'Info',
+        'WhatsApp is not installed.',
+      );
+    }
   }
 
   @override
@@ -328,8 +352,13 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     const SizedBox(
                       height: 6,
                     ),
-                    const TextFromPerawat(
-                      title: 'Jadwal Ulang Perawatan',
+                    InkWell(
+                      onTap: () async {
+                        await _whatsapp();
+                      },
+                      child: const TextFromPerawat(
+                        title: 'Jadwal Ulang Perawatan',
+                      ),
                     ),
                     const SizedBox(
                       height: 6,

@@ -235,8 +235,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         padding: EdgeInsets.only(top: 10),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 5,
-                          childAspectRatio: 1.0,
-                          mainAxisSpacing: 5.0,
+                          childAspectRatio: 0.9,
+                          mainAxisSpacing: 8.0,
                           crossAxisSpacing: 5.0,
                         ),
                         shrinkWrap: true,
@@ -262,7 +262,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                       padding: EdgeInsets.only(top: 10),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.7,
                       ),
                       shrinkWrap: true,
                       physics: ScrollPhysics(),
@@ -279,6 +279,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   title: stateConcern
                                           .filterData[index].concern?.name ??
                                       '-',
+                                  detail: stateConcern.filterData[index],
                                 ),
                               );
                             }

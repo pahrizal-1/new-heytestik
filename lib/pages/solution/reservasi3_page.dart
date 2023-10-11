@@ -489,6 +489,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                           bank: state.bank.value,
                           expireTime: state.expireTime.value,
                           pax: widget.pax,
+                          paymentMethodId: state.idPayment.value,
                         ));
                       },
                     );

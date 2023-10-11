@@ -1,19 +1,14 @@
-class PaymentMethodModel {
+class PaymentMethodByIdModel {
   bool? success;
   String? message;
-  List<Data>? data;
+  Data? data;
 
-  PaymentMethodModel({this.success, this.message, this.data});
+  PaymentMethodByIdModel({this.success, this.message, this.data});
 
-  PaymentMethodModel.fromJson(Map<String, dynamic> json) {
+  PaymentMethodByIdModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +16,7 @@ class PaymentMethodModel {
     data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
@@ -32,7 +27,7 @@ class Data {
   String? name;
   String? method;
   String? type;
-  String? accountNumber;
+  dynamic accountNumber;
   String? segment;
   String? description;
   bool? isActive;

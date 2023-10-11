@@ -1,20 +1,25 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/pertanyaan_awal1_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 import '../../widget/appar_cutome.dart';
 
 class ChatPage extends StatefulWidget {
   final int? interestConditionId;
   final String title;
-  const ChatPage({
+  Data detail;
+  ChatPage({
     super.key,
     required this.interestConditionId,
     required this.title,
+    required this.detail,
   });
 
   @override
@@ -22,12 +27,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final images = [
-    'assets/images/bekas-jerawat1.png',
-    'assets/images/bekas-jerawat2.png',
-    'assets/images/bekas-jerawat3.png',
-    'assets/images/bekas-jerawat4.png',
-  ];
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -42,50 +41,56 @@ class _ChatPageState extends State<ChatPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    CarouselSlider.builder(
-                      itemCount: images.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final imge = images[index];
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(imge),
+            if (widget
+                .detail.mediaInterestConditionsCharacteristics!.isNotEmpty)
+              Column(
+                children: [
+                  Stack(
+                    children: [
+                      CarouselSlider.builder(
+                        itemCount: widget.detail
+                            .mediaInterestConditionsCharacteristics?.length,
+                        itemBuilder: (context, index, realIndex) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  '${Global.FILE}/${widget.detail.mediaInterestConditionsCharacteristics?[index].media!.path.toString()}',
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        height: 320,
-                        viewportFraction: 1,
-                        autoPlay: true,
-                        autoPlayAnimationDuration: const Duration(seconds: 2),
-                        onPageChanged: (index, reason) =>
-                            setState(() => activeIndex = index),
+                          );
+                        },
+                        options: CarouselOptions(
+                          height: 320,
+                          viewportFraction: 1,
+                          autoPlay: true,
+                          autoPlayAnimationDuration: const Duration(seconds: 2),
+                          onPageChanged: (index, reason) =>
+                              setState(() => activeIndex = index),
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      left: 170,
-                      bottom: 25,
-                      child: AnimatedSmoothIndicator(
-                        activeIndex: activeIndex,
-                        count: images.length,
-                        effect: ScaleEffect(
+                      Positioned(
+                        left: 170,
+                        bottom: 25,
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: activeIndex,
+                          count: widget.detail
+                              .mediaInterestConditionsCharacteristics!.length,
+                          effect: ScaleEffect(
                             activeDotColor: greenColor,
                             dotColor: whiteColor,
                             dotWidth: 6,
-                            dotHeight: 6),
+                            dotHeight: 6,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
             Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: Column(
@@ -186,7 +191,7 @@ class _ChatPageState extends State<ChatPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ciri-Cirinya:',
+                          'Ciri-Cirinya :',
                           style: TextStyle(
                             fontWeight: bold,
                             fontSize: 20,
@@ -196,98 +201,47 @@ class _ChatPageState extends State<ChatPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              height: 22,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/centang22.png'),
+                        if (widget
+                            .detail.interestConditionsCharacteristics!.isEmpty)
+                          Text(
+                            'Belum ada ciri - cirinya',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 16,
+                            ),
+                          ),
+                        ...widget.detail.interestConditionsCharacteristics!.map(
+                          (element) => Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 22,
+                                  width: 26,
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/icons/centang22.png',
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 25,
-                            ),
-                            const Text(
-                              'Timbul setelah jerawat mereda.',
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              height: 22,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/centang22.png'),
+                                const SizedBox(
+                                  width: 25,
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 25,
-                            ),
-                            Container(
-                              // color: Colors.amberAccent,
-                              constraints: const BoxConstraints(maxWidth: 240),
-                              child: RichText(
-                                text: const TextSpan(
-                                  text:
-                                      'Bekas bisa berwarna merah ataupun hitam.',
-                                  style: TextStyle(
+                                Expanded(
+                                  child: Text(
+                                    element.characteristic.toString(),
+                                    style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 16,
-                                      color: Colors.black),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              height: 22,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/centang22.png'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 25,
-                            ),
-                            Container(
-                              // color: Colors.amberAccent,
-                              constraints: const BoxConstraints(maxWidth: 240),
-                              child: RichText(
-                                text: const TextSpan(
-                                  text:
-                                      'Ada perubahan tekstur dan lekukan di kulit yang bersifat permanen.',
-                                  style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        )
                       ],
                     ),
                   ),
