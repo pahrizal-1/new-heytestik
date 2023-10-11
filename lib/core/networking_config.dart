@@ -30,9 +30,7 @@ class NetworkingConfig {
       var response = await dio.get(
         endpoint,
         queryParameters: params,
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -52,9 +50,7 @@ class NetworkingConfig {
         endpoint,
         queryParameters: params,
         data: data,
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -74,9 +70,7 @@ class NetworkingConfig {
         endpoint,
         queryParameters: params,
         data: FormData.fromMap(data),
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -94,9 +88,7 @@ class NetworkingConfig {
       var response = await dio.patch(
         Uri.encodeFull(Global.BASE_API + endpoint),
         data: FormData.fromMap(data),
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -137,9 +129,7 @@ class NetworkingConfig {
           'practice_location': practice,
           'files': await MultipartFile.fromFile(imgFile),
         }),
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -234,9 +224,7 @@ class NetworkingConfig {
         endpoint,
         queryParameters: params,
         data: data,
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
@@ -255,9 +243,7 @@ class NetworkingConfig {
         endpoint,
         queryParameters: params,
         data: data,
-        options: Options(
-          headers: headers,
-        ),
+        options: Options(headers: headers),
       );
       return response.data;
     } catch (error) {
