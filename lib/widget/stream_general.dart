@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,9 @@ import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../controller/customer/stream/post_controller.dart';
@@ -29,6 +33,7 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
   bool? like;
   bool? saved;
   Map<String, int> postLike = {};
+  int activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -115,84 +120,53 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
           const SizedBox(
             height: 16,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: widget.stream.postImage.map((image) {
-                  return Container(
-                    margin: EdgeInsets.only(right: 10),
-                    width: 200,
-                    child: Stack(
-                      children: [
-                        Image.network(
-                          "${Global.FILE}/$image",
-                          fit: BoxFit.fill,
+          CarouselSlider(
+            options: CarouselOptions(
+              padEnds: false,
+              enableInfiniteScroll: true,
+              height: 300,
+              onPageChanged: (index, reason) =>
+                  setState(() => activeIndex = index),
+              viewportFraction: 1,
+            ),
+            items: widget.stream.postImage.map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return InkWell(
+                    onTap: () {
+                      // Get.to(
+                      //     GalleryWidgets(urlImages: widget.stream.postImage));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            "${Global.FILE}/$image",
+                          ),
                         ),
-
-                        //       color: whiteColor,
-                        //     ),
-                        //   ),
-                        // ),
-
-                        // Positioned(
-                        //   top: 290.2,
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       color: Colors.white.withOpacity(1),
-                        //       borderRadius: const BorderRadius.only(
-                        //         topRight: Radius.circular(86),
-                        //         bottomRight: Radius.circular(86),
-                        //       ),
-                        //     ),
-                        //     padding: const EdgeInsets.only(left: 6, top: 7),
-                        //     height: 40,
-                        //     width: 150,
-                        //     child: Column(
-                        //       crossAxisAlignment: CrossAxisAlignment.start,
-                        //       children: [
-                        //         Text(
-                        //           'My Journey - Jerawat',
-                        //           style:
-                        //               blackTextStyle.copyWith(fontSize: 8.67),
-                        //         ),
-                        //         Text(
-                        //           'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
-                        //           style: blackRegulerTextStyle.copyWith(
-                        //               fontSize: 8.67),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   );
-
-                  // return Container(
-                  //   margin: const EdgeInsets.symmetric(
-                  //     horizontal: 10.0,
-                  //     vertical: 10.0,
-                  //   ),
-                  //   width: MediaQuery.of(context).size.width /
-                  //       (1.3 * widget.stream.postImage.length),
-                  //   height: MediaQuery.of(context).size.width /
-                  //       (1.3 * widget.stream.postImage.length),
-                  //   decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.black.withOpacity(.2)),
-                  //     borderRadius: BorderRadius.circular(8),
-                  //   ),
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     child: Image.network(
-                  //       "${Global.FILE}/$image",
-                  //       fit: BoxFit.fill,
-                  //     ),
-                  //   ),
-                  // );
-                }).toList(),
-              ),
+                },
+              );
+            }).toList(),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: AnimatedSmoothIndicator(
+              activeIndex: activeIndex,
+              count: widget.stream.postImage.length,
+              effect: ScaleEffect(
+                  activeDotColor: greenColor,
+                  dotColor: const Color(0xffD9D9D9),
+                  dotWidth: 6,
+                  dotHeight: 6),
             ),
           ),
           if (widget.stream.hashtags.isNotEmpty) ...[
@@ -303,7 +277,7 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
                     child: saved ?? widget.stream.saved
                         ? Icon(
                             Icons.bookmark,
-                            color: greyColor,
+                            color: greenColor,
                           )
                         : Icon(
                             Icons.bookmark_border,
@@ -355,3 +329,47 @@ class _StreamPostGeneralState extends State<StreamPostGeneral> {
     );
   }
 }
+
+// class GalleryWidgets extends StatefulWidget {
+//   final PageController pageController;
+//   final List urlImages;
+//   final int index;
+//   GalleryWidgets({super.key, required this.urlImages, this.index = 0})
+//       : pageController = PageController(initialPage: index);
+
+//   @override
+//   State<GalleryWidgets> createState() => _GalleryWidgetsState();
+// }
+
+// class _GalleryWidgetsState extends State<GalleryWidgets> {
+//   late int index = widget.index;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         body: Stack(
+//       alignment: Alignment.bottomLeft,
+//       children: [
+//         PhotoViewGallery.builder(
+//           pageController: widget.pageController,
+//           itemCount: widget.urlImages.length,
+//           builder: (context, index) {
+//             final urlImage = widget.urlImages[index];
+//             return PhotoViewGalleryPageOptions(
+//               imageProvider: NetworkImage(urlImage),
+//               minScale: PhotoViewComputedScale.contained,
+//               maxScale: PhotoViewComputedScale.contained * 4,
+//             );
+//           },
+//           onPageChanged: (index) => setState(() => this.index = index),
+//         ),
+//         Container(
+//           padding: EdgeInsets.all(16),
+//           child: Text(
+//             'image ${index + 1}/${widget.urlImages.length}',
+//             style: whiteTextStyle.copyWith(fontSize: 13),
+//           ),
+//         )
+//       ],
+//     ));
+//   }
+// }
