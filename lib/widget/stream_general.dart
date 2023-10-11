@@ -7,8 +7,6 @@ import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
