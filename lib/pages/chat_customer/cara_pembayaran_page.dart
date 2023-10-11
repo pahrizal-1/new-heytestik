@@ -291,15 +291,16 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         ],
                       ),
                       const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          _detail();
-                        },
-                        child: Text(
-                          'Lihat Detail',
-                          style: grenTextStyle.copyWith(fontSize: 14),
+                      if (widget.transactionType != 'Produk')
+                        InkWell(
+                          onTap: () {
+                            _detail();
+                          },
+                          child: Text(
+                            'Lihat Detail',
+                            style: grenTextStyle.copyWith(fontSize: 14),
+                          ),
                         ),
-                      ),
                       const SizedBox(
                         width: 8,
                       ),
