@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -220,27 +221,36 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              if (like ?? widget.post.liked) {
-                                postController.unlikePost(
-                                    context, widget.post.id);
-                                setState(() {
-                                  like = false;
-                                  postLike = postLike - 1;
-                                });
-                              } else {
-                                postController.likePost(
-                                    context, widget.post.id);
-                                setState(() {
-                                  like = true;
-                                  postLike = postLike + 1;
-                                });
-                              }
-                            },
-                            child: like ?? widget.post.liked
-                                ? Icon(Icons.favorite)
-                                : Icon(Icons.favorite_outline_outlined),
-                          ),
+                              onTap: () {
+                                if (like ?? widget.post.liked) {
+                                  postController.unlikePost(
+                                      context, widget.post.id);
+                                  setState(() {
+                                    like = false;
+                                    postLike = postLike - 1;
+                                  });
+                                } else {
+                                  postController.likePost(
+                                      context, widget.post.id);
+                                  setState(() {
+                                    like = true;
+                                    postLike = postLike + 1;
+                                  });
+                                }
+                              },
+                              child: like ?? widget.post.liked
+                                  ? Image.asset(
+                                      'assets/icons/like.png',
+                                      width: 19,
+                                      height: 19,
+                                      color: greenColor,
+                                    )
+                                  : Image.asset(
+                                      'assets/icons/like.png',
+                                      width: 19,
+                                      height: 19,
+                                      color: greyColor,
+                                    )),
                           const SizedBox(
                             width: 15,
                           ),
@@ -259,7 +269,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 builder: (context) => ShareShowWidget(),
                               );
                             },
-                            child: Icon(Icons.share),
+                            child: SvgPicture.asset(
+                              'assets/icons/share-icons.svg',
+                              // ignore: deprecated_member_use
+                              color: greyColor,
+                              width: 21,
+                              height: 21,
+                            ),
                           ),
                           const SizedBox(
                             width: 15,
@@ -281,8 +297,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               }
                             },
                             child: saved ?? widget.post.saved
-                                ? Icon(Icons.bookmark)
-                                : Icon(Icons.bookmark_border),
+                                ? Icon(
+                                    Icons.bookmark,
+                                    color: greenColor,
+                                  )
+                                : Icon(
+                                    Icons.bookmark_border,
+                                    color: greyColor,
+                                  ),
                           ),
                         ],
                       ),
