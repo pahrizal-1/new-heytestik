@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_kons
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
-
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -288,6 +287,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                     bank: state.bank.value,
                                     bankImage: state.bankImage.value,
                                     expireTime: state.expireTime.value,
+                                    paymentMethodId: state.idPayment.value,
                                   ));
                                 },
                               );

@@ -7,12 +7,25 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
+import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart'
+    as ByID;
 
 class HistoryTransactionController extends StateClass {
   RxList historyPending = [].obs;
   Rx<TransactionHistoryModel> responseHistory = TransactionHistoryModel().obs;
   RxList<Data2> dataHistory = List<Data2>.empty(growable: true).obs;
   RxList<Data2> dataHistoryPending = List<Data2>.empty(growable: true).obs;
+  Rx<ByID.PaymentMethodByIdModel> paymentMethod =
+      ByID.PaymentMethodByIdModel.fromJson({}).obs;
+
+  Future<ByID.Data?> getPaymentmethod(BuildContext context, int id) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      paymentMethod.value = await TransactionService().paymentMethodById(id);
+    });
+    isLoading.value = false;
+    return paymentMethod.value.data;
+  }
 
   Future<List<Data2>> getAllHistory(BuildContext context, int page,
       {String? search, Map<String, dynamic>? filter}) async {

@@ -22,13 +22,14 @@ class SelesaikanPembayaranProdukPage extends StatefulWidget {
   String bankImage;
   String orderId;
   String expireTime;
-
+  int paymentMethodId;
   SelesaikanPembayaranProdukPage({
     required this.isWillPop,
     this.bank = '',
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
+    required this.paymentMethodId,
     super.key,
   });
 
@@ -350,7 +351,15 @@ class _SelesaiPembayaranProdukPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(CaraPembayaranPage());
+                              Get.to(CaraPembayaranPage(
+                                id: widget.paymentMethodId,
+                                totalPaid: int.parse(
+                                    double.parse(state.grossAmount.value)
+                                        .round()
+                                        .toString()),
+                                vaNumber: state.virtualAccount.value,
+                                transactionType: 'Produk',
+                              ));
                             },
                             child: Center(
                               child: Text(
