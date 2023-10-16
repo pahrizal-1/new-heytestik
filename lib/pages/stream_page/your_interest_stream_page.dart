@@ -1,14 +1,10 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
-import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/stream_general.dart';
-import '../../widget/stream_polling.dart';
+import '../../widget/stream_post.dart';
 
 class InterestStreamPage extends StatefulWidget {
   const InterestStreamPage({
@@ -66,13 +62,7 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: postController.interestStreams.length,
                   itemBuilder: (context, index) {
-                    if (postController.interestStreams[index].type
-                            .toLowerCase() ==
-                        'polling') {
-                      return StreamPostPolling(
-                          stream: postController.interestStreams[index]);
-                    }
-                    return StreamPostGeneral(
+                    return StreamPostPage(
                         stream: postController.interestStreams[index]);
                   },
                   separatorBuilder: (context, index) {
@@ -92,7 +82,7 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganPage(),
+              builder: (context) => const BuatPostinganStream(),
             ),
           );
         },

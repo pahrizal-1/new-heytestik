@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/stream_general.dart';
-import '../../widget/stream_polling.dart';
+import '../../widget/stream_post.dart';
 
 class TrendingStreamPage extends StatefulWidget {
   const TrendingStreamPage({
@@ -60,13 +59,7 @@ class _TrendingStreamPageState extends State<TrendingStreamPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: postController.trendingStreams.length,
                   itemBuilder: (context, index) {
-                    if (postController.trendingStreams[index].type
-                            .toLowerCase() ==
-                        'polling') {
-                      return StreamPostPolling(
-                          stream: postController.trendingStreams[index]);
-                    }
-                    return StreamPostGeneral(
+                    return StreamPostPage(
                         stream: postController.trendingStreams[index]);
                   },
                   separatorBuilder: (context, index) {
@@ -86,7 +79,7 @@ class _TrendingStreamPageState extends State<TrendingStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganPage(),
+              builder: (context) => const BuatPostinganStream(),
             ),
           );
         },
