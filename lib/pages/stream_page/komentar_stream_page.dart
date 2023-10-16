@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -141,12 +142,17 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       Container(
                         height: 30,
                         width: 30,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/profiledummy.png',
-                            ),
+                            image: widget.post.photoUser == "" ||
+                                    widget.post.photoUser == "photo_profile"
+                                ? AssetImage(
+                                    'assets/images/profiledummy.png',
+                                  )
+                                : NetworkImage(
+                                        '${Global.FILE}/${widget.post.photoUser}')
+                                    as ImageProvider,
                           ),
                         ),
                       ),
@@ -326,12 +332,17 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       Container(
                         height: 30,
                         width: 30,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/profiledummy.png',
-                            ),
+                            image: widget.post.photoUser == "" ||
+                                    widget.post.photoUser == "photo_profile"
+                                ? AssetImage(
+                                    'assets/images/profiledummy.png',
+                                  )
+                                : NetworkImage(
+                                        '${Global.FILE}/${widget.post.photoUser}')
+                                    as ImageProvider,
                           ),
                         ),
                       ),
@@ -377,6 +388,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                     "${comment.commentID}"] ??
                                                 0) >
                                         0) {
+                                      print("heheh");
                                       postController.unlikeComment(context,
                                           widget.post.id, comment.commentID);
                                       setState(() {
@@ -389,6 +401,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                 1);
                                       });
                                     } else {
+                                      print("hahah");
                                       postController.likeComment(context,
                                           widget.post.id, comment.commentID);
                                       setState(() {
@@ -877,6 +890,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   postController.postComment(
                       context, widget.post.id, commentController.text);
                   page = 1;
+                  comments.clear();
                   comments.addAll(await postController.getComment(
                       context, page, widget.post.id));
                   commentController.clear();

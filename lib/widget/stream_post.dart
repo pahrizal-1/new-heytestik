@@ -486,7 +486,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     child: saved ?? widget.stream.saved
                         ? Icon(
                             Icons.bookmark,
-                            color: greyColor,
+                            color: greenColor,
                           )
                         : Icon(
                             Icons.bookmark_border,

@@ -132,6 +132,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamCommentModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        await Future.delayed(Duration(seconds: 1));
         data = await PostServices().getComment(page, postID);
         isLoading.value = false;
       });
