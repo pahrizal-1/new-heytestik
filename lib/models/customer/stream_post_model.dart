@@ -1,6 +1,6 @@
 class StreamPostModel {
   final String content;
-  final String type;
+
   final List<String?> hashtags;
   final DateTime endTime;
   final List<String> options;
@@ -8,7 +8,6 @@ class StreamPostModel {
 
   const StreamPostModel({
     required this.content,
-    required this.type,
     required this.hashtags,
     required this.endTime,
     required this.options,
@@ -18,7 +17,7 @@ class StreamPostModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['content'] = content;
-    data['type'] = type;
+
     data['hashtags'] = hashtags;
     data['options'] = options;
     data['endTime'] = endTime;

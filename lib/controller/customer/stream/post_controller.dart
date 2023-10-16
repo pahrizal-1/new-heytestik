@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
-import 'package:heystetik_mobileapps/service/customer/stream/post.dart';
+import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
+import 'package:heystetik_mobileapps/models/stream_image_recent_model.dart';
+import 'package:heystetik_mobileapps/service/customer/stream/post_service.dart';
 
 import '../../../models/stream_comment.dart';
 import '../../../models/stream_comment_reply.dart';
@@ -21,36 +20,29 @@ class PostController extends StateClass {
   RxInt interestStreamIndex = 1.obs;
   RxInt followedStreamIndex = 1.obs;
   RxInt trendingStreamIndex = 1.obs;
+  RxList<Data2> recentImage = List<Data2>.empty().obs;
 
-  Future<dynamic> postGeneral(
+  Future<List<Data2>> getRecentImage(BuildContext context, int page) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var get = await PostServices().getRecentImage(page);
+      recentImage.value = get.data!.data!;
+    });
+    isLoading.value = false;
+    return recentImage;
+  }
+
+  Future<dynamic> postStream(
     BuildContext context,
     StreamPostModel postModel, {
     required Function() doInPost,
-    List<File>? files,
+    List? files,
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {
-        var data = await PostServices().postGeneral(postModel, files: files);
-        print(data);
-        doInPost();
-      } catch (e) {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: "Something wen't wrong please try again later",
-        );
-      }
-    });
-    isLoading.value = false;
-  }
-
-  Future<dynamic> postPolling(BuildContext context, StreamPostModel postModel,
-      {required Function() doInPost}) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        var data = await PostServices().postPolling(postModel);
-        print(data);
+        var data = await PostServices().postStream(postModel, files: files);
+        print("data $data");
         doInPost();
       } catch (e) {
         throw ErrorConfig(
@@ -129,7 +121,7 @@ class PostController extends StateClass {
       homeStreams.addAll(data);
       return data;
     } catch (error) {
-      print(error.toString());
+      print("heheh error nih ${error.toString()}");
       return [];
     }
   }
