@@ -38,11 +38,6 @@ class TreatmentController extends StateClass {
 
   getDataUser() async {
     dataUser = await LocalStorage().getDataUser();
-
-    print('dataUser ${dataUser}');
-    print('fullname ${dataUser['fullname']}');
-    print('no_phone ${dataUser['no_phone']}');
-
     fullName.value = dataUser['fullname'];
     phone.value = dataUser['no_phone'];
   }

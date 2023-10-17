@@ -16,7 +16,7 @@ import '../../theme/theme.dart';
 
 class Reservasi2Page extends StatefulWidget {
   final Data2 treatment;
-  Reservasi2Page({required this.treatment, super.key});
+  const Reservasi2Page({required this.treatment, super.key});
 
   @override
   State<Reservasi2Page> createState() => _Reservasi2PageState();
@@ -30,7 +30,10 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
   @override
   void initState() {
     super.initState();
-    stateTreatment.getDataUser();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      stateTreatment.getDataUser();
+      stateTreatment.getClinicDetail(context, widget.treatment.clinicId!);
+    });
   }
 
   @override
@@ -416,18 +419,105 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                   );
                   return;
                 }
-                Get.to(
-                  Resevasi3Page(
-                    pax: stateTreatment.pax.value,
-                    tgl: ConvertDate.normalDate(stateOrder.arrivalDate.value),
-                    treatment: widget.treatment,
-                  ),
-                );
+
+                if (cekJadwal()) {
+                  Get.to(
+                    Resevasi3Page(
+                      pax: stateTreatment.pax.value,
+                      tgl: ConvertDate.normalDate(stateOrder.arrivalDate.value),
+                      treatment: widget.treatment,
+                    ),
+                  );
+                }
               },
             )
           ],
         ),
       ),
     );
+  }
+
+  bool cekJadwal() {
+    var cek = stateTreatment
+        .responseClinicDetail.value.data!.clinicOperationHours!
+        .firstWhereOrNull(
+      (element) =>
+          element.day == ConvertDate.dayOnly(stateOrder.arrivalDate.value),
+    );
+
+    if (cek == null) {
+      print("TIDAK ADA JADWAL PADA HARI YG ANDA PILIH");
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertWidget(subtitle: 'Jadwal tidak sesuai dengan jadwal klinik'),
+      );
+      return false;
+    } else {
+      if (cek.isActive!) {
+        DateTime pilihJamAwal = DateTime.parse(
+            '2023-08-03T${stateOrder.arrivalTimeFirst.value.substring(0, 5)}');
+        // print('pilihJamAwal $pilihJamAwal');
+        DateTime jadwalJamAwal =
+            DateTime.parse('2023-08-03T${cek.startTime!.substring(11, 16)}');
+        // print('jadwalJamAwal $jadwalJamAwal');
+
+        DateTime pilihJamAkhir = DateTime.parse(
+            '2023-08-03T${stateOrder.arrivalTimeLast.value.substring(0, 5)}');
+        // print('pilihJamAkhir $pilihJamAkhir');
+        DateTime jadwalJamAkhir =
+            DateTime.parse('2023-08-03T${cek.endTime!.substring(11, 16)}');
+        // print('jadwalJamAkhir $jadwalJamAkhir');
+
+        bool awalIsAfter = pilihJamAwal.isAfter(jadwalJamAwal);
+        // print("awalIsAfter $awalIsAfter");
+        bool awalIsBefore = pilihJamAwal.isBefore(jadwalJamAkhir);
+        // print("awalIsBefore $awalIsBefore");
+
+        bool akhirIsBefore = pilihJamAkhir.isBefore(jadwalJamAkhir);
+        // print("akhirIsBefore $akhirIsBefore");
+        bool akhirIsAfter = pilihJamAkhir.isAfter(jadwalJamAwal);
+        // print("akhirIsAfter $akhirIsAfter");
+        if (pilihJamAwal.isBefore(pilihJamAkhir)) {
+          if (awalIsAfter && awalIsBefore && akhirIsAfter && akhirIsBefore) {
+            print("JADWAL AMANN");
+            return true;
+          } else {
+            String aa = stateOrder.arrivalTimeFirst.value.substring(0, 5);
+            String bb = stateOrder.arrivalTimeLast.value.substring(0, 5);
+            String cc = cek.startTime!.substring(11, 16);
+            String dd = cek.endTime!.substring(11, 16);
+            if (aa == cc && bb == dd) {
+              print("JADWAL AWAL DAN AKHIR SAMA, MASIH AMAN");
+              return true;
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => AlertWidget(
+                    subtitle: 'Jadwal tidak sesuai dengan jadwal klinik'),
+              );
+              print("JADWAL TIDAK AMANN");
+              return false;
+            }
+          }
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => AlertWidget(
+                subtitle: 'Jam awal tidak boleh lewat dari jam akhir'),
+          );
+          print("JADWAL TIDAK AMANN");
+          return false;
+        }
+      } else {
+        print("JADWAL LIBUR / TIDAK AKTIF");
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertWidget(subtitle: 'Jadwal tidak sesuai dengan jadwal klinik'),
+        );
+        return false;
+      }
+    }
   }
 }

@@ -104,8 +104,8 @@ class OrderTreatmentController extends StateClass {
   Future<void> selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1990),
+        initialDate: DateTime.now().add(Duration(days: 1)),
+        firstDate: DateTime.now().add(Duration(days: 1)),
         lastDate: DateTime(2100));
 
     if (picked != null) {
@@ -118,25 +118,23 @@ class OrderTreatmentController extends StateClass {
   selectTime(BuildContext context, String cek) async {
     TimeOfDay? pickedTime = await showTimePicker(
       initialTime: TimeOfDay.now(),
+      orientation: Orientation.portrait,
+      initialEntryMode: TimePickerEntryMode.dial,
       context: context,
     );
 
     if (pickedTime != null) {
       print('hahah ${pickedTime.format(context)}');
       DateTime parsedTime =
-          DateFormat('HH:mm').parse(pickedTime.format(context));
+          DateFormat('HH:mm a').parse(pickedTime.format(context));
       print('parsedTime $parsedTime');
-      String formattedTime = DateFormat('HH:mm').format(parsedTime);
-
+      String formattedTime = DateFormat('HH:mm a').format(parsedTime);
       print('formattedTime $formattedTime');
       if (cek == '1') {
         arrivalTimeFirst.value = formattedTime;
       } else if (cek == '2') {
         arrivalTimeLast.value = formattedTime;
       }
-
-      print("1111 ${arrivalTimeFirst.value}");
-      print("2222 ${arrivalTimeLast.value}");
     } else {
       print("Time is not selected");
     }
