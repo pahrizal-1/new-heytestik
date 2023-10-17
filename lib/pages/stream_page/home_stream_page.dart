@@ -78,7 +78,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganGeneral(),
+              builder: (context) => const BuatPostinganStream(),
             ),
           );
         },
