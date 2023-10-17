@@ -160,7 +160,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                   child: Center(
                     child: RichText(
                       text: TextSpan(
-                        text: 'By',
+                        text: 'By ',
                         style: subTitleTextStyle.copyWith(fontSize: 12),
                         children: [
                           TextSpan(

@@ -5,8 +5,7 @@ import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../controller/customer/stream/post_controller.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/stream_general.dart';
-import '../../widget/stream_polling.dart';
+import '../../widget/stream_post.dart';
 
 class HomeStreamPage extends StatefulWidget {
   const HomeStreamPage({
@@ -59,13 +58,9 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: postController.homeStreams.length,
                 itemBuilder: (context, index) {
-                  if (postController.homeStreams[index].type.toLowerCase() ==
-                      'polling') {
-                    return StreamPostPolling(
-                        stream: postController.homeStreams[index]);
-                  }
-                  return StreamPostGeneral(
-                      stream: postController.homeStreams[index]);
+                  return StreamPostPage(
+                    stream: postController.homeStreams[index],
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return dividergreen();

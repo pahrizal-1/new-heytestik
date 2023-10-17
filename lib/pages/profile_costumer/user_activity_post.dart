@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
 import '../../models/stream_home.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
-import '../../widget/stream_general.dart';
-import '../../widget/stream_polling.dart';
+import '../../widget/stream_post.dart';
 
 class UserActivityPost extends StatefulWidget {
   const UserActivityPost({super.key});
@@ -96,7 +95,8 @@ class _UserActivityPostState extends State<UserActivityPost> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const BuatPostinganPage(),
+                                builder: (context) =>
+                                    const BuatPostinganStream(),
                               ),
                             );
                           },
@@ -272,10 +272,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: activity.length,
           itemBuilder: (context, index) {
-            if (activity[index].type.toLowerCase() == 'polling') {
-              return StreamPostPolling(stream: activity[index]);
-            }
-            return StreamPostGeneral(stream: activity[index]);
+            return StreamPostPage(stream: activity[index]);
           },
           separatorBuilder: (context, index) {
             return dividergreen();

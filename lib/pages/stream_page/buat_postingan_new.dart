@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
+import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/upload_poto_stream.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -41,13 +41,10 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   bool isSelectedPoling = true;
   final TextEditingController postDescController = TextEditingController();
   final TextEditingController hashTagController = TextEditingController();
-  List<File> imagePath = [];
+  List imagePath = [];
   final PostController streamController = Get.put(PostController());
   String name = '-';
-  final List<TextEditingController> optionController = [
-    TextEditingController(),
-    TextEditingController(),
-  ];
+  final List<TextEditingController> optionController = [];
   final DateTime endDate = DateTime.now();
   int days = 1;
   Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
@@ -55,6 +52,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   // List suggest = ['Jerawat', 'Kulit Kering'];
   List<Concern.Data2> concern = [];
   List<Concern.Data2> suggestConcern = [];
+  List selectedImage = [];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -136,22 +134,17 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               const Spacer(),
               GestureDetector(
                 onTap: () async {
-                  print(
-                      "hashTagController ${hashTagController.text.removeAllWhitespace}");
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
                   Iterable<Match> matches =
                       hashtagRegExp.allMatches(hashTagController.text);
 
                   List<String?> hashtags = matches.map((match) {
-                    print("match $match");
                     String? hashtagText =
                         match.group(0)?.substring(1); // Remove the '#' symbol
-                    print("hashtagText $hashtagText");
+
                     return hashtagText?.replaceAll(' ', '');
                   }).toList();
 
-                  print("hashtags $hashtags");
-                  return;
                   if (postDescController.text == "") {
                     showDialog(
                       context: context,
@@ -161,14 +154,12 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   } else {
                     StreamPostModel postModel = StreamPostModel(
                       content: postDescController.text,
-                      type: 'GENERAL',
                       hashtags: hashtags,
-                      endTime: DateTime.now(),
-                      options: [],
+                      endTime: DateTime.now().add(Duration(days: days)),
+                      options: optionController.map((e) => e.text).toList(),
                       visibility: visibility['visibility'].toString(),
                     );
-
-                    streamController.postGeneral(context, postModel,
+                    streamController.postStream(context, postModel,
                         files: imagePath, doInPost: () {
                       Navigator.of(context).pop();
                     });
@@ -338,11 +329,11 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    GetPotoStream(),
-                    GetPotoStream(),
-                    GetPotoStream(),
-                  ],
+                  children: imagePath
+                      .asMap()
+                      .map((i, element) => MapEntry(i, fotoStream(element, i)))
+                      .values
+                      .toList(),
                 ),
               ),
               Padding(
@@ -490,6 +481,13 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                         setState(() {
                           isSelectedPoling = !isSelectedPoling;
                         });
+                        if (isSelectedPoling) {
+                          optionController.clear();
+                          setState(() {});
+                        } else {
+                          optionController.add(TextEditingController());
+                          setState(() {});
+                        }
                       },
                       child: Image.asset(
                         'assets/icons/poll-stream.png',
@@ -518,6 +516,32 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  if (optionController.isEmpty)
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            optionController
+                                                .add(TextEditingController());
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            width: 24,
+                                            height: 24,
+                                            margin: EdgeInsets.only(bottom: 14),
+                                            decoration: BoxDecoration(
+                                                color: greenColor,
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: whiteColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ...optionController
                                       .asMap()
                                       .map(
@@ -538,35 +562,27 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                               SizedBox(
                                                 width: 8,
                                               ),
-                                              i == optionController.length - 1
-                                                  ? GestureDetector(
-                                                      onTap: () {
-                                                        optionController.add(
-                                                            TextEditingController());
-                                                        setState(() {});
-                                                      },
-                                                      child: Container(
-                                                        width: 24,
-                                                        height: 24,
-                                                        margin: EdgeInsets.only(
-                                                            bottom: 14),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color:
-                                                                    greenColor,
-                                                                shape: BoxShape
-                                                                    .circle),
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color: whiteColor,
-                                                          size: 20,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox(
-                                                      width: 24,
-                                                      height: 24,
-                                                    ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  optionController.add(
+                                                      TextEditingController());
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  width: 24,
+                                                  height: 24,
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 14),
+                                                  decoration: BoxDecoration(
+                                                      color: greenColor,
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: whiteColor,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -658,8 +674,9 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               ),
               Divider(height: 0.2),
               InkWell(
-                onTap: () {
-                  Get.to(UploadPotoStream());
+                onTap: () async {
+                  imagePath.addAll(await Get.to(UploadPotoStream()));
+                  setState(() {});
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 11, bottom: 11),
@@ -690,85 +707,71 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
       ),
     );
   }
-}
 
-class GetPotoStream extends StatelessWidget {
-  const GetPotoStream({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget fotoStream(String image, int index) {
     return Container(
       margin: EdgeInsets.only(right: 10),
       width: 200,
       child: Stack(
         children: [
-          Image.asset(
-            'assets/images/IPL.png',
+          Image.file(
+            File(image),
             fit: BoxFit.fill,
           ),
-          // Positioned(
-          //   top: 200.2,
-          //   left: 120,
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //         color: Colors.white.withOpacity(0.3),
-          //         shape: BoxShape.circle),
-          //     height: 40,
-          //     width: 150,
-          //     child: Icon(
-          //       Icons.keyboard_arrow_right,
-          //       color: whiteColor,
-          //     ),
-          //   ),
-          // ),
           Positioned(
             top: 10,
             left: 170,
-            child: Container(
-              padding: EdgeInsets.all(6),
-              height: 21,
-              width: 21,
-              decoration: BoxDecoration(
-                color: blackColor.withOpacity(0.8),
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/icons/remove.png',
-                width: 1,
-                height: 1,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 290.2,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(1),
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(86),
-                  bottomRight: Radius.circular(86),
+            child: InkWell(
+              onTap: () {
+                imagePath.removeWhere((item) {
+                  return item == image;
+                });
+                setState(() {});
+              },
+              child: Container(
+                padding: EdgeInsets.all(6),
+                height: 21,
+                width: 21,
+                decoration: BoxDecoration(
+                  color: blackColor.withOpacity(0.8),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  'assets/icons/remove.png',
+                  width: 1,
+                  height: 1,
                 ),
               ),
-              padding: const EdgeInsets.only(left: 6, top: 7),
-              height: 40,
-              width: 150,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'My Journey - Jerawat',
-                    style: blackTextStyle.copyWith(fontSize: 8.67),
-                  ),
-                  Text(
-                    'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
-                    style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
-                  ),
-                ],
-              ),
             ),
           ),
+          // Positioned(
+          //   top: 290.2,
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       color: Colors.white.withOpacity(1),
+          //       borderRadius: const BorderRadius.only(
+          //         topRight: Radius.circular(86),
+          //         bottomRight: Radius.circular(86),
+          //       ),
+          //     ),
+          //     padding: const EdgeInsets.only(left: 6, top: 7),
+          //     height: 40,
+          //     width: 150,
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           'My Journey - Jerawat',
+          //           style: blackTextStyle.copyWith(fontSize: 8.67),
+          //         ),
+          //         Text(
+          //           'My Journey - Jerawat 12 Mar 2023 12:30 WIB',
+          //           style: blackRegulerTextStyle.copyWith(fontSize: 8.67),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
