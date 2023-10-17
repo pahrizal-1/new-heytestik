@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 // import 'package:get/get.dart' hide FormData;
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
-import 'package:heystetik_mobileapps/models/customer/stream_post.dart';
+import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
+import 'package:heystetik_mobileapps/models/stream_image_recent_model.dart';
 import 'package:heystetik_mobileapps/models/stream_comment.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
@@ -17,53 +16,47 @@ class PostServices extends ProviderClass {
   PostServices()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<dynamic> postPolling(StreamPostModel data) async {
+  Future<StreamRecentImageModel> getRecentImage(int page) async {
     Map<String, dynamic> params = {
-      "content": data.content,
-      "type": data.type,
-      "stream_poll[end_time]": data.endTime,
-      "stream_poll[options][]": data.options,
-      "visibility": "PUBLIC",
+      "page": page,
+      "take": 10,
     };
 
-    if (data.hashtags.isNotEmpty) {
-      params['hashtags[]'] = data.hashtags;
-    }
-
-    FormData formData = FormData.fromMap(params);
-
-    var response = await networkingConfig.doPost(
-      '/stream',
-      data: formData,
+    var response = await networkingConfig.doGet(
+      '/stream/recent',
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
 
-    return response;
+    return StreamRecentImageModel.fromJson(response);
   }
 
-  Future<dynamic> postGeneral(StreamPostModel data, {List<File>? files}) async {
+  Future<dynamic> postStream(StreamPostModel data, {List? files}) async {
     Map<String, dynamic> params = {
       "content": data.content,
-      "type": data.type,
-      "visibility": "PUBLIC",
+      "stream_poll[end_time]": data.options.isNotEmpty ? data.endTime : null,
+      "stream_poll[options][]": data.options,
+      "visibility": data.visibility,
     };
-
     if (data.hashtags.isNotEmpty) {
       params['hashtags[]'] = data.hashtags;
     }
-
+    print("params $params");
+    print("files $files");
     FormData formData = FormData.fromMap(params);
 
     if (files != null) {
-      for (File file in files) {
+      for (var file in files) {
         formData.files.addAll([
-          MapEntry("files", await MultipartFile.fromFile(file.path)),
+          MapEntry("files", await MultipartFile.fromFile(file)),
         ]);
       }
     }
+    print("files $files");
+    print("formData $formData");
 
     var response = await networkingConfig.doPost(
       '/stream',
@@ -200,7 +193,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamHomeModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("HEHEEH ${error.toString()}");
       return [];
     }
   }

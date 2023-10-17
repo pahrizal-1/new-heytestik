@@ -91,7 +91,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+              const EdgeInsets.only(left: 20, right: 20, top: 36, bottom: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -263,7 +263,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                     height: 18,
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

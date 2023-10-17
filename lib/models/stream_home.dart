@@ -44,13 +44,22 @@ class StreamHomeModel {
   });
 
   factory StreamHomeModel.fromJson(Map<String, dynamic> json) {
-    List<Map<String, dynamic>> dataPolling = json['stream_poll'] == null ? [] : (json['stream_poll']['stream_poll_options'] as List).map<Map<String, dynamic>>((e) => e).toList();
-    List<Map<String, dynamic>> dataPollingSelected = json['stream_poll'] == null ? [] : (json['stream_poll']['stream_pollings'] as List).map<Map<String, dynamic>>((e) => e).toList();
+    List<Map<String, dynamic>> dataPolling = json['stream_poll'] == null
+        ? []
+        : (json['stream_poll']['stream_poll_options'] as List)
+            .map<Map<String, dynamic>>((e) => e)
+            .toList();
+    List<Map<String, dynamic>> dataPollingSelected = json['stream_poll'] == null
+        ? []
+        : (json['stream_poll']['stream_pollings'] as List)
+            .map<Map<String, dynamic>>((e) => e)
+            .toList();
 
     for (var i = 0; i < dataPolling.length; i++) {
       dataPolling[i]['count'] = 0;
       for (var j = 0; j < dataPollingSelected.length; j++) {
-        if (dataPollingSelected[j]['stream_poll_option_id'] == dataPolling[i]['id']) {
+        if (dataPollingSelected[j]['stream_poll_option_id'] ==
+            dataPolling[i]['id']) {
           dataPolling[i]['count'] = dataPolling[i]['count'] + 1;
         }
       }
@@ -58,25 +67,40 @@ class StreamHomeModel {
 
     return StreamHomeModel(
       id: json['id'],
-      content: json['content'],
-      type: json['type'],
-      createdAt: json['created_at'],
-      visibility: json['visibility'],
-      streamHashtags: json['stream_hastags'] == null ? [] : (json['stream_hastags'] as List).map((e) => "#${e['hashtag']['tag']}").toList(),
+      content: json['content'] ?? "",
+      type: json['type'] ?? "",
+      createdAt: json['created_at'] ?? "",
+      visibility: json['visibility'] ?? "",
+      streamHashtags: json['stream_hastags'] == null
+          ? []
+          : (json['stream_hastags'] as List)
+              .map((e) => "#${e['hashtag']['tag']}")
+              .toList(),
       streamPollOptions: dataPolling,
-      fullname: json['user']['fullname'],
+      fullname: json['user']['fullname'] ?? "-",
       username: json['user']['username'] ?? "-",
-      photoUser: json['user']['photo_profile'] ?? "",
+      photoUser:
+          json['user']['media_user_profile_picture']['media']['path'] ?? "",
       streamSaves: json['_count']['stream_saves'],
       streamComments: json['_count']['stream_comments'],
       streamLikes: json['_count']['stream_likes'],
       streamCommentReplies: json['_count']['stream_comment_replies'],
       saved: json['saved'],
       liked: json['like'],
-      hashtags: json['stream_hastags'] == null ? [] : (json['stream_hastags'] as List).map((e) => e['hashtag']['tag'].toString()).toList(),
-      pollCount: json['stream_poll'] == null ? 0 : (json['stream_poll']['stream_pollings'] as List).length,
-      endTime: json['stream_poll'] == null ? DateTime.now() : DateTime.parse(json['stream_poll']['end_time']),
-      postImage: (json['media_streams'] as List).map((media) => media['media']['path'].toString()).toList(),
+      hashtags: json['stream_hastags'] == null
+          ? []
+          : (json['stream_hastags'] as List)
+              .map((e) => e['hashtag']['tag'].toString())
+              .toList(),
+      pollCount: json['stream_poll'] == null
+          ? 0
+          : (json['stream_poll']['stream_pollings'] as List).length,
+      endTime: json['stream_poll'] == null
+          ? DateTime.now()
+          : DateTime.parse(json['stream_poll']['end_time']),
+      postImage: (json['media_streams'] as List)
+          .map((media) => media['media']['path'].toString())
+          .toList(),
     );
   }
 }

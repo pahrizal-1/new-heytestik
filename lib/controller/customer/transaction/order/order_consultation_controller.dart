@@ -216,8 +216,7 @@ class OrderConsultationController extends StateClass {
         if (listsAnswer[i]['typeAnswer'] == 'description') {
           if (listsAnswer[i]['interest_condition_question_id'] != 0) {
             paramAnswer.add({
-              'interest_condition_answer_id': listsAnswer[i]
-                  ['interest_condition_answer_id'],
+              'interest_condition_answer_id': null,
               'interest_condition_question_id': listsAnswer[i]
                   ['interest_condition_question_id'],
               'answer_description':
