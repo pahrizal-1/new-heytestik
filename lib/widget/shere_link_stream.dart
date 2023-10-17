@@ -17,7 +17,8 @@ class ShareLinkStream extends StatelessWidget {
     return Wrap(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 30, right: 25, top: 43, bottom: 40),
+          padding:
+              const EdgeInsets.only(left: 30, right: 25, top: 43, bottom: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,7 +82,7 @@ class ShareLinkStream extends StatelessWidget {
               ),
               Text(
                 title1,
-                style: blackTextStyle.copyWith(fontSize: 18, color: color),
+                style: blackTextStyle.copyWith(fontSize: 12, color: color),
               ),
             ],
           ),
