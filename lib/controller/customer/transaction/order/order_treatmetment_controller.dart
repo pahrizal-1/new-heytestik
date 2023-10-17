@@ -65,7 +65,8 @@ class OrderTreatmentController extends StateClass {
       expireTime.value = '';
       var reqOrder = {
         "schedule_date": arrivalDate.value,
-        "schedule_time": "${arrivalTimeFirst.value}-${arrivalTimeLast.value}",
+        "schedule_time":
+            "${arrivalTimeFirst.value.substring(0, 5)}-${arrivalTimeLast.value.substring(0, 5)}",
         "treatment_item": [
           {
             "treatment_id": treatmentId,

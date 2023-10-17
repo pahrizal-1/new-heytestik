@@ -88,6 +88,9 @@ class Detail {
   String? orderId;
   String? paymentStatus;
   String? paymentExpiryTime;
+  String? vaNumber;
+  String? billKey;
+  String? billerCode;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -113,6 +116,9 @@ class Detail {
       this.orderId,
       this.paymentStatus,
       this.paymentExpiryTime,
+      this.vaNumber,
+      this.billKey,
+      this.billerCode,
       this.status,
       this.createdBy,
       this.updatedBy,
@@ -138,6 +144,9 @@ class Detail {
     orderId = json['order_id'];
     paymentStatus = json['payment_status'];
     paymentExpiryTime = json['payment_expiry_time'];
+    vaNumber = json['va_number'];
+    billKey = json['biller_key'];
+    billerCode = json['biller_code'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];

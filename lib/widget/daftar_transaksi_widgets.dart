@@ -33,6 +33,7 @@ class TransaksiKonsultan extends StatelessWidget {
   bool doneReview;
   final String orderId;
   final int paymentMethodId;
+  final String vaNumber;
   TransaksiKonsultan({
     super.key,
     required this.namaDokter,
@@ -46,6 +47,7 @@ class TransaksiKonsultan extends StatelessWidget {
     this.doneReview = false,
     required this.orderId,
     required this.paymentMethodId,
+    required this.vaNumber,
   });
 
   @override
@@ -266,7 +268,7 @@ class TransaksiKonsultan extends StatelessWidget {
                           Get.to(CaraPembayaranPage(
                             id: paymentMethodId,
                             totalPaid: harga,
-                            vaNumber: '222222222',
+                            vaNumber: vaNumber,
                             transactionType: 'Konsultasi',
                           ));
                         },
@@ -554,7 +556,7 @@ class TransaksiProduk extends StatelessWidget {
                           Get.to(CaraPembayaranPage(
                             id: product!.paymentMethodId!,
                             totalPaid: product!.totalPaid!,
-                            vaNumber: '222222222',
+                            vaNumber: product?.vaNumber ?? '-',
                             transactionType: 'Produk',
                           ));
                         },
@@ -598,6 +600,7 @@ class TransaksiTreatment extends StatelessWidget {
   // final Data2 treatment;
   final bool isConsultation;
   final int paymentMethodId;
+  final String vaNumber;
   TransaksiTreatment({
     super.key,
     required this.item,
@@ -613,6 +616,7 @@ class TransaksiTreatment extends StatelessWidget {
     this.isConsultation = false,
     this.doneReview = false,
     required this.paymentMethodId,
+    required this.vaNumber,
   });
 
   @override
@@ -808,7 +812,7 @@ class TransaksiTreatment extends StatelessWidget {
                         Get.to(CaraPembayaranPage(
                           id: paymentMethodId,
                           totalPaid: harga,
-                          vaNumber: '222222222',
+                          vaNumber: vaNumber,
                           transactionType: 'Treatment',
                           treatment: Treatment.Data2.fromJson(
                             jsonDecode(

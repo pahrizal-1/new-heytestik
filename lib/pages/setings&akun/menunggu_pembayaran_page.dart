@@ -187,6 +187,8 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                     history[index].transactionId.toString(),
                                 paymentMethodId:
                                     history[index].detail!.paymentMethodId!,
+                                vaNumber:
+                                    history[index].detail?.vaNumber ?? '-',
                               );
                             }
 
@@ -250,6 +252,8 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                   harga: history[index].detail!.totalPaid!,
                                   paymentMethodId:
                                       history[index].detail!.paymentMethodId!,
+                                  vaNumber:
+                                      history[index].detail?.vaNumber ?? '-',
                                 ),
                               );
                             }
