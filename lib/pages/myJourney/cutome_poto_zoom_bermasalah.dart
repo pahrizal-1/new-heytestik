@@ -103,10 +103,16 @@ class _CustomeCameaPotoWajahBermasalahState
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      'assets/icons/my-journey.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () async {
+                        state.initialConditionFrontFace =
+                            await state.pickImageFromGalery();
+                      },
+                      child: Image.asset(
+                        'assets/icons/my-journey.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     SizedBox(
                       width: 61,
