@@ -44,6 +44,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         titleSpacing: 0,
         backgroundColor: greenColor,
