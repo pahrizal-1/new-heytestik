@@ -60,7 +60,7 @@ class HistoryConsultationController extends StateClass {
   RxString statusTransaction = '-'.obs;
 
   getTransactionStatus(BuildContext context, String orderId) async {
-    isLoading.value = true;
+    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
           await TransactionService().transactionStatusConsultation(orderId);
@@ -114,6 +114,6 @@ class HistoryConsultationController extends StateClass {
         );
       }
     });
-    isLoading.value = false;
+    // isLoading.value = false;
   }
 }

@@ -492,6 +492,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         history[index].transactionId.toString(),
                                     paymentMethodId:
                                         history[index].detail!.paymentMethodId!,
+                                    vaNumber:
+                                        history[index].detail?.vaNumber ?? '-',
                                   );
                                 }
 
@@ -529,6 +531,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         : true,
                                     paymentMethodId:
                                         history[index].detail!.paymentMethodId!,
+                                    vaNumber:
+                                        history[index].detail?.vaNumber ?? '-',
                                   );
                                 }
 

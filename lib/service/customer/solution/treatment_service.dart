@@ -185,8 +185,6 @@ class TreatmentService extends ProviderClass {
         },
       );
 
-      print("sadasada $response");
-
       return ClinicModel.fromJson(response);
     } catch (error) {
       print(error);
@@ -203,8 +201,6 @@ class TreatmentService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
-
-      print(response);
 
       return FindClinicModel.fromJson(response);
     } catch (error) {

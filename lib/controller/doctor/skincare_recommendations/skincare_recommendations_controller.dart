@@ -92,7 +92,7 @@ class SkincareRecommendationController extends StateClass {
             {
               "skincare_id": dataSkincare[i]['id'],
               "notes": notesController[i].text,
-              "qty": itemCount
+              "qty": itemCount![i]
             }
         ]
       };

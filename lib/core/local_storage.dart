@@ -73,14 +73,12 @@ class LocalStorage {
   Future<dynamic> getDataUser() async {
     SharedPreferences prefs = await getPrefs();
     var data = prefs.getString('data_user')?.trim() ?? '';
-    print("data 123 $data");
+
     if (data.isEmpty) {
       return '';
     }
 
     var result = jsonDecode(data);
-    print("result 123 ${result['fullname']}");
-    print("result 123 $result");
     return result;
   }
 

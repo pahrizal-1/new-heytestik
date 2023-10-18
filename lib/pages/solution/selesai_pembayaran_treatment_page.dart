@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
@@ -15,6 +18,8 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
+import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart'
+    as Method;
 
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
@@ -45,18 +50,25 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
 
 class _SelesaikanPembayaranTreatmentPageState
     extends State<SelesaikanPembayaranTreatmentPage> {
+  final HistoryTransactionController all =
+      Get.put(HistoryTransactionController());
   final HistoryTreatmentController state =
       Get.put(HistoryTreatmentController());
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
+  Method.Data? method;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.isLoading.value = true;
+      method = await all.getPaymentmethod(context, widget.paymentMethodId);
       await state.getTransactionStatus(context, widget.orderId);
+      state.isLoading.value = false;
       setTime();
       startTimer();
+      setState(() {});
     });
   }
 
@@ -157,12 +169,9 @@ class _SelesaikanPembayaranTreatmentPageState
               const SizedBox(
                 width: 11,
               ),
-              Obx(
-                () => Text(
-                  state.bank.value.toUpperCase(),
-                  style:
-                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-                ),
+              Text(
+                method?.name ?? '-',
+                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
               ),
             ],
           ),
@@ -248,19 +257,14 @@ class _SelesaikanPembayaranTreatmentPageState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.bank.value.toUpperCase(),
+                                method?.name ?? '-',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
-                              widget.bankImage != ''
-                                  ? Image.network(
-                                      '${Global.FILE}/${widget.bankImage}',
-                                      width: 62,
-                                    )
-                                  : Image.asset(
-                                      'assets/images/logo-bca.png',
-                                      width: 62,
-                                    ),
+                              Image.network(
+                                '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                                width: 62,
+                              )
                             ],
                           ),
                           const SizedBox(
