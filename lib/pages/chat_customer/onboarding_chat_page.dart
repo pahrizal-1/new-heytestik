@@ -144,23 +144,25 @@ class _OnboardingChatState extends State<OnboardingChat> {
                 ),
         ),
       ),
-      floatingActionButton: state.totalRecentChat == 0
-          ? Container()
-          : SizedBox(
-              height: 55,
-              width: 55,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Get.to(const BelumKonsultasiChat());
-                },
-                backgroundColor: greenColor,
-                child: Icon(
-                  Icons.add,
-                  color: whiteColor,
-                  size: 35,
+      floatingActionButton: Obx(
+        () => state.totalRecentChat.value == 0
+            ? Container()
+            : SizedBox(
+                height: 55,
+                width: 55,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Get.to(const BelumKonsultasiChat());
+                  },
+                  backgroundColor: greenColor,
+                  child: Icon(
+                    Icons.add,
+                    color: whiteColor,
+                    size: 35,
+                  ),
                 ),
               ),
-            ),
+      ),
     );
   }
 }
