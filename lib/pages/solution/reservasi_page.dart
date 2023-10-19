@@ -208,7 +208,6 @@ class _ReservasiPageState extends State<ReservasiPage> {
                   const Icon(Icons.keyboard_arrow_down)
                 ],
               ),
-              // baru nampikan data reservasi
               const SizedBox(
                 height: 85,
               ),

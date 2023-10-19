@@ -77,7 +77,7 @@ class OrderTreatmentController extends StateClass {
         "payment_type": paymentType.toString()
       };
       print("req order $reqOrder");
-      // return;
+
       var res = await TransactionService().orderTreatment(reqOrder);
       print("req order ${jsonEncode(res)}");
       if (res.success != true && res.message != 'Success') {
@@ -125,11 +125,11 @@ class OrderTreatmentController extends StateClass {
     );
 
     if (pickedTime != null) {
-      print('hahah ${pickedTime.format(context)}');
+      print('haha ${pickedTime.format(context)}');
       DateTime parsedTime =
-          DateFormat('HH:mm a').parse(pickedTime.format(context));
+          DateFormat('HH:mm').parse(pickedTime.format(context));
       print('parsedTime $parsedTime');
-      String formattedTime = DateFormat('HH:mm a').format(parsedTime);
+      String formattedTime = DateFormat('HH:mm').format(parsedTime);
       print('formattedTime $formattedTime');
       if (cek == '1') {
         arrivalTimeFirst.value = formattedTime;
