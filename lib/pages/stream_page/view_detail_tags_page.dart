@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/artikel_views_widgets.dart';
 import '../../widget/pencarian_search_widget.dart';
-import 'vies_detail_beauty_stream_page.dart';
+import 'view_detail_beauty_stream_page.dart';
 
 class ViewDetailTags extends StatelessWidget {
   String tagName;

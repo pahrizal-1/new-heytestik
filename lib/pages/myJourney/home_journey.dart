@@ -14,7 +14,7 @@ import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -585,13 +585,11 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           : state.dataHistoryConsultation[index].status ==
                                                                   'READY'
                                                               ? const Color.fromARGB(
-                                                                  255,
-                                                                  255,
-                                                                  102,
-                                                                  0)
+                                                                  255, 255, 102, 0)
                                                               : state.dataHistoryConsultation[index].status ==
                                                                       'REVIEW'
-                                                                  ? const Color.fromARGB(
+                                                                  ? const Color
+                                                                      .fromARGB(
                                                                       255,
                                                                       255,
                                                                       102,
@@ -599,8 +597,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                   : state.dataHistoryConsultation[index].status ==
                                                                           'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status ==
-                                                                              'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -972,7 +969,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                     ?.status ==
                                                                 'MENUNGGU_KONFIRMASI_KLINIK'
                                                             ? const Color.fromARGB(
-                                                                255, 255, 102, 0)
+                                                                255,
+                                                                255,
+                                                                102,
+                                                                0)
                                                             : state
                                                                         .dataScheduleTreatment
                                                                         .value[

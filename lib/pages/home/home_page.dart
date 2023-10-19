@@ -14,7 +14,7 @@ import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';

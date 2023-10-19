@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/info_medical_review_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
@@ -61,7 +62,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
               ),
               Expanded(
                 child: Text(
-                  'News',
+                  'News sadsadsa',
                   style: blackTextStyle.copyWith(
                       fontSize: 20, overflow: TextOverflow.ellipsis),
                 ),
@@ -178,20 +179,30 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 const SizedBox(
                   height: 2,
                 ),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Medical Review by',
-                      style: subTitleTextStyle.copyWith(fontSize: 12),
-                      children: [
-                        TextSpan(
-                          text: ' dr. Reeza Edward, Sp.DV',
-                          style: blackRegulerTextStyle.copyWith(
-                            color: blackColor,
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const InfoMedicalReviewPage(),
+                      ),
+                    );
+                  },
+                  child: Center(
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Medical Review by',
+                        style: subTitleTextStyle.copyWith(fontSize: 12),
+                        children: [
+                          TextSpan(
+                            text: ' dr. Reeza Edward, Sp.DV',
+                            style: blackRegulerTextStyle.copyWith(
+                              color: blackColor,
+                              fontSize: 12,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
