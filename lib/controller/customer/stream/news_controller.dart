@@ -19,6 +19,7 @@ class NewsController extends StateClass {
   Future<ArticleModel?> getArticle(
       BuildContext context, String categoryId, String tagId) async {
     try {
+      // searching lanjut
       categoryArticle.clear();
       Map<String, dynamic> data = {
         'clientid': '4mfgpxctjz',

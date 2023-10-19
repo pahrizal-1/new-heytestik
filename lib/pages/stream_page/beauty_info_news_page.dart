@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

@@ -14,7 +14,7 @@ import 'package:heystetik_mobileapps/pages/myJourney/cutome_poto_journey.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/hasil_poto_wajah_page.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/pilih_skin_goals.dart';
 import 'package:heystetik_mobileapps/pages/myJourney/galery_my_journey.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/vies_detail_beauty_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/view_detail_beauty_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
@@ -16,7 +17,6 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/tags.dart';
 
 import '../../theme/theme.dart';
-import '../../widget/pencarian_search_widget.dart';
 
 class ViewDetailBeutyStreamPage extends StatefulWidget {
   String categoryId;
@@ -75,7 +75,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => const NewsSearchPage(search: ''),
                 ),
               );
             },
@@ -236,6 +236,10 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 Html(
                   data: '${widget.detailNews.description}',
+                  onLinkTap: (url, attributes, element) {
+                    //open URL in webview, or launch URL in browser, or any other logic here
+                  },
+                  onAnchorTap: (url, attributes, element) {},
 
                   // onLinkTap: (url) {
                   //   print('Open the url $url......');
@@ -451,14 +455,18 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                               itemBuilder: (BuildContext context, index) {
                                 return InkWell(
                                   onTap: () {
-                                    Get.to(
-                                      ViewDetailBeutyStreamPage(
-                                        categoryId: widget.categoryId,
-                                        category: state
-                                            .categoryArticle[index].category
-                                            .toString(),
-                                        detailNews:
-                                            snapshot.data!.record![index],
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewDetailBeutyStreamPage(
+                                          categoryId: widget.categoryId,
+                                          category: state
+                                              .categoryArticle[index].category
+                                              .toString(),
+                                          detailNews:
+                                              snapshot.data!.record![index],
+                                        ),
                                       ),
                                     );
                                   },
@@ -466,7 +474,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
                                     category:
-                                        'Beauty / ${state.categoryArticle[index].category}',
+                                        state.categoryArticle[index].category,
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     tanggal: ConvertDate.defaultDate(

@@ -44,8 +44,8 @@ class PencarianPageWidget extends StatelessWidget {
                 child: Center(
                   child: TextField(
                     controller: searchController,
-                    onEditingComplete: (){
-                      onEditingComplete == null ? (){} : onEditingComplete!();
+                    onEditingComplete: () {
+                      onEditingComplete == null ? () {} : onEditingComplete!();
                       Navigator.pop(context);
                     },
                     autofocus: true,
