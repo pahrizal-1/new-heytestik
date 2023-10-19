@@ -673,7 +673,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: stateNews.getArticle(context, '', ''),
+                future: stateNews.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   if (!snapshot.hasData) {
                     return shimmerWidget(
@@ -753,9 +759,21 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
-                                      category: stateNews
-                                          .categoryArticle[index].category
-                                          .toString(),
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
                                       detailNews: snapshot.data!.record![index],
                                     ),
                                   );
@@ -896,7 +914,13 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: stateNews.getArticle(context, '', ''),
+                future: stateNews.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   if (!snapshot.hasData) {
                     return shimmerWidget(
@@ -976,9 +1000,21 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
-                                      category: stateNews
-                                          .categoryArticle[index].category
-                                          .toString(),
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
                                       detailNews: snapshot.data!.record![index],
                                     ),
                                   );

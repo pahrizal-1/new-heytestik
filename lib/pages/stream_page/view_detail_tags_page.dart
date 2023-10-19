@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/artikel_views_widgets.dart';
-import '../../widget/pencarian_search_widget.dart';
 import 'view_detail_beauty_stream_page.dart';
 
 class ViewDetailTags extends StatelessWidget {
@@ -58,7 +58,7 @@ class ViewDetailTags extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => const NewsSearchPage(),
                 ),
               );
             },
@@ -73,7 +73,7 @@ class ViewDetailTags extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 19, right: 20, left: 20),
+          padding: const EdgeInsets.only(right: 20, left: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -89,10 +89,16 @@ class ViewDetailTags extends StatelessWidget {
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 44,
+                height: 10,
               ),
               FutureBuilder(
-                future: state.getArticle(context, '', tagId),
+                future: state.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   print(snapshot.connectionState);
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -175,9 +181,25 @@ class ViewDetailTags extends StatelessWidget {
                                       Get.to(
                                         ViewDetailBeutyStreamPage(
                                           categoryId: '',
-                                          category: state
-                                              .categoryArticle[index].category
-                                              .toString(),
+                                          category: snapshot
+                                                      .data!
+                                                      .record![index]
+                                                      .newscategoryId ==
+                                                  '1'
+                                              ? 'Treatment'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '2'
+                                                  ? 'Skincare'
+                                                  : snapshot
+                                                              .data!
+                                                              .record![index]
+                                                              .newscategoryId
+                                                              .toString() ==
+                                                          '3'
+                                                      ? 'Concern'
+                                                      : '-',
                                           detailNews:
                                               snapshot.data!.record![index],
                                         ),
@@ -187,8 +209,21 @@ class ViewDetailTags extends StatelessWidget {
                                       img: snapshot
                                           .data!.record![index].thumbLink
                                           .toString(),
-                                      category:
-                                          'Beauty / ${state.categoryArticle[index].category}',
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
                                       judul: snapshot.data!.record![index].title
                                           .toString(),
                                       penerbit: '${ConvertDate.defaultDate(

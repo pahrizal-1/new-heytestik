@@ -49,7 +49,6 @@ class ArtikelNews extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        print("category $category");
                         switch (category) {
                           case 'Treatment':
                             Get.to(

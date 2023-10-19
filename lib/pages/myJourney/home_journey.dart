@@ -585,11 +585,13 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           : state.dataHistoryConsultation[index].status ==
                                                                   'READY'
                                                               ? const Color.fromARGB(
-                                                                  255, 255, 102, 0)
+                                                                  255,
+                                                                  255,
+                                                                  102,
+                                                                  0)
                                                               : state.dataHistoryConsultation[index].status ==
                                                                       'REVIEW'
-                                                                  ? const Color
-                                                                      .fromARGB(
+                                                                  ? const Color.fromARGB(
                                                                       255,
                                                                       255,
                                                                       102,
@@ -597,7 +599,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                   : state.dataHistoryConsultation[index].status ==
                                                                           'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status ==
+                                                                              'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -969,10 +972,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                     ?.status ==
                                                                 'MENUNGGU_KONFIRMASI_KLINIK'
                                                             ? const Color.fromARGB(
-                                                                255,
-                                                                255,
-                                                                102,
-                                                                0)
+                                                                255, 255, 102, 0)
                                                             : state
                                                                         .dataScheduleTreatment
                                                                         .value[
@@ -1087,7 +1087,13 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
               child: FutureBuilder(
-                future: stateNews.getArticle(context, '', ''),
+                future: stateNews.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   if (!snapshot.hasData) {
                     return shimmerWidget(
@@ -1167,9 +1173,21 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
-                                      category: stateNews
-                                          .categoryArticle[index].category
-                                          .toString(),
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
                                       detailNews: snapshot.data!.record![index],
                                     ),
                                   );

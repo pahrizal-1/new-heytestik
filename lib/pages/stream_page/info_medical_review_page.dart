@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/artikel_views_widgets.dart';
-import '../../widget/pencarian_search_widget.dart';
 
 class InfoMedicalReviewPage extends StatefulWidget {
   const InfoMedicalReviewPage({super.key});
@@ -43,7 +43,7 @@ class _InfoMedicalReviewPageState extends State<InfoMedicalReviewPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => const NewsSearchPage(),
                 ),
               );
             },
@@ -148,28 +148,28 @@ class _InfoMedicalReviewPageState extends State<InfoMedicalReviewPage> {
             ),
             const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
-              category: 'BEAUTY / CONCERN',
+              category: 'Concern',
               judul: 'Cara Atasi Mata Panda dengan Tepat',
               penerbit: '22 September 2022 | Nadira Maura',
               menit: '2',
             ),
             const ArtikelNews(
               img: 'assets/images/Rahasia_Kulit_Sehat.png',
-              category: 'BEAUTY / CONCERN',
+              category: 'Concern',
               judul: 'Rahasia Kulit Sehat Ala Artis Korea',
               penerbit: '22 September 2022 | Nadira Maura',
               menit: '2',
             ),
             const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
-              category: 'BEAUTY / TREATMENT',
+              category: 'Treatment',
               judul: 'Rahasia Kulit Sehat Ala Artis Korea',
               penerbit: '11 Januari 2022  |  Nadira Maura',
               menit: '2',
             ),
             const ArtikelNews(
               img: 'assets/icons/artikerl-panda.png',
-              category: 'BEAUTY / CONCERN',
+              category: 'Concern',
               judul: 'Cara Atasi Mata Panda dengan Tepat',
               penerbit: '22 September 2022 | Nadira Maura',
               menit: '2',

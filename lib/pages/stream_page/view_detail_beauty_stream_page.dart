@@ -16,6 +16,7 @@ import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dar
 import 'package:heystetik_mobileapps/widget/corcern_card_widgets.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/tags.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/theme.dart';
 
@@ -36,6 +37,12 @@ class ViewDetailBeutyStreamPage extends StatefulWidget {
 
 class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
   final NewsController state = Get.put(NewsController());
+  _launchURL(String url) async {
+    final Uri urlParse = Uri.parse(url);
+    if (!await launchUrl(urlParse)) {
+      throw Exception('Could not launch $urlParse');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
               ),
               Expanded(
                 child: Text(
-                  'News sadsadsa',
+                  'News',
                   style: blackTextStyle.copyWith(
                       fontSize: 20, overflow: TextOverflow.ellipsis),
                 ),
@@ -76,7 +83,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const NewsSearchPage(search: ''),
+                  builder: (context) => const NewsSearchPage(),
                 ),
               );
             },
@@ -154,7 +161,8 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const InfoPenerbitPage(),
+                        builder: (context) => InfoPenerbitPage(
+                            writer: widget.detailNews.author ?? '-'),
                       ),
                     );
                   },
@@ -247,20 +255,9 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 Html(
                   data: '${widget.detailNews.description}',
-                  onLinkTap: (url, attributes, element) {
-                    //open URL in webview, or launch URL in browser, or any other logic here
+                  onAnchorTap: (url, attributes, element) {
+                    _launchURL(url.toString());
                   },
-                  onAnchorTap: (url, attributes, element) {},
-
-                  // onLinkTap: (url) {
-                  //   print('Open the url $url......');
-                  // },
-                  // onImageTap: (img) {
-                  //   print('Image $img');
-                  // },
-                  // onImageError: (exception, stacktrace) {
-                  //   print(exception);
-                  // },
                 ),
                 const SizedBox(
                   height: 20,
@@ -386,7 +383,13 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
           Padding(
             padding: const EdgeInsets.only(top: 26, left: 20, right: 20),
             child: FutureBuilder(
-              future: state.getArticle(context, widget.categoryId, ''),
+              future: state.getArticle(
+                context,
+                page: 1,
+                search: '',
+                categoryId: widget.categoryId,
+                tagId: '',
+              ),
               builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                 print(snapshot.connectionState);
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -472,9 +475,25 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                                         builder: (_) =>
                                             ViewDetailBeutyStreamPage(
                                           categoryId: widget.categoryId,
-                                          category: state
-                                              .categoryArticle[index].category
-                                              .toString(),
+                                          category: snapshot
+                                                      .data!
+                                                      .record![index]
+                                                      .newscategoryId ==
+                                                  '1'
+                                              ? 'Treatment'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '2'
+                                                  ? 'Skincare'
+                                                  : snapshot
+                                                              .data!
+                                                              .record![index]
+                                                              .newscategoryId
+                                                              .toString() ==
+                                                          '3'
+                                                      ? 'Concern'
+                                                      : '-',
                                           detailNews:
                                               snapshot.data!.record![index],
                                         ),
@@ -484,8 +503,21 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                                   child: CorcernCardWidgets(
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
-                                    category:
-                                        state.categoryArticle[index].category,
+                                    category: snapshot.data!.record![index]
+                                                .newscategoryId ==
+                                            '1'
+                                        ? 'Treatment'
+                                        : snapshot.data!.record![index]
+                                                    .newscategoryId
+                                                    .toString() ==
+                                                '2'
+                                            ? 'Skincare'
+                                            : snapshot.data!.record![index]
+                                                        .newscategoryId
+                                                        .toString() ==
+                                                    '3'
+                                                ? 'Concern'
+                                                : '-',
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     tanggal: ConvertDate.defaultDate(

@@ -27,7 +27,13 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      data = state.getArticle(context, '', '');
+      data = state.getArticle(
+        context,
+        page: 1,
+        search: '',
+        categoryId: '',
+        tagId: '',
+      );
       setState(() {});
     });
   }
@@ -68,8 +74,21 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                               categoryId: state
                                   .article.value!.record![index].newscategoryId
                                   .toString(),
-                              category: state.categoryArticle[index].category
-                                  .toString(),
+                              category: state.article.value!.record![index]
+                                          .newscategoryId ==
+                                      '1'
+                                  ? 'Treatment'
+                                  : state.article.value!.record![index]
+                                              .newscategoryId
+                                              .toString() ==
+                                          '2'
+                                      ? 'Skincare'
+                                      : state.article.value!.record![index]
+                                                  .newscategoryId
+                                                  .toString() ==
+                                              '3'
+                                          ? 'Concern'
+                                          : '-',
                               detailNews: state.article.value!.record![index],
                             ),
                           );
@@ -293,9 +312,21 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                         categoryId: snapshot
                                             .data!.record![index].newscategoryId
                                             .toString(),
-                                        category: state
-                                            .categoryArticle[index].category
-                                            .toString(),
+                                        category: snapshot.data!.record![index]
+                                                    .newscategoryId ==
+                                                '1'
+                                            ? 'Treatment'
+                                            : snapshot.data!.record![index]
+                                                        .newscategoryId
+                                                        .toString() ==
+                                                    '2'
+                                                ? 'Skincare'
+                                                : snapshot.data!.record![index]
+                                                            .newscategoryId
+                                                            .toString() ==
+                                                        '3'
+                                                    ? 'Concern'
+                                                    : '-',
                                         detailNews:
                                             snapshot.data!.record![index],
                                       ),
@@ -304,8 +335,21 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                                   child: CorcernCardWidgets(
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
-                                    category:
-                                        state.categoryArticle[index].category,
+                                    category: snapshot.data!.record![index]
+                                                .newscategoryId ==
+                                            '1'
+                                        ? 'Treatment'
+                                        : snapshot.data!.record![index]
+                                                    .newscategoryId
+                                                    .toString() ==
+                                                '2'
+                                            ? 'Skincare'
+                                            : snapshot.data!.record![index]
+                                                        .newscategoryId
+                                                        .toString() ==
+                                                    '3'
+                                                ? 'Concern'
+                                                : '-',
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     tanggal: ConvertDate.defaultDate(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 
@@ -98,47 +99,60 @@ class _StreamHomePageState extends State<StreamHomePage>
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PencarianPageWidget(
-                        searchController: searchController,
-                        onEditingComplete: () {
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) async {
-                            postController.search.value = searchController.text;
-                            postController.homeStreamIndex.value = 1;
-                            postController.homeStreams.value = [];
-                            await postController.getStreamHomeModel(context);
-                          });
+                  if (index == 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PencarianPageWidget(
+                          searchController: searchController,
+                          onEditingComplete: () {
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) async {
+                              postController.search.value =
+                                  searchController.text;
+                              postController.homeStreamIndex.value = 1;
+                              postController.homeStreams.value = [];
+                              await postController.getStreamHomeModel(context);
+                            });
 
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) async {
-                            postController.search.value = searchController.text;
-                            postController.trendingStreamIndex.value = 1;
-                            postController.trendingStreams.value = [];
-                            await postController.getTrendingStream(context);
-                          });
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) async {
+                              postController.search.value =
+                                  searchController.text;
+                              postController.trendingStreamIndex.value = 1;
+                              postController.trendingStreams.value = [];
+                              await postController.getTrendingStream(context);
+                            });
 
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) async {
-                            postController.search.value = searchController.text;
-                            postController.followedStreamIndex.value = 1;
-                            postController.followedStreams.value = [];
-                            await postController.getStreamFollowed(context);
-                          });
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) async {
+                              postController.search.value =
+                                  searchController.text;
+                              postController.followedStreamIndex.value = 1;
+                              postController.followedStreams.value = [];
+                              await postController.getStreamFollowed(context);
+                            });
 
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) async {
-                            postController.search.value = searchController.text;
-                            postController.interestStreamIndex.value = 1;
-                            postController.interestStreams.value = [];
-                            await postController.getStreamInterest(context);
-                          });
-                        },
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) async {
+                              postController.search.value =
+                                  searchController.text;
+                              postController.interestStreamIndex.value = 1;
+                              postController.interestStreams.value = [];
+                              await postController.getStreamInterest(context);
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else if (index == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NewsSearchPage(),
+                      ),
+                    );
+                  }
                 },
                 child: SvgPicture.asset(
                   'assets/icons/search.svg',

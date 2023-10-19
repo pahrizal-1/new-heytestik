@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/artikel_views_widgets.dart';
-import '../../widget/pencarian_search_widget.dart';
 import 'view_detail_beauty_stream_page.dart';
 
 class ViewDetailCategoryNews extends StatelessWidget {
@@ -59,7 +59,7 @@ class ViewDetailCategoryNews extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => const NewsSearchPage(),
                 ),
               );
             },
@@ -93,7 +93,13 @@ class ViewDetailCategoryNews extends StatelessWidget {
                 height: 10,
               ),
               FutureBuilder(
-                future: state.getArticle(context, categoryId, ''),
+                future: state.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: categoryId,
+                  tagId: '',
+                ),
                 builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
                   print(snapshot.connectionState);
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -174,9 +180,21 @@ class ViewDetailCategoryNews extends StatelessWidget {
                                     Get.to(
                                       ViewDetailBeutyStreamPage(
                                         categoryId: '',
-                                        category: state
-                                            .categoryArticle[index].category
-                                            .toString(),
+                                        category: snapshot.data!.record![index]
+                                                    .newscategoryId ==
+                                                '1'
+                                            ? 'Treatment'
+                                            : snapshot.data!.record![index]
+                                                        .newscategoryId
+                                                        .toString() ==
+                                                    '2'
+                                                ? 'Skincare'
+                                                : snapshot.data!.record![index]
+                                                            .newscategoryId
+                                                            .toString() ==
+                                                        '3'
+                                                    ? 'Concern'
+                                                    : '-',
                                         detailNews:
                                             snapshot.data!.record![index],
                                       ),
@@ -185,8 +203,21 @@ class ViewDetailCategoryNews extends StatelessWidget {
                                   child: ArtikelNews(
                                     img: snapshot.data!.record![index].thumbLink
                                         .toString(),
-                                    category:
-                                        state.categoryArticle[index].category,
+                                    category: snapshot.data!.record![index]
+                                                .newscategoryId ==
+                                            '1'
+                                        ? 'Treatment'
+                                        : snapshot.data!.record![index]
+                                                    .newscategoryId
+                                                    .toString() ==
+                                                '2'
+                                            ? 'Skincare'
+                                            : snapshot.data!.record![index]
+                                                        .newscategoryId
+                                                        .toString() ==
+                                                    '3'
+                                                ? 'Concern'
+                                                : '-',
                                     judul: snapshot.data!.record![index].title
                                         .toString(),
                                     penerbit: '${ConvertDate.defaultDate(
