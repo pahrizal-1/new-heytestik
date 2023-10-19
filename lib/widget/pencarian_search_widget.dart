@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/svg.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
 import '../theme/theme.dart';
 
 class PencarianPageWidget extends StatelessWidget {
@@ -74,100 +71,100 @@ class PencarianPageWidget extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(26),
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/search.svg',
-                      width: 10,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Laser',
-                      style: blackRegulerTextStyle.copyWith(color: blackColor),
-                    )
-                  ],
-                ),
-                dividergrey()
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/search.svg',
-                      width: 10,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Laser',
-                      style: blackRegulerTextStyle.copyWith(color: blackColor),
-                    ),
-                    Text(
-                      ' C02',
-                      style: subTitleTextStyle.copyWith(fontSize: 15),
-                    )
-                  ],
-                ),
-                dividergrey()
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            // Column(
-            //   children: [
-            //     Row(
-            //       children: [
-            //         Text(
-            //           'Cari “Laser” di',
-            //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
-            //         ),
-            //         Text(
-            //           ' Klinik',
-            //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
-            //         ),
-            //       ],
-            //     ),
-            //     dividergrey()
-            //   ],
-            // ),
-            const SizedBox(
-              height: 10,
-            ),
-            // Column(
-            //   children: [
-            //     Row(
-            //       children: [
-            //         Text(
-            //           'Cari “Laser” di',
-            //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
-            //         ),
-            //         Text(
-            //           ' Treatment',
-            //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
-            //         ),
-            //       ],
-            //     ),
-            //     dividergrey()
-            //   ],
-            // ),
-          ],
-        ),
-      ),
+      // body: Padding(
+      //   padding: const EdgeInsets.all(26),
+      //   child: ListView(
+      //     children: [
+      //       Column(
+      //         children: [
+      //           Row(
+      //             children: [
+      //               SvgPicture.asset(
+      //                 'assets/icons/search.svg',
+      //                 width: 10,
+      //               ),
+      //               const SizedBox(
+      //                 width: 10,
+      //               ),
+      //               Text(
+      //                 'Laser',
+      //                 style: blackRegulerTextStyle.copyWith(color: blackColor),
+      //               )
+      //             ],
+      //           ),
+      //           dividergrey()
+      //         ],
+      //       ),
+      //       const SizedBox(
+      //         height: 10,
+      //       ),
+      //       Column(
+      //         children: [
+      //           Row(
+      //             children: [
+      //               SvgPicture.asset(
+      //                 'assets/icons/search.svg',
+      //                 width: 10,
+      //               ),
+      //               const SizedBox(
+      //                 width: 10,
+      //               ),
+      //               Text(
+      //                 'Laser',
+      //                 style: blackRegulerTextStyle.copyWith(color: blackColor),
+      //               ),
+      //               Text(
+      //                 ' C02',
+      //                 style: subTitleTextStyle.copyWith(fontSize: 15),
+      //               )
+      //             ],
+      //           ),
+      //           dividergrey()
+      //         ],
+      //       ),
+      //       const SizedBox(
+      //         height: 10,
+      //       ),
+      //       // Column(
+      //       //   children: [
+      //       //     Row(
+      //       //       children: [
+      //       //         Text(
+      //       //           'Cari “Laser” di',
+      //       //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+      //       //         ),
+      //       //         Text(
+      //       //           ' Klinik',
+      //       //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
+      //       //         ),
+      //       //       ],
+      //       //     ),
+      //       //     dividergrey()
+      //       //   ],
+      //       // ),
+      //       const SizedBox(
+      //         height: 10,
+      //       ),
+      //       // Column(
+      //       //   children: [
+      //       //     Row(
+      //       //       children: [
+      //       //         Text(
+      //       //           'Cari “Laser” di',
+      //       //           style: grenTextStyle.copyWith(fontWeight: regular, fontSize: 15),
+      //       //         ),
+      //       //         Text(
+      //       //           ' Treatment',
+      //       //           style: grenTextStyle.copyWith(fontWeight: bold, fontSize: 15),
+      //       //         ),
+      //       //       ],
+      //       //     ),
+      //       //     dividergrey()
+      //       //   ],
+      //       // ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
