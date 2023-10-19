@@ -106,8 +106,12 @@ class _CameraWajahBermalahPreasesmentState
                   children: [
                     InkWell(
                       onTap: () async {
-                        state.initialConditionFrontFace =
+                        state.initialConditionProblemPart =
                             await state.pickImageFromGalery();
+                        setState(() {});
+                        if (state.initialConditionProblemPart != null) {
+                          Get.to(HasilPotoWajahBermasalahPreasesment());
+                        }
                       },
                       child: Image.asset(
                         'assets/icons/my-journey.png',

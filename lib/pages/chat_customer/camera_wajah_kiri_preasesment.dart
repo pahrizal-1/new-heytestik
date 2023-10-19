@@ -120,8 +120,12 @@ class _CameraWajahKiriPreasessmentState
                   children: [
                     InkWell(
                       onTap: () async {
-                        state.initialConditionFrontFace =
+                        state.initialConditionLeftSide =
                             await state.pickImageFromGalery();
+                        setState(() {});
+                        if (state.initialConditionLeftSide != null) {
+                          Get.to(HasilPotoWajahKiriPreasessment());
+                        }
                       },
                       child: Image.asset(
                         'assets/icons/my-journey.png',

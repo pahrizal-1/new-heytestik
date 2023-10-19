@@ -120,6 +120,10 @@ class _CameraWajahDepanPreassesmentState
                       onTap: () async {
                         state.initialConditionFrontFace =
                             await state.pickImageFromGalery();
+                        setState(() {});
+                        if (state.initialConditionFrontFace != null) {
+                          Get.to(HasilPotoWajahDepanPreassement());
+                        }
                       },
                       child: Image.asset(
                         'assets/icons/my-journey.png',

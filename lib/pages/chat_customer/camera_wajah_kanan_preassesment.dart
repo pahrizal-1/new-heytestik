@@ -118,8 +118,12 @@ class _CameraWajahKananPreassesmnetState
                   children: [
                     InkWell(
                       onTap: () async {
-                        state.initialConditionFrontFace =
+                        state.initialConditionRightSide =
                             await state.pickImageFromGalery();
+                        setState(() {});
+                        if (state.initialConditionRightSide != null) {
+                          Get.to(HasilWajahKananPreassesment());
+                        }
                       },
                       child: Image.asset(
                         'assets/icons/my-journey.png',
