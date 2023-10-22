@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,8 @@ import '../../widget/button_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class BeautyProfilPage extends StatefulWidget {
-  const BeautyProfilPage({super.key});
+  bool isContinue = false;
+  BeautyProfilPage({this.isContinue = false, super.key});
 
   @override
   State<BeautyProfilPage> createState() => _BeautyProfilPageState();
@@ -304,7 +305,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SkinGoalsKorektifWajah(),
+                    builder: (context) => SkinGoalsKorektifWajah(),
                   ),
                 );
               },
@@ -595,47 +596,52 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Simpan',
+                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.beautifulProfile(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SkinGoalsKorektifWajah(),
-                                ),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SkinGoalsKorektifWajah(),
+                                  ),
+                                );
+                              }
                             });
                           },
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: lsymetric,
-                      child: ButtonTextWidget(
-                        title: 'Nanti Saja',
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              return NantiSajaDialog();
-                            },
-                          );
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SkinGoalsKorektifWajah(),
-                            ),
-                          );
-                        },
+                    if (widget.isContinue == false)
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
+                    if (widget.isContinue == false)
+                      Padding(
+                        padding: lsymetric,
+                        child: ButtonTextWidget(
+                          title: 'Nanti Saja',
+                          onPressed: () async {
+                            await showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return NantiSajaDialog();
+                              },
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SkinGoalsKorektifWajah(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                   ],
                 ),
               ),

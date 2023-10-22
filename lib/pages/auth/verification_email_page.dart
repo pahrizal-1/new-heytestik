@@ -13,7 +13,8 @@ import '../../widget/button_widget.dart';
 import '../../widget/snackbar_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
-  const VerificasionEmailPage({super.key});
+  bool isContinue = false;
+  VerificasionEmailPage({this.isContinue = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,13 +105,19 @@ class VerificasionEmailPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyEmail(context, doInPost: () async {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => TextMoreDialog(
-                          email: state.email.text,
-                        ),
-                      );
+                      if (isContinue) {
+                        Get
+                          ..back(result: true)
+                          ..back(result: true);
+                      } else {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => TextMoreDialog(
+                            email: state.email.text,
+                          ),
+                        );
+                      }
                     });
                   },
                 ),

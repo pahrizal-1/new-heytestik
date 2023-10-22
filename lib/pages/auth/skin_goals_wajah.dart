@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +15,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGoalsKorektifWajah extends StatefulWidget {
-  const SkinGoalsKorektifWajah({super.key});
-
+  bool isContinue = false;
+  SkinGoalsKorektifWajah({this.isContinue = false, super.key});
   @override
   State<SkinGoalsKorektifWajah> createState() => _SkinGoalsKorektifWajahState();
 }
@@ -61,7 +61,7 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SkinGoalsTubuh(),
+                    builder: (context) => SkinGoalsTubuh(),
                   ),
                 );
               },
@@ -198,16 +198,20 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Lanjut',
+                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.faceCorrectiveGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SkinGoalsTubuh(),
-                                ),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SkinGoalsTubuh(),
+                                  ),
+                                );
+                              }
                             });
                           },
                         ),

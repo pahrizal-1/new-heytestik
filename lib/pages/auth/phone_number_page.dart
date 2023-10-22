@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
@@ -10,7 +12,8 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
 class PhoneNumberPage extends StatelessWidget {
-  const PhoneNumberPage({super.key});
+  bool isContinue = false;
+  PhoneNumberPage({this.isContinue = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +104,8 @@ class PhoneNumberPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const VerificationPage(),
+                          builder: (context) =>
+                              VerificationPage(isContinue: isContinue),
                         ),
                       );
                       SnackbarWidget.getSuccessSnackbar(

@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +16,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGloalsPilihTreamtmnet extends StatefulWidget {
-  const SkinGloalsPilihTreamtmnet({super.key});
+  bool isContinue = false;
+  SkinGloalsPilihTreamtmnet({this.isContinue = false, super.key});
 
   @override
   State<SkinGloalsPilihTreamtmnet> createState() =>
@@ -74,7 +75,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AnggaranTreatment(),
+                    builder: (context) => AnggaranTreatment(),
                   ),
                 );
               },
@@ -235,17 +236,20 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Lanjut',
+                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.pastTreatmentGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AnggaranTreatment(),
-                                ),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AnggaranTreatment(),
+                                  ),
+                                );
+                              }
                             });
                           },
                         ),

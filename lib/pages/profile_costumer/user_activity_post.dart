@@ -67,12 +67,20 @@ class _UserActivityPostState extends State<UserActivityPost> {
               Row(
                 children: [
                   Obx(
-                    () => CircleAvatar(
-                      backgroundImage: profileController.imgNetwork.value != ""
-                          ? NetworkImage(
-                                  '${Global.FILE}/${profileController.imgNetwork.value}')
-                              as ImageProvider
-                          : AssetImage('assets/images/profiledummy.png'),
+                    () => Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: profileController.imgNetwork.value != ""
+                              ? NetworkImage(
+                                      '${Global.FILE}/${profileController.imgNetwork.value}')
+                                  as ImageProvider
+                              : AssetImage('assets/images/profiledummy.png'),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(

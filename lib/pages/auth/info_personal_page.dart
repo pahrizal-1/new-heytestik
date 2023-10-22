@@ -61,7 +61,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BeautyProfilPage(),
+                    builder: (context) => BeautyProfilPage(),
                   ),
                 );
               },
@@ -431,8 +431,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BeautyProfilPage(),
+                                    builder: (context) => BeautyProfilPage(),
                                   ),
                                 );
                               });
@@ -457,7 +456,7 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BeautyProfilPage(),
+                            builder: (context) => BeautyProfilPage(),
                           ),
                         );
                       },

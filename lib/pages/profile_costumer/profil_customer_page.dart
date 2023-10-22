@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -164,45 +166,59 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           width: 10,
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
-                              Get.to(AnggaranTreatment());
+                              check = await Get.to(
+                                  AnggaranTreatment(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Treatment yang pernah dilakukan') {
-                              Get.to(SkinGloalsPilihTreamtmnet());
+                              check = await Get.to(
+                                  SkinGloalsPilihTreamtmnet(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Penyakit Augmentation Wajah & Tubuh') {
-                              Get.to(SkinGolasWajahTubuh());
+                              check = await Get.to(
+                                  SkinGolasWajahTubuh(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Tubuh') {
-                              Get.to(SkinGoalsTubuh());
+                              check = await Get.to(
+                                  SkinGoalsTubuh(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Wajah') {
-                              Get.to(SkinGoalsKorektifWajah());
+                              check = await Get.to(
+                                  SkinGoalsKorektifWajah(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Beauty Profile') {
-                              Get.to(BeautyProfilPage());
+                              check = await Get.to(
+                                  BeautyProfilPage(isContinue: true));
                             }
-// buat nge back kao berhasil dari salsah satu ini
                             if (state.completionData.value.data?.subtitle ==
                                 'Verifikasi Email') {
-                              Get.to(VerificationAcooutPage());
+                              check = await Get.to(
+                                  VerificationAcooutPage(isContinue: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Verifikasi No. Handphone') {
-                              Get.to(PhoneNumberPage());
+                              check = await Get.to(
+                                  PhoneNumberPage(isContinue: true));
+                            }
+
+                            setState(() {});
+
+                            if (check) {
+                              await state.getCompletion(context);
                             }
                           },
                           child: Container(

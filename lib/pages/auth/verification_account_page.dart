@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,14 +16,14 @@ import 'package:provider/provider.dart';
 import '../../widget/timeline_widget.dart';
 
 class VerificationAcooutPage extends StatefulWidget {
-  const VerificationAcooutPage({super.key});
+  bool isContinue = false;
+  VerificationAcooutPage({this.isContinue = false, super.key});
 
   @override
   State<VerificationAcooutPage> createState() => _VerificationAcooutPageState();
 }
 
 class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
-  // bool _isEnable = false;
   bool isSelected = false;
 
   @override
@@ -207,7 +207,8 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => VerificasionEmailPage(),
+                                builder: (context) => VerificasionEmailPage(
+                                    isContinue: widget.isContinue),
                               ),
                             );
                             SnackbarWidget.getSuccessSnackbar(
@@ -220,30 +221,32 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ButtonTextWidget(
-                    title: 'Nanti Saja',
-                    onPressed: () async {
-                      await state.registerEmailWithoutVerification(context,
-                          doInPost: () async {
-                        await showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return NantiSajaDialog();
-                          },
-                        );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const InfoPersonalPage(),
-                          ),
-                        );
-                      });
-                    },
-                  ),
+                  if (widget.isContinue == false)
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  if (widget.isContinue == false)
+                    ButtonTextWidget(
+                      title: 'Nanti Saja',
+                      onPressed: () async {
+                        await state.registerEmailWithoutVerification(context,
+                            doInPost: () async {
+                          await showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return NantiSajaDialog();
+                            },
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const InfoPersonalPage(),
+                            ),
+                          );
+                        });
+                      },
+                    ),
                 ],
               ),
             ),

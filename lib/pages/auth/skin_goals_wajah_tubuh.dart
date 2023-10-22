@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +15,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGolasWajahTubuh extends StatefulWidget {
-  const SkinGolasWajahTubuh({super.key});
-
+  bool isContinue = false;
+  SkinGolasWajahTubuh({this.isContinue = false, super.key});
   @override
   State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
@@ -61,7 +61,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SkinGloalsPilihTreamtmnet(),
+                    builder: (context) => SkinGloalsPilihTreamtmnet(),
                   ),
                 );
               },
@@ -199,17 +199,21 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Lanjut',
+                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.augmentationSkinGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SkinGloalsPilihTreamtmnet(),
-                                ),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SkinGloalsPilihTreamtmnet(),
+                                  ),
+                                );
+                              }
                             });
                           },
                         ),

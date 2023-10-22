@@ -588,10 +588,25 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                       ),
                                       Row(
                                         children: [
-                                          const CircleAvatar(
-                                            maxRadius: 17,
-                                            backgroundImage: AssetImage(
-                                              'assets/images/profiledummy.png',
+                                          Obx(
+                                            () => Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: stateProfile.imgNetwork
+                                                              .value !=
+                                                          ""
+                                                      ? NetworkImage(
+                                                              '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                                                          as ImageProvider
+                                                      : AssetImage(
+                                                          'assets/images/profiledummy.png'),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(

@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGoalsTubuh extends StatefulWidget {
-  const SkinGoalsTubuh({super.key});
+  bool isContinue = false;
+  SkinGoalsTubuh({this.isContinue = false, super.key});
 
   @override
   State<SkinGoalsTubuh> createState() => _SkinGoalsTubuhState();
@@ -60,7 +61,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SkinGolasWajahTubuh(),
+                    builder: (context) => SkinGolasWajahTubuh(),
                   ),
                 );
               },
@@ -198,17 +199,20 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: 'Lanjut',
+                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.bodyCorrectiveGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SkinGolasWajahTubuh(),
-                                ),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SkinGolasWajahTubuh(),
+                                  ),
+                                );
+                              }
                             });
                           },
                         ),

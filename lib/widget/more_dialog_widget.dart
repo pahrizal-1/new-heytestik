@@ -46,7 +46,7 @@ class MoreDialog extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const VerificationAcooutPage(),
+                          builder: (context) => VerificationAcooutPage(),
                         ),
                       );
                     },
@@ -137,7 +137,7 @@ class MoreDialog extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const VerificationAcooutPage(),
+                    builder: (context) => VerificationAcooutPage(),
                   ),
                 );
               },

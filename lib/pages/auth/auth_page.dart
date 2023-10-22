@@ -67,7 +67,7 @@ class AuthPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PhoneNumberPage(),
+                            builder: (context) => PhoneNumberPage(),
                           ),
                         );
                       },

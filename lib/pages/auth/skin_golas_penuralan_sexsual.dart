@@ -212,7 +212,7 @@ class _SkinGoalsPenularanState extends State<SkinGoalsPenularan> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const SkinGloalsPilihTreamtmnet(),
+                                    SkinGloalsPilihTreamtmnet(),
                               ),
                             );
                             // });

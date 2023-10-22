@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,8 @@ import '../../widget/more_dialog_widget.dart';
 import '../../widget/snackbar_widget.dart';
 
 class VerificationPage extends StatelessWidget {
-  const VerificationPage({super.key});
+  bool isContinue = false;
+  VerificationPage({this.isContinue = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,13 +109,19 @@ class VerificationPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyPhoneNumber(context, doInPost: () async {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return MoreDialog();
-                        },
-                      );
+                      if (isContinue) {
+                        Get
+                          ..back(result: true)
+                          ..back(result: true);
+                      } else {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return MoreDialog();
+                          },
+                        );
+                      }
                     });
                   },
                 ),

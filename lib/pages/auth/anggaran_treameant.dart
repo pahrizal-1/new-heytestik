@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
@@ -13,7 +15,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class AnggaranTreatment extends StatefulWidget {
-  const AnggaranTreatment({super.key});
+  bool isContinue = false;
+  AnggaranTreatment({this.isContinue = false, super.key});
 
   @override
   State<AnggaranTreatment> createState() => _AnggaranTreatmentState();
@@ -185,11 +188,16 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                           title: 'Simpan',
                           onPressed: () async {
                             await state.budgets(context, doInPost: () async {
-                              Get.offAll(() => const AuthPage());
-                              showDialog(
-                                context: context,
-                                builder: (context) => const ProfilMoreDialog(),
-                              );
+                              if (widget.isContinue) {
+                                Get.back(result: true);
+                              } else {
+                                Get.offAll(() => const AuthPage());
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      const ProfilMoreDialog(),
+                                );
+                              }
                             });
                           },
                         ),
