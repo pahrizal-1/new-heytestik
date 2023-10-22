@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/register/register_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../widget/snackbar_widget.dart';
@@ -34,6 +35,21 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
+  Future<void> openTelegram({
+    required String phone,
+    LaunchMode mode = LaunchMode.externalApplication,
+  }) async {
+    const String url = 'tg://t.me/+xqqoDqGSZm02Zm';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(
+        Uri.parse(url),
+        mode: mode,
+      );
+    } else {
+      throw Exception('openTelegram could not launching url');
+    }
+  }
+
   registerPhoneNumber(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;
@@ -56,7 +72,7 @@ class RegisterController extends StateClass {
 
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
-
+      await openTelegram(phone: noHp);
       doInPost();
     });
     isLoading.value = false;
