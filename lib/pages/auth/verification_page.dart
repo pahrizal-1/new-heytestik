@@ -108,6 +108,7 @@ class VerificationPage extends StatelessWidget {
                     await state.verifyPhoneNumber(context, doInPost: () async {
                       showDialog(
                         context: context,
+                        barrierDismissible: false,
                         builder: (context) {
                           return MoreDialog();
                         },

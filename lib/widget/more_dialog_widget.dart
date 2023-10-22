@@ -42,13 +42,19 @@ class MoreDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        'assets/icons/danger-icons.png',
-                        width: 17,
-                      )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const VerificationAcooutPage(),
+                        ),
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 17,
+                    ),
+                  ),
                 ],
               ),
             ),
