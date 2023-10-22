@@ -1,17 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import '../controller/customer/interest/interest_controller.dart';
 import '../theme/theme.dart';
 
-class CardSkinGoalsTreatment extends StatefulWidget {
+class CardSkinGoals extends StatefulWidget {
   final String title;
   final double width;
 
   final bool checked;
-  const CardSkinGoalsTreatment({
+  const CardSkinGoals({
     this.width = double.infinity,
     super.key,
     required this.checked,
@@ -19,10 +17,10 @@ class CardSkinGoalsTreatment extends StatefulWidget {
   });
 
   @override
-  State<CardSkinGoalsTreatment> createState() => _CardSkinGoalsTreatmentState();
+  State<CardSkinGoals> createState() => _CardSkinGoalsState();
 }
 
-class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
+class _CardSkinGoalsState extends State<CardSkinGoals> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,97 +59,117 @@ class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
   }
 }
 
-class CardSkinGoals extends StatefulWidget {
-  final String title;
-  final double width;
-  final int? type;
+// class CardSkinGoals extends StatefulWidget {
+//   final String title;
+//   final double width;
+//   final int? type;
 
-  const CardSkinGoals({
-    this.width = double.infinity,
-    super.key,
-    required this.title,
-    this.type,
-  });
+//   const CardSkinGoals({
+//     this.width = double.infinity,
+//     super.key,
+//     required this.title,
+//     this.type,
+//   });
 
-  @override
-  State<CardSkinGoals> createState() => _CardSkinGoalsState();
-}
+//   @override
+//   State<CardSkinGoals> createState() => _CardSkinGoalsState();
+// }
 
-class _CardSkinGoalsState extends State<CardSkinGoals> {
-  final InterestController state = Get.put(InterestController());
-  bool isIconSelected1 = false;
-  @override
-  Widget build(BuildContext context) {
-    // var state = Provider.of<InterestController>(context);
+// class _CardSkinGoalsState extends State<CardSkinGoals> {
+//   final InterestController state = Get.put(InterestController());
+//   bool isIconSelected1 = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         setState(() {
+//           isIconSelected1 = !isIconSelected1;
+//         });
 
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isIconSelected1 = !isIconSelected1;
-        });
+//         if (widget.type == 1) {
+//           if (isIconSelected1) {
+//             var adaGak = state.faceCorrective.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
 
-        if (widget.type == 1) {
-          if (isIconSelected1) {
-            state.faceCorrective.add(widget.title);
-          } else {
-            state.faceCorrective.remove(widget.title);
-          }
-        }
+//             print("adaGak $adaGak");
 
-        if (widget.type == 2) {
-          if (isIconSelected1) {
-            state.bodyCorrective.add(widget.title);
-          } else {
-            state.bodyCorrective.remove(widget.title);
-          }
-        }
+//             if (adaGak == null) {
+//               state.faceCorrective.add(widget.title);
+//             }
+//           } else {
+//             state.faceCorrective.remove(widget.title);
+//           }
+//         }
 
-        if (widget.type == 3) {
-          if (isIconSelected1) {
-            state.augmentation.add(widget.title);
-          } else {
-            state.augmentation.remove(widget.title);
-          }
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 5, right: 5),
-        decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(10),
-            border:
-                Border.all(color: isIconSelected1 ? greenColor : greyColor)),
-        height: 40,
-        width: widget.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              isIconSelected1
-                  ? Icons.check_circle_rounded
-                  : Icons.add_circle_outline,
-              size: 16,
-              color: isIconSelected1 ? greenColor : greyColor,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                widget.title,
-                style: TextStyle(
-                    letterSpacing: 0.5,
-                    fontSize: 11,
-                    fontFamily: 'ProximaNova',
-                    color:
-                        isIconSelected1 ? greenColor : const Color(0xff323232),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//         if (widget.type == 2) {
+//           if (isIconSelected1) {
+//             var adaGak = state.bodyCorrective.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
+
+//             print("adaGak $adaGak");
+//             if (adaGak == null) {
+//               state.bodyCorrective.add(widget.title);
+//             }
+//           } else {
+//             state.bodyCorrective.remove(widget.title);
+//           }
+//         }
+
+//         if (widget.type == 3) {
+//           if (isIconSelected1) {
+//             var adaGak = state.augmentation.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
+
+//             print("adaGak $adaGak");
+//             if (adaGak == null) {
+//               state.augmentation.add(widget.title);
+//             }
+//           } else {
+//             state.augmentation.remove(widget.title);
+//           }
+//         }
+//       },
+//       child: Container(
+//         padding: const EdgeInsets.only(left: 5, right: 5),
+//         decoration: BoxDecoration(
+//             color: whiteColor,
+//             borderRadius: BorderRadius.circular(10),
+//             border:
+//                 Border.all(color: isIconSelected1 ? greenColor : greyColor)),
+//         height: 40,
+//         width: widget.width,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           children: [
+//             Icon(
+//               isIconSelected1
+//                   ? Icons.check_circle_rounded
+//                   : Icons.add_circle_outline,
+//               size: 16,
+//               color: isIconSelected1 ? greenColor : greyColor,
+//             ),
+//             const SizedBox(width: 8),
+//             Expanded(
+//               child: Text(
+//                 widget.title,
+//                 style: TextStyle(
+//                     letterSpacing: 0.5,
+//                     fontSize: 11,
+//                     fontFamily: 'ProximaNova',
+//                     color:
+//                         isIconSelected1 ? greenColor : const Color(0xff323232),
+//                     fontWeight: FontWeight.bold),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class CardSkincare extends StatelessWidget {
   final String title;

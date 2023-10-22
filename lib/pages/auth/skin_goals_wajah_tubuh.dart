@@ -1,7 +1,8 @@
-// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -16,14 +17,18 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGolasWajahTubuh extends StatefulWidget {
   bool isContinue = false;
-  SkinGolasWajahTubuh({this.isContinue = false, super.key});
+  bool isEdit = false;
+  SkinGolasWajahTubuh(
+      {this.isContinue = false, this.isEdit = false, super.key});
   @override
   State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
 
 class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
+  final ProfileController stateProfile = Get.put(ProfileController());
   final InterestController state = Get.put(InterestController());
   List<Data2>? data = [];
+  List augment = [];
 
   @override
   void initState() {
@@ -34,6 +39,34 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
         await state.lookupSkinGoals(
             context, "SKIN_GOALS_AUGMENTATION_FACE_BODY"),
       );
+
+      if (widget.isEdit) {
+        for (int i = 0;
+            i <
+                stateProfile
+                    .interestData.value.data!.skinGoalsAugmentation!.length;
+            i++) {
+          state.augmentation.value.add(
+            stateProfile.interestData.value.data!.skinGoalsAugmentation![i]
+                .nameAugmentation
+                .toString(),
+          );
+        }
+        for (int i = 0; i < data!.length; i++) {
+          var adaGak = state.augmentation.firstWhereOrNull(
+            (item) => item == data?[i].value.toString(),
+          );
+          if (adaGak == null) {
+            augment.add({'augment': data?[i].value, 'checked': false});
+          } else {
+            augment.add({'augment': data?[i].value, 'checked': true});
+          }
+        }
+      } else {
+        for (int i = 0; i < data!.length; i++) {
+          augment.add({'augment': data?[i].value, 'checked': false});
+        }
+      }
       setState(() {});
     });
   }
@@ -61,7 +94,9 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SkinGloalsPilihTreamtmnet(),
+                    builder: (context) => SkinGloalsPilihTreamtmnet(
+                      isEdit: true,
+                    ),
                   ),
                 );
               },
@@ -182,15 +217,32 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: data!
-                          .map(
-                            (element) => CardSkinGoals(
-                              title: element.value.toString(),
+                      children: [
+                        for (int index = 0; index < augment.length; index++)
+                          InkWell(
+                            onTap: () {
+                              var adaGak = state.augmentation.firstWhereOrNull(
+                                (item) => item == augment[index]['augment'],
+                              );
+
+                              if (adaGak == null) {
+                                augment[index]['checked'] = true;
+                                state.augmentation
+                                    .add(augment[index]['augment']);
+                              } else {
+                                augment[index]['checked'] = false;
+                                state.augmentation
+                                    .remove(augment[index]['augment']);
+                              }
+                              setState(() {});
+                            },
+                            child: CardSkinGoals(
+                              checked: augment[index]['checked'],
+                              title: augment[index]['augment'],
                               width: 99,
-                              type: 3,
                             ),
-                          )
-                          .toList(),
+                          ),
+                      ],
                     ),
                     const SizedBox(
                       height: 120,
@@ -210,7 +262,9 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        SkinGloalsPilihTreamtmnet(),
+                                        SkinGloalsPilihTreamtmnet(
+                                      isEdit: true,
+                                    ),
                                   ),
                                 );
                               }

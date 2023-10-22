@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_null_aware_operators
+// ignore_for_file: prefer_null_aware_operators, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,10 +10,7 @@ import '../controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 
 class DropDownWiget extends StatefulWidget {
-  const DropDownWiget({
-    super.key,
-    required this.type,
-  });
+  DropDownWiget({super.key, required this.type});
 
   final int type;
 
@@ -24,6 +21,7 @@ class DropDownWiget extends StatefulWidget {
 class _DropDownWigetState extends State<DropDownWiget> {
   final InterestController state = Get.put(InterestController());
   List<Data2>? data = [];
+  String? selectedvalue;
 
   @override
   void initState() {
@@ -32,11 +30,11 @@ class _DropDownWigetState extends State<DropDownWiget> {
       data?.addAll(
         await state.lookupSkinGoals(context, "SKIN_GOALS_BUDGET"),
       );
+
       setState(() {});
     });
   }
 
-  String? selectedvalue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -239,11 +237,10 @@ class CircleImgWidget extends StatefulWidget {
 }
 
 class _CircleImgWidgetState extends State<CircleImgWidget> {
+  final InterestController state = Get.put(InterestController());
   bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Column(
       children: [
         InkWell(
@@ -251,19 +248,19 @@ class _CircleImgWidgetState extends State<CircleImgWidget> {
             setState(() {
               _isSelected = !_isSelected;
               if (widget.type == 1) {
-                state.skinType = widget.title;
+                state.skinType.value = widget.title.toString();
               }
               if (widget.type == 2) {
-                state.skinToneColor = widget.title;
+                state.skinToneColor.value = widget.title.toString();
               }
               if (widget.type == 3) {
-                state.skinUnderToneColor = widget.title;
+                state.skinUnderToneColor.value = widget.title.toString();
               }
               if (widget.type == 4) {
-                state.hairType = widget.title;
+                state.hairType.value = widget.title.toString();
               }
               if (widget.type == 5) {
-                state.hairColor = widget.title;
+                state.hairColor.value = widget.title.toString();
               }
               if (widget.type == 6) {
                 state.hijabers = widget.title == 'Hijab';

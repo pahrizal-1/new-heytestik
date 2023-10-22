@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -16,14 +17,18 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGoalsKorektifWajah extends StatefulWidget {
   bool isContinue = false;
-  SkinGoalsKorektifWajah({this.isContinue = false, super.key});
+  bool isEdit = false;
+  SkinGoalsKorektifWajah(
+      {this.isContinue = false, this.isEdit = false, super.key});
   @override
   State<SkinGoalsKorektifWajah> createState() => _SkinGoalsKorektifWajahState();
 }
 
 class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
   final InterestController state = Get.put(InterestController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   List<Data2>? data = [];
+  List face = [];
 
   @override
   void initState() {
@@ -33,6 +38,34 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
       data?.addAll(
         await state.lookupSkinGoals(context, "SKIN_GOALS_CORRECTIVE_FACE"),
       );
+
+      if (widget.isEdit) {
+        for (int i = 0;
+            i <
+                stateProfile
+                    .interestData.value.data!.skinGoalsFaceCorrective!.length;
+            i++) {
+          state.faceCorrective.value.add(
+            stateProfile.interestData.value.data!.skinGoalsFaceCorrective![i]
+                .nameFaceCorrective
+                .toString(),
+          );
+        }
+        for (int i = 0; i < data!.length; i++) {
+          var adaGak = state.faceCorrective.firstWhereOrNull(
+            (item) => item == data?[i].value.toString(),
+          );
+          if (adaGak == null) {
+            face.add({'face': data?[i].value, 'checked': false});
+          } else {
+            face.add({'face': data?[i].value, 'checked': true});
+          }
+        }
+      } else {
+        for (int i = 0; i < data!.length; i++) {
+          face.add({'face': data?[i].value, 'checked': false});
+        }
+      }
       setState(() {});
     });
   }
@@ -61,7 +94,9 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SkinGoalsTubuh(),
+                    builder: (context) => SkinGoalsTubuh(
+                      isEdit: true,
+                    ),
                   ),
                 );
               },
@@ -181,15 +216,34 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: data!
-                          .map(
-                            (element) => CardSkinGoals(
-                              title: element.value.toString(),
+                      children: [
+                        for (int index = 0; index < face.length; index++)
+                          InkWell(
+                            onTap: () {
+                              var adaGak =
+                                  state.faceCorrective.firstWhereOrNull(
+                                (item) => item == face[index]['face'],
+                              );
+
+                              if (adaGak == null) {
+                                face[index]['checked'] = true;
+
+                                state.faceCorrective.add(face[index]['face']);
+                              } else {
+                                face[index]['checked'] = false;
+
+                                state.faceCorrective
+                                    .remove(face[index]['face']);
+                              }
+                              setState(() {});
+                            },
+                            child: CardSkinGoals(
+                              checked: face[index]['checked'],
+                              title: face[index]['face'],
                               width: 99,
-                              type: 1,
                             ),
-                          )
-                          .toList(),
+                          ),
+                      ],
                     ),
                     const SizedBox(
                       height: 50,
@@ -208,7 +262,9 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SkinGoalsTubuh(),
+                                    builder: (context) => SkinGoalsTubuh(
+                                      isEdit: true,
+                                    ),
                                   ),
                                 );
                               }

@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
@@ -23,16 +23,87 @@ class BeautyProfilPage extends StatefulWidget {
 }
 
 class _BeautyProfilPageState extends State<BeautyProfilPage> {
+  final InterestController state = Get.put(InterestController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   int selectedIndex = 0;
   int selectedIndex2 = 0;
   int selectedIndex3 = 0;
   int selectedIndex4 = 0;
   int selectedIndex5 = 0;
   int selectedIndex6 = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isContinue) {
+      state.skinType.value =
+          stateProfile.interestData.value.data?.beautyProfile?.skinType ?? '';
+      if (state.skinType.value == 'Kering') {
+        selectedIndex = 1;
+      } else if (state.skinType.value == 'Normal') {
+        selectedIndex = 2;
+      } else if (state.skinType.value == 'Kombinasi') {
+        selectedIndex = 3;
+      } else if (state.skinType.value == 'Berminyak') {
+        selectedIndex = 4;
+      }
+      // =======================================================================================
+      state.skinToneColor.value =
+          stateProfile.interestData.value.data?.beautyProfile?.skinToneColor ??
+              '';
+      if (state.skinToneColor.value == 'Putih\nGading') {
+        selectedIndex2 = 1;
+      } else if (state.skinToneColor.value == 'Kuning\nLangsat') {
+        selectedIndex2 = 2;
+      } else if (state.skinToneColor.value == 'Sawo\nMatang') {
+        selectedIndex2 = 3;
+      } else if (state.skinToneColor.value == 'Gelap\n') {
+        selectedIndex2 = 4;
+      }
+      // =======================================================================================
+      state.skinUnderToneColor.value = stateProfile
+              .interestData.value.data?.beautyProfile?.skinUndertoneColor ??
+          '';
+      if (state.skinUnderToneColor.value == 'Dingin') {
+        selectedIndex3 = 1;
+      } else if (state.skinUnderToneColor.value == 'Netral') {
+        selectedIndex3 = 2;
+      } else if (state.skinUnderToneColor.value == 'Hangat') {
+        selectedIndex3 = 3;
+      }
+      // =======================================================================================
+      state.hairType.value =
+          stateProfile.interestData.value.data?.beautyProfile?.hairType ?? '';
+      if (state.hairType.value == 'Lurus') {
+        selectedIndex4 = 1;
+      } else if (state.hairType.value == 'Keriting') {
+        selectedIndex4 = 2;
+      } else if (state.hairType.value == 'Bergelombang') {
+        selectedIndex4 = 3;
+      }
+      // =======================================================================================
+      state.hairColor.value =
+          stateProfile.interestData.value.data?.beautyProfile?.hairColor ?? '';
+      if (state.hairColor.value == 'Rambut\nCerah') {
+        selectedIndex5 = 1;
+      } else if (state.hairColor.value == 'Rambut\nGelap') {
+        selectedIndex5 = 2;
+      }
+      // =======================================================================================
+      state.hijabers =
+          stateProfile.interestData.value.data?.beautyProfile?.hijabers;
+      if (state.hijabers!) {
+        selectedIndex6 = 1;
+      } else {
+        selectedIndex6 = 2;
+      }
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     Column option(
       int index,
       String img,
@@ -44,9 +115,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             onTap: () {
               print('tes');
               selectedIndex = index;
-              state.skinType = title;
+              state.skinType.value = title;
               setState(() {});
-              print(state.skinType);
+              print(state.skinType.value);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
@@ -85,9 +156,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             onTap: () {
               print('tes');
               selectedIndex2 = index;
-              state.skinToneColor = title;
+              state.skinToneColor.value = title;
               setState(() {});
-              print(state.skinToneColor);
+              print(state.skinToneColor.value);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
@@ -126,9 +197,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             onTap: () {
               print('tes');
               selectedIndex3 = index;
-              state.skinUnderToneColor = title;
+              state.skinUnderToneColor.value = title;
               setState(() {});
-              print(state.skinUnderToneColor);
+              print(state.skinUnderToneColor.value);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
@@ -167,9 +238,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             onTap: () {
               print('tes');
               selectedIndex4 = index;
-              state.hairType = title;
+              state.hairType.value = title;
               setState(() {});
-              print(state.hairType);
+              print(state.hairType.value);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
@@ -208,9 +279,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             onTap: () {
               print('tes');
               selectedIndex5 = index;
-              state.hairColor = title;
+              state.hairColor.value = title;
               setState(() {});
-              print(state.hairColor);
+              print(state.hairColor.value);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 14),
@@ -295,19 +366,23 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
               onTap: () async {
-                await showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return NantiSajaDialog();
-                  },
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SkinGoalsKorektifWajah(),
-                  ),
-                );
+                if (widget.isContinue) {
+                  Get.back(result: false);
+                } else {
+                  await showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return NantiSajaDialog();
+                    },
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkinGoalsKorektifWajah(),
+                    ),
+                  );
+                }
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
@@ -427,7 +502,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     option(
                       3,
                       'assets/images/kulitkombinasi.png',
-                      'kombinasi',
+                      'Kombinasi',
                     ),
                     option(
                       4,

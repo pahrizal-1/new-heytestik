@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
@@ -6,9 +8,16 @@ import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
-class EditBeautyProfilPage extends StatelessWidget {
+class EditBeautyProfilPage extends StatefulWidget {
   EditBeautyProfilPage({super.key});
+
+  @override
+  State<EditBeautyProfilPage> createState() => _EditBeautyProfilPageState();
+}
+
+class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
   final ProfileController state = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +48,14 @@ class EditBeautyProfilPage extends StatelessWidget {
                         style: blackTextStyle.copyWith(fontSize: 15),
                       ),
                       InkWell(
-                        onTap: () {
-                          Get.to(BeautyProfilPage());
+                        onTap: () async {
+                          bool check = await Get.to(BeautyProfilPage(
+                            isContinue: true,
+                          ));
+                          if (check) {
+                            await state.getInterest(context);
+                          }
+                          setState(() {});
                         },
                         child: Text(
                           'Edit',
@@ -57,42 +72,52 @@ class EditBeautyProfilPage extends StatelessWidget {
                   ),
                   beutytext(
                     'Tipe Kulit',
-                    'Kering',
+                    state.interestData.value.data?.beautyProfile?.skinType ??
+                        '-',
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   beutytext(
                     'Warna Tone Kulit',
-                    'Kuning Langsat',
+                    state.interestData.value.data?.beautyProfile
+                            ?.skinToneColor ??
+                        '-',
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   beutytext(
                     'Warna Undertone Kulit',
-                    'Netral',
+                    state.interestData.value.data?.beautyProfile
+                            ?.skinUndertoneColor ??
+                        '-',
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   beutytext(
                     'Tipe Rambut',
-                    'Bergelombang',
+                    state.interestData.value.data?.beautyProfile?.hairType ??
+                        '-',
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   beutytext(
                     'Warna Rambut',
-                    'Berwarna',
+                    state.interestData.value.data?.beautyProfile?.hairColor ??
+                        '-',
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   beutytext(
                     'Hijabers',
-                    'Iya',
+                    state.interestData.value.data?.beautyProfile!.hijabers ==
+                            true
+                        ? 'Iya'
+                        : 'Tidak',
                   ),
                 ],
               ),
@@ -112,8 +137,14 @@ class EditBeautyProfilPage extends StatelessWidget {
                         style: blackTextStyle.copyWith(fontSize: 15),
                       ),
                       InkWell(
-                        onTap: () {
-                          Get.to(SkinGoalsKorektifWajah());
+                        onTap: () async {
+                          bool check = await Get.to(SkinGoalsKorektifWajah(
+                            isEdit: true,
+                          ));
+                          if (check) {
+                            await state.getInterest(context);
+                          }
+                          setState(() {});
                         },
                         child: Text(
                           'Edit',
@@ -212,7 +243,7 @@ class EditBeautyProfilPage extends StatelessWidget {
         ...?state.interestData.value.data?.skinGoalsBodyCorrective
             ?.map(
               (value) => Text(
-                ' value.nameFaceCorrective.toString()',
+                value.nameBodyCorrective.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -239,7 +270,7 @@ class EditBeautyProfilPage extends StatelessWidget {
         ...?state.interestData.value.data?.skinGoalsAugmentation
             ?.map(
               (value) => Text(
-                'value.nameFaceCorrective.toString()',
+                value.nameAugmentation.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -306,6 +337,7 @@ class EditBeautyProfilPage extends StatelessWidget {
       children: [
         Text(
           title1,
+          textAlign: TextAlign.left,
           style: blackRegulerTextStyle.copyWith(
             color: Color(
               0xff9B9B9B,
@@ -315,6 +347,7 @@ class EditBeautyProfilPage extends StatelessWidget {
         ),
         Text(
           title2,
+          textAlign: TextAlign.right,
           style: blackRegulerTextStyle.copyWith(
             color: blackColor,
             fontSize: 13,

@@ -86,7 +86,7 @@ class BeautyProfil extends StatelessWidget {
               'Warna Rambut',
               state.interestData.value.data?.beautyProfile?.hairColor ?? '-',
               'Hijabers',
-              state.interestData.value.data!.beautyProfile!.hijabers!
+              state.interestData.value.data?.beautyProfile!.hijabers == true
                   ? 'Iya'
                   : 'Tidak',
             ),
@@ -173,7 +173,7 @@ class BeautyProfil extends StatelessWidget {
         ...?state.interestData.value.data?.skinGoalsBodyCorrective
             ?.map(
               (value) => Text(
-                ' value.nameFaceCorrective.toString()',
+                value.nameBodyCorrective.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -200,7 +200,7 @@ class BeautyProfil extends StatelessWidget {
         ...?state.interestData.value.data?.skinGoalsAugmentation
             ?.map(
               (value) => Text(
-                'value.nameFaceCorrective.toString()',
+                value.nameAugmentation.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),

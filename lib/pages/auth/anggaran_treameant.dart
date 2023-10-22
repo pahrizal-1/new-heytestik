@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -16,7 +17,8 @@ import '../../widget/timeline_widget.dart';
 
 class AnggaranTreatment extends StatefulWidget {
   bool isContinue = false;
-  AnggaranTreatment({this.isContinue = false, super.key});
+  bool isEdit = false;
+  AnggaranTreatment({this.isContinue = false, this.isEdit = false, super.key});
 
   @override
   State<AnggaranTreatment> createState() => _AnggaranTreatmentState();
@@ -24,11 +26,19 @@ class AnggaranTreatment extends StatefulWidget {
 
 class _AnggaranTreatmentState extends State<AnggaranTreatment> {
   final InterestController state = Get.put(InterestController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
-    state.treatment = "";
-    state.skincare = "";
+    if (widget.isEdit) {
+      state.treatment = stateProfile
+          .interestData.value.data?.skinGoalsBudget?.budgetForTreatment;
+      state.skincare = stateProfile
+          .interestData.value.data?.skinGoalsBudget?.budgetForSkincare;
+    } else {
+      state.treatment = "";
+      state.skincare = "";
+    }
     setState(() {});
   }
 
@@ -155,7 +165,7 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                     const SizedBox(
                       height: 19,
                     ),
-                    const DropDownWiget(
+                    DropDownWiget(
                       type: 1,
                     ),
                     const SizedBox(
@@ -175,7 +185,7 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                     const SizedBox(
                       height: 19,
                     ),
-                    const DropDownWiget(
+                    DropDownWiget(
                       type: 2,
                     ),
                     const SizedBox(
@@ -190,6 +200,13 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                             await state.budgets(context, doInPost: () async {
                               if (widget.isContinue) {
                                 Get.back(result: true);
+                              } else if (widget.isEdit) {
+                                Get
+                                  ..back(result: true)
+                                  ..back(result: true)
+                                  ..back(result: true)
+                                  ..back(result: true)
+                                  ..back(result: true);
                               } else {
                                 Get.offAll(() => const AuthPage());
                                 showDialog(

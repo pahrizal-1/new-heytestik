@@ -1,7 +1,8 @@
-// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -16,7 +17,8 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGoalsTubuh extends StatefulWidget {
   bool isContinue = false;
-  SkinGoalsTubuh({this.isContinue = false, super.key});
+  bool isEdit = false;
+  SkinGoalsTubuh({this.isContinue = false, this.isEdit = false, super.key});
 
   @override
   State<SkinGoalsTubuh> createState() => _SkinGoalsTubuhState();
@@ -24,7 +26,9 @@ class SkinGoalsTubuh extends StatefulWidget {
 
 class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
   final InterestController state = Get.put(InterestController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   List<Data2>? data = [];
+  List body = [];
 
   @override
   void initState() {
@@ -34,6 +38,34 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
       data?.addAll(
         await state.lookupSkinGoals(context, "SKIN_GOALS_CORRECTIVE_BODY"),
       );
+
+      if (widget.isEdit) {
+        for (int i = 0;
+            i <
+                stateProfile
+                    .interestData.value.data!.skinGoalsBodyCorrective!.length;
+            i++) {
+          state.bodyCorrective.value.add(
+            stateProfile.interestData.value.data!.skinGoalsBodyCorrective![i]
+                .nameBodyCorrective
+                .toString(),
+          );
+        }
+        for (int i = 0; i < data!.length; i++) {
+          var adaGak = state.bodyCorrective.firstWhereOrNull(
+            (item) => item == data?[i].value.toString(),
+          );
+          if (adaGak == null) {
+            body.add({'body': data?[i].value, 'checked': false});
+          } else {
+            body.add({'body': data?[i].value, 'checked': true});
+          }
+        }
+      } else {
+        for (int i = 0; i < data!.length; i++) {
+          body.add({'body': data?[i].value, 'checked': false});
+        }
+      }
       setState(() {});
     });
   }
@@ -61,7 +93,9 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SkinGolasWajahTubuh(),
+                    builder: (context) => SkinGolasWajahTubuh(
+                      isEdit: true,
+                    ),
                   ),
                 );
               },
@@ -182,15 +216,32 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: data!
-                          .map(
-                            (element) => CardSkinGoals(
-                              title: element.value.toString(),
+                      children: [
+                        for (int index = 0; index < body.length; index++)
+                          InkWell(
+                            onTap: () {
+                              var adaGak =
+                                  state.bodyCorrective.firstWhereOrNull(
+                                (item) => item == body[index]['body'],
+                              );
+
+                              if (adaGak == null) {
+                                body[index]['checked'] = true;
+                                state.bodyCorrective.add(body[index]['body']);
+                              } else {
+                                body[index]['checked'] = false;
+                                state.bodyCorrective
+                                    .remove(body[index]['body']);
+                              }
+                              setState(() {});
+                            },
+                            child: CardSkinGoals(
+                              checked: body[index]['checked'],
+                              title: body[index]['body'],
                               width: 99,
-                              type: 2,
                             ),
-                          )
-                          .toList(),
+                          ),
+                      ],
                     ),
                     const SizedBox(
                       height: 220,
@@ -209,7 +260,9 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SkinGolasWajahTubuh(),
+                                    builder: (context) => SkinGolasWajahTubuh(
+                                      isEdit: true,
+                                    ),
                                   ),
                                 );
                               }

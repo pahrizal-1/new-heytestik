@@ -1,7 +1,8 @@
-// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/anggaran_treameant.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -17,7 +18,9 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGloalsPilihTreamtmnet extends StatefulWidget {
   bool isContinue = false;
-  SkinGloalsPilihTreamtmnet({this.isContinue = false, super.key});
+  bool isEdit = false;
+  SkinGloalsPilihTreamtmnet(
+      {this.isContinue = false, this.isEdit = false, super.key});
 
   @override
   State<SkinGloalsPilihTreamtmnet> createState() =>
@@ -26,6 +29,7 @@ class SkinGloalsPilihTreamtmnet extends StatefulWidget {
 
 class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
   final InterestController state = Get.put(InterestController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   List<Data2>? data = [];
   List treatment = [];
   List filterTreatment = [];
@@ -38,9 +42,38 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
       data?.addAll(
         await state.lookupSkinGoals(context, "SKIN_GOALS_TREATMENT_HISTORY"),
       );
-      for (int i = 0; i < data!.length; i++) {
-        treatment.add({'treatment': data?[i].value, 'checked': false});
-        filterTreatment.add({'treatment': data?[i].value, 'checked': false});
+
+      if (widget.isEdit) {
+        for (int i = 0;
+            i <
+                stateProfile
+                    .interestData.value.data!.skinGoalsHistoryTreatment!.length;
+            i++) {
+          state.pastTreatment.value.add(
+            stateProfile.interestData.value.data!.skinGoalsHistoryTreatment![i]
+                .nameHistoryTreatment
+                .toString(),
+          );
+        }
+
+        for (int i = 0; i < data!.length; i++) {
+          var adaGak = state.pastTreatment.firstWhereOrNull(
+            (item) => item == data?[i].value.toString(),
+          );
+          if (adaGak == null) {
+            filterTreatment
+                .add({'treatment': data?[i].value, 'checked': false});
+            treatment.add({'treatment': data?[i].value, 'checked': false});
+          } else {
+            filterTreatment.add({'treatment': data?[i].value, 'checked': true});
+            treatment.add({'treatment': data?[i].value, 'checked': true});
+          }
+        }
+      } else {
+        for (int i = 0; i < data!.length; i++) {
+          treatment.add({'treatment': data?[i].value, 'checked': false});
+          filterTreatment.add({'treatment': data?[i].value, 'checked': false});
+        }
       }
       setState(() {});
     });
@@ -75,7 +108,9 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AnggaranTreatment(),
+                    builder: (context) => AnggaranTreatment(
+                      isEdit: true,
+                    ),
                   ),
                 );
               },
@@ -212,16 +247,18 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
 
                               if (adaGak == null) {
                                 filterTreatment[index]['checked'] = true;
+                                treatment[index]['checked'] = true;
                                 state.pastTreatment
                                     .add(filterTreatment[index]['treatment']);
                               } else {
                                 filterTreatment[index]['checked'] = false;
+                                treatment[index]['checked'] = false;
                                 state.pastTreatment.remove(
                                     filterTreatment[index]['treatment']);
                               }
                               setState(() {});
                             },
-                            child: CardSkinGoalsTreatment(
+                            child: CardSkinGoals(
                               checked: filterTreatment[index]['checked'],
                               title: filterTreatment[index]['treatment'],
                               width: 110,
@@ -246,7 +283,9 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AnggaranTreatment(),
+                                    builder: (context) => AnggaranTreatment(
+                                      isEdit: true,
+                                    ),
                                   ),
                                 );
                               }

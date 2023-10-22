@@ -12,11 +12,11 @@ import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dar
 import '../../../core/local_storage.dart';
 
 class InterestController extends StateClass {
-  String? skinType;
-  String? skinToneColor;
-  String? skinUnderToneColor;
-  String? hairType;
-  String? hairColor;
+  RxString skinType = "".obs;
+  RxString skinToneColor = "".obs;
+  RxString skinUnderToneColor = "".obs;
+  RxString hairType = "".obs;
+  RxString hairColor = "".obs;
   bool? hijabers;
   String? skincare;
   String? treatment;
@@ -81,14 +81,15 @@ class InterestController extends StateClass {
 
       var data = {
         "user_id": await LocalStorage().getUserID(),
-        "skin_type": skinType ?? '',
-        "skin_tone_color": skinToneColor ?? '',
-        "skin_undertone_color": skinUnderToneColor ?? '',
-        "hair_type": hairType ?? '',
-        "hair_color": hairColor ?? '',
+        "skin_type": skinType.value,
+        "skin_tone_color": skinToneColor.value,
+        "skin_undertone_color": skinUnderToneColor.value,
+        "hair_type": hairType.value,
+        "hair_color": hairColor.value,
         "hijabers": hijabers ?? '',
       };
       print(data);
+
       var loginResponse = await InterestService().beautyProfile(data);
       print(loginResponse);
       doInPost();
@@ -157,7 +158,7 @@ class InterestController extends StateClass {
 
       var loginResponse = await InterestService().faceCorrective(data);
       print(loginResponse);
-      // faceCorrective.value.clear();
+
       doInPost();
     });
     isLoading.value = false;
@@ -203,7 +204,7 @@ class InterestController extends StateClass {
 
       var data = {
         'user_id': await LocalStorage().getUserID(),
-        'lists': augmentation,
+        'lists': listData,
       };
       print(data);
 
