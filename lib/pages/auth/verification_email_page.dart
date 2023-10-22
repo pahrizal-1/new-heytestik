@@ -106,6 +106,7 @@ class VerificasionEmailPage extends StatelessWidget {
                     await state.verifyEmail(context, doInPost: () async {
                       showDialog(
                         context: context,
+                        barrierDismissible: false,
                         builder: (context) => TextMoreDialog(
                           email: state.email.text,
                         ),

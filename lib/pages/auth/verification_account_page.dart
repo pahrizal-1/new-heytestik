@@ -1,11 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/info_personal_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_email_page.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -209,10 +213,17 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                     onPressed: () async {
                       await state.registerEmailWithoutVerification(context,
                           doInPost: () async {
+                        await showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return NantiSajaDialog();
+                          },
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VerificasionEmailPage(),
+                            builder: (context) => const InfoPersonalPage(),
                           ),
                         );
                       });

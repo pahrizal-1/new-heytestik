@@ -125,51 +125,51 @@ class InterestController extends StateClass {
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (skinType == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Tipe Kulit harus diisi',
-        );
-      }
-      if (skinToneColor == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Warna Tone Kulit harus diisi',
-        );
-      }
-      if (skinUnderToneColor == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Warna Undertone Kulit harus diisi',
-        );
-      }
-      if (hairType == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Tipe Rambut harus diisi',
-        );
-      }
-      if (hairColor == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Warna Rambut harus diisi',
-        );
-      }
-      if (hijabers == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Pilihan Hijaber harus diisi',
-        );
-      }
+      // if (skinType == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Tipe Kulit harus diisi',
+      //   );
+      // }
+      // if (skinToneColor == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Warna Tone Kulit harus diisi',
+      //   );
+      // }
+      // if (skinUnderToneColor == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Warna Undertone Kulit harus diisi',
+      //   );
+      // }
+      // if (hairType == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Tipe Rambut harus diisi',
+      //   );
+      // }
+      // if (hairColor == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Warna Rambut harus diisi',
+      //   );
+      // }
+      // if (hijabers == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Pilihan Hijaber harus diisi',
+      //   );
+      // }
 
       var data = {
         "user_id": await LocalStorage().getUserID(),
-        "skin_type": skinType,
-        "skin_tone_color": skinToneColor,
-        "skin_undertone_color": skinUnderToneColor,
-        "hair_type": hairType,
-        "hair_color": hairColor,
-        "hijabers": hijabers,
+        "skin_type": skinType ?? '',
+        "skin_tone_color": skinToneColor ?? '',
+        "skin_undertone_color": skinUnderToneColor ?? '',
+        "hair_type": hairType ?? '',
+        "hair_color": hairColor ?? '',
+        "hijabers": hijabers ?? '',
       };
       print(data);
       var loginResponse = await InterestService().beautyProfile(data);
@@ -182,25 +182,26 @@ class InterestController extends StateClass {
   budgets(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (skincare == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Budget Skincare harus diisi',
-        );
-      }
+      // if (skincare == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Budget Skincare harus diisi',
+      //   );
+      // }
 
-      if (treatment == null) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Budget Treatment harus diisi',
-        );
-      }
+      // if (treatment == null) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Budget Treatment harus diisi',
+      //   );
+      // }
 
       var data = {
         'user_id': await LocalStorage().getUserID(),
-        'budget_for_skincare': skincare,
-        'budget_for_treatment': treatment,
+        'budget_for_skincare': skincare ?? '',
+        'budget_for_treatment': treatment ?? '',
       };
+      print(data);
 
       var loginResponse = await InterestService().budgets(data);
       print(loginResponse);
@@ -260,6 +261,7 @@ class InterestController extends StateClass {
         'user_id': await LocalStorage().getUserID(),
         'lists': listData,
       };
+      print(data);
 
       var loginResponse = await InterestService().bodyCorrective(data);
       print(loginResponse);
@@ -284,6 +286,7 @@ class InterestController extends StateClass {
         'user_id': await LocalStorage().getUserID(),
         'lists': augmentation,
       };
+      print(data);
 
       var loginResponse = await InterestService().augmentation(data);
       print(loginResponse);

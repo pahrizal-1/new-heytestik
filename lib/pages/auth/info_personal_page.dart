@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -431,7 +434,14 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                     ),
                     ButtonTextWidget(
                       title: 'Nanti Saja',
-                      onPressed: () {
+                      onPressed: () async {
+                        await showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return NantiSajaDialog();
+                          },
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(

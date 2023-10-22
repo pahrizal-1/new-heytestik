@@ -98,6 +98,7 @@ class RegisterController extends StateClass {
 
       var loginResponse = await RegisterService().emailVerify(data);
       print(loginResponse);
+      email.clear();
       doInPost();
     });
     isLoadingMore.value = false;
@@ -157,6 +158,7 @@ class RegisterController extends StateClass {
         });
       } else {
         print(loginResponse);
+        email.clear();
         doInPost();
       }
     });
