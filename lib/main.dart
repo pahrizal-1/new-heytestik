@@ -157,9 +157,6 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<RegisterController>(
             create: (context) => RegisterController(),
           ),
-          // ChangeNotifierProvider<InterestController>(
-          //   create: (context) => InterestController(),
-          // ),
         ],
         child: GetMaterialApp(
           title: 'Heystetik Mobile Apps',
