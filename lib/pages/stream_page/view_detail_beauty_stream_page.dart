@@ -1,4 +1,6 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -39,7 +41,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
   final NewsController state = Get.put(NewsController());
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
-    if (!await launchUrl(urlParse)) {
+    if (!await launchUrl(urlParse, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $urlParse');
     }
   }
@@ -336,50 +338,105 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/icons/ig-icons-cickerl.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () async {
+                        var url = 'https://www.instagram.com/direct/new/';
+                        await _launchURL(url);
+                      },
+                      child: Image.asset(
+                        'assets/icons/ig-icons-cickerl.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
                     ),
-                    Image.asset(
-                      'assets/icons/facbook-icons-cickel.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () async {
+                        var url = 'https://www.facebook.com/';
+                        await _launchURL(url);
+                      },
+                      child: Image.asset(
+                        'assets/icons/facbook-icons-cickel.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
                     ),
-                    Image.asset(
-                      'assets/icons/mail-icons-cirkel.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () async {
+                        String subject = Uri.encodeComponent("Hello Guys");
+                        String body = Uri.encodeComponent("Ketik disini");
+                        print(subject);
+                        Uri mail =
+                            Uri.parse("mailto:subject=$subject&body=$body");
+
+                        await _launchURL(mail.toString());
+                      },
+                      child: Image.asset(
+                        'assets/icons/mail-icons-cirkel.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
                     ),
-                    Image.asset(
-                      'assets/icons/wa-icons-Wassap.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () async {
+                        var whatsappURlAndroid =
+                            "whatsapp://send?phone=&text=Hello Guys";
+                        var whatappURLIOS =
+                            "https://wa.me/text=${Uri.parse("Hello Guys")}";
+                        if (Platform.isIOS) {
+                          // for iOS phone only
+                          if (await canLaunchUrl(Uri.parse(whatappURLIOS))) {
+                            await _launchURL(whatappURLIOS);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("whatsapp no installed")));
+                          }
+                        } else {
+                          // android , web
+                          if (await canLaunchUrl(
+                              Uri.parse(whatsappURlAndroid))) {
+                            await _launchURL(whatsappURlAndroid);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("whatsapp no installed")));
+                          }
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/icons/wa-icons-Wassap.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
                     ),
-                    Image.asset(
-                      'assets/icons/share-icons-cickel.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () {},
+                      child: Image.asset(
+                        'assets/icons/share-icons-cickel.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
                     ),
-                    Image.asset(
-                      'assets/icons/salin_icons-cickel.png',
-                      width: 30,
-                      height: 30,
+                    InkWell(
+                      onTap: () {},
+                      child: Image.asset(
+                        'assets/icons/salin_icons-cickel.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                     const SizedBox(
                       width: 6.83,
