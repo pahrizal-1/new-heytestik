@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
@@ -603,7 +606,14 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       padding: lsymetric,
                       child: ButtonTextWidget(
                         title: 'Nanti Saja',
-                        onPressed: () {
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return NantiSajaDialog();
+                            },
+                          );
                           Navigator.push(
                             context,
                             MaterialPageRoute(
