@@ -87,6 +87,7 @@ dependencies:
   open_file: ^3.3.2
   image_cropper: ^4.0.1
   open_street_map_search_and_pick: ^0.1.0
+  firebase_dynamic_links: ^5.4.1
  
   
 dev_dependencies:

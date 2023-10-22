@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/onboarding_chat_page.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
+import 'package:heystetik_mobileapps/test_deep_link.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -155,13 +157,18 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<RegisterController>(
             create: (context) => RegisterController(),
           ),
-          ChangeNotifierProvider<InterestController>(
-            create: (context) => InterestController(),
-          ),
+          // ChangeNotifierProvider<InterestController>(
+          //   create: (context) => InterestController(),
+          // ),
         ],
         child: GetMaterialApp(
           title: 'Heystetik Mobile Apps',
           theme: ThemeData(),
+          // initialRoute: '/',
+          // routes: {
+          //   '/': (context) => const SplashScreenPage(),
+          //   '/chat': (context) => const OnboardingChat(),
+          // },
           debugShowCheckedModeBanner: false,
           home: const SplashScreenPage(),
         ),
