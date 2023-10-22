@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/anggaran_treameant.dart';
@@ -7,7 +9,7 @@ import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
@@ -22,10 +24,30 @@ class SkinGloalsPilihTreamtmnet extends StatefulWidget {
 
 class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
   final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+  List treatment = [];
+  List filterTreatment = [];
+
   @override
   void initState() {
     super.initState();
-    state.filterTreatment = state.skinGoalTreatment;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.pastTreatment.value.clear();
+      data?.addAll(
+        await state.lookupSkinGoals(context, "SKIN_GOALS_TREATMENT_HISTORY"),
+      );
+      for (int i = 0; i < data!.length; i++) {
+        treatment.add({'treatment': data?[i].value, 'checked': false});
+        filterTreatment.add({'treatment': data?[i].value, 'checked': false});
+      }
+      setState(() {});
+    });
+  }
+
+  onChangeFilterText(String value) {
+    filterTreatment = treatment.where((element) {
+      return element.toString().toLowerCase().contains(value.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -152,7 +174,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       title: 'Cari cepat disini yuk!',
                       controller: state.searchController,
                       onChange: (value) {
-                        state.onChangeFilterText(value);
+                        onChangeFilterText(value);
                         setState(() {});
                       },
                     ),
@@ -160,34 +182,35 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       height: 19,
                     ),
                     Wrap(
+                      direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
                       children: [
                         for (int index = 0;
-                            index < state.filterTreatment.length;
+                            index < filterTreatment.length;
                             index++)
                           InkWell(
                             onTap: () {
-                              var adaGak = state.pasTreatment.firstWhereOrNull(
+                              var adaGak = state.pastTreatment.firstWhereOrNull(
                                 (item) =>
-                                    item ==
-                                    state.filterTreatment[index]['treatment'],
+                                    item == filterTreatment[index]['treatment'],
                               );
 
                               if (adaGak == null) {
-                                state.filterTreatment[index]['checked'] = true;
-                                state.pasTreatment.add(
-                                    state.filterTreatment[index]['treatment']);
+                                filterTreatment[index]['checked'] = true;
+                                state.pastTreatment
+                                    .add(filterTreatment[index]['treatment']);
                               } else {
-                                state.filterTreatment[index]['checked'] = false;
-                                state.pasTreatment.remove(
-                                    state.filterTreatment[index]['treatment']);
+                                filterTreatment[index]['checked'] = false;
+                                state.pastTreatment.remove(
+                                    filterTreatment[index]['treatment']);
                               }
                               setState(() {});
                             },
                             child: CardSkinGoalsTreatment(
-                              checked: state.filterTreatment[index]['checked'],
-                              title: state.filterTreatment[index]['treatment'],
+                              checked: filterTreatment[index]['checked'],
+                              title: filterTreatment[index]['treatment'],
+                              width: 110,
                             ),
                           ),
                       ],

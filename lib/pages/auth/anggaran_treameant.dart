@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../theme/theme.dart';
@@ -21,10 +20,17 @@ class AnggaranTreatment extends StatefulWidget {
 }
 
 class _AnggaranTreatmentState extends State<AnggaranTreatment> {
+  final InterestController state = Get.put(InterestController());
+  @override
+  void initState() {
+    super.initState();
+    state.treatment = "";
+    state.skincare = "";
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

@@ -1,11 +1,13 @@
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../controller/customer/interest/interest_controller.dart';
@@ -20,10 +22,23 @@ class SkinGoalsKorektifWajah extends StatefulWidget {
 }
 
 class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.faceCorrective.value.clear();
+      data?.addAll(
+        await state.lookupSkinGoals(context, "SKIN_GOALS_CORRECTIVE_FACE"),
+      );
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
@@ -109,13 +124,6 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                 ),
               ],
             ),
-            // const SizedBox(
-            //   height: 23,
-            // ),
-            // const Divider(
-            //   thickness: 1,
-            //   color: Color(0XffCCCCCC),
-            // ),,
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,103 +169,15 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: [
-                        CardSkinGoals(
-                          title: 'Jerawat',
-                          width: 80,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'bekas jerawat',
-                          width: 115,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Mata Panda',
-                          width: 100,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Flek Hitam & Melasma',
-                          width: 160,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kemerahan',
-                          width: 100,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Sensitif',
-                          width: 105,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Kusam',
-                          width: 100,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bibir Gelap',
-                          width: 100,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Berminyak',
-                          width: 130,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Kering',
-                          width: 110,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kutil',
-                          width: 60,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kerutan',
-                          width: 90,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Double Chin',
-                          width: 110,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kebotakan Rambut',
-                          width: 140,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kantong Mata',
-                          width: 120,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Gummy Smile',
-                          width: 120,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Tahi Lalat',
-                          width: 100,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rambut Rontok',
-                          width: 130,
-                          type: 1,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bekas Luka (Scar)',
-                          width: 140,
-                          type: 1,
-                        ),
-                      ],
+                      children: data!
+                          .map(
+                            (element) => CardSkinGoals(
+                              title: element.value.toString(),
+                              width: 99,
+                              type: 1,
+                            ),
+                          )
+                          .toList(),
                     ),
                     const SizedBox(
                       height: 50,

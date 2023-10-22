@@ -1,10 +1,12 @@
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class InterestService extends ProviderClass {
-  InterestService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  InterestService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<dynamic> infoPersonal(dynamic data) async {
     var response = await networkingConfig.doPost(
@@ -16,6 +18,21 @@ class InterestService extends ProviderClass {
     );
 
     return response;
+  }
+
+  Future<LookupSkinGoalsModel> lookupSkinGoals(String category) async {
+    var response = await networkingConfig.doGet(
+      '/lookup',
+      params: {
+        "order": "asc",
+        "take": 300,
+        "category[]": category,
+      },
+      headers: {
+        'User-Agent': await userAgent(),
+      },
+    );
+    return LookupSkinGoalsModel.fromJson(response);
   }
 
   Future<dynamic> beautyProfile(dynamic data) async {

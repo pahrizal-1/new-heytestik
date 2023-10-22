@@ -1,8 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:provider/provider.dart';
 import '../controller/customer/interest/interest_controller.dart';
 import '../theme/theme.dart';
 
@@ -32,7 +32,7 @@ class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: widget.checked ? greenColor : greyColor)),
       height: 40,
-      width: 160,
+      width: widget.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -44,14 +44,16 @@ class _CardSkinGoalsTreatmentState extends State<CardSkinGoalsTreatment> {
             color: widget.checked ? greenColor : greyColor,
           ),
           const SizedBox(width: 8),
-          Text(
-            widget.title,
-            style: TextStyle(
-                letterSpacing: 0.5,
-                fontSize: 11,
-                fontFamily: 'ProximaNova',
-                color: widget.checked ? greenColor : const Color(0xff323232),
-                fontWeight: FontWeight.bold),
+          Expanded(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                  letterSpacing: 0.5,
+                  fontSize: 11,
+                  fontFamily: 'ProximaNova',
+                  color: widget.checked ? greenColor : const Color(0xff323232),
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -76,10 +78,11 @@ class CardSkinGoals extends StatefulWidget {
 }
 
 class _CardSkinGoalsState extends State<CardSkinGoals> {
+  final InterestController state = Get.put(InterestController());
   bool isIconSelected1 = false;
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
+    // var state = Provider.of<InterestController>(context);
 
     return InkWell(
       onTap: () {
@@ -131,14 +134,17 @@ class _CardSkinGoalsState extends State<CardSkinGoals> {
               color: isIconSelected1 ? greenColor : greyColor,
             ),
             const SizedBox(width: 8),
-            Text(
-              widget.title,
-              style: TextStyle(
-                  letterSpacing: 0.5,
-                  fontSize: 11,
-                  fontFamily: 'ProximaNova',
-                  color: isIconSelected1 ? greenColor : const Color(0xff323232),
-                  fontWeight: FontWeight.bold),
+            Expanded(
+              child: Text(
+                widget.title,
+                style: TextStyle(
+                    letterSpacing: 0.5,
+                    fontSize: 11,
+                    fontFamily: 'ProximaNova',
+                    color:
+                        isIconSelected1 ? greenColor : const Color(0xff323232),
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

@@ -1,9 +1,14 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/interest/interest_service.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import '../../../core/local_storage.dart';
 
 class InterestController extends StateClass {
@@ -15,111 +20,23 @@ class InterestController extends StateClass {
   bool? hijabers;
   String? skincare;
   String? treatment;
-  List<String> _faceCorrective = [];
-  List<String> _bodyCorrective = [];
-  List<String> _pastTreatment = [];
-  List<String> _augmentation = [];
+  RxList<String> faceCorrective = <String>[].obs;
+  RxList<String> bodyCorrective = <String>[].obs;
+  RxList<String> pastTreatment = <String>[].obs;
+  RxList<String> augmentation = <String>[].obs;
   TextEditingController searchController = TextEditingController();
 
-  List<String> get faceCorrective => _faceCorrective;
-  List<String> get bodyCorrective => _bodyCorrective;
-  List<String> get pasTreatment => _pastTreatment;
-  List<String> get augmentation => _augmentation;
-
-  List filterTreatment = [];
-  List skinGoalTreatment = [
-    {'treatment': 'Cryolipolysis', 'checked': false},
-    {'treatment': 'Facial', 'checked': false},
-    {'treatment': 'Electrocauter', 'checked': false},
-    {'treatment': 'Filler', 'checked': false},
-    {'treatment': 'HIFU', 'checked': false},
-    {'treatment': 'IPL', 'checked': false},
-    {'treatment': 'Laser CO2', 'checked': false},
-    {'treatment': 'Laser Erbium', 'checked': false},
-    {'treatment': 'Laser Pico', 'checked': false},
-    {'treatment': 'Laser Nd:YAG', 'checked': false},
-    {'treatment': 'Laser Pulsed Dye', 'checked': false},
-    {'treatment': 'LED Light Therapy', 'checked': false},
-    {'treatment': 'Mesotherapy', 'checked': false},
-    {'treatment': 'Microneedling', 'checked': false},
-    {'treatment': 'Peeling', 'checked': false},
-    {'treatment': 'Mikrodermabrasi', 'checked': false},
-    {'treatment': 'Oxygen Facial', 'checked': false},
-    {'treatment': 'PRP', 'checked': false},
-    {'treatment': 'Radio Frekuensi', 'checked': false},
-    {'treatment': 'Skin Booster', 'checked': false},
-    {'treatment': 'Subsisi', 'checked': false},
-    {'treatment': 'Suntik Botulinum Toxic', 'checked': false},
-    {'treatment': 'Suntik DNA Salmon', 'checked': false},
-    {'treatment': 'Suntik Jerawat', 'checked': false},
-    {'treatment': 'Suntik Keloid', 'checked': false},
-    {'treatment': 'Tanam Benang', 'checked': false},
-    {'treatment': 'Blepharoplasty', 'checked': false},
-    {'treatment': 'Breast Augmentation', 'checked': false},
-    {'treatment': 'Buccal Fat Removal', 'checked': false},
-    {'treatment': 'Facelift', 'checked': false},
-    {'treatment': 'Facial Fat Transfer', 'checked': false},
-    {'treatment': 'Rhinoplasty', 'checked': false},
-    {'treatment': 'Liposuction', 'checked': false},
-    {'treatment': 'Transfer Lemak', 'checked': false},
-    {'treatment': 'Tummy Tuck', 'checked': false},
-    {'treatment': 'Ekstraksi Komedo', 'checked': false},
-    {'treatment': 'Tattoo Removal', 'checked': false},
-    {'treatment': 'Cross TCA', 'checked': false},
-    {'treatment': 'Suntik Melasma', 'checked': false},
-    {'treatment': 'Yellow Laser', 'checked': false},
-    {'treatment': 'Injeksi Lipolysis', 'checked': false},
-    {'treatment': 'Aspirasi', 'checked': false},
-    {'treatment': 'Bedah Plong', 'checked': false},
-    {'treatment': 'Bedah Insisi', 'checked': false},
-    {'treatment': 'Bedah Eksisi', 'checked': false},
-    {'treatment': 'Rhinoplasty', 'checked': false},
-  ];
-
-  void addFaceCorrective(String value) {
-    _faceCorrective.add(value);
-    notifyListeners();
-  }
-
-  void removeFaceCorrective(String value) {
-    _faceCorrective.remove(value);
-    notifyListeners();
-  }
-
-  void addBodyCorrective(String value) {
-    _bodyCorrective.add(value);
-    notifyListeners();
-  }
-
-  void removeBodyCorrective(String value) {
-    _bodyCorrective.remove(value);
-    notifyListeners();
-  }
-
-  void addPastTreatment(String value) {
-    _pastTreatment.add(value);
-    notifyListeners();
-  }
-
-  void removePastTreatment(String value) {
-    _pastTreatment.remove(value);
-    notifyListeners();
-  }
-
-  void addAugementation(String value) {
-    _augmentation.add(value);
-    notifyListeners();
-  }
-
-  void removeAugmentation(String value) {
-    _augmentation.remove(value);
-    notifyListeners();
-  }
-
-  onChangeFilterText(String value) {
-    filterTreatment = skinGoalTreatment.where((element) {
-      return element.toString().toLowerCase().contains(value.toLowerCase());
-    }).toList();
+  Future<List<Data2>> lookupSkinGoals(
+      BuildContext context, String category) async {
+    isLoading.value = true;
+    RxList<Data2> lookupSkin = List<Data2>.empty().obs;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await InterestService().lookupSkinGoals(category);
+      print(jsonDecode(jsonEncode(res)));
+      lookupSkin.value = res.data!.data!;
+    });
+    isLoading.value = false;
+    return lookupSkin;
   }
 
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {
@@ -240,6 +157,7 @@ class InterestController extends StateClass {
 
       var loginResponse = await InterestService().faceCorrective(data);
       print(loginResponse);
+      // faceCorrective.value.clear();
       doInPost();
     });
     isLoading.value = false;
@@ -265,6 +183,7 @@ class InterestController extends StateClass {
 
       var loginResponse = await InterestService().bodyCorrective(data);
       print(loginResponse);
+
       doInPost();
     });
     isLoading.value = false;
@@ -290,6 +209,7 @@ class InterestController extends StateClass {
 
       var loginResponse = await InterestService().augmentation(data);
       print(loginResponse);
+
       doInPost();
     });
     isLoading.value = false;
@@ -302,9 +222,9 @@ class InterestController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
 
-      for (int i = 0; i < pasTreatment.length; i++) {
+      for (int i = 0; i < pastTreatment.length; i++) {
         listData.add({
-          'name_history_treatment': pasTreatment[i],
+          'name_history_treatment': pastTreatment[i],
         });
       }
 

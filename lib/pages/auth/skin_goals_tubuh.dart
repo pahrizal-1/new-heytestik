@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/interest/interest_controller.dart';
@@ -6,9 +8,8 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
@@ -20,10 +21,23 @@ class SkinGoalsTubuh extends StatefulWidget {
 }
 
 class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.bodyCorrective.value.clear();
+      data?.addAll(
+        await state.lookupSkinGoals(context, "SKIN_GOALS_CORRECTIVE_BODY"),
+      );
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -154,28 +168,15 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: [
-                        CardSkinGoals(
-                          title: 'Lemak Membandel',
-                          width: 150,
-                          type: 2,
-                        ),
-                        CardSkinGoals(
-                          title: 'Stretch Mark',
-                          width: 115,
-                          type: 2,
-                        ),
-                        CardSkinGoals(
-                          title: 'Selulit',
-                          width: 80,
-                          type: 2,
-                        ),
-                        CardSkinGoals(
-                          title: 'Vitiligo',
-                          width: 80,
-                          type: 2,
-                        ),
-                      ],
+                      children: data!
+                          .map(
+                            (element) => CardSkinGoals(
+                              title: element.value.toString(),
+                              width: 99,
+                              type: 2,
+                            ),
+                          )
+                          .toList(),
                     ),
                     const SizedBox(
                       height: 220,

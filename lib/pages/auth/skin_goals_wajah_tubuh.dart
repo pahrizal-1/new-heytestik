@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
@@ -5,9 +7,8 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import '../../controller/customer/interest/interest_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
@@ -20,10 +21,24 @@ class SkinGolasWajahTubuh extends StatefulWidget {
 }
 
 class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.augmentation.value.clear();
+      data?.addAll(
+        await state.lookupSkinGoals(
+            context, "SKIN_GOALS_AUGMENTATION_FACE_BODY"),
+      );
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -154,58 +169,15 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                       direction: Axis.horizontal,
                       spacing: 8,
                       runSpacing: 8,
-                      children: [
-                        CardSkinGoals(
-                          title: 'Hidung Mancung',
-                          width: 130,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Pipi Tirus',
-                          width: 100,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Otot Tubuh',
-                          width: 100,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Dagu Lancip',
-                          width: 110,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Rahang Tegas',
-                          width: 110,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Payudara Kencang',
-                          width: 150,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Kulit Mulus Bebas Bulu',
-                          width: 160,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Payudara Besar',
-                          width: 130,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bibir Lebih Ideal',
-                          width: 130,
-                          type: 3,
-                        ),
-                        CardSkinGoals(
-                          title: 'Bokong Berisi',
-                          width: 130,
-                          type: 3,
-                        ),
-                      ],
+                      children: data!
+                          .map(
+                            (element) => CardSkinGoals(
+                              title: element.value.toString(),
+                              width: 99,
+                              type: 3,
+                            ),
+                          )
+                          .toList(),
                     ),
                     const SizedBox(
                       height: 120,

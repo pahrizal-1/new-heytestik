@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_null_aware_operators
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/service/customer/geography/geography_service.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:provider/provider.dart';
-
 import '../controller/customer/register/register_controller.dart';
 import '../controller/customer/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 
 class DropDownWiget extends StatefulWidget {
   const DropDownWiget({
@@ -21,10 +22,23 @@ class DropDownWiget extends StatefulWidget {
 }
 
 class _DropDownWigetState extends State<DropDownWiget> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      data?.addAll(
+        await state.lookupSkinGoals(context, "SKIN_GOALS_BUDGET"),
+      );
+      setState(() {});
+    });
+  }
+
   String? selectedvalue;
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
@@ -33,7 +47,7 @@ class _DropDownWigetState extends State<DropDownWiget> {
         ),
         borderRadius: BorderRadius.circular(7),
       ),
-      child: DropdownButton<String?>(
+      child: DropdownButton(
         underline: Container(),
         hint: Text(
           'Pilih anggaran per bulan',
@@ -42,29 +56,21 @@ class _DropDownWigetState extends State<DropDownWiget> {
         value: selectedvalue,
         elevation: 0,
         isExpanded: true,
-        items: [
-          'Dibawah Rp500.000',
-          'Rp500.000 - Rp1.000.000',
-          'Rp1.100.000 - Rp5.000.000',
-          'Rp5.100.000 - Rp10.000.000',
-          'Diatas Rp10.000.000',
-        ]
-            .map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e.toString()),
-                ))
-            .toList(),
+        items: data?.map((items) {
+          return DropdownMenuItem(
+            value: items.value.toString(),
+            child: Text(items.value.toString()),
+          );
+        }).toList(),
         onChanged: ((value) {
           setState(
             () {
               if (widget.type == 1) {
                 state.skincare = value;
               }
-
               if (widget.type == 2) {
                 state.treatment = value;
               }
-
               selectedvalue = value;
             },
           );
