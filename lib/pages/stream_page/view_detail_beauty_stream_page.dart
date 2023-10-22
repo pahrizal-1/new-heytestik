@@ -248,13 +248,29 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                   '${widget.detailNews.thumbLink}',
                   height: 200,
                   width: 350,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Html(
                   data: '${widget.detailNews.description}',
+                  style: {
+                    "table": Style(
+                      backgroundColor: Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                    ),
+                    "tr": Style(
+                      border: Border(bottom: BorderSide(color: Colors.grey)),
+                    ),
+                    "th": Style(
+                      backgroundColor: Colors.grey,
+                    ),
+                    "td": Style(
+                      alignment: Alignment.topLeft,
+                    ),
+                    'h5':
+                        Style(maxLines: 2, textOverflow: TextOverflow.ellipsis),
+                  },
                   onAnchorTap: (url, attributes, element) {
                     _launchURL(url.toString());
                   },
