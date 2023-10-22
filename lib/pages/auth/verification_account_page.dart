@@ -44,8 +44,23 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                await state.registerEmailWithoutVerification(context,
+                    doInPost: () async {
+                  await showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return NantiSajaDialog();
+                    },
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InfoPersonalPage(),
+                    ),
+                  );
+                });
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
