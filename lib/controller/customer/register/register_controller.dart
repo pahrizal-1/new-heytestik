@@ -39,14 +39,14 @@ class RegisterController extends StateClass {
     required String phone,
     LaunchMode mode = LaunchMode.externalApplication,
   }) async {
-    const String url = 'tg://t.me/+xqqoDqGSZm02Zm';
+    const String url = 'https://t.me/HeystetikMockOTP';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(
         Uri.parse(url),
         mode: mode,
       );
     } else {
-      throw Exception('openTelegram could not launching url');
+      throw Exception('Could not launch $url');
     }
   }
 
