@@ -293,8 +293,20 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return NantiSajaDialog();
+                  },
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SkinGoalsKorektifWajah(),
+                  ),
+                );
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',

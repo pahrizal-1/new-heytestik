@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 import '../../theme/theme.dart';
@@ -48,8 +49,20 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return NantiSajaDialog();
+                  },
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SkinGolasWajahTubuh(),
+                  ),
+                );
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
