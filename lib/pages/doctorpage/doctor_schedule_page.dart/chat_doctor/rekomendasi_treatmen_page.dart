@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_treatment.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -29,6 +30,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          elevation: 0,
           backgroundColor: greenColor,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -381,19 +383,24 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                 ButtonGreenWidget(
                   title: '+ Tambah Treatment',
                   onPressed: () async {
-                    String refresh = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const AddTreatmentPage(),
-                      ),
-                    );
+                    // String refresh = await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (BuildContext context) =>
+                    //         const AddTreatmentPage(),
+                    //   ),
+                    // );
 
-                    if (refresh == 'refresh') {
-                      setState(() {
-                        state.dataTreatmentItems;
-                      });
-                    }
+                    // if (refresh == 'refresh') {
+                    //   setState(() {
+                    //     state.dataTreatmentItems;
+                    //   });
+                    // }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TambahTreatment(),
+                        ));
                   },
                 ),
               ],

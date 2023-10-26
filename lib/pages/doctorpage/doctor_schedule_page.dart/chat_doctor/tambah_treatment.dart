@@ -89,12 +89,7 @@ class _TambahTreatmentState extends State<TambahTreatment> {
             const Spacer(),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CatatanDocter1(),
-                  ),
-                );
+                Navigator.pop(context);
               },
               child: Text(
                 'Simpan',
@@ -221,7 +216,8 @@ class _TambahTreatmentState extends State<TambahTreatment> {
                 bottom: 0,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 22, right: 22),
+                    padding:
+                        const EdgeInsets.only(left: 22, right: 22, bottom: 20),
                     child: ListView.builder(
                       shrinkWrap: true,
                       keyboardDismissBehavior:
@@ -233,6 +229,8 @@ class _TambahTreatmentState extends State<TambahTreatment> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: borderColor, width: 0.2),
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -293,7 +291,9 @@ class _TambahTreatmentState extends State<TambahTreatment> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                treatments[index].price.toString(),
+                                                treatments[index]
+                                                    .price
+                                                    .toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -381,7 +381,9 @@ class _TambahTreatmentState extends State<TambahTreatment> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                treatments[index].treatmentType.toString(),
+                                                treatments[index]
+                                                    .treatmentType
+                                                    .toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,

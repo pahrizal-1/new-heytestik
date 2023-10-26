@@ -62,6 +62,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
           ),
         ),
         appBar: AppBar(
+          elevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: greenColor,
           title: Padding(
