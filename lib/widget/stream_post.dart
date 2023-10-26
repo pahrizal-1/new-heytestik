@@ -71,14 +71,15 @@ class _StreamPostPageState extends State<StreamPostPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
+                    fit: BoxFit.cover,
                     image: widget.stream.photoUser == "" ||
                             widget.stream.photoUser == "photo_profile"
                         ? AssetImage(
                             'assets/images/profiledummy.png',
                           )
                         : NetworkImage(
-                                '${Global.FILE}/${widget.stream.photoUser}')
-                            as ImageProvider,
+                            '${Global.FILE}/${widget.stream.photoUser}',
+                          ) as ImageProvider,
                   ),
                 ),
               ),

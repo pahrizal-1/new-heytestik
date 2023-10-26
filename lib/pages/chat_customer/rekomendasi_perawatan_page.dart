@@ -130,372 +130,417 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  height: 195,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/rekomendasi2.png'),
-                        fit: BoxFit.fill),
-                  ),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 25, top: 20, bottom: 20),
-                        child: Container(
-                          width: 180,
-                          child: Column(
-                            children: [
-                              RichText(
-                                text: const TextSpan(
-                                  text:
-                                      'Hai! Rekomendasi perawatan buat kamu sudah selesai :)',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    color: Colors.white,
-                                    height: 1.2,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 9,
-                              ),
-                              RichText(
-                                text: const TextSpan(
-                                  text:
-                                      'Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    color: Colors.white,
-                                    height: 1.2,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          height: 160,
-                          width: 150,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/images/dokter2.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(
                   height: 16,
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 25, right: 25, bottom: 15),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: fromCssColor('#FF9F314D'),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 13, right: 13),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 46,
-                                height: 38,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/icons/solutions.png'),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    text:
-                                        'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: fromCssColor('#323232'),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Obx(
-                        () => state.data.value.consultationRecipeDrug == null
-                            ? Container()
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                Column(
+                  children: [
+                    Obx(
+                      () => state.data.value.consultationRecipeDrug == null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 70, left: 33, right: 33),
+                              child: Column(
                                 children: [
-                                  Text(
-                                    'Rekomendasi obat',
-                                    style: TextStyle(
-                                      fontWeight: bold,
-                                      fontSize: 18,
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      letterSpacing: 1,
+                                  Container(
+                                    height: 239,
+                                    width: 259,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/rekomendasi1.png'),
+                                      ),
                                     ),
                                   ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                   Text(
-                                    ConvertDate.defaultDate(
-                                        state.data.value.createdAt ?? ''),
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
+                                    'Yuk, chat dengan Dokter sekarang untuk mendapatkan rekomendasi perawatan terbaik untukmu :)',
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 15),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(
+                                    height: 39,
+                                  ),
+                                  Padding(
+                                    padding: lsymetric,
+                                    child: ButtonGreenWidget(
+                                      title: 'Chat Dokter',
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
-                      ),
-                      SizedBox(
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 25, right: 25, bottom: 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 195,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/rekomendasi2.png'),
+                                          fit: BoxFit.fill),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 25, top: 20, bottom: 20),
+                                          child: Container(
+                                            width: 180,
+                                            child: Column(
+                                              children: [
+                                                RichText(
+                                                  text: const TextSpan(
+                                                    text:
+                                                        'Hai! Rekomendasi perawatan buat kamu sudah selesai :)',
+                                                    style: TextStyle(
+                                                      fontFamily: 'ProximaNova',
+                                                      color: Colors.white,
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 9,
+                                                ),
+                                                RichText(
+                                                  text: const TextSpan(
+                                                    text:
+                                                        'Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!',
+                                                    style: TextStyle(
+                                                      fontFamily: 'ProximaNova',
+                                                      color: Colors.white,
+                                                      height: 1.2,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Container(
+                                            height: 160,
+                                            width: 150,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/images/dokter2.png'),
+                                                  fit: BoxFit.fill),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      color: fromCssColor('#FF9F314D'),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 13, right: 13),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 46,
+                                            height: 38,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/icons/solutions.png'),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  color:
+                                                      fromCssColor('#323232'),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Rekomendasi obat',
+                                        style: TextStyle(
+                                          fontWeight: bold,
+                                          fontSize: 18,
+                                          fontFamily: 'ProximaNova',
+                                          color: Colors.black,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                      Text(
+                                        ConvertDate.defaultDate(
+                                            state.data.value.createdAt ?? ''),
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'ProximaNova',
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                    ),
+                    SizedBox(
+                      height: state.data.value.consultationRecipeDrug == null
+                          ? 0
+                          : 20,
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecipeDrug == null
+                          ? Container()
+                          : Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/cekbox.svg',
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  transform:
+                                      Matrix4.translationValues(0, -3, 0),
+                                  child: const Text(
+                                    'Pilih semua',
+                                    style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 15,
+                                        letterSpacing: 0.5,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecipeDrug == null
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state
+                                  .data.value.consultationRecipeDrug?.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return ContainerProdukPenting(
+                                  data: state.data.value
+                                      .consultationRecipeDrug![index],
+                                );
+                              },
+                            ),
+                    ),
+                    Obx(
+                      () => SizedBox(
                         height: state.data.value.consultationRecipeDrug == null
+                            ? 0
+                            : 48,
+                      ),
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationSkincare!
+                              .isEmpty
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Rekomendasi Skincare',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontSize: 18,
+                                    fontFamily: 'ProximaNova',
+                                    color: Colors.black,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationSkincare!
+                              .isEmpty
+                          ? Container()
+                          : Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/cekbox.svg',
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  transform:
+                                      Matrix4.translationValues(0, -3, 0),
+                                  child: const Text(
+                                    'Pilih semua',
+                                    style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 15,
+                                        letterSpacing: 0.5,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                    Obx(
+                      () => SizedBox(
+                        height: state.data.value
+                                .consultationRecomendationSkincare!.isEmpty
+                            ? 0
+                            : 15,
+                      ),
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationSkincare!
+                              .isEmpty
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.data.value
+                                  .consultationRecomendationSkincare?.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return ContainerProduk(
+                                  data: state.data.value
+                                          .consultationRecomendationSkincare![
+                                      index],
+                                );
+                              },
+                            ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationTreatment!
+                              .isEmpty
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Rekomendasi Treatment',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontSize: 18,
+                                    fontFamily: 'ProximaNova',
+                                    color: Colors.black,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                    Obx(
+                      () => SizedBox(
+                        height: state.data.value
+                                .consultationRecomendationTreatment!.isEmpty
                             ? 0
                             : 20,
                       ),
-                      Obx(
-                        () => state.data.value.consultationRecipeDrug == null
-                            ? Container()
-                            : Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/cekbox.svg',
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    transform:
-                                        Matrix4.translationValues(0, -3, 0),
-                                    child: const Text(
-                                      'Pilih semua',
-                                      style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 15,
-                                          letterSpacing: 0.5,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Obx(
-                        () => state.data.value.consultationRecipeDrug == null
-                            ? Container()
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state
-                                    .data.value.consultationRecipeDrug?.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return ContainerProdukPenting(
-                                    data: state.data.value
-                                        .consultationRecipeDrug![index],
-                                  );
-                                },
-                              ),
-                      ),
-                      Obx(
-                        () => SizedBox(
-                          height:
-                              state.data.value.consultationRecipeDrug == null
-                                  ? 0
-                                  : 48,
-                        ),
-                      ),
-                      Obx(
-                        () => state.data.value
-                                .consultationRecomendationSkincare!.isEmpty
-                            ? Container()
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Rekomendasi Skincare',
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationTreatment!
+                              .isEmpty
+                          ? Container()
+                          : Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/cekbox.svg',
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  transform:
+                                      Matrix4.translationValues(0, -3, 0),
+                                  child: const Text(
+                                    'Pilih semua',
                                     style: TextStyle(
-                                      fontWeight: bold,
-                                      fontSize: 18,
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      letterSpacing: 1,
-                                    ),
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 15,
+                                        letterSpacing: 0.5,
+                                        color: Colors.black),
                                   ),
-                                ],
-                              ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Obx(
-                        () => state.data.value
-                                .consultationRecomendationSkincare!.isEmpty
-                            ? Container()
-                            : Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/cekbox.svg',
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    transform:
-                                        Matrix4.translationValues(0, -3, 0),
-                                    child: const Text(
-                                      'Pilih semua',
-                                      style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 15,
-                                          letterSpacing: 0.5,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
-                      Obx(
-                        () => SizedBox(
-                          height: state.data.value
-                                  .consultationRecomendationSkincare!.isEmpty
-                              ? 0
-                              : 15,
-                        ),
-                      ),
-                      Obx(
-                        () => state.data.value
-                                .consultationRecomendationSkincare!.isEmpty
-                            ? Container()
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.data.value
-                                    .consultationRecomendationSkincare?.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return ContainerProduk(
-                                    data: state.data.value
-                                            .consultationRecomendationSkincare![
-                                        index],
-                                  );
-                                },
-                              ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Obx(
-                        () => state.data.value
+                                ),
+                              ],
+                            ),
+                    ),
+                    Obx(
+                      () => SizedBox(
+                        height: state.data.value
                                 .consultationRecomendationTreatment!.isEmpty
-                            ? Container()
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Rekomendasi Treatment',
-                                    style: TextStyle(
-                                      fontWeight: bold,
-                                      fontSize: 18,
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      letterSpacing: 1,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            ? 0
+                            : 15,
                       ),
-                      Obx(
-                        () => SizedBox(
-                          height: state.data.value
-                                  .consultationRecomendationTreatment!.isEmpty
-                              ? 0
-                              : 20,
-                        ),
-                      ),
-                      Obx(
-                        () => state.data.value
-                                .consultationRecomendationTreatment!.isEmpty
-                            ? Container()
-                            : Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/cekbox.svg',
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    transform:
-                                        Matrix4.translationValues(0, -3, 0),
-                                    child: const Text(
-                                      'Pilih semua',
-                                      style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 15,
-                                          letterSpacing: 0.5,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
-                      Obx(
-                        () => SizedBox(
-                          height: state.data.value
-                                  .consultationRecomendationTreatment!.isEmpty
-                              ? 0
-                              : 15,
-                        ),
-                      ),
-                      Obx(
-                        () => state.data.value
-                                .consultationRecomendationTreatment!.isEmpty
-                            ? Container()
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.data.value
-                                    .consultationRecomendationTreatment?.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return ContainerTreatment(
-                                    data: state.data.value
-                                            .consultationRecomendationTreatment![
-                                        index],
-                                  );
-                                },
-                              ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ),
+                    ),
+                    Obx(
+                      () => state.data.value.consultationRecomendationTreatment!
+                              .isEmpty
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.data.value
+                                  .consultationRecomendationTreatment?.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return ContainerTreatment(
+                                  data: state.data.value
+                                          .consultationRecomendationTreatment![
+                                      index],
+                                );
+                              },
+                            ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
                 )
               ],
             ),
