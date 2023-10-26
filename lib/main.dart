@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,20 +8,16 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/onboarding_chat_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_treatment.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
+import 'package:heystetik_mobileapps/routes/app_pages.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
-import 'package:heystetik_mobileapps/test_deep_link.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 import 'package:provider/provider.dart';
 
-import 'controller/customer/interest/interest_controller.dart';
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -46,6 +43,22 @@ class MyHttpOverrides extends HttpOverrides {
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
   }
+}
+
+FirebaseDynamicLinksPlatform dynamicLinks =
+    FirebaseDynamicLinksPlatform.instance;
+
+Future<void> initDynamicLinks() async {
+  print("HEHEHEH");
+  dynamicLinks.onLink.listen((dynamicLinkData) {
+    Get.offAllNamed(dynamicLinkData.link.path);
+    print('Dynamic Link');
+    print(dynamicLinkData.link);
+    print('HAHHA ${dynamicLinkData.link.path}');
+  }).onError((error) {
+    print('onLink error');
+    print(error.message);
+  });
 }
 
 void main() async {
@@ -143,6 +156,7 @@ void main() async {
   });
 
   runApp(const MyApp());
+  initDynamicLinks();
 }
 
 class MyApp extends StatelessWidget {
@@ -162,11 +176,8 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           title: 'Heystetik Mobile Apps',
           theme: ThemeData(),
-          // initialRoute: '/',
-          // routes: {
-          //   '/': (context) => const SplashScreenPage(),
-          //   '/chat': (context) => const OnboardingChat(),
-          // },
+          // initialRoute: AppPages.INITIAL,
+          getPages: AppPages.routes,
           debugShowCheckedModeBanner: false,
           home: const SplashScreenPage(),
         ),

@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,10 +12,13 @@ import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 
 import 'package:heystetik_mobileapps/widget/corcern_card_widgets.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/tags.dart';
+import 'package:social_share/social_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/theme.dart';
@@ -39,6 +40,7 @@ class ViewDetailBeutyStreamPage extends StatefulWidget {
 
 class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
   final NewsController state = Get.put(NewsController());
+
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse, mode: LaunchMode.externalApplication)) {
@@ -340,8 +342,15 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        var url = 'https://www.instagram.com/direct/new/';
-                        await _launchURL(url);
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
+                        SocialShare.copyToClipboard(
+                          text: url.toString(),
+                        );
+                        SnackbarWidget.getSuccessSnackbar(
+                            context, "Berhasil", "Berhasil disalin");
+                        var ig = 'https://www.instagram.com/direct/new/';
+                        await _launchURL(ig);
                       },
                       child: Image.asset(
                         'assets/icons/ig-icons-cickerl.png',
@@ -354,8 +363,15 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var url = 'https://www.facebook.com/';
-                        await _launchURL(url);
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
+                        SocialShare.copyToClipboard(
+                          text: url.toString(),
+                        );
+                        SnackbarWidget.getSuccessSnackbar(
+                            context, "Berhasil", "Berhasil disalin");
+                        var fb = 'http://m.me/';
+                        await _launchURL(fb);
                       },
                       child: Image.asset(
                         'assets/icons/facbook-icons-cickel.png',
@@ -368,13 +384,17 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        String subject = Uri.encodeComponent("Hello Guys");
-                        String body = Uri.encodeComponent("Ketik disini");
-                        print(subject);
-                        Uri mail =
-                            Uri.parse("mailto:subject=$subject&body=$body");
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
 
-                        await _launchURL(mail.toString());
+                        String email = '';
+                        String subject = 'This is a test email';
+                        String body = 'Share artikel ${url.toString()}';
+
+                        String emailUrl =
+                            "mailto:$email?subject=$subject&body=$body";
+
+                        await _launchURL(emailUrl.toString());
                       },
                       child: Image.asset(
                         'assets/icons/mail-icons-cirkel.png',
@@ -387,28 +407,32 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var whatsappURlAndroid =
-                            "whatsapp://send?phone=&text=Hello Guys";
-                        var whatappURLIOS =
-                            "https://wa.me/text=${Uri.parse("Hello Guys")}";
-                        if (Platform.isIOS) {
-                          // for iOS phone only
-                          if (await canLaunchUrl(Uri.parse(whatappURLIOS))) {
-                            await _launchURL(whatappURLIOS);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("whatsapp no installed")));
-                          }
-                        } else {
-                          // android , web
-                          if (await canLaunchUrl(
-                              Uri.parse(whatsappURlAndroid))) {
-                            await _launchURL(whatsappURlAndroid);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("whatsapp no installed")));
-                          }
-                        }
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
+                        SocialShare.shareWhatsapp(url.toString());
+
+                        // var whatsappURlAndroid =
+                        //     "whatsapp://send?phone=&text=${url.toString()}";
+                        //  var whatappURLIOS =
+                        //     "https://wa.me/text=${Uri.parse(url.toString())}";
+                        // if (Platform.isIOS) {
+                        //   // for iOS phone only
+                        //   if (await canLaunchUrl(Uri.parse(whatappURLIOS))) {
+                        //     await _launchURL(whatappURLIOS);
+                        //   } else {
+                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //         content: Text("whatsapp no installed")));
+                        //   }
+                        // } else {
+                        //   // android , web
+                        //   if (await canLaunchUrl(
+                        //       Uri.parse(whatsappURlAndroid))) {
+                        //     await _launchURL(whatsappURlAndroid);
+                        //   } else {
+                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //         content: Text("whatsapp no installed")));
+                        //   }
+                        // }
                       },
                       child: Image.asset(
                         'assets/icons/wa-icons-Wassap.png',
@@ -420,7 +444,11 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                       width: 6.83,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
+                        await SocialShare.shareOptions(url.toString());
+                      },
                       child: Image.asset(
                         'assets/icons/share-icons-cickel.png',
                         width: 30,
@@ -431,7 +459,15 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                       width: 6.83,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        Uri? url = await createDynamicLink();
+                        print("url $url");
+                        SocialShare.copyToClipboard(
+                          text: url.toString(),
+                        );
+                        SnackbarWidget.getSuccessSnackbar(
+                            context, "Berhasil", "Berhasil disalin");
+                      },
                       child: Image.asset(
                         'assets/icons/salin_icons-cickel.png',
                         width: 30,
