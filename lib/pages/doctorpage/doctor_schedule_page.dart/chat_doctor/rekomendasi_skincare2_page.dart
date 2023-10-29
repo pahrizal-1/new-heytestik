@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -490,103 +491,106 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
               ButtonGreenWidget(
                 title: '+ Tambah Skincare',
                 onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: ((context) => TambahanSkinCare())));
-                  showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.white,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(25),
-                        topStart: Radius.circular(25),
-                      ),
-                    ),
-                    builder: (context) => Wrap(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 36, bottom: 40),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/danger-icons.png',
-                                    width: 14,
-                                  ),
-                                  const SizedBox(
-                                    width: 19,
-                                  ),
-                                  Text(
-                                    'Daftar Skincare',
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 38,
-                              ),
-                              Container(
-                                // height: 200,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.solutionSkincare.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: ((context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          state.dataSkincare.add(state
-                                              .solutionSkincare[index]
-                                              .toJson());
-                                          state.notesController
-                                              .add(TextEditingController());
-                                          state.itemCount = List.generate(
-                                              state.solutionSkincare.length,
-                                              (_) => 1);
-                                          print('brpa ${state.itemCount}');
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width: double.infinity,
-                                        margin: EdgeInsets.only(
-                                          bottom: 10,
-                                          left: 20,
-                                          right: 20,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          border: Border.all(
-                                            color: fromCssColor('#D9D9D9'),
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            state.solutionSkincare[index].name!,
-                                            style: blackHigtTextStyle.copyWith(
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => TambahanSkinCare())));
+                  //   showModalBottomSheet(
+                  //     context: context,
+                  //     backgroundColor: Colors.white,
+                  //     isScrollControlled: true,
+                  //     shape: const RoundedRectangleBorder(
+                  //       borderRadius: BorderRadiusDirectional.only(
+                  //         topEnd: Radius.circular(25),
+                  //         topStart: Radius.circular(25),
+                  //       ),
+                  //     ),
+                  //     builder: (context) => Wrap(
+                  //       children: [
+                  //         Padding(
+                  //           padding: const EdgeInsets.only(
+                  //               left: 25, right: 25, top: 36, bottom: 40),
+                  //           child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               Row(
+                  //                 children: [
+                  //                   Image.asset(
+                  //                     'assets/icons/danger-icons.png',
+                  //                     width: 14,
+                  //                   ),
+                  //                   const SizedBox(
+                  //                     width: 19,
+                  //                   ),
+                  //                   Text(
+                  //                     'Daftar Skincare',
+                  //                     style: blackTextStyle.copyWith(
+                  //                       fontSize: 18,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //               const SizedBox(
+                  //                 height: 38,
+                  //               ),
+                  //               Container(
+                  //                 // height: 200,
+                  //                 child: ListView.builder(
+                  //                   shrinkWrap: true,
+                  //                   itemCount: state.solutionSkincare.length,
+                  //                   physics: NeverScrollableScrollPhysics(),
+                  //                   itemBuilder: ((context, index) {
+                  //                     return InkWell(
+                  //                       onTap: () {
+                  //                         setState(() {
+                  //                           state.dataSkincare.add(state
+                  //                               .solutionSkincare[index]
+                  //                               .toJson());
+                  //                           state.notesController
+                  //                               .add(TextEditingController());
+                  //                           state.itemCount = List.generate(
+                  //                               state.solutionSkincare.length,
+                  //                               (_) => 1);
+                  //                           print('brpa ${state.itemCount}');
+                  //                         });
+                  //                         Navigator.pop(context);
+                  //                       },
+                  //                       child: Container(
+                  //                         height: 40,
+                  //                         width: double.infinity,
+                  //                         margin: EdgeInsets.only(
+                  //                           bottom: 10,
+                  //                           left: 20,
+                  //                           right: 20,
+                  //                         ),
+                  //                         decoration: BoxDecoration(
+                  //                           borderRadius:
+                  //                               BorderRadius.circular(12),
+                  //                           border: Border.all(
+                  //                             color: fromCssColor('#D9D9D9'),
+                  //                             width: 1,
+                  //                           ),
+                  //                         ),
+                  //                         child: Padding(
+                  //                           padding: const EdgeInsets.all(8.0),
+                  //                           child: Text(
+                  //                             state.solutionSkincare[index].name!,
+                  //                             style: blackHigtTextStyle.copyWith(
+                  //                               fontSize: 15,
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                     );
+                  //                   }),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   );
                 },
               )
             ],
