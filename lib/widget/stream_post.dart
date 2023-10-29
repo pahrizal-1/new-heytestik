@@ -48,6 +48,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
     allVotesCount = widget.stream.pollCount;
     streamPollOptions = widget.stream.streamPollOptions;
     super.initState();
+    setState(() {});
   }
 
   @override
@@ -319,7 +320,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  option.value['count'].toString(),
+                                  option.value['option'].toString(),
                                   style: TextStyle(
                                     color: option.value['count'] > 0
                                         ? Colors.white
