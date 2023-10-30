@@ -7,9 +7,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/info_medical_review_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/penerbit_info_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_tags_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -162,13 +160,14 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InfoPenerbitPage(
-                            writer: widget.detailNews.author ?? '-'),
-                      ),
-                    );
+                    print("halaman InfoPenerbitPage di koment");
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => InfoPenerbitPage(
+                    //         writer: widget.detailNews.author ?? '-'),
+                    //   ),
+                    // );
                   },
                   child: Center(
                     child: RichText(
@@ -193,12 +192,13 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const InfoMedicalReviewPage(),
-                      ),
-                    );
+                    print("halaman InfoMedicalReviewPage di koment");
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const InfoMedicalReviewPage(),
+                    //   ),
+                    // );
                   },
                   child: Center(
                     child: RichText(
