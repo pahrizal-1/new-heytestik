@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.da
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 
+import '../../controller/customer/consultation/consultation_controller.dart';
 import '../../widget/button_widget.dart';
 
 class SuccessPage extends StatefulWidget {
@@ -26,6 +27,15 @@ class SuccessPage extends StatefulWidget {
 }
 
 class _SuccessPageState extends State<SuccessPage> {
+  final ConsultationController state = Get.put(ConsultationController());
+
+  @override
+  void initState() {
+    super.initState();
+    state.initiateChat(context, widget.orderId);
+    // state.connectSocket(context);
+  }
+
   Future<bool> onWillPop() async {
     if (widget.isWillPop) {
       showDialog(
@@ -79,9 +89,24 @@ class _SuccessPageState extends State<SuccessPage> {
                         child: ButtonGreenWidget(
                           title: 'Yuk Konsultasi Chat Docter',
                           onPressed: () async {
-                            Get.to(ApprovePage(
-                              orderId: widget.orderId,
-                            ));
+                            if (state.initiate.value!.success == true &&
+                                state.initiate.value!.message == 'Success') {
+                              Get.to(ApprovePage(
+                                orderId: widget.orderId,
+                              ));
+                              print(
+                                  // 'hey ${state.initiate.value!.data!.doctor!.fullname}');
+                                  'hey ${state.initiate.value!.data!.doctor!.photoProfile}');
+                            } else {
+                              print('tol');
+                              state.initiateChat(context, widget.orderId);
+                              if (state.initiate.value!.success == true &&
+                                  state.initiate.value!.message == 'Success') {
+                                Get.to(ApprovePage(
+                                  orderId: widget.orderId,
+                                ));
+                              }
+                            }
                           },
                         ),
                       ),
