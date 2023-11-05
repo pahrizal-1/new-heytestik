@@ -50,6 +50,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
   bool isSuggestion = false;
   // List suggest = ['Jerawat', 'Kulit Kering'];
+  List<Concern.Data2> concern1 = [];
   List<Concern.Data2> concern = [];
   List<Concern.Data2> suggestConcern = [];
   List selectedImage = [];
@@ -58,7 +59,12 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       name = await LocalStorage().getFullName();
       stateProfile.getProfile(context);
-      concern.addAll(await etalaseController.getConcern(context));
+      concern1.addAll(await etalaseController.getConcern(context));
+
+      for (int i = 0; i < concern1.length; i++) {
+        concern.add(concern1[i]);
+        concern[i].name = "#${concern[i].name}";
+      }
       setState(() {});
     });
     super.initState();
@@ -73,24 +79,13 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
         isSuggestion = false;
       });
     } else {
-      // print("suggestConcern $suggestConcern");
-      // RegExp hashtagRegExp = RegExp(r'\B#\w+');
-
-      // Iterable<Match> matches = hashtagRegExp.allMatches(value);
-      // print("matches $matches");
-
-      // List<String?> hashtags = matches.map((match) {
-      //   String? hashtagText =
-      //       match.group(0)?.substring(1); // Remove the '#' symbol
-      //   return hashtagText?.replaceAll(' ', '');
-      // }).toList();
-      // print("hashtags $hashtags");
+      String str = value.substring(value.lastIndexOf(" ") + 1);
 
       suggestConcern = concern
           .where((element) =>
-              element.name!.toLowerCase().contains(value.toLowerCase()))
+              element.name!.toLowerCase().contains(str.toLowerCase()))
           .toList();
-      print("suggestConcern 222 $suggestConcern");
+
       if (suggestConcern.isNotEmpty) {
         setState(() {
           isSuggestion = true;
@@ -118,6 +113,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
+                  Get.back();
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -161,7 +157,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                     );
                     streamController.postStream(context, postModel,
                         files: imagePath, doInPost: () {
-                      Navigator.of(context).pop();
+                      Get.back();
                     });
                   }
                 },
@@ -383,22 +379,22 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                           itemBuilder: ((context, index) {
                                             return InkWell(
                                               onTap: () async {
-                                                print(suggestConcern[index]
-                                                    .name
-                                                    .toString());
-                                                hashTagController.text =
-                                                    suggestConcern[index]
-                                                        .name
-                                                        .toString();
+                                                hashTagController
+                                                    .text = hashTagController
+                                                        .text +
+                                                    " ${suggestConcern[index].name.toString().removeAllWhitespace}";
+
                                                 setState(() {});
+                                                Get.back();
                                               },
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                    suggestConcern[index]
-                                                        .name
-                                                        .toString()),
+                                                  suggestConcern[index]
+                                                      .name
+                                                      .toString(),
+                                                ),
                                               ),
                                             );
                                           })),
