@@ -23,6 +23,8 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
       Get.put(SkincareRecommendationController());
   final DoctorConsultationController stateDoctor =
       Get.put(DoctorConsultationController());
+  final SkincareRecommendationController stateDoctorSkincare =
+      Get.put(SkincareRecommendationController());
 
   List img = [
     'assets/images/penting1.png',
@@ -69,6 +71,11 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                 stateDoctor.listSkincare = [];
                 stateDoctor.notesSkincare = [];
                 stateDoctor.listItemCount = [];
+
+                // skincare tretment
+                stateDoctorSkincare.dataSkincare = [];
+                stateDoctorSkincare.notesController = [];
+                stateDoctorSkincare.itemCount = [];
 
                 Navigator.pop(
                   context,
@@ -265,6 +272,21 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                                       setState(() {
                                         if (toogle.contains(index)) {
                                           toogle.remove(index);
+                                          // skincare Treatment
+                                          stateDoctorSkincare.dataSkincare
+                                              .remove(state
+                                                  .solutionSkincare[index]
+                                                  .toJson());
+                                          stateDoctorSkincare.notesController
+                                              .removeAt(stateDoctorSkincare
+                                                      .notesController.length -
+                                                  1);
+                                          stateDoctorSkincare.itemCount!
+                                              .removeAt(stateDoctorSkincare
+                                                      .itemCount!.length -
+                                                  1);
+                                          // end skincare Treatment
+
                                           stateDoctor.listSkincare.remove(state
                                               .solutionSkincare[index]
                                               .toJson());
@@ -279,6 +301,18 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                                               .toString());
                                         } else {
                                           toogle.add(index);
+                                          // skincare treatment
+                                          stateDoctorSkincare.dataSkincare.add(
+                                              state.solutionSkincare[index]
+                                                  .toJson());
+                                          stateDoctorSkincare.notesController
+                                              .add(TextEditingController());
+                                          stateDoctorSkincare.itemCount =
+                                              List.generate(
+                                                  state.solutionSkincare.length,
+                                                  (_) => 1);
+                                          // end skincare treamtnet
+
                                           stateDoctor.listSkincare.add(state
                                               .solutionSkincare[index]
                                               .toJson());

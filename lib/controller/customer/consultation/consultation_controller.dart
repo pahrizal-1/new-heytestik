@@ -26,7 +26,7 @@ class ConsultationController extends StateClass {
   RxInt customerId = 0.obs;
   Rx<RecentChatModel?> recentChat = RecentChatModel.fromJson({}).obs;
   RxInt totalRecentChat = 0.obs;
-  RxInt resendTime = 200.obs;
+  RxInt resendTime = 120.obs;
   Timer? _timer;
   IO.Socket? socket;
   RxString status = ''.obs;
@@ -51,6 +51,7 @@ class ConsultationController extends StateClass {
   @override
   void dispose() {
     timeCondition();
+    close();
     super.dispose();
   }
 
@@ -65,10 +66,10 @@ class ConsultationController extends StateClass {
       if (initiate.value!.success != true &&
           initiate.value!.message != 'Success') {
         resendTime.value == 200;
-        timeCondition();
-        connectSocket(Get.context!);
+        // timeCondition();
+        // connectSocket(Get.context!);
         close();
-        Get.back();
+        // Get.back();
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: initiate.value!.message.toString(),
@@ -78,23 +79,29 @@ class ConsultationController extends StateClass {
       if (initiate.value!.success == true &&
           initiate.value!.message == 'Success') {
         resendTime.value == 200;
-        timeCondition();
-        connectSocket(Get.context!);
-        Navigator.push(
-          Get.context!,
-          MaterialPageRoute(
-            builder: (context) => const TabBarCustomer(currentIndex: 1),
-          ),
-        );
+        // timeCondition();
+        // connectSocket(Get.context!);
+        // Navigator.push(
+        //   Get.context!,
+        //   MaterialPageRoute(
+        //     builder: (context) => const TabBarCustomer(currentIndex: 1),
+        //   ),
+        // );
         showDialog(
           context: Get.context!,
-          builder: (context) => AlertWidget(
-              subtitle:
-                  'Data Anda Sudah Terkirim ke Doktor'),
+          builder: (context) =>
+              AlertWidget(subtitle: 'Data Anda Sudah Terkirim ke Doktor'),
         );
 
         status.value =
             'Data anda sedang di review oleh dokter, harap tunggu yaa';
+      } else {
+        print("hasil ${initiate.value}");
+        showDialog(
+          context: Get.context!,
+          builder: (context) =>
+              AlertWidget(subtitle: 'Tidak Ada Doktor Yang Online'),
+        );
       }
     });
     isLoading.value = false;
@@ -103,7 +110,25 @@ class ConsultationController extends StateClass {
   eventApp() {
     print("app");
     socket?.on('app', (app) async {
-      log("app $app");
+      log("appEvent $app");
+      print("appEv ");
+      print("ap ${app['message']}");
+      if (app['event'] != "consultationScheduleExpired") {
+        Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => const TabBarCustomer(currentIndex: 1),
+          ),
+        );
+      } else {
+        Get.back();
+        showDialog(
+          context: Get.context!,
+          builder: (context) =>
+              AlertWidget(subtitle: 'Permintaan anda telah expired'),
+        );
+        close();
+      }
     });
   }
 

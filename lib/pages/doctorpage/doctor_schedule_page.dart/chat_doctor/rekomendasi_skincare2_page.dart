@@ -490,11 +490,16 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
               ),
               ButtonGreenWidget(
                 title: '+ Tambah Skincare',
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  String refresh = await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: ((context) => TambahanSkinCare())));
+                  if(refresh == 'refresh') {
+                    setState(() {
+                      state.dataSkincare;
+                    });
+                  }
                   //   showModalBottomSheet(
                   //     context: context,
                   //     backgroundColor: Colors.white,

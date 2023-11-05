@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class ApprovePage extends StatefulWidget {
@@ -15,13 +18,36 @@ class ApprovePage extends StatefulWidget {
 
 class _ApprovePageState extends State<ApprovePage> {
   final ConsultationController state = Get.put(ConsultationController());
+  int resentTime = 120;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
     state.getUser();
-    state.initiateChat(context, widget.orderId);
+    state.connectSocket(Get.context!);
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (resentTime == 0) {
+        setState(() {
+          // state.connectSocket(Get.context!);
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          resentTime--;
+        });
+      }
+    });
+    // state.startVerifyCountTime();
+
+    // state.initiateChat(context, widget.orderId);
     // state.connectSocket(context);
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,8 +86,14 @@ class _ApprovePageState extends State<ApprovePage> {
                   border: Border.all(color: greenColor),
                   color: const Color(0xffD9D9D9),
                   shape: BoxShape.circle,
-                  image: const DecorationImage(
-                    image: AssetImage(
+                  image: DecorationImage(
+                    image:
+                        //  state.initiate.value!.data != null
+                        //     ? NetworkImage(
+                        //             "${Global.FILE}/${state.initiate.value!.data!.doctor!.photoProfile}")
+                        //         as ImageProvider
+                        //     :
+                        AssetImage(
                       'assets/icons/person-white.png',
                     ),
                   ),
@@ -71,7 +103,7 @@ class _ApprovePageState extends State<ApprovePage> {
             const Spacer(),
             Center(
               child: Text(
-                'Sedang menghubungkan dengan dokter',
+                'Sedang menghubungkan dengan dokter ${state.initiate.value!.data!.doctor!.fullname}',
                 style: blackRegulerTextStyle.copyWith(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
@@ -111,6 +143,13 @@ class _ApprovePageState extends State<ApprovePage> {
             const SizedBox(
               height: 20,
             ),
+            Text(
+              '${resentTime} detik',
+              style: grenTextStyle.copyWith(fontSize: 18),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -128,12 +167,13 @@ class _ApprovePageState extends State<ApprovePage> {
                 const SizedBox(
                   width: 5,
                 ),
-                state.status.value.isEmpty
-                    ? Text(
-                        'detik',
-                        style: grenTextStyle.copyWith(fontSize: 18),
-                      )
-                    : Container()
+                // state.status.value.isEmpty
+                //     ?
+                // Text(
+                //   'detik',
+                //   style: grenTextStyle.copyWith(fontSize: 18),
+                // )
+                // : Container()
               ],
             )
           ],
