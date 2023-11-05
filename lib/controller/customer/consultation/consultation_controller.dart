@@ -51,6 +51,7 @@ class ConsultationController extends StateClass {
   @override
   void dispose() {
     timeCondition();
+    close();
     super.dispose();
   }
 
@@ -110,12 +111,24 @@ class ConsultationController extends StateClass {
     print("app");
     socket?.on('app', (app) async {
       log("appEvent $app");
-      Navigator.push(
-        Get.context!,
-        MaterialPageRoute(
-          builder: (context) => const TabBarCustomer(currentIndex: 1),
-        ),
-      );
+      print("appEv ");
+      print("ap ${app['message']}");
+      if (app['event'] != "consultationScheduleExpired") {
+        Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => const TabBarCustomer(currentIndex: 1),
+          ),
+        );
+      } else {
+        Get.back();
+        showDialog(
+          context: Get.context!,
+          builder: (context) =>
+              AlertWidget(subtitle: 'Permintaan anda telah expired'),
+        );
+        close();
+      }
     });
   }
 

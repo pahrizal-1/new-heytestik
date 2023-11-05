@@ -45,13 +45,17 @@ class SkincareRecommendationController extends StateClass {
       subtitleController.text = res['subtitle'];
       dataSkincareById = [];
       notesController.clear();
+      itemCount = [];
       for (var a in res['recipe_recomendation_skincare_items']) {
         notesController.add(TextEditingController(text: a['notes']));
         dataSkincareById.add(a);
+        itemCount?.add(a['qty']);
+        print('itm count ${itemCount}');
+
       }
-      for (var i in dataSkincareById) {
-        itemCount = i['qty'];
-      }
+      // for (var i in dataSkincareById) {
+      //   itemCount = i['qty'];
+      // }
     });
     isLoading.value = false;
   }
