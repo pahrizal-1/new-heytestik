@@ -195,7 +195,6 @@ class CardProdukBank extends StatelessWidget {
                             '${Global.FILE}/${element.mediaPaymentMethod!.media!.path.toString()}',
                             width: 40,
                             height: 35,
-                            color: element.isActive! ? null : blackColor,
                           ),
                           const SizedBox(
                             width: 19,
