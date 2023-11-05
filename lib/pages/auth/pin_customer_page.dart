@@ -234,7 +234,8 @@ class _PinPageCustomerState extends State<PinPageCustomer> {
                                           Expanded(
                                             child: InkWell(
                                               onTap: () {
-                                                Get.to(ResetPassword(redirectTo: 2));
+                                                Get.to(ResetPassword(
+                                                    redirectTo: 2));
 
                                                 // Navigator.push(
                                                 //   context,
