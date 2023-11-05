@@ -4,6 +4,8 @@ import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:social_share/social_share.dart';
 
 import 'detail_status_page.dart';
 
@@ -93,11 +95,20 @@ class DetailTransaksiPage extends StatelessWidget {
                         SizedBox(
                           width: 9,
                         ),
-                        Image.asset(
-                          'assets/icons/salin_icons.png',
-                          width: 12,
-                          height: 12,
-                          color: blackColor,
+                        InkWell(
+                          onTap: () {
+                            SocialShare.copyToClipboard(
+                              text: 'INV/20230513/KD',
+                            );
+                            SnackbarWidget.getSuccessSnackbar(
+                                context, "Berhasil", "Berhasil disalin");
+                          },
+                          child: Image.asset(
+                            'assets/icons/salin_icons.png',
+                            width: 12,
+                            height: 12,
+                            color: blackColor,
+                          ),
                         )
                       ],
                     ),

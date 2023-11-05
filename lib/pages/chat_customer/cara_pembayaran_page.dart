@@ -10,6 +10,8 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:social_share/social_share.dart';
 import '../../widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
@@ -246,9 +248,18 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         ],
                       ),
                       const Spacer(),
-                      Text(
-                        'Salin',
-                        style: grenTextStyle.copyWith(fontSize: 14),
+                      InkWell(
+                        onTap: () {
+                          SocialShare.copyToClipboard(
+                            text: widget.vaNumber,
+                          );
+                          SnackbarWidget.getSuccessSnackbar(
+                              context, "Berhasil", "Berhasil disalin");
+                        },
+                        child: Text(
+                          'Salin',
+                          style: grenTextStyle.copyWith(fontSize: 14),
+                        ),
                       ),
                       const SizedBox(
                         width: 8,

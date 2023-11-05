@@ -4,6 +4,8 @@ import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.da
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:social_share/social_share.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
@@ -105,11 +107,21 @@ class _DetailPerawatanPageState extends State<DetailPerawatanPage> {
                         SizedBox(
                           width: 9,
                         ),
-                        Image.asset(
-                          'assets/icons/salin_icons.png',
-                          width: 12,
-                          height: 12,
-                          color: blackColor,
+                        InkWell(
+                          onTap: () {
+                            SocialShare.copyToClipboard(
+                              text: state.data.value.transactionConsultation
+                                  ?.consultationInvoice?.invoiceNumber,
+                            );
+                            SnackbarWidget.getSuccessSnackbar(
+                                context, "Berhasil", "Berhasil disalin");
+                          },
+                          child: Image.asset(
+                            'assets/icons/salin_icons.png',
+                            width: 12,
+                            height: 12,
+                            color: blackColor,
+                          ),
                         )
                       ],
                     ),

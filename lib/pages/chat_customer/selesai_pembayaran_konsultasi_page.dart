@@ -15,6 +15,8 @@ import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:social_share/social_share.dart';
 import '../../theme/theme.dart';
 import '../../widget/more_dialog_transaksi_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart'
@@ -66,11 +68,6 @@ class _SelesaikanPembayaranKonsultasiState
       startTimer();
       setState(() {});
     });
-  }
-
-  _copy() {
-    final value = ClipboardData(text: state.virtualAccount.value);
-    Clipboard.setData(value);
   }
 
   setTime() {
@@ -295,7 +292,13 @@ class _SelesaikanPembayaranKonsultasiState
                                   ),
                                   const Spacer(),
                                   InkWell(
-                                    onTap: _copy,
+                                    onTap: () {
+                                      SocialShare.copyToClipboard(
+                                        text: state.virtualAccount.value,
+                                      );
+                                      SnackbarWidget.getSuccessSnackbar(context,
+                                          "Berhasil", "Berhasil disalin");
+                                    },
                                     child: Text(
                                       'Salin',
                                       style:
