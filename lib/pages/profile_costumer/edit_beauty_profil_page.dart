@@ -114,7 +114,7 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                   ),
                   beutytext(
                     'Hijabers',
-                    state.interestData.value.data?.beautyProfile!.hijabers ==
+                    state.interestData.value.data?.beautyProfile?.hijabers ==
                             true
                         ? 'Iya'
                         : 'Tidak',
@@ -180,7 +180,7 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                     'Anggaran Skincare',
                     state.interestData.value.data?.skinGoalsBudget
                             ?.budgetForSkincare ??
-                        '-',
+                        '',
                   ),
                   SizedBox(
                     height: 19,
@@ -189,7 +189,7 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                     'Anggaran Treatment',
                     state.interestData.value.data?.skinGoalsBudget
                             ?.budgetForTreatment ??
-                        '-',
+                        '',
                   ),
                 ],
               ),

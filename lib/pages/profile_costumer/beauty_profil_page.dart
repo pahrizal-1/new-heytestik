@@ -63,10 +63,9 @@ class BeautyProfil extends StatelessWidget {
             ),
             tipeKulit(
               'Tipe Kulit',
-              state.interestData.value.data?.beautyProfile?.skinType ?? '-',
+              state.interestData.value.data?.beautyProfile?.skinType ?? '',
               'Warna Tone Kulit',
-              state.interestData.value.data?.beautyProfile?.skinToneColor ??
-                  '-',
+              state.interestData.value.data?.beautyProfile?.skinToneColor ?? '',
             ),
             SizedBox(
               height: 19,
@@ -75,18 +74,18 @@ class BeautyProfil extends StatelessWidget {
               'Warna Undertone Kulit',
               state.interestData.value.data?.beautyProfile
                       ?.skinUndertoneColor ??
-                  '-',
+                  '',
               'Tipe Rambut',
-              state.interestData.value.data?.beautyProfile?.hairType ?? '-',
+              state.interestData.value.data?.beautyProfile?.hairType ?? '',
             ),
             SizedBox(
               height: 19,
             ),
             tipeKulit(
               'Warna Rambut',
-              state.interestData.value.data?.beautyProfile?.hairColor ?? '-',
+              state.interestData.value.data?.beautyProfile?.hairColor ?? '',
               'Hijabers',
-              state.interestData.value.data?.beautyProfile!.hijabers == true
+              state.interestData.value.data?.beautyProfile?.hijabers == true
                   ? 'Iya'
                   : 'Tidak',
             ),
@@ -113,7 +112,7 @@ class BeautyProfil extends StatelessWidget {
               'Anggaran Skincare',
               state.interestData.value.data?.skinGoalsBudget
                       ?.budgetForSkincare ??
-                  '-',
+                  '',
             ),
             SizedBox(
               height: 19,
@@ -122,7 +121,7 @@ class BeautyProfil extends StatelessWidget {
               'Anggaran Treatment',
               state.interestData.value.data?.skinGoalsBudget
                       ?.budgetForTreatment ??
-                  '-',
+                  '',
             ),
           ],
         ),

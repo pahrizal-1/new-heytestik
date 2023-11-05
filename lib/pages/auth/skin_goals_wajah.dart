@@ -41,9 +41,7 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
 
       if (widget.isEdit) {
         for (int i = 0;
-            i <
-                stateProfile
-                    .interestData.value.data!.skinGoalsFaceCorrective!.length;
+            i < stateProfile.skinGoalsFaceCorrectiveLength.value;
             i++) {
           state.faceCorrective.value.add(
             stateProfile.interestData.value.data!.skinGoalsFaceCorrective![i]

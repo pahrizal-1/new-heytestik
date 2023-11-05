@@ -41,9 +41,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
 
       if (widget.isEdit) {
         for (int i = 0;
-            i <
-                stateProfile
-                    .interestData.value.data!.skinGoalsBodyCorrective!.length;
+            i < stateProfile.skinGoalsBodyCorrectiveLength.value;
             i++) {
           state.bodyCorrective.value.add(
             stateProfile.interestData.value.data!.skinGoalsBodyCorrective![i]

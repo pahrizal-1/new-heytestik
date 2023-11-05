@@ -29,6 +29,10 @@ import 'package:dio/dio.dart' as dio;
 class ProfileController extends StateClass {
   Rx<InterestModel> interestData = InterestModel().obs;
   Rx<CompletionModel> completionData = CompletionModel().obs;
+  Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
+  Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
+  Rx<int> skinGoalsAugmentationLength = 0.obs;
+  Rx<int> skinGoalsHistoryTreatmentLength = 0.obs;
 
   RxString fullName = '-'.obs;
   RxString name = ''.obs;
@@ -152,6 +156,18 @@ class ProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response = await ProfileService().getInterest();
       interestData.value = response;
+
+      skinGoalsFaceCorrectiveLength.value =
+          interestData.value.data!.skinGoalsFaceCorrective!.length;
+
+      skinGoalsBodyCorrectiveLength.value =
+          interestData.value.data!.skinGoalsBodyCorrective!.length;
+
+      skinGoalsAugmentationLength.value =
+          interestData.value.data!.skinGoalsAugmentation!.length;
+
+      skinGoalsHistoryTreatmentLength.value =
+          interestData.value.data!.skinGoalsHistoryTreatment!.length;
     });
     isLoading.value = false;
   }

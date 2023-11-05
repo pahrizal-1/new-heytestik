@@ -42,9 +42,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
 
       if (widget.isEdit) {
         for (int i = 0;
-            i <
-                stateProfile
-                    .interestData.value.data!.skinGoalsAugmentation!.length;
+            i < stateProfile.skinGoalsAugmentationLength.value;
             i++) {
           state.augmentation.value.add(
             stateProfile.interestData.value.data!.skinGoalsAugmentation![i]

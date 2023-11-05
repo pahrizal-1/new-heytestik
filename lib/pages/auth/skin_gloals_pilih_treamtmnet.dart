@@ -45,9 +45,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
 
       if (widget.isEdit) {
         for (int i = 0;
-            i <
-                stateProfile
-                    .interestData.value.data!.skinGoalsHistoryTreatment!.length;
+            i < stateProfile.skinGoalsHistoryTreatmentLength.value;
             i++) {
           state.pastTreatment.value.add(
             stateProfile.interestData.value.data!.skinGoalsHistoryTreatment![i]

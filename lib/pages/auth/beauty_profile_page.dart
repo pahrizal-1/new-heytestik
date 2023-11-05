@@ -92,7 +92,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
       // =======================================================================================
       state.hijabers =
           stateProfile.interestData.value.data?.beautyProfile?.hijabers;
-      if (state.hijabers!) {
+      if (state.hijabers == true) {
         selectedIndex6 = 1;
       } else {
         selectedIndex6 = 2;

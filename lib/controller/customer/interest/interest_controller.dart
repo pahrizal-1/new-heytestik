@@ -86,7 +86,7 @@ class InterestController extends StateClass {
         "skin_undertone_color": skinUnderToneColor.value,
         "hair_type": hairType.value,
         "hair_color": hairColor.value,
-        "hijabers": hijabers ?? '',
+        "hijabers": hijabers ?? false,
       };
       print(data);
 
