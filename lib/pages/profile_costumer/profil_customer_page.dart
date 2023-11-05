@@ -167,6 +167,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         ),
                         InkWell(
                           onTap: () async {
+                            print(state.completionData.value.data?.subtitle);
                             bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
@@ -215,6 +216,11 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                                   PhoneNumberPage(isContinue: true));
                             }
 
+                            if (state.completionData.value.data?.subtitle ==
+                                "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
+                              print(
+                                  "Penyakit Menular Seksual dan Masalah Kulit Lainnya");
+                            }
                             setState(() {});
 
                             if (check) {
