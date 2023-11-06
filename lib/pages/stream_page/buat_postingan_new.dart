@@ -186,6 +186,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,6 +342,11 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                       onTap: () {
                         setState(() {
                           isSelectedHastag = !isSelectedHastag;
+                          if (isSelectedHastag) {
+                            hashTagController.clear();
+                            suggestConcern.clear();
+                            isSuggestion = false;
+                          }
                         });
                       },
                       child: Image.asset(
@@ -382,7 +388,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                                 hashTagController
                                                     .text = hashTagController
                                                         .text +
-                                                    " ${suggestConcern[index].name.toString().removeAllWhitespace}";
+                                                    " ${suggestConcern[index].name.toString().removeAllWhitespace} ";
 
                                                 setState(() {});
                                                 Get.back();
@@ -405,7 +411,6 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                               style: grenTextStyle.copyWith(
                                   fontSize: 14, fontWeight: regular),
                               maxLines: 2,
-                              // readOnly: true,
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -439,33 +444,21 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                               ),
                             ),
                           ),
-                    // Expanded(
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         showSearch(
-                    //             context: context,
-                    //             delegate: CustomeSearchDelected());
-                    //       },
-                    //       child: Container(
-                    //           padding: EdgeInsets.only(
-                    //               left: 13, top: 11, bottom: 11),
-                    //           decoration: BoxDecoration(
-                    //               border: Border.all(color: borderColor),
-                    //               borderRadius: BorderRadius.circular(7)),
-                    //           child: Align(
-                    //             alignment: Alignment.topLeft,
-                    //             child: Text(
-                    //               'Tambahkan Hashtag concern.\nContoh: #Jerawat',
-                    //               style: subGreyTextStyle.copyWith(
-                    //                   color: Color(0xffA3A3A3),
-                    //                   fontSize: 12),
-                    //             ),
-                    //           )),
-                    //     ),
-                    //   ),
                   ],
                 ),
               ),
+              if (!isSelectedHastag)
+                Text(
+                  '# Hashtag tidak boleh sama\n# Setiap Hashtag harus ada spasi dan diawali (#)',
+                  style: blackRegulerTextStyle.copyWith(
+                    fontSize: 14,
+                    color: greenColor,
+                  ),
+                ),
+              if (!isSelectedHastag)
+                const SizedBox(
+                  height: 10,
+                ),
               Divider(height: 0.2),
               Padding(
                 padding: const EdgeInsets.only(top: 11, bottom: 11),
