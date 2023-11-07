@@ -17,10 +17,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGloalsPilihTreamtmnet extends StatefulWidget {
-  bool isContinue = false;
   bool isEdit = false;
-  SkinGloalsPilihTreamtmnet(
-      {this.isContinue = false, this.isEdit = false, super.key});
+  SkinGloalsPilihTreamtmnet({required this.isEdit, super.key});
 
   @override
   State<SkinGloalsPilihTreamtmnet> createState() =>
@@ -107,7 +105,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => AnggaranTreatment(
-                      isEdit: true,
+                      isEdit: widget.isEdit,
                     ),
                   ),
                 );
@@ -271,22 +269,18 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
+                          title: 'Lanjut',
                           onPressed: () async {
                             await state.pastTreatmentGoals(context,
                                 doInPost: () async {
-                              if (widget.isContinue) {
-                                Get.back(result: true);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AnggaranTreatment(
-                                      isEdit: true,
-                                    ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AnggaranTreatment(
+                                    isEdit: widget.isEdit,
                                   ),
-                                );
-                              }
+                                ),
+                              );
                             });
                           },
                         ),

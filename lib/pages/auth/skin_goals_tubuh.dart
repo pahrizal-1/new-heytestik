@@ -16,9 +16,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGoalsTubuh extends StatefulWidget {
-  bool isContinue = false;
   bool isEdit = false;
-  SkinGoalsTubuh({this.isContinue = false, this.isEdit = false, super.key});
+  SkinGoalsTubuh({required this.isEdit, super.key});
 
   @override
   State<SkinGoalsTubuh> createState() => _SkinGoalsTubuhState();
@@ -92,7 +91,7 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SkinGolasWajahTubuh(
-                      isEdit: true,
+                      isEdit: widget.isEdit,
                     ),
                   ),
                 );
@@ -248,22 +247,18 @@ class _SkinGoalsTubuhState extends State<SkinGoalsTubuh> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
+                          title: 'Lanjut',
                           onPressed: () async {
                             await state.bodyCorrectiveGoals(context,
                                 doInPost: () async {
-                              if (widget.isContinue) {
-                                Get.back(result: true);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SkinGolasWajahTubuh(
-                                      isEdit: true,
-                                    ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SkinGolasWajahTubuh(
+                                    isEdit: widget.isEdit,
                                   ),
-                                );
-                              }
+                                ),
+                              );
                             });
                           },
                         ),

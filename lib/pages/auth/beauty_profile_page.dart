@@ -15,8 +15,8 @@ import '../../widget/button_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class BeautyProfilPage extends StatefulWidget {
-  bool isContinue = false;
-  BeautyProfilPage({this.isContinue = false, super.key});
+  bool isContinue;
+  BeautyProfilPage({required this.isContinue, super.key});
 
   @override
   State<BeautyProfilPage> createState() => _BeautyProfilPageState();
@@ -35,7 +35,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.isContinue) {
+    if (widget.isContinue == false) {
       state.skinType.value =
           stateProfile.interestData.value.data?.beautyProfile?.skinType ?? '';
       if (state.skinType.value == 'Kering') {
@@ -366,7 +366,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
               onTap: () async {
-                if (widget.isContinue) {
+                if (widget.isContinue == false) {
                   Get.back(result: false);
                 } else {
                   await showDialog(
@@ -379,7 +379,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SkinGoalsKorektifWajah(),
+                      builder: (context) => SkinGoalsKorektifWajah(
+                        isEdit: false,
+                      ),
                     ),
                   );
                 }
@@ -671,18 +673,21 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
+                          title:
+                              widget.isContinue == false ? 'Simpan' : 'Lanjut',
                           onPressed: () async {
                             await state.beautifulProfile(context,
                                 doInPost: () async {
-                              if (widget.isContinue) {
+                              if (widget.isContinue == false) {
                                 Get.back(result: true);
                               } else {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        SkinGoalsKorektifWajah(),
+                                        SkinGoalsKorektifWajah(
+                                      isEdit: false,
+                                    ),
                                   ),
                                 );
                               }
@@ -691,11 +696,11 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                         ),
                       ),
                     ),
-                    if (widget.isContinue == false)
+                    if (widget.isContinue)
                       const SizedBox(
                         height: 20,
                       ),
-                    if (widget.isContinue == false)
+                    if (widget.isContinue)
                       Padding(
                         padding: lsymetric,
                         child: ButtonTextWidget(
@@ -711,7 +716,9 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SkinGoalsKorektifWajah(),
+                                builder: (context) => SkinGoalsKorektifWajah(
+                                  isEdit: false,
+                                ),
                               ),
                             );
                           },

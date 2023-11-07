@@ -16,10 +16,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGolasWajahTubuh extends StatefulWidget {
-  bool isContinue = false;
-  bool isEdit = false;
-  SkinGolasWajahTubuh(
-      {this.isContinue = false, this.isEdit = false, super.key});
+  bool isEdit;
+  SkinGolasWajahTubuh({required this.isEdit, super.key});
   @override
   State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
@@ -93,7 +91,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SkinGloalsPilihTreamtmnet(
-                      isEdit: true,
+                      isEdit: widget.isEdit,
                     ),
                   ),
                 );
@@ -249,23 +247,19 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
+                          title: 'Lanjut',
                           onPressed: () async {
                             await state.augmentationSkinGoals(context,
                                 doInPost: () async {
-                              if (widget.isContinue) {
-                                Get.back(result: true);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        SkinGloalsPilihTreamtmnet(
-                                      isEdit: true,
-                                    ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SkinGloalsPilihTreamtmnet(
+                                    isEdit: widget.isEdit,
                                   ),
-                                );
-                              }
+                                ),
+                              );
                             });
                           },
                         ),

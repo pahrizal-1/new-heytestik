@@ -16,10 +16,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class SkinGoalsKorektifWajah extends StatefulWidget {
-  bool isContinue = false;
   bool isEdit = false;
-  SkinGoalsKorektifWajah(
-      {this.isContinue = false, this.isEdit = false, super.key});
+  SkinGoalsKorektifWajah({required this.isEdit, super.key});
   @override
   State<SkinGoalsKorektifWajah> createState() => _SkinGoalsKorektifWajahState();
 }
@@ -93,7 +91,7 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SkinGoalsTubuh(
-                      isEdit: true,
+                      isEdit: widget.isEdit,
                     ),
                   ),
                 );
@@ -250,22 +248,18 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title: widget.isContinue ? 'Simpan' : 'Lanjut',
+                          title: 'Lanjut',
                           onPressed: () async {
                             await state.faceCorrectiveGoals(context,
                                 doInPost: () async {
-                              if (widget.isContinue) {
-                                Get.back(result: true);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SkinGoalsTubuh(
-                                      isEdit: true,
-                                    ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SkinGoalsTubuh(
+                                    isEdit: widget.isEdit,
                                   ),
-                                );
-                              }
+                                ),
+                              );
                             });
                           },
                         ),

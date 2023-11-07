@@ -16,9 +16,8 @@ import '../../theme/theme.dart';
 import '../../widget/timeline_widget.dart';
 
 class AnggaranTreatment extends StatefulWidget {
-  bool isContinue = false;
-  bool isEdit = false;
-  AnggaranTreatment({this.isContinue = false, this.isEdit = false, super.key});
+  bool isEdit;
+  AnggaranTreatment({required this.isEdit, super.key});
 
   @override
   State<AnggaranTreatment> createState() => _AnggaranTreatmentState();
@@ -198,9 +197,7 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                           title: 'Simpan',
                           onPressed: () async {
                             await state.budgets(context, doInPost: () async {
-                              if (widget.isContinue) {
-                                Get.back(result: true);
-                              } else if (widget.isEdit) {
+                              if (widget.isEdit) {
                                 Get
                                   ..back(result: true)
                                   ..back(result: true)

@@ -171,32 +171,32 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
-                              check = await Get.to(
-                                  AnggaranTreatment(isContinue: true));
+                              check =
+                                  await Get.to(AnggaranTreatment(isEdit: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Treatment yang pernah dilakukan') {
                               check = await Get.to(
-                                  SkinGloalsPilihTreamtmnet(isContinue: true));
+                                  SkinGloalsPilihTreamtmnet(isEdit: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Penyakit Augmentation Wajah & Tubuh') {
                               check = await Get.to(
-                                  SkinGolasWajahTubuh(isContinue: true));
+                                  SkinGolasWajahTubuh(isEdit: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Tubuh') {
-                              check = await Get.to(
-                                  SkinGoalsTubuh(isContinue: true));
+                              check =
+                                  await Get.to(SkinGoalsTubuh(isEdit: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Wajah') {
                               check = await Get.to(
-                                  SkinGoalsKorektifWajah(isContinue: true));
+                                  SkinGoalsKorektifWajah(isEdit: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
