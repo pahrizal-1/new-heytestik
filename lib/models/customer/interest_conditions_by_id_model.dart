@@ -392,6 +392,7 @@ class InterestConditionsAnswer {
   int? id;
   String? name;
   int? position;
+  bool? withDescription;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -403,6 +404,7 @@ class InterestConditionsAnswer {
       {this.id,
       this.name,
       this.position,
+      this.withDescription,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
@@ -414,6 +416,7 @@ class InterestConditionsAnswer {
     id = json['id'];
     name = json['name'];
     position = json['position'];
+    withDescription = json['with_description'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -427,6 +430,7 @@ class InterestConditionsAnswer {
     data['id'] = id;
     data['name'] = name;
     data['position'] = position;
+    data['with_description'] = withDescription;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

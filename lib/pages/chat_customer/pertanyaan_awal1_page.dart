@@ -166,7 +166,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                 }
                               },
                               decoration: const InputDecoration(
-                                hintText: 'Boleh sebutkan Disini ya :)',
+                                hintText: 'Boleh sebutkan disini ya :)',
                                 hintStyle: TextStyle(
                                   fontSize: 15,
                                   height: 1.3,
@@ -194,88 +194,60 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                         selectAnswer(i);
                                       },
                                       child: Obx(
-                                        () => Container(
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            color: state.answerSelect[state
-                                                        .index
-                                                        .value]['answer'] ==
-                                                    state
-                                                        .listQuestion[
-                                                            state.index.value]
-                                                        .interestConditionsAnswer?[
-                                                            i]
-                                                        .name
-                                                ? fromCssColor('#24A7A0')
-                                                : Colors.transparent,
-                                            border: Border.all(
-                                              color: fromCssColor('#CCCCCC'),
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Row(
-                                              children: [
-                                                Obx(
-                                                  () => Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
-                                                    child: Icon(
-                                                      (state.answerSelect[state
-                                                                      .index
-                                                                      .value]
-                                                                  ['answer'] ==
-                                                              state
-                                                                  .listQuestion[
-                                                                      state
-                                                                          .index
-                                                                          .value]
-                                                                  .interestConditionsAnswer?[
-                                                                      i]
-                                                                  .name
-                                                          ? Icons
-                                                              .radio_button_on
-                                                          : Icons
-                                                              .circle_outlined),
-                                                      size: 20,
-                                                      color: state.answerSelect[state
-                                                                      .index
-                                                                      .value][
-                                                                  'answer'] ==
-                                                              state
-                                                                  .listQuestion[
-                                                                      state
-                                                                          .index
-                                                                          .value]
-                                                                  .interestConditionsAnswer?[
-                                                                      i]
-                                                                  .name
-                                                          ? Colors.white
-                                                          : fromCssColor(
-                                                              '#323232'),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Obx(
-                                                    () => RichText(
-                                                      maxLines: 3,
-                                                      text: TextSpan(
-                                                        text: state
+                                        () => Column(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                color: state.answerSelect[state
+                                                            .index
+                                                            .value]['answer'] ==
+                                                        state
                                                             .listQuestion[state
                                                                 .index.value]
                                                             .interestConditionsAnswer?[
                                                                 i]
                                                             .name
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'ProximaNova',
+                                                    ? fromCssColor('#24A7A0')
+                                                    : Colors.transparent,
+                                                border: Border.all(
+                                                  color:
+                                                      fromCssColor('#CCCCCC'),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Row(
+                                                  children: [
+                                                    Obx(
+                                                      () => Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 10),
+                                                        child: Icon(
+                                                          (state.answerSelect[
+                                                                          state.index
+                                                                              .value]
+                                                                      [
+                                                                      'answer'] ==
+                                                                  state
+                                                                      .listQuestion[state
+                                                                          .index
+                                                                          .value]
+                                                                      .interestConditionsAnswer?[
+                                                                          i]
+                                                                      .name
+                                                              ? Icons
+                                                                  .radio_button_on
+                                                              : Icons
+                                                                  .circle_outlined),
+                                                          size: 20,
                                                           color: state.answerSelect[
                                                                           state.index.value]
                                                                       [
@@ -288,18 +260,124 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                                                           i]
                                                                       .name
                                                               ? Colors.white
-                                                              : Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
+                                                              : fromCssColor(
+                                                                  '#323232'),
                                                         ),
                                                       ),
                                                     ),
+                                                    Expanded(
+                                                      child: Obx(
+                                                        () => RichText(
+                                                          maxLines: 3,
+                                                          text: TextSpan(
+                                                            text: state
+                                                                .listQuestion[
+                                                                    state.index
+                                                                        .value]
+                                                                .interestConditionsAnswer?[
+                                                                    i]
+                                                                .name
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'ProximaNova',
+                                                              color: state.answerSelect[
+                                                                              state.index.value]
+                                                                          [
+                                                                          'answer'] ==
+                                                                      state
+                                                                          .listQuestion[state
+                                                                              .index
+                                                                              .value]
+                                                                          .interestConditionsAnswer?[
+                                                                              i]
+                                                                          .name
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            if (state.answerSelect[state.index
+                                                        .value]['answer'] ==
+                                                    state
+                                                        .listQuestion[
+                                                            state.index.value]
+                                                        .interestConditionsAnswer?[
+                                                            i]
+                                                        .name &&
+                                                state
+                                                    .listQuestion[
+                                                        state.index.value]
+                                                    .interestConditionsAnswer![
+                                                        i]
+                                                    .withDescription!)
+                                              Container(
+                                                height: 150,
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                  border: Border.all(
+                                                    color:
+                                                        fromCssColor('#CCCCCC'),
+                                                    width: 1,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
+                                                child: TextField(
+                                                  controller: state.listsAnswer[
+                                                          state.index.value]
+                                                      ['answer_description'],
+                                                  maxLines: null,
+                                                  onChanged: (value) {
+                                                    if (state
+                                                            .listsAnswer[state
+                                                                    .index
+                                                                    .value][
+                                                                'answer_description']
+                                                            .text !=
+                                                        '') {
+                                                      state.listsAnswer[state
+                                                                  .index.value][
+                                                              'interest_condition_question_id'] =
+                                                          state
+                                                              .listQuestion[
+                                                                  state.index
+                                                                      .value]
+                                                              .id;
+                                                    } else {
+                                                      state.listsAnswer[state
+                                                              .index.value][
+                                                          'interest_condition_question_id'] = 0;
+                                                    }
+                                                  },
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    hintText:
+                                                        'Boleh sebutkan disini ya :)',
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 15,
+                                                      height: 1.3,
+                                                      fontFamily: 'ProximaNova',
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    contentPadding:
+                                                        EdgeInsets.all(10),
+                                                  ),
+                                                ),
+                                              )
+                                          ],
                                         ),
                                       ),
                                     );
@@ -444,5 +522,11 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
         idAnswer;
     state.listsAnswer[state.index.value]['interest_condition_question_id'] =
         idQuestion;
+
+    if (state.listQuestion[state.index.value].interestConditionsAnswer![i]
+            .withDescription ==
+        false) {
+      state.listsAnswer[state.index.value]['answer_description'].text = "";
+    }
   }
 }
