@@ -383,24 +383,24 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                 ButtonGreenWidget(
                   title: '+ Tambah Treatment',
                   onPressed: () async {
-                    // String refresh = await Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (BuildContext context) =>
-                    //         const AddTreatmentPage(),
-                    //   ),
-                    // );
+                    String refresh = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const AddTreatmentPage(),
+                      ),
+                    );
 
-                    // if (refresh == 'refresh') {
-                    //   setState(() {
-                    //     state.dataTreatmentItems;
-                    //   });
-                    // }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TambahTreatment(),
-                        ));
+                    if (refresh == 'refresh') {
+                      setState(() {
+                        state.dataTreatmentItems;
+                      });
+                    }
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => TambahTreatment(),
+                    //     ));
                   },
                 ),
               ],
