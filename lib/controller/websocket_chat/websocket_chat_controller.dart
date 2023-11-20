@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../core/global.dart';
@@ -52,10 +54,11 @@ class WebSocketChatController extends StateClass {
     print('brap ' + state.totalFindSchedule.toString());
     _socket?.on('newConsultationSchedule', (newConsultationSchedule) async {
       print("newConsultationSchedule $newConsultationSchedule");
+      log("newConsultationSchedule $newConsultationSchedule");
 
       print("cout" + dataScheduleConsultation.length.toString());
       print("cout" + dataScheduleConsultation.toString());
-      state.totalFindSchedule.value = newConsultationSchedule.length;
+      // state.totalFindSchedule.value = newConsultationSchedule.length;
       state.init(Get.context!);
     });
   }

@@ -288,19 +288,17 @@ class DoctorConsultationController extends StateClass {
       print('data nya bpra ' + response.toString());
 
       listConstulDetail.add(response);
+      print('hey ${listConstulDetail.toJson()}');
       listPreAssesment.value = [];
       listPreAssesmentImage.value = [];
       for (var i in listConstulDetail) {
+        print("cust ${i['customer']['fullname']}");
         idConsultation.value = i['code'];
         status.value = i['status'];
         dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
-        final dateString = i['end_date'] ?? '-';
-        final dateTime = DateTime.parse(dateString);
-        final format = DateFormat('HH:mm');
-        endDate.value = format.format(dateTime);
-        print('endD' + endDate.toString());
         pasienName.value = i['customer']['fullname'];
-        topic.value = i['medical_history']['interest_condition']['name'];
+        topic.value =
+            i['medical_history']['interest_condition']['concern']['name'];
         listPreAssesment.value = [];
         listPreAssesmentImage.value = [];
         for (var e in i['medical_history']['medical_history_items']) {
@@ -310,6 +308,15 @@ class DoctorConsultationController extends StateClass {
         for (var image in i['medical_history']['media_medical_histories']) {
           listPreAssesmentImage.add(image);
           log('data  ' + listPreAssesmentImage.toString());
+        }
+        if (i['end_date'] == null) {
+          endDate.value = '-';
+        } else {
+          final dateString = i['end_date'];
+          final dateTime = DateTime.parse(dateString);
+          final format = DateFormat('HH:mm');
+          endDate.value = format.format(dateTime);
+          print('endD' + endDate.toString());
         }
       }
       log('resp  ' + listConstulDetail.toString());

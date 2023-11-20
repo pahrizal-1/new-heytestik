@@ -146,6 +146,7 @@ class DoctorHomeController extends StateClass {
   getDoctorSchedule(BuildContext context) async {
     // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print('tes');
       var start = '';
       var end = '';
       if (isFirstSchedule.value = true) {
@@ -155,14 +156,15 @@ class DoctorHomeController extends StateClass {
         start = endTime1.value;
         end = endTime2.value;
       }
+      print('curscensud ${currentScheduleId}');
       findSchedule.value =
           await ConsultationDoctorScheduleServices().getDoctorSchedule(
         currentScheduleId.toInt(),
         start,
         end,
       );
+      print('helo ${findSchedule.value}');
 
-      print('corunts ' + currentScheduleId.toString());
       if (findSchedule.value?.success != true &&
           findSchedule.value?.message != 'Success') {
         throw ErrorConfig(

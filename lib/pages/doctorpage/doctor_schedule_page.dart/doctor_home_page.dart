@@ -407,7 +407,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               padding: const EdgeInsets.only(
                                                   bottom: 5),
                                               child: Text(
-                                                'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.category?.name}',
+                                                'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.name}',
                                                 style: TextStyle(
                                                     fontFamily: 'ProximaNova',
                                                     fontSize: 11,
@@ -416,7 +416,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               ),
                                             ),
                                             Text(
-                                              'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.name}',
+                                              'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.segment}',
                                               style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 11,
@@ -517,7 +517,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                     ),
                                                     child: Center(
                                                       child: Text(
-                                                        'Expire',
+                                                        'Expired',
                                                         style: TextStyle(
                                                           fontWeight: bold,
                                                           fontFamily:

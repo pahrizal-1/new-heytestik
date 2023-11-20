@@ -121,7 +121,13 @@ class ConsultationController extends StateClass {
           ),
         );
       } else {
-        Get.back();
+        Navigator.pushAndRemoveUntil<dynamic>(
+          Get.context!,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => TabBarCustomer(),
+          ),
+          (route) => false, //if you want to disable back feature set to false
+        );
         showDialog(
           context: Get.context!,
           builder: (context) =>

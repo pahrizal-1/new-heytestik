@@ -26,7 +26,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       state.getDetailConsltation(context, widget.id);
     });
   }
@@ -134,12 +134,10 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                       'Info Pasien',
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
-                    Obx(
-                      () => TextBoldSpacebetwen(
-                        title: 'Nama Pasien',
-                        title2: state.pasienName.value,
-                        title1: '',
-                      ),
+                    TextBoldSpacebetwen(
+                      title: 'Nama Pasien',
+                      title2: state.pasienName.value,
+                      title1: '',
                     ),
                     Obx(
                       () => TextBoldSpacebetwen(
