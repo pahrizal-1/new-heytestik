@@ -52,11 +52,6 @@ class PromoVocer extends StatelessWidget {
                   text: subTitle,
                   style: greyTextStyle.copyWith(
                       fontSize: 13, color: const Color(0xff9B9B9B)),
-                  children: [
-                    TextSpan(
-                        text: 'Lihat detail',
-                        style: grenTextStyle.copyWith(fontSize: 13))
-                  ],
                 ),
               ),
             ],

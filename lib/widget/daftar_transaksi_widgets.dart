@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/cara_pembayaran_page.da
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
@@ -320,8 +321,7 @@ class TransaksiProduk extends StatelessWidget {
             paymentMethodId: product!.paymentMethodId!,
           ));
         }
-        // INI DIMATIIN DULU
-        // Get.to(DetailTransaksiPage());
+        Get.to(DetailTransaksiPage());
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
