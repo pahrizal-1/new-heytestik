@@ -14,7 +14,6 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
-import '../../widget/alert_dialog.dart';
 import '../../widget/button_widget.dart';
 import '../../widget/text_form_widget.dart';
 import '../../widget/timeline_widget.dart';
@@ -417,26 +416,16 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                         child: ButtonGreenWidget(
                           title: 'Simpan',
                           onPressed: () async {
-                            if (state.province == 0 || state.city == 0) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertWidget(
-                                  subtitle:
-                                      'Data Provinsi Dan Kota/Kabupaten Harap Diisi',
+                            await state.register(context,
+                                profileImage: imagePath, doInPost: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      BeautyProfilPage(isContinue: true),
                                 ),
                               );
-                            } else {
-                              await state.register(context,
-                                  profileImage: imagePath, doInPost: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        BeautyProfilPage(isContinue: true),
-                                  ),
-                                );
-                              });
-                            }
+                            });
                           },
                         ),
                       ),

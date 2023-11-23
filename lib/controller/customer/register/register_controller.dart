@@ -227,30 +227,26 @@ class RegisterController extends StateClass {
       {File? profileImage, required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (email.text.isEmpty) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Email harus diisi',
-        );
-      }
-      if (emailValid.hasMatch(email.text) == false) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Format email salah',
-        );
-      }
-      if (password.text.isEmpty) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Password harus diisi',
-        );
-      }
       if (fullName.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Nama Lengkap harus diisi',
         );
       }
+      if (province == 0 || city == 0) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Data Provinsi Dan Kota/Kabupaten Harap Diisi',
+        );
+      }
+
+      if (password.text.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Password harus diisi',
+        );
+      }
+
       var data = {
         'user_id': await LocalStorage().getUserID(),
         'gender': gender,
