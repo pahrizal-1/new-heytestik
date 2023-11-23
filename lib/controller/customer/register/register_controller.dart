@@ -14,7 +14,7 @@ class RegisterController extends StateClass {
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController referralCode = TextEditingController();
+  // TextEditingController referralCode = TextEditingController();
   String? countryCode;
   String? phoneNumber;
   String gender = 'Laki-laki';

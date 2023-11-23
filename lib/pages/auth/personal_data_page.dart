@@ -220,14 +220,14 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         contentPadding: const EdgeInsets.all(12),
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextFormWidget(
-                      controller: state.referralCode,
-                      title: 'Kode Referral',
-                      hintText: 'Masukkan Kode Referral',
-                    ),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
+                    // TextFormWidget(
+                    //   controller: state.referralCode,
+                    //   title: 'Kode Referral',
+                    //   hintText: 'Masukkan Kode Referral',
+                    // ),
                     const SizedBox(
                       height: 30,
                     ),

@@ -374,14 +374,14 @@ class _InfoPersonalPageState extends State<InfoPersonalPage> {
                         ),
                       ],
                     ),
-                    TextFormWidget(
-                      controller: state.referralCode,
-                      title: 'Kode Referral (Opsional)',
-                      hintText: 'Masukan Kode Referral',
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+                    // TextFormWidget(
+                    //   controller: state.referralCode,
+                    //   title: 'Kode Referral (Opsional)',
+                    //   hintText: 'Masukan Kode Referral',
+                    // ),
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
                     // Text(
                     //   'Password',
                     //   style: blackTextStyle,
