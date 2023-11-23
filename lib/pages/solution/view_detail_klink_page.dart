@@ -385,6 +385,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                             child: isVisibelityJam
                                                 ? Icon(
                                                     Icons.keyboard_arrow_down,
+                                                  
                                                   )
                                                 : Icon(
                                                     Icons.keyboard_arrow_up,
