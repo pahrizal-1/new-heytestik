@@ -416,7 +416,7 @@ class _MetodePembayaranProdukState extends State<MetodePembayaranProduk> {
                           isWillPop: true,
                           orderId: state.orderId.value,
                           bankImage: state.bankImage.value,
-                          bank: state.bank.value,
+                          // bank: state.bank.value,
                           expireTime: state.expireTime.value,
                           paymentMethodId: state.idPayment.value,
                         ));

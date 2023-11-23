@@ -21,7 +21,7 @@ class OrderProductController extends StateClass {
   RxList<PaymentMethod.Data> getPaymentMethod =
       List<PaymentMethod.Data>.empty().obs;
   RxString orderId = ''.obs;
-  RxString bank = ''.obs;
+  // RxString bank = ''.obs;
   RxString expireTime = ''.obs;
   List listProductItem = [];
   RxInt totalAmount = 0.obs;
@@ -61,7 +61,7 @@ class OrderProductController extends StateClass {
     paymentMethod.value = '';
     paymentType.value = '';
     orderId.value = '';
-    bank.value = '';
+    // bank.value = '';
     expireTime.value = '';
     listProductItem.clear();
   }
@@ -97,7 +97,7 @@ class OrderProductController extends StateClass {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       orderId.value = '';
-      bank.value = '';
+      // bank.value = '';
       expireTime.value = '';
       List productItem = [];
       List listIdProduct = [];
@@ -131,11 +131,11 @@ class OrderProductController extends StateClass {
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
       // JIKA SUKSES SET bank
-      bank.value = bank.value;
+      // bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
       print('orderId ${orderId.value}');
-      print('bank ${bank.value}');
+      // print('bank ${bank.value}');
       print('expireTime ${expireTime.value}');
 
       if (isCart) {

@@ -53,7 +53,7 @@ class HistoryTreatmentController extends StateClass {
     isLoading.value = false;
   }
 
-  RxString bank = '-'.obs;
+  // RxString bank = '-'.obs;
   RxString virtualAccount = '-'.obs;
   RxString expirytime = '-'.obs;
   RxString grossAmount = '-'.obs;
@@ -67,9 +67,21 @@ class HistoryTreatmentController extends StateClass {
 
       if (transactionStatus.value.success! &&
           transactionStatus.value.message == 'Success') {
-        bank.value = transactionStatus.value.data?.vaNumbers?[0].bank ?? '-';
-        virtualAccount.value =
-            transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
+        if (transactionStatus.value.data!.paymentType == 'echannel') {
+          var va =
+              '${transactionStatus.value.data?.billerCode} ${transactionStatus.value.data?.billKey}';
+          virtualAccount.value = va;
+        } else if (transactionStatus.value.data!.paymentType ==
+            'bank_transfer') {
+          // bank.value =
+          //     transactionStatus.value.data?.vaNumbers?[0].bank ?? '-';
+          virtualAccount.value =
+              transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
+        } else {
+          print("BUKAN KEDUANYA");
+          virtualAccount.value = "111111111111";
+        }
+
         expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
         grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
         statusTransaction.value =

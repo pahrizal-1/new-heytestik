@@ -284,7 +284,7 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                   Get.offAll(SelesaikanPembayaranKonsultasiPage(
                                     isWillPop: true,
                                     orderId: state.orderId.value,
-                                    bank: state.bank.value,
+                                    // bank: state.bank.value,
                                     bankImage: state.bankImage.value,
                                     expireTime: state.expireTime.value,
                                     paymentMethodId: state.idPayment.value,

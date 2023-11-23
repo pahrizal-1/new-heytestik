@@ -34,6 +34,8 @@ class Data {
   String? fraudStatus;
   String? statusMessage;
   String? merchantId;
+  String? billKey;
+  String? billerCode;
   List<VaNumbers>? vaNumbers;
   List<dynamic>? paymentAmounts;
   String? transactionTime;
@@ -52,6 +54,8 @@ class Data {
       this.fraudStatus,
       this.statusMessage,
       this.merchantId,
+      this.billKey,
+      this.billerCode,
       this.vaNumbers,
       this.paymentAmounts,
       this.transactionTime,
@@ -70,6 +74,8 @@ class Data {
     fraudStatus = json['fraud_status'];
     statusMessage = json['status_message'];
     merchantId = json['merchant_id'];
+    billKey = json['bill_key'];
+    billerCode = json['biller_code'];
     if (json['va_numbers'] != null) {
       vaNumbers = <VaNumbers>[];
       json['va_numbers'].forEach((v) {
@@ -100,6 +106,8 @@ class Data {
     data['fraud_status'] = fraudStatus;
     data['status_message'] = statusMessage;
     data['merchant_id'] = merchantId;
+    data['bill_key'] = billKey;
+    data['biller_code'] = billerCode;
     if (vaNumbers != null) {
       data['va_numbers'] = vaNumbers!.map((v) => v.toJson()).toList();
     }

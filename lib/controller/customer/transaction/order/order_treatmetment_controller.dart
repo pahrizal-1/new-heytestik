@@ -23,7 +23,7 @@ class OrderTreatmentController extends StateClass {
       List<PaymentMethod.Data>.empty().obs;
 
   RxString orderId = ''.obs;
-  RxString bank = ''.obs;
+  // RxString bank = ''.obs;
   RxString expireTime = ''.obs;
 
   initPayment(BuildContext context) async {
@@ -52,7 +52,7 @@ class OrderTreatmentController extends StateClass {
     paymentType.value = '';
     getPaymentMethod.value.clear();
     orderId.value = '';
-    bank.value = '';
+    // bank.value = '';
     expireTime.value = '';
   }
 
@@ -61,7 +61,7 @@ class OrderTreatmentController extends StateClass {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       orderId.value = '';
-      bank.value = '';
+      // bank.value = '';
       expireTime.value = '';
       var reqOrder = {
         "schedule_date": arrivalDate.value,
@@ -90,11 +90,11 @@ class OrderTreatmentController extends StateClass {
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
       // JIKA SUKSES SET bank
-      bank.value = bank.value;
+      // // bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
       print('orderId ${orderId.value}');
-      print('bank ${bank.value}');
+      // print('bank ${bank.value}');
       print('expireTime ${expireTime.value}');
       doInPost();
       clearVariabel();

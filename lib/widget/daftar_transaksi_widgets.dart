@@ -59,7 +59,7 @@ class TransaksiKonsultan extends StatelessWidget {
           Get.to(SelesaikanPembayaranKonsultasiPage(
             isWillPop: false,
             orderId: orderId,
-            bank: '',
+            // bank: '',
             expireTime: '',
             paymentMethodId: paymentMethodId,
           ));
@@ -316,7 +316,7 @@ class TransaksiProduk extends StatelessWidget {
           Get.to(SelesaikanPembayaranProdukPage(
             isWillPop: false,
             orderId: orderId,
-            bank: '',
+            // bank: '',
             expireTime: '',
             paymentMethodId: product!.paymentMethodId!,
           ));

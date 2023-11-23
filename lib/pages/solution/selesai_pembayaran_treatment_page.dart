@@ -26,7 +26,7 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   bool isWillPop;
-  String bank;
+  // String bank;
   String bankImage;
   String orderId;
   String expireTime;
@@ -35,7 +35,7 @@ class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   int paymentMethodId;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
-    this.bank = '',
+    // this.bank = '',
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',

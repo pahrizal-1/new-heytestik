@@ -59,7 +59,7 @@ class OrderConsultationController extends StateClass {
   RxString paymentType = ''.obs;
   RxString bankImage = ''.obs;
   RxString orderId = ''.obs;
-  RxString bank = ''.obs;
+  // RxString bank = ''.obs;
   RxString expireTime = ''.obs;
 
   clearVariabel() {
@@ -89,7 +89,7 @@ class OrderConsultationController extends StateClass {
     paymentMethod.value = '';
     paymentType.value = '';
     orderId.value = '';
-    bank.value = '';
+    // bank.value = '';
     expireTime.value = '';
   }
 
@@ -209,7 +209,7 @@ class OrderConsultationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List paramAnswer = [];
       orderId.value = '';
-      bank.value = '';
+      // bank.value = '';
       expireTime.value = '';
 
       for (int i = 0; i < listsAnswer.length; i++) {
@@ -267,7 +267,7 @@ class OrderConsultationController extends StateClass {
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
       // JIKA SUKSES SET bank
-      bank.value = bank.value;
+      // bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
       doInPost();

@@ -199,7 +199,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                     isWillPop: false,
                                     orderId:
                                         history[index].transactionId.toString(),
-                                    bank: '',
+                                    // bank: '',
                                     expireTime: '',
                                     pax: history[index]
                                             .detail!

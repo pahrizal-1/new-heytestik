@@ -24,14 +24,14 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 
 class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
   bool isWillPop;
-  String bank;
+  // String bank;
   String bankImage;
   String orderId;
   String expireTime;
   int paymentMethodId;
   SelesaikanPembayaranKonsultasiPage({
     required this.isWillPop,
-    this.bank = '',
+    // this.bank = '',
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
@@ -60,7 +60,7 @@ class _SelesaikanPembayaranKonsultasiState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isLoading.value = true;
       method = await all.getPaymentmethod(context, widget.paymentMethodId);
-      state.bank.value = widget.bank;
+      // state.bank.value = widget.bank;
       state.expirytime.value = widget.expireTime;
       await state.getTransactionStatus(context, widget.orderId);
       state.isLoading.value = false;
