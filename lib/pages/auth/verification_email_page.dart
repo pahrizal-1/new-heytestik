@@ -67,7 +67,7 @@ class VerificasionEmailPage extends StatelessWidget {
                 print('code otp $code');
               },
               onSubmit: (String verificationCode) {
-                state.code = verificationCode;
+                state.codeEmail = verificationCode;
               }, // end onSubmit
             ),
             const SizedBox(

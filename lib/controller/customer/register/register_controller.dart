@@ -20,7 +20,8 @@ class RegisterController extends StateClass {
   String gender = 'Laki-laki';
   int province = 0;
   int? city;
-  String? code;
+  String? codePhoneNumber;
+  String? codeEmail;
   TextEditingController position = TextEditingController();
 
   void setProvince(int value) {
@@ -132,17 +133,18 @@ class RegisterController extends StateClass {
   verifyEmail(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (code == "" || code == null) {
+      print("INI APA COBA $codeEmail");
+      if (codeEmail == "" || codeEmail == null || codeEmail!.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'Code harus diisi',
+          message: 'Kode verifikasi harus diisi',
         );
       }
 
       var data = {
         "user_id": await LocalStorage().getUserID(),
         "email": email.text,
-        "verification_code": code.toString(),
+        "verification_code": codeEmail.toString(),
       };
 
       var loginResponse = await RegisterService().emailVerify(data);
@@ -203,16 +205,18 @@ class RegisterController extends StateClass {
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      if (code == "" || code == null) {
+      if (codePhoneNumber == "" ||
+          codePhoneNumber == null ||
+          codePhoneNumber!.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'Code harus diisi',
+          message: 'Kode verifikasi harus diisi',
         );
       }
 
       var data = {
         "phone_number": phoneNumber,
-        "verification_code": code.toString(),
+        "verification_code": codePhoneNumber.toString(),
       };
       print("data $data");
       var loginResponse = await RegisterService().phoneVerify(data);
@@ -233,10 +237,10 @@ class RegisterController extends StateClass {
           message: 'Nama Lengkap harus diisi',
         );
       }
-      if (province == 0 || city == 0) {
+      if (province == 0 || city != null || city == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
-          message: 'Data Provinsi Dan Kota/Kabupaten Harap Diisi',
+          message: 'Data Provinsi Dan Kota / Kabupaten Harap Diisi',
         );
       }
 

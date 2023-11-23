@@ -70,7 +70,7 @@ class VerificationPage extends StatelessWidget {
                 print('code otp $code');
               },
               onSubmit: (String verificationCode) {
-                state.code = verificationCode;
+                state.codePhoneNumber = verificationCode;
               }, // end onSubmit
             ),
             const SizedBox(
