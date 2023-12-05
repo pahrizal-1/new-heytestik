@@ -64,7 +64,7 @@ class _TabBarChatState extends State<TabBarChat> {
             ),
             Expanded(
               child: TabBarView(children: [
-                RekomendasiPerawatan1Page(id: ),
+                RekomendasiPerawatan1Page(id: widget.id),
                 DetailPerawatanPage(id: widget.id),
                 TabBarGaleryPage(id: widget.id)
               ]),
