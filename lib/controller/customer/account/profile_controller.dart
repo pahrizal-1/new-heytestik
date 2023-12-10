@@ -32,6 +32,7 @@ class ProfileController extends StateClass {
   Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
   Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
   Rx<int> skinGoalsAugmentationLength = 0.obs;
+  Rx<int> skinGoalsSexuallySkinLength = 0.obs;
   Rx<int> skinGoalsHistoryTreatmentLength = 0.obs;
 
   RxString fullName = '-'.obs;
@@ -165,6 +166,9 @@ class ProfileController extends StateClass {
 
       skinGoalsAugmentationLength.value =
           interestData.value.data!.skinGoalsAugmentation!.length;
+
+      skinGoalsSexuallySkinLength.value =
+          interestData.value.data!.skinGoalsSexuallyAndSkinDiseases!.length;
 
       skinGoalsHistoryTreatmentLength.value =
           interestData.value.data!.skinGoalsHistoryTreatment!.length;

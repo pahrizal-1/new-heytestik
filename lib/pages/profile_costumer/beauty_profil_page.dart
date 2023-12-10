@@ -31,7 +31,7 @@ class BeautyProfil extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(EditBeautyProfilPage());
+                    Get.to(() => EditBeautyProfilPage());
                   },
                   child: Text(
                     'Edit',
@@ -101,6 +101,11 @@ class BeautyProfil extends StatelessWidget {
               height: 19,
             ),
             skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalsSexuallyAndSkinDiseases(
+                'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
             SizedBox(
               height: 19,
             ),
@@ -200,6 +205,33 @@ class BeautyProfil extends StatelessWidget {
             ?.map(
               (value) => Text(
                 value.nameAugmentation.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalsSexuallyAndSkinDiseases(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?state.interestData.value.data?.skinGoalsSexuallyAndSkinDiseases
+            ?.map(
+              (value) => Text(
+                value.name.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),

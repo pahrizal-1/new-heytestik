@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dar
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_tubuh.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah.dart';
 import 'package:heystetik_mobileapps/pages/auth/skin_goals_wajah_tubuh.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_golas_penuralan_sexsual.dart';
 import 'package:heystetik_mobileapps/pages/auth/verification_account_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/beauty_profil_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
@@ -167,36 +168,51 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         ),
                         InkWell(
                           onTap: () async {
-                            print(state.completionData.value.data?.subtitle);
                             bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
-                              check =
-                                  await Get.to(AnggaranTreatment(isEdit: true));
+                              check = await Get.to(AnggaranTreatment(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Treatment yang pernah dilakukan') {
-                              check = await Get.to(
-                                  SkinGloalsPilihTreamtmnet(isEdit: true));
+                              check = await Get.to(SkinGloalsPilihTreamtmnet(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
                             }
-
+                            if (state.completionData.value.data?.subtitle ==
+                                "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
+                              check = await Get.to(SkinGoalsPenularan(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
+                            }
                             if (state.completionData.value.data?.subtitle ==
                                 'Penyakit Augmentation Wajah & Tubuh') {
-                              check = await Get.to(
-                                  SkinGolasWajahTubuh(isEdit: true));
+                              check = await Get.to(SkinGolasWajahTubuh(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Tubuh') {
-                              check =
-                                  await Get.to(SkinGoalsTubuh(isEdit: true));
+                              check = await Get.to(SkinGoalsTubuh(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Wajah') {
-                              check = await Get.to(
-                                  SkinGoalsKorektifWajah(isEdit: true));
+                              check = await Get.to(SkinGoalsKorektifWajah(
+                                isEdit: true,
+                                isCompleteProfile: true,
+                              ));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
@@ -216,11 +232,6 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                                   PhoneNumberPage(isContinue: true));
                             }
 
-                            if (state.completionData.value.data?.subtitle ==
-                                "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
-                              print(
-                                  "Penyakit Menular Seksual dan Masalah Kulit Lainnya");
-                            }
                             setState(() {});
 
                             if (check) {
@@ -308,7 +319,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.to(BeautyProfil());
+                                Get.to(() => BeautyProfil());
                               },
                               child: Icon(
                                 Icons.keyboard_arrow_down,

@@ -18,7 +18,12 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGloalsPilihTreamtmnet extends StatefulWidget {
   bool isEdit = false;
-  SkinGloalsPilihTreamtmnet({required this.isEdit, super.key});
+  bool isCompleteProfile;
+  SkinGloalsPilihTreamtmnet({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
 
   @override
   State<SkinGloalsPilihTreamtmnet> createState() =>
@@ -106,6 +111,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                   MaterialPageRoute(
                     builder: (context) => AnggaranTreatment(
                       isEdit: widget.isEdit,
+                      isCompleteProfile: widget.isCompleteProfile,
                     ),
                   ),
                 );
@@ -278,6 +284,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                                 MaterialPageRoute(
                                   builder: (context) => AnggaranTreatment(
                                     isEdit: widget.isEdit,
+                                    isCompleteProfile: widget.isCompleteProfile,
                                   ),
                                 ),
                               );

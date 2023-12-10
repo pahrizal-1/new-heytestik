@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
-import 'package:heystetik_mobileapps/pages/auth/skin_gloals_pilih_treamtmnet.dart';
+import 'package:heystetik_mobileapps/pages/auth/skin_golas_penuralan_sexsual.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -17,7 +17,12 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGolasWajahTubuh extends StatefulWidget {
   bool isEdit;
-  SkinGolasWajahTubuh({required this.isEdit, super.key});
+  bool isCompleteProfile;
+  SkinGolasWajahTubuh({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
   @override
   State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
@@ -48,6 +53,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                 .toString(),
           );
         }
+
         for (int i = 0; i < data!.length; i++) {
           var adaGak = state.augmentation.firstWhereOrNull(
             (item) => item == data?[i].value.toString(),
@@ -90,8 +96,9 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SkinGloalsPilihTreamtmnet(
+                    builder: (context) => SkinGoalsPenularan(
                       isEdit: widget.isEdit,
+                      isCompleteProfile: widget.isCompleteProfile,
                     ),
                   ),
                 );
@@ -254,9 +261,9 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      SkinGloalsPilihTreamtmnet(
+                                  builder: (context) => SkinGoalsPenularan(
                                     isEdit: widget.isEdit,
+                                    isCompleteProfile: widget.isCompleteProfile,
                                   ),
                                 ),
                               );

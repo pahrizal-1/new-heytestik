@@ -27,6 +27,7 @@ class Data {
   List<SkinGoalsFaceCorrective>? skinGoalsFaceCorrective;
   List<SkinGoalsBodyCorrective>? skinGoalsBodyCorrective;
   List<SkinGoalsAugmentation>? skinGoalsAugmentation;
+  List<SkinGoalsSexuallyAndSkinDiseases>? skinGoalsSexuallyAndSkinDiseases;
   List<SkinGoalsHistoryTreatment>? skinGoalsHistoryTreatment;
   SkinGoalsBudget? skinGoalsBudget;
 
@@ -35,6 +36,7 @@ class Data {
       this.skinGoalsFaceCorrective,
       this.skinGoalsBodyCorrective,
       this.skinGoalsAugmentation,
+      this.skinGoalsSexuallyAndSkinDiseases,
       this.skinGoalsHistoryTreatment,
       this.skinGoalsBudget});
 
@@ -58,6 +60,13 @@ class Data {
       skinGoalsAugmentation = <SkinGoalsAugmentation>[];
       json['skin_goals_augmentation'].forEach((v) {
         skinGoalsAugmentation!.add(SkinGoalsAugmentation.fromJson(v));
+      });
+    }
+    if (json['skin_goals_sexually_and_skin_diseases'] != null) {
+      skinGoalsSexuallyAndSkinDiseases = <SkinGoalsSexuallyAndSkinDiseases>[];
+      json['skin_goals_sexually_and_skin_diseases'].forEach((v) {
+        skinGoalsSexuallyAndSkinDiseases!
+            .add(SkinGoalsSexuallyAndSkinDiseases.fromJson(v));
       });
     }
     if (json['skin_goals_history_treatment'] != null) {
@@ -87,6 +96,10 @@ class Data {
     if (skinGoalsAugmentation != null) {
       data['skin_goals_augmentation'] =
           skinGoalsAugmentation!.map((v) => v.toJson()).toList();
+    }
+    if (skinGoalsSexuallyAndSkinDiseases != null) {
+      data['skin_goals_sexually_and_skin_diseases'] =
+          skinGoalsSexuallyAndSkinDiseases!.map((v) => v.toJson()).toList();
     }
     if (skinGoalsHistoryTreatment != null) {
       data['skin_goals_history_treatment'] =
@@ -305,6 +318,55 @@ class SkinGoalsAugmentation {
     data['id'] = id;
     data['userId'] = userId;
     data['name_augmentation'] = nameAugmentation;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class SkinGoalsSexuallyAndSkinDiseases {
+  int? id;
+  int? userId;
+  String? name;
+  bool? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  SkinGoalsSexuallyAndSkinDiseases(
+      {this.id,
+      this.userId,
+      this.name,
+      this.status,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  SkinGoalsSexuallyAndSkinDiseases.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    name = json['name'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userId'] = userId;
+    data['name'] = name;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;

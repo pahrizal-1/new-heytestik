@@ -24,6 +24,7 @@ class InterestController extends StateClass {
   RxList<String> bodyCorrective = <String>[].obs;
   RxList<String> pastTreatment = <String>[].obs;
   RxList<String> augmentation = <String>[].obs;
+  RxList<String> sexuallySkinDiseases = <String>[].obs;
   TextEditingController searchController = TextEditingController();
 
   Future<List<Data2>> lookupSkinGoals(
@@ -209,6 +210,32 @@ class InterestController extends StateClass {
       print(data);
 
       var loginResponse = await InterestService().augmentation(data);
+      print(loginResponse);
+
+      doInPost();
+    });
+    isLoading.value = false;
+  }
+
+  sexuallySkinSkinGoals(BuildContext context,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      List<Map<String, dynamic>> listData = [];
+      print(sexuallySkinDiseases);
+      for (int i = 0; i < sexuallySkinDiseases.length; i++) {
+        listData.add({
+          'name': sexuallySkinDiseases[i],
+        });
+      }
+
+      var data = {
+        'user_id': await LocalStorage().getUserID(),
+        'lists': listData,
+      };
+      print(data);
+      // return;
+      var loginResponse = await InterestService().sexuallySkin(data);
       print(loginResponse);
 
       doInPost();

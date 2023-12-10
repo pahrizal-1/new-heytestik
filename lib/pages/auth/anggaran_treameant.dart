@@ -17,7 +17,12 @@ import '../../widget/timeline_widget.dart';
 
 class AnggaranTreatment extends StatefulWidget {
   bool isEdit;
-  AnggaranTreatment({required this.isEdit, super.key});
+  bool isCompleteProfile;
+  AnggaranTreatment({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
 
   @override
   State<AnggaranTreatment> createState() => _AnggaranTreatmentState();
@@ -197,8 +202,9 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                           title: 'Simpan',
                           onPressed: () async {
                             await state.budgets(context, doInPost: () async {
-                              if (widget.isEdit) {
+                              if (widget.isEdit || widget.isCompleteProfile) {
                                 Get
+                                  ..back(result: true)
                                   ..back(result: true)
                                   ..back(result: true)
                                   ..back(result: true)
