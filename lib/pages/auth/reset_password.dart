@@ -1,141 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
-class ResetPassword extends StatefulWidget {
+import '../../theme/theme.dart';
+import '../../widget/button_widget.dart';
+
+class ForgetPasswordEmailPage extends StatefulWidget {
   final int redirectTo;
 
-  const ResetPassword({super.key, required this.redirectTo});
+  const ForgetPasswordEmailPage({super.key, required this.redirectTo});
+
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<ForgetPasswordEmailPage> createState() =>
+      _ForgetPasswordEmailPageState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _ForgetPasswordEmailPageState extends State<ForgetPasswordEmailPage> {
+  bool _obscureText = true;
+  FocusNode myFocusNode = FocusNode();
   final LoginController state = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        automaticallyImplyLeading: true,
-        title: Text('Lupa Kata Sandi'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Colors.white,
-          onPressed: () => Navigator.pop(context, false),
-        ),
-      ),
-      body: Container(
-        padding: EdgeInsets.only(top: 60, left: 40, right: 40),
-        color: Colors.white,
-        child: ListView(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Lupa Kata Sandi?",
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Masukkan Alamat Email Anda",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        // textAlign: TextAlign.center,
-                      ),
-                    ],
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25, top: 31),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Back',
+                      style: greyTextStyle.copyWith(fontSize: 18),
+                    ),
+                  ),
+                  Image.asset(
+                    'assets/icons/logo-hestetikc.png',
+                    width: 104,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Text(
+                "Forgot Password",
+                style: blackHigtTextStyle,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Please complete this form for create account.If you need help please email on pahrizal@mail.com",
+                style: subGreyTextStyle,
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                focusNode: myFocusNode,
+                controller: state.resetEmail,
+                decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greenColor),
+                  ),
+                  focusColor: greenColor,
+                  labelText: 'Your Email',
+                  labelStyle: TextStyle(
+                    color: myFocusNode.hasFocus
+                        ? greenColor
+                        : const Color(0xff231F20),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        controller: state.resetEmail,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: "E-mail",
-                          labelStyle: TextStyle(
-                            color: Colors.black38,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                          ),
-                        ),
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 60,
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [0.3, 1],
-                            colors: [
-                              Color(0xFFF58524),
-                              Color(0XFFF92B7F),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                        child: SizedBox.expand(
-                          child: ElevatedButton(
-                            child: Text(
-                              "Submit",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            onPressed: () {
-                              state.forgotPassword(context, doInPost: () async {
-                                print(widget.redirectTo);
-                                // Navigator.pop(context);
-                                state.backTo(widget.redirectTo);
-                                SnackbarWidget.getSuccessSnackbar(
-                                  context,
-                                  'Info',
-                                  'Harap cek email kamu ya',
-                                );
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
+              ),
+              const Spacer(),
+              ButtonGreenWidget(
+                title: 'Send Verification',
+                onPressed: () {
+                  state.forgotPassword(context, doInPost: () async {
+                    print(widget.redirectTo);
+                    // Navigator.pop(context);
+                    state.backTo(widget.redirectTo);
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      'Harap cek email kamu ya',
+                    );
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );

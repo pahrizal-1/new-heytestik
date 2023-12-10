@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/address_control
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
@@ -132,8 +133,8 @@ class _AlamatpageState extends State<Alamatpage> {
                     height: 14,
                   ),
                   Text(
-                    'Pinpoint',
-                    style: subTitleTextStyle,
+                    'Pinpoint*',
+                    style: blackTextStyle,
                   ),
                   const SizedBox(
                     height: 8,
@@ -191,7 +192,19 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
+                  ),
+                  const DropDownProvinsiWiget(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const DropDownkotaWiget(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  DropDownKecamataniWiget(),
+                  const SizedBox(
+                    height: 15,
                   ),
                   Container(
                     height: 40,
@@ -225,7 +238,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 25,
+                    height: 15,
                   ),
                   SizedBox(
                     height: 101,
@@ -248,7 +261,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 29,
+                    height: 15,
                   ),
                   SizedBox(
                     height: 60,

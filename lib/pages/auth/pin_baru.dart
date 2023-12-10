@@ -48,13 +48,11 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Expanded(
-            child: Image.asset(
-              "assets/images/bg-pin.png",
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.fill,
-            ),
+          Image.asset(
+            "assets/images/bg-pin.png",
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.fill,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 21, top: 50),
