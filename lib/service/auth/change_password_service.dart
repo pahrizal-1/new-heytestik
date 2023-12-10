@@ -3,7 +3,6 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
-
 class ChangePasswordService extends ProviderClass {
   ChangePasswordService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
@@ -37,7 +36,6 @@ class ChangePasswordService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 }

@@ -36,20 +36,20 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  Future<void> openTelegram({
-    required String phone,
-    LaunchMode mode = LaunchMode.externalApplication,
-  }) async {
-    const String url = 'https://t.me/HeystetikMockOTP';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(
-        Uri.parse(url),
-        mode: mode,
-      );
-    } else {
-      throw Exception('Could not launch $url');
-    }
-  }
+  // Future<void> openTelegram({
+  //   required String phone,
+  //   LaunchMode mode = LaunchMode.externalApplication,
+  // }) async {
+  //   const String url = 'https://t.me/HeystetikMockOTP';
+  //   if (await canLaunchUrl(Uri.parse(url))) {
+  //     await launchUrl(
+  //       Uri.parse(url),
+  //       mode: mode,
+  //     );
+  //   } else {
+  //     throw Exception('Could not launch $url');
+  //   }
+  // }
 
   registerPhoneNumber(BuildContext context,
       {required Function() doInPost}) async {
@@ -73,7 +73,7 @@ class RegisterController extends StateClass {
 
       var loginResponse = await RegisterService().registerPhone(data);
       print(loginResponse);
-      await openTelegram(phone: noHp);
+      // await openTelegram(phone: noHp);
       doInPost();
     });
     isLoading.value = false;
@@ -201,6 +201,7 @@ class RegisterController extends StateClass {
 
   verifyPhoneNumber(
     BuildContext context, {
+    required bool isContinue,
     required Function() doInPost,
   }) async {
     isLoading.value = true;
@@ -213,11 +214,20 @@ class RegisterController extends StateClass {
           message: 'Kode verifikasi harus diisi',
         );
       }
+      var data = {};
+      if (isContinue) {
+        data = {
+          "phone_number": phoneNumber,
+          "verification_code": codePhoneNumber.toString(),
+          "user_id": await LocalStorage().getUserID(),
+        };
+      } else {
+        data = {
+          "phone_number": phoneNumber,
+          "verification_code": codePhoneNumber.toString(),
+        };
+      }
 
-      var data = {
-        "phone_number": phoneNumber,
-        "verification_code": codePhoneNumber.toString(),
-      };
       print("data $data");
       var loginResponse = await RegisterService().phoneVerify(data);
       print(loginResponse);

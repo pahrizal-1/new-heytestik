@@ -108,7 +108,8 @@ class VerificationPage extends StatelessWidget {
                 child: ButtonGreenWidget(
                   title: 'Konfimasi',
                   onPressed: () async {
-                    await state.verifyPhoneNumber(context, doInPost: () async {
+                    await state.verifyPhoneNumber(context,
+                        isContinue: isContinue, doInPost: () async {
                       if (isContinue) {
                         Get
                           ..back(result: true)
