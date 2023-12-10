@@ -1,8 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_product_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart';
@@ -18,16 +21,24 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
 
 class CaraPembayaranPage extends StatefulWidget {
   int id;
+  String orderId;
   int totalPaid;
-  String vaNumber;
+  // String vaNumber;
   String transactionType;
   int? pax;
   Treatment.Data2? treatment;
+  // String paymentType;
+  // String billerCode;
+  // String billerKey;
   CaraPembayaranPage({
     super.key,
     required this.id,
+    required this.orderId,
     required this.totalPaid,
-    required this.vaNumber,
+    // required this.vaNumber,
+    // required this.paymentType,
+    // required this.billerCode,
+    // required this.billerKey,
     required this.transactionType,
     this.pax = 0,
     this.treatment,
@@ -40,6 +51,12 @@ class CaraPembayaranPage extends StatefulWidget {
 class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
   final HistoryTransactionController state =
       Get.put(HistoryTransactionController());
+  final HistoryConsultationController stateConsultation =
+      Get.put(HistoryConsultationController());
+  final HistoryProductController stateProduk =
+      Get.put(HistoryProductController());
+  final HistoryTreatmentController stateTreatment =
+      Get.put(HistoryTreatmentController());
   Data? method;
   List<bool> isVisibility = [];
 
@@ -53,6 +70,15 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
           isVisibility.add(false);
         }
       }
+
+      if (widget.transactionType == "Konsultasi") {
+        await stateConsultation.getTransactionStatus(context, widget.orderId);
+      } else if (widget.transactionType == "Produk") {
+        await stateProduk.getTransactionStatus(context, widget.orderId);
+      } else if (widget.transactionType == "Treatment") {
+        await stateTreatment.getTransactionStatus(context, widget.orderId);
+      }
+
       setState(() {});
     });
   }
@@ -234,25 +260,94 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TextSpaceBetween(
-                            title: 'Nomor Virtual Account',
-                            title2: '',
-                          ),
-                          Text(
-                            widget.vaNumber,
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          )
-                        ],
-                      ),
+                      if (stateConsultation.paymentType.value ==
+                          "bank_transfer")
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TextSpaceBetween(
+                              title: 'Nomor Virtual Account',
+                              title2: '',
+                            ),
+                            if (widget.transactionType == "Konsultasi")
+                              SelectableText(
+                                stateConsultation.virtualAccount.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Produk")
+                              SelectableText(
+                                stateProduk.virtualAccount.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Treatment")
+                              SelectableText(
+                                stateTreatment.virtualAccount.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                          ],
+                        )
+                      else if (stateConsultation.paymentType.value ==
+                          "echannel")
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TextSpaceBetween(
+                              title: 'Biller Code',
+                              title2: '',
+                            ),
+                            if (widget.transactionType == "Konsultasi")
+                              SelectableText(
+                                stateConsultation.billerCode.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Produk")
+                              SelectableText(
+                                stateProduk.billerCode.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Treatment")
+                              SelectableText(
+                                stateTreatment.billerCode.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              ),
+                            const TextSpaceBetween(
+                              title: 'Biller Key',
+                              title2: '',
+                            ),
+                            if (widget.transactionType == "Konsultasi")
+                              SelectableText(
+                                stateConsultation.billerKey.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Produk")
+                              SelectableText(
+                                stateProduk.billerKey.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              )
+                            else if (widget.transactionType == "Treatment")
+                              SelectableText(
+                                stateTreatment.billerKey.value,
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              ),
+                          ],
+                        ),
                       const Spacer(),
                       InkWell(
                         onTap: () {
-                          SocialShare.copyToClipboard(
-                            text: widget.vaNumber,
-                          );
+                          if (widget.transactionType == "Konsultasi") {
+                            SocialShare.copyToClipboard(
+                              text: stateConsultation.virtualAccount.value,
+                            );
+                          } else if (widget.transactionType == "Produk") {
+                            SocialShare.copyToClipboard(
+                              text: stateProduk.virtualAccount.value,
+                            );
+                          } else if (widget.transactionType == "Treatment") {
+                            SocialShare.copyToClipboard(
+                              text: stateTreatment.virtualAccount.value,
+                            );
+                          }
+
                           SnackbarWidget.getSuccessSnackbar(
                               context, "Berhasil", "Berhasil disalin");
                         },

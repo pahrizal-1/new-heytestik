@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
@@ -275,21 +274,49 @@ class _SelesaikanPembayaranKonsultasiState
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const TextSpaceBetween(
-                                        title: 'Nomor Virtual Account',
-                                        title2: '',
-                                      ),
-                                      SelectableText(
-                                        state.virtualAccount.value,
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
+                                  if (state.paymentType.value ==
+                                      "bank_transfer")
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const TextSpaceBetween(
+                                          title: 'Nomor Virtual Account',
+                                          title2: '',
+                                        ),
+                                        SelectableText(
+                                          state.virtualAccount.value,
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15),
+                                        )
+                                      ],
+                                    )
+                                  else if (state.paymentType.value ==
+                                      "echannel")
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const TextSpaceBetween(
+                                          title: 'Biller Code',
+                                          title2: '',
+                                        ),
+                                        SelectableText(
+                                          state.billerCode.value,
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15),
+                                        ),
+                                        const TextSpaceBetween(
+                                          title: 'Biller Key',
+                                          title2: '',
+                                        ),
+                                        SelectableText(
+                                          state.billerKey.value,
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15),
+                                        )
+                                      ],
+                                    ),
                                   const Spacer(),
                                   InkWell(
                                     onTap: () {
@@ -394,15 +421,20 @@ class _SelesaikanPembayaranKonsultasiState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(CaraPembayaranPage(
-                                id: widget.paymentMethodId,
-                                totalPaid: int.parse(
-                                    double.parse(state.grossAmount.value)
-                                        .round()
-                                        .toString()),
-                                vaNumber: state.virtualAccount.value,
-                                transactionType: 'Konsultasi',
-                              ));
+                              Get.to(() => CaraPembayaranPage(
+                                    id: widget.paymentMethodId,
+                                    orderId: widget.orderId,
+                                    totalPaid: int.parse(
+                                      double.parse(state.grossAmount.value)
+                                          .round()
+                                          .toString(),
+                                    ),
+                                    // vaNumber: state.virtualAccount.value,
+                                    // paymentType: state.paymentType.value,
+                                    // billerCode: state.billerCode.value,
+                                    // billerKey: state.billerKey.value,
+                                    transactionType: 'Konsultasi',
+                                  ));
                             },
                             child: Center(
                               child: Text(

@@ -503,6 +503,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                     item: history[index]
                                         .detail
                                         ?.transactionTreatmentItems,
+                                    orderId:
+                                        history[index].transactionId.toString(),
                                     tanggal: ConvertDate.defaultDate(
                                         history[index].createdAt ?? '-'),
                                     pesanan: 'Treatment',
@@ -540,6 +542,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                     'PRODUCT') {
                                   return TransaksiProduk(
                                     product: history[index].detail,
+                                    orderId:
+                                        history[index].transactionId.toString(),
                                   );
                                 }
                                 return null;

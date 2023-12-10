@@ -199,7 +199,6 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                     isWillPop: false,
                                     orderId:
                                         history[index].transactionId.toString(),
-                                    // bank: '',
                                     expireTime: '',
                                     pax: history[index]
                                             .detail!
@@ -224,6 +223,8 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                   item: history[index]
                                       .detail
                                       ?.transactionTreatmentItems,
+                                  orderId:
+                                      history[index].transactionId.toString(),
                                   tanggal: ConvertDate.defaultDate(
                                       history[index].detail?.createdAt ?? '-'),
                                   expireDate: history[index]

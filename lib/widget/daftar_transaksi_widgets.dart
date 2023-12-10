@@ -59,7 +59,6 @@ class TransaksiKonsultan extends StatelessWidget {
           Get.to(SelesaikanPembayaranKonsultasiPage(
             isWillPop: false,
             orderId: orderId,
-            // bank: '',
             expireTime: '',
             paymentMethodId: paymentMethodId,
           ));
@@ -268,8 +267,9 @@ class TransaksiKonsultan extends StatelessWidget {
                         onTap: () {
                           Get.to(CaraPembayaranPage(
                             id: paymentMethodId,
+                            orderId: orderId,
                             totalPaid: harga,
-                            vaNumber: vaNumber,
+                            // vaNumber: vaNumber,
                             transactionType: 'Konsultasi',
                           ));
                         },
@@ -301,11 +301,11 @@ class TransaksiKonsultan extends StatelessWidget {
 
 class TransaksiProduk extends StatelessWidget {
   Detail? product;
-  final String orderId;
+  String orderId;
   TransaksiProduk({
     super.key,
+    required this.orderId,
     required this.product,
-    this.orderId = '',
   });
 
   @override
@@ -316,7 +316,6 @@ class TransaksiProduk extends StatelessWidget {
           Get.to(SelesaikanPembayaranProdukPage(
             isWillPop: false,
             orderId: orderId,
-            // bank: '',
             expireTime: '',
             paymentMethodId: product!.paymentMethodId!,
           ));
@@ -555,8 +554,9 @@ class TransaksiProduk extends StatelessWidget {
                         onTap: () {
                           Get.to(CaraPembayaranPage(
                             id: product!.paymentMethodId!,
+                            orderId: orderId,
                             totalPaid: product!.totalPaid!,
-                            vaNumber: product?.vaNumber ?? '-',
+                            // vaNumber: product?.vaNumber ?? '-',
                             transactionType: 'Produk',
                           ));
                         },
@@ -589,6 +589,7 @@ class TransaksiProduk extends StatelessWidget {
 class TransaksiTreatment extends StatelessWidget {
   List<TransactionTreatmentItems>? item;
   // final String nameProduk;
+  final String orderId;
   final String tanggal;
   final String expireDate;
   final String pesanan;
@@ -604,6 +605,7 @@ class TransaksiTreatment extends StatelessWidget {
   TransaksiTreatment({
     super.key,
     required this.item,
+    required this.orderId,
     // required this.nameProduk,
     required this.tanggal,
     this.expireDate = '',
@@ -811,8 +813,9 @@ class TransaksiTreatment extends StatelessWidget {
                       onTap: () {
                         Get.to(CaraPembayaranPage(
                           id: paymentMethodId,
+                          orderId: orderId,
                           totalPaid: harga,
-                          vaNumber: vaNumber,
+                          // vaNumber: vaNumber,
                           transactionType: 'Treatment',
                           treatment: Treatment.Data2.fromJson(
                             jsonDecode(

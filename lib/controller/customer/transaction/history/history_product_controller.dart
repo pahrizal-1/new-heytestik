@@ -15,7 +15,9 @@ class HistoryProductController extends StateClass {
   Rx<TransactionStatusModel> transactionStatus =
       TransactionStatusModel.fromJson({}).obs;
 
-  // RxString bank = '-'.obs;
+  RxString paymentType = '-'.obs;
+  RxString billerCode = '-'.obs;
+  RxString billerKey = '-'.obs;
   RxString virtualAccount = '-'.obs;
   RxString expirytime = '-'.obs;
   RxString grossAmount = '-'.obs;
@@ -29,32 +31,32 @@ class HistoryProductController extends StateClass {
       if (transactionStatus.value.success! &&
           transactionStatus.value.message == 'Success') {
         if (transactionStatus.value.data!.paymentType == 'echannel') {
-          var va =
-              '${transactionStatus.value.data?.billerCode} ${transactionStatus.value.data?.billKey}';
-          virtualAccount.value = va;
+          paymentType.value = 'echannel';
+          billerCode.value = transactionStatus.value.data?.billerCode ?? '-';
+          billerKey.value = transactionStatus.value.data?.billKey ?? '-';
+          virtualAccount.value = "${billerCode.value} ${billerKey.value}";
         } else if (transactionStatus.value.data!.paymentType ==
             'bank_transfer') {
-          // bank.value =
-          //     transactionStatus.value.data?.vaNumbers?[0].bank ?? '-';
+          paymentType.value = 'bank_transfer';
           virtualAccount.value =
               transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
         } else {
           print("BUKAN KEDUANYA");
+          paymentType.value = '111111111111';
           virtualAccount.value = "111111111111";
         }
-
         expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
         grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
         statusTransaction.value =
             transactionStatus.value.data?.transactionStatus ?? '-';
 
         if (statusTransaction.value == 'pending') {
-          showDialog(
-            context: context,
-            builder: (context) => AlertWidget(
-                subtitle:
-                    'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
-          );
+          // showDialog(
+          //   context: context,
+          //   builder: (context) => AlertWidget(
+          //       subtitle:
+          //           'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
+          // );
           return;
         }
         if (statusTransaction.value == 'expire') {
