@@ -247,7 +247,7 @@ class RegisterController extends StateClass {
           message: 'Nama Lengkap harus diisi',
         );
       }
-      if (province == 0 || city != null || city == 0) {
+      if (province == 0 || city == null || city == 0) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
           message: 'Data Provinsi Dan Kota / Kabupaten Harap Diisi',
