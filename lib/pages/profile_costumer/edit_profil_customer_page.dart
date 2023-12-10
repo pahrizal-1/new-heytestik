@@ -255,10 +255,13 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           const SizedBox(
                             width: 53,
                           ),
-                          Text(
-                            state.username.value,
-                            style: blackRegulerTextStyle.copyWith(fontSize: 15),
-                            textAlign: TextAlign.start,
+                          Expanded(
+                            child: Text(
+                              state.username.value,
+                              style:
+                                  blackRegulerTextStyle.copyWith(fontSize: 15),
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                           const Spacer(),
                           Image.asset(
@@ -348,11 +351,13 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                         const SizedBox(
                           width: 74,
                         ),
-                        Text(
-                          state.idUser.value,
-                          style: blackRegulerTextStyle.copyWith(
-                              fontSize: 15, color: blackColor),
-                          textAlign: TextAlign.start,
+                        Expanded(
+                          child: Text(
+                            state.idUser.value,
+                            style: blackRegulerTextStyle.copyWith(
+                                fontSize: 15, color: blackColor),
+                            textAlign: TextAlign.start,
+                          ),
                         ),
                       ],
                     ),
