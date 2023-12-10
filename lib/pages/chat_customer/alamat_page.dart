@@ -238,7 +238,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 25,
+                    height: 15,
                   ),
                   SizedBox(
                     height: 101,
@@ -261,7 +261,7 @@ class _AlamatpageState extends State<Alamatpage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 29,
+                    height: 15,
                   ),
                   SizedBox(
                     height: 60,
