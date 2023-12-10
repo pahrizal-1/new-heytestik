@@ -49,7 +49,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                 state.topic.value = '';
                 state.listPreAssesment.value = [];
                 state.listPreAssesmentImage.value = [];
-                Navigator.pop(context);
+                Navigator.pop(context, 'refresh');
               },
               child: const Icon(
                 Icons.arrow_back,
