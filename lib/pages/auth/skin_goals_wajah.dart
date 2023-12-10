@@ -92,15 +92,19 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                     return NantiSajaDialog();
                   },
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SkinGoalsTubuh(
-                      isEdit: widget.isEdit,
-                      isCompleteProfile: widget.isCompleteProfile,
+                if (widget.isCompleteProfile) {
+                  Get.back(result: true);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkinGoalsTubuh(
+                        isEdit: widget.isEdit,
+                        isCompleteProfile: widget.isCompleteProfile,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
@@ -258,15 +262,20 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                           onPressed: () async {
                             await state.faceCorrectiveGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SkinGoalsTubuh(
-                                    isEdit: widget.isEdit,
-                                    isCompleteProfile: widget.isCompleteProfile,
+                              if (widget.isCompleteProfile) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SkinGoalsTubuh(
+                                      isEdit: widget.isEdit,
+                                      isCompleteProfile:
+                                          widget.isCompleteProfile,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             });
                           },
                         ),

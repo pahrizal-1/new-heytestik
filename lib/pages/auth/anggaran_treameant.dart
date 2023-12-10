@@ -202,9 +202,10 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                           title: 'Simpan',
                           onPressed: () async {
                             await state.budgets(context, doInPost: () async {
-                              if (widget.isEdit || widget.isCompleteProfile) {
+                              if (widget.isCompleteProfile) {
+                                Get.back(result: true);
+                              } else if (widget.isEdit) {
                                 Get
-                                  ..back(result: true)
                                   ..back(result: true)
                                   ..back(result: true)
                                   ..back(result: true)

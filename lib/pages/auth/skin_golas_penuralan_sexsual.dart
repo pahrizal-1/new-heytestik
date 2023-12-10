@@ -94,15 +94,19 @@ class _SkinGoalsPenularanState extends State<SkinGoalsPenularan> {
                     return NantiSajaDialog();
                   },
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SkinGloalsPilihTreamtmnet(
-                      isEdit: widget.isEdit,
-                      isCompleteProfile: widget.isCompleteProfile,
+                if (widget.isCompleteProfile) {
+                  Get.back(result: true);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkinGloalsPilihTreamtmnet(
+                        isEdit: widget.isEdit,
+                        isCompleteProfile: widget.isCompleteProfile,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
@@ -227,27 +231,20 @@ class _SkinGoalsPenularanState extends State<SkinGoalsPenularan> {
                             index++)
                           InkWell(
                             onTap: () {
-                              print("all ${state.sexuallySkinDiseases}");
-                              print("=================================");
                               var adaGak =
                                   state.sexuallySkinDiseases.firstWhereOrNull(
                                 (item) =>
                                     item == sexuallySkin[index]['sexuallySkin'],
                               );
-                              print("adaGak $adaGak");
-                              print("=================================");
+
                               if (adaGak == null) {
                                 sexuallySkin[index]['checked'] = true;
                                 state.sexuallySkinDiseases
                                     .add(sexuallySkin[index]['sexuallySkin']);
-                                print("add ${state.sexuallySkinDiseases}");
-                                print("=================================");
                               } else {
                                 sexuallySkin[index]['checked'] = false;
                                 state.sexuallySkinDiseases.remove(
                                     sexuallySkin[index]['sexuallySkin']);
-                                print("remove ${state.sexuallySkinDiseases}");
-                                print("=================================");
                               }
                               setState(() {});
                             },
@@ -270,16 +267,21 @@ class _SkinGoalsPenularanState extends State<SkinGoalsPenularan> {
                           onPressed: () async {
                             await state.sexuallySkinSkinGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SkinGloalsPilihTreamtmnet(
-                                    isEdit: widget.isEdit,
-                                    isCompleteProfile: widget.isCompleteProfile,
+                              if (widget.isCompleteProfile) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SkinGloalsPilihTreamtmnet(
+                                      isEdit: widget.isEdit,
+                                      isCompleteProfile:
+                                          widget.isCompleteProfile,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             });
                           },
                         ),
