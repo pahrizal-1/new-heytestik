@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class ResetPassword extends StatefulWidget {
   final int redirectTo;
@@ -116,6 +117,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 print(widget.redirectTo);
                                 // Navigator.pop(context);
                                 state.backTo(widget.redirectTo);
+                                SnackbarWidget.getSuccessSnackbar(
+                                  context,
+                                  'Info',
+                                  'Harap cek email kamu ya',
+                                );
                               });
                             },
                           ),

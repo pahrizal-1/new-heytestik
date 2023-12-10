@@ -30,7 +30,7 @@ class ChangePasswordService extends ProviderClass {
 
   Future<dynamic> resetPassword(dynamic data) async {
     var response = await networkingConfig.doPost(
-      '/auth/reset-password',
+      '/auth/forgot-password',
       data: data,
       headers: {
         'User-Agent': await userAgent(),
