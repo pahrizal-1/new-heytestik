@@ -381,6 +381,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     MaterialPageRoute(
                       builder: (context) => SkinGoalsKorektifWajah(
                         isEdit: false,
+                        isCompleteProfile: widget.isContinue,
                       ),
                     ),
                   );
@@ -687,6 +688,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                                     builder: (context) =>
                                         SkinGoalsKorektifWajah(
                                       isEdit: false,
+                                      isCompleteProfile: widget.isContinue,
                                     ),
                                   ),
                                 );
@@ -718,6 +720,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                               MaterialPageRoute(
                                 builder: (context) => SkinGoalsKorektifWajah(
                                   isEdit: false,
+                                  isCompleteProfile: widget.isContinue,
                                 ),
                               ),
                             );

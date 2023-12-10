@@ -17,7 +17,12 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGoalsKorektifWajah extends StatefulWidget {
   bool isEdit = false;
-  SkinGoalsKorektifWajah({required this.isEdit, super.key});
+  bool isCompleteProfile;
+  SkinGoalsKorektifWajah({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
   @override
   State<SkinGoalsKorektifWajah> createState() => _SkinGoalsKorektifWajahState();
 }
@@ -92,6 +97,7 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                   MaterialPageRoute(
                     builder: (context) => SkinGoalsTubuh(
                       isEdit: widget.isEdit,
+                      isCompleteProfile: widget.isCompleteProfile,
                     ),
                   ),
                 );
@@ -257,6 +263,7 @@ class _SkinGoalsKorektifWajahState extends State<SkinGoalsKorektifWajah> {
                                 MaterialPageRoute(
                                   builder: (context) => SkinGoalsTubuh(
                                     isEdit: widget.isEdit,
+                                    isCompleteProfile: widget.isCompleteProfile,
                                   ),
                                 ),
                               );

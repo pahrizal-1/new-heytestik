@@ -17,7 +17,12 @@ import '../../widget/timeline_widget.dart';
 
 class SkinGolasWajahTubuh extends StatefulWidget {
   bool isEdit;
-  SkinGolasWajahTubuh({required this.isEdit, super.key});
+  bool isCompleteProfile;
+  SkinGolasWajahTubuh({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
   @override
   State<SkinGolasWajahTubuh> createState() => _SkinGolasWajahTubuhState();
 }
@@ -92,6 +97,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                   MaterialPageRoute(
                     builder: (context) => SkinGloalsPilihTreamtmnet(
                       isEdit: widget.isEdit,
+                      isCompleteProfile: widget.isCompleteProfile,
                     ),
                   ),
                 );
@@ -257,6 +263,7 @@ class _SkinGolasWajahTubuhState extends State<SkinGolasWajahTubuh> {
                                   builder: (context) =>
                                       SkinGloalsPilihTreamtmnet(
                                     isEdit: widget.isEdit,
+                                    isCompleteProfile: widget.isCompleteProfile,
                                   ),
                                 ),
                               );

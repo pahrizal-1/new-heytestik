@@ -140,6 +140,7 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                         onTap: () async {
                           bool check = await Get.to(SkinGoalsKorektifWajah(
                             isEdit: true,
+                            isCompleteProfile: false,
                           ));
                           if (check) {
                             await state.getInterest(context);
