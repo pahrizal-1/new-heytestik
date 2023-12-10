@@ -49,9 +49,9 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                          bool check = await Get.to(BeautyProfilPage(
-                            isContinue: false,
-                          ));
+                          bool check = await Get.to(() => BeautyProfilPage(
+                                isContinue: false,
+                              ));
                           if (check) {
                             await state.getInterest(context);
                           }
@@ -138,10 +138,12 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                          bool check = await Get.to(SkinGoalsKorektifWajah(
-                            isEdit: true,
-                            isCompleteProfile: false,
-                          ));
+                          bool check =
+                              await Get.to(() => SkinGoalsKorektifWajah(
+                                    isEdit: true,
+                                    isCompleteProfile: false,
+                                  ));
+
                           if (check) {
                             await state.getInterest(context);
                           }

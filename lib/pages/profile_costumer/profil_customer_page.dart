@@ -172,7 +172,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
                               check = await Get.to(AnggaranTreatment(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }
@@ -180,21 +180,21 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             if (state.completionData.value.data?.subtitle ==
                                 'Treatment yang pernah dilakukan') {
                               check = await Get.to(SkinGloalsPilihTreamtmnet(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }
                             if (state.completionData.value.data?.subtitle ==
                                 "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
                               check = await Get.to(SkinGoalsPenularan(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }
                             if (state.completionData.value.data?.subtitle ==
                                 'Penyakit Augmentation Wajah & Tubuh') {
                               check = await Get.to(SkinGolasWajahTubuh(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }
@@ -202,7 +202,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Tubuh') {
                               check = await Get.to(SkinGoalsTubuh(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }
@@ -210,7 +210,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                             if (state.completionData.value.data?.subtitle ==
                                 'Skin Goals Korektif Wajah') {
                               check = await Get.to(SkinGoalsKorektifWajah(
-                                isEdit: true,
+                                isEdit: false,
                                 isCompleteProfile: true,
                               ));
                             }

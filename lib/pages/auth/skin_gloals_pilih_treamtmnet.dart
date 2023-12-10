@@ -106,15 +106,19 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                     return NantiSajaDialog();
                   },
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AnggaranTreatment(
-                      isEdit: widget.isEdit,
-                      isCompleteProfile: widget.isCompleteProfile,
+                if (widget.isCompleteProfile) {
+                  Get.back(result: true);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AnggaranTreatment(
+                        isEdit: widget.isEdit,
+                        isCompleteProfile: widget.isCompleteProfile,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
               child: Image.asset(
                 'assets/icons/danger-icons.png',
@@ -279,15 +283,20 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                           onPressed: () async {
                             await state.pastTreatmentGoals(context,
                                 doInPost: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AnggaranTreatment(
-                                    isEdit: widget.isEdit,
-                                    isCompleteProfile: widget.isCompleteProfile,
+                              if (widget.isCompleteProfile) {
+                                Get.back(result: true);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AnggaranTreatment(
+                                      isEdit: widget.isEdit,
+                                      isCompleteProfile:
+                                          widget.isCompleteProfile,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             });
                           },
                         ),
