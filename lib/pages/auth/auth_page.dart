@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -50,12 +51,7 @@ class AuthPage extends StatelessWidget {
                     ButtonGreenWidget(
                       title: 'MASUK',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPageNew(),
-                          ),
-                        );
+                        Get.to(() => const LoginPageNew());
                       },
                     ),
                     const SizedBox(
@@ -64,12 +60,7 @@ class AuthPage extends StatelessWidget {
                     ButtonWhiteWidget(
                       title: 'DAFTAR',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PhoneNumberPage(),
-                          ),
-                        );
+                        Get.to(() => PhoneNumberPage());
                       },
                     ),
                     const SizedBox(
