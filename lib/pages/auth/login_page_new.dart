@@ -167,7 +167,9 @@ class _LoginPageNewState extends State<LoginPageNew> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(ResetPassword(redirectTo: 1));
+                                    Get.to(ForgetPasswordEmailPage(
+                                      redirectTo: 1,
+                                    ));
                                   },
                                   child: Container(
                                     height: 34,

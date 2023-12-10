@@ -149,6 +149,78 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
   }
 }
 
+class DropDownKecamataniWiget extends StatefulWidget {
+  const DropDownKecamataniWiget({super.key});
+
+  @override
+  State<DropDownKecamataniWiget> createState() =>
+      _DropDownKecamataniWigetState();
+}
+
+class _DropDownKecamataniWigetState extends State<DropDownKecamataniWiget> {
+  String? selectedvalue;
+  @override
+  Widget build(BuildContext context) {
+    var state = Provider.of<RegisterController>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Kecamatan*',
+          style: blackTextStyle,
+        ),
+        FutureBuilder(
+          future: GeographyService().getProvince(),
+          builder: (context, AsyncSnapshot snapshot) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0XFFCCCCCC)),
+                  borderRadius: BorderRadius.circular(7)),
+              child: DropdownButton<String?>(
+                underline: Container(),
+                value: selectedvalue,
+                hint: Text(
+                  'Kecamatan',
+                  style: blackTextStyle.copyWith(
+                      color: const Color(0xff323232), fontWeight: medium),
+                ),
+                elevation: 0,
+                isExpanded: true,
+                items: !snapshot.hasData
+                    ? null
+                    : snapshot.data
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem<String>(
+                            value: e['id'].toString(),
+                            child: Text(
+                              e['name'],
+                              style: blackTextStyle,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                onChanged: ((value) {
+                  if (value != null) {
+                    state.setProvince(int.parse(value));
+                    state.setCity(null);
+                    setState(
+                      () {
+                        selectedvalue = value;
+                      },
+                    );
+                  }
+                }),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
 class DropDownkotaWiget extends StatefulWidget {
   const DropDownkotaWiget({super.key});
 
@@ -179,7 +251,7 @@ class _DropDownkotaWigetState extends State<DropDownkotaWiget> {
               child: DropdownButton<String?>(
                 underline: Container(),
                 hint: Text(
-                  'Pilih Kota Tempat Tinggal mu',
+                  'Kota',
                   style: greyTextStyle,
                 ),
                 value: state.city == null ? null : state.city.toString(),

@@ -243,8 +243,8 @@ class _PinPageLamaCustomerState extends State<PinPageLamaCustomer> {
                                           child: InkWell(
                                             onTap: () {
                                               // Navigator.pop(context);
-                                              Get.to(
-                                                  ResetPassword(redirectTo: 2));
+                                              Get.to(ForgetPasswordEmailPage(
+                                                  redirectTo: 2));
                                             },
                                             child: Container(
                                               height: 34,
