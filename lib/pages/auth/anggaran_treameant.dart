@@ -209,6 +209,7 @@ class _AnggaranTreatmentState extends State<AnggaranTreatment> {
                                   ..back(result: true)
                                   ..back(result: true)
                                   ..back(result: true)
+                                  ..back(result: true)
                                   ..back(result: true);
                               } else {
                                 Get.offAll(() => const AuthPage());
