@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/bantuan_mihey/home_bantuan_minhey_page.dart';
+import 'package:heystetik_mobileapps/pages/myJourney/home_journey.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -15,53 +18,53 @@ class _JourneyPageState extends State<JourneyPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.symmetric(
-                vertical: 20, horizontal: 24.0), // Atur padding horizontal
-            content: Container(
-              // Atur lebar container sesuai dengan lebar maksimum
-              child: RichText(
-                text: TextSpan(
-                  text: 'Yuk, buat ',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontStyle: FontStyle.italic,
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: ' ‘My Journey’',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.normal,
-                        color: fromCssColor("#24A7A0"),
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          ' untuk melihat progres baikmu menuju skingoals yang kamu inginkan :)',
-                      style:
-                          TextStyle(fontStyle: FontStyle.normal, height: 1.2),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              ButtonGreenWidget(
-                title: "Buat My Journey",
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       contentPadding: EdgeInsets.symmetric(
+      //           vertical: 20, horizontal: 24.0), // Atur padding horizontal
+      //       content: Container(
+      //         // Atur lebar container sesuai dengan lebar maksimum
+      //         child: RichText(
+      //           text: TextSpan(
+      //             text: 'Yuk, buat ',
+      //             style: TextStyle(
+      //               fontFamily: 'ProximaNova',
+      //               fontStyle: FontStyle.italic,
+      //               fontSize: 15,
+      //               color: Colors.black,
+      //             ),
+      //             children: <TextSpan>[
+      //               TextSpan(
+      //                 text: ' ‘My Journey’',
+      //                 style: TextStyle(
+      //                   fontWeight: FontWeight.bold,
+      //                   fontStyle: FontStyle.normal,
+      //                   color: fromCssColor("#24A7A0"),
+      //                 ),
+      //               ),
+      //               TextSpan(
+      //                 text:
+      //                     ' untuk melihat progres baikmu menuju skingoals yang kamu inginkan :)',
+      //                 style:
+      //                     TextStyle(fontStyle: FontStyle.normal, height: 1.2),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //       actions: <Widget>[
+      //         ButtonGreenWidget(
+      //           title: "Buat My Journey",
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //           },
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
     });
   }
 

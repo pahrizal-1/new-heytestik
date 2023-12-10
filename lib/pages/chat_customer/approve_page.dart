@@ -148,32 +148,6 @@ class _ApprovePageState extends State<ApprovePage> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(
-                  () => Expanded(
-                    child: Text(
-                      state.status.value.isEmpty
-                          ? state.resendTime.value.toString()
-                          : state.status.value,
-                      textAlign: TextAlign.center,
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                // state.status.value.isEmpty
-                //     ?
-                // Text(
-                //   'detik',
-                //   style: grenTextStyle.copyWith(fontSize: 18),
-                // )
-                // : Container()
-              ],
-            )
           ],
         ),
       ),
