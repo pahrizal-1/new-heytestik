@@ -83,6 +83,18 @@ class InterestService extends ProviderClass {
     return response;
   }
 
+  Future<dynamic> sexuallySkin(dynamic data) async {
+    var response = await networkingConfig.doPost(
+      '/registration/step/interest-sexually-and-skin-diseases-skin-goals',
+      data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return response;
+  }
+
   Future<dynamic> pastTreatment(dynamic data) async {
     var response = await networkingConfig.doPost(
       '/registration/step/interest-history-treatment-skin-goals',
