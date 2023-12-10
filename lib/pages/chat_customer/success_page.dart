@@ -32,7 +32,7 @@ class _SuccessPageState extends State<SuccessPage> {
   @override
   void initState() {
     super.initState();
-    state.initiateChat(context, widget.orderId);
+    // state.initiateChat(context, widget.orderId);
     // state.connectSocket(context);
   }
 
@@ -91,6 +91,7 @@ class _SuccessPageState extends State<SuccessPage> {
                           onPressed: () async {
                             if (state.initiate.value!.success == true &&
                                 state.initiate.value!.message == 'Success') {
+                              state.initiateChat(context, widget.orderId);
                               Get.to(ApprovePage(
                                 orderId: widget.orderId,
                               ));
@@ -98,7 +99,6 @@ class _SuccessPageState extends State<SuccessPage> {
                                   // 'hey ${state.initiate.value!.data!.doctor!.fullname}');
                                   'hey ${state.initiate.value!.data!.doctor!.photoProfile}');
                             } else {
-                              print('tol');
                               state.initiateChat(context, widget.orderId);
                               if (state.initiate.value!.success == true &&
                                   state.initiate.value!.message == 'Success') {
