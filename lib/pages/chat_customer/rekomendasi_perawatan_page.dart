@@ -133,14 +133,13 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 const SizedBox(
                   height: 16,
                 ),
-                Column(
-                  children: [
-                    Obx(
-                      () => state.data.value.consultationRecipeDrug == null
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 70, left: 33, right: 33),
-                              child: Column(
+                Padding(
+                  padding: const EdgeInsets.only(top: 70, left: 33, right: 33),
+                  child: Column(
+                    children: [
+                      Obx(
+                        () => state.data.value.consultationRecipeDrug == null
+                            ? Column(
                                 children: [
                                   Container(
                                     height: 239,
@@ -174,12 +173,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                     ),
                                   ),
                                 ],
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25, right: 25, bottom: 15),
-                              child: Column(
+                              )
+                            : Column(
                                 children: [
                                   Container(
                                     height: 195,
@@ -318,229 +313,231 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                   ),
                                 ],
                               ),
-                            ),
-                    ),
-                    SizedBox(
-                      height: state.data.value.consultationRecipeDrug == null
-                          ? 0
-                          : 20,
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecipeDrug == null
-                          ? Container()
-                          : Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/cekbox.svg',
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  transform:
-                                      Matrix4.translationValues(0, -3, 0),
-                                  child: const Text(
-                                    'Pilih semua',
-                                    style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 15,
-                                        letterSpacing: 0.5,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecipeDrug == null
-                          ? Container()
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state
-                                  .data.value.consultationRecipeDrug?.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return ContainerProdukPenting(
-                                  data: state.data.value
-                                      .consultationRecipeDrug![index],
-                                );
-                              },
-                            ),
-                    ),
-                    Obx(
-                      () => SizedBox(
+                      ),
+                      SizedBox(
                         height: state.data.value.consultationRecipeDrug == null
-                            ? 0
-                            : 48,
-                      ),
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationSkincare!
-                              .isEmpty
-                          ? Container()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Rekomendasi Skincare',
-                                  style: TextStyle(
-                                    fontWeight: bold,
-                                    fontSize: 18,
-                                    fontFamily: 'ProximaNova',
-                                    color: Colors.black,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationSkincare!
-                              .isEmpty
-                          ? Container()
-                          : Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/cekbox.svg',
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  transform:
-                                      Matrix4.translationValues(0, -3, 0),
-                                  child: const Text(
-                                    'Pilih semua',
-                                    style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 15,
-                                        letterSpacing: 0.5,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: state.data.value
-                                .consultationRecomendationSkincare!.isEmpty
-                            ? 0
-                            : 15,
-                      ),
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationSkincare!
-                              .isEmpty
-                          ? Container()
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.data.value
-                                  .consultationRecomendationSkincare?.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return ContainerProduk(
-                                  data: state.data.value
-                                          .consultationRecomendationSkincare![
-                                      index],
-                                );
-                              },
-                            ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationTreatment!
-                              .isEmpty
-                          ? Container()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Rekomendasi Treatment',
-                                  style: TextStyle(
-                                    fontWeight: bold,
-                                    fontSize: 18,
-                                    fontFamily: 'ProximaNova',
-                                    color: Colors.black,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: state.data.value
-                                .consultationRecomendationTreatment!.isEmpty
                             ? 0
                             : 20,
                       ),
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationTreatment!
-                              .isEmpty
-                          ? Container()
-                          : Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/cekbox.svg',
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  transform:
-                                      Matrix4.translationValues(0, -3, 0),
-                                  child: const Text(
-                                    'Pilih semua',
-                                    style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 15,
-                                        letterSpacing: 0.5,
-                                        color: Colors.black),
+                      Obx(
+                        () => state.data.value.consultationRecipeDrug == null
+                            ? Container()
+                            : Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/cekbox.svg',
                                   ),
-                                ),
-                              ],
-                            ),
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: state.data.value
-                                .consultationRecomendationTreatment!.isEmpty
-                            ? 0
-                            : 15,
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    transform:
+                                        Matrix4.translationValues(0, -3, 0),
+                                    child: const Text(
+                                      'Pilih semua',
+                                      style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 15,
+                                          letterSpacing: 0.5,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
-                    ),
-                    Obx(
-                      () => state.data.value.consultationRecomendationTreatment!
-                              .isEmpty
-                          ? Container()
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.data.value
-                                  .consultationRecomendationTreatment?.length,
-                              itemBuilder: (BuildContext context, index) {
-                                return ContainerTreatment(
-                                  data: state.data.value
-                                          .consultationRecomendationTreatment![
-                                      index],
-                                );
-                              },
-                            ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Obx(
+                        () => state.data.value.consultationRecipeDrug == null
+                            ? Container()
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state
+                                    .data.value.consultationRecipeDrug?.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return ContainerProdukPenting(
+                                    data: state.data.value
+                                        .consultationRecipeDrug![index],
+                                  );
+                                },
+                              ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          height:
+                              state.data.value.consultationRecipeDrug == null
+                                  ? 0
+                                  : 48,
+                        ),
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationSkincare!.isEmpty
+                            ? Container()
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Rekomendasi Skincare',
+                                    style: TextStyle(
+                                      fontWeight: bold,
+                                      fontSize: 18,
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationSkincare!.isEmpty
+                            ? Container()
+                            : Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/cekbox.svg',
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    transform:
+                                        Matrix4.translationValues(0, -3, 0),
+                                    child: const Text(
+                                      'Pilih semua',
+                                      style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 15,
+                                          letterSpacing: 0.5,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          height: state.data.value
+                                  .consultationRecomendationSkincare!.isEmpty
+                              ? 0
+                              : 15,
+                        ),
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationSkincare!.isEmpty
+                            ? Container()
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.data.value
+                                    .consultationRecomendationSkincare?.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return ContainerProduk(
+                                    data: state.data.value
+                                            .consultationRecomendationSkincare![
+                                        index],
+                                  );
+                                },
+                              ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationTreatment!.isEmpty
+                            ? Container()
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Rekomendasi Treatment',
+                                    style: TextStyle(
+                                      fontWeight: bold,
+                                      fontSize: 18,
+                                      fontFamily: 'ProximaNova',
+                                      color: Colors.black,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          height: state.data.value
+                                  .consultationRecomendationTreatment!.isEmpty
+                              ? 0
+                              : 20,
+                        ),
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationTreatment!.isEmpty
+                            ? Container()
+                            : Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/cekbox.svg',
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    transform:
+                                        Matrix4.translationValues(0, -3, 0),
+                                    child: const Text(
+                                      'Pilih semua',
+                                      style: TextStyle(
+                                          fontFamily: 'ProximaNova',
+                                          fontSize: 15,
+                                          letterSpacing: 0.5,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          height: state.data.value
+                                  .consultationRecomendationTreatment!.isEmpty
+                              ? 0
+                              : 15,
+                        ),
+                      ),
+                      Obx(
+                        () => state.data.value
+                                .consultationRecomendationTreatment!.isEmpty
+                            ? Container()
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.data.value
+                                    .consultationRecomendationTreatment?.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return ContainerTreatment(
+                                    data: state.data.value
+                                            .consultationRecomendationTreatment![
+                                        index],
+                                  );
+                                },
+                              ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
