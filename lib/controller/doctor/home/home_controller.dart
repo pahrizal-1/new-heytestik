@@ -38,6 +38,7 @@ class DoctorHomeController extends StateClass {
       fullName.value = await LocalStorage().getFullName();
       await getCurrentDoctorSchedule(context);
       await getDoctorSchedule(context);
+      print('init staet');
     });
     isLoading.value = false;
   }
@@ -163,7 +164,7 @@ class DoctorHomeController extends StateClass {
         start,
         end,
       );
-      print('helo ${findSchedule.value}');
+      print('helo ${findSchedule}');
 
       if (findSchedule.value?.success != true &&
           findSchedule.value?.message != 'Success') {
@@ -174,6 +175,7 @@ class DoctorHomeController extends StateClass {
       }
       // SET TOTAL totalFindSchedule
       totalFindSchedule.value = findSchedule.value!.data!.data!.length;
+      print('total ${totalFindSchedule}');
     });
 
     // isLoading.value = false;

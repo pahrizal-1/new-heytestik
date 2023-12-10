@@ -656,8 +656,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                       ),
                       Spacer(),
                       InkWell(
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          String refresh = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
@@ -666,6 +666,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                           );
 
                           print('id ' + widget.id.toString());
+
+                          if(refresh == 'refresh') {
+                            setState(() {
+                              connectSocket(context);
+                            });
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 14),

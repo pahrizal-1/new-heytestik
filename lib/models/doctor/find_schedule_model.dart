@@ -668,11 +668,11 @@ class Data2 {
   int? doctorScheduleId;
   String? transactionConsultationId;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic? createdBy;
+  dynamic? updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic? deletedAt;
   TransactionConsultation? transactionConsultation;
   Customer? customer;
 
@@ -747,14 +747,14 @@ class TransactionConsultation {
   String? paymentStatus;
   String? paymentExpiryTime;
   String? vaNumber;
-  Null? billKey;
-  Null? billerCode;
+  dynamic? billKey;
+  dynamic? billerCode;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic? createdBy;
+  dynamic? updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic? deletedAt;
   MedicalHistory? medicalHistory;
 
   TransactionConsultation(
@@ -839,11 +839,11 @@ class MedicalHistory {
   int? id;
   int? customerId;
   int? interestConditionId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic? createdBy;
+  dynamic? updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic? deletedAt;
   InterestCondition? interestCondition;
 
   MedicalHistory(
@@ -891,11 +891,11 @@ class MedicalHistory {
 class InterestCondition {
   int? id;
   int? concernId;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic? createdBy;
+  dynamic? updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic? deletedAt;
   Concern? concern;
 
   InterestCondition(
@@ -941,11 +941,11 @@ class Concern {
   String? name;
   String? segment;
   bool? isActive;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic? createdBy;
+  dynamic? updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic? deletedAt;
 
   Concern(
       {this.id,
@@ -996,39 +996,39 @@ class Customer {
   String? address;
   String? photoProfile;
   String? referralCode;
-  Null? userCode;
+  dynamic? userCode;
   int? roleId;
-  Null? verificationCodePhone;
-  Null? verificationCodeEmail;
-  Null? provinceId;
-  Null? cityId;
-  Null? dob;
-  Null? bio;
+  dynamic? verificationCodePhone;
+  dynamic? verificationCodeEmail;
+  dynamic? provinceId;
+  dynamic? cityId;
+  dynamic? dob;
+  dynamic? bio;
   bool? finishRegister;
   String? verifiedEmailAt;
   String? verifiedPhoneAt;
-  Null? verifiedAccountAt;
-  Null? education;
-  Null? practiceLocation;
-  Null? joinDate;
-  Null? title;
-  Null? sip;
-  Null? str;
-  Null? ktpNo;
-  Null? ktpImage;
-  Null? npwpNo;
-  Null? npwpImage;
-  Null? specialist;
+  dynamic? verifiedAccountAt;
+  dynamic? education;
+  dynamic? practiceLocation;
+  dynamic? joinDate;
+  dynamic? title;
+  dynamic? sip;
+  dynamic? str;
+  dynamic? ktpNo;
+  dynamic? ktpImage;
+  dynamic? npwpNo;
+  dynamic? npwpImage;
+  dynamic? specialist;
   int? rating;
-  Null? statusSchedule;
-  Null? since;
-  Null? start;
-  Null? until;
+  dynamic? statusSchedule;
+  dynamic? since;
+  dynamic? start;
+  dynamic? until;
   bool? isActive;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
-  Null? refreshToken;
+  dynamic? deletedAt;
+  dynamic? refreshToken;
 
   Customer(
       {this.id,

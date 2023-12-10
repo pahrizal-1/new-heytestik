@@ -318,6 +318,234 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                       const SizedBox(
                         height: spaceHeigt,
                       ),
+                      // FutureBuilder(future: state.getDoctorSchedule(context), builder: (context, snapshot) {
+                      //   if(snapshot.connectionState == ConnectionState.waiting){
+                      //     return Center(child: CircularProgressIndicator(),);
+                      //   }
+                      //   if(snapshot.connectionState == ConnectionState.done){
+                      //     if(snapshot.hasData){
+                      //       return ListView.builder(
+                      //         shrinkWrap: true,
+                      //         keyboardDismissBehavior:
+                      //             ScrollViewKeyboardDismissBehavior.onDrag,
+                      //         physics: const NeverScrollableScrollPhysics(),
+                      //         itemCount: state.totalFindSchedule.value,
+                      //         itemBuilder: (BuildContext context, int i) {
+                      //           return Container(
+                      //             margin: EdgeInsets.only(bottom: 10),
+                      //             decoration: BoxDecoration(
+                      //               color: Colors.white,
+                      //               borderRadius: BorderRadius.circular(10),
+                      //             ),
+                      //             child: Padding(
+                      //               padding: const EdgeInsets.all(15),
+                      //               child: Row(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceBetween,
+                      //                 children: [
+                      //                   Column(
+                      //                     crossAxisAlignment:
+                      //                         CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       Text(
+                      //                         '${state.findSchedule.value?.data!.data?[i].customer?.fullname}',
+                      //                         style: TextStyle(
+                      //                           color: fromCssColor('#323232'),
+                      //                           fontWeight: bold,
+                      //                           fontFamily: 'ProximaNova',
+                      //                           fontSize: 15,
+                      //                         ),
+                      //                       ),
+                      //                       Padding(
+                      //                         padding:
+                      //                             const EdgeInsets.symmetric(
+                      //                                 vertical: 10),
+                      //                         child: Row(
+                      //                           children: [
+                      //                             Container(
+                      //                               height: 10,
+                      //                               width: 10,
+                      //                               decoration: BoxDecoration(
+                      //                                 borderRadius:
+                      //                                     BorderRadius.circular(
+                      //                                         5),
+                      //                                 color: fromCssColor(
+                      //                                     '#1ACE42'),
+                      //                               ),
+                      //                             ),
+                      //                             Padding(
+                      //                               padding:
+                      //                                   const EdgeInsets.only(
+                      //                                       left: 5),
+                      //                               child: Text(
+                      //                                 '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
+                      //                                 style: TextStyle(
+                      //                                   color: fromCssColor(
+                      //                                       '#6B6B6B'),
+                      //                                   fontFamily:
+                      //                                       'ProximaNova',
+                      //                                   fontSize: 13,
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                           ],
+                      //                         ),
+                      //                       ),
+                      //                       Padding(
+                      //                         padding: const EdgeInsets.only(
+                      //                             bottom: 5),
+                      //                         child: Text(
+                      //                           // 'test',
+                      //                           'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.name}',
+                      //                           style: TextStyle(
+                      //                               fontFamily: 'ProximaNova',
+                      //                               fontSize: 11,
+                      //                               color: fromCssColor(
+                      //                                   '#A3A3A3')),
+                      //                         ),
+                      //                       ),
+                      //                       Text(
+                      //                         // 'topic',
+                      //                         'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.segment}',
+                      //                         style: TextStyle(
+                      //                             fontFamily: 'ProximaNova',
+                      //                             fontSize: 11,
+                      //                             color:
+                      //                                 fromCssColor('#A3A3A3')),
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                   state.findSchedule.value!.data!.data![i]
+                      //                               .status ==
+                      //                           'PENDING'
+                      //                       ? InkWell(
+                      //                           onTap: () {
+                      //                             state.postApprove(
+                      //                                 context,
+                      //                                 state.findSchedule.value!
+                      //                                     .data!.data![i].id!
+                      //                                     .toInt());
+                      //                             setState(() {
+                      //                               state
+                      //                                   .findSchedule
+                      //                                   .value!
+                      //                                   .data!
+                      //                                   .data![i]
+                      //                                   .status = 'DIAMBIL';
+
+                      //                               showDialog(
+                      //                                 context: context,
+                      //                                 builder: (context) =>
+                      //                                     AlertWidget(
+                      //                                   subtitle:
+                      //                                       'Silahkan Review Terlebih Dahulu Untuk Memulai Chat Dengan Customer',
+                      //                                 ),
+                      //                               );
+                      //                             });
+                      //                           },
+                      //                           child: Container(
+                      //                             height: 35,
+                      //                             width: 80,
+                      //                             decoration: BoxDecoration(
+                      //                               borderRadius:
+                      //                                   BorderRadius.circular(
+                      //                                       10),
+                      //                               color:
+                      //                                   fromCssColor('#5DA89C'),
+                      //                             ),
+                      //                             child: Center(
+                      //                               child: Text(
+                      //                                 'Terima',
+                      //                                 style: TextStyle(
+                      //                                   fontWeight: bold,
+                      //                                   fontFamily:
+                      //                                       'ProximaNova',
+                      //                                   fontSize: 13,
+                      //                                   color: Colors.white,
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                           ),
+                      //                         )
+                      //                       : state.findSchedule.value!.data!
+                      //                                   .data![i].status ==
+                      //                               'DIAMBIL'
+                      //                           ? InkWell(
+                      //                               child: Container(
+                      //                                 height: 35,
+                      //                                 width: 80,
+                      //                                 decoration: BoxDecoration(
+                      //                                   borderRadius:
+                      //                                       BorderRadius
+                      //                                           .circular(10),
+                      //                                   color: fromCssColor(
+                      //                                       '#FFC36A'),
+                      //                                 ),
+                      //                                 child: Center(
+                      //                                   child: Text(
+                      //                                     'Diambil',
+                      //                                     style: TextStyle(
+                      //                                       fontWeight: bold,
+                      //                                       fontFamily:
+                      //                                           'ProximaNova',
+                      //                                       fontSize: 13,
+                      //                                       color: Colors.white,
+                      //                                     ),
+                      //                                   ),
+                      //                                 ),
+                      //                               ),
+                      //                             )
+                      //                           : Container(
+                      //                               height: 35,
+                      //                               width: 80,
+                      //                               decoration: BoxDecoration(
+                      //                                 borderRadius:
+                      //                                     BorderRadius.circular(
+                      //                                         10),
+                      //                                 color: fromCssColor(
+                      //                                     '#6B6B6B'),
+                      //                               ),
+                      //                               child: Center(
+                      //                                 child: Text(
+                      //                                   'Expired',
+                      //                                   style: TextStyle(
+                      //                                     fontWeight: bold,
+                      //                                     fontFamily:
+                      //                                         'ProximaNova',
+                      //                                     fontSize: 13,
+                      //                                     color: Colors.white,
+                      //                                   ),
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //           );
+                      //         },
+                      //       );
+                      //     } else {
+                      //       return Container(
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.transparent,
+                      //           borderRadius: BorderRadius.circular(10),
+                      //         ),
+                      //         child: Center(
+                      //           child: Text(
+                      //             'Tidak ada jadwal',
+                      //             style: TextStyle(
+                      //               fontWeight: bold,
+                      //               color: fromCssColor('#6B6B6B'),
+                      //               fontSize: 20,
+                      //               fontFamily: 'ProximaNova,',
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }
+                      //   }
+                      //   return SizedBox();
+                      // }),
                       state.totalFindSchedule.value == 0
                           ? Container(
                               decoration: BoxDecoration(
@@ -407,6 +635,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               padding: const EdgeInsets.only(
                                                   bottom: 5),
                                               child: Text(
+                                                // 'test',
                                                 'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.name}',
                                                 style: TextStyle(
                                                     fontFamily: 'ProximaNova',
@@ -416,6 +645,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               ),
                                             ),
                                             Text(
+                                              // 'topic',
                                               'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.segment}',
                                               style: TextStyle(
                                                   fontFamily: 'ProximaNova',

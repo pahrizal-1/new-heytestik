@@ -28,14 +28,17 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
   Future<FindDoctorScheduleModel> getDoctorSchedule(
       int currentScheduleId, String startTime, String endTime) async {
     var response = await networkingConfig.doGet(
-      '/consultation/doctor-schedule/${currentScheduleId}',
-      params: {'start_time': startTime, 'end_time': endTime},
+      '/consultation/doctor-schedule/$currentScheduleId',
+      params: {
+        'start_time': startTime,
+        'end_time': endTime,
+      },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
-    print('hasil ${response}');
+    print('hasil get doctor ${response}');
 
     return FindDoctorScheduleModel.fromJson(response);
   }
