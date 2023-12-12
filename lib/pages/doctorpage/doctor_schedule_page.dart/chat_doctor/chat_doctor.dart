@@ -428,11 +428,11 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       print("message ${newMessage['sender']['fullname']}");
       // var result = json.decode(newMessage);
 
-      notificationService.showLocalNotification(
-        id: widget.receiverId ?? 0,
-        title: widget.receiverBy ?? '',
-        body: "${newMessage['message']}",
-      );
+      // notificationService.showLocalNotification(
+      //   id: widget.receiverId ?? 0,
+      //   title: widget.receiverBy ?? '',
+      //   body: "${newMessage['message']}",
+      // );
 
       Data2 result = Data2.fromJson(newMessage);
       setState(() {

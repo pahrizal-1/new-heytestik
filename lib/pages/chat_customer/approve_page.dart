@@ -87,15 +87,13 @@ class _ApprovePageState extends State<ApprovePage> {
                   color: const Color(0xffD9D9D9),
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image:
-                        //  state.initiate.value!.data != null
-                        //     ? NetworkImage(
-                        //             "${Global.FILE}/${state.initiate.value!.data!.doctor!.photoProfile}")
-                        //         as ImageProvider
-                        //     :
-                        AssetImage(
-                      'assets/icons/person-white.png',
-                    ),
+                    image: state.initiate.value!.data != null
+                        ? NetworkImage(
+                                "${Global.FILE}/${state.initiate.value!.data!.doctor!.photoProfile}")
+                            as ImageProvider
+                        : AssetImage(
+                            'assets/icons/person-white.png',
+                          ),
                   ),
                 ),
               ),
@@ -150,32 +148,6 @@ class _ApprovePageState extends State<ApprovePage> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(
-                  () => Expanded(
-                    child: Text(
-                      state.status.value.isEmpty
-                          ? state.resendTime.value.toString()
-                          : state.status.value,
-                      textAlign: TextAlign.center,
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                // state.status.value.isEmpty
-                //     ?
-                // Text(
-                //   'detik',
-                //   style: grenTextStyle.copyWith(fontSize: 18),
-                // )
-                // : Container()
-              ],
-            )
           ],
         ),
       ),
