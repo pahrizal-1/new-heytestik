@@ -209,12 +209,14 @@ class _AlamatpageState extends State<Alamatpage> {
                   Container(
                     height: 40,
                     child: TextFormField(
-                      maxLength: 30,
+                      maxLength: 5,
+                      controller: state.kodePos,
                       onChanged: (value) {
-                        if (state.labelAddress.text.length <= 30) {
+                        if (state.kodePos.text.length <= 5) {
                           setState(() {});
                         }
                       },
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 10, left: 9),
                           counterText: '',
@@ -230,7 +232,7 @@ class _AlamatpageState extends State<Alamatpage> {
                           labelStyle: subTitleTextStyle,
                           suffix: Padding(
                             padding: const EdgeInsets.only(right: 10),
-                            child: Text('${state.labelAddress.text.length}/30'),
+                            child: Text('${state.kodePos.text.length}/5'),
                           ),
                           suffixStyle: greyTextStyle.copyWith(
                               fontSize: 12, fontWeight: regular)),
