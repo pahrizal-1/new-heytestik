@@ -19,6 +19,7 @@ class AddressController extends StateClass {
   TextEditingController labelAddress = TextEditingController();
   TextEditingController completeAddress = TextEditingController();
   TextEditingController noteForCourier = TextEditingController();
+  TextEditingController kodePos = TextEditingController();
   RxString pinpointAddress = ''.obs;
   RxDouble pinpointLatitude = 0.0.obs;
   RxDouble pinpointLongitude = 0.0.obs;

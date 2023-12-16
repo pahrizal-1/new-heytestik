@@ -209,6 +209,41 @@ class _AlamatpageState extends State<Alamatpage> {
                   Container(
                     height: 40,
                     child: TextFormField(
+                      maxLength: 5,
+                      controller: state.kodePos,
+                      onChanged: (value) {
+                        if (state.kodePos.text.length <= 5) {
+                          setState(() {});
+                        }
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 10, left: 9),
+                          counterText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: borderColor),
+                          ),
+                          labelText: 'Kode Pos',
+                          labelStyle: subTitleTextStyle,
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text('${state.kodePos.text.length}/5'),
+                          ),
+                          suffixStyle: greyTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextFormField(
                       maxLength: 30,
                       controller: state.labelAddress,
                       onChanged: (value) {
