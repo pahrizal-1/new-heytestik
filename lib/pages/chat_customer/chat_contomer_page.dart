@@ -315,11 +315,11 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
       print("message ${newMessage['sender']['fullname']}");
       // var result = json.decode(newMessage);
 
-      notificationService.showLocalNotification(
-        id: widget.receiverId,
-        title: widget.receiverBy,
-        body: "${newMessage['message']}",
-      );
+      // notificationService.showLocalNotification(
+      //   id: widget.receiverId,
+      //   title: widget.receiverBy,
+      //   body: "${newMessage['message']}",
+      // );
 
       Data2 result = Data2.fromJson(newMessage);
       setState(() {
