@@ -168,6 +168,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         ),
                         InkWell(
                           onTap: () async {
+                            print(state.completionData.value.data?.subtitle);
                             bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
@@ -192,7 +193,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                               ));
                             }
                             if (state.completionData.value.data?.subtitle ==
-                                'Penyakit Augmentation Wajah & Tubuh') {
+                                'Skin Goals Augmentation Wajah & Tubuh') {
                               check = await Get.to(SkinGolasWajahTubuh(
                                 isEdit: false,
                                 isCompleteProfile: true,
