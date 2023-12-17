@@ -99,39 +99,40 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
                     ),
                   ],
                 ),
-                Obx(
-                  () => state.filterData.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Center(
-                            child: Text(
-                              'Tidak ada alamat',
-                              style: TextStyle(
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                                fontSize: 20,
-                              ),
+                state.filterData.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Center(
+                          child: Text(
+                            'Tidak ada alamat',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 20,
                             ),
                           ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: state.filterData.length,
-                          itemBuilder: (BuildContext context, index) {
-                            return cardAddress(
-                              context,
-                              state.filterData[index].id!.toInt(),
-                              state.filterData[index].labelAddress ?? '-',
-                              state.filterData[index].recipientName ?? '-',
-                              state.filterData[index].completeAddress ?? '-',
-                              state.filterData[index].pinpointAddress ?? '-',
-                              state.filterData[index].mainAddress!,
-                              state.filterData[index],
-                            );
-                          },
                         ),
-                ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.filterData.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return cardAddress(
+                            context,
+                            state.filterData[index].id!.toInt(),
+                            state.filterData[index].labelAddress ?? '-',
+                            state.filterData[index].recipientName ?? '-',
+                            state.filterData[index].completeAddress ?? '-',
+                            state.filterData[index].pinpointAddress ?? '-',
+                            state.filterData[index].mainAddress!,
+                            state.filterData[index].province ?? '-',
+                            state.filterData[index].city ?? '-',
+                            state.filterData[index].subdistrict ?? '-',
+                            state.filterData[index],
+                          );
+                        },
+                      ),
               ],
             ),
           ),
@@ -148,6 +149,9 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
     String completeAddress,
     String pinPointAddress,
     bool mainAddress,
+    String prov,
+    String kota,
+    String kec,
     dynamic data,
   ) {
     return Container(
@@ -245,6 +249,9 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
                           onPressed: () {
                             Get.to(Alamatpage(
                               addressId: addressId,
+                              prov: prov,
+                              kota: kota,
+                              kec: kec,
                             ));
                           },
                           style: TextButton.styleFrom(
@@ -338,7 +345,7 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
                                   ),
                                   Obx(
                                     () => LoadingWidget(
-                                      isLoading: state.isLoading.value,
+                                      isLoading: state.isLoadingDelete.value,
                                       child: InkWell(
                                         onTap: () async {
                                           await state.deleteAddress(

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
+// ignore_for_file: must_be_immutable, use_build_context_synchronously, invalid_use_of_protected_member, prefer_null_aware_operators
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,13 +7,21 @@ import 'package:heystetik_mobileapps/controller/customer/account/address_control
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-import 'package:heystetik_mobileapps/widget/drop_dow_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
 class Alamatpage extends StatefulWidget {
   int addressId;
-  Alamatpage({this.addressId = 0, super.key});
+  String? prov;
+  String? kota;
+  String? kec;
+  Alamatpage({
+    this.addressId = 0,
+    this.prov = '',
+    this.kota = '',
+    this.kec = '',
+    super.key,
+  });
 
   @override
   State<Alamatpage> createState() => _AlamatpageState();
@@ -26,10 +34,28 @@ class _AlamatpageState extends State<Alamatpage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.isLoading.value = true;
       state.clearForm();
+      await state.getProvince(context);
       if (widget.addressId != 0) {
-        state.findAddress(context, widget.addressId);
+        await state.getCity(
+          context,
+          widget.prov.toString(),
+        );
+        await state.getSubdistrict(
+          context,
+          widget.prov.toString(),
+          widget.kota.toString(),
+        );
+        await state.getZipcode(
+          context,
+          widget.prov.toString(),
+          widget.kota.toString(),
+          widget.kec.toString(),
+        );
+        await state.findAddress(context, widget.addressId);
       }
+      state.isLoading.value = false;
     });
   }
 
@@ -194,48 +220,163 @@ class _AlamatpageState extends State<Alamatpage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const DropDownProvinsiWiget(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFFCCCCCC)),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: DropdownButton<String?>(
+                      underline: Container(),
+                      value:
+                          state.prov!.value.isEmpty ? null : state.prov?.value,
+                      hint: Text(
+                        'Provinsi',
+                        style: blackTextStyle.copyWith(
+                            color: const Color(0xff323232), fontWeight: medium),
+                      ),
+                      elevation: 0,
+                      isExpanded: true,
+                      items: state.province.value
+                          .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem<String>(
+                              value: e.province.toString(),
+                              child: Text(
+                                e.province.toString(),
+                                style: blackTextStyle,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: ((value) {
+                        if (value != null) {
+                          state.prov?.value = value;
+                          state.kot?.value = "";
+                          state.kec?.value = "";
+                          state.kodePos?.value = "";
+                          state.getCity(context, state.prov!.value);
+                          setState(() {});
+                        }
+                      }),
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const DropDownkotaWiget(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFFCCCCCC)),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: DropdownButton<String?>(
+                      underline: Container(),
+                      value: state.kot!.value.isEmpty ? null : state.kot?.value,
+                      hint: Text(
+                        'Kabupaten / Kota',
+                        style: blackTextStyle.copyWith(
+                            color: const Color(0xff323232), fontWeight: medium),
+                      ),
+                      elevation: 0,
+                      isExpanded: true,
+                      items: state.city.value
+                          .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem<String>(
+                              value: e.city.toString(),
+                              child: Text(
+                                e.city.toString(),
+                                style: blackTextStyle,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: ((value) {
+                        if (value != null) {
+                          state.kot?.value = value;
+                          state.kec?.value = "";
+                          state.kodePos?.value = "";
+                          state.getSubdistrict(
+                              context, state.prov!.value, state.kot!.value);
+                          setState(() {});
+                        }
+                      }),
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  DropDownKecamataniWiget(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFFCCCCCC)),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: DropdownButton<String?>(
+                      underline: Container(),
+                      value: state.kec!.value.isEmpty ? null : state.kec?.value,
+                      hint: Text(
+                        'Kecamatan',
+                        style: blackTextStyle.copyWith(
+                            color: const Color(0xff323232), fontWeight: medium),
+                      ),
+                      elevation: 0,
+                      isExpanded: true,
+                      items: state.subdistrict.value
+                          .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem<String>(
+                              value: e.subdistrict.toString(),
+                              child: Text(
+                                e.subdistrict.toString(),
+                                style: blackTextStyle,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: ((value) {
+                        if (value != null) {
+                          state.kec?.value = value;
+                          state.kodePos?.value = "";
+                          state.getZipcode(context, state.prov!.value,
+                              state.kot!.value, state.kec!.value);
+                          setState(() {});
+                        }
+                      }),
+                    ),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
                   Container(
-                    height: 40,
-                    child: TextFormField(
-                      maxLength: 5,
-                      controller: state.kodePos,
-                      onChanged: (value) {
-                        if (state.kodePos.text.length <= 5) {
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFFCCCCCC)),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: DropdownButton<String?>(
+                      underline: Container(),
+                      value: state.kodePos!.value.isEmpty
+                          ? null
+                          : state.kodePos?.value,
+                      hint: Text(
+                        'Kode Pos',
+                        style: blackTextStyle.copyWith(
+                            color: const Color(0xff323232), fontWeight: medium),
+                      ),
+                      elevation: 0,
+                      isExpanded: true,
+                      items: state.zipcode.value
+                          .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem<String>(
+                              value: e.fullZipCode.toString(),
+                              child: Text(
+                                e.fullZipCode.toString(),
+                                style: blackTextStyle,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: ((value) {
+                        if (value != null) {
+                          state.kodePos?.value = value;
                           setState(() {});
                         }
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 10, left: 9),
-                          counterText: '',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: BorderSide(color: borderColor),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: BorderSide(color: borderColor),
-                          ),
-                          labelText: 'Kode Pos',
-                          labelStyle: subTitleTextStyle,
-                          suffix: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Text('${state.kodePos.text.length}/5'),
-                          ),
-                          suffixStyle: greyTextStyle.copyWith(
-                              fontSize: 12, fontWeight: regular)),
+                      }),
                     ),
                   ),
                   SizedBox(
