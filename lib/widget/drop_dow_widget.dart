@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_null_aware_operators, must_be_immutable
+// ignore_for_file: prefer_null_aware_operators, must_be_immutable, unnecessary_null_comparison, unnecessary_null_in_if_null_operators
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,7 @@ import '../controller/customer/interest/interest_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 
 class DropDownWiget extends StatefulWidget {
-  DropDownWiget({super.key, required this.type});
+  const DropDownWiget({super.key, required this.type});
 
   final int type;
 
@@ -111,78 +111,6 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
                 value: selectedvalue,
                 hint: Text(
                   'Provinsi',
-                  style: blackTextStyle.copyWith(
-                      color: const Color(0xff323232), fontWeight: medium),
-                ),
-                elevation: 0,
-                isExpanded: true,
-                items: !snapshot.hasData
-                    ? null
-                    : snapshot.data
-                        .map<DropdownMenuItem<String>>(
-                          (e) => DropdownMenuItem<String>(
-                            value: e['id'].toString(),
-                            child: Text(
-                              e['name'],
-                              style: blackTextStyle,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                onChanged: ((value) {
-                  if (value != null) {
-                    state.setProvince(int.parse(value));
-                    state.setCity(null);
-                    setState(
-                      () {
-                        selectedvalue = value;
-                      },
-                    );
-                  }
-                }),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class DropDownKecamataniWiget extends StatefulWidget {
-  const DropDownKecamataniWiget({super.key});
-
-  @override
-  State<DropDownKecamataniWiget> createState() =>
-      _DropDownKecamataniWigetState();
-}
-
-class _DropDownKecamataniWigetState extends State<DropDownKecamataniWiget> {
-  String? selectedvalue;
-  @override
-  Widget build(BuildContext context) {
-    var state = Provider.of<RegisterController>(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Kecamatan*',
-          style: blackTextStyle,
-        ),
-        FutureBuilder(
-          future: GeographyService().getProvince(),
-          builder: (context, AsyncSnapshot snapshot) {
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0XFFCCCCCC)),
-                  borderRadius: BorderRadius.circular(7)),
-              child: DropdownButton<String?>(
-                underline: Container(),
-                value: selectedvalue,
-                hint: Text(
-                  'Kecamatan',
                   style: blackTextStyle.copyWith(
                       color: const Color(0xff323232), fontWeight: medium),
                 ),
