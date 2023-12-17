@@ -14,8 +14,8 @@ import '../../widget/more_dialog_widget.dart';
 import '../../widget/snackbar_widget.dart';
 
 class VerificationPage extends StatelessWidget {
-  bool isContinue = false;
-  VerificationPage({this.isContinue = false, super.key});
+  bool isCompleteProfile = false;
+  VerificationPage({this.isCompleteProfile = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +109,8 @@ class VerificationPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyPhoneNumber(context,
-                        isContinue: isContinue, doInPost: () async {
-                      if (isContinue) {
+                        isCompleteProfile: isCompleteProfile, doInPost: () async {
+                      if (isCompleteProfile) {
                         Get
                           ..back(result: true)
                           ..back(result: true);

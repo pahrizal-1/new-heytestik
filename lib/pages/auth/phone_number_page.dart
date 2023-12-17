@@ -12,8 +12,8 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
 class PhoneNumberPage extends StatelessWidget {
-  bool isContinue = false;
-  PhoneNumberPage({this.isContinue = false, super.key});
+  bool isCompleteProfile = false;
+  PhoneNumberPage({this.isCompleteProfile = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +104,8 @@ class PhoneNumberPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              VerificationPage(isContinue: isContinue),
+                          builder: (context) => VerificationPage(
+                              isCompleteProfile: isCompleteProfile),
                         ),
                       );
                       SnackbarWidget.getSuccessSnackbar(
