@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/intiate_chat_model.dart';
 import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/approve_page.dart';
 import 'package:heystetik_mobileapps/service/customer/consultation/consultation_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -87,6 +88,9 @@ class ConsultationController extends StateClass {
         //     builder: (context) => const TabBarCustomer(currentIndex: 1),
         //   ),
         // );
+        Get.to(ApprovePage(
+          orderId: orderId,
+        ));
         showDialog(
           context: Get.context!,
           builder: (context) =>

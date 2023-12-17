@@ -87,9 +87,9 @@ class _ApprovePageState extends State<ApprovePage> {
                   color: const Color(0xffD9D9D9),
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: state.initiate.value!.data != null
+                    image: state.initiate.value?.data?.doctor?.mediaUserProfilePicture != null
                         ? NetworkImage(
-                                "${Global.FILE}/${state.initiate.value!.data!.doctor!.photoProfile}")
+                                "${Global.FILE}/${state.initiate.value?.data?.doctor?.mediaUserProfilePicture?.media?.path}")
                             as ImageProvider
                         : AssetImage(
                             'assets/icons/person-white.png',

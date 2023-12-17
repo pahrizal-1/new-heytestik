@@ -92,9 +92,6 @@ class _SuccessPageState extends State<SuccessPage> {
                             if (state.initiate.value!.success == true &&
                                 state.initiate.value!.message == 'Success') {
                               state.initiateChat(context, widget.orderId);
-                              Get.to(ApprovePage(
-                                orderId: widget.orderId,
-                              ));
                               print(
                                   // 'hey ${state.initiate.value!.data!.doctor!.fullname}');
                                   'hey ${state.initiate.value!.data!.doctor!.photoProfile}');
