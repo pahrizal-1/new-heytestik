@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_single_quotes
 
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -57,8 +58,9 @@ class ErrorConfig implements Exception {
     String? message;
     if (dioError.response?.data['ket'] != null) {
       message = dioError.response?.data['ket'].toString();
-    } else if (dioError.response?.data['error'] != null) {
-      message = dioError.response?.data['error'].toString();
+    } else if (dioError.response?.data['errors'] != null) {
+      var cek = (jsonEncode(dioError.response?.data['errors']));
+      message = cek.toString();
     } else if (dioError.response?.data['message'] != null) {
       message = dioError.response?.data['message'].toString();
     } else if (dioError.response?.data['status'] != null) {
