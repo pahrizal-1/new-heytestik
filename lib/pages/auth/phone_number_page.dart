@@ -13,7 +13,10 @@ import 'package:provider/provider.dart';
 
 class PhoneNumberPage extends StatelessWidget {
   bool isCompleteProfile = false;
-  PhoneNumberPage({this.isCompleteProfile = false, super.key});
+  PhoneNumberPage({
+    this.isCompleteProfile = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

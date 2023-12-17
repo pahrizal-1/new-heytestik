@@ -17,7 +17,10 @@ import '../../widget/timeline_widget.dart';
 
 class VerificationAcooutPage extends StatefulWidget {
   bool isCompleteProfile = false;
-  VerificationAcooutPage({this.isCompleteProfile = false, super.key});
+  VerificationAcooutPage({
+    this.isCompleteProfile = false,
+    super.key,
+  });
 
   @override
   State<VerificationAcooutPage> createState() => _VerificationAcooutPageState();
