@@ -50,7 +50,8 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                       InkWell(
                         onTap: () async {
                           bool check = await Get.to(() => BeautyProfilPage(
-                                isContinue: false,
+                               isEdit: true,
+                                isCompleteProfile: false,
                               ));
                           if (check) {
                             await state.getInterest(context);

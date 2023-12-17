@@ -15,8 +15,10 @@ import '../../widget/button_widget.dart';
 import '../../widget/timeline_widget.dart';
 
 class BeautyProfilPage extends StatefulWidget {
-  bool isContinue;
-  BeautyProfilPage({required this.isContinue, super.key});
+  bool isEdit = false;
+  bool isCompleteProfile;
+  BeautyProfilPage(
+      {required this.isEdit, required this.isCompleteProfile, super.key});
 
   @override
   State<BeautyProfilPage> createState() => _BeautyProfilPageState();
@@ -35,7 +37,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.isContinue == false) {
+    if (widget.isEdit) {
       state.skinType.value =
           stateProfile.interestData.value.data?.beautyProfile?.skinType ?? '';
       if (state.skinType.value == 'Kering') {
@@ -366,7 +368,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
               onTap: () async {
-                if (widget.isContinue == false) {
+                if (widget.isCompleteProfile) {
                   Get.back(result: false);
                 } else {
                   await showDialog(
@@ -381,7 +383,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     MaterialPageRoute(
                       builder: (context) => SkinGoalsKorektifWajah(
                         isEdit: false,
-                        isCompleteProfile: widget.isContinue,
+                        isCompleteProfile: widget.isCompleteProfile,
                       ),
                     ),
                   );
@@ -674,12 +676,13 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                       () => LoadingWidget(
                         isLoading: state.isLoading.value,
                         child: ButtonGreenWidget(
-                          title:
-                              widget.isContinue == false ? 'Simpan' : 'Lanjut',
+                          title: widget.isCompleteProfile == false
+                              ? 'Simpan'
+                              : 'Lanjut',
                           onPressed: () async {
                             await state.beautifulProfile(context,
                                 doInPost: () async {
-                              if (widget.isContinue == false) {
+                              if (widget.isCompleteProfile) {
                                 Get.back(result: true);
                               } else {
                                 Navigator.push(
@@ -688,7 +691,8 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                                     builder: (context) =>
                                         SkinGoalsKorektifWajah(
                                       isEdit: false,
-                                      isCompleteProfile: widget.isContinue,
+                                      isCompleteProfile:
+                                          widget.isCompleteProfile,
                                     ),
                                   ),
                                 );
@@ -698,11 +702,11 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                         ),
                       ),
                     ),
-                    if (widget.isContinue)
+                    if (widget.isEdit == false && widget.isCompleteProfile == false)
                       const SizedBox(
                         height: 20,
                       ),
-                    if (widget.isContinue)
+                    if (widget.isEdit == false && widget.isCompleteProfile == false)
                       Padding(
                         padding: lsymetric,
                         child: ButtonTextWidget(
@@ -720,7 +724,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                               MaterialPageRoute(
                                 builder: (context) => SkinGoalsKorektifWajah(
                                   isEdit: false,
-                                  isCompleteProfile: widget.isContinue,
+                                  isCompleteProfile: widget.isCompleteProfile,
                                 ),
                               ),
                             );
