@@ -17,8 +17,11 @@ import '../../widget/timeline_widget.dart';
 class BeautyProfilPage extends StatefulWidget {
   bool isEdit = false;
   bool isCompleteProfile;
-  BeautyProfilPage(
-      {required this.isEdit, required this.isCompleteProfile, super.key});
+  BeautyProfilPage({
+    required this.isEdit,
+    required this.isCompleteProfile,
+    super.key,
+  });
 
   @override
   State<BeautyProfilPage> createState() => _BeautyProfilPageState();
@@ -368,7 +371,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
             padding: const EdgeInsets.symmetric(horizontal: 26),
             child: GestureDetector(
               onTap: () async {
-                if (widget.isCompleteProfile) {
+                if (widget.isCompleteProfile || widget.isEdit) {
                   Get.back(result: false);
                 } else {
                   await showDialog(
@@ -382,7 +385,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => SkinGoalsKorektifWajah(
-                        isEdit: false,
+                        isEdit: widget.isEdit,
                         isCompleteProfile: widget.isCompleteProfile,
                       ),
                     ),
@@ -682,7 +685,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                           onPressed: () async {
                             await state.beautifulProfile(context,
                                 doInPost: () async {
-                              if (widget.isCompleteProfile) {
+                              if (widget.isCompleteProfile || widget.isEdit) {
                                 Get.back(result: true);
                               } else {
                                 Navigator.push(
@@ -690,7 +693,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         SkinGoalsKorektifWajah(
-                                      isEdit: false,
+                                      isEdit: widget.isEdit,
                                       isCompleteProfile:
                                           widget.isCompleteProfile,
                                     ),
@@ -702,11 +705,13 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                         ),
                       ),
                     ),
-                    if (widget.isEdit == false && widget.isCompleteProfile == false)
+                    if (widget.isEdit == false &&
+                        widget.isCompleteProfile == false)
                       const SizedBox(
                         height: 20,
                       ),
-                    if (widget.isEdit == false && widget.isCompleteProfile == false)
+                    if (widget.isEdit == false &&
+                        widget.isCompleteProfile == false)
                       Padding(
                         padding: lsymetric,
                         child: ButtonTextWidget(
@@ -723,7 +728,7 @@ class _BeautyProfilPageState extends State<BeautyProfilPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SkinGoalsKorektifWajah(
-                                  isEdit: false,
+                                  isEdit: widget.isEdit,
                                   isCompleteProfile: widget.isCompleteProfile,
                                 ),
                               ),
