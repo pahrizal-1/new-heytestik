@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 class EditBeautyProfilPage extends StatefulWidget {
-  EditBeautyProfilPage({super.key});
+  const EditBeautyProfilPage({super.key});
 
   @override
   State<EditBeautyProfilPage> createState() => _EditBeautyProfilPageState();
@@ -50,7 +50,7 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                       InkWell(
                         onTap: () async {
                           bool check = await Get.to(() => BeautyProfilPage(
-                               isEdit: true,
+                                isEdit: true,
                                 isCompleteProfile: false,
                               ));
                           if (check) {
@@ -71,54 +71,66 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                   SizedBox(
                     height: 19,
                   ),
-                  beutytext(
-                    'Tipe Kulit',
-                    state.interestData.value.data?.beautyProfile?.skinType ??
-                        '-',
+                  Obx(
+                    () => beutytext(
+                      'Tipe Kulit',
+                      state.interestData.value.data?.beautyProfile?.skinType ??
+                          '-',
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  beutytext(
-                    'Warna Tone Kulit',
-                    state.interestData.value.data?.beautyProfile
-                            ?.skinToneColor ??
-                        '-',
+                  Obx(
+                    () => beutytext(
+                      'Warna Tone Kulit',
+                      state.interestData.value.data?.beautyProfile
+                              ?.skinToneColor ??
+                          '-',
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  beutytext(
-                    'Warna Undertone Kulit',
-                    state.interestData.value.data?.beautyProfile
-                            ?.skinUndertoneColor ??
-                        '-',
+                  Obx(
+                    () => beutytext(
+                      'Warna Undertone Kulit',
+                      state.interestData.value.data?.beautyProfile
+                              ?.skinUndertoneColor ??
+                          '-',
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  beutytext(
-                    'Tipe Rambut',
-                    state.interestData.value.data?.beautyProfile?.hairType ??
-                        '-',
+                  Obx(
+                    () => beutytext(
+                      'Tipe Rambut',
+                      state.interestData.value.data?.beautyProfile?.hairType ??
+                          '-',
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  beutytext(
-                    'Warna Rambut',
-                    state.interestData.value.data?.beautyProfile?.hairColor ??
-                        '-',
+                  Obx(
+                    () => beutytext(
+                      'Warna Rambut',
+                      state.interestData.value.data?.beautyProfile?.hairColor ??
+                          '-',
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  beutytext(
-                    'Hijabers',
-                    state.interestData.value.data?.beautyProfile?.hijabers ==
-                            true
-                        ? 'Iya'
-                        : 'Tidak',
+                  Obx(
+                    () => beutytext(
+                      'Hijabers',
+                      state.interestData.value.data?.beautyProfile?.hijabers ==
+                              true
+                          ? 'Iya'
+                          : 'Tidak',
+                    ),
                   ),
                 ],
               ),
@@ -163,42 +175,56 @@ class _EditBeautyProfilPageState extends State<EditBeautyProfilPage> {
                   SizedBox(
                     height: 29,
                   ),
-                  skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  skinGoalAugmentation(
-                      'Skin Goals - Augmentation Wajah & Tubuh'),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  skinGoalsSexuallyAndSkinDiseases(
-                      'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  skinGoalPernahTreatment('Pernah Treatment'),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  skinGoalsBudget(
-                    'Anggaran Skincare',
-                    state.interestData.value.data?.skinGoalsBudget
-                            ?.budgetForSkincare ??
-                        '',
+                  Obx(
+                    () => skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
                   ),
                   SizedBox(
                     height: 19,
                   ),
-                  skinGoalsBudget(
-                    'Anggaran Treatment',
-                    state.interestData.value.data?.skinGoalsBudget
-                            ?.budgetForTreatment ??
-                        '',
+                  Obx(
+                    () => skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
+                  ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Obx(
+                    () => skinGoalAugmentation(
+                        'Skin Goals - Augmentation Wajah & Tubuh'),
+                  ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Obx(
+                    () => skinGoalsSexuallyAndSkinDiseases(
+                        'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
+                  ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Obx(
+                    () => skinGoalPernahTreatment('Pernah Treatment'),
+                  ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Obx(
+                    () => skinGoalsBudget(
+                      'Anggaran Skincare',
+                      state.interestData.value.data?.skinGoalsBudget
+                              ?.budgetForSkincare ??
+                          '',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Obx(
+                    () => skinGoalsBudget(
+                      'Anggaran Treatment',
+                      state.interestData.value.data?.skinGoalsBudget
+                              ?.budgetForTreatment ??
+                          '',
+                    ),
                   ),
                 ],
               ),
