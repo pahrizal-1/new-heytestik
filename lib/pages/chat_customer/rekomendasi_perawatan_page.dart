@@ -5,6 +5,8 @@ import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.da
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/resep_digita_rekomendasi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/resep_digital_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -141,8 +143,6 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                   .consultationRecomendationTreatment!.isEmpty
                           ? 70
                           : 0,
-                      left: 33,
-                      right: 33,
                     ),
                     child: Column(
                       children: [
@@ -207,7 +207,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
   Container resepDigital() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 19, horizontal: 15),
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10, left: 25, right: 25),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           border: Border.all(
@@ -405,8 +405,10 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
           ),
         ),
         Container(
+          margin: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           height: 70,
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
             color: fromCssColor('#FF9F314D'),
           ),
           child: Padding(
@@ -416,8 +418,9 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 Container(
                   width: 46,
                   height: 38,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
+                      fit: BoxFit.cover,
                       image: AssetImage('assets/icons/solutions.png'),
                     ),
                   ),
@@ -443,224 +446,260 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
           ),
         ),
         const SizedBox(
-          height: 20,
+          height: 5,
         ),
         if (state.data.value.consultationRecipeDrug!.isNotEmpty)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Resep obat',
-                style: TextStyle(
-                  fontWeight: bold,
-                  fontSize: 18,
-                  fontFamily: 'ProximaNova',
-                  color: Colors.black,
-                  letterSpacing: 1,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Resep obat',
+                  style: TextStyle(
+                    fontWeight: bold,
+                    fontSize: 18,
+                    fontFamily: 'ProximaNova',
+                    color: Colors.black,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  debugPrint("UNDUH RESEP");
-                },
-                child: Icon(
-                  Icons.file_download_rounded,
-                ),
-              )
-            ],
+                InkWell(
+                  onTap: () {
+                    Get.to(ResepDigitalPage());
+                    debugPrint("UNDUH RESEP");
+                  },
+                  child: Icon(
+                    Icons.file_download_rounded,
+                  ),
+                )
+              ],
+            ),
           ),
         if (state.data.value.consultationRecipeDrug!.isNotEmpty)
           SizedBox(
             height: 20,
           ),
         if (state.data.value.consultationRecipeDrug!.isNotEmpty)
-          Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  state.onChecklistObat(state.listObat.length, true);
-                  setState(() {});
-                },
-                child: Obx(
-                  () => Container(
-                    width: 23,
-                    padding: const EdgeInsets.all(4),
-                    height: 23,
-                    decoration: BoxDecoration(
-                      color: state.isAllObatSelected.value ? greenColor : null,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(
-                        color: state.isAllObatSelected.value
-                            ? greenColor
-                            : greyColor,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    state.onChecklistObat(state.listObat.length, true);
+                    setState(() {});
+                  },
+                  child: Obx(
+                    () => Container(
+                      width: 23,
+                      padding: const EdgeInsets.all(4),
+                      height: 23,
+                      decoration: BoxDecoration(
+                        color:
+                            state.isAllObatSelected.value ? greenColor : null,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: state.isAllObatSelected.value
+                              ? greenColor
+                              : greyColor,
+                        ),
                       ),
+                      child: state.isAllObatSelected.value
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
-                    child: state.isAllObatSelected.value
-                        ? Image.asset('assets/icons/chek_new.png')
-                        : null,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Container(
-                transform: Matrix4.translationValues(0, -3, 0),
-                child: const Text(
-                  'Pilih semua',
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  transform: Matrix4.translationValues(0, -3, 0),
+                  child: const Text(
+                    'Pilih semua',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        if (state.data.value.consultationRecipeDrug!.isNotEmpty)
+          const SizedBox(
+            height: 20,
+          ),
+        if (state.data.value.consultationRecipeDrug!.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.data.value.consultationRecipeDrug?.length,
+              itemBuilder: (BuildContext context, index) {
+                return ContainerProdukObat(
+                  index: index,
+                  data: state.data.value.consultationRecipeDrug![index],
+                );
+              },
+            ),
+          ),
+        if (state.data.value.consultationRecipeDrug!.isNotEmpty) dividergreen(),
+        SizedBox(
+          height: 15,
+        ),
+        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Rekomendasi Skincare',
                   style: TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontSize: 15,
-                      letterSpacing: 0.5,
-                      color: Colors.black),
+                    fontWeight: bold,
+                    fontSize: 18,
+                    fontFamily: 'ProximaNova',
+                    color: Colors.black,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        if (state.data.value.consultationRecipeDrug!.isNotEmpty)
-          const SizedBox(
-            height: 20,
-          ),
-        if (state.data.value.consultationRecipeDrug!.isNotEmpty)
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.data.value.consultationRecipeDrug?.length,
-            itemBuilder: (BuildContext context, index) {
-              return ContainerProdukObat(
-                index: index,
-                data: state.data.value.consultationRecipeDrug![index],
-              );
-            },
-          ),
-        if (state.data.value.consultationRecipeDrug!.isNotEmpty) dividergrey(),
-        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Rekomendasi Skincare',
-                style: TextStyle(
-                  fontWeight: bold,
-                  fontSize: 18,
-                  fontFamily: 'ProximaNova',
-                  color: Colors.black,
-                  letterSpacing: 1,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
           const SizedBox(
             height: 20,
           ),
         if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
-          Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  state.onChecklistSkincare(state.listSkincare.length, true);
-                  setState(() {});
-                },
-                child: Obx(
-                  () => Container(
-                    width: 23,
-                    padding: const EdgeInsets.all(4),
-                    height: 23,
-                    decoration: BoxDecoration(
-                      color:
-                          state.isAllSkincareSelected.value ? greenColor : null,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    state.onChecklistSkincare(state.listSkincare.length, true);
+                    setState(() {});
+                  },
+                  child: Obx(
+                    () => Container(
+                      width: 23,
+                      padding: const EdgeInsets.all(4),
+                      height: 23,
+                      decoration: BoxDecoration(
                         color: state.isAllSkincareSelected.value
                             ? greenColor
-                            : greyColor,
+                            : null,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: state.isAllSkincareSelected.value
+                              ? greenColor
+                              : greyColor,
+                        ),
                       ),
+                      child: state.isAllSkincareSelected.value
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
-                    child: state.isAllSkincareSelected.value
-                        ? Image.asset('assets/icons/chek_new.png')
-                        : null,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Container(
-                transform: Matrix4.translationValues(0, -3, 0),
-                child: const Text(
-                  'Pilih semua',
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  transform: Matrix4.translationValues(0, -3, 0),
+                  child: const Text(
+                    'Pilih semua',
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+          SizedBox(
+            height: 15,
+          ),
+        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount:
+                  state.data.value.consultationRecomendationSkincare?.length,
+              itemBuilder: (BuildContext context, index) {
+                return InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => DetailSkinCarePage(
+                        productId: state
+                            .data
+                            .value
+                            .consultationRecomendationSkincare![index]
+                            .productId!,
+                      ),
+                    );
+                  },
+                  child: ContainerProdukSkicare(
+                    index: index,
+                    data: state
+                        .data.value.consultationRecomendationSkincare![index],
+                  ),
+                );
+              },
+            ),
+          ),
+        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+          dividergreen(),
+        SizedBox(
+          height: 15,
+        ),
+        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Rekomendasi Treatment',
                   style: TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontSize: 15,
-                      letterSpacing: 0.5,
-                      color: Colors.black),
+                    fontWeight: bold,
+                    fontSize: 18,
+                    fontFamily: 'ProximaNova',
+                    color: Colors.black,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
           SizedBox(
             height: 15,
           ),
-        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount:
-                state.data.value.consultationRecomendationSkincare?.length,
-            itemBuilder: (BuildContext context, index) {
-              return InkWell(
-                onTap: () {
-                  Get.to(
-                    () => DetailSkinCarePage(
-                      productId: state.data.value
-                          .consultationRecomendationSkincare![index].productId!,
-                    ),
-                  );
-                },
-                child: ContainerProdukSkicare(
-                  index: index,
+        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount:
+                  state.data.value.consultationRecomendationTreatment?.length,
+              itemBuilder: (BuildContext context, index) {
+                return ContainerTreatment(
                   data: state
-                      .data.value.consultationRecomendationSkincare![index],
-                ),
-              );
-            },
-          ),
-        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
-          dividergrey(),
-        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Rekomendasi Treatment',
-                style: TextStyle(
-                  fontWeight: bold,
-                  fontSize: 18,
-                  fontFamily: 'ProximaNova',
-                  color: Colors.black,
-                  letterSpacing: 1,
-                ),
-              ),
-            ],
-          ),
-        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
-          SizedBox(
-            height: 15,
-          ),
-        if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount:
-                state.data.value.consultationRecomendationTreatment?.length,
-            itemBuilder: (BuildContext context, index) {
-              return ContainerTreatment(
-                data:
-                    state.data.value.consultationRecomendationTreatment![index],
-              );
-            },
+                      .data.value.consultationRecomendationTreatment![index],
+                );
+              },
+            ),
           ),
         if (state.data.value.consultationRecomendationTreatment!.isNotEmpty)
           SizedBox(
