@@ -223,7 +223,7 @@ Container WidgetPhoto = Container(
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 120),
+                constraints: const BoxConstraints(maxWidth: 100),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -361,6 +361,8 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
               width: 8,
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,7 +387,6 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          constraints: const BoxConstraints(maxWidth: 160),
                           child: RichText(
                             text: TextSpan(
                               text: widget.data.product?.name ?? '-',
@@ -425,7 +426,7 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                               children: [
                                 Container(
                                   constraints:
-                                      const BoxConstraints(maxWidth: 80),
+                                      const BoxConstraints(maxWidth: 100),
                                   child: Text(
                                     widget.data.product?.skincareDetail
                                             ?.specificationHowToUse ??
@@ -480,37 +481,41 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                 const SizedBox(
                   height: 15,
                 ),
-                Container(
-                  width: 250,
-                  height: 40,
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: 'Catatan',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
+                Row(
+                  children: [
+                    Container(
+                      width: 250,
+                      height: 40,
+                      child: TextFormField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: 'Catatan',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: widget.data.product?.category ?? '',
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: TextStyle(
+                            color: fromCssColor('#A3A3A3'),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: widget.data.product?.category ?? '',
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: TextStyle(
-                        color: fromCssColor('#A3A3A3'),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(
                   height: 21,
@@ -637,6 +642,8 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                   width: 8,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,7 +668,6 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              constraints: const BoxConstraints(maxWidth: 160),
                               child: RichText(
                                 text: TextSpan(
                                   text: widget.data.product?.name ?? '-',
@@ -701,7 +707,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                                   children: [
                                     Container(
                                       constraints:
-                                          const BoxConstraints(maxWidth: 80),
+                                          const BoxConstraints(maxWidth: 100),
                                       child: Text(
                                         widget.data.product?.drugDetail
                                                 ?.specificationDose ??
@@ -738,6 +744,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   CurrencyFormat.convertToIdr(
@@ -755,15 +762,19 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  '1 (${widget.data.product?.drugDetail?.specificationPackaging})',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    fontSize: 13,
-                                    fontWeight: bold,
-                                    letterSpacing: 0.5,
-                                    color: fromCssColor(
-                                      '#323232',
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 100),
+                                  child: Text(
+                                    '1 (${widget.data.product?.drugDetail?.specificationPackaging})',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 13,
+                                      fontWeight: bold,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#323232',
+                                      ),
                                     ),
                                   ),
                                 )
@@ -932,7 +943,6 @@ class ContainerTreatment extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          constraints: BoxConstraints(maxWidth: 160),
                           child: RichText(
                             text: TextSpan(
                               text: data.name ?? '-',
