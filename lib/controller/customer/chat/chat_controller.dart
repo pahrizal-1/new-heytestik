@@ -207,14 +207,14 @@ class CustomerChatController extends StateClass {
   joinRoom(String roomCode) {
     print('joinRoom');
     _socket?.emit('joinRoom', {"room": roomCode});
-    print('joinRoom ${roomCode}');
+    print('joinRoom $roomCode');
   }
 
   // EVENT LEAVE ROOM (udah dipanggil)
   leaveRoom(String roomCode) {
     print('leaveRoom');
     _socket?.emit('leaveRoom', {"room": roomCode});
-    print('leaveRoom ${roomCode}');
+    print('leaveRoom $roomCode');
   }
 
   // CLOSE / DISCONNECTED (udah dipanggil)
@@ -370,17 +370,233 @@ class CustomerChatController extends StateClass {
   }
 
   Rx<Detail.Data> data = Detail.Data.fromJson({}).obs;
+  List listSkincare = [];
+  List listSkincareSelected = [];
+  List listObat = [];
+  List listObatSelected = [];
+  RxInt totalAmountObatSelected = 0.obs;
+  RxInt totalAmountSkincareSelected = 0.obs;
+  RxInt totalAmount = 0.obs;
+  RxBool isAllObatSelected = false.obs;
+  RxBool isAllSkincareSelected = false.obs;
+  RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
 
   detailConsultation(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      listObat.clear();
+      listObatSelected.clear();
+      listSkincare.clear();
+      listSkincareSelected.clear();
+      totalAmountObatSelected.value = 0;
+      totalAmountSkincareSelected.value = 0;
+      totalAmount.value = 0;
+      isAllObatSelected.value = false;
+      isAllSkincareSelected.value = false;
+
       var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
+
+      for (int i = 0; i < data.value.consultationRecipeDrug!.length; i++) {
+        listObat.add({
+          "productId": data.value.consultationRecipeDrug![i].id,
+          "productName":
+              data.value.consultationRecipeDrug![i].product?.name ?? '-',
+          "img": data.value.consultationRecipeDrug![i].product!
+              .mediaProducts?[0].media?.path,
+          "qty": 1,
+          "notes": data.value.consultationRecipeDrug![i].notes ?? '-',
+          "isSelected": false,
+          "price": data.value.consultationRecipeDrug![i].product!.price,
+          "totalPrice": data.value.consultationRecipeDrug![i].product!.price,
+        });
+      }
+
+      for (int i = 0;
+          i < data.value.consultationRecomendationSkincare!.length;
+          i++) {
+        listSkincare.add({
+          "productId": data.value.consultationRecomendationSkincare![i].id,
+          "productName":
+              data.value.consultationRecomendationSkincare![i].product?.name ??
+                  '-',
+          "img": data.value.consultationRecomendationSkincare![i].product!
+              .mediaProducts?[0].media?.path,
+          "qty": 1,
+          "notes":
+              data.value.consultationRecomendationSkincare![i].notes ?? '-',
+          "isSelected": false,
+          "price":
+              data.value.consultationRecomendationSkincare![i].product!.price,
+          "totalPrice":
+              data.value.consultationRecomendationSkincare![i].product!.price,
+        });
+      }
     });
     isLoading.value = false;
   }
 
-  RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
+  onChecklistObat(int number, bool isAll) async {
+    if (isAll) {
+      isAllObatSelected.value = !isAllObatSelected.value;
+      if (isAllObatSelected.value) {
+        listObatSelected.clear();
+        for (var i = 0; i < number; i++) {
+          listObat[i]['isSelected'] = true;
+          listObatSelected.add(listObat[i]);
+        }
+      } else {
+        for (var i = 0; i < number; i++) {
+          listObat[i]['isSelected'] = false;
+          listObatSelected.clear();
+        }
+      }
+    } else {
+      if (listObat[number]['isSelected']) {
+        listObat[number]['isSelected'] = false;
+        listObatSelected.removeWhere(
+            (item) => item?['productId'] == listObat[number]['productId']);
+      } else {
+        listObat[number]['isSelected'] = true;
+        listObatSelected.add(listObat[number]);
+      }
+    }
+
+    int sumD = 0;
+    for (var i = 0; i < listObat.length; i++) {
+      if (listObat[i]['isSelected']) {
+        sumD += int.parse(listObat[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountObatSelected.value = sumD;
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+
+    if (listObatSelected.length < listObat.length) {
+      isAllObatSelected.value = false;
+    }
+
+    if (listObatSelected.length == listObat.length) {
+      isAllObatSelected.value = true;
+    }
+  }
+
+  onChecklistSkincare(int number, bool isAll) async {
+    if (isAll) {
+      isAllSkincareSelected.value = !isAllSkincareSelected.value;
+      if (isAllSkincareSelected.value) {
+        listSkincareSelected.clear();
+        for (var i = 0; i < number; i++) {
+          listSkincare[i]['isSelected'] = true;
+          listSkincareSelected.add(listSkincare[i]);
+        }
+      } else {
+        for (var i = 0; i < number; i++) {
+          listSkincare[i]['isSelected'] = false;
+          listSkincareSelected.clear();
+        }
+      }
+    } else {
+      if (listSkincare[number]['isSelected']) {
+        listSkincare[number]['isSelected'] = false;
+        listSkincareSelected.removeWhere(
+            (item) => item?['productId'] == listSkincare[number]['productId']);
+      } else {
+        listSkincare[number]['isSelected'] = true;
+        listSkincareSelected.add(listSkincare[number]);
+      }
+    }
+
+    int sumD = 0;
+    for (var i = 0; i < listSkincare.length; i++) {
+      if (listSkincare[i]['isSelected']) {
+        sumD += int.parse(listSkincare[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountSkincareSelected.value = sumD;
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+
+    if (listSkincareSelected.length < listSkincare.length) {
+      isAllSkincareSelected.value = false;
+    }
+
+    if (listSkincareSelected.length == listSkincare.length) {
+      isAllSkincareSelected.value = true;
+    }
+  }
+
+  increment(int index, String product) {
+    if (product == "OBAT") {
+      print("OBAT");
+      listObat[index]['qty'] += 1;
+      listObat[index]['totalPrice'] =
+          listObat[index]['price'] * listObat[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listObat.length; i++) {
+        if (listObat[i]['isSelected']) {
+          sum += int.parse(listObat[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountObatSelected.value = sum;
+    } else {
+      print("SKINCARE");
+      listSkincare[index]['qty'] += 1;
+      listSkincare[index]['totalPrice'] =
+          listSkincare[index]['price'] * listSkincare[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listSkincare.length; i++) {
+        if (listSkincare[i]['isSelected']) {
+          sum += int.parse(listSkincare[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountSkincareSelected.value = sum;
+    }
+
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+  }
+
+  decrement(int index, String product) {
+    if (product == "OBAT") {
+      print("OBAT");
+      listObat[index]['qty'] -= 1;
+      listObat[index]['totalPrice'] =
+          listObat[index]['price'] * listObat[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listObat.length; i++) {
+        if (listObat[i]['isSelected']) {
+          sum += int.parse(listObat[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountObatSelected.value = sum;
+    } else {
+      print("SKINCARE");
+      listSkincare[index]['qty'] -= 1;
+      listSkincare[index]['totalPrice'] =
+          listSkincare[index]['price'] * listSkincare[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listSkincare.length; i++) {
+        if (listSkincare[i]['isSelected']) {
+          sum += int.parse(listSkincare[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountSkincareSelected.value = sum;
+    }
+
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+  }
 
   galleryFile(BuildContext context, int id) async {
     isLoading.value = true;
