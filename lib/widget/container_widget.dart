@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, must_be_immutable
+// ignore_for_file: non_constant_identifier_names, must_be_immutable, invalid_use_of_protected_member
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -341,17 +341,18 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                   padding: const EdgeInsets.all(4),
                   height: 23,
                   decoration: BoxDecoration(
-                    color: state.listSkincare[widget.index]['isSelected']
+                    color: state.listSkincare.value[widget.index]['isSelected']
                         ? greenColor
                         : null,
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(
-                      color: state.listSkincare[widget.index]['isSelected']
+                      color: state.listSkincare.value[widget.index]
+                              ['isSelected']
                           ? greenColor
                           : greyColor,
                     ),
                   ),
-                  child: state.listSkincare[widget.index]['isSelected']
+                  child: state.listSkincare.value[widget.index]['isSelected']
                       ? Image.asset('assets/icons/chek_new.png')
                       : null,
                 ),
@@ -535,7 +536,8 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                     children: [
                       InkWell(
                         onTap: () {
-                          if (state.listSkincare[widget.index]['qty'] > 1) {
+                          if (state.listSkincare.value[widget.index]['qty'] >
+                              1) {
                             state.decrement(widget.index, 'SKINCARE');
                             setState(() {});
                           }
@@ -543,15 +545,17 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                         child: Icon(
                           Icons.remove,
                           size: 15,
-                          color: state.listSkincare[widget.index]['qty'] <= 1
-                              ? greyColor
-                              : greenColor,
+                          color:
+                              state.listSkincare.value[widget.index]['qty'] <= 1
+                                  ? greyColor
+                                  : greenColor,
                         ),
                       ),
                       const SizedBox(
                         width: 21,
                       ),
-                      Text(state.listSkincare[widget.index]['qty'].toString()),
+                      Text(state.listSkincare.value[widget.index]['qty']
+                          .toString()),
                       const SizedBox(
                         width: 21,
                       ),
@@ -622,17 +626,18 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                       padding: const EdgeInsets.all(4),
                       height: 23,
                       decoration: BoxDecoration(
-                        color: state.listObat[widget.index]['isSelected']
+                        color: state.listObat.value[widget.index]['isSelected']
                             ? greenColor
                             : null,
                         borderRadius: BorderRadius.circular(7),
                         border: Border.all(
-                          color: state.listObat[widget.index]['isSelected']
+                          color: state.listObat.value[widget.index]
+                                  ['isSelected']
                               ? greenColor
                               : greyColor,
                         ),
                       ),
-                      child: state.listObat[widget.index]['isSelected']
+                      child: state.listObat.value[widget.index]['isSelected']
                           ? Image.asset('assets/icons/chek_new.png')
                           : null,
                     ),
@@ -837,7 +842,8 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                         children: [
                           InkWell(
                             onTap: () {
-                              if (state.listObat[widget.index]['qty'] > 1) {
+                              if (state.listObat.value[widget.index]['qty'] >
+                                  1) {
                                 state.decrement(widget.index, 'OBAT');
                                 setState(() {});
                               }
@@ -845,15 +851,17 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                             child: Icon(
                               Icons.remove,
                               size: 15,
-                              color: state.listObat[widget.index]['qty'] <= 1
-                                  ? greyColor
-                                  : greenColor,
+                              color:
+                                  state.listObat.value[widget.index]['qty'] <= 1
+                                      ? greyColor
+                                      : greenColor,
                             ),
                           ),
                           const SizedBox(
                             width: 21,
                           ),
-                          Text(state.listObat[widget.index]['qty'].toString()),
+                          Text(state.listObat.value[widget.index]['qty']
+                              .toString()),
                           const SizedBox(
                             width: 21,
                           ),

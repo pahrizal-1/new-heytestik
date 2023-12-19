@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -5,10 +7,10 @@ import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.da
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/resep_digita_rekomendasi_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/resep_digital_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -56,9 +58,11 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Total ${state.listObatSelected.length + state.listSkincareSelected.length} Produk',
-                                style: blackRegulerTextStyle,
+                              Obx(
+                                () => Text(
+                                  'Total ${state.totalProductSelected.value} Produk',
+                                  style: blackRegulerTextStyle,
+                                ),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -86,7 +90,20 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  Get.to(CheckOutPage());
+                                  if (state.listObatSelected.isEmpty ||
+                                      state.listSkincareSelected.isEmpty ||
+                                      state.totalAmount.value <= 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertWidget(
+                                        subtitle:
+                                            'Harap pilih produk terlebih dahulu',
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  Get.to(() => CheckOutPage());
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: greenColor,
@@ -487,7 +504,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
               children: [
                 InkWell(
                   onTap: () {
-                    state.onChecklistObat(state.listObat.length, true);
+                    state.onChecklistObat(state.listObat.value.length, true);
                     setState(() {});
                   },
                   child: Obx(
@@ -581,7 +598,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
               children: [
                 InkWell(
                   onTap: () {
-                    state.onChecklistSkincare(state.listSkincare.length, true);
+                    state.onChecklistSkincare(
+                        state.listSkincare.value.length, true);
                     setState(() {});
                   },
                   child: Obx(
