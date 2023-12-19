@@ -46,7 +46,7 @@ class Data {
   ConsultationDoctorNote? consultationDoctorNote;
   List<ConsultationRecomendationSkincare>? consultationRecomendationSkincare;
   List<ConsultationRecomendationTreatment>? consultationRecomendationTreatment;
-  List<ConsultationRecipeDrugs>? consultationRecipeDrug;
+  List<ConsultationRecipeDrug>? consultationRecipeDrug;
 
   Data(
       {this.id,
@@ -120,9 +120,9 @@ class Data {
       });
     }
     if (json['consultation_recipe_drugs'] != null) {
-      consultationRecipeDrug = <ConsultationRecipeDrugs>[];
+      consultationRecipeDrug = <ConsultationRecipeDrug>[];
       json['consultation_recipe_drugs'].forEach((v) {
-        consultationRecipeDrug!.add(ConsultationRecipeDrugs.fromJson(v));
+        consultationRecipeDrug!.add(ConsultationRecipeDrug.fromJson(v));
       });
     }
   }
@@ -1794,7 +1794,7 @@ class ConsultationRecomendationTreatment {
   }
 }
 
-class ConsultationRecipeDrugs {
+class ConsultationRecipeDrug {
   int? id;
   int? consultationId;
   int? productId;
@@ -1809,7 +1809,7 @@ class ConsultationRecipeDrugs {
   String? updatedAt;
   dynamic deletedAt;
   Product? product;
-  ConsultationRecipeDrugs(
+  ConsultationRecipeDrug(
       {this.id,
       this.consultationId,
       this.productId,
@@ -1825,7 +1825,7 @@ class ConsultationRecipeDrugs {
       this.deletedAt,
       this.product});
 
-  ConsultationRecipeDrugs.fromJson(Map<String, dynamic> json) {
+  ConsultationRecipeDrug.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     consultationId = json['consultation_id'];
     productId = json['product_id'];
