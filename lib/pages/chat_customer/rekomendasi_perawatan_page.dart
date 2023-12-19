@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/resep_digital_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -90,8 +90,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  if (state.listObatSelected.isEmpty ||
-                                      state.listSkincareSelected.isEmpty ||
+                                  if (state.listObatSelected.isEmpty &&
+                                          state.listSkincareSelected.isEmpty ||
                                       state.totalAmount.value <= 0) {
                                     showDialog(
                                       context: context,
@@ -102,8 +102,15 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                     );
                                     return;
                                   }
+                                  var list = [
+                                    ...state.listObatSelected.value,
+                                    ...state.listSkincareSelected.value
+                                  ];
 
-                                  Get.to(() => CheckOutPage());
+                                  Get.to(() => PembayaranProduk(
+                                        pesan: list,
+                                        isCart: false,
+                                      ));
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: greenColor,
