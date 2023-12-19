@@ -362,9 +362,9 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Get.to(DetailKlnikPage(
-                id: clinics[index].id,
-              ));
+              Get.to(() => DetailKlnikPage(
+                    id: clinics[index].id,
+                  ));
             },
             child: CardKlinik(
               namaKlink: '${clinics[index].name}, ${clinics[index].city}',
