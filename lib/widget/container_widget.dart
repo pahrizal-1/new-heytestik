@@ -526,7 +526,7 @@ class ContainerProduk extends StatelessWidget {
 }
 
 class ContainerProdukPenting extends StatelessWidget {
-  final Detail.ConsultationRecipeDrugs data;
+  final Detail.ConsultationRecipeDrug data;
   const ContainerProdukPenting({Key? key, required this.data})
       : super(key: key);
 

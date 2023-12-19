@@ -185,7 +185,7 @@ class _DetailPerawatanPageState extends State<DetailPerawatanPage> {
                   () => TextBoldSpacebetwen(
                     title: 'Topik Keluhan',
                     title2: state.data.value.medicalHistory?.interestCondition
-                            ?.name ??
+                            ?.concern?.name ??
                         '-',
                     title1: '',
                   ),
