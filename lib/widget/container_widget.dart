@@ -387,6 +387,7 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                          constraints: const BoxConstraints(maxWidth: 180),
                           child: RichText(
                             text: TextSpan(
                               text: widget.data.product?.name ?? '-',
@@ -668,6 +669,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              constraints: const BoxConstraints(maxWidth: 180),
                               child: RichText(
                                 text: TextSpan(
                                   text: widget.data.product?.name ?? '-',
