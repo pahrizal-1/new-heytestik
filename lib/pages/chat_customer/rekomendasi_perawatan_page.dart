@@ -35,6 +35,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showDaftarRekomandasi = false;
+      state.totalProductSelected.value = 0;
       state.detailConsultation(context, widget.id!);
       setState(() {});
     });
