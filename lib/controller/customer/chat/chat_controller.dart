@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, invalid_use_of_protected_member
 
 import 'dart:convert';
 import 'dart:developer';
@@ -370,24 +370,25 @@ class CustomerChatController extends StateClass {
   }
 
   Rx<Detail.Data> data = Detail.Data.fromJson({}).obs;
-  List listSkincare = [];
-  List listSkincareSelected = [];
-  List listObat = [];
-  List listObatSelected = [];
+  RxList listSkincare = [].obs;
+  RxList listSkincareSelected = [].obs;
+  RxList listObat = [].obs;
+  RxList listObatSelected = [].obs;
   RxInt totalAmountObatSelected = 0.obs;
   RxInt totalAmountSkincareSelected = 0.obs;
   RxInt totalAmount = 0.obs;
   RxBool isAllObatSelected = false.obs;
   RxBool isAllSkincareSelected = false.obs;
+  RxInt totalProductSelected = 0.obs;
   RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
 
   detailConsultation(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      listObat.clear();
-      listObatSelected.clear();
-      listSkincare.clear();
-      listSkincareSelected.clear();
+      listObat.value.clear();
+      listObatSelected.value.clear();
+      listSkincare.value.clear();
+      listSkincareSelected.value.clear();
       totalAmountObatSelected.value = 0;
       totalAmountSkincareSelected.value = 0;
       totalAmount.value = 0;
@@ -398,7 +399,7 @@ class CustomerChatController extends StateClass {
       data.value = res.data!;
 
       for (int i = 0; i < data.value.consultationRecipeDrug!.length; i++) {
-        listObat.add({
+        listObat.value.add({
           "productId": data.value.consultationRecipeDrug![i].id,
           "productName":
               data.value.consultationRecipeDrug![i].product?.name ?? '-',
@@ -415,7 +416,7 @@ class CustomerChatController extends StateClass {
       for (int i = 0;
           i < data.value.consultationRecomendationSkincare!.length;
           i++) {
-        listSkincare.add({
+        listSkincare.value.add({
           "productId": data.value.consultationRecomendationSkincare![i].id,
           "productName":
               data.value.consultationRecomendationSkincare![i].product?.name ??
@@ -440,32 +441,32 @@ class CustomerChatController extends StateClass {
     if (isAll) {
       isAllObatSelected.value = !isAllObatSelected.value;
       if (isAllObatSelected.value) {
-        listObatSelected.clear();
+        listObatSelected.value.clear();
         for (var i = 0; i < number; i++) {
-          listObat[i]['isSelected'] = true;
-          listObatSelected.add(listObat[i]);
+          listObat.value[i]['isSelected'] = true;
+          listObatSelected.value.add(listObat.value[i]);
         }
       } else {
         for (var i = 0; i < number; i++) {
-          listObat[i]['isSelected'] = false;
-          listObatSelected.clear();
+          listObat.value[i]['isSelected'] = false;
+          listObatSelected.value.clear();
         }
       }
     } else {
-      if (listObat[number]['isSelected']) {
-        listObat[number]['isSelected'] = false;
-        listObatSelected.removeWhere(
-            (item) => item?['productId'] == listObat[number]['productId']);
+      if (listObat.value[number]['isSelected']) {
+        listObat.value[number]['isSelected'] = false;
+        listObatSelected.value.removeWhere((item) =>
+            item?['productId'] == listObat.value[number]['productId']);
       } else {
-        listObat[number]['isSelected'] = true;
-        listObatSelected.add(listObat[number]);
+        listObat.value[number]['isSelected'] = true;
+        listObatSelected.value.add(listObat.value[number]);
       }
     }
 
     int sumD = 0;
-    for (var i = 0; i < listObat.length; i++) {
-      if (listObat[i]['isSelected']) {
-        sumD += int.parse(listObat[i]['totalPrice'].toString());
+    for (var i = 0; i < listObat.value.length; i++) {
+      if (listObat.value[i]['isSelected']) {
+        sumD += int.parse(listObat.value[i]['totalPrice'].toString());
       }
     }
 
@@ -473,11 +474,14 @@ class CustomerChatController extends StateClass {
     totalAmount.value =
         totalAmountObatSelected.value + totalAmountSkincareSelected.value;
 
-    if (listObatSelected.length < listObat.length) {
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+
+    if (listObatSelected.value.length < listObat.value.length) {
       isAllObatSelected.value = false;
     }
 
-    if (listObatSelected.length == listObat.length) {
+    if (listObatSelected.value.length == listObat.value.length) {
       isAllObatSelected.value = true;
     }
   }
@@ -486,32 +490,32 @@ class CustomerChatController extends StateClass {
     if (isAll) {
       isAllSkincareSelected.value = !isAllSkincareSelected.value;
       if (isAllSkincareSelected.value) {
-        listSkincareSelected.clear();
+        listSkincareSelected.value.clear();
         for (var i = 0; i < number; i++) {
-          listSkincare[i]['isSelected'] = true;
-          listSkincareSelected.add(listSkincare[i]);
+          listSkincare.value[i]['isSelected'] = true;
+          listSkincareSelected.value.add(listSkincare.value[i]);
         }
       } else {
         for (var i = 0; i < number; i++) {
-          listSkincare[i]['isSelected'] = false;
-          listSkincareSelected.clear();
+          listSkincare.value[i]['isSelected'] = false;
+          listSkincareSelected.value.clear();
         }
       }
     } else {
-      if (listSkincare[number]['isSelected']) {
-        listSkincare[number]['isSelected'] = false;
-        listSkincareSelected.removeWhere(
-            (item) => item?['productId'] == listSkincare[number]['productId']);
+      if (listSkincare.value[number]['isSelected']) {
+        listSkincare.value[number]['isSelected'] = false;
+        listSkincareSelected.value.removeWhere((item) =>
+            item?['productId'] == listSkincare.value[number]['productId']);
       } else {
-        listSkincare[number]['isSelected'] = true;
-        listSkincareSelected.add(listSkincare[number]);
+        listSkincare.value[number]['isSelected'] = true;
+        listSkincareSelected.value.add(listSkincare.value[number]);
       }
     }
 
     int sumD = 0;
-    for (var i = 0; i < listSkincare.length; i++) {
-      if (listSkincare[i]['isSelected']) {
-        sumD += int.parse(listSkincare[i]['totalPrice'].toString());
+    for (var i = 0; i < listSkincare.value.length; i++) {
+      if (listSkincare.value[i]['isSelected']) {
+        sumD += int.parse(listSkincare.value[i]['totalPrice'].toString());
       }
     }
 
@@ -519,11 +523,14 @@ class CustomerChatController extends StateClass {
     totalAmount.value =
         totalAmountObatSelected.value + totalAmountSkincareSelected.value;
 
-    if (listSkincareSelected.length < listSkincare.length) {
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+
+    if (listSkincareSelected.value.length < listSkincare.value.length) {
       isAllSkincareSelected.value = false;
     }
 
-    if (listSkincareSelected.length == listSkincare.length) {
+    if (listSkincareSelected.value.length == listSkincare.value.length) {
       isAllSkincareSelected.value = true;
     }
   }
@@ -531,28 +538,28 @@ class CustomerChatController extends StateClass {
   increment(int index, String product) {
     if (product == "OBAT") {
       print("OBAT");
-      listObat[index]['qty'] += 1;
-      listObat[index]['totalPrice'] =
-          listObat[index]['price'] * listObat[index]['qty'];
+      listObat.value[index]['qty'] += 1;
+      listObat.value[index]['totalPrice'] =
+          listObat.value[index]['price'] * listObat.value[index]['qty'];
 
       int sum = 0;
-      for (var i = 0; i < listObat.length; i++) {
-        if (listObat[i]['isSelected']) {
-          sum += int.parse(listObat[i]['totalPrice'].toString());
+      for (var i = 0; i < listObat.value.length; i++) {
+        if (listObat.value[i]['isSelected']) {
+          sum += int.parse(listObat.value[i]['totalPrice'].toString());
         }
       }
 
       totalAmountObatSelected.value = sum;
     } else {
       print("SKINCARE");
-      listSkincare[index]['qty'] += 1;
-      listSkincare[index]['totalPrice'] =
-          listSkincare[index]['price'] * listSkincare[index]['qty'];
+      listSkincare.value[index]['qty'] += 1;
+      listSkincare.value[index]['totalPrice'] =
+          listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
 
       int sum = 0;
-      for (var i = 0; i < listSkincare.length; i++) {
-        if (listSkincare[i]['isSelected']) {
-          sum += int.parse(listSkincare[i]['totalPrice'].toString());
+      for (var i = 0; i < listSkincare.value.length; i++) {
+        if (listSkincare.value[i]['isSelected']) {
+          sum += int.parse(listSkincare.value[i]['totalPrice'].toString());
         }
       }
 
@@ -561,33 +568,35 @@ class CustomerChatController extends StateClass {
 
     totalAmount.value =
         totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
   }
 
   decrement(int index, String product) {
     if (product == "OBAT") {
       print("OBAT");
-      listObat[index]['qty'] -= 1;
-      listObat[index]['totalPrice'] =
-          listObat[index]['price'] * listObat[index]['qty'];
+      listObat.value[index]['qty'] -= 1;
+      listObat.value[index]['totalPrice'] =
+          listObat.value[index]['price'] * listObat.value[index]['qty'];
 
       int sum = 0;
-      for (var i = 0; i < listObat.length; i++) {
-        if (listObat[i]['isSelected']) {
-          sum += int.parse(listObat[i]['totalPrice'].toString());
+      for (var i = 0; i < listObat.value.length; i++) {
+        if (listObat.value[i]['isSelected']) {
+          sum += int.parse(listObat.value[i]['totalPrice'].toString());
         }
       }
 
       totalAmountObatSelected.value = sum;
     } else {
       print("SKINCARE");
-      listSkincare[index]['qty'] -= 1;
-      listSkincare[index]['totalPrice'] =
-          listSkincare[index]['price'] * listSkincare[index]['qty'];
+      listSkincare.value[index]['qty'] -= 1;
+      listSkincare.value[index]['totalPrice'] =
+          listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
 
       int sum = 0;
-      for (var i = 0; i < listSkincare.length; i++) {
-        if (listSkincare[i]['isSelected']) {
-          sum += int.parse(listSkincare[i]['totalPrice'].toString());
+      for (var i = 0; i < listSkincare.value.length; i++) {
+        if (listSkincare.value[i]['isSelected']) {
+          sum += int.parse(listSkincare.value[i]['totalPrice'].toString());
         }
       }
 
@@ -596,6 +605,8 @@ class CustomerChatController extends StateClass {
 
     totalAmount.value =
         totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
   }
 
   galleryFile(BuildContext context, int id) async {
