@@ -160,11 +160,6 @@ ErrorConfig handleError(
 
     switch ((error as ErrorConfig).cause) {
       case ErrorConfig.userInput:
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertWidget(subtitle: error.message),
-        // );
-
         SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
         break;
       case ErrorConfig.userUnauthorized:
@@ -205,10 +200,11 @@ ErrorConfig handleError(
         );
         break;
       case ErrorConfig.networkRequest400:
-        showDialog(
-          context: context,
-          builder: (context) => AlertWidget(subtitle: error.message),
-        );
+        SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertWidget(subtitle: error.message),
+        // );
         break;
       case ErrorConfig.networkRequest500:
         showDialog(

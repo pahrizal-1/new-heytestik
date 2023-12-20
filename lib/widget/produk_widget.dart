@@ -526,7 +526,7 @@ class DetailProduk extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
+          Image.network(
             urlImg,
             width: 65,
           ),
@@ -574,7 +574,7 @@ class DetailProduk extends StatelessWidget {
                           )
                         : Container(),
                     Text(
-                      'Rp$price',
+                      price,
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                   ],
