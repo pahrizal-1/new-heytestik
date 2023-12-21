@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
@@ -199,9 +197,8 @@ class _KeranjangPageState extends State<KeranjangPage> {
 
                             if (cart[i].product?.type == 'DRUGS') {
                               Get.to(
-                                DetailObatPage(
-                                  medicine: Medicine.Data2.fromJson(
-                                      jsonDecode(jsonEncode(cart[i].product))),
+                                () => DetailObatPage(
+                                  drugId: cart[i].product!.id!,
                                 ),
                               );
                             }

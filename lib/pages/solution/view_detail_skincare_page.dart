@@ -906,8 +906,6 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     children: [
                                       InkWell(
                                         onTap: () async {
-                                          print("help");
-
                                           if (help ?? element.helped!) {
                                             state.unHelped(
                                                 context, element.id!);

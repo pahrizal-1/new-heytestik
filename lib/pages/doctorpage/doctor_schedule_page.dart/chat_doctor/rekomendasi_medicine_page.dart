@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/widget/filter_tambah_obat.dart';
 
-import '../../../../controller/customer/solution/medicine_controller.dart';
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../core/global.dart';
 import '../../../../theme/theme.dart';
@@ -11,26 +11,26 @@ import '../../../../widget/alert_dialog.dart';
 import '../../../../widget/card_widget.dart';
 import '../../../../widget/loading_widget.dart';
 
-class RecomendationMedicine extends StatefulWidget {
-  const RecomendationMedicine({super.key});
+class RecomendationDrug extends StatefulWidget {
+  const RecomendationDrug({super.key});
 
   @override
-  State<RecomendationMedicine> createState() => _RecomendationMedicineState();
+  State<RecomendationDrug> createState() => _RecomendationDrugState();
 }
 
-class _RecomendationMedicineState extends State<RecomendationMedicine> {
+class _RecomendationDrugState extends State<RecomendationDrug> {
   final ScrollController scrollController = ScrollController();
-  final MedicineController solutionController = Get.put(MedicineController());
+  final DrugController solutionController = Get.put(DrugController());
   final DoctorConsultationController stateDoctor =
       Get.put(DoctorConsultationController());
   int page = 1;
-  List<Medicine.Data2> medicines = [];
+  List<Drug.Data2> drugs = [];
   List toogle = [];
   bool isSelcted = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      medicines.addAll(await solutionController.getMedicine(context, page));
+      drugs.addAll(await solutionController.getDrug(context, page));
 
       setState(() {});
     });
@@ -40,8 +40,7 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines
-                .addAll(await solutionController.getMedicine(context, page));
+            drugs.addAll(await solutionController.getDrug(context, page));
             setState(() {});
           });
         }
@@ -225,11 +224,11 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: medicines.length,
+                            itemCount: drugs.length,
                             itemBuilder: (ctx, index) {
                               // String? img;
                               // for (var i
-                              //     in medicines[index].mediaProducts!.length) {
+                              //     in drugs[index].mediaProducts!.length) {
                               //   img = i;
                               // }
                               return Padding(
@@ -259,12 +258,12 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                   width: 0.5,
                                                   color: borderColor),
                                               image: DecorationImage(
-                                                image: medicines[
+                                                image: drugs[
                                                             index]
                                                         .mediaProducts!
                                                         .isNotEmpty
                                                     ? NetworkImage(
-                                                            '${Global.FILE}/${medicines[index].mediaProducts![0].media?.path}')
+                                                            '${Global.FILE}/${drugs[index].mediaProducts![0].media?.path}')
                                                         as ImageProvider
                                                     : AssetImage(
                                                         'assets/images/penting1.png'),
@@ -284,7 +283,7 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                 RichText(
                                                   text: TextSpan(
                                                       text:
-                                                          medicines[index].name,
+                                                          drugs[index].name,
                                                       style: grenTextStyle
                                                           .copyWith(
                                                               fontSize: 15)),
@@ -311,7 +310,7 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                 ),
                                                 Text(
                                                   'Rp.' +
-                                                      medicines[index]
+                                                      drugs[index]
                                                           .price
                                                           .toString(),
                                                   style: blackTextStyle
@@ -326,8 +325,8 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                               print(index);
                                               setState(
                                                 () {
-                                                  // var dv = json.decode(medicines[index].toString());
-                                                  print(medicines[index]);
+                                                  // var dv = json.decode(drugs[index].toString());
+                                                  print(drugs[index]);
                                                   if (toogle.contains(index)) {
                                                     toogle.remove(index);
                                                     stateDoctor.listObat
@@ -338,25 +337,25 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                                 .length -
                                                             1);
                                                   } else {
-                                                    print(medicines[index]
+                                                    print(drugs[index]
                                                         .mediaProducts?[0]
                                                         .media
                                                         ?.path);
                                                     toogle.add(index);
                                                     stateDoctor.listObat.add({
-                                                      'id': medicines[index].id,
+                                                      'id': drugs[index].id,
                                                       'name':
-                                                          medicines[index].name,
-                                                      'image': medicines[index]
+                                                          drugs[index].name,
+                                                      'image': drugs[index]
                                                           .mediaProducts?[0]
                                                           .media
                                                           ?.path,
-                                                      'penggunaan': medicines[
+                                                      'penggunaan': drugs[
                                                                   index]
                                                               .drugDetail
                                                               ?.specificationDose ??
                                                           '-',
-                                                      'harga': medicines[index]
+                                                      'harga': drugs[index]
                                                           .price,
                                                     });
                                                     stateDoctor.notesMedicine.add(
@@ -365,7 +364,7 @@ class _RecomendationMedicineState extends State<RecomendationMedicine> {
                                                   // if (toogle.contains(index)) {
                                                   //   toogle.remove(index);
                                                   //   stateDoctor.listObat
-                                                  //       .remove(medicines[index]);
+                                                  //       .remove(drugs[index]);
                                                   //   stateDoctor.notesSkincare
                                                   //       .removeAt(stateDoctor
                                                   //               .notesSkincare

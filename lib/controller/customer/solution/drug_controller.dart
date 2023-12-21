@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/models/customer/detail_drug_model.dart'
+    as DetailDrug;
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
@@ -13,7 +15,7 @@ import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
 
-class MedicineController extends StateClass {
+class DrugController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
   CartController state = CartController();
 
@@ -23,19 +25,22 @@ class MedicineController extends StateClass {
   RxList<ProductReviewModel.Data2> productReview =
       List<ProductReviewModel.Data2>.empty().obs;
 
-  // RxBool isLoadingOverviewMedicine = false.obs;
+  // RxBool isLoadingOverviewDrug = false.obs;
   RxBool isLoadingProductReviewMedicine = false.obs;
+  RxBool isLoadingDetailDrug = false.obs;
 
-  Future<List<Medicine.Data2>> getMedicine(
+  Rx<DetailDrug.Data> drugDetail = DetailDrug.Data.fromJson({}).obs;
+
+  Future<List<Drug.Data2>> getDrug(
     BuildContext context,
     int page, {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-    List<Medicine.Data2> data = [];
+    List<Drug.Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getMedicine(
+      var res = await SolutionService().getDrug(
         page,
         search: search,
         filter: filter,
@@ -56,17 +61,34 @@ class MedicineController extends StateClass {
     return data;
   }
 
-  void addMedicineToCart(BuildContext context, int productID) async {
+  detailDrug(BuildContext context, int id) async {
+    isLoadingDetailDrug.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      drugDetail.value = DetailDrug.Data.fromJson({});
+      var res = await SolutionService().detailDrug(id);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      drugDetail.value = res.data!;
+    });
+    isLoadingDetailDrug.value = false;
+  }
+
+  void addDrugToCart(BuildContext context, int productID) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      SolutionService().addMedicineToCart(productID);
+      SolutionService().addDrugToCart(productID);
     });
     await state.totalCartFunc();
     isLoading.value = false;
   }
 
   getOverviewProduct(BuildContext context, int id) async {
-    // isLoadingOverviewMedicine.value = true;
+    // isLoadingOverviewDrug.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().getOverviewProduct(id);
 
@@ -78,7 +100,7 @@ class MedicineController extends StateClass {
       }
       overviewMedicine.value = res.data!;
     });
-    // isLoadingOverviewMedicine.value = false;
+    // isLoadingOverviewDrug.value = false;
   }
 
   Future<List<ProductReviewModel.Data2>> getReviewProduct(
@@ -98,5 +120,35 @@ class MedicineController extends StateClass {
     isLoadingProductReviewMedicine.value = false;
 
     return productReview.value;
+  }
+
+  void helped(BuildContext context, int reviewId) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().helped(reviewId);
+
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
+  void unHelped(BuildContext context, int reviewId) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().unHelped(reviewId);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+    });
+
+    isLoading.value = false;
   }
 }

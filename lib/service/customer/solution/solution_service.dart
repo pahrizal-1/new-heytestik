@@ -3,6 +3,7 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_drug_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
@@ -10,7 +11,7 @@ import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
+import 'package:heystetik_mobileapps/models/drug_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
@@ -158,7 +159,7 @@ class SolutionService extends ProviderClass {
     return ConcernModel.fromJson(response);
   }
 
-  Future<MedicineModel> getMedicine(
+  Future<DrugModel> getDrug(
     int page, {
     String? search,
     Map<String, dynamic>? filter,
@@ -184,10 +185,10 @@ class SolutionService extends ProviderClass {
         },
       );
 
-      return MedicineModel.fromJson(response);
+      return DrugModel.fromJson(response);
     } catch (error) {
       print(error);
-      return MedicineModel();
+      return DrugModel();
     }
   }
 
@@ -207,7 +208,19 @@ class SolutionService extends ProviderClass {
     return DrugRecipeModel.fromJson(response);
   }
 
-  void addMedicineToCart(int productID) async {
+  Future<DetailDrugModel> detailDrug(int id) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug/$id',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DetailDrugModel.fromJson(response);
+  }
+
+  void addDrugToCart(int productID) async {
     var response = await networkingConfig.doPost(
       '/user-cart',
       data: {

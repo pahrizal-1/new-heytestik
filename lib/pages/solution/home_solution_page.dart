@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
@@ -24,9 +22,7 @@ import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart'
-    // ignore: library_prefixes
-    as Drug;
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+    as DrugRecipe;
 import '../../controller/customer/solution/skincare_controller.dart';
 import '../../core/currency_format.dart';
 import '../../core/global.dart';
@@ -44,7 +40,7 @@ class SolutionPage extends StatefulWidget {
 
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
-  final MedicineController stateMedicine = Get.put(MedicineController());
+  final DrugController stateDrug = Get.put(DrugController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final SkincareController stateSkincare = Get.put(SkincareController());
 
@@ -61,7 +57,7 @@ class _SolutionPageState extends State<SolutionPage> {
     'IPL.png',
     'Laser.png',
   ];
-  List<Drug.Data2> drugRecipe = [];
+  List<DrugRecipe.Data2> drugRecipe = [];
   List<Skincare.Data2> skincare = [];
   int page = 1;
 
@@ -70,7 +66,7 @@ class _SolutionPageState extends State<SolutionPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.getLocation(context);
-      drugRecipe.addAll(await stateMedicine.getDrugRecipe(context, page));
+      drugRecipe.addAll(await stateDrug.getDrugRecipe(context, page));
       skincare.addAll(await stateSkincare.getAllSkincare(context, page));
       stateTreatment.getTreatment(context);
       setState(() {});
@@ -431,8 +427,6 @@ class _SolutionPageState extends State<SolutionPage> {
                         child: Row(
                           children: drugRecipe.map((e) {
                             return ProdukObat(
-                              medicine: Medicine.Data2.fromJson(
-                                  jsonDecode(jsonEncode(e.product))),
                               productId: e.product!.id!.toInt(),
                               namaBrand: e.product?.name ?? '-',
                               harga: CurrencyFormat.convertToIdr(
