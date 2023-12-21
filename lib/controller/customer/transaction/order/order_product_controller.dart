@@ -155,7 +155,14 @@ class OrderProductController extends StateClass {
           recipientPhone.value = recipientP.toString();
           address.value = addr.toString();
           noteForCourier.value = noteForC.toString();
+          Get.back();
         }
+
+        // clear value shipping jika ganti alamat
+        shippingId.value = 0;
+        shippingName.value = '';
+        shippingDesc.value = '';
+        shippingPrice.value = 0;
       }
     });
     isLoadingShipping.value = false;

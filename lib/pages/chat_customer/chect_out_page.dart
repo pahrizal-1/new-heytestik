@@ -796,8 +796,6 @@ class _SelectAddressState extends State<SelectAddress> {
                               noteForC: e.noteForCourier ?? '-',
                             );
                           }
-
-                          Get.back();
                         },
                       );
                     })
