@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -256,7 +255,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                               child: Produkheight(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
-                                namaProduk: e.name.toString(),
+                                namaProduk: ' e.name.toString()',
                                 diskonProduk: '20',
                                 hargaDiskon:
                                     CurrencyFormat.convertToIdr(e.price, 0),
