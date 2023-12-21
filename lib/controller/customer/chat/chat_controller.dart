@@ -537,7 +537,6 @@ class CustomerChatController extends StateClass {
 
   increment(int index, String product) {
     if (product == "OBAT") {
-      print("OBAT");
       listObat.value[index]['qty'] += 1;
       listObat.value[index]['totalPrice'] =
           listObat.value[index]['price'] * listObat.value[index]['qty'];
@@ -551,7 +550,6 @@ class CustomerChatController extends StateClass {
 
       totalAmountObatSelected.value = sum;
     } else {
-      print("SKINCARE");
       listSkincare.value[index]['qty'] += 1;
       listSkincare.value[index]['totalPrice'] =
           listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
@@ -574,7 +572,6 @@ class CustomerChatController extends StateClass {
 
   decrement(int index, String product) {
     if (product == "OBAT") {
-      print("OBAT");
       listObat.value[index]['qty'] -= 1;
       listObat.value[index]['totalPrice'] =
           listObat.value[index]['price'] * listObat.value[index]['qty'];
@@ -588,7 +585,6 @@ class CustomerChatController extends StateClass {
 
       totalAmountObatSelected.value = sum;
     } else {
-      print("SKINCARE");
       listSkincare.value[index]['qty'] -= 1;
       listSkincare.value[index]['totalPrice'] =
           listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
@@ -614,7 +610,6 @@ class CustomerChatController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await DetailConsultationService().galleryFile(id);
       gallery.value = res.data!.data!;
-      print("hehehahahah" + jsonDecode(jsonEncode(res)));
     });
     isLoading.value = false;
   }

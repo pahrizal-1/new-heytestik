@@ -251,7 +251,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                             return InkWell(
                               onTap: () {
                                 Get.to(
-                                  DetailSkinCarePage(
+                                  () => DetailSkinCarePage(
                                     productId: e.id!.toInt(),
                                   ),
                                 );
@@ -330,10 +330,10 @@ class _KeranjangPageState extends State<KeranjangPage> {
                         }
 
                         // redirect
-                        Get.to(PembayaranProduk(
-                          pesan: state.checkedList,
-                          isCart: true,
-                        ));
+                        Get.to(() => PembayaranProduk(
+                              pesan: state.checkedList,
+                              isCart: true,
+                            ));
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
