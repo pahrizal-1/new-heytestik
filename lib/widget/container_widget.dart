@@ -223,7 +223,7 @@ Container WidgetPhoto = Container(
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 100),
+                constraints: const BoxConstraints(maxWidth: 80),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -388,6 +388,7 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                          constraints: const BoxConstraints(maxWidth: 180),
                           child: RichText(
                             text: TextSpan(
                               text: widget.data.product?.name ?? '-',
@@ -427,7 +428,7 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                               children: [
                                 Container(
                                   constraints:
-                                      const BoxConstraints(maxWidth: 100),
+                                      const BoxConstraints(maxWidth: 80),
                                   child: Text(
                                     widget.data.product?.skincareDetail
                                             ?.specificationHowToUse ??
@@ -673,6 +674,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              constraints: const BoxConstraints(maxWidth: 180),
                               child: RichText(
                                 text: TextSpan(
                                   text: widget.data.product?.name ?? '-',
@@ -712,7 +714,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                                   children: [
                                     Container(
                                       constraints:
-                                          const BoxConstraints(maxWidth: 100),
+                                          const BoxConstraints(maxWidth: 80),
                                       child: Text(
                                         widget.data.product?.drugDetail
                                                 ?.specificationDose ??
@@ -769,7 +771,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                                 ),
                                 Container(
                                   constraints:
-                                      const BoxConstraints(maxWidth: 100),
+                                      const BoxConstraints(maxWidth: 80),
                                   child: Text(
                                     '1 (${widget.data.product?.drugDetail?.specificationPackaging})',
                                     style: TextStyle(
