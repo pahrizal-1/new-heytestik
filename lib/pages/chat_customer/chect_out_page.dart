@@ -245,7 +245,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ? 'Pilih Pengiriman'
                               : state.shippingName.value,
                           onTap: () {
-                            if (state.addressId.value <= 0) {
+                            if (state.addressId.value <= 0 ||
+                                state.getShippingMethod.isEmpty) {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertWidget(

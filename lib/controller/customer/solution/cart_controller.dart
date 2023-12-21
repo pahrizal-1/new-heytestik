@@ -40,13 +40,12 @@ class CartController extends StateClass {
         search: search,
       );
       filterData.value = cart.value!.data!.data!;
-      print("filter ${filterData.length}");
 
       totalCart.value = filterData.length;
 
       for (int i = 0; i < filterData.length; i++) {
         checklist.add({
-          "product_id": filterData[i].id,
+          "productId": filterData[i].id,
           "productName": filterData[i].product?.name ?? '-',
           "img": filterData[i].product!.mediaProducts?[0].media?.path,
           "qty": filterData[i].qty,
@@ -56,8 +55,6 @@ class CartController extends StateClass {
           "totalPrice": filterData[i].product!.price! * filterData[i].qty!,
         });
       }
-
-      print("checklist ${checklist.length}");
     });
     isLoading.value = false;
     return filterData;
@@ -89,9 +86,7 @@ class CartController extends StateClass {
   }
 
   onChecklist(int number, bool isAll) async {
-    print("number $number");
     if (isAll) {
-      print("semua");
       isAllSelected.value = !isAllSelected.value;
       if (isAllSelected.value) {
         checkedList.clear();
@@ -106,18 +101,16 @@ class CartController extends StateClass {
         }
       }
     } else {
-      print("salah satu");
       if (checklist[number]['isSelected']) {
         checklist[number]['isSelected'] = false;
         checkedList.removeWhere(
-            (item) => item?['product_id'] == checklist[number]['product_id']);
+            (item) => item?['productId'] == checklist[number]['productId']);
       } else {
         checklist[number]['isSelected'] = true;
         checkedList.add(checklist[number]);
       }
     }
 
-    print("checkedList total ${checkedList.length}");
     int sum = 0;
     int sumD = 0;
     for (var i = 0; i < checklist.length; i++) {

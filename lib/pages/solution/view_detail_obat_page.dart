@@ -992,22 +992,22 @@ class _DetailObatPageState extends State<DetailObatPage> {
                           onTap: () {
                             List product = [
                               {
-                                "product_id": widget.medicine.id,
+                                "productId": widget.medicine.id,
                                 "productName": widget.medicine.name,
                                 "img": widget
                                     .medicine.mediaProducts?[0].media?.path,
                                 "qty": 1,
-                                "notes": '-',
+                                "notes": '',
                                 "isSelected": true,
                                 "price": widget.medicine.price,
                                 "totalPrice": widget.medicine.price! * 1,
                               }
                             ];
 
-                            Get.to(PembayaranProduk(
-                              pesan: product,
-                              isCart: false,
-                            ));
+                            Get.to(() => PembayaranProduk(
+                                  pesan: product,
+                                  isCart: false,
+                                ));
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
