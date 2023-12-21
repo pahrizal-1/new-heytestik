@@ -66,9 +66,12 @@ class Data2 {
   double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
-  dynamic shippingProductSizeLength;
-  dynamic shippingProductSizeWidth;
-  dynamic shippingProductSizeHeight;
+  String? shippingProductSizeLengthType;
+  String? shippingProductSizeWidthType;
+  String? shippingProductSizeHeightType;
+  int? shippingProductSizeLength;
+  int? shippingProductSizeWidth;
+  int? shippingProductSizeHeight;
   String? shipping;
   dynamic createdBy;
   dynamic updatedBy;
@@ -97,6 +100,9 @@ class Data2 {
       this.rating,
       this.shippingProductWeight,
       this.shippingProductWeightType,
+      this.shippingProductSizeLengthType,
+      this.shippingProductSizeWidthType,
+      this.shippingProductSizeHeightType,
       this.shippingProductSizeLength,
       this.shippingProductSizeWidth,
       this.shippingProductSizeHeight,
@@ -128,6 +134,9 @@ class Data2 {
     rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
+    shippingProductSizeLengthType = json['shipping_product_size_length_type'];
+    shippingProductSizeWidthType = json['shipping_product_size_width_type'];
+    shippingProductSizeHeightType = json['shipping_product_size_height_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
     shippingProductSizeWidth = json['shipping_product_size_width'];
     shippingProductSizeHeight = json['shipping_product_size_height'];
@@ -178,6 +187,9 @@ class Data2 {
     data['rating'] = rating;
     data['shipping_product_weight'] = shippingProductWeight;
     data['shipping_product_weight_type'] = shippingProductWeightType;
+    data['shipping_product_size_length_type'] = shippingProductSizeLengthType;
+    data['shipping_product_size_width_type'] = shippingProductSizeWidthType;
+    data['shipping_product_size_height_type'] = shippingProductSizeHeightType;
     data['shipping_product_size_length'] = shippingProductSizeLength;
     data['shipping_product_size_width'] = shippingProductSizeWidth;
     data['shipping_product_size_height'] = shippingProductSizeHeight;

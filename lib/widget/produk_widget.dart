@@ -187,7 +187,7 @@ class ProdukObat extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(DetailObatPage(medicine: medicine));
+        Get.to(() => DetailObatPage(medicine: medicine));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 15),

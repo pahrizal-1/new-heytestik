@@ -141,7 +141,7 @@ class _SolutionPageState extends State<SolutionPage> {
               ListTile(
                 onTap: () {
                   Get.back();
-                  Get.to(MapsWidget());
+                  Get.to(() => MapsWidget());
                 },
                 leading: CircleAvatar(
                   backgroundColor: greenColor,
@@ -409,13 +409,7 @@ class _SolutionPageState extends State<SolutionPage> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ObatSolutionsPage(),
-                                ),
-                              );
+                              Get.to(() => const ObatSolutionsPage());
                             },
                             child: Text(
                               'Lihat Semua',
@@ -528,9 +522,9 @@ class _SolutionPageState extends State<SolutionPage> {
                           .map(
                             (e) => InkWell(
                               onTap: () {
-                                Get.to(DetailSkinCarePage(
-                                  productId: e.id!.toInt(),
-                                ));
+                                Get.to(() => DetailSkinCarePage(
+                                      productId: e.id!.toInt(),
+                                    ));
                               },
                               child: Produkheight(
                                 produkId: e.id!.toInt(),

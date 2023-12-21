@@ -434,7 +434,7 @@ class KonsultasiProduk extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(
-          DetailObatPage(
+          () => DetailObatPage(
             medicine: medicine,
           ),
         );
