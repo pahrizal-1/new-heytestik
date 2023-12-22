@@ -56,20 +56,20 @@ class TransaksiKonsultan extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (progres == 'Menunggu Pembayaran') {
-          Get.to(SelesaikanPembayaranKonsultasiPage(
-            isWillPop: false,
-            orderId: orderId,
-            expireTime: '',
-            paymentMethodId: paymentMethodId,
-          ));
+          Get.to(() => SelesaikanPembayaranKonsultasiPage(
+                isWillPop: false,
+                orderId: orderId,
+                expireTime: '',
+                paymentMethodId: paymentMethodId,
+              ));
         }
 
         if (progres == 'Ready') {
-          Get.to(SuccessPage(
-            isNotConsultation: false,
-            orderId: orderId,
-            isWillPop: false,
-          ));
+          Get.to(() => SuccessPage(
+                isNotConsultation: false,
+                orderId: orderId,
+                isWillPop: false,
+              ));
         }
       },
       child: Container(
@@ -217,7 +217,7 @@ class TransaksiKonsultan extends StatelessWidget {
                         ? Container()
                         : InkWell(
                             onTap: () {
-                              Get.to(UlasanSetingsPage());
+                              Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -242,7 +242,7 @@ class TransaksiKonsultan extends StatelessWidget {
                     ? InkWell(
                         onTap: () {
                           Get.to(
-                            const SelectConditionsPage(),
+                            () => const SelectConditionsPage(),
                           );
                         },
                         child: Container(
@@ -265,13 +265,13 @@ class TransaksiKonsultan extends StatelessWidget {
                 progres == 'Menunggu Pembayaran'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage(
-                            id: paymentMethodId,
-                            orderId: orderId,
-                            totalPaid: harga,
-                            // vaNumber: vaNumber,
-                            transactionType: 'Konsultasi',
-                          ));
+                          Get.to(() => CaraPembayaranPage(
+                                id: paymentMethodId,
+                                orderId: orderId,
+                                totalPaid: harga,
+                                // vaNumber: vaNumber,
+                                transactionType: 'Konsultasi',
+                              ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -313,14 +313,14 @@ class TransaksiProduk extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (product?.status.toString() == 'MENUNGGU_PEMBAYARAN') {
-          Get.to(SelesaikanPembayaranProdukPage(
-            isWillPop: false,
-            orderId: orderId,
-            expireTime: '',
-            paymentMethodId: product!.paymentMethodId!,
-          ));
+          Get.to(() => SelesaikanPembayaranProdukPage(
+                isWillPop: false,
+                orderId: orderId,
+                expireTime: '',
+                paymentMethodId: product!.paymentMethodId!,
+              ));
         }
-        Get.to(DetailTransaksiPage());
+        // Get.to(() => DetailTransaksiPage());
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -496,7 +496,7 @@ class TransaksiProduk extends StatelessWidget {
                     ? product!.transactionProductItems![0].productReview == null
                         ? InkWell(
                             onTap: () {
-                              Get.to(UlasanSetingsPage());
+                              Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -524,12 +524,12 @@ class TransaksiProduk extends StatelessWidget {
                           if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'DRUGS') {
-                            Get.to(const ObatSolutionsPage());
+                            Get.to(() => const ObatSolutionsPage());
                           }
                           if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'SKINCARE') {
-                            Get.to(const SolutionSkincare1Page());
+                            Get.to(() => const SolutionSkincare1Page());
                           }
                         },
                         child: Container(
@@ -552,13 +552,13 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage(
-                            id: product!.paymentMethodId!,
-                            orderId: orderId,
-                            totalPaid: product!.totalPaid!,
-                            // vaNumber: product?.vaNumber ?? '-',
-                            transactionType: 'Produk',
-                          ));
+                          Get.to(() => CaraPembayaranPage(
+                                id: product!.paymentMethodId!,
+                                orderId: orderId,
+                                totalPaid: product!.totalPaid!,
+                                // vaNumber: product?.vaNumber ?? '-',
+                                transactionType: 'Produk',
+                              ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -762,7 +762,7 @@ class TransaksiTreatment extends StatelessWidget {
                       ? Container()
                       : InkWell(
                           onTap: () {
-                            Get.to(UlasanSetingsPage());
+                            Get.to(() => UlasanSetingsPage());
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -786,8 +786,8 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
                   ? InkWell(
                       onTap: () {
-                        Get.to(SolutionsTreatment1Page());
-                        // Get.to(BokingTreatment(
+                        Get.to(() => SolutionsTreatment1Page());
+                        // Get.to(()=>BokingTreatment(
                         //   treatment: item[0].treatment as Data2,
                         // ));
                       },
@@ -811,19 +811,19 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(CaraPembayaranPage(
-                          id: paymentMethodId,
-                          orderId: orderId,
-                          totalPaid: harga,
-                          // vaNumber: vaNumber,
-                          transactionType: 'Treatment',
-                          treatment: Treatment.Data2.fromJson(
-                            jsonDecode(
-                              jsonEncode(item![0].treatment),
-                            ),
-                          ),
-                          pax: item?[0].pax,
-                        ));
+                        Get.to(() => CaraPembayaranPage(
+                              id: paymentMethodId,
+                              orderId: orderId,
+                              totalPaid: harga,
+                              // vaNumber: vaNumber,
+                              transactionType: 'Treatment',
+                              treatment: Treatment.Data2.fromJson(
+                                jsonDecode(
+                                  jsonEncode(item![0].treatment),
+                                ),
+                              ),
+                              pax: item?[0].pax,
+                            ));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

@@ -195,7 +195,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             if (history[index].transactionType == 'TREATMENT') {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(SelesaikanPembayaranTreatmentPage(
+                                  Get.to(()=>SelesaikanPembayaranTreatmentPage(
                                     isWillPop: false,
                                     orderId:
                                         history[index].transactionId.toString(),
