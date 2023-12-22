@@ -16,8 +16,11 @@ import 'package:provider/provider.dart';
 import '../../widget/timeline_widget.dart';
 
 class VerificationAcooutPage extends StatefulWidget {
-  bool isContinue = false;
-  VerificationAcooutPage({this.isContinue = false, super.key});
+  bool isCompleteProfile = false;
+  VerificationAcooutPage({
+    this.isCompleteProfile = false,
+    super.key,
+  });
 
   @override
   State<VerificationAcooutPage> createState() => _VerificationAcooutPageState();
@@ -208,7 +211,8 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => VerificasionEmailPage(
-                                    isContinue: widget.isContinue),
+                                    isCompleteProfile:
+                                        widget.isCompleteProfile),
                               ),
                             );
                             SnackbarWidget.getSuccessSnackbar(
@@ -221,11 +225,11 @@ class _VerificationAcooutPageState extends State<VerificationAcooutPage> {
                       ),
                     ),
                   ),
-                  if (widget.isContinue == false)
+                  if (widget.isCompleteProfile == false)
                     const SizedBox(
                       height: 20,
                     ),
-                  if (widget.isContinue == false)
+                  if (widget.isCompleteProfile == false)
                     ButtonTextWidget(
                       title: 'Nanti Saja',
                       onPressed: () async {

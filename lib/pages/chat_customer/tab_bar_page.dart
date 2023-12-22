@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/detail_perawatan_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/rekomendasi_perawatan_page.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/resep_digita_rekomendasi_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/tab_bar_galery_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 

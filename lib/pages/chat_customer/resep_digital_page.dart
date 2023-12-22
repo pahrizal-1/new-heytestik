@@ -141,15 +141,40 @@ class ResepDigitalPage extends StatelessWidget {
             height: 12,
           ),
           dividergrey(),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Text('R/  Cefila 200 Cefixime'),
-                ],
-              ),
-            ],
-          )
+          Padding(
+            padding: const EdgeInsets.only(left: 25, right: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'R/  Cefila 200 Cefixime',
+                      style: blackTextStyle.copyWith(fontSize: 10),
+                    ),
+                    Spacer(),
+                    Text(
+                      '1 Per Strip',
+                      style: subGreyTextStyle.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+                Text(
+                  '2 X 1 Tablet per hari',
+                  style: subGreyTextStyle.copyWith(fontSize: 10),
+                ),
+                dividergrey(),
+              ],
+            ),
+          ),
+          Spacer(),
+          Text(
+            'Resep digital ini hanya dapat ditebus melalui aplikasi Heystetik',
+            style: subGreyTextStyle.copyWith(fontSize: 10),
+          ),
+          SizedBox(
+            height: 35,
+          ),
         ],
       ),
     );

@@ -32,6 +32,11 @@ class Data {
   int? userId;
   String? recipientName;
   String? recipientPhone;
+  String? province;
+  String? city;
+  String? subdistrict;
+  String? village;
+  String? zipCode;
   double? pinpointLatitude;
   double? pinpointLongitude;
   String? pinpointAddress;
@@ -50,6 +55,11 @@ class Data {
       this.userId,
       this.recipientName,
       this.recipientPhone,
+      this.province,
+      this.city,
+      this.subdistrict,
+      this.village,
+      this.zipCode,
       this.pinpointLatitude,
       this.pinpointLongitude,
       this.pinpointAddress,
@@ -68,6 +78,11 @@ class Data {
     userId = json['user_id'];
     recipientName = json['recipient_name'];
     recipientPhone = json['recipient_phone'];
+    province = json['province'];
+    city = json['city'];
+    subdistrict = json['subdistrict'];
+    village = json['village'];
+    zipCode = json['zip_code'];
     pinpointLatitude = json['pinpoint_latitude'];
     pinpointLongitude = json['pinpoint_longitude'];
     pinpointAddress = json['pinpoint_address'];
@@ -88,6 +103,11 @@ class Data {
     data['user_id'] = userId;
     data['recipient_name'] = recipientName;
     data['recipient_phone'] = recipientPhone;
+    data['province'] = province;
+    data['city'] = city;
+    data['subdistrict'] = subdistrict;
+    data['village'] = village;
+    data['zip_code'] = zipCode;
     data['pinpoint_latitude'] = pinpointLatitude;
     data['pinpoint_longitude'] = pinpointLongitude;
     data['pinpoint_address'] = pinpointAddress;

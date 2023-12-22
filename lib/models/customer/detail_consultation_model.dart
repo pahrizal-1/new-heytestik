@@ -46,7 +46,7 @@ class Data {
   ConsultationDoctorNote? consultationDoctorNote;
   List<ConsultationRecomendationSkincare>? consultationRecomendationSkincare;
   List<ConsultationRecomendationTreatment>? consultationRecomendationTreatment;
-  List<ConsultationRecipeDrugs>? consultationRecipeDrug;
+  List<ConsultationRecipeDrug>? consultationRecipeDrug;
 
   Data(
       {this.id,
@@ -119,10 +119,10 @@ class Data {
             .add(ConsultationRecomendationTreatment.fromJson(v));
       });
     }
-    if (json['consultation_recipe_drugs'] != null) {
-      consultationRecipeDrug = <ConsultationRecipeDrugs>[];
-      json['consultation_recipe_drugs'].forEach((v) {
-        consultationRecipeDrug!.add(ConsultationRecipeDrugs.fromJson(v));
+    if (json['consultation_recipe_drug'] != null) {
+      consultationRecipeDrug = <ConsultationRecipeDrug>[];
+      json['consultation_recipe_drug'].forEach((v) {
+        consultationRecipeDrug!.add(ConsultationRecipeDrug.fromJson(v));
       });
     }
   }
@@ -195,11 +195,11 @@ class Customer {
   dynamic verificationCodeEmail;
   dynamic provinceId;
   dynamic cityId;
-  String? dob;
-  String? bio;
+  dynamic dob;
+  dynamic bio;
   bool? finishRegister;
-  dynamic verifiedEmailAt;
-  dynamic verifiedPhoneAt;
+  String? verifiedEmailAt;
+  String? verifiedPhoneAt;
   dynamic verifiedAccountAt;
   dynamic education;
   dynamic practiceLocation;
@@ -612,7 +612,10 @@ class TransactionConsultation {
   int? paymentMethodId;
   String? orderId;
   String? paymentStatus;
-  String? paymentExpiryTime;
+  dynamic paymentExpiryTime;
+  dynamic vaNumber;
+  dynamic billKey;
+  dynamic billerCode;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -633,6 +636,9 @@ class TransactionConsultation {
       this.orderId,
       this.paymentStatus,
       this.paymentExpiryTime,
+      this.vaNumber,
+      this.billKey,
+      this.billerCode,
       this.status,
       this.createdBy,
       this.updatedBy,
@@ -653,6 +659,9 @@ class TransactionConsultation {
     orderId = json['order_id'];
     paymentStatus = json['payment_status'];
     paymentExpiryTime = json['payment_expiry_time'];
+    vaNumber = json['va_number'];
+    billKey = json['bill_key'];
+    billerCode = json['biller_code'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -677,6 +686,9 @@ class TransactionConsultation {
     data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
     data['payment_expiry_time'] = paymentExpiryTime;
+    data['va_number'] = vaNumber;
+    data['bill_key'] = billKey;
+    data['biller_code'] = billerCode;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
@@ -974,77 +986,79 @@ class Media {
 
 class InterestCondition {
   int? id;
-  int? interestConditionsCategoryId;
-  String? name;
+  int? concernId;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
-  Category? category;
+  Concern? concern;
 
   InterestCondition(
       {this.id,
-      this.interestConditionsCategoryId,
-      this.name,
+      this.concernId,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.category});
+      this.concern});
 
   InterestCondition.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    interestConditionsCategoryId = json['interest_conditions_category_id'];
-    name = json['name'];
+    concernId = json['concern_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    category =
-        json['category'] != null ? Category.fromJson(json['category']) : null;
+    concern =
+        json['concern'] != null ? Concern.fromJson(json['concern']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['interest_conditions_category_id'] = interestConditionsCategoryId;
-    data['name'] = name;
+    data['concern_id'] = concernId;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
-    if (category != null) {
-      data['category'] = category!.toJson();
+    if (concern != null) {
+      data['concern'] = concern!.toJson();
     }
     return data;
   }
 }
 
-class Category {
+class Concern {
   int? id;
   String? name;
+  String? segment;
+  bool? isActive;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
 
-  Category(
+  Concern(
       {this.id,
       this.name,
+      this.segment,
+      this.isActive,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt});
 
-  Category.fromJson(Map<String, dynamic> json) {
+  Concern.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    segment = json['segment'];
+    isActive = json['is_active'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -1056,6 +1070,8 @@ class Category {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['segment'] = segment;
+    data['is_active'] = isActive;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
@@ -1140,6 +1156,7 @@ class InterestConditionsAnswer {
   int? id;
   String? name;
   int? position;
+  bool? withDescription;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -1151,6 +1168,7 @@ class InterestConditionsAnswer {
       {this.id,
       this.name,
       this.position,
+      this.withDescription,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
@@ -1162,6 +1180,7 @@ class InterestConditionsAnswer {
     id = json['id'];
     name = json['name'];
     position = json['position'];
+    withDescription = json['with_description'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -1175,6 +1194,7 @@ class InterestConditionsAnswer {
     data['id'] = id;
     data['name'] = name;
     data['position'] = position;
+    data['with_description'] = withDescription;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
@@ -1371,6 +1391,9 @@ class Product {
   double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
+  String? shippingProductSizeLengthType;
+  String? shippingProductSizeWidthType;
+  String? shippingProductSizeHeightType;
   int? shippingProductSizeLength;
   int? shippingProductSizeWidth;
   int? shippingProductSizeHeight;
@@ -1400,6 +1423,9 @@ class Product {
       this.rating,
       this.shippingProductWeight,
       this.shippingProductWeightType,
+      this.shippingProductSizeLengthType,
+      this.shippingProductSizeWidthType,
+      this.shippingProductSizeHeightType,
       this.shippingProductSizeLength,
       this.shippingProductSizeWidth,
       this.shippingProductSizeHeight,
@@ -1429,6 +1455,9 @@ class Product {
     rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
+    shippingProductSizeLengthType = json['shipping_product_size_length_type'];
+    shippingProductSizeWidthType = json['shipping_product_size_width_type'];
+    shippingProductSizeHeightType = json['shipping_product_size_height_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
     shippingProductSizeWidth = json['shipping_product_size_width'];
     shippingProductSizeHeight = json['shipping_product_size_height'];
@@ -1469,6 +1498,9 @@ class Product {
     data['rating'] = rating;
     data['shipping_product_weight'] = shippingProductWeight;
     data['shipping_product_weight_type'] = shippingProductWeightType;
+    data['shipping_product_size_length_type'] = shippingProductSizeLengthType;
+    data['shipping_product_size_width_type'] = shippingProductSizeWidthType;
+    data['shipping_product_size_height_type'] = shippingProductSizeHeightType;
     data['shipping_product_size_length'] = shippingProductSizeLength;
     data['shipping_product_size_width'] = shippingProductSizeWidth;
     data['shipping_product_size_height'] = shippingProductSizeHeight;
@@ -1794,7 +1826,7 @@ class ConsultationRecomendationTreatment {
   }
 }
 
-class ConsultationRecipeDrugs {
+class ConsultationRecipeDrug {
   int? id;
   int? consultationId;
   int? productId;
@@ -1809,7 +1841,8 @@ class ConsultationRecipeDrugs {
   String? updatedAt;
   dynamic deletedAt;
   Product? product;
-  ConsultationRecipeDrugs(
+
+  ConsultationRecipeDrug(
       {this.id,
       this.consultationId,
       this.productId,
@@ -1825,7 +1858,7 @@ class ConsultationRecipeDrugs {
       this.deletedAt,
       this.product});
 
-  ConsultationRecipeDrugs.fromJson(Map<String, dynamic> json) {
+  ConsultationRecipeDrug.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     consultationId = json['consultation_id'];
     productId = json['product_id'];

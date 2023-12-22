@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/register/register_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../widget/snackbar_widget.dart';
@@ -201,7 +200,7 @@ class RegisterController extends StateClass {
 
   verifyPhoneNumber(
     BuildContext context, {
-    required bool isContinue,
+    required bool isCompleteProfile,
     required Function() doInPost,
   }) async {
     isLoading.value = true;
@@ -215,7 +214,7 @@ class RegisterController extends StateClass {
         );
       }
       var data = {};
-      if (isContinue) {
+      if (isCompleteProfile) {
         data = {
           "phone_number": phoneNumber,
           "verification_code": codePhoneNumber.toString(),

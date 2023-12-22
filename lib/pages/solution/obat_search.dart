@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 
 class ObatSearch extends StatefulWidget {
   const ObatSearch({
@@ -19,21 +19,21 @@ class ObatSearch extends StatefulWidget {
 }
 
 class _ObatSearchState extends State<ObatSearch> {
-  final MedicineController state = Get.put(MedicineController());
+  final DrugController state = Get.put(DrugController());
   final ScrollController scrollController = ScrollController();
   late TextEditingController searchController = TextEditingController();
 
   int page = 1;
   late String localSearch;
-  List<Medicine.Data2> medicines = [];
+  List<Drug.Data2> drugs = [];
 
   @override
   void initState() {
     searchController = TextEditingController(text: widget.search);
     localSearch = widget.search;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      medicines.addAll(
-        await state.getMedicine(context, page, search: localSearch),
+      drugs.addAll(
+        await state.getDrug(context, page, search: localSearch),
       );
       setState(() {});
     });
@@ -43,8 +43,8 @@ class _ObatSearchState extends State<ObatSearch> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines.addAll(
-                await state.getMedicine(context, page, search: localSearch));
+            drugs.addAll(
+                await state.getDrug(context, page, search: localSearch));
             setState(() {});
           });
         }
@@ -109,12 +109,11 @@ class _ObatSearchState extends State<ObatSearch> {
                           onEditingComplete: () async {
                             print("INI GW KLIK");
                             page = 1;
-                            medicines.clear();
+                            drugs.clear();
                             localSearch = searchController.text;
-                            medicines.addAll(await state.getMedicine(
-                                context, page,
+                            drugs.addAll(await state.getDrug(context, page,
                                 search: localSearch));
-                            print(medicines);
+                            print(drugs);
                             setState(() {});
                           },
                           style: const TextStyle(
@@ -139,7 +138,7 @@ class _ObatSearchState extends State<ObatSearch> {
           ),
         ),
       ),
-      body: medicines.isEmpty
+      body: drugs.isEmpty
           ? Center(
               child: Text(
                 'Tidak ada produk obat',
@@ -160,9 +159,9 @@ class _ObatSearchState extends State<ObatSearch> {
                     child: Wrap(
                       runSpacing: 12,
                       spacing: 12,
-                      children: medicines.map((medicine) {
+                      children: drugs.map((drug) {
                         return KonsultasiProduk(
-                          medicine: medicine,
+                          drug: drug,
                         );
                       }).toList(),
                     ),

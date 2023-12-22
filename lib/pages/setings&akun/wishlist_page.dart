@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +10,6 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.da
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
 import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import '../../widget/appbar_widget.dart';
@@ -240,12 +238,8 @@ class _WishListPageState extends State<WishListPage> {
                               return InkWell(
                                 onTap: () {
                                   Get.to(
-                                    DetailObatPage(
-                                      medicine: Medicine.Data2.fromJson(
-                                        jsonDecode(
-                                          jsonEncode(wishlist[index].product),
-                                        ),
-                                      ),
+                                  ()=>  DetailObatPage(
+                                      drugId: wishlist[index].product!.id!,
                                     ),
                                   );
                                 },

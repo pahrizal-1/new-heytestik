@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,9 +6,18 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/location_permission.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/customer/zipcode_address_model.dart'
+    as Zipcode;
 import 'package:heystetik_mobileapps/models/customer/address_by_id_model.dart'
     as ByID;
+import 'package:heystetik_mobileapps/models/customer/city_address_model.dart'
+    as City;
 import 'package:heystetik_mobileapps/models/customer/list_address_model.dart';
+import 'package:heystetik_mobileapps/models/customer/province_address_model.dart'
+    as Province;
+import 'package:heystetik_mobileapps/models/customer/subdistrict_address_model.dart'
+    as Sub;
+
 import 'package:heystetik_mobileapps/service/customer/address/address_service.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
@@ -19,7 +28,6 @@ class AddressController extends StateClass {
   TextEditingController labelAddress = TextEditingController();
   TextEditingController completeAddress = TextEditingController();
   TextEditingController noteForCourier = TextEditingController();
-  TextEditingController kodePos = TextEditingController();
   RxString pinpointAddress = ''.obs;
   RxDouble pinpointLatitude = 0.0.obs;
   RxDouble pinpointLongitude = 0.0.obs;
@@ -29,9 +37,21 @@ class AddressController extends StateClass {
   Rx<ListAddressModel> data = ListAddressModel().obs;
   RxList<Data> filterData = List<Data>.empty().obs;
 
+  RxList<Province.Data> province = List<Province.Data>.empty().obs;
+  RxList<City.Data> city = List<City.Data>.empty().obs;
+  RxList<Sub.Data> subdistrict = List<Sub.Data>.empty().obs;
+  RxList<Zipcode.Data> zipcode = List<Zipcode.Data>.empty().obs;
+
+  RxString? prov = "".obs;
+  RxString? kot = "".obs;
+  RxString? kec = "".obs;
+  RxString? desa = "".obs;
+  RxString? kodePos = "".obs;
+
   Rx<ByID.AddressByIdModel> detail = ByID.AddressByIdModel().obs;
 
   RxBool isLoadingCheck = false.obs;
+  RxBool isLoadingDelete = false.obs;
 
   listAddress(BuildContext context) async {
     isLoading.value = true;
@@ -41,6 +61,45 @@ class AddressController extends StateClass {
       filterData.refresh();
     });
     isLoading.value = false;
+  }
+
+  Future<dynamic> getProvince(BuildContext context) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await AddressService().getProvince();
+      province.value = res.data!;
+    });
+    // isLoading.value = false;
+  }
+
+  Future<dynamic> getCity(BuildContext context, String province) async {
+    // isLoadingCity.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await AddressService().getCity(province);
+      city.value = res.data!;
+    });
+    // isLoadingCity.value = false;
+    return data;
+  }
+
+  Future<dynamic> getSubdistrict(
+      BuildContext context, String province, String city) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await AddressService().getSubdistrict(province, city);
+      subdistrict.value = res.data!;
+    });
+    // isLoading.value = false;
+  }
+
+  Future<dynamic> getZipcode(BuildContext context, String province, String city,
+      String subdistrict) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await AddressService().getZipcode(province, city, subdistrict);
+      zipcode.value = res.data!;
+    });
+    // isLoading.value = false;
   }
 
   onChangeFilterText(String value) {
@@ -53,7 +112,7 @@ class AddressController extends StateClass {
   }
 
   findAddress(BuildContext context, int id) async {
-    isLoading.value = true;
+    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       detail.value = await AddressService().findAddress(id);
       print(detail.value.data!);
@@ -66,10 +125,15 @@ class AddressController extends StateClass {
         labelAddress.text = detail.value.data?.labelAddress ?? '-';
         completeAddress.text = detail.value.data?.completeAddress ?? '-';
         noteForCourier.text = detail.value.data?.noteForCourier ?? '-';
-        print('heheh ${pinpointLatitude.value}');
+        prov?.value = detail.value.data?.province ?? '-';
+        kot?.value = detail.value.data?.city ?? '-';
+        kec?.value = detail.value.data?.subdistrict ?? '-';
+        desa?.value = detail.value.data?.village ?? '-';
+        kodePos?.value =
+            '${detail.value.data?.village} - ${detail.value.data?.zipCode}';
       }
     });
-    isLoading.value = false;
+    // isLoading.value = false;
   }
 
   Future<void> getCurrentPosition(BuildContext context) async {
@@ -113,6 +177,15 @@ class AddressController extends StateClass {
     pinpointAddress.value = '';
     pinpointLatitude.value = 0.0;
     pinpointLongitude.value = 0.0;
+    prov?.value = '';
+    kot?.value = '';
+    kec?.value = '';
+    kodePos?.value = '';
+    desa?.value = '';
+    province.clear();
+    city.clear();
+    subdistrict.clear();
+    zipcode.clear();
   }
 
   saveddress(BuildContext context) async {
@@ -148,6 +221,30 @@ class AddressController extends StateClass {
           message: 'Pin point address harus diisi',
         );
       }
+      if (prov!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Provinsi harus diisi',
+        );
+      }
+      if (kot!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kab/Kota harus diisi',
+        );
+      }
+      if (kec!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kecamatan harus diisi',
+        );
+      }
+      if (kodePos!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kode Pos harus diisi',
+        );
+      }
       if (labelAddress.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -166,18 +263,25 @@ class AddressController extends StateClass {
           message: 'Catatan harus diisi',
         );
       }
+
       var req = {
-        'recipient_name': recipientName.text,
-        'recipient_phone': recipientPhone.text,
-        'pinpoint_latitude': pinpointLatitude.value,
-        'pinpoint_longitude': pinpointLongitude.value,
-        'pinpoint_address': pinpointAddress.value,
-        'label_address': labelAddress.text,
-        'complete_address': completeAddress.text,
-        'note_for_courier': noteForCourier.text,
-        'main_address': false,
+        "recipient_name": recipientName.text,
+        "recipient_phone": recipientPhone.text,
+        "province": prov?.value,
+        "city": kot?.value,
+        "subdistrict": kec?.value,
+        "village": kodePos?.value,
+        "zip_code": kodePos?.value,
+        "pinpoint_latitude": pinpointLatitude.value,
+        "pinpoint_longitude": pinpointLongitude.value,
+        "pinpoint_address": pinpointAddress.value,
+        "complete_address": completeAddress.text,
+        "label_address": labelAddress.text,
+        "note_for_courier": noteForCourier.text,
+        "main_address": false
       };
       print('req $req');
+
       detail.value = await AddressService().saveAddress(req);
       print(detail.value.data!);
 
@@ -188,15 +292,15 @@ class AddressController extends StateClass {
         );
       }
 
-      Get.back();
-      await listAddress(context);
-      await Future.delayed(const Duration(seconds: 1));
-      clearForm();
       SnackbarWidget.getSuccessSnackbar(
         context,
         'Berhasil',
         'Alamat berhasil disimpan',
       );
+      Get.back(result: true);
+      await listAddress(context);
+      await Future.delayed(const Duration(seconds: 1));
+      clearForm();
     });
     isMinorLoading.value = false;
   }
@@ -234,6 +338,30 @@ class AddressController extends StateClass {
           message: 'Pin point address harus diisi',
         );
       }
+      if (prov!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Provinsi harus diisi',
+        );
+      }
+      if (kot!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kab/Kota harus diisi',
+        );
+      }
+      if (kec!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kecamatan harus diisi',
+        );
+      }
+      if (kodePos!.value.isEmpty) {
+        throw ErrorConfig(
+          cause: ErrorConfig.userInput,
+          message: 'Kode Pos harus diisi',
+        );
+      }
       if (labelAddress.text.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -253,17 +381,23 @@ class AddressController extends StateClass {
         );
       }
       var req = {
-        'recipient_name': recipientName.text,
-        'recipient_phone': recipientPhone.text,
-        'pinpoint_latitude': pinpointLatitude.value,
-        'pinpoint_longitude': pinpointLongitude.value,
-        'pinpoint_address': pinpointAddress.value,
-        'label_address': labelAddress.text,
-        'complete_address': completeAddress.text,
-        'note_for_courier': noteForCourier.text,
-        'main_address': false,
+        "recipient_name": recipientName.text,
+        "recipient_phone": recipientPhone.text,
+        "province": prov?.value,
+        "city": kot?.value,
+        "subdistrict": kec?.value,
+        "village": kodePos?.value,
+        "zip_code": kodePos?.value,
+        "pinpoint_latitude": pinpointLatitude.value,
+        "pinpoint_longitude": pinpointLongitude.value,
+        "pinpoint_address": pinpointAddress.value,
+        "complete_address": completeAddress.text,
+        "label_address": labelAddress.text,
+        "note_for_courier": noteForCourier.text,
+        "main_address": false
       };
       print('req $req');
+
       detail.value = await AddressService().updateAddress(id, req);
       print(detail.value.data!);
       if (detail.value.success != true && detail.value.message != 'Success') {
@@ -272,16 +406,15 @@ class AddressController extends StateClass {
           message: detail.value.message.toString(),
         );
       }
-
-      Get.back();
-      await listAddress(context);
-      await Future.delayed(const Duration(seconds: 1));
-      clearForm();
       SnackbarWidget.getSuccessSnackbar(
         context,
         'Berhasil',
         'Alamat berhasil diubah',
       );
+      Get.back();
+      await listAddress(context);
+      await Future.delayed(const Duration(seconds: 1));
+      clearForm();
     });
     isMinorLoading.value = false;
   }
@@ -289,16 +422,22 @@ class AddressController extends StateClass {
   mainAddress(BuildContext context, int id, Data data) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      await findAddress(context, id);
       var req = {
-        'recipient_name': data.recipientName,
-        'recipient_phone': data.recipientPhone,
-        'pinpoint_latitude': data.pinpointLatitude,
-        'pinpoint_longitude': data.pinpointLongitude,
-        'pinpoint_address': data.pinpointAddress,
-        'label_address': data.labelAddress,
-        'complete_address': data.completeAddress,
-        'note_for_courier': data.noteForCourier,
-        'main_address': true,
+        "recipient_name": recipientName.text,
+        "recipient_phone": recipientPhone.text,
+        "province": prov?.value,
+        "city": kot?.value,
+        "subdistrict": kec?.value,
+        "village": desa?.value,
+        "zip_code": kodePos?.value,
+        "pinpoint_latitude": pinpointLatitude.value,
+        "pinpoint_longitude": pinpointLongitude.value,
+        "pinpoint_address": pinpointAddress.value,
+        "complete_address": completeAddress.text,
+        "label_address": labelAddress.text,
+        "note_for_courier": noteForCourier.text,
+        "main_address": true
       };
       print('req $req');
       detail.value = await AddressService().updateAddress(id, req);
@@ -309,21 +448,20 @@ class AddressController extends StateClass {
           message: detail.value.message.toString(),
         );
       }
-
-      Get.back();
-      await listAddress(context);
-      await Future.delayed(const Duration(seconds: 1));
       SnackbarWidget.getSuccessSnackbar(
         context,
         'Berhasil',
         'Berhasil diubah menjadi alamat utama',
       );
+      Get.back();
+      await listAddress(context);
+      await Future.delayed(const Duration(seconds: 1));
     });
     isMinorLoading.value = false;
   }
 
   deleteAddress(BuildContext context, int id) async {
-    isLoading.value = true;
+    isLoadingDelete.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       detail.value = await AddressService().deleteAddress(id);
       print(detail.value.data!);
@@ -333,16 +471,15 @@ class AddressController extends StateClass {
           message: detail.value.message.toString(),
         );
       }
-
-      Get.back();
-      await listAddress(context);
-      await Future.delayed(const Duration(seconds: 1));
       SnackbarWidget.getSuccessSnackbar(
         context,
         'Berhasil',
         'Alamat berhasil dihapus',
       );
+      Get.back();
+      await listAddress(context);
+      await Future.delayed(const Duration(seconds: 1));
     });
-    isLoading.value = false;
+    isLoadingDelete.value = false;
   }
 }

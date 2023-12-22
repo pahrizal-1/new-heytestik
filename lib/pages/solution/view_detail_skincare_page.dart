@@ -906,8 +906,6 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     children: [
                                       InkWell(
                                         onTap: () async {
-                                          print("help");
-
                                           if (help ?? element.helped!) {
                                             state.unHelped(
                                                 context, element.id!);
@@ -1277,7 +1275,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Get.to(SelectConditionsPage());
+                      Get.to(() => SelectConditionsPage());
                     },
                     child: Container(
                       width: 142,
@@ -1304,22 +1302,22 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     onTap: () {
                       List product = [
                         {
-                          "product_id": state.skincareDetail.value.id,
+                          "productId": state.skincareDetail.value.id,
                           "productName": state.skincareDetail.value.name,
                           "img": state.skincareDetail.value.mediaProducts?[0]
                               .media?.path,
                           "qty": 1,
-                          "notes": '-',
+                          "notes": '',
                           "isSelected": true,
                           "price": state.skincareDetail.value.price,
                           "totalPrice": state.skincareDetail.value.price! * 1,
                         }
                       ];
 
-                      Get.to(PembayaranProduk(
-                        pesan: product,
-                        isCart: false,
-                      ));
+                      Get.to(() => PembayaranProduk(
+                            pesan: product,
+                            isCart: false,
+                          ));
                     },
                     child: Container(
                       decoration: BoxDecoration(

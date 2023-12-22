@@ -13,8 +13,8 @@ import '../../widget/button_widget.dart';
 import '../../widget/snackbar_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
-  bool isContinue = false;
-  VerificasionEmailPage({this.isContinue = false, super.key});
+  bool isCompleteProfile = false;
+  VerificasionEmailPage({this.isCompleteProfile = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class VerificasionEmailPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyEmail(context, doInPost: () async {
-                      if (isContinue) {
+                      if (isCompleteProfile) {
                         Get
                           ..back(result: true)
                           ..back(result: true);

@@ -1197,7 +1197,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     String refresh = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RecomendationMedicine(),
+                        builder: (context) => const RecomendationDrug(),
                       ),
                     );
 

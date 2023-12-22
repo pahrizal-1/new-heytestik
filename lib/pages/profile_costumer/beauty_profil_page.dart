@@ -61,72 +61,94 @@ class BeautyProfil extends StatelessWidget {
             SizedBox(
               height: 19,
             ),
-            tipeKulit(
-              'Tipe Kulit',
-              state.interestData.value.data?.beautyProfile?.skinType ?? '',
-              'Warna Tone Kulit',
-              state.interestData.value.data?.beautyProfile?.skinToneColor ?? '',
+            Obx(
+              () => tipeKulit(
+                'Tipe Kulit',
+                state.interestData.value.data?.beautyProfile?.skinType ?? '',
+                'Warna Tone Kulit',
+                state.interestData.value.data?.beautyProfile?.skinToneColor ??
+                    '',
+              ),
             ),
             SizedBox(
               height: 19,
             ),
-            tipeKulit(
-              'Warna Undertone Kulit',
-              state.interestData.value.data?.beautyProfile
-                      ?.skinUndertoneColor ??
-                  '',
-              'Tipe Rambut',
-              state.interestData.value.data?.beautyProfile?.hairType ?? '',
+            Obx(
+              () => tipeKulit(
+                'Warna Undertone Kulit',
+                state.interestData.value.data?.beautyProfile
+                        ?.skinUndertoneColor ??
+                    '',
+                'Tipe Rambut',
+                state.interestData.value.data?.beautyProfile?.hairType ?? '',
+              ),
             ),
             SizedBox(
               height: 19,
             ),
-            tipeKulit(
-              'Warna Rambut',
-              state.interestData.value.data?.beautyProfile?.hairColor ?? '',
-              'Hijabers',
-              state.interestData.value.data?.beautyProfile?.hijabers == true
-                  ? 'Iya'
-                  : 'Tidak',
+            Obx(
+              () => tipeKulit(
+                'Warna Rambut',
+                state.interestData.value.data?.beautyProfile?.hairColor ?? '',
+                'Hijabers',
+                state.interestData.value.data?.beautyProfile?.hijabers == true
+                    ? 'Iya'
+                    : 'Tidak',
+              ),
             ),
             SizedBox(
               height: 29,
             ),
-            skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
-            SizedBox(
-              height: 19,
-            ),
-            skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
-            SizedBox(
-              height: 19,
-            ),
-            skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
-            SizedBox(
-              height: 19,
-            ),
-            skinGoalsSexuallyAndSkinDiseases(
-                'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
-            SizedBox(
-              height: 19,
-            ),
-            skinGoalPernahTreatment('Pernah Treatment'),
-            SizedBox(
-              height: 19,
-            ),
-            skinGoalsBudget(
-              'Anggaran Skincare',
-              state.interestData.value.data?.skinGoalsBudget
-                      ?.budgetForSkincare ??
-                  '',
+            Obx(
+              () => skinGoalKorektifWajah('Skin Goals - Korektif Wajah'),
             ),
             SizedBox(
               height: 19,
             ),
-            skinGoalsBudget(
-              'Anggaran Treatment',
-              state.interestData.value.data?.skinGoalsBudget
-                      ?.budgetForTreatment ??
-                  '',
+            Obx(
+              () => skinGoalKorektifTubuh('Skin Goals - Korektif Tubuh'),
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            Obx(
+              () => skinGoalAugmentation(
+                  'Skin Goals - Augmentation Wajah & Tubuh'),
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            Obx(
+              () => skinGoalsSexuallyAndSkinDiseases(
+                  'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            Obx(
+              () => skinGoalPernahTreatment('Pernah Treatment'),
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            Obx(
+              () => skinGoalsBudget(
+                'Anggaran Skincare',
+                state.interestData.value.data?.skinGoalsBudget
+                        ?.budgetForSkincare ??
+                    '',
+              ),
+            ),
+            SizedBox(
+              height: 19,
+            ),
+            Obx(
+              () => skinGoalsBudget(
+                'Anggaran Treatment',
+                state.interestData.value.data?.skinGoalsBudget
+                        ?.budgetForTreatment ??
+                    '',
+              ),
             ),
           ],
         ),

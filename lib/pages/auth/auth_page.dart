@@ -11,96 +11,98 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                // width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.only(left: 25, right: 25, top: 380),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/Auth-screen.png'),
-                    fit: BoxFit.cover,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  // width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(left: 25, right: 25, top: 380),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/Auth-screen.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Selamat Datang \ndi Heystetik!',
+                        style: TextStyle(
+                          color: greenColor,
+                          fontWeight: bold,
+                          fontSize: 40,
+                          fontFamily: 'Proxima Nova',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        'Platform direktori informasi tips kecantikan, perawatan, skincare & tanya jawab dengan dokter spesialis kulit.',
+                        style: TextStyle(fontSize: 16, color: blackColor),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 31,
+                      ),
+                      ButtonGreenWidget(
+                        title: 'MASUK',
+                        onPressed: () {
+                          Get.to(() => const LoginPageNew());
+                        },
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      ButtonWhiteWidget(
+                        title: 'DAFTAR',
+                        onPressed: () {
+                          Get.to(() => PhoneNumberPage());
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text.rich(
+                        TextSpan(
+                          text:
+                              'Dengan ‘Masuk’ atau ‘Daftar’, kamu setuju dengan',
+                          style: greyTextStyle.copyWith(fontSize: 13),
+                          children: [
+                            TextSpan(
+                              text: " Kebijakan Privasi",
+                              style: grenTextStyle.copyWith(
+                                fontSize: 13,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: " dan",
+                                    style: greyTextStyle.copyWith(fontSize: 13),
+                                    children: [
+                                      TextSpan(
+                                          text: " Syarat dan Ketentuan",
+                                          style: grenTextStyle.copyWith(
+                                              fontSize: 13))
+                                    ]),
+                              ],
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Selamat Datang \ndi Heystetik!',
-                      style: TextStyle(
-                        color: greenColor,
-                        fontWeight: bold,
-                        fontSize: 40,
-                        fontFamily: 'Proxima Nova',
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      'Platform direktori informasi tips kecantikan, perawatan, skincare & tanya jawab dengan dokter spesialis kulit.',
-                      style: TextStyle(fontSize: 16, color: blackColor),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 31,
-                    ),
-                    ButtonGreenWidget(
-                      title: 'MASUK',
-                      onPressed: () {
-                        Get.to(() => const LoginPageNew());
-                      },
-                    ),
-                    const SizedBox(
-                      height: 14,
-                    ),
-                    ButtonWhiteWidget(
-                      title: 'DAFTAR',
-                      onPressed: () {
-                        Get.to(() => PhoneNumberPage());
-                      },
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text:
-                            'Dengan ‘Masuk’ atau ‘Daftar’, kamu setuju dengan',
-                        style: greyTextStyle.copyWith(fontSize: 13),
-                        children: [
-                          TextSpan(
-                            text: " Kebijakan Privasi",
-                            style: grenTextStyle.copyWith(
-                              fontSize: 13,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: " dan",
-                                  style: greyTextStyle.copyWith(fontSize: 13),
-                                  children: [
-                                    TextSpan(
-                                        text: " Syarat dan Ketentuan",
-                                        style: grenTextStyle.copyWith(
-                                            fontSize: 13))
-                                  ]),
-                            ],
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

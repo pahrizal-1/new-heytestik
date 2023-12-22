@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
@@ -16,7 +15,7 @@ import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
-import '../../controller/customer/solution/medicine_controller.dart';
+import '../../controller/customer/solution/drug_controller.dart';
 import '../../core/global.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
@@ -36,10 +35,10 @@ class ObatSolutionsPage extends StatefulWidget {
 class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  final MedicineController state = Get.put(MedicineController());
+  final DrugController state = Get.put(DrugController());
   final EtalaseController etalaseController = Get.put(EtalaseController());
   int page = 1;
-  List<Medicine.Data2> medicines = [];
+  List<Drug.Data2> drugs = [];
   List<Data2> drugRecipe = [];
   List<Concern.Data2> concern = [];
   String? search;
@@ -50,7 +49,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       concern.addAll(await etalaseController.getConcern(context));
       drugRecipe.addAll(await state.getDrugRecipe(context, page));
-      medicines.addAll(await state.getMedicine(
+      drugs.addAll(await state.getDrug(
         context,
         page,
         search: search,
@@ -64,7 +63,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines.addAll(await state.getMedicine(
+            drugs.addAll(await state.getDrug(
               context,
               page,
               search: search,
@@ -240,8 +239,6 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                       child: Row(
                         children: drugRecipe.map((e) {
                           return ProdukObat(
-                            medicine: Medicine.Data2.fromJson(
-                                jsonDecode(jsonEncode(e.product))),
                             productId: e.product!.id!.toInt(),
                             namaBrand: e.product?.name ?? '-',
                             harga: CurrencyFormat.convertToIdr(
@@ -349,10 +346,10 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                                     ).then((value) async {
                                       filter['display[]'] = value['display'];
                                       filter['category[]'] = value['category'];
-                                      medicines.clear();
+                                      drugs.clear();
                                       page = 1;
-                                      medicines.addAll(
-                                        await state.getMedicine(
+                                      drugs.addAll(
+                                        await state.getDrug(
                                           context,
                                           page,
                                           search: search,
@@ -406,9 +403,9 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                 child: Wrap(
                   spacing: 15,
                   runSpacing: 12,
-                  children: medicines.map((medicine) {
+                  children: drugs.map((drug) {
                     return KonsultasiProduk(
-                      medicine: medicine,
+                      drug: drug,
                     );
                   }).toList(),
                 ),
@@ -424,18 +421,18 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
 class KonsultasiProduk extends StatelessWidget {
   KonsultasiProduk({
     Key? key,
-    required this.medicine,
+    required this.drug,
   }) : super(key: key);
 
-  final Medicine.Data2 medicine;
-  MedicineController medicineController = Get.put(MedicineController());
+  final Drug.Data2 drug;
+  DrugController state = Get.put(DrugController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.to(
-          DetailObatPage(
-            medicine: medicine,
+          () => DetailObatPage(
+            drugId: drug.id!,
           ),
         );
       },
@@ -457,7 +454,7 @@ class KonsultasiProduk extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "${Global.FILE}/${medicine.mediaProducts?[0].media?.path}"),
+                      "${Global.FILE}/${drug.mediaProducts?[0].media?.path}"),
                 ),
               ),
             ),
@@ -471,7 +468,7 @@ class KonsultasiProduk extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    medicine.name ?? '-',
+                    drug.name ?? '-',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 13, color: const Color(0xFF323232)),
                   ),
@@ -479,14 +476,14 @@ class KonsultasiProduk extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(medicine.price, 2),
+                    CurrencyFormat.convertToIdr(drug.price, 2),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    medicine.drugDetail?.specificationPackaging ?? '-',
+                    drug.drugDetail?.specificationPackaging ?? '-',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 12, color: const Color(0xFF9B9B9B)),
                   ),
@@ -505,14 +502,14 @@ class KonsultasiProduk extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  medicine.consultationRecipeDrugs!.isNotEmpty
+                  drug.consultationRecipeDrugs!.isNotEmpty
                       ? Container(
                           height: 30,
                           child: TextButton(
                             onPressed: () {
-                              medicineController.addMedicineToCart(
+                              state.addDrugToCart(
                                 context,
-                                medicine.id!,
+                                drug.id!,
                               );
                               SnackbarWidget.getSuccessSnackbar(
                                 context,

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_single_quotes
 
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -57,8 +58,9 @@ class ErrorConfig implements Exception {
     String? message;
     if (dioError.response?.data['ket'] != null) {
       message = dioError.response?.data['ket'].toString();
-    } else if (dioError.response?.data['error'] != null) {
-      message = dioError.response?.data['error'].toString();
+    } else if (dioError.response?.data['errors'] != null) {
+      var cek = (jsonEncode(dioError.response?.data['errors']));
+      message = cek.toString();
     } else if (dioError.response?.data['message'] != null) {
       message = dioError.response?.data['message'].toString();
     } else if (dioError.response?.data['status'] != null) {
@@ -158,11 +160,6 @@ ErrorConfig handleError(
 
     switch ((error as ErrorConfig).cause) {
       case ErrorConfig.userInput:
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertWidget(subtitle: error.message),
-        // );
-
         SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
         break;
       case ErrorConfig.userUnauthorized:
@@ -203,10 +200,11 @@ ErrorConfig handleError(
         );
         break;
       case ErrorConfig.networkRequest400:
-        showDialog(
-          context: context,
-          builder: (context) => AlertWidget(subtitle: error.message),
-        );
+        SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertWidget(subtitle: error.message),
+        // );
         break;
       case ErrorConfig.networkRequest500:
         showDialog(

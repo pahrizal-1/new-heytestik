@@ -168,6 +168,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                         ),
                         InkWell(
                           onTap: () async {
+                            print(state.completionData.value.data?.subtitle);
                             bool check = false;
                             if (state.completionData.value.data?.subtitle ==
                                 'Anggaran Untuk Skincare & Treatment') {
@@ -192,7 +193,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                               ));
                             }
                             if (state.completionData.value.data?.subtitle ==
-                                'Penyakit Augmentation Wajah & Tubuh') {
+                                'Skin Goals Augmentation Wajah & Tubuh') {
                               check = await Get.to(SkinGolasWajahTubuh(
                                 isEdit: false,
                                 isCompleteProfile: true,
@@ -217,25 +218,26 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Beauty Profile') {
-                              check = await Get.to(
-                                  BeautyProfilPage(isContinue: true));
+                              check = await Get.to(BeautyProfilPage(
+                                  isEdit: false, isCompleteProfile: true));
                             }
                             if (state.completionData.value.data?.subtitle ==
                                 'Verifikasi Email') {
-                              check = await Get.to(
-                                  VerificationAcooutPage(isContinue: true));
+                              check = await Get.to(VerificationAcooutPage(
+                                  isCompleteProfile: true));
                             }
 
                             if (state.completionData.value.data?.subtitle ==
                                 'Verifikasi No. Handphone') {
                               check = await Get.to(
-                                  PhoneNumberPage(isContinue: true));
+                                  PhoneNumberPage(isCompleteProfile: true));
                             }
 
                             setState(() {});
 
                             if (check) {
                               await state.getCompletion(context);
+                              await state.getInterest(context);
                             }
                           },
                           child: Container(
