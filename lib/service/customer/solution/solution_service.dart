@@ -42,6 +42,7 @@ class SolutionService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
+      print('kesini g ${response}');
       return SkincareModel.fromJson(response);
     } catch (error) {
       print(error);

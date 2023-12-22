@@ -105,6 +105,20 @@ class DoctorConsultationController extends StateClass {
   List<TextEditingController> notesMedicine = [];
   List findDoctorNote = [];
 
+  void clearData() {
+    indicationController.clear();
+    diagnosisPossibilityController.clear();
+    diagnosisSecondaryController.clear();
+    diagnosisSecondary.value = [];
+    diagnosisPossibility.value = [];
+    listSkincare = [];
+    notesSkincare = [];
+    listTreatmentNote = [];
+    listItemCount = [];
+    listObat = [];
+    notesMedicine = [];
+  }
+
   Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
       BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -192,14 +206,20 @@ class DoctorConsultationController extends StateClass {
   detailConsultation(BuildContext context, int id) async {
     // isLoading.value = true;
     print('idspx' + id.toString());
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+    try {
       var res = await ConsultationDoctorScheduleServices().getDoctorNote(id);
       data.value = res.data!;
-      print('object' + data.toJson().toString());
-      print('length' + data.value.consultationRecipeDrug!.length.toString());
-      // findDoctorNote.add(res);
-      // print('res' + findDoctorNote.toString());
-    });
+    } catch (e) {
+      print('err ${e}');
+    }
+    // await ErrorConfig.doAndSolveCatchInContext(context, () async {
+    //   var res = await ConsultationDoctorScheduleServices().getDoctorNote(id);
+    //   data.value = res.data!;
+    //   print('object' + data.toJson().toString());
+    //   print('length' + data.value.consultationRecipeDrug!.length.toString());
+    //   // findDoctorNote.add(res);
+    //   // print('res' + findDoctorNote.toString());
+    // });
     // isLoading.value = false;
   }
 

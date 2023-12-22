@@ -55,18 +55,9 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 ),
                 InkWell(
                     onTap: () {
-                      state.indicationController.clear();
-                      state.diagnosisPossibilityController.clear();
-                      state.diagnosisSecondaryController.clear();
-                      state.diagnosisSecondary.value = [];
-                      state.diagnosisPossibility.value = [];
-                      state.listSkincare = [];
-                      state.notesSkincare = [];
-                      state.listTreatmentNote = [];
-                      state.listItemCount = [];
-                      state.listObat = [];
-                      state.notesMedicine = [];
-                      Navigator.pop(context);
+                      state.clearData();
+                      // Navigator.pop(context);
+                      Get.back();
                     },
                     child: Icon(Icons.arrow_back)),
                 SizedBox(
