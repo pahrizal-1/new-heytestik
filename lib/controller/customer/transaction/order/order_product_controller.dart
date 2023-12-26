@@ -265,7 +265,10 @@ class OrderProductController extends StateClass {
           "qty": listProductItem[i]['qty'],
         });
 
-        listIdProduct.add(listProductItem[i]['productId']);
+        // kalo dari keranjang masuk kesini
+        if (isCart) {
+          listIdProduct.add(listProductItem[i]['cartId']);
+        }
       }
 
       var reqOrder = {
