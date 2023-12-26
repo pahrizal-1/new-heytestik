@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -49,7 +50,9 @@ class DetailTransaksiPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(UlasanSetingsPage());
+                    },
                     child: Container(
                       width: 142,
                       decoration: BoxDecoration(
