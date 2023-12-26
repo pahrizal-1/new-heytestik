@@ -189,9 +189,9 @@ class _KeranjangPageState extends State<KeranjangPage> {
                         return InkWell(
                           onTap: () {
                             if (cart[i].product?.type == 'SKINCARE') {
-                              Get.to(DetailSkinCarePage(
-                                productId: cart[i].productId!.toInt(),
-                              ));
+                              Get.to(() => DetailSkinCarePage(
+                                    productId: cart[i].productId!.toInt(),
+                                  ));
                             }
 
                             if (cart[i].product?.type == 'DRUGS') {
