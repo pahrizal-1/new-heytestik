@@ -138,10 +138,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.8),
+                                    constraints: BoxConstraints(maxWidth: 120),
                                     child: Text(
                                       widget.data.product?.name ?? '-',
                                       style: grenTextStyle.copyWith(
