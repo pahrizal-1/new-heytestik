@@ -416,8 +416,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 230),
                           child: Center(
-                            child: Text('Belum ada transaksi',
-                                style: blackTextStyle.copyWith(fontSize: 15)),
+                            child: Text(
+                              'Belum ada transaksi',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
                           ),
                         )
                       : Column(

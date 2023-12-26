@@ -320,7 +320,9 @@ class TransaksiProduk extends StatelessWidget {
                 paymentMethodId: product!.paymentMethodId!,
               ));
         }
-        // Get.to(() => DetailTransaksiPage());
+        if (product?.status.toString() == 'SELESAI') {
+          Get.to(() => DetailTransaksiPage());
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -556,7 +558,6 @@ class TransaksiProduk extends StatelessWidget {
                                 id: product!.paymentMethodId!,
                                 orderId: orderId,
                                 totalPaid: product!.totalPaid!,
-                                // vaNumber: product?.vaNumber ?? '-',
                                 transactionType: 'Produk',
                               ));
                         },

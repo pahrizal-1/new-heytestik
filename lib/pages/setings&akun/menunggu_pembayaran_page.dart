@@ -195,29 +195,32 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             if (history[index].transactionType == 'TREATMENT') {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(()=>SelesaikanPembayaranTreatmentPage(
-                                    isWillPop: false,
-                                    orderId:
-                                        history[index].transactionId.toString(),
-                                    expireTime: '',
-                                    pax: history[index]
-                                            .detail!
-                                            .transactionTreatmentItems?[0]
-                                            .pax ??
-                                        0,
-                                    treatment: Treatment.Data2.fromJson(
-                                      jsonDecode(
-                                        jsonEncode(
-                                          history[index]
-                                              .detail!
-                                              .transactionTreatmentItems?[0]
-                                              .treatment,
+                                  Get.to(() =>
+                                      SelesaikanPembayaranTreatmentPage(
+                                        isWillPop: false,
+                                        orderId: history[index]
+                                            .transactionId
+                                            .toString(),
+                                        expireTime: '',
+                                        pax: history[index]
+                                                .detail!
+                                                .transactionTreatmentItems?[0]
+                                                .pax ??
+                                            0,
+                                        treatment: Treatment.Data2.fromJson(
+                                          jsonDecode(
+                                            jsonEncode(
+                                              history[index]
+                                                  .detail!
+                                                  .transactionTreatmentItems?[0]
+                                                  .treatment,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    paymentMethodId:
-                                        history[index].detail!.paymentMethodId!,
-                                  ));
+                                        paymentMethodId: history[index]
+                                            .detail!
+                                            .paymentMethodId!,
+                                      ));
                                 },
                                 child: TransaksiTreatment(
                                   item: history[index]

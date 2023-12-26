@@ -23,22 +23,14 @@ class CaraPembayaranPage extends StatefulWidget {
   int id;
   String orderId;
   int totalPaid;
-  // String vaNumber;
   String transactionType;
   int? pax;
   Treatment.Data2? treatment;
-  // String paymentType;
-  // String billerCode;
-  // String billerKey;
   CaraPembayaranPage({
     super.key,
     required this.id,
     required this.orderId,
     required this.totalPaid,
-    // required this.vaNumber,
-    // required this.paymentType,
-    // required this.billerCode,
-    // required this.billerKey,
     required this.transactionType,
     this.pax = 0,
     this.treatment,
@@ -60,6 +52,11 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
   Data? method;
   List<bool> isVisibility = [];
 
+  String paymentType = '-';
+  String billerCode = '-';
+  String billerKey = '-';
+  String virtualAccount = '-';
+
   @override
   void initState() {
     super.initState();
@@ -73,10 +70,22 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
 
       if (widget.transactionType == "Konsultasi") {
         await stateConsultation.getTransactionStatus(context, widget.orderId);
+        paymentType = stateConsultation.paymentType.value;
+        billerCode = stateConsultation.billerCode.value;
+        billerKey = stateConsultation.billerKey.value;
+        virtualAccount = stateConsultation.virtualAccount.value;
       } else if (widget.transactionType == "Produk") {
         await stateProduk.getTransactionStatus(context, widget.orderId);
+        paymentType = stateProduk.paymentType.value;
+        billerCode = stateProduk.billerCode.value;
+        billerKey = stateProduk.billerKey.value;
+        virtualAccount = stateProduk.virtualAccount.value;
       } else if (widget.transactionType == "Treatment") {
         await stateTreatment.getTransactionStatus(context, widget.orderId);
+        paymentType = stateTreatment.paymentType.value;
+        billerCode = stateTreatment.billerCode.value;
+        billerKey = stateTreatment.billerKey.value;
+        virtualAccount = stateTreatment.virtualAccount.value;
       }
 
       setState(() {});
@@ -260,8 +269,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (stateConsultation.paymentType.value ==
-                          "bank_transfer")
+                      if (paymentType == "bank_transfer")
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -269,25 +277,13 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                               title: 'Nomor Virtual Account',
                               title2: '',
                             ),
-                            if (widget.transactionType == "Konsultasi")
-                              SelectableText(
-                                stateConsultation.virtualAccount.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Produk")
-                              SelectableText(
-                                stateProduk.virtualAccount.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Treatment")
-                              SelectableText(
-                                stateTreatment.virtualAccount.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
+                            SelectableText(
+                              virtualAccount,
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            )
                           ],
                         )
-                      else if (stateConsultation.paymentType.value ==
-                          "echannel")
+                      else if (paymentType == "echannel")
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -295,61 +291,32 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                               title: 'Biller Code',
                               title2: '',
                             ),
-                            if (widget.transactionType == "Konsultasi")
-                              SelectableText(
-                                stateConsultation.billerCode.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Produk")
-                              SelectableText(
-                                stateProduk.billerCode.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Treatment")
-                              SelectableText(
-                                stateTreatment.billerCode.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              ),
+                            SelectableText(
+                              billerCode,
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
                             const TextSpaceBetween(
                               title: 'Biller Key',
                               title2: '',
                             ),
-                            if (widget.transactionType == "Konsultasi")
-                              SelectableText(
-                                stateConsultation.billerKey.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Produk")
-                              SelectableText(
-                                stateProduk.billerKey.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              )
-                            else if (widget.transactionType == "Treatment")
-                              SelectableText(
-                                stateTreatment.billerKey.value,
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              ),
+                            SelectableText(
+                              billerKey,
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
                           ],
                         ),
                       const Spacer(),
                       InkWell(
                         onTap: () {
-                          if (widget.transactionType == "Konsultasi") {
-                            SocialShare.copyToClipboard(
-                              text: stateConsultation.virtualAccount.value,
-                            );
-                          } else if (widget.transactionType == "Produk") {
-                            SocialShare.copyToClipboard(
-                              text: stateProduk.virtualAccount.value,
-                            );
-                          } else if (widget.transactionType == "Treatment") {
-                            SocialShare.copyToClipboard(
-                              text: stateTreatment.virtualAccount.value,
-                            );
-                          }
+                          SocialShare.copyToClipboard(
+                            text: virtualAccount,
+                          );
 
                           SnackbarWidget.getSuccessSnackbar(
-                              context, "Berhasil", "Berhasil disalin");
+                            context,
+                            "Berhasil",
+                            "Berhasil disalin",
+                          );
                         },
                         child: Text(
                           'Salin',
@@ -382,7 +349,9 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                             children: [
                               Text(
                                 CurrencyFormat.convertToIdr(
-                                    widget.totalPaid, 0),
+                                  widget.totalPaid,
+                                  0,
+                                ),
                                 style: blackTextStyle.copyWith(fontSize: 15),
                               ),
                               const SizedBox(
