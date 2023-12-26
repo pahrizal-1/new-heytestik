@@ -45,7 +45,7 @@ class CartController extends StateClass {
 
       for (int i = 0; i < filterData.length; i++) {
         checklist.add({
-          "productId": filterData[i].id,
+          "productId": filterData[i].productId,
           "productName": filterData[i].product?.name ?? '-',
           "img": filterData[i].product!.mediaProducts?[0].media?.path,
           "qty": filterData[i].qty,
