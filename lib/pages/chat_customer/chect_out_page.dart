@@ -771,41 +771,52 @@ class _SelectAddressState extends State<SelectAddress> {
           Obx(
             () => LoadingWidget(
               isLoading: state.isLoading.value,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    ...state.getAddress.value.map((e) {
-                      return ListTile(
-                        leading: Icon(Icons.home),
-                        visualDensity: VisualDensity(vertical: 4),
-                        title: Text(
-                          '${e.recipientName} ${e.mainAddress! ? '(ALAMAT UTAMA)' : ''}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+              child: state.getAddress.value.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Belum ada alamat',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 20,
                         ),
-                        selected: e.mainAddress! ? true : false,
-                        selectedColor: greenColor,
-                        subtitle: Text(e.pinpointAddress.toString()),
-                        onTap: () async {
-                          if (e.id! > 0) {
-                            await state.shippingMethod(
-                              context,
-                              isOnTap: true,
-                              userAddressId: e.id!,
-                              recipientN: e.recipientName ?? '-',
-                              recipientP: e.recipientPhone ?? '-',
-                              addr: e.pinpointAddress ?? '-',
-                              noteForC: e.noteForCourier ?? '-',
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ...state.getAddress.value.map((e) {
+                            return ListTile(
+                              leading: Icon(Icons.home),
+                              visualDensity: VisualDensity(vertical: 4),
+                              title: Text(
+                                '${e.recipientName} ${e.mainAddress! ? '(ALAMAT UTAMA)' : ''}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              selected: e.mainAddress! ? true : false,
+                              selectedColor: greenColor,
+                              subtitle: Text(e.pinpointAddress.toString()),
+                              onTap: () async {
+                                if (e.id! > 0) {
+                                  await state.shippingMethod(
+                                    context,
+                                    isOnTap: true,
+                                    userAddressId: e.id!,
+                                    recipientN: e.recipientName ?? '-',
+                                    recipientP: e.recipientPhone ?? '-',
+                                    addr: e.pinpointAddress ?? '-',
+                                    noteForC: e.noteForCourier ?? '-',
+                                  );
+                                }
+                              },
                             );
-                          }
-                        },
-                      );
-                    })
-                  ],
-                ),
-              ),
+                          })
+                        ],
+                      ),
+                    ),
             ),
           ),
           Obx(
