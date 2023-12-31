@@ -395,7 +395,10 @@ class ProdukTreatment extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          'Rp $hargaDiskon',
+                          CurrencyFormat.convertToIdr(
+                            int.parse(hargaDiskon),
+                            0,
+                          ),
                           style: subGreyTextStyle.copyWith(
                             fontSize: 12,
                             decoration: TextDecoration.lineThrough,
@@ -406,7 +409,10 @@ class ProdukTreatment extends StatelessWidget {
                       ],
                     ),
                   Text(
-                    CurrencyFormat.convertToIdr(int.parse(harga), 2),
+                    CurrencyFormat.convertToIdr(
+                      int.parse(harga),
+                      0,
+                    ),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(

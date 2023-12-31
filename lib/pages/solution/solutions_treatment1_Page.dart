@@ -65,8 +65,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      etalaseController.getConcern(context);
       state.getLocation(context);
+      etalaseController.getConcern(context);
       treatments.addAll(await stateTreatment.getAllTreatment(
         context,
         page,
@@ -502,12 +502,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NearMePage(),
-                            ),
-                          );
+                          Get.to(() => const NearMePage());
                         },
                         child: Container(
                           height: 75,
@@ -533,12 +528,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TrendingTreatment(),
-                        ),
-                      );
+                      Get.to(() => TrendingTreatment());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -568,12 +558,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TreatmentKlink(),
-                        ),
-                      );
+                      Get.to(() => TreatmentKlink());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -603,12 +588,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TopRatingTreatment(),
-                        ),
-                      );
+                      Get.to(() => TopRatingTreatment());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -763,8 +743,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           urlImg: element.mediaTreatments!.isEmpty
                               ? ""
                               : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (120k)',
-                          km: '${element.distance}',
+                          rating: '${element.rating} (0k)',
+                          km: '${element.distance ?? '0'} km',
                           lokasiKlinik: element.clinic?.city?.name ?? '-',
                         );
                       }).toList(),

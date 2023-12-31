@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -72,13 +72,38 @@ class TreatmentController extends StateClass {
     return responseClinicDetail.value;
   }
 
-  void userWishlistTreatment(
-      BuildContext context, int treatmentID, bool wishlist) async {
-    isLoading.value = true;
+  void addWishlistTreatment(BuildContext context, int treatmentID) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      TreatmentService().userWishlistTreatment(treatmentID, wishlist);
+      var res = await TreatmentService().addWishlistTreatment(treatmentID);
+      print('res $res');
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => AlertSuccessWishlist(),
+      // );
     });
-    isLoading.value = false;
+  }
+
+  void deleteWishlistTreatment(BuildContext context, int treatmentID) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await TreatmentService().deleteWishlistTreatment(treatmentID);
+      print('res $res');
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => AlertSuccessWishlist(),
+      // );
+    });
   }
 
   Future<void> getTreatmentDetail(BuildContext context, int treatmentID) async {

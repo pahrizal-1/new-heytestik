@@ -208,32 +208,38 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  void userWishlistTreatment(int treatmentID, bool wishlist) async {
+  Future addWishlistTreatment(int treatmentID) async {
     try {
-      if (wishlist) {
-        var response = await networkingConfig.doPost(
-          '/user-wishlist-treatment',
-          data: {
-            "treatment_id": treatmentID,
-          },
-          headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-            'User-Agent': await userAgent(),
-          },
-        );
+      var response = await networkingConfig.doPost(
+        '/user-wishlist-treatment',
+        data: {
+          "treatment_id": treatmentID,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
 
-        print(response);
-      } else {
-        var response = await networkingConfig.doDelete(
-          '/user-wishlist-treatment/$treatmentID',
-          headers: {
-            'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-            'User-Agent': await userAgent(),
-          },
-        );
+      print(response);
+      return response;
+    } catch (error) {
+      print(error);
+    }
+  }
 
-        print(response);
-      }
+  Future deleteWishlistTreatment(int treatmentID) async {
+    try {
+      var response = await networkingConfig.doDelete(
+        '/user-wishlist-treatment/$treatmentID',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+      return response;
     } catch (error) {
       print(error);
     }

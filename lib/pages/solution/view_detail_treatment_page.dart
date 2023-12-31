@@ -152,17 +152,26 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
           Obx(
             () => InkWell(
               onTap: () {
-                setState(() {
-                  isFavourite =
-                      (stateTreatment.treatmentDetail.value.wishlist ?? false);
-                  isFavourite = !(isFavourite ?? false);
-                });
+                if (isFavourite ??
+                    stateTreatment.treatmentDetail.value.wishlist!) {
+                  stateTreatment.deleteWishlistTreatment(
+                    context,
+                    widget.treatmentId,
+                  );
 
-                stateTreatment.userWishlistTreatment(
-                  context,
-                  widget.treatmentId,
-                  isFavourite!,
-                );
+                  setState(() {
+                    isFavourite = false;
+                  });
+                } else {
+                  stateTreatment.addWishlistTreatment(
+                    context,
+                    widget.treatmentId,
+                  );
+
+                  setState(() {
+                    isFavourite = true;
+                  });
+                }
               },
               child: (isFavourite == null
                           ? (stateTreatment.treatmentDetail.value.wishlist ??
@@ -319,7 +328,9 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     ),
                     Text(
                       CurrencyFormat.convertToIdr(
-                          stateTreatment.treatmentDetail.value.price, 2),
+                        stateTreatment.treatmentDetail.value.price,
+                        0,
+                      ),
                       style: blackTextStyle.copyWith(
                         fontSize: 18,
                         decorationThickness: 2,
@@ -944,17 +955,18 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                           left: index == 0 ? 16 : 0,
                         ),
                         child: ProdukTreatment(
+                          treatmentData: treatments[index],
                           namaKlinik: treatments[index].clinic!.name!,
                           namaTreatmen: treatments[index].name!,
                           diskonProduk: '0',
-                          hargaDiskon: '',
+                          hargaDiskon: '0',
                           harga: treatments[index].price.toString(),
-                          urlImg:
-                              "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
-                          rating: "${treatments[index].rating}",
-                          km: treatments[index].distance!,
+                          urlImg: treatments[index].mediaTreatments!.isEmpty
+                              ? ""
+                              : "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
+                          rating: "${treatments[index].rating} (0k)",
+                          km: '${treatments[index].distance ?? '0'} km',
                           lokasiKlinik: treatments[index].clinic!.city!.name!,
-                          treatmentData: treatments[index],
                         ));
                   },
                 ),
