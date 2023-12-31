@@ -368,7 +368,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
             },
             child: CardKlinik(
               namaKlink: '${clinics[index].name}, ${clinics[index].city}',
-              rating: '${clinics[index].rating} (120k)',
+              rating: '${clinics[index].rating} (0k)',
               km: clinics[index].distance,
               urlImg: "${Global.FILE}/${clinics[index].logo}",
               price: clinics[index].price,

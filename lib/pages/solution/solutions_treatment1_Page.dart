@@ -158,7 +158,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               ListTile(
                 onTap: () {
                   Get.back();
-                  Get.to(MapsWidget());
+                  Get.to(() => MapsWidget());
                 },
                 leading: CircleAvatar(
                   backgroundColor: greenColor,

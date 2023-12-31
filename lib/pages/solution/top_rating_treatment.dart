@@ -224,8 +224,8 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                         urlImg: element.mediaTreatments!.isEmpty
                             ? ""
                             : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                        rating: '${element.rating} (120k)',
-                        km: element.distance!,
+                        rating: '${element.rating} (0k)',
+                        km: element.distance ?? '0',
                         lokasiKlinik: element.clinic!.city!.name!,
                         treatmentData: element,
                       );
@@ -239,9 +239,9 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                             .map(
                               (e) => TampilanRight(
                                   treatment: e,
-                                  urlImg:
-                                    e.mediaTreatments!.isEmpty
-                                  ? "":  "${Global.FILE}/${e.mediaTreatments![0].media!.path!}"),
+                                  urlImg: e.mediaTreatments!.isEmpty
+                                      ? ""
+                                      : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}"),
                             )
                             .toList()),
                   ),

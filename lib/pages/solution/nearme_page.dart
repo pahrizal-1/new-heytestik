@@ -429,13 +429,13 @@ class _NearMePageState extends State<NearMePage> {
                           namaKlinik: element.clinic?.name ?? '-',
                           namaTreatmen: element.name!,
                           diskonProduk: '0',
-                          hargaDiskon: '',
+                          hargaDiskon: '0',
                           harga: element.price.toString(),
                           urlImg: element.mediaTreatments!.isEmpty
                               ? ""
                               : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (120k)',
-                          km: element.distance ?? '-',
+                          rating: '${element.rating} (0k)',
+                          km: element.distance ?? '0',
                           lokasiKlinik: element.clinic?.city?.name ?? '-',
                           treatmentData: element,
                         );
