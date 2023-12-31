@@ -10,6 +10,8 @@ import 'package:heystetik_mobileapps/controller/customer/register/register_contr
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/routes/app_pages.dart';
@@ -49,15 +51,22 @@ FirebaseDynamicLinksPlatform dynamicLinks =
     FirebaseDynamicLinksPlatform.instance;
 
 Future<void> initDynamicLinks() async {
-  print("HEHEHEH");
   dynamicLinks.onLink.listen((dynamicLinkData) {
-    Get.offAllNamed(dynamicLinkData.link.path);
-    print('Dynamic Link');
-    print(dynamicLinkData.link);
-    print('HAHHA ${dynamicLinkData.link.path}');
+    final path = dynamicLinkData.link.path;
+    print('HAHAHAH $path');
+    if (path.startsWith('/skincare/')) {
+      final productId = path.split('/').last;
+      print("INI SKINCARE $productId");
+      Get.to(() => DetailSkinCarePage(productId: int.parse(productId)));
+    } else if (path.startsWith('/drug/')) {
+      final drugId = path.split('/').last;
+      print("INI DRUG $drugId");
+      Get.to(() => DetailObatPage(drugId: int.parse(drugId)));
+    } else {
+      Get.toNamed(dynamicLinkData.link.path);
+    }
   }).onError((error) {
-    print('onLink error');
-    print(error.message);
+    print('onLink error $error');
   });
 }
 
@@ -155,8 +164,8 @@ void main() async {
     }
   });
 
-  runApp(const MyApp());
   initDynamicLinks();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

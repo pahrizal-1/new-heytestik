@@ -10,14 +10,15 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:social_share/social_share.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../controller/customer/solution/wishlist_controller.dart';
 import '../../theme/theme.dart';
-import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
 
@@ -109,19 +110,22 @@ class _DetailObatPageState extends State<DetailObatPage> {
                 width: 14,
               ),
               InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    isDismissible: false,
-                    context: context,
-                    backgroundColor: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(25),
-                        topStart: Radius.circular(25),
-                      ),
-                    ),
-                    builder: (context) => const ShareShowWidget(),
-                  );
+                onTap: () async {
+                  Uri? url = await createDynamicLinkDrug(widget.drugId);
+                  print("url $url");
+                  await SocialShare.shareOptions(url.toString());
+                  // showModalBottomSheet(
+                  //   isDismissible: false,
+                  //   context: context,
+                  //   backgroundColor: Colors.white,
+                  //   shape: const RoundedRectangleBorder(
+                  //     borderRadius: BorderRadiusDirectional.only(
+                  //       topEnd: Radius.circular(25),
+                  //       topStart: Radius.circular(25),
+                  //     ),
+                  //   ),
+                  //   builder: (context) => const ShareShowWidget(),
+                  // );
                 },
                 child: SvgPicture.asset(
                   'assets/icons/share-icons.svg',
