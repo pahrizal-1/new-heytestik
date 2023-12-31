@@ -117,11 +117,11 @@ class _DetailStatusPageState extends State<DetailStatusPage> {
                     TimeLineStatusWidgets(
                       isFirst: false,
                       isLast: false,
-                      isPast: state.detailTransaksiProd.value.data!
-                                  .orderStatus ==
+                      isPast: state.detailTransaksiProd.value.data
+                                  ?.orderStatus ==
                               'ORDER_COMPLETED'
                           ? false
-                          : state.detailTransaksiProd.value.data!.orderStatus ==
+                          : state.detailTransaksiProd.value.data?.orderStatus ==
                                   'IN_DELIVERY'
                               ? false
                               : true,
@@ -130,7 +130,7 @@ class _DetailStatusPageState extends State<DetailStatusPage> {
                       isFirst: false,
                       isLast: false,
                       isPast:
-                          state.detailTransaksiProd.value.data!.orderStatus ==
+                          state.detailTransaksiProd.value.data?.orderStatus ==
                                   'ORDER_COMPLETED'
                               ? false
                               : true,
@@ -139,7 +139,7 @@ class _DetailStatusPageState extends State<DetailStatusPage> {
                       isFirst: false,
                       isLast: true,
                       isPast:
-                          state.detailTransaksiProd.value.data!.orderStatus ==
+                          state.detailTransaksiProd.value.data?.orderStatus ==
                                   'ORDER_COMPLETED'
                               ? false
                               : true,
@@ -152,17 +152,17 @@ class _DetailStatusPageState extends State<DetailStatusPage> {
                 Center(
                   child: Obx(
                     () => Text(
-                      state.detailTransaksiProd.value.data!.orderStatus ==
+                      state.detailTransaksiProd.value.data?.orderStatus ==
                                   'NEW_ORDER' ||
                               state.detailTransaksiProd.value.data
                                       ?.orderStatus ==
                                   'DELIVERY_PROCESS'
                           ? 'Pesanan Diproses'
-                          : state.detailTransaksiProd.value.data!.orderStatus ==
+                          : state.detailTransaksiProd.value.data?.orderStatus ==
                                   'IN_DELIVERY'
                               ? 'Pesanan Dikirim'
-                              : state.detailTransaksiProd.value.data!
-                                          .orderStatus ==
+                              : state.detailTransaksiProd.value.data
+                                          ?.orderStatus ==
                                       'ORDER_COMPLETED'
                                   ? 'Pesanan Selesai'
                                   : '-',
@@ -185,8 +185,8 @@ class _DetailStatusPageState extends State<DetailStatusPage> {
                         'Detail Produk',
                         style: blackTextStyle.copyWith(fontSize: 20),
                       ),
-                      ...state.trackingProd.value.data!
-                          .asMap()
+                      ...?state.trackingProd.value.data
+                          ?.asMap()
                           .entries
                           .map((item) {
                         return TimeLineStatusPengrimanWidgets(
