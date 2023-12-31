@@ -61,6 +61,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.isMinorLoading.value = true;
       method = await state.getPaymentmethod(context, widget.id);
       if (method!.howToPays!.isNotEmpty) {
         for (int i = 0; i < method!.howToPays!.length; i++) {
@@ -87,7 +88,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
         billerKey = stateTreatment.billerKey.value;
         virtualAccount = stateTreatment.virtualAccount.value;
       }
-
+      state.isMinorLoading.value = false;
       setState(() {});
     });
   }
@@ -237,7 +238,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: state.isMinorLoading.value,
           child: SingleChildScrollView(
             child: Padding(
               padding: lsymetric.copyWith(top: 27),
