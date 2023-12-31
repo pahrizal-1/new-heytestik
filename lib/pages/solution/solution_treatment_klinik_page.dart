@@ -81,7 +81,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       width: 11,
                     ),
                     Text(
-                      'Klink',
+                      'Klinik',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     const Spacer(),
