@@ -468,18 +468,13 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                             'SELESAI'
                                                         ? 'Selesai'
                                                         : '-',
-                                    keluhan:
-                                        history[index].detail?.consultation ==
-                                                null
-                                            ? '-'
-                                            : history[index]
-                                                    .detail
-                                                    ?.consultation
-                                                    ?.medicalHistory
-                                                    ?.interestCondition
-                                                    ?.concern
-                                                    ?.name ??
-                                                '-',
+                                    keluhan: history[index]
+                                            .detail
+                                            ?.medicalHistory
+                                            ?.interestCondition
+                                            ?.concern
+                                            ?.name ??
+                                        '-',
                                     harga: history[index].detail!.totalPaid!,
                                     img: history[index].detail?.consultation ==
                                             null
