@@ -477,6 +477,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                     ?.consultation
                                                     ?.medicalHistory
                                                     ?.interestCondition
+                                                    ?.concern
                                                     ?.name ??
                                                 '-',
                                     harga: history[index].detail!.totalPaid!,

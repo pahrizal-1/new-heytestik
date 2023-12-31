@@ -27,6 +27,9 @@ class HistoryProductController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
           await TransactionService().transactionStatusProduct(orderId);
+
+      print("transactionStatus ${transactionStatus.value}");
+
       if (transactionStatus.value.success! &&
           transactionStatus.value.message == 'Success') {
         if (transactionStatus.value.data!.paymentType == 'echannel') {

@@ -313,15 +313,20 @@ class TransaksiProduk extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (product?.status.toString() == 'MENUNGGU_PEMBAYARAN') {
-          Get.to(() => SelesaikanPembayaranProdukPage(
-                isWillPop: false,
-                orderId: orderId,
-                expireTime: '',
-                paymentMethodId: product!.paymentMethodId!,
-              ));
-        }
-        if (product?.status.toString() == 'SELESAI') {
-          Get.to(() => DetailTransaksiPage());
+          Get.to(
+            () => SelesaikanPembayaranProdukPage(
+              isWillPop: false,
+              orderId: orderId,
+              expireTime: '',
+              paymentMethodId: product!.paymentMethodId!,
+            ),
+          );
+        } else if (product?.status.toString() == 'SELESAI') {
+          Get.to(
+            () => DetailTransaksiPage(
+              transactionId: product!.id.toString(),
+            ),
+          );
         }
       },
       child: Container(
@@ -374,52 +379,42 @@ class TransaksiProduk extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                            color: product?.status.toString() ==
-                                    'MENUNGGU_PEMBAYARAN'
+                            color: product?.orderStatus.toString() ==
+                                        'NEW_ORDER' ||
+                                    product?.orderStatus.toString() ==
+                                        'DELIVERY_PROCESS' ||
+                                    product?.orderStatus.toString() ==
+                                        'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 204, 170)
-                                : product?.status.toString() ==
-                                        'PESANAN_DIPROSES'
-                                    ? const Color.fromARGB(255, 255, 204, 170)
-                                    : product?.status.toString() == 'DIKIRIM'
-                                        ? subgreenColor
-                                        : product?.status.toString() ==
-                                                'TERKIRIM'
-                                            ? subgreenColor
-                                            : product?.status.toString() ==
-                                                    'SELESAI'
-                                                ? subgreenColor
-                                                : subgreenColor,
+                                : product?.orderStatus.toString() ==
+                                        'ORDER_COMPLETED'
+                                    ? subgreenColor
+                                    : subgreenColor,
                             borderRadius: BorderRadius.circular(7)),
                         child: Text(
-                          product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
-                              ? 'Menunggu Pembayaran'
-                              : product?.status.toString() == 'PESANAN_DIPROSES'
-                                  ? 'Pesanan Diproses'
-                                  : product?.status.toString() == 'DIKIRIM'
-                                      ? 'Dikirim'
-                                      : product?.status.toString() == 'TERKIRIM'
-                                          ? 'Terkirim'
-                                          : product?.status.toString() ==
-                                                  'SELESAI'
-                                              ? 'Selesai'
-                                              : 'Selesai',
+                          product?.orderStatus.toString() == 'NEW_ORDER' ||
+                                  product?.orderStatus.toString() ==
+                                      'DELIVERY_PROCESS'
+                              ? 'Pesanan Diproses'
+                              : product?.orderStatus.toString() == 'IN_DELIVERY'
+                                  ? 'Pesanan Dikirim'
+                                  : product?.orderStatus.toString() ==
+                                          'ORDER_COMPLETED'
+                                      ? 'Selesai'
+                                      : 'Selesai',
                           style: grenTextStyle.copyWith(
                             fontSize: 10,
-                            color: product?.status.toString() ==
-                                    'MENUNGGU_PEMBAYARAN'
+                            color: product?.orderStatus.toString() ==
+                                        'NEW_ORDER' ||
+                                    product?.orderStatus.toString() ==
+                                        'DELIVERY_PROCESS' ||
+                                    product?.orderStatus.toString() ==
+                                        'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 102, 0)
-                                : product?.status.toString() ==
-                                        'PESANAN_DIPROSES'
-                                    ? const Color.fromARGB(255, 255, 102, 0)
-                                    : product?.status.toString() == 'DIKIRIM'
-                                        ? greenColor
-                                        : product?.status.toString() ==
-                                                'TERKIRIM'
-                                            ? subgreenColor
-                                            : product?.status.toString() ==
-                                                    'SELESAI'
-                                                ? greenColor
-                                                : greenColor,
+                                : product?.orderStatus.toString() ==
+                                        'ORDER_COMPLETED'
+                                    ? greenColor
+                                    : greenColor,
                           ),
                         ),
                       )
@@ -494,7 +489,7 @@ class TransaksiProduk extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                product?.status.toString() == 'SELESAI'
+                product?.orderStatus.toString() == 'ORDER_COMPLETED'
                     ? product!.transactionProductItems![0].productReview == null
                         ? InkWell(
                             onTap: () {
@@ -527,8 +522,7 @@ class TransaksiProduk extends StatelessWidget {
                                   .transactionProductItems?[0].product?.type ==
                               'DRUGS') {
                             Get.to(() => const ObatSolutionsPage());
-                          }
-                          if (product!
+                          } else if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'SKINCARE') {
                             Get.to(() => const SolutionSkincare1Page());

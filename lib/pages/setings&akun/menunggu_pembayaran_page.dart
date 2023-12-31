@@ -177,6 +177,7 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                                                 ?.consultation
                                                 ?.medicalHistory
                                                 ?.interestCondition
+                                                ?.concern
                                                 ?.name ??
                                             '-',
                                 harga: history[index].detail!.totalPaid!,

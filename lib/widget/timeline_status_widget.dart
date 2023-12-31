@@ -46,6 +46,7 @@ class TimeLineStatusPengrimanWidgets extends StatelessWidget {
   final bool isPast;
   final String title1;
   final String title2;
+  final String title3;
   final String jam;
   final Color colortitle1;
   const TimeLineStatusPengrimanWidgets(
@@ -55,6 +56,7 @@ class TimeLineStatusPengrimanWidgets extends StatelessWidget {
       required this.isPast,
       required this.title1,
       required this.title2,
+      required this.title3,
       required this.colortitle1,
       required this.jam});
 
@@ -86,7 +88,12 @@ class TimeLineStatusPengrimanWidgets extends StatelessWidget {
                         fontSize: 15, fontWeight: regular, color: colortitle1),
                     children: [
                       TextSpan(
-                        text: title2,
+                        text: '$title2\n',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      ),
+                      TextSpan(
+                        text: title3,
                         style: blackRegulerTextStyle.copyWith(
                             fontSize: 15, color: blackColor),
                       )

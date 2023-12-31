@@ -3,12 +3,14 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_transaksi_produk_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/models/customer/shipping_method_model.dart';
+import 'package:heystetik_mobileapps/models/customer/tracking_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_treatment_model.dart';
@@ -185,4 +187,38 @@ class TransactionService extends ProviderClass {
     );
     return TransactionStatusModel.fromJson(response);
   }
+
+  Future<DetailTransaksiProdukModel> detailTransaksiProduk(
+      String transactionId) async {
+    var response = await networkingConfig.doGet(
+      '/transaction/$transactionId/product',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return DetailTransaksiProdukModel.fromJson(response);
+  }
+
+  Future<TrackingProductModel> trackingProduct(String transactionId) async {
+    var response = await networkingConfig.doGet(
+      '/shipping/$transactionId/track',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return TrackingProductModel.fromJson(response);
+  }
+
+  // Future<ShippingInfoModel> shippingInfo(String transactionId) async {
+  //   var response = await networkingConfig.doGet(
+  //     '/shipping/$transactionId/info',
+  //     headers: {
+  //       'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+  //       'User-Agent': await userAgent(),
+  //     },
+  //   );
+  //   return ShippingInfoModel.fromJson(response);
+  // }
 }
