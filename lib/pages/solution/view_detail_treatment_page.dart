@@ -225,10 +225,10 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             .treatmentDetail.value.mediaTreatments?.length ??
                         0,
                     itemBuilder: (context, index, realIndex) {
-                      final imge = stateTreatment.treatmentDetail.value
-                          .mediaTreatments![index].media!.path!;
+                      final image = stateTreatment.treatmentDetail.value
+                          .mediaTreatments?[index].media?.path;
 
-                      return buildImage(imge, index);
+                      return buildImage(image.toString(), index);
                     },
                     options: CarouselOptions(
                       height: 390,
@@ -279,12 +279,14 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                           children: [
                             Text(
                               stateTreatment
-                                  .treatmentDetail.value.clinic!.name!,
+                                      .treatmentDetail.value.clinic?.name ??
+                                  '-',
                               style: blackHigtTextStyle.copyWith(fontSize: 20),
                             ),
                             Text(
-                              stateTreatment
-                                  .treatmentDetail.value.clinic!.city!.name!,
+                              stateTreatment.treatmentDetail.value.clinic?.city
+                                      ?.name ??
+                                  '-',
                               style: subTitleTextStyle.copyWith(fontSize: 12),
                             ),
                           ],
@@ -311,7 +313,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                       height: 27,
                     ),
                     Text(
-                      stateTreatment.treatmentDetail.value.name!,
+                      stateTreatment.treatmentDetail.value.name ?? '-',
                       style: blackTextStyle.copyWith(
                           fontWeight: medium, fontSize: 15),
                     ),
@@ -319,7 +321,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                       height: 6,
                     ),
                     Text(
-                      stateTreatment.treatmentDetail.value.description!,
+                      stateTreatment.treatmentDetail.value.description ?? '-',
                       style: TextStyle(color: subTitleColor, fontSize: 12),
                       textAlign: TextAlign.start,
                     ),
@@ -328,7 +330,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     ),
                     Text(
                       CurrencyFormat.convertToIdr(
-                        stateTreatment.treatmentDetail.value.price,
+                        stateTreatment.treatmentDetail.value.price ?? 0,
                         0,
                       ),
                       style: blackTextStyle.copyWith(
@@ -937,7 +939,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               Padding(
                 padding: lsymetric,
                 child: Text(
-                  'Perawatan lain di ${stateTreatment.treatmentDetail.value.clinic!.name!}',
+                  'Perawatan lain di ${stateTreatment.treatmentDetail.value.clinic?.name}',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
               ),
@@ -974,82 +976,6 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               const SizedBox(
                 height: 17,
               ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Padding(
-              //     padding: lsymetric,
-              //     child: Row(
-              //       children: const [
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: 'Rp250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/lheatea.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'ZAP Plaza Senayan',
-              //           namaTreatmen: 'Toning Laser',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '1,250.000',
-              //           harga: '1,200.000',
-              //           urlImg: 'assets/images/zap-senayan.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'ZAP Plaza Senayan',
-              //           namaTreatmen: 'IPL Rejuvenation',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '100,000.000',
-              //           harga: '10,200.000',
-              //           urlImg: 'assets/images/Ipl1.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/laser1.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/laser2.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/lheatea.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -1064,7 +990,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Get.to(SelectConditionsPage());
+                      Get.to(() => SelectConditionsPage());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
