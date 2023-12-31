@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/controller/customer/register/register_contr
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -62,6 +63,10 @@ Future<void> initDynamicLinks() async {
       final drugId = path.split('/').last;
       print("INI DRUG $drugId");
       Get.to(() => DetailObatPage(drugId: int.parse(drugId)));
+    } else if (path.startsWith('/clinic/')) {
+      final clinicId = path.split('/').last;
+      print("INI CLINIC $clinicId");
+      Get.to(() => DetailKlinikPage(clinicId: int.parse(clinicId)));
     } else {
       Get.toNamed(dynamicLinkData.link.path);
     }

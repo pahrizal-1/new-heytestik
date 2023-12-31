@@ -8,10 +8,12 @@ import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_con
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_share/social_share.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
@@ -19,17 +21,16 @@ import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/filter_tap_widget.dart';
-import '../../widget/share_solusion_widget_page.dart';
 
-class DetailKlnikPage extends StatefulWidget {
-  int id;
-  DetailKlnikPage({required this.id, super.key});
+class DetailKlinikPage extends StatefulWidget {
+  int clinicId;
+  DetailKlinikPage({required this.clinicId, super.key});
 
   @override
-  State<DetailKlnikPage> createState() => _DetailKlnikPageState();
+  State<DetailKlinikPage> createState() => _DetailKlnikPageState();
 }
 
-class _DetailKlnikPageState extends State<DetailKlnikPage> {
+class _DetailKlnikPageState extends State<DetailKlinikPage> {
   final TreatmentController state = Get.put(TreatmentController());
   bool isVisibelity = true;
   bool isVisibelityJam = true;
@@ -55,7 +56,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.getClinicDetail(context, widget.id);
+      state.getClinicDetail(context, widget.clinicId);
       treatments.addAll(await state.getAllTreatment(context, page));
       setState(() {});
     });
@@ -65,7 +66,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
         images,
         fit: BoxFit.fill,
       );
-  // get all treatment dibawah
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,11 +90,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                 width: 11,
               ),
               Expanded(
-                child: Text(
-                  'Klinik Utama Lithea',
-                  style:
-                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-                  overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  () => Text(
+                    state.responseClinicDetail.value.data?.name ?? '',
+                    style:
+                        whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               )
             ],
@@ -109,19 +112,22 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
             width: 21,
           ),
           InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
-                ),
-                builder: (context) => const ShareShowWidget(),
-              );
+            onTap: () async {
+              Uri? url = await createDynamicLinkClinic(widget.clinicId);
+              print("url $url");
+              await SocialShare.shareOptions(url.toString());
+              // showModalBottomSheet(
+              //   isDismissible: false,
+              //   context: context,
+              //   backgroundColor: Colors.white,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius: BorderRadiusDirectional.only(
+              //       topEnd: Radius.circular(25),
+              //       topStart: Radius.circular(25),
+              //     ),
+              //   ),
+              //   builder: (context) => const ShareShowWidget(),
+              // );
             },
             child: SvgPicture.asset(
               'assets/icons/share-icons.svg',
@@ -142,8 +148,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                 itemCount:
                     state.responseClinicDetail.value.data?.mediaClinics?.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = state.responseClinicDetail.value.data!
-                      .mediaClinics?[index].media?.path;
+                  final image = state.responseClinicDetail.value.data
+                      ?.mediaClinics?[index].media?.path;
 
                   return buildImg1('${Global.FILE}/$image');
                 },
@@ -385,7 +391,6 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                             child: isVisibelityJam
                                                 ? Icon(
                                                     Icons.keyboard_arrow_down,
-                                                  
                                                   )
                                                 : Icon(
                                                     Icons.keyboard_arrow_up,

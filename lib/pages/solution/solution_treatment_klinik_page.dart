@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
@@ -362,8 +362,8 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Get.to(() => DetailKlnikPage(
-                    id: clinics[index].id,
+              Get.to(() => DetailKlinikPage(
+                    clinicId: clinics[index].id,
                   ));
             },
             child: CardKlinik(

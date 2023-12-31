@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
@@ -257,9 +257,10 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         Expanded(
                           child: IconButton(
                             onPressed: () {
-                              Get.off(DetailKlnikPage(
-                                id: widget.treatment.clinic!.id!.toInt(),
-                              ));
+                              Get.to(() => DetailKlinikPage(
+                                    clinicId:
+                                        widget.treatment.clinic!.id!.toInt(),
+                                  ));
                             },
                             icon: Icon(
                               Icons.keyboard_arrow_right,
