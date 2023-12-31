@@ -327,8 +327,8 @@ class ProdukTreatment extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BokingTreatment(
-                treatment: treatmentData,
+              builder: (context) => DetailTreatmentPage(
+                treatmentId: treatmentData.id!,
               ),
             ),
           );

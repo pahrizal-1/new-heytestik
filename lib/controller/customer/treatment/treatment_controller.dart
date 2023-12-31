@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/lookup_treatment.dart';
-import 'package:heystetik_mobileapps/models/treatment_detail.dart';
 import 'package:heystetik_mobileapps/models/treatment_review_model.dart'
     as TreatmentReview;
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
@@ -21,7 +20,7 @@ class TreatmentController extends StateClass {
   Rx<TreatmentModel> responseTreatment = TreatmentModel().obs;
   RxList<Data2> dataTreatment = List<Data2>.empty(growable: true).obs;
   RxList<Data2> filterTreatment = List<Data2>.empty(growable: true).obs;
-  Rx<TreatmentDetailModel> treatmentDetail = TreatmentDetailModel().obs;
+  Rx<Data2> treatmentDetail = Data2().obs;
   RxInt index = 0.obs;
   RxInt pax = 0.obs;
   var dataUser;
@@ -82,29 +81,25 @@ class TreatmentController extends StateClass {
     isLoading.value = false;
   }
 
-  void getTreatmentDetail(BuildContext context, int treatmentID) async {
+  Future<void> getTreatmentDetail(BuildContext context, int treatmentID) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       treatmentDetail.value =
           await TreatmentService().getTreatmentDetail(treatmentID);
     });
-
     isLoading.value = false;
   }
 
   Future<List<Data2>> getTreatmentFromSameClinic(
       BuildContext context, int page, int clinicID) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data =
           await TreatmentService().getTreatmentFromSameClinic(page, clinicID);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
-
     return responseTreatment.value.data!.data!;
   }
 
@@ -132,47 +127,38 @@ class TreatmentController extends StateClass {
 
   Future<List<Data2>> getTopTreatment(BuildContext context, int page) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data = await TreatmentService().getTopTreatment(page);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
-
     return responseTreatment.value.data!.data!;
   }
 
   Future<List<Data2>> getTopRatingTreatment(BuildContext context, int page,
       {String? search}) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data =
           await TreatmentService().getTopRatingTreatment(page, search: search);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
-
     return responseTreatment.value.data!.data!;
   }
 
   Future<List<Data2>> getTrendingTreatment(BuildContext context, int page,
       {String? search}) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data =
           await TreatmentService().getTrendingTreatment(page, search: search);
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
-
     return responseTreatment.value.data!.data!;
   }
 
@@ -183,7 +169,6 @@ class TreatmentController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data = await TreatmentService().getNearTreatment(
         page,
@@ -193,9 +178,7 @@ class TreatmentController extends StateClass {
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
-
     return responseTreatment.value.data!.data!;
   }
 
@@ -206,19 +189,15 @@ class TreatmentController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data = await TreatmentService().getAllTreatment(
         page,
         search: search,
         filter: filter,
       );
-
       responseTreatment.value = data;
-
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
-
     isLoading.value = false;
     return responseTreatment.value.data!.data!;
   }
@@ -234,7 +213,6 @@ class TreatmentController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await TreatmentService()
           .getTreatmentReview(page, take, id, filter: filter);
-
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -244,7 +222,6 @@ class TreatmentController extends StateClass {
       treatmentReview.value = res.data!.data!;
     });
     isLoading.value = false;
-
     return treatmentReview.value;
   }
 
@@ -256,12 +233,10 @@ class TreatmentController extends StateClass {
       data = await TreatmentService().getLookupTreatment();
     });
     isLoading.value = false;
-
     return data;
   }
 
   void helped(BuildContext context, int reviewId) async {
-    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await TreatmentService().helped(reviewId);
 
@@ -272,11 +247,9 @@ class TreatmentController extends StateClass {
         );
       }
     });
-    // isLoading.value = false;
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    // isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await TreatmentService().unHelped(reviewId);
       if (res.success != true && res.message != 'Success') {
@@ -286,7 +259,5 @@ class TreatmentController extends StateClass {
         );
       }
     });
-
-    // isLoading.value = false;
   }
 }

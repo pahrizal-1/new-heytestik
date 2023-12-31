@@ -64,10 +64,30 @@ Future<Uri?> createDynamicLinkDrug(int productId) async {
   return shortDynamicLink.shortUrl;
 }
 
-Future<Uri?> createDynamicLinkClinic(int id) async {
+Future<Uri?> createDynamicLinkClinic(int clinicId) async {
   final DynamicLinkParameters parameters = DynamicLinkParameters(
     uriPrefix: 'https://heystetik.page.link',
-    link: Uri.parse('https://www.heystetik.com/clinic/$id'),
+    link: Uri.parse('https://www.heystetik.com/clinic/$clinicId'),
+    androidParameters: const AndroidParameters(
+      packageName: 'com.example.heystetik_mobileapps',
+      minimumVersion: 0,
+    ),
+    iosParameters: const IOSParameters(
+      bundleId: 'com.example.heystetik_mobileapps',
+      minimumVersion: '0',
+    ),
+  );
+  final ShortDynamicLink shortDynamicLink =
+      await dynamicLinks.buildShortLink(parameters);
+  print('short link');
+  print(shortDynamicLink.shortUrl);
+  return shortDynamicLink.shortUrl;
+}
+
+Future<Uri?> createDynamicLinkTreatment(int treatmentId) async {
+  final DynamicLinkParameters parameters = DynamicLinkParameters(
+    uriPrefix: 'https://heystetik.page.link',
+    link: Uri.parse('https://www.heystetik.com/treatment/$treatmentId'),
     androidParameters: const AndroidParameters(
       packageName: 'com.example.heystetik_mobileapps',
       minimumVersion: 0,
