@@ -53,6 +53,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
 
   int page = 1;
   List<Skincare.Data2> skincare = [];
+  List<Skincare.Data2> skincareDermatologists = [];
   String? search;
   Map<String, dynamic> filter = {};
 
@@ -63,6 +64,9 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       lookupCategory
           .addAll(await state.getLookup(context, 'SKINCARE_CATEGORY'));
+      skincareDermatologists.addAll(await state.skincareDermatologists(
+        context,
+      ));
       skincare.addAll(await state.getAllSkincare(
         context,
         page,
@@ -220,95 +224,96 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Dermatologist’s choice for you👌🏻',
-                          style: TextStyle(
-                            fontWeight: bold,
-                            fontFamily: 'ProximaNova',
-                            fontSize: 18,
-                            letterSpacing: 0.5,
-                            color: fromCssColor(
-                              '#323232',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          constraints: const BoxConstraints(maxWidth: 320),
-                          child: RichText(
-                            text: TextSpan(
-                              text:
-                                  'Pilihan skincare berdasarkan konsultasimu.',
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                color: fromCssColor('#A3A3A3'),
-                                fontSize: 14,
+              if (skincareDermatologists.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dermatologist’s choice for you👌🏻',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontFamily: 'ProximaNova',
+                              fontSize: 18,
+                              letterSpacing: 0.5,
+                              color: fromCssColor(
+                                '#323232',
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25),
-                      child: Center(
-                        child: Wrap(
-                          spacing: 23,
-                          runSpacing: 12,
-                          children: skincare
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    Get.to(() => DetailSkinCarePage(
-                                          productId: e.id!.toInt(),
-                                        ));
-                                  },
-                                  child: Produkheight(
-                                    produkId: e.id!.toInt(),
-                                    namaBrand:
-                                        e.skincareDetail!.brand.toString(),
-                                    namaProduk: e.name.toString(),
-                                    diskonProduk: '20',
-                                    hargaDiskon:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    harga:
-                                        CurrencyFormat.convertToIdr(e.price, 0),
-                                    urlImg: e.mediaProducts!.isEmpty
-                                        ? ''
-                                        : '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                    rating: e.rating.toString(),
-                                  ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            constraints: const BoxConstraints(maxWidth: 320),
+                            child: RichText(
+                              text: TextSpan(
+                                text:
+                                    'Pilihan skincare berdasarkan konsultasimu.',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  color: fromCssColor('#A3A3A3'),
+                                  fontSize: 14,
                                 ),
-                              )
-                              .toList(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 25),
+                        child: Center(
+                          child: Wrap(
+                            spacing: 23,
+                            runSpacing: 12,
+                            children: skincareDermatologists
+                                .map(
+                                  (e) => InkWell(
+                                    onTap: () {
+                                      Get.to(() => DetailSkinCarePage(
+                                            productId: e.id!.toInt(),
+                                          ));
+                                    },
+                                    child: Produkheight(
+                                      produkId: e.id!.toInt(),
+                                      namaBrand:
+                                          e.skincareDetail!.brand.toString(),
+                                      namaProduk: e.name.toString(),
+                                      diskonProduk: '20',
+                                      hargaDiskon: CurrencyFormat.convertToIdr(
+                                          e.price, 0),
+                                      harga: CurrencyFormat.convertToIdr(
+                                          e.price, 0),
+                                      urlImg: e.mediaProducts!.isEmpty
+                                          ? ''
+                                          : '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                      rating: '${e.rating} (0k)',
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
               CarouselSlider(
                 options: CarouselOptions(
                   height: 195,
@@ -547,9 +552,9 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             .map(
                               (e) => InkWell(
                                 onTap: () {
-                                  Get.to(DetailSkinCarePage(
-                                    productId: e.id!.toInt(),
-                                  ));
+                                  Get.to(() => DetailSkinCarePage(
+                                        productId: e.id!.toInt(),
+                                      ));
                                 },
                                 child: Produkheight(
                                   produkId: e.id!.toInt(),
@@ -563,8 +568,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                   urlImg: e.mediaProducts!.isEmpty
                                       ? ''
                                       : '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                  rating: e.rating.toString(),
-                                  kota: 'Amerika Serikat',
+                                  rating: '${e.rating} (0k)',
                                 ),
                               ),
                             )
