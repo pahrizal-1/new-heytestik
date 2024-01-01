@@ -326,13 +326,7 @@ class _SolutionPageState extends State<SolutionPage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SolutionsTreatment1Page(),
-                            ),
-                          );
+                          Get.to(() => const SolutionsTreatment1Page());
                         },
                         child: Image.asset(
                           'assets/images/treatmean.png',
@@ -382,59 +376,59 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: drugRecipe.isEmpty ? 0 : 29,
-              ),
-              drugRecipe.isEmpty
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25,
+              if (drugRecipe.isNotEmpty)
+                SizedBox(
+                  height: 29,
+                ),
+              if (drugRecipe.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Resep solusi buat kamu ✨',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Resep solusi buat kamu ✨',
-                            style: blackHigtTextStyle.copyWith(fontSize: 18),
-                          ),
-                          const Spacer(),
-                          InkWell(
-                            onTap: () {
-                              Get.to(() => const DrugSolutionsPage());
-                            },
-                            child: Text(
-                              'Lihat Semua',
-                              style: grenTextStyle.copyWith(fontSize: 12),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-              SizedBox(
-                height: drugRecipe.isEmpty ? 0 : 16,
-              ),
-              drugRecipe.isEmpty
-                  ? Container()
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20, left: 25),
-                        child: Row(
-                          children: drugRecipe.map((e) {
-                            return ProdukObat(
-                              productId: e.product!.id!.toInt(),
-                              namaBrand: e.product?.name ?? '-',
-                              harga: CurrencyFormat.convertToIdr(
-                                  e.product?.price, 0),
-                              urlImg:
-                                  '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
-                              duedate:
-                                  ConvertDate.defaultDate(e.dueDate.toString()),
-                            );
-                          }).toList(),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const DrugSolutionsPage());
+                        },
+                        child: Text(
+                          'Lihat Semua',
+                          style: grenTextStyle.copyWith(fontSize: 12),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              if (drugRecipe.isNotEmpty)
+                SizedBox(
+                  height: 16,
+                ),
+              if (drugRecipe.isNotEmpty)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20, left: 25),
+                    child: Row(
+                      children: drugRecipe.map((e) {
+                        return ProdukObat(
+                          productId: e.product!.id!.toInt(),
+                          namaBrand: e.product?.name ?? '-',
+                          harga:
+                              CurrencyFormat.convertToIdr(e.product?.price, 0),
+                          urlImg:
+                              '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                          duedate:
+                              ConvertDate.defaultDate(e.dueDate.toString()),
+                        );
+                      }).toList(),
                     ),
+                  ),
+                ),
               const SizedBox(
                 height: 28,
               ),
