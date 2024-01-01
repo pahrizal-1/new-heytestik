@@ -663,7 +663,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       ),
                       Icon(
                         Icons.more_horiz,
-                        size: 30,
+                        size: 10,
                         color: greyColor,
                       ),
                     ],
