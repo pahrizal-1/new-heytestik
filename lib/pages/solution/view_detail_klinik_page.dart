@@ -38,11 +38,10 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
   bool isVisibelityJam = true;
   int activeIndex = 0;
   final images = [
-    'assets/images/bg-buy-get1.png',
-    'assets/images/bg-buy-get1.png',
-    'assets/images/bg-buy-get1.png',
+    'assets/images/bg-treatment.png',
+    'assets/images/bg-treatment.png',
+    'assets/images/bg-treatment.png'
   ];
-
   int activeBolder = 0;
   final imagesBolder = [
     'assets/images/bg-buy-get1.png',
@@ -65,18 +64,14 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
     });
   }
 
-  Widget buildImg2(String images, int index) => Image.network(
+  Widget buildImg1(String images) => Image.network(
         images,
         fit: BoxFit.fill,
       );
-  Widget buildImg1(
-    String images,
-  ) =>
-      Image.network(
+  Widget buildImg2(String images) => Image.asset(
         images,
         fit: BoxFit.fill,
       );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -686,9 +681,9 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
               CarouselSlider.builder(
                 itemCount: images.length,
                 itemBuilder: (context, index, realIndex) {
-                  final imge = images[index];
+                  final imge = imagesBolder[index];
 
-                  return buildImg2(imge, index);
+                  return buildImg2(imge);
                 },
                 options: CarouselOptions(
                   viewportFraction: 1,
