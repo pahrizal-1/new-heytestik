@@ -7,8 +7,8 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
@@ -642,11 +642,51 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         padding: EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: etalaseController.filterData.map((element) {
-                            return CirkelCategory(
-                              title: element.name!,
-                              img:
-                                  '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                          children: etalaseController.filterData
+                              .asMap()
+                              .entries
+                              .map((element) {
+                            return InkWell(
+                              onTap: () {
+                                if (element.key == 0) {
+                                  Get.to(() => EtalaseTreatMentPage());
+                                } else {}
+                              },
+                              child: element.key == 0
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/lainnya.png'),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            'Lihat Semua',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                blackRegulerTextStyle.copyWith(
+                                              fontSize: 12,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : CirkelCategory(
+                                      title: element.value.name ?? '-',
+                                      img:
+                                          '${Global.FILE}/${element.value.mediaConcern!.media!.path}',
+                                    ),
                             );
                           }).toList(),
                         ),

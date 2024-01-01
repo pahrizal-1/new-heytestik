@@ -149,7 +149,7 @@ class SolutionService extends ProviderClass {
 
   Future<ConcernModel> getConcern() async {
     var response = await networkingConfig.doGet(
-      '/concern?page=1&take=100&order=desc&search=',
+      '/concern?page=1&take=1000&order=desc&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
