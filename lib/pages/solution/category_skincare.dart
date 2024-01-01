@@ -241,7 +241,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('Etalase Treatment'),
+                                    Text('Etalase Skincare'),
                                     SizedBox(
                                       width: 9,
                                     ),
