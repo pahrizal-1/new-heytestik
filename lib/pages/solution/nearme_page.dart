@@ -116,10 +116,9 @@ class _NearMePageState extends State<NearMePage> {
                       ),
                     ),
                     const SizedBox(
-                      width: 7,
+                      width: 2,
                     ),
-                    Expanded(
-                        child: Container(
+                    Container(
                       height: 35,
                       decoration: BoxDecoration(
                         color: Color(0xffF1F1F1),
@@ -170,7 +169,7 @@ class _NearMePageState extends State<NearMePage> {
                               ),
                             ),
                           ]),
-                    )),
+                    ),
                   ],
                 ),
         ),

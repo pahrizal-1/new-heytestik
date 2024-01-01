@@ -111,8 +111,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                     const SizedBox(
                       width: 7,
                     ),
-                    Expanded(
-                        child: Container(
+                    Container(
                       height: 35,
                       decoration: BoxDecoration(
                         color: Color(0xffF1F1F1),
@@ -163,7 +162,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                               ),
                             ),
                           ]),
-                    )),
+                    ),
                   ],
                 ),
         ),

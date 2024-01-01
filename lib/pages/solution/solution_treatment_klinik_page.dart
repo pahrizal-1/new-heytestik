@@ -114,61 +114,58 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                     const SizedBox(
                       width: 7,
                     ),
-                    Expanded(
-                      child: Container(
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: Color(0xffF1F1F1),
-                          border: Border.all(
-                            color: fromCssColor("#CCCCCC"),
-                          ),
-                          borderRadius: BorderRadius.circular(7),
+                    Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Color(0xffF1F1F1),
+                        border: Border.all(
+                          color: fromCssColor("#CCCCCC"),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Image.asset(
-                                'assets/icons/search1.png',
-                                width: 10,
-                              ),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
                             ),
-                            Container(
-                              transform: Matrix4.translationValues(0, -2, 0),
-                              constraints: const BoxConstraints(maxWidth: 250),
-                              child: TextFormField(
-                                controller: searchController,
-                                style: const TextStyle(
-                                  fontSize: 15,
+                            child: Image.asset(
+                              'assets/icons/search1.png',
+                              width: 10,
+                            ),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(0, -2, 0),
+                            constraints: const BoxConstraints(maxWidth: 250),
+                            child: TextFormField(
+                              controller: searchController,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: "ProximaNova",
+                              ),
+                              onEditingComplete: () async {
+                                page = 1;
+                                search = searchController.text;
+                                clinics.clear();
+                                clinics.addAll(await stateTreatment
+                                    .getClinic(context, page, search: search));
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Cari Klinik",
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
                                   fontFamily: "ProximaNova",
-                                ),
-                                onEditingComplete: () async {
-                                  page = 1;
-                                  search = searchController.text;
-                                  clinics.clear();
-                                  clinics.addAll(await stateTreatment.getClinic(
-                                      context, page,
-                                      search: search));
-                                  setState(() {});
-                                },
-                                decoration: InputDecoration(
-                                  hintText: "Cari Klinik",
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

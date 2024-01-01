@@ -68,7 +68,10 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
         images,
         fit: BoxFit.fill,
       );
-
+  Widget buildImg2(String images) => Image.asset(
+        images,
+        fit: BoxFit.fill,
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -675,19 +678,34 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                   ],
                 ),
               ),
-              // CarouselSlider.builder(
-              //   itemCount: images.length,
-              //   itemBuilder: (context, index, realIndex) {
-              //     final imge = imagesBolder[index];
+              CarouselSlider.builder(
+                itemCount: images.length,
+                itemBuilder: (context, index, realIndex) {
+                  final imge = imagesBolder[index];
 
-              //     return buildImg1(imge);
-              //   },
-              //   options: CarouselOptions(
-              //     viewportFraction: 1,
-              //     onPageChanged: (index, reason) =>
-              //         setState(() => activeIndex = index),
-              //   ),
-              // ),
+                  return buildImg2(imge);
+                },
+                options: CarouselOptions(
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) =>
+                      setState(() => activeIndex = index),
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: activeIndex,
+                  count: images.length,
+                  effect: ScaleEffect(
+                    activeDotColor: greenColor,
+                    dotColor: const Color(0xffD9D9D9),
+                    dotWidth: 6,
+                    dotHeight: 6,
+                  ),
+                ),
+              ),
               StickyHeader(
                 header: Container(
                   padding: lsymetric.copyWith(top: 15, bottom: 9),
@@ -900,10 +918,10 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 19),
+                            padding: const EdgeInsets.only(left: 15, top: 19),
                             child: Wrap(
                               spacing: 15,
-                              runSpacing: 12,
+                              runSpacing: 15,
                               children: treatments.map((element) {
                                 return ProdukTreatment(
                                   treatmentData: element,
