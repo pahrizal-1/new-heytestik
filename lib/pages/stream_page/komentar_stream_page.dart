@@ -431,7 +431,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             'Suka',
                                             style:
                                                 blackRegulerTextStyle.copyWith(
-                                              fontSize: 8,
+                                              fontSize: 12,
                                             ),
                                           ),
                                   ),
