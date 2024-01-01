@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
@@ -185,7 +185,7 @@ class ProdukObat extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => DetailObatPage(drugId: productId));
+        Get.to(() => DetailDrugPage(drugId: productId));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 15),

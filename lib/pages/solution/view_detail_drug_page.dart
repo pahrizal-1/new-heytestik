@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/drug_controlle
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -21,19 +22,20 @@ import '../../controller/customer/solution/wishlist_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 
-class DetailObatPage extends StatefulWidget {
+class DetailDrugPage extends StatefulWidget {
   int drugId;
-  DetailObatPage({
+  DetailDrugPage({
     super.key,
     required this.drugId,
   });
 
   @override
-  State<DetailObatPage> createState() => _DetailObatPageState();
+  State<DetailDrugPage> createState() => _DetailDrugPageState();
 }
 
-class _DetailObatPageState extends State<DetailObatPage> {
+class _DetailDrugPageState extends State<DetailDrugPage> {
   DrugController drugController = Get.put(DrugController());
   final WishlistController wishlist = Get.put(WishlistController());
   final TextEditingController searchController = TextEditingController();
@@ -42,6 +44,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
+  List<Drug.Data2> drugRecomendation = [];
 
   @override
   void initState() {
@@ -50,6 +53,9 @@ class _DetailObatPageState extends State<DetailObatPage> {
       drugController.detailDrug(context, widget.drugId);
       drugController.getOverviewProduct(context, widget.drugId);
       drugController.getReviewProduct(context, 1, 3, widget.drugId);
+      drugRecomendation.addAll(
+        await drugController.drugRecomendation(context, 1, widget.drugId),
+      );
       setState(() {});
     });
   }
@@ -982,39 +988,32 @@ class _DetailObatPageState extends State<DetailObatPage> {
               const SizedBox(
                 height: 18,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Obat Rekomendasi lainnya',
-                      style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          // cek ini
-                          // ProdukObat(
-                          //   namaBrand: 'Noroid Soothing Cream 200ml',
-                          //   harga: 'Rp152.500',
-                          //   urlImg: 'assets/images/noroid1.png',
-                          // ),
-                          // ProdukObat(
-                          //   namaBrand: 'Noroid Soothing Cream 200ml',
-                          //   harga: 'Rp152.500',
-                          //   urlImg: 'assets/images/noroid1.png',,
-                          // ),
-                        ],
+              if (drugRecomendation.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(left: 25, right: 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Obat Rekomendasi lainnya',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: drugRecomendation.map((drug) {
+                            return KonsultasiProduk(
+                              drug: drug,
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),

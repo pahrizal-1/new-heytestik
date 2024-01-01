@@ -224,12 +224,28 @@ class SolutionService extends ProviderClass {
     }
   }
 
+  Future<DrugModel> drugRecomendation(int page, int id) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug/$id/recomendation',
+      params: {
+        "page": page,
+        "take": 100,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DrugModel.fromJson(response);
+  }
+
   Future<DrugRecipeModel> getDrugRecipe(int page) async {
     var response = await networkingConfig.doGet(
       '/solution/drug-recipe',
       params: {
         "page": page,
-        "take": 10,
+        "take": 100,
       },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
