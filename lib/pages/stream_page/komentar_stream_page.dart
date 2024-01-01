@@ -658,16 +658,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   );
                                 },
                               ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
                           ],
                         ),
                       ),
-                      Spacer(),
                       Icon(
                         Icons.more_horiz,
-                        size: 24,
+                        size: 30,
                         color: greyColor,
                       ),
                     ],

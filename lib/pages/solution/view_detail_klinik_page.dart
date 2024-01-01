@@ -38,10 +38,11 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
   bool isVisibelityJam = true;
   int activeIndex = 0;
   final images = [
-    'assets/images/bg-treatment.png',
-    'assets/images/bg-treatment.png',
-    'assets/images/bg-treatment.png'
+    'assets/images/bg-buy-get1.png',
+    'assets/images/bg-buy-get1.png',
+    'assets/images/bg-buy-get1.png',
   ];
+
   int activeBolder = 0;
   final imagesBolder = [
     'assets/images/bg-buy-get1.png',
@@ -64,7 +65,14 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
     });
   }
 
-  Widget buildImg1(String images) => Image.network(
+  Widget buildImg2(String images, int index) => Image.network(
+        images,
+        fit: BoxFit.fill,
+      );
+  Widget buildImg1(
+    String images,
+  ) =>
+      Image.network(
         images,
         fit: BoxFit.fill,
       );
@@ -675,19 +683,34 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                   ],
                 ),
               ),
-              // CarouselSlider.builder(
-              //   itemCount: images.length,
-              //   itemBuilder: (context, index, realIndex) {
-              //     final imge = imagesBolder[index];
+              CarouselSlider.builder(
+                itemCount: images.length,
+                itemBuilder: (context, index, realIndex) {
+                  final imge = images[index];
 
-              //     return buildImg1(imge);
-              //   },
-              //   options: CarouselOptions(
-              //     viewportFraction: 1,
-              //     onPageChanged: (index, reason) =>
-              //         setState(() => activeIndex = index),
-              //   ),
-              // ),
+                  return buildImg2(imge, index);
+                },
+                options: CarouselOptions(
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) =>
+                      setState(() => activeIndex = index),
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: activeIndex,
+                  count: images.length,
+                  effect: ScaleEffect(
+                    activeDotColor: greenColor,
+                    dotColor: const Color(0xffD9D9D9),
+                    dotWidth: 6,
+                    dotHeight: 6,
+                  ),
+                ),
+              ),
               StickyHeader(
                 header: Container(
                   padding: lsymetric.copyWith(top: 15, bottom: 9),
@@ -900,10 +923,10 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 19),
+                            padding: const EdgeInsets.only(left: 15, top: 19),
                             child: Wrap(
                               spacing: 15,
-                              runSpacing: 12,
+                              runSpacing: 15,
                               children: treatments.map((element) {
                                 return ProdukTreatment(
                                   treatmentData: element,
