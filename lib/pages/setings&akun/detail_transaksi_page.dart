@@ -346,7 +346,7 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                         .product
                                         ?.type ==
                                     'DRUGS') {
-                                  Get.to(() => const ObatSolutionsPage());
+                                  Get.to(() => const DrugSolutionsPage());
                                 } else if (state
                                         .detailTransaksiProd
                                         .value

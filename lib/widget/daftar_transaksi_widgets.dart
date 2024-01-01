@@ -521,7 +521,7 @@ class TransaksiProduk extends StatelessWidget {
                           if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'DRUGS') {
-                            Get.to(() => const ObatSolutionsPage());
+                            Get.to(() => const DrugSolutionsPage());
                           } else if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'SKINCARE') {

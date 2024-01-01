@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -25,14 +25,14 @@ import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
     as Concern;
 
-class ObatSolutionsPage extends StatefulWidget {
-  const ObatSolutionsPage({super.key});
+class DrugSolutionsPage extends StatefulWidget {
+  const DrugSolutionsPage({super.key});
 
   @override
-  State<ObatSolutionsPage> createState() => _ObatSolutionsPageState();
+  State<DrugSolutionsPage> createState() => _DrugSolutionsPageState();
 }
 
-class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
+class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final DrugController state = Get.put(DrugController());
@@ -174,7 +174,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ObatSearch(
+                          builder: (context) => DrugSearch(
                             search: searchController.text,
                           ),
                         ),

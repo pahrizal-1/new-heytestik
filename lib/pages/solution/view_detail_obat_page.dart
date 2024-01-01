@@ -7,7 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/cart_controlle
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -96,7 +96,7 @@ class _DetailObatPageState extends State<DetailObatPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ObatSearch(
+                      builder: (context) => DrugSearch(
                         search: searchController.text,
                       ),
                     ),

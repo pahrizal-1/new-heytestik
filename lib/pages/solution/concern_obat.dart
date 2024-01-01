@@ -78,6 +78,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {
@@ -88,9 +89,6 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                 size: 24,
                 color: blackColor,
               ),
-            ),
-            const SizedBox(
-              width: 11,
             ),
             Expanded(
               child: Container(

@@ -6,8 +6,8 @@ import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 
-class ObatSearch extends StatefulWidget {
-  const ObatSearch({
+class DrugSearch extends StatefulWidget {
+  const DrugSearch({
     super.key,
     required this.search,
   });
@@ -15,10 +15,10 @@ class ObatSearch extends StatefulWidget {
   final String search;
 
   @override
-  State<ObatSearch> createState() => _ObatSearchState();
+  State<DrugSearch> createState() => _DrugSearchState();
 }
 
-class _ObatSearchState extends State<ObatSearch> {
+class _DrugSearchState extends State<DrugSearch> {
   final DrugController state = Get.put(DrugController());
   final ScrollController scrollController = ScrollController();
   late TextEditingController searchController = TextEditingController();
@@ -64,6 +64,7 @@ class _ObatSearchState extends State<ObatSearch> {
         title: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
@@ -74,9 +75,6 @@ class _ObatSearchState extends State<ObatSearch> {
                   size: 24,
                   color: blackColor,
                 ),
-              ),
-              const SizedBox(
-                width: 7,
               ),
               Expanded(
                 child: Container(
@@ -119,7 +117,7 @@ class _ObatSearchState extends State<ObatSearch> {
                           style: const TextStyle(
                               fontSize: 15, fontFamily: "ProximaNova"),
                           decoration: InputDecoration(
-                            hintText: "Cari Obat",
+                            hintText: "Cari Obat 11",
                             border: InputBorder.none,
                             hintStyle: TextStyle(
                               fontFamily: "ProximaNova",

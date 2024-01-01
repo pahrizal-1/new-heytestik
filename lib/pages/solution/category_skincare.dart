@@ -77,6 +77,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {
@@ -88,9 +89,6 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                 color: blackColor,
               ),
             ),
-            const SizedBox(
-              width: 11,
-            ),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.only(left: 13, right: 14),
@@ -101,14 +99,12 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                 ),
                 child: Center(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset(
                         'assets/icons/search1.png',
                         width: 10,
                         color: blackColor,
-                      ),
-                      const SizedBox(
-                        width: 10,
                       ),
                       Container(
                         transform: Matrix4.translationValues(0, -2, 0),

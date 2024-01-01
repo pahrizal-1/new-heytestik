@@ -278,9 +278,9 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                               .map(
                                 (e) => InkWell(
                                   onTap: () {
-                                    Get.to(DetailSkinCarePage(
-                                      productId: e.id!.toInt(),
-                                    ));
+                                    Get.to(() => DetailSkinCarePage(
+                                          productId: e.id!.toInt(),
+                                        ));
                                   },
                                   child: Produkheight(
                                     produkId: e.id!.toInt(),
@@ -394,7 +394,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                               child: InkWell(
                                 onTap: () {
                                   Get.to(
-                                    CategorySkinCare(
+                                    () => CategorySkinCare(
                                       category: lookupCategory[index]
                                           .value
                                           .toString(),
