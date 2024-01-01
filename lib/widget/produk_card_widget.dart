@@ -138,7 +138,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: 120),
+                                    constraints: BoxConstraints(maxWidth: 100),
                                     child: Text(
                                       widget.data.product?.name ?? '-',
                                       style: grenTextStyle.copyWith(
@@ -174,7 +174,7 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                         children: [
                                           Container(
                                             constraints: const BoxConstraints(
-                                                maxWidth: 80),
+                                                maxWidth: 70),
                                             child: Text(
                                               "${widget.data.product!.skincareDetail?.specificationHowToUse ?? widget.data.product!.drugDetail!.specificationDose}",
                                               style: TextStyle(
