@@ -900,9 +900,9 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 25, top: 19),
+                            padding: const EdgeInsets.only(top: 19),
                             child: Wrap(
-                              spacing: 12,
+                              spacing: 15,
                               runSpacing: 12,
                               children: treatments.map((element) {
                                 return ProdukTreatment(
