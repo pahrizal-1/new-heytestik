@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 

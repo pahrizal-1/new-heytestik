@@ -10,7 +10,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';

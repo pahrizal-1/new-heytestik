@@ -8,7 +8,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';

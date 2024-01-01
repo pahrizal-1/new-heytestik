@@ -10,7 +10,7 @@ import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_con
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
@@ -524,8 +524,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                // rating: '4.9 (120k)',
-                                rating: e.rating.toString(),
+                                rating: '${e.rating} (0k)',
                               ),
                             ),
                           )
