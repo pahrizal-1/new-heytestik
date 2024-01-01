@@ -104,6 +104,7 @@ class _NearMePageState extends State<NearMePage> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -114,9 +115,6 @@ class _NearMePageState extends State<NearMePage> {
                         size: 24,
                         color: blackColor,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 2,
                     ),
                     Container(
                       height: 35,
@@ -132,7 +130,7 @@ class _NearMePageState extends State<NearMePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                left: 20,
+                                left: 10,
                                 right: 10,
                               ),
                               child: Image.asset(
@@ -157,7 +155,7 @@ class _NearMePageState extends State<NearMePage> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Treatment Near Me",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",

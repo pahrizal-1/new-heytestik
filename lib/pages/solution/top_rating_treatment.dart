@@ -98,6 +98,7 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -108,9 +109,6 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                         size: 24,
                         color: blackColor,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 7,
                     ),
                     Container(
                       height: 35,
@@ -151,7 +149,7 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Treatment Top Rating",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",

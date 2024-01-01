@@ -97,6 +97,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -107,9 +108,6 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                         size: 24,
                         color: blackColor,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 7,
                     ),
                     Container(
                       height: 35,
@@ -150,7 +148,7 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Treatment Trending",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",

@@ -100,6 +100,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -110,9 +111,6 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         size: 24,
                         color: blackColor,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 7,
                     ),
                     Container(
                       height: 35,
