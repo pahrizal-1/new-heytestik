@@ -637,7 +637,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                 style:
                                                                     blackRegulerTextStyle
                                                                         .copyWith(
-                                                                  fontSize: 12,
+                                                                  fontSize: 10,
                                                                 ),
                                                               ),
                                                             ),
@@ -958,7 +958,7 @@ Widget commentLike(int likes) {
       Text(
         "$likes",
         style: grenTextStyle.copyWith(
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
       ),
@@ -968,7 +968,7 @@ Widget commentLike(int likes) {
       Text(
         "Suka",
         style: grenTextStyle.copyWith(
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
       ),
