@@ -335,13 +335,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: widget.post.photoUser == "" ||
-                                    widget.post.photoUser == "photo_profile"
+                            image: comment.photoUser == "" ||
+                                    comment.photoUser == "photo_profile"
                                 ? AssetImage(
                                     'assets/images/profiledummy.png',
                                   )
                                 : NetworkImage(
-                                        '${Global.FILE}/${widget.post.photoUser}')
+                                        '${Global.FILE}/${comment.photoUser}')
                                     as ImageProvider,
                           ),
                         ),

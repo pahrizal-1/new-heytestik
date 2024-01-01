@@ -462,7 +462,6 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     },
                     child: SvgPicture.asset(
                       'assets/icons/share-icons.svg',
-                      // ignore: deprecated_member_use
                       color: greyColor,
                       width: 21,
                       height: 21,
