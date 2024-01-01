@@ -2,6 +2,7 @@ class StreamCommentModel {
   final int commentID;
   final String content;
   final String photoUser;
+  final String userName;
   final String fullName;
   final String createdAt;
   final int like;
@@ -11,6 +12,7 @@ class StreamCommentModel {
     required this.commentID,
     required this.content,
     required this.photoUser,
+    required this.userName,
     required this.fullName,
     required this.createdAt,
     required this.like,
@@ -24,6 +26,7 @@ class StreamCommentModel {
       photoUser:
           json['user']['media_user_profile_picture']['media']['path'] ?? "",
       fullName: json['user']['fullname'],
+      userName: json['user']['username'],
       createdAt: json['created_at'],
       like: json['_count']['stream_comment_likes'],
       comment: json['_count']['stream_comment_replies'],

@@ -3,18 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:social_share/social_share.dart';
 
 import '../../models/stream_comment.dart';
 
 import '../../models/stream_comment_reply.dart';
 import '../../models/stream_home.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -34,6 +36,7 @@ class KomentarStreamPage extends StatefulWidget {
 
 class _KomentarStreamPageState extends State<KomentarStreamPage> {
   File? imagePath;
+  final ProfileController stateProfile = Get.put(ProfileController());
   final PostController postController = Get.put(PostController());
   final ScrollController commentScrollController = ScrollController();
   final TextEditingController commentController = TextEditingController();
@@ -190,6 +193,10 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             ),
                             builder: (context) => ShareLinkStream(
                               username: widget.post.username,
+                              isMe: stateProfile.username.value ==
+                                      widget.post.username
+                                  ? true
+                                  : false,
                             ),
                           );
                         },
@@ -227,7 +234,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     children: [
                       Row(
                         children: [
-                          GestureDetector(
+                          InkWell(
                               onTap: () {
                                 if (like ?? widget.post.liked) {
                                   postController.unlikePost(
@@ -261,24 +268,26 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           const SizedBox(
                             width: 15,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                isDismissible: false,
-                                context: context,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topEnd: Radius.circular(25),
-                                    topStart: Radius.circular(25),
-                                  ),
-                                ),
-                                builder: (context) => ShareShowWidget(),
-                              );
+                          InkWell(
+                            onTap: () async {
+                              Uri? url = await createDynamicLinkStream();
+                              print("url $url");
+                              await SocialShare.shareOptions(url.toString());
+                              // showModalBottomSheet(
+                              //   isDismissible: false,
+                              //   context: context,
+                              //   backgroundColor: Colors.white,
+                              //   shape: const RoundedRectangleBorder(
+                              //     borderRadius: BorderRadiusDirectional.only(
+                              //       topEnd: Radius.circular(25),
+                              //       topStart: Radius.circular(25),
+                              //     ),
+                              //   ),
+                              //   builder: (context) => ShareShowWidget(),
+                              // );
                             },
                             child: SvgPicture.asset(
                               'assets/icons/share-icons.svg',
-                              // ignore: deprecated_member_use
                               color: greyColor,
                               width: 21,
                               height: 21,
@@ -287,7 +296,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           const SizedBox(
                             width: 15,
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               if (saved ?? widget.post.saved) {
                                 postController.unSavePost(
@@ -384,7 +393,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                               Row(
                                 children: [
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () {
                                       if (comment.like +
                                               (commentLikes[
@@ -451,7 +460,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                               if (viewCommentReply["${comment.commentID}"] ==
                                   false)
-                                GestureDetector(
+                                InkWell(
                                   onTap: () async {
                                     viewCommentReply.update(
                                         "${comment.commentID}",
@@ -584,7 +593,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                           index]
                                                                       .like >
                                                               0
-                                                          ? GestureDetector(
+                                                          ? InkWell(
                                                               onTap: () {
                                                                 postController.unlikeCommentReply(
                                                                     context,
@@ -612,7 +621,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                           "${commentReplies["${comment.commentID}"]![index].replyID}"] ??
                                                                       0)),
                                                             )
-                                                          : GestureDetector(
+                                                          : InkWell(
                                                               onTap: () {
                                                                 postController.likeCommentReply(
                                                                     context,
@@ -679,7 +688,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                             ),
                             builder: (context) => ShareLinkStream(
-                              username: widget.post.username,
+                              username: comment.userName,
+                              isMe: stateProfile.username.value ==
+                                      comment.userName
+                                  ? true
+                                  : false,
                             ),
                           );
                         },
@@ -904,7 +917,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   ),
                 ),
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () async {
                   postController.postComment(
                       context, widget.post.id, commentController.text);

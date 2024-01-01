@@ -56,7 +56,15 @@ Future<void> initDynamicLinks() async {
   dynamicLinks.onLink.listen((dynamicLinkData) {
     final path = dynamicLinkData.link.path;
     print('DYNAMIC LINK $path');
-    if (path.startsWith('/skincare/')) {
+    if (path.startsWith('/stream')) {
+      print('INI STREAM $path');
+      Get.offAll(
+        () => const TabBarCustomer(
+          currentIndex: 2,
+          streamIndex: 0,
+        ),
+      );
+    } else if (path.startsWith('/skincare/')) {
       final productId = path.split('/').last;
       print("INI SKINCARE $productId");
       Get.to(() => DetailSkinCarePage(productId: int.parse(productId)));
@@ -73,7 +81,8 @@ Future<void> initDynamicLinks() async {
       print("INI TREATMENT $treatmentId");
       Get.to(() => DetailTreatmentPage(treatmentId: int.parse(treatmentId)));
     } else {
-      Get.toNamed(dynamicLinkData.link.path);
+      print("INI NEWS");
+      Get.offAllNamed(dynamicLinkData.link.path);
     }
   }).onError((error) {
     print('ON LINK ERROR $error');

@@ -2,11 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
-import 'package:heystetik_mobileapps/widget/share_solusion_widget_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_share/social_share.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../controller/customer/stream/post_controller.dart';
@@ -27,6 +29,7 @@ class StreamPostPage extends StatefulWidget {
 }
 
 class _StreamPostPageState extends State<StreamPostPage> {
+  final ProfileController stateProfile = Get.put(ProfileController());
   final PostController postController = Get.put(PostController());
   bool? like;
   bool? saved;
@@ -117,6 +120,10 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     ),
                     builder: (context) => ShareLinkStream(
                       username: widget.stream.username,
+                      isMe:
+                          stateProfile.username.value == widget.stream.username
+                              ? true
+                              : false,
                     ),
                   );
                 },
@@ -276,7 +283,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                           ),
                           child: Text(""),
                         ),
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
                             if (votesCount == 0) {
                               votesCount = votesCount + 1;
@@ -410,7 +417,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
             children: [
               Row(
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (like ?? widget.stream.liked) {
                         postController.unlikePost(context, widget.stream.id);
@@ -445,20 +452,24 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   const SizedBox(
                     width: 15,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        isDismissible: false,
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
-                          ),
-                        ),
-                        builder: (context) => ShareShowWidget(),
-                      );
+                  InkWell(
+                    onTap: () async {
+                      Uri? url = await createDynamicLinkStream();
+                      print("url $url");
+                      await SocialShare.shareOptions(url.toString());
+
+                      // showModalBottomSheet(
+                      //   isDismissible: false,
+                      //   context: context,
+                      //   backgroundColor: Colors.white,
+                      //   shape: const RoundedRectangleBorder(
+                      //     borderRadius: BorderRadiusDirectional.only(
+                      //       topEnd: Radius.circular(25),
+                      //       topStart: Radius.circular(25),
+                      //     ),
+                      //   ),
+                      //   builder: (context) => ShareShowWidget(),
+                      // );
                     },
                     child: SvgPicture.asset(
                       'assets/icons/share-icons.svg',
@@ -470,7 +481,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   const SizedBox(
                     width: 15,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (saved ?? widget.stream.saved) {
                         postController.unSavePost(context, widget.stream.id);
