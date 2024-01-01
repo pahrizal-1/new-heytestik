@@ -55,7 +55,7 @@ FirebaseDynamicLinksPlatform dynamicLinks =
 Future<void> initDynamicLinks() async {
   dynamicLinks.onLink.listen((dynamicLinkData) {
     final path = dynamicLinkData.link.path;
-    print('HAHAHAH $path');
+    print('DYNAMIC LINK $path');
     if (path.startsWith('/skincare/')) {
       final productId = path.split('/').last;
       print("INI SKINCARE $productId");
@@ -76,7 +76,7 @@ Future<void> initDynamicLinks() async {
       Get.toNamed(dynamicLinkData.link.path);
     }
   }).onError((error) {
-    print('onLink error $error');
+    print('ON LINK ERROR $error');
   });
 }
 
