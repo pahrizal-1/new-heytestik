@@ -8,6 +8,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/resep_digital_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -491,7 +492,7 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(ResepDigitalPage());
+                    Get.to(() => ResepDigitalPage());
                     debugPrint("UNDUH RESEP");
                   },
                   child: Icon(
@@ -565,9 +566,19 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.data.value.consultationRecipeDrug?.length,
               itemBuilder: (BuildContext context, index) {
-                return ContainerProdukObat(
-                  index: index,
-                  data: state.data.value.consultationRecipeDrug![index],
+                return InkWell(
+                  onTap: () {
+                    Get.to(
+                      () => DetailDrugPage(
+                        drugId: state.data.value.consultationRecipeDrug![index]
+                            .productId!,
+                      ),
+                    );
+                  },
+                  child: ContainerProdukObat(
+                    index: index,
+                    data: state.data.value.consultationRecipeDrug![index],
+                  ),
                 );
               },
             ),

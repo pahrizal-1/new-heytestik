@@ -342,7 +342,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
                         SocialShare.copyToClipboard(
                           text: url.toString(),
@@ -363,7 +363,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
                         SocialShare.copyToClipboard(
                           text: url.toString(),
@@ -384,7 +384,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
 
                         String email = '';
@@ -407,7 +407,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
                         SocialShare.shareWhatsapp(url.toString());
 
@@ -445,7 +445,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
                         await SocialShare.shareOptions(url.toString());
                       },
@@ -460,7 +460,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        Uri? url = await createDynamicLink();
+                        Uri? url = await createDynamicLinkNews();
                         print("url $url");
                         SocialShare.copyToClipboard(
                           text: url.toString(),

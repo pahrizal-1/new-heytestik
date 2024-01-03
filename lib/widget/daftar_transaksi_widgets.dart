@@ -12,7 +12,7 @@ import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
@@ -56,20 +56,20 @@ class TransaksiKonsultan extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (progres == 'Menunggu Pembayaran') {
-          Get.to(SelesaikanPembayaranKonsultasiPage(
-            isWillPop: false,
-            orderId: orderId,
-            expireTime: '',
-            paymentMethodId: paymentMethodId,
-          ));
+          Get.to(() => SelesaikanPembayaranKonsultasiPage(
+                isWillPop: false,
+                orderId: orderId,
+                expireTime: '',
+                paymentMethodId: paymentMethodId,
+              ));
         }
 
         if (progres == 'Ready') {
-          Get.to(SuccessPage(
-            isNotConsultation: false,
-            orderId: orderId,
-            isWillPop: false,
-          ));
+          Get.to(() => SuccessPage(
+                isNotConsultation: false,
+                orderId: orderId,
+                isWillPop: false,
+              ));
         }
       },
       child: Container(
@@ -217,7 +217,7 @@ class TransaksiKonsultan extends StatelessWidget {
                         ? Container()
                         : InkWell(
                             onTap: () {
-                              Get.to(UlasanSetingsPage());
+                              Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -242,7 +242,7 @@ class TransaksiKonsultan extends StatelessWidget {
                     ? InkWell(
                         onTap: () {
                           Get.to(
-                            const SelectConditionsPage(),
+                            () => const SelectConditionsPage(),
                           );
                         },
                         child: Container(
@@ -265,13 +265,13 @@ class TransaksiKonsultan extends StatelessWidget {
                 progres == 'Menunggu Pembayaran'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage(
-                            id: paymentMethodId,
-                            orderId: orderId,
-                            totalPaid: harga,
-                            // vaNumber: vaNumber,
-                            transactionType: 'Konsultasi',
-                          ));
+                          Get.to(() => CaraPembayaranPage(
+                                id: paymentMethodId,
+                                orderId: orderId,
+                                totalPaid: harga,
+                                // vaNumber: vaNumber,
+                                transactionType: 'Konsultasi',
+                              ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -313,14 +313,21 @@ class TransaksiProduk extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (product?.status.toString() == 'MENUNGGU_PEMBAYARAN') {
-          Get.to(SelesaikanPembayaranProdukPage(
-            isWillPop: false,
-            orderId: orderId,
-            expireTime: '',
-            paymentMethodId: product!.paymentMethodId!,
-          ));
+          Get.to(
+            () => SelesaikanPembayaranProdukPage(
+              isWillPop: false,
+              orderId: orderId,
+              expireTime: '',
+              paymentMethodId: product!.paymentMethodId!,
+            ),
+          );
+        } else if (product?.status.toString() == 'SELESAI') {
+          Get.to(
+            () => DetailTransaksiPage(
+              transactionId: product!.id.toString(),
+            ),
+          );
         }
-        Get.to(DetailTransaksiPage());
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -372,52 +379,42 @@ class TransaksiProduk extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                            color: product?.status.toString() ==
-                                    'MENUNGGU_PEMBAYARAN'
+                            color: product?.orderStatus.toString() ==
+                                        'NEW_ORDER' ||
+                                    product?.orderStatus.toString() ==
+                                        'DELIVERY_PROCESS' ||
+                                    product?.orderStatus.toString() ==
+                                        'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 204, 170)
-                                : product?.status.toString() ==
-                                        'PESANAN_DIPROSES'
-                                    ? const Color.fromARGB(255, 255, 204, 170)
-                                    : product?.status.toString() == 'DIKIRIM'
-                                        ? subgreenColor
-                                        : product?.status.toString() ==
-                                                'TERKIRIM'
-                                            ? subgreenColor
-                                            : product?.status.toString() ==
-                                                    'SELESAI'
-                                                ? subgreenColor
-                                                : subgreenColor,
+                                : product?.orderStatus.toString() ==
+                                        'ORDER_COMPLETED'
+                                    ? subgreenColor
+                                    : subgreenColor,
                             borderRadius: BorderRadius.circular(7)),
                         child: Text(
-                          product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
-                              ? 'Menunggu Pembayaran'
-                              : product?.status.toString() == 'PESANAN_DIPROSES'
-                                  ? 'Pesanan Diproses'
-                                  : product?.status.toString() == 'DIKIRIM'
-                                      ? 'Dikirim'
-                                      : product?.status.toString() == 'TERKIRIM'
-                                          ? 'Terkirim'
-                                          : product?.status.toString() ==
-                                                  'SELESAI'
-                                              ? 'Selesai'
-                                              : 'Selesai',
+                          product?.orderStatus.toString() == 'NEW_ORDER' ||
+                                  product?.orderStatus.toString() ==
+                                      'DELIVERY_PROCESS'
+                              ? 'Pesanan Diproses'
+                              : product?.orderStatus.toString() == 'IN_DELIVERY'
+                                  ? 'Pesanan Dikirim'
+                                  : product?.orderStatus.toString() ==
+                                          'ORDER_COMPLETED'
+                                      ? 'Selesai'
+                                      : 'Selesai',
                           style: grenTextStyle.copyWith(
                             fontSize: 10,
-                            color: product?.status.toString() ==
-                                    'MENUNGGU_PEMBAYARAN'
+                            color: product?.orderStatus.toString() ==
+                                        'NEW_ORDER' ||
+                                    product?.orderStatus.toString() ==
+                                        'DELIVERY_PROCESS' ||
+                                    product?.orderStatus.toString() ==
+                                        'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 102, 0)
-                                : product?.status.toString() ==
-                                        'PESANAN_DIPROSES'
-                                    ? const Color.fromARGB(255, 255, 102, 0)
-                                    : product?.status.toString() == 'DIKIRIM'
-                                        ? greenColor
-                                        : product?.status.toString() ==
-                                                'TERKIRIM'
-                                            ? subgreenColor
-                                            : product?.status.toString() ==
-                                                    'SELESAI'
-                                                ? greenColor
-                                                : greenColor,
+                                : product?.orderStatus.toString() ==
+                                        'ORDER_COMPLETED'
+                                    ? greenColor
+                                    : greenColor,
                           ),
                         ),
                       )
@@ -492,11 +489,11 @@ class TransaksiProduk extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                product?.status.toString() == 'SELESAI'
+                product?.orderStatus.toString() == 'ORDER_COMPLETED'
                     ? product!.transactionProductItems![0].productReview == null
                         ? InkWell(
                             onTap: () {
-                              Get.to(UlasanSetingsPage());
+                              Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -524,12 +521,11 @@ class TransaksiProduk extends StatelessWidget {
                           if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'DRUGS') {
-                            Get.to(const ObatSolutionsPage());
-                          }
-                          if (product!
+                            Get.to(() => const DrugSolutionsPage());
+                          } else if (product!
                                   .transactionProductItems?[0].product?.type ==
                               'SKINCARE') {
-                            Get.to(const SolutionSkincare1Page());
+                            Get.to(() => const SolutionSkincare1Page());
                           }
                         },
                         child: Container(
@@ -552,13 +548,12 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'MENUNGGU_PEMBAYARAN'
                     ? InkWell(
                         onTap: () {
-                          Get.to(CaraPembayaranPage(
-                            id: product!.paymentMethodId!,
-                            orderId: orderId,
-                            totalPaid: product!.totalPaid!,
-                            // vaNumber: product?.vaNumber ?? '-',
-                            transactionType: 'Produk',
-                          ));
+                          Get.to(() => CaraPembayaranPage(
+                                id: product!.paymentMethodId!,
+                                orderId: orderId,
+                                totalPaid: product!.totalPaid!,
+                                transactionType: 'Produk',
+                              ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -762,7 +757,7 @@ class TransaksiTreatment extends StatelessWidget {
                       ? Container()
                       : InkWell(
                           onTap: () {
-                            Get.to(UlasanSetingsPage());
+                            Get.to(() => UlasanSetingsPage());
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -786,8 +781,8 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Klinik Mengkonfirmasi' || progres == 'Selesai'
                   ? InkWell(
                       onTap: () {
-                        Get.to(SolutionsTreatment1Page());
-                        // Get.to(BokingTreatment(
+                        Get.to(() => SolutionsTreatment1Page());
+                        // Get.to(()=>BokingTreatment(
                         //   treatment: item[0].treatment as Data2,
                         // ));
                       },
@@ -811,19 +806,19 @@ class TransaksiTreatment extends StatelessWidget {
               progres == 'Menunggu Pembayaran'
                   ? InkWell(
                       onTap: () {
-                        Get.to(CaraPembayaranPage(
-                          id: paymentMethodId,
-                          orderId: orderId,
-                          totalPaid: harga,
-                          // vaNumber: vaNumber,
-                          transactionType: 'Treatment',
-                          treatment: Treatment.Data2.fromJson(
-                            jsonDecode(
-                              jsonEncode(item![0].treatment),
-                            ),
-                          ),
-                          pax: item?[0].pax,
-                        ));
+                        Get.to(() => CaraPembayaranPage(
+                              id: paymentMethodId,
+                              orderId: orderId,
+                              totalPaid: harga,
+                              // vaNumber: vaNumber,
+                              transactionType: 'Treatment',
+                              treatment: Treatment.Data2.fromJson(
+                                jsonDecode(
+                                  jsonEncode(item![0].treatment),
+                                ),
+                              ),
+                              pax: item?[0].pax,
+                            ));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

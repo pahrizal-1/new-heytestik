@@ -416,8 +416,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 230),
                           child: Center(
-                            child: Text('Belum ada transaksi',
-                                style: blackTextStyle.copyWith(fontSize: 15)),
+                            child: Text(
+                              'Belum ada transaksi',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
                           ),
                         )
                       : Column(
@@ -466,17 +468,13 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                                             'SELESAI'
                                                         ? 'Selesai'
                                                         : '-',
-                                    keluhan:
-                                        history[index].detail?.consultation ==
-                                                null
-                                            ? '-'
-                                            : history[index]
-                                                    .detail
-                                                    ?.consultation
-                                                    ?.medicalHistory
-                                                    ?.interestCondition
-                                                    ?.name ??
-                                                '-',
+                                    keluhan: history[index]
+                                            .detail
+                                            ?.medicalHistory
+                                            ?.interestCondition
+                                            ?.concern
+                                            ?.name ??
+                                        '-',
                                     harga: history[index].detail!.totalPaid!,
                                     img: history[index].detail?.consultation ==
                                             null

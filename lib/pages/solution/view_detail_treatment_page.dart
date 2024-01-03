@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, await_only_futures
 
 import 'dart:io';
 
@@ -11,36 +11,36 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/reservasi_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_treatment_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_share/social_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
-import '../../widget/share_solusion_widget_page.dart';
 import '../../widget/text_form_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class BokingTreatment extends StatefulWidget {
-  final Data2 treatment;
-
-  const BokingTreatment({
+class DetailTreatmentPage extends StatefulWidget {
+  int treatmentId;
+  DetailTreatmentPage({
     super.key,
-    required this.treatment,
+    required this.treatmentId,
   });
 
   @override
-  State<BokingTreatment> createState() => _BokingTreatmentState();
+  State<DetailTreatmentPage> createState() => _DetailTreatmentPageState();
 }
 
-class _BokingTreatmentState extends State<BokingTreatment> {
+class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
 
@@ -61,13 +61,25 @@ class _BokingTreatmentState extends State<BokingTreatment> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      stateTreatment.getTreatmentDetail(context, widget.treatment.id!);
+      await stateTreatment.getTreatmentDetail(
+        context,
+        widget.treatmentId,
+      );
       treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
-          context, page, widget.treatment.clinic!.id!));
+        context,
+        page,
+        stateTreatment.treatmentDetail.value.clinicId!,
+      ));
       reviews.addAll(await stateTreatment.getTreatmentReview(
-          context, page, 3, widget.treatment.id!));
+        context,
+        page,
+        3,
+        widget.treatmentId,
+      ));
       dataOverview = await stateTreatment.getTreatmentOverview(
-          context, widget.treatment.id!);
+        context,
+        widget.treatmentId,
+      );
       setState(() {});
     });
 
@@ -78,7 +90,10 @@ class _BokingTreatmentState extends State<BokingTreatment> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
-                context, page, widget.treatment.clinic!.id!));
+              context,
+              page,
+              stateTreatment.treatmentDetail.value.clinicId!,
+            ));
             setState(() {});
           });
         }
@@ -135,16 +150,28 @@ class _BokingTreatmentState extends State<BokingTreatment> {
         backgroundColor: greenColor,
         actions: [
           Obx(
-            () => GestureDetector(
+            () => InkWell(
               onTap: () {
-                setState(() {
-                  isFavourite =
-                      (stateTreatment.treatmentDetail.value.wishlist ?? false);
-                  isFavourite = !(isFavourite ?? false);
-                });
+                if (isFavourite ??
+                    stateTreatment.treatmentDetail.value.wishlist!) {
+                  stateTreatment.deleteWishlistTreatment(
+                    context,
+                    widget.treatmentId,
+                  );
 
-                stateTreatment.userWishlistTreatment(
-                    context, widget.treatment.id!, isFavourite!);
+                  setState(() {
+                    isFavourite = false;
+                  });
+                } else {
+                  stateTreatment.addWishlistTreatment(
+                    context,
+                    widget.treatmentId,
+                  );
+
+                  setState(() {
+                    isFavourite = true;
+                  });
+                }
               },
               child: (isFavourite == null
                           ? (stateTreatment.treatmentDetail.value.wishlist ??
@@ -159,19 +186,22 @@ class _BokingTreatmentState extends State<BokingTreatment> {
             width: 21,
           ),
           InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
-                ),
-                builder: (context) => ShareShowWidget(),
-              );
+            onTap: () async {
+              Uri? url = await createDynamicLinkTreatment(widget.treatmentId);
+              print("url $url");
+              await SocialShare.shareOptions(url.toString());
+              // showModalBottomSheet(
+              //   isDismissible: false,
+              //   context: context,
+              //   backgroundColor: Colors.white,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius: BorderRadiusDirectional.only(
+              //       topEnd: Radius.circular(25),
+              //       topStart: Radius.circular(25),
+              //     ),
+              //   ),
+              //   builder: (context) => ShareShowWidget(),
+              // );
             },
             child: SvgPicture.asset(
               'assets/icons/share-icons.svg',
@@ -191,12 +221,14 @@ class _BokingTreatmentState extends State<BokingTreatment> {
               Stack(
                 children: [
                   CarouselSlider.builder(
-                    itemCount: widget.treatment.mediaTreatments?.length ?? 0,
+                    itemCount: stateTreatment
+                            .treatmentDetail.value.mediaTreatments?.length ??
+                        0,
                     itemBuilder: (context, index, realIndex) {
-                      final imge =
-                          widget.treatment.mediaTreatments![index].media!.path!;
+                      final image = stateTreatment.treatmentDetail.value
+                          .mediaTreatments?[index].media?.path;
 
-                      return buildImage(imge, index);
+                      return buildImage(image.toString(), index);
                     },
                     options: CarouselOptions(
                       height: 390,
@@ -210,7 +242,9 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                     bottom: 5,
                     child: AnimatedSmoothIndicator(
                       activeIndex: activeIndex,
-                      count: widget.treatment.mediaTreatments?.length ?? 0,
+                      count: stateTreatment
+                              .treatmentDetail.value.mediaTreatments?.length ??
+                          0,
                       effect: JumpingDotEffect(
                         activeDotColor: greenColor,
                         dotColor: whiteColor,
@@ -244,11 +278,15 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.treatment.clinic!.name!,
+                              stateTreatment
+                                      .treatmentDetail.value.clinic?.name ??
+                                  '-',
                               style: blackHigtTextStyle.copyWith(fontSize: 20),
                             ),
                             Text(
-                              widget.treatment.clinic!.city!.name!,
+                              stateTreatment.treatmentDetail.value.clinic?.city
+                                      ?.name ??
+                                  '-',
                               style: subTitleTextStyle.copyWith(fontSize: 12),
                             ),
                           ],
@@ -257,9 +295,11 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         Expanded(
                           child: IconButton(
                             onPressed: () {
-                              Get.off(DetailKlnikPage(
-                                id: widget.treatment.clinic!.id!.toInt(),
-                              ));
+                              Get.to(() => DetailKlinikPage(
+                                    clinicId: stateTreatment
+                                        .treatmentDetail.value.clinicId!
+                                        .toInt(),
+                                  ));
                             },
                             icon: Icon(
                               Icons.keyboard_arrow_right,
@@ -273,7 +313,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       height: 27,
                     ),
                     Text(
-                      widget.treatment.name!,
+                      stateTreatment.treatmentDetail.value.name ?? '-',
                       style: blackTextStyle.copyWith(
                           fontWeight: medium, fontSize: 15),
                     ),
@@ -281,7 +321,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       height: 6,
                     ),
                     Text(
-                      widget.treatment.description!,
+                      stateTreatment.treatmentDetail.value.description ?? '-',
                       style: TextStyle(color: subTitleColor, fontSize: 12),
                       textAlign: TextAlign.start,
                     ),
@@ -289,7 +329,10 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                       height: 6,
                     ),
                     Text(
-                      CurrencyFormat.convertToIdr(widget.treatment.price, 2),
+                      CurrencyFormat.convertToIdr(
+                        stateTreatment.treatmentDetail.value.price ?? 0,
+                        0,
+                      ),
                       style: blackTextStyle.copyWith(
                         fontSize: 18,
                         decorationThickness: 2,
@@ -344,7 +387,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         customeshomodal(
                           context,
                           DetailMoreDialogFilter(
-                            treatmentData: widget.treatment,
+                            treatmentData: stateTreatment.treatmentDetail.value,
                           ),
                         );
                       },
@@ -606,7 +649,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UlasanTreatmentPage(
-                                  treatmentID: widget.treatment.id!,
+                                  treatmentID: widget.treatmentId,
                                 ),
                               ),
                             );
@@ -896,7 +939,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
               Padding(
                 padding: lsymetric,
                 child: Text(
-                  'Perawatan lain di ${widget.treatment.clinic!.name!}',
+                  'Perawatan lain di ${stateTreatment.treatmentDetail.value.clinic?.name}',
                   style: blackTextStyle.copyWith(fontSize: 15),
                 ),
               ),
@@ -914,17 +957,18 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                           left: index == 0 ? 16 : 0,
                         ),
                         child: ProdukTreatment(
+                          treatmentData: treatments[index],
                           namaKlinik: treatments[index].clinic!.name!,
                           namaTreatmen: treatments[index].name!,
                           diskonProduk: '0',
-                          hargaDiskon: '',
+                          hargaDiskon: '0',
                           harga: treatments[index].price.toString(),
-                          urlImg:
-                              "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
-                          rating: "${treatments[index].rating}",
-                          km: treatments[index].distance!,
+                          urlImg: treatments[index].mediaTreatments!.isEmpty
+                              ? ""
+                              : "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
+                          rating: "${treatments[index].rating} (0k)",
+                          km: '${treatments[index].distance ?? '0'} km',
                           lokasiKlinik: treatments[index].clinic!.city!.name!,
-                          treatmentData: treatments[index],
                         ));
                   },
                 ),
@@ -932,82 +976,6 @@ class _BokingTreatmentState extends State<BokingTreatment> {
               const SizedBox(
                 height: 17,
               ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Padding(
-              //     padding: lsymetric,
-              //     child: Row(
-              //       children: const [
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: 'Rp250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/lheatea.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'ZAP Plaza Senayan',
-              //           namaTreatmen: 'Toning Laser',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '1,250.000',
-              //           harga: '1,200.000',
-              //           urlImg: 'assets/images/zap-senayan.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'ZAP Plaza Senayan',
-              //           namaTreatmen: 'IPL Rejuvenation',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '100,000.000',
-              //           harga: '10,200.000',
-              //           urlImg: 'assets/images/Ipl1.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/laser1.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/laser2.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //         ProdukTreatment(
-              //           namaKlinik: 'Klinik Utama Lithea',
-              //           namaTreatmen: 'Radiant Glow Peeling',
-              //           diskonProduk: '20',
-              //           hargaDiskon: '250.000',
-              //           harga: '200.000',
-              //           urlImg: 'assets/images/lheatea.png',
-              //           rating: '4.9 (120k)',
-              //           km: '80',
-              //           lokasiKlinik: 'Bogor Timur',
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -1022,7 +990,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Get.to(SelectConditionsPage());
+                      Get.to(() => SelectConditionsPage());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -1051,7 +1019,7 @@ class _BokingTreatmentState extends State<BokingTreatment> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ReservasiPage(
-                            treatment: widget.treatment,
+                            treatment: stateTreatment.treatmentDetail.value,
                           ),
                         ),
                       );

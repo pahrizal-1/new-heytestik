@@ -21,8 +21,8 @@ class TampilanRight extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BokingTreatment(
-              treatment: treatment,
+            builder: (context) => DetailTreatmentPage(
+              treatmentId: treatment.id!,
             ),
           ),
         );

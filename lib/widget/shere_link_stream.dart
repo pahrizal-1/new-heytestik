@@ -1,14 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:social_share/social_share.dart';
 
 class ShareLinkStream extends StatelessWidget {
   const ShareLinkStream({
     super.key,
+    required this.isMe,
     required this.username,
   });
-
+  final bool isMe;
   final String username;
 
   @override
@@ -25,38 +31,56 @@ class ShareLinkStream extends StatelessWidget {
               text(
                 'assets/icons/link.png',
                 'Salin Link',
-                () {},
-                blackColor,
-              ),
-              const SizedBox(
-                height: 33,
-              ),
-              text(
-                'assets/icons/notification-logo-blak.png',
-                'Ikuti postingan ini',
-                () {},
-                blackColor,
-              ),
-              const SizedBox(
-                height: 33,
-              ),
-              text(
-                'assets/icons/alert-new.png',
-                'Laporkan',
-                () {},
-                blackColor,
-              ),
-              const SizedBox(
-                height: 33,
-              ),
-              text(
-                'assets/icons/slash-icons.png',
-                'Blokir @$username',
-                () {
-                  postController.blockUser(context, username);
+                () async {
+                  Uri? url = await createDynamicLinkStream();
+                  print("url $url");
+                  SocialShare.copyToClipboard(
+                    text: url.toString(),
+                  );
+                  SnackbarWidget.getSuccessSnackbar(
+                    context,
+                    "Berhasil",
+                    "Berhasil disalin",
+                  );
+                  Get.back();
                 },
-                redColor,
+                blackColor,
               ),
+              if (!isMe)
+                const SizedBox(
+                  height: 33,
+                ),
+              if (!isMe)
+                text(
+                  'assets/icons/notification-logo-blak.png',
+                  'Ikuti postingan ini',
+                  () {},
+                  blackColor,
+                ),
+              if (!isMe)
+                const SizedBox(
+                  height: 33,
+                ),
+              if (!isMe)
+                text(
+                  'assets/icons/alert-new.png',
+                  'Laporkan',
+                  () {},
+                  blackColor,
+                ),
+              if (!isMe)
+                const SizedBox(
+                  height: 33,
+                ),
+              if (!isMe)
+                text(
+                  'assets/icons/slash-icons.png',
+                  'Blokir @$username',
+                  () {
+                    postController.blockUser(context, username);
+                  },
+                  redColor,
+                ),
             ],
           ),
         ),

@@ -131,7 +131,38 @@ class LocationController extends StateClass {
 
       if (location.value.data == null) {
         print("BELUM SET LOKASI");
-        await getCurrentPosition(context);
+        final hasPermission = await locationPermission(context);
+        if (!hasPermission) return;
+        await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.high)
+            .then((Position position) {
+          currentLatitude.value = position.latitude;
+          print('currentLatitude ${currentLatitude.value}');
+          currentLongitude.value = position.longitude;
+          print('currentLongitude ${currentLongitude.value}');
+
+          placemarkFromCoordinates(
+            currentLatitude.value,
+            currentLongitude.value,
+          ).then((List<Placemark> placemarks) {
+            Placemark place = placemarks[0];
+            currentAddress.value =
+                '${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}, ${place.postalCode}';
+            currentCity.value = place.subAdministrativeArea.toString();
+            print("currentAddress ${currentAddress.value}");
+            print("currentCity ${currentCity.value}");
+
+            // kalo bekum di set lokasi nya, maka set lokasi saat ini
+            createLocation(
+              context,
+              currentLatitude.value,
+              currentLongitude.value,
+              currentAddress.value,
+            );
+          });
+        }).catchError((e) {
+          debugPrint('error euy getCurrentPosition $e');
+        });
       } else {
         print("SUDAH SET LOKASI");
         myLatitude.value = location.value.data!.latitude ?? 0.0;

@@ -7,10 +7,11 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
@@ -65,8 +66,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      etalaseController.getConcern(context);
       state.getLocation(context);
+      etalaseController.getConcern(context);
       treatments.addAll(await stateTreatment.getAllTreatment(
         context,
         page,
@@ -158,7 +159,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
               ListTile(
                 onTap: () {
                   Get.back();
-                  Get.to(MapsWidget());
+                  Get.to(() => MapsWidget());
                 },
                 leading: CircleAvatar(
                   backgroundColor: greenColor,
@@ -421,37 +422,42 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 25),
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      height: 222,
-                      width: 164,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(asset[index % 3]),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(PeelinngTraetmentPage());
+                      },
                       child: Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        height: 222,
+                        width: 164,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          gradient: LinearGradient(
-                            colors: [
-                              blackColor.withOpacity(0.5),
-                              Colors.transparent
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.center,
+                          image: DecorationImage(
+                            image: AssetImage(asset[index % 3]),
+                            fit: BoxFit.cover,
                           ),
+                          borderRadius: BorderRadius.circular(7),
                         ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 11),
-                            child: Text(
-                              stateTreatment.treatment[index].treatmentType,
-                              style: whiteTextStyle.copyWith(
-                                  fontSize: 18, fontWeight: bold),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            gradient: LinearGradient(
+                              colors: [
+                                blackColor.withOpacity(0.5),
+                                Colors.transparent
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.center,
+                            ),
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 11),
+                              child: Text(
+                                stateTreatment.treatment[index].treatmentType,
+                                style: whiteTextStyle.copyWith(
+                                    fontSize: 18, fontWeight: bold),
+                              ),
                             ),
                           ),
                         ),
@@ -502,12 +508,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NearMePage(),
-                            ),
-                          );
+                          Get.to(() => const NearMePage());
                         },
                         child: Container(
                           height: 75,
@@ -533,12 +534,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TrendingTreatment(),
-                        ),
-                      );
+                      Get.to(() => TrendingTreatment());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -568,12 +564,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TreatmentKlink(),
-                        ),
-                      );
+                      Get.to(() => TreatmentKlink());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -603,12 +594,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TopRatingTreatment(),
-                        ),
-                      );
+                      Get.to(() => TopRatingTreatment());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -662,11 +648,51 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         padding: EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: etalaseController.filterData.map((element) {
-                            return CirkelCategory(
-                              title: element.name!,
-                              img:
-                                  '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                          children: etalaseController.filterData
+                              .asMap()
+                              .entries
+                              .map((element) {
+                            return InkWell(
+                              onTap: () {
+                                if (element.key == 0) {
+                                  Get.to(() => EtalaseTreatMentPage());
+                                } else {}
+                              },
+                              child: element.key == 0
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/lainnya.png'),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            'Lihat Semua',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                blackRegulerTextStyle.copyWith(
+                                              fontSize: 12,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : CirkelCategory(
+                                      title: element.value.name ?? '-',
+                                      img:
+                                          '${Global.FILE}/${element.value.mediaConcern!.media!.path}',
+                                    ),
                             );
                           }).toList(),
                         ),
@@ -763,8 +789,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           urlImg: element.mediaTreatments!.isEmpty
                               ? ""
                               : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (120k)',
-                          km: '${element.distance}',
+                          rating: '${element.rating} (0k)',
+                          km: '${element.distance ?? '0'} km',
                           lokasiKlinik: element.clinic?.city?.name ?? '-',
                         );
                       }).toList(),

@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import '../../theme/theme.dart';
@@ -78,6 +78,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {
@@ -88,9 +89,6 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                 size: 24,
                 color: blackColor,
               ),
-            ),
-            const SizedBox(
-              width: 11,
             ),
             Expanded(
               child: Container(
@@ -304,7 +302,7 @@ class KonsultasiProduk extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(
-          () => DetailObatPage(
+          () => DetailDrugPage(
             drugId: drug.id!,
           ),
         );

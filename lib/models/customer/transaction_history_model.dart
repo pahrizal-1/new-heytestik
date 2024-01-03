@@ -82,27 +82,37 @@ class Detail {
   String? id;
   int? userId;
   int? totalPrice;
+  int? deliveryFee;
+  int? transactionFee;
+  int? tax;
   int? totalDiscount;
   int? totalPaid;
   int? paymentMethodId;
   String? orderId;
   String? paymentStatus;
   String? paymentExpiryTime;
+  dynamic paymentTime;
   String? vaNumber;
   String? billKey;
   String? billerCode;
   String? status;
+  String? orderStatus;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  PaymentMethod? paymentMethod;
   List<TransactionTreatmentItems>? transactionTreatmentItems;
   List<TransactionProductItems>? transactionProductItems;
+  ShippingProduct? shippingProduct;
   int? customerId;
   int? medicalHistoryId;
   int? duration;
   int? totalFee;
+  dynamic consultationInvoice;
+  Customer? customer;
+  MedicalHistory? medicalHistory;
   Consultation? consultation;
   ConsultationReview? consultationReview;
 
@@ -110,27 +120,37 @@ class Detail {
       {this.id,
       this.userId,
       this.totalPrice,
+      this.deliveryFee,
+      this.transactionFee,
+      this.tax,
       this.totalDiscount,
       this.totalPaid,
       this.paymentMethodId,
       this.orderId,
       this.paymentStatus,
       this.paymentExpiryTime,
+      this.paymentTime,
       this.vaNumber,
       this.billKey,
       this.billerCode,
       this.status,
+      this.orderStatus,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
+      this.paymentMethod,
       this.transactionTreatmentItems,
       this.transactionProductItems,
+      this.shippingProduct,
       this.customerId,
       this.medicalHistoryId,
       this.duration,
       this.totalFee,
+      this.consultationInvoice,
+      this.customer,
+      this.medicalHistory,
       this.consultation,
       this.consultationReview});
 
@@ -138,21 +158,29 @@ class Detail {
     id = json['id'];
     userId = json['user_id'];
     totalPrice = json['total_price'];
+    deliveryFee = json['delivery_fee'];
+    transactionFee = json['transaction_fee'];
+    tax = json['tax'];
     totalDiscount = json['total_discount'];
     totalPaid = json['total_paid'];
     paymentMethodId = json['payment_method_id'];
     orderId = json['order_id'];
     paymentStatus = json['payment_status'];
     paymentExpiryTime = json['payment_expiry_time'];
+    paymentTime = json['payment_time'];
     vaNumber = json['va_number'];
-    billKey = json['biller_key'];
+    billKey = json['bill_key'];
     billerCode = json['biller_code'];
     status = json['status'];
+    orderStatus = json['order_status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    paymentMethod = json['payment_method'] != null
+        ? PaymentMethod.fromJson(json['payment_method'])
+        : null;
     if (json['transaction_treatment_items'] != null) {
       transactionTreatmentItems = <TransactionTreatmentItems>[];
       json['transaction_treatment_items'].forEach((v) {
@@ -165,10 +193,19 @@ class Detail {
         transactionProductItems!.add(TransactionProductItems.fromJson(v));
       });
     }
+    shippingProduct = json['shipping_product'] != null
+        ? ShippingProduct.fromJson(json['shipping_product'])
+        : null;
     customerId = json['customer_id'];
     medicalHistoryId = json['medical_history_id'];
     duration = json['duration'];
     totalFee = json['total_fee'];
+    consultationInvoice = json['consultation_invoice'];
+    customer =
+        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
+    medicalHistory = json['medical_history'] != null
+        ? MedicalHistory.fromJson(json['medical_history'])
+        : null;
     consultation = json['consultation'] != null
         ? Consultation.fromJson(json['consultation'])
         : null;
@@ -182,18 +219,29 @@ class Detail {
     data['id'] = id;
     data['user_id'] = userId;
     data['total_price'] = totalPrice;
+    data['delivery_fee'] = deliveryFee;
+    data['transaction_fee'] = transactionFee;
+    data['tax'] = tax;
     data['total_discount'] = totalDiscount;
     data['total_paid'] = totalPaid;
     data['payment_method_id'] = paymentMethodId;
     data['order_id'] = orderId;
     data['payment_status'] = paymentStatus;
     data['payment_expiry_time'] = paymentExpiryTime;
+    data['payment_time'] = paymentTime;
+    data['va_number'] = vaNumber;
+    data['bill_key'] = billKey;
+    data['biller_code'] = billerCode;
     data['status'] = status;
+    data['order_status'] = orderStatus;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (paymentMethod != null) {
+      data['payment_method'] = paymentMethod!.toJson();
+    }
     if (transactionTreatmentItems != null) {
       data['transaction_treatment_items'] =
           transactionTreatmentItems!.map((v) => v.toJson()).toList();
@@ -202,10 +250,20 @@ class Detail {
       data['transaction_product_items'] =
           transactionProductItems!.map((v) => v.toJson()).toList();
     }
+    if (shippingProduct != null) {
+      data['shipping_product'] = shippingProduct!.toJson();
+    }
     data['customer_id'] = customerId;
     data['medical_history_id'] = medicalHistoryId;
     data['duration'] = duration;
     data['total_fee'] = totalFee;
+    data['consultation_invoice'] = consultationInvoice;
+    if (customer != null) {
+      data['customer'] = customer!.toJson();
+    }
+    if (medicalHistory != null) {
+      data['medical_history'] = medicalHistory!.toJson();
+    }
     if (consultation != null) {
       data['consultation'] = consultation!.toJson();
     }
@@ -710,6 +768,134 @@ class Clinic {
   }
 }
 
+class PaymentMethod {
+  int? id;
+  String? name;
+  String? method;
+  String? type;
+  String? transactionFee;
+  dynamic accountNumber;
+  String? segment;
+  String? description;
+  bool? isActive;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+  MediaPaymentMethod? mediaPaymentMethod;
+
+  PaymentMethod(
+      {this.id,
+      this.name,
+      this.method,
+      this.type,
+      this.transactionFee,
+      this.accountNumber,
+      this.segment,
+      this.description,
+      this.isActive,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.mediaPaymentMethod});
+
+  PaymentMethod.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    method = json['method'];
+    type = json['type'];
+    transactionFee = json['transaction_fee'];
+    accountNumber = json['account_number'];
+    segment = json['segment'];
+    description = json['description'];
+    isActive = json['is_active'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    mediaPaymentMethod = json['media_payment_method'] != null
+        ? MediaPaymentMethod.fromJson(json['media_payment_method'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['method'] = method;
+    data['type'] = type;
+    data['transaction_fee'] = transactionFee;
+    data['account_number'] = accountNumber;
+    data['segment'] = segment;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (mediaPaymentMethod != null) {
+      data['media_payment_method'] = mediaPaymentMethod!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaPaymentMethod {
+  int? id;
+  int? mediaId;
+  int? paymentMethodId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaPaymentMethod(
+      {this.id,
+      this.mediaId,
+      this.paymentMethodId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaPaymentMethod.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    paymentMethodId = json['payment_method_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['payment_method_id'] = paymentMethodId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
+    return data;
+  }
+}
+
 class TransactionProductItems {
   int? id;
   String? transactionProductId;
@@ -802,6 +988,9 @@ class Product {
   double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
+  String? shippingProductSizeLengthType;
+  String? shippingProductSizeWidthType;
+  String? shippingProductSizeHeightType;
   int? shippingProductSizeLength;
   int? shippingProductSizeWidth;
   int? shippingProductSizeHeight;
@@ -831,6 +1020,9 @@ class Product {
       this.rating,
       this.shippingProductWeight,
       this.shippingProductWeightType,
+      this.shippingProductSizeLengthType,
+      this.shippingProductSizeWidthType,
+      this.shippingProductSizeHeightType,
       this.shippingProductSizeLength,
       this.shippingProductSizeWidth,
       this.shippingProductSizeHeight,
@@ -860,6 +1052,9 @@ class Product {
     rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
+    shippingProductSizeLengthType = json['shipping_product_size_length_type'];
+    shippingProductSizeWidthType = json['shipping_product_size_width_type'];
+    shippingProductSizeHeightType = json['shipping_product_size_height_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
     shippingProductSizeWidth = json['shipping_product_size_width'];
     shippingProductSizeHeight = json['shipping_product_size_height'];
@@ -898,6 +1093,9 @@ class Product {
     data['rating'] = rating;
     data['shipping_product_weight'] = shippingProductWeight;
     data['shipping_product_weight_type'] = shippingProductWeightType;
+    data['shipping_product_size_length_type'] = shippingProductSizeLengthType;
+    data['shipping_product_size_width_type'] = shippingProductSizeWidthType;
+    data['shipping_product_size_height_type'] = shippingProductSizeHeightType;
     data['shipping_product_size_length'] = shippingProductSizeLength;
     data['shipping_product_size_width'] = shippingProductSizeWidth;
     data['shipping_product_size_height'] = shippingProductSizeHeight;
@@ -1143,6 +1341,635 @@ class ProductReview {
   }
 }
 
+class ShippingProduct {
+  int? id;
+  int? userId;
+  String? transactionProductId;
+  int? shippingMethodId;
+  int? shipperId;
+  String? recipientName;
+  String? recipientPhone;
+  String? recipientLatitude;
+  String? recipientLongitude;
+  String? recipientProvince;
+  String? recipientCity;
+  String? recipientSubdistrict;
+  String? recipientZipCode;
+  String? recipientAddress;
+  String? recipientNote;
+  int? deliveryFee;
+  String? deliveryStatus;
+  String? waybill;
+  String? podReceiver;
+  String? podUrl;
+  dynamic driverId;
+  dynamic driverName;
+  dynamic driverPhone;
+  dynamic driverPhoto;
+  dynamic driverVehicleNumber;
+  dynamic cancelledBy;
+  dynamic cancelledReason;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Shipper? shipper;
+  ShippingMethod? shippingMethod;
+
+  ShippingProduct(
+      {this.id,
+      this.userId,
+      this.transactionProductId,
+      this.shippingMethodId,
+      this.shipperId,
+      this.recipientName,
+      this.recipientPhone,
+      this.recipientLatitude,
+      this.recipientLongitude,
+      this.recipientProvince,
+      this.recipientCity,
+      this.recipientSubdistrict,
+      this.recipientZipCode,
+      this.recipientAddress,
+      this.recipientNote,
+      this.deliveryFee,
+      this.deliveryStatus,
+      this.waybill,
+      this.podReceiver,
+      this.podUrl,
+      this.driverId,
+      this.driverName,
+      this.driverPhone,
+      this.driverPhoto,
+      this.driverVehicleNumber,
+      this.cancelledBy,
+      this.cancelledReason,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.shipper,
+      this.shippingMethod});
+
+  ShippingProduct.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    transactionProductId = json['transaction_product_id'];
+    shippingMethodId = json['shipping_method_id'];
+    shipperId = json['shipper_id'];
+    recipientName = json['recipient_name'];
+    recipientPhone = json['recipient_phone'];
+    recipientLatitude = json['recipient_latitude'];
+    recipientLongitude = json['recipient_longitude'];
+    recipientProvince = json['recipient_province'];
+    recipientCity = json['recipient_city'];
+    recipientSubdistrict = json['recipient_subdistrict'];
+    recipientZipCode = json['recipient_zip_code'];
+    recipientAddress = json['recipient_address'];
+    recipientNote = json['recipient_note'];
+    deliveryFee = json['delivery_fee'];
+    deliveryStatus = json['delivery_status'];
+    waybill = json['waybill'];
+    podReceiver = json['pod_receiver'];
+    podUrl = json['pod_url'];
+    driverId = json['driver_id'];
+    driverName = json['driver_name'];
+    driverPhone = json['driver_phone'];
+    driverPhoto = json['driver_photo'];
+    driverVehicleNumber = json['driver_vehicle_number'];
+    cancelledBy = json['cancelled_by'];
+    cancelledReason = json['cancelled_reason'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    shipper =
+        json['shipper'] != null ? Shipper.fromJson(json['shipper']) : null;
+    shippingMethod = json['shipping_method'] != null
+        ? ShippingMethod.fromJson(json['shipping_method'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['transaction_product_id'] = transactionProductId;
+    data['shipping_method_id'] = shippingMethodId;
+    data['shipper_id'] = shipperId;
+    data['recipient_name'] = recipientName;
+    data['recipient_phone'] = recipientPhone;
+    data['recipient_latitude'] = recipientLatitude;
+    data['recipient_longitude'] = recipientLongitude;
+    data['recipient_province'] = recipientProvince;
+    data['recipient_city'] = recipientCity;
+    data['recipient_subdistrict'] = recipientSubdistrict;
+    data['recipient_zip_code'] = recipientZipCode;
+    data['recipient_address'] = recipientAddress;
+    data['recipient_note'] = recipientNote;
+    data['delivery_fee'] = deliveryFee;
+    data['delivery_status'] = deliveryStatus;
+    data['waybill'] = waybill;
+    data['pod_receiver'] = podReceiver;
+    data['pod_url'] = podUrl;
+    data['driver_id'] = driverId;
+    data['driver_name'] = driverName;
+    data['driver_phone'] = driverPhone;
+    data['driver_photo'] = driverPhoto;
+    data['driver_vehicle_number'] = driverVehicleNumber;
+    data['cancelled_by'] = cancelledBy;
+    data['cancelled_reason'] = cancelledReason;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (shipper != null) {
+      data['shipper'] = shipper!.toJson();
+    }
+    if (shippingMethod != null) {
+      data['shipping_method'] = shippingMethod!.toJson();
+    }
+    return data;
+  }
+}
+
+class Shipper {
+  int? id;
+  String? name;
+  String? phone;
+  String? email;
+  String? latitude;
+  String? longitude;
+  String? province;
+  String? city;
+  String? subdistrict;
+  String? zipCode;
+  String? address;
+  String? originCode;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Shipper(
+      {this.id,
+      this.name,
+      this.phone,
+      this.email,
+      this.latitude,
+      this.longitude,
+      this.province,
+      this.city,
+      this.subdistrict,
+      this.zipCode,
+      this.address,
+      this.originCode,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Shipper.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    phone = json['phone'];
+    email = json['email'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    province = json['province'];
+    city = json['city'];
+    subdistrict = json['subdistrict'];
+    zipCode = json['zip_code'];
+    address = json['address'];
+    originCode = json['origin_code'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['province'] = province;
+    data['city'] = city;
+    data['subdistrict'] = subdistrict;
+    data['zip_code'] = zipCode;
+    data['address'] = address;
+    data['origin_code'] = originCode;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class ShippingMethod {
+  int? id;
+  String? name;
+  String? provider;
+  String? description;
+  String? type;
+  String? providerServiceCode;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  ShippingMethod(
+      {this.id,
+      this.name,
+      this.provider,
+      this.description,
+      this.type,
+      this.providerServiceCode,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  ShippingMethod.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    provider = json['provider'];
+    description = json['description'];
+    type = json['type'];
+    providerServiceCode = json['provider_service_code'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['provider'] = provider;
+    data['description'] = description;
+    data['type'] = type;
+    data['provider_service_code'] = providerServiceCode;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class Customer {
+  int? id;
+  String? fullname;
+  String? username;
+  String? email;
+  String? password;
+  String? noPhone;
+  String? gender;
+  String? address;
+  String? photoProfile;
+  String? referralCode;
+  dynamic userCode;
+  int? roleId;
+  dynamic verificationCodePhone;
+  dynamic verificationCodeEmail;
+  dynamic provinceId;
+  dynamic cityId;
+  dynamic dob;
+  dynamic bio;
+  bool? finishRegister;
+  String? verifiedEmailAt;
+  String? verifiedPhoneAt;
+  dynamic verifiedAccountAt;
+  dynamic education;
+  dynamic practiceLocation;
+  dynamic joinDate;
+  dynamic title;
+  dynamic sip;
+  dynamic str;
+  dynamic ktpNo;
+  dynamic ktpImage;
+  dynamic npwpNo;
+  dynamic npwpImage;
+  dynamic specialist;
+  int? rating;
+  dynamic statusSchedule;
+  dynamic since;
+  dynamic start;
+  dynamic until;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  dynamic refreshToken;
+
+  Customer(
+      {this.id,
+      this.fullname,
+      this.username,
+      this.email,
+      this.password,
+      this.noPhone,
+      this.gender,
+      this.address,
+      this.photoProfile,
+      this.referralCode,
+      this.userCode,
+      this.roleId,
+      this.verificationCodePhone,
+      this.verificationCodeEmail,
+      this.provinceId,
+      this.cityId,
+      this.dob,
+      this.bio,
+      this.finishRegister,
+      this.verifiedEmailAt,
+      this.verifiedPhoneAt,
+      this.verifiedAccountAt,
+      this.education,
+      this.practiceLocation,
+      this.joinDate,
+      this.title,
+      this.sip,
+      this.str,
+      this.ktpNo,
+      this.ktpImage,
+      this.npwpNo,
+      this.npwpImage,
+      this.specialist,
+      this.rating,
+      this.statusSchedule,
+      this.since,
+      this.start,
+      this.until,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.refreshToken});
+
+  Customer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullname = json['fullname'];
+    username = json['username'];
+    email = json['email'];
+    password = json['password'];
+    noPhone = json['no_phone'];
+    gender = json['gender'];
+    address = json['address'];
+    photoProfile = json['photo_profile'];
+    referralCode = json['referral_code'];
+    userCode = json['user_code'];
+    roleId = json['roleId'];
+    verificationCodePhone = json['verification_code_phone'];
+    verificationCodeEmail = json['verification_code_email'];
+    provinceId = json['provinceId'];
+    cityId = json['cityId'];
+    dob = json['dob'];
+    bio = json['bio'];
+    finishRegister = json['finish_register'];
+    verifiedEmailAt = json['verified_email_at'];
+    verifiedPhoneAt = json['verified_phone_at'];
+    verifiedAccountAt = json['verified_account_at'];
+    education = json['education'];
+    practiceLocation = json['practice_location'];
+    joinDate = json['join_date'];
+    title = json['title'];
+    sip = json['sip'];
+    str = json['str'];
+    ktpNo = json['ktp_no'];
+    ktpImage = json['ktp_image'];
+    npwpNo = json['npwp_no'];
+    npwpImage = json['npwp_image'];
+    specialist = json['specialist'];
+    rating = json['rating'];
+    statusSchedule = json['status_schedule'];
+    since = json['since'];
+    start = json['start'];
+    until = json['until'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    refreshToken = json['refresh_token'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['username'] = username;
+    data['email'] = email;
+    data['password'] = password;
+    data['no_phone'] = noPhone;
+    data['gender'] = gender;
+    data['address'] = address;
+    data['photo_profile'] = photoProfile;
+    data['referral_code'] = referralCode;
+    data['user_code'] = userCode;
+    data['roleId'] = roleId;
+    data['verification_code_phone'] = verificationCodePhone;
+    data['verification_code_email'] = verificationCodeEmail;
+    data['provinceId'] = provinceId;
+    data['cityId'] = cityId;
+    data['dob'] = dob;
+    data['bio'] = bio;
+    data['finish_register'] = finishRegister;
+    data['verified_email_at'] = verifiedEmailAt;
+    data['verified_phone_at'] = verifiedPhoneAt;
+    data['verified_account_at'] = verifiedAccountAt;
+    data['education'] = education;
+    data['practice_location'] = practiceLocation;
+    data['join_date'] = joinDate;
+    data['title'] = title;
+    data['sip'] = sip;
+    data['str'] = str;
+    data['ktp_no'] = ktpNo;
+    data['ktp_image'] = ktpImage;
+    data['npwp_no'] = npwpNo;
+    data['npwp_image'] = npwpImage;
+    data['specialist'] = specialist;
+    data['rating'] = rating;
+    data['status_schedule'] = statusSchedule;
+    data['since'] = since;
+    data['start'] = start;
+    data['until'] = until;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['refresh_token'] = refreshToken;
+    return data;
+  }
+}
+
+class MedicalHistory {
+  int? id;
+  int? customerId;
+  int? interestConditionId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  InterestCondition? interestCondition;
+
+  MedicalHistory(
+      {this.id,
+      this.customerId,
+      this.interestConditionId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.interestCondition});
+
+  MedicalHistory.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    interestConditionId = json['interest_condition_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    interestCondition = json['interest_condition'] != null
+        ? InterestCondition.fromJson(json['interest_condition'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['interest_condition_id'] = interestConditionId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (interestCondition != null) {
+      data['interest_condition'] = interestCondition!.toJson();
+    }
+    return data;
+  }
+}
+
+class InterestCondition {
+  int? id;
+  int? concernId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Concern? concern;
+
+  InterestCondition(
+      {this.id,
+      this.concernId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.concern});
+
+  InterestCondition.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    concernId = json['concern_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    concern =
+        json['concern'] != null ? Concern.fromJson(json['concern']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['concern_id'] = concernId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (this.concern != null) {
+      data['concern'] = this.concern!.toJson();
+    }
+    return data;
+  }
+}
+
+class Concern {
+  int? id;
+  String? name;
+  String? segment;
+  bool? isActive;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Concern(
+      {this.id,
+      this.name,
+      this.segment,
+      this.isActive,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Concern.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    segment = json['segment'];
+    isActive = json['is_active'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['segment'] = segment;
+    data['is_active'] = isActive;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
 class Consultation {
   int? id;
   int? doctorId;
@@ -1247,6 +2074,12 @@ class Doctor {
   dynamic verificationCodeEmail;
   dynamic provinceId;
   dynamic cityId;
+  dynamic dob;
+  dynamic bio;
+  bool? finishRegister;
+  String? verifiedEmailAt;
+  String? verifiedPhoneAt;
+  dynamic verifiedAccountAt;
   dynamic education;
   dynamic practiceLocation;
   dynamic joinDate;
@@ -1258,9 +2091,7 @@ class Doctor {
   dynamic npwpNo;
   dynamic npwpImage;
   dynamic specialist;
-  dynamic dob;
   double? rating;
-  bool? finishRegister;
   dynamic statusSchedule;
   dynamic since;
   dynamic start;
@@ -1289,6 +2120,12 @@ class Doctor {
       this.verificationCodeEmail,
       this.provinceId,
       this.cityId,
+      this.dob,
+      this.bio,
+      this.finishRegister,
+      this.verifiedEmailAt,
+      this.verifiedPhoneAt,
+      this.verifiedAccountAt,
       this.education,
       this.practiceLocation,
       this.joinDate,
@@ -1300,9 +2137,7 @@ class Doctor {
       this.npwpNo,
       this.npwpImage,
       this.specialist,
-      this.dob,
       this.rating,
-      this.finishRegister,
       this.statusSchedule,
       this.since,
       this.start,
@@ -1331,6 +2166,12 @@ class Doctor {
     verificationCodeEmail = json['verification_code_email'];
     provinceId = json['provinceId'];
     cityId = json['cityId'];
+    dob = json['dob'];
+    bio = json['bio'];
+    finishRegister = json['finish_register'];
+    verifiedEmailAt = json['verified_email_at'];
+    verifiedPhoneAt = json['verified_phone_at'];
+    verifiedAccountAt = json['verified_account_at'];
     education = json['education'];
     practiceLocation = json['practice_location'];
     joinDate = json['join_date'];
@@ -1342,9 +2183,7 @@ class Doctor {
     npwpNo = json['npwp_no'];
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
-    dob = json['dob'];
     rating = double.parse(json['rating'].toString());
-    finishRegister = json['finish_register'];
     statusSchedule = json['status_schedule'];
     since = json['since'];
     start = json['start'];
@@ -1377,6 +2216,12 @@ class Doctor {
     data['verification_code_email'] = verificationCodeEmail;
     data['provinceId'] = provinceId;
     data['cityId'] = cityId;
+    data['dob'] = dob;
+    data['bio'] = bio;
+    data['finish_register'] = finishRegister;
+    data['verified_email_at'] = verifiedEmailAt;
+    data['verified_phone_at'] = verifiedPhoneAt;
+    data['verified_account_at'] = verifiedAccountAt;
     data['education'] = education;
     data['practice_location'] = practiceLocation;
     data['join_date'] = joinDate;
@@ -1388,9 +2233,7 @@ class Doctor {
     data['npwp_no'] = npwpNo;
     data['npwp_image'] = npwpImage;
     data['specialist'] = specialist;
-    data['dob'] = dob;
     data['rating'] = rating;
-    data['finish_register'] = finishRegister;
     data['status_schedule'] = statusSchedule;
     data['since'] = since;
     data['start'] = start;
@@ -1454,104 +2297,6 @@ class MediaUserProfilePicture {
     if (media != null) {
       data['media'] = media!.toJson();
     }
-    return data;
-  }
-}
-
-class MedicalHistory {
-  int? id;
-  int? customerId;
-  int? interestConditionId;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  InterestCondition? interestCondition;
-
-  MedicalHistory(
-      {this.id,
-      this.customerId,
-      this.interestConditionId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.interestCondition});
-
-  MedicalHistory.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customer_id'];
-    interestConditionId = json['interest_condition_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    interestCondition = json['interest_condition'] != null
-        ? InterestCondition.fromJson(json['interest_condition'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['customer_id'] = customerId;
-    data['interest_condition_id'] = interestConditionId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (interestCondition != null) {
-      data['interest_condition'] = interestCondition!.toJson();
-    }
-    return data;
-  }
-}
-
-class InterestCondition {
-  int? id;
-  int? interestConditionsCategoryId;
-  String? name;
-  dynamic createdBy;
-  dynamic updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-
-  InterestCondition(
-      {this.id,
-      this.interestConditionsCategoryId,
-      this.name,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
-  InterestCondition.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    interestConditionsCategoryId = json['interest_conditions_category_id'];
-    name = json['name'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['interest_conditions_category_id'] = interestConditionsCategoryId;
-    data['name'] = name;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
     return data;
   }
 }

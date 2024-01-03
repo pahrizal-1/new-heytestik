@@ -1,10 +1,11 @@
 // ignore_for_file: use_build_context_synchronously, library_prefixes, invalid_use_of_protected_member
 
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_transaksi_produk_model.dart';
+import 'package:heystetik_mobileapps/models/customer/tracking_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart'
@@ -17,6 +18,9 @@ class HistoryTransactionController extends StateClass {
   RxList<Data2> dataHistoryPending = List<Data2>.empty(growable: true).obs;
   Rx<ByID.PaymentMethodByIdModel> paymentMethod =
       ByID.PaymentMethodByIdModel.fromJson({}).obs;
+  Rx<DetailTransaksiProdukModel> detailTransaksiProd =
+      DetailTransaksiProdukModel().obs;
+  Rx<TrackingProductModel> trackingProd = TrackingProductModel().obs;
 
   Future<ByID.Data?> getPaymentmethod(BuildContext context, int id) async {
     isLoading.value = true;
@@ -61,10 +65,33 @@ class HistoryTransactionController extends StateClass {
           dataHistoryPending.value.add(responseHistory.value.data!.data![i]);
         }
       }
-      print("dataHistoryPending ${dataHistoryPending.value.length}");
     });
     isLoading.value = false;
 
     return dataHistoryPending;
+  }
+
+  Future<void> detailTransaksiProduk(
+    BuildContext context,
+    String transactionId,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      detailTransaksiProd.value =
+          await TransactionService().detailTransaksiProduk(transactionId);
+    });
+    isLoading.value = false;
+  }
+
+  Future<void> trackingProduct(
+    BuildContext context,
+    String transactionId,
+  ) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      trackingProd.value =
+          await TransactionService().trackingProduct(transactionId);
+    });
+    isLoading.value = false;
   }
 }

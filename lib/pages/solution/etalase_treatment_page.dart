@@ -3,6 +3,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import '../../theme/theme.dart';
@@ -20,13 +21,9 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      get(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await state.getConcern(context);
     });
-  }
-
-  get(BuildContext context) async {
-    await state.getConcern(context);
   }
 
   @override
@@ -190,108 +187,13 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                               return EtalaseTreatmentPage(
                                 interestConditionId: element.id,
                                 title: element.name.toString(),
-                                img: 'assets/images/pelkhitam.png',
+                                img:
+                                    '${Global.FILE}/${element.mediaConcern!.media!.path}',
                               );
                             },
                           ),
                         ),
                 ),
-                // Text(
-                //   'Korektif Wajah',
-                //   style: blackHigtTextStyle.copyWith(fontSize: 18),
-                // ),
-                // const SizedBox(
-                //   height: 18,
-                // ),
-                // InkWell(
-                //   onTap: () {
-                //     // Navigator.push(
-                //     //   context,
-                //     //   MaterialPageRoute(
-                //     //     builder: (context) => ChatPage(id: id),
-                //     //   ),
-                //     // );
-                //   },
-                //   child: Column(
-                //     children: [
-                //       Row(
-                //         children: [
-                //           Container(
-                //             height: 47,
-                //             width: 60,
-                //             decoration: const BoxDecoration(
-                //               color: Color(0xffD9D9D9),
-                //               shape: BoxShape.circle,
-                //               image: DecorationImage(
-                //                 image: AssetImage(
-                //                   'assets/images/pelkhitam.png',
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //           const SizedBox(
-                //             width: 13,
-                //           ),
-                //           Text(
-                //             'Bekas Flek Hitam & Melasma',
-                //             style: blackTextStyle,
-                //           ),
-                //         ],
-                //       ),
-                //       Divider(
-                //         color: greyColor,
-                //         thickness: 0.5,
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Text(
-                //   'Korektif Tubuh',
-                //   style: blackHigtTextStyle.copyWith(fontSize: 18),
-                // ),
-                // const SizedBox(
-                //   height: 18,
-                // ),
-                // Column(
-                //   children: [
-                //     InkWell(
-                //       onTap: () {
-                //         Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => const PencarianPage()));
-                //       },
-                //       child: Row(
-                //         children: [
-                //           Container(
-                //             height: 47,
-                //             width: 60,
-                //             decoration: const BoxDecoration(
-                //               color: Color(0xffD9D9D9),
-                //               shape: BoxShape.circle,
-                //               image: DecorationImage(
-                //                 image: AssetImage(
-                //                   'assets/images/pelkhitam.png',
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //           const SizedBox(
-                //             width: 13,
-                //           ),
-                //           Text(
-                //             'Lemak Membandel',
-                //             style: blackTextStyle,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     Divider(
-                //       color: greyColor,
-                //       thickness: 0.5,
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -332,7 +234,7 @@ class EtalaseTreatmentPage extends StatelessWidget {
                     color: const Color(0xffD9D9D9),
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                         img,
                       ),
                     ),

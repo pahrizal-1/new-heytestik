@@ -33,7 +33,7 @@ class CardTreatment extends StatelessWidget {
                     // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(
-                    //         builder: (context) => DetailKlnikPage(id: ,)));
+                    //         builder: (context) => DetailKlinikPage(id: ,)));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,8 +9,8 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_search.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -25,14 +25,14 @@ import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
     as Concern;
 
-class ObatSolutionsPage extends StatefulWidget {
-  const ObatSolutionsPage({super.key});
+class DrugSolutionsPage extends StatefulWidget {
+  const DrugSolutionsPage({super.key});
 
   @override
-  State<ObatSolutionsPage> createState() => _ObatSolutionsPageState();
+  State<DrugSolutionsPage> createState() => _DrugSolutionsPageState();
 }
 
-class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
+class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final DrugController state = Get.put(DrugController());
@@ -174,7 +174,7 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ObatSearch(
+                          builder: (context) => DrugSearch(
                             search: searchController.text,
                           ),
                         ),
@@ -203,58 +203,55 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            drugRecipe.isEmpty
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 21,
-                        ),
-                        Text(
-                          'Obat Resep buat kamu 💊',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18),
-                        ),
-                        Text(
-                          'Obat yang sudah diresepkan oleh Dokter',
-                          style: subGreyTextStyle.copyWith(
-                            fontSize: 14,
-                            color: const Color(0xFF9B9B9B),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                      ],
+            if (drugRecipe.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 21,
                     ),
-                  ),
-            drugRecipe.isEmpty
-                ? Container()
-                : SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20, left: 25),
-                      child: Row(
-                        children: drugRecipe.map((e) {
-                          return ProdukObat(
-                            productId: e.product!.id!.toInt(),
-                            namaBrand: e.product?.name ?? '-',
-                            harga: CurrencyFormat.convertToIdr(
-                                e.product?.price, 0),
-                            urlImg:
-                                '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
-                            duedate:
-                                ConvertDate.defaultDate(e.dueDate.toString()),
-                          );
-                        }).toList(),
+                    Text(
+                      'Obat Resep buat kamu 💊',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
+                    ),
+                    Text(
+                      'Obat yang sudah diresepkan oleh Dokter',
+                      style: subGreyTextStyle.copyWith(
+                        fontSize: 14,
+                        color: const Color(0xFF9B9B9B),
                       ),
                     ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              ),
+            if (drugRecipe.isNotEmpty)
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 20, left: 25),
+                  child: Row(
+                    children: drugRecipe.map((e) {
+                      return ProdukObat(
+                        productId: e.product!.id!.toInt(),
+                        namaBrand: e.product?.name ?? '-',
+                        harga: CurrencyFormat.convertToIdr(e.product?.price, 0),
+                        urlImg:
+                            '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                        duedate: ConvertDate.defaultDate(e.dueDate.toString()),
+                      );
+                    }).toList(),
                   ),
-            const SizedBox(
-              height: 25,
-            ),
+                ),
+              ),
+            if (drugRecipe.isNotEmpty)
+              const SizedBox(
+                height: 25,
+              ),
             StickyHeader(
               header: Container(
                 color: const Color(0xFFFFFFFF),
@@ -293,9 +290,9 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                           children: etalaseController.filterData.map((element) {
                             return InkWell(
                               onTap: () {
-                                Get.to(ConcernObatPage(
-                                  idConcern: element.id!.toInt(),
-                                ));
+                                Get.to(() => ConcernObatPage(
+                                      idConcern: element.id!.toInt(),
+                                    ));
                               },
                               child: CirkelCategory(
                                 title: element.name ?? "-",
@@ -364,29 +361,29 @@ class _ObatSolutionsPageState extends State<ObatSolutionsPage> {
                                     width: 78,
                                   ),
                                 ),
-                                // const SizedBox(
-                                //   width: 5,
-                                // ),
-                                // Container(
-                                //   height: 30,
-                                //   margin: const EdgeInsets.only(right: 5),
-                                //   padding: const EdgeInsets.only(left: 11.5),
-                                //   decoration: BoxDecoration(
-                                //     border: Border.all(color: borderColor),
-                                //     borderRadius: BorderRadius.circular(7),
-                                //   ),
-                                //   child: Row(
-                                //     children: [
-                                //       Text(
-                                //         'Etalase Obat',
-                                //         style: blackRegulerTextStyle.copyWith(
-                                //           fontSize: 15,
-                                //         ),
-                                //       ),
-                                //       const Icon(Icons.keyboard_arrow_down)
-                                //     ],
-                                //   ),
-                                // )
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                  height: 30,
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.only(left: 11.5),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: borderColor),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Etalase Obat',
+                                        style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Icon(Icons.keyboard_arrow_down)
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -431,7 +428,7 @@ class KonsultasiProduk extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(
-          () => DetailObatPage(
+          () => DetailDrugPage(
             drugId: drug.id!,
           ),
         );
@@ -476,7 +473,7 @@ class KonsultasiProduk extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(drug.price, 2),
+                    CurrencyFormat.convertToIdr(drug.price ?? 0, 2),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(
@@ -502,46 +499,48 @@ class KonsultasiProduk extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  drug.consultationRecipeDrugs!.isNotEmpty
-                      ? Container(
-                          height: 30,
-                          child: TextButton(
-                            onPressed: () {
-                              state.addDrugToCart(
-                                context,
-                                drug.id!,
-                              );
-                              SnackbarWidget.getSuccessSnackbar(
-                                context,
-                                'Info',
-                                'Produk ditambahkan ke keranjang',
-                              );
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: greenColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '+ Keranjang',
-                                style: whiteTextStyle.copyWith(fontSize: 12),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 6),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: greenColor),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Text(
-                            'Harus Dengan Resep Dokter',
-                            style: grenTextStyle.copyWith(fontSize: 10),
+                  if (drug.consultationRecipeDrugs?.isNotEmpty ??
+                      drug.consultationRecipeDrugs != null)
+                    Container(
+                      height: 30,
+                      child: TextButton(
+                        onPressed: () {
+                          state.addDrugToCart(
+                            context,
+                            drug.id!,
+                          );
+                          SnackbarWidget.getSuccessSnackbar(
+                            context,
+                            'Info',
+                            'Produk ditambahkan ke keranjang',
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: greenColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
+                        child: Center(
+                          child: Text(
+                            '+ Keranjang',
+                            style: whiteTextStyle.copyWith(fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 6),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greenColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Text(
+                        'Harus Dengan Resep Dokter',
+                        style: grenTextStyle.copyWith(fontSize: 10),
+                      ),
+                    ),
                 ],
               ),
             ),

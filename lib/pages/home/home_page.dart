@@ -270,10 +270,10 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         return InkWell(
                           onTap: () {
                             if (index == 9) {
-                              Get.to(SelectConditionsPage());
+                              Get.to(()=>SelectConditionsPage());
                             } else {
                               Get.to(
-                                ChatPage(
+                               ()=> ChatPage(
                                   interestConditionId:
                                       stateConcern.filterData[index].id,
                                   title: stateConcern

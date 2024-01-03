@@ -19,13 +19,10 @@ class DrugController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
   CartController state = CartController();
 
-  List<Data2> data = [];
-
   Rx<Overview.Data> overviewMedicine = Overview.Data.fromJson({}).obs;
   RxList<ProductReviewModel.Data2> productReview =
       List<ProductReviewModel.Data2>.empty().obs;
 
-  // RxBool isLoadingOverviewDrug = false.obs;
   RxBool isLoadingProductReviewMedicine = false.obs;
   RxBool isLoadingDetailDrug = false.obs;
 
@@ -55,7 +52,18 @@ class DrugController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       drugRecipe.value = await SolutionService().getDrugRecipe(page);
-      data = drugRecipe.value!.data!.data!;
+    });
+    isLoading.value = false;
+    return drugRecipe.value!.data!.data!;
+  }
+
+  Future<List<Drug.Data2>> drugRecomendation(
+      BuildContext context, int page, int id) async {
+    isLoading.value = true;
+    List<Drug.Data2> data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().drugRecomendation(page, id);
+      data = res.data!.data!;
     });
     isLoading.value = false;
     return data;
@@ -88,7 +96,6 @@ class DrugController extends StateClass {
   }
 
   getOverviewProduct(BuildContext context, int id) async {
-    // isLoadingOverviewDrug.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().getOverviewProduct(id);
 
@@ -100,7 +107,6 @@ class DrugController extends StateClass {
       }
       overviewMedicine.value = res.data!;
     });
-    // isLoadingOverviewDrug.value = false;
   }
 
   Future<List<ProductReviewModel.Data2>> getReviewProduct(

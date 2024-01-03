@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +8,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -190,14 +189,14 @@ class _KeranjangPageState extends State<KeranjangPage> {
                         return InkWell(
                           onTap: () {
                             if (cart[i].product?.type == 'SKINCARE') {
-                              Get.to(DetailSkinCarePage(
-                                productId: cart[i].productId!.toInt(),
-                              ));
+                              Get.to(() => DetailSkinCarePage(
+                                    productId: cart[i].productId!.toInt(),
+                                  ));
                             }
 
                             if (cart[i].product?.type == 'DRUGS') {
                               Get.to(
-                                () => DetailObatPage(
+                                () => DetailDrugPage(
                                   drugId: cart[i].product!.id!,
                                 ),
                               );
@@ -256,7 +255,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                               child: Produkheight(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
-                                namaProduk: e.name.toString(),
+                                namaProduk: ' e.name.toString()',
                                 diskonProduk: '20',
                                 hargaDiskon:
                                     CurrencyFormat.convertToIdr(e.price, 0),

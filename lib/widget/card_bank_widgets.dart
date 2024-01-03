@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
@@ -89,7 +88,12 @@ class CardTreatmentBank extends StatelessWidget {
                             children: [
                               Text(
                                 element.name ?? '-',
-                                style: blackTextStyle.copyWith(fontSize: 15),
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: element.isActive!
+                                      ? blackColor
+                                      : greyColor,
+                                ),
                               ),
                               Text(
                                 element.isActive!
@@ -320,7 +324,12 @@ class CardKonsultasiBank extends StatelessWidget {
                             children: [
                               Text(
                                 element.name ?? '-',
-                                style: blackTextStyle.copyWith(fontSize: 15),
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: element.isActive!
+                                      ? blackColor
+                                      : greyColor,
+                                ),
                               ),
                               Text(
                                 element.isActive!
