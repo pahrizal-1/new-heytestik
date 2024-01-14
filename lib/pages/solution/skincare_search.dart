@@ -68,6 +68,7 @@ class _SkincareSearchState extends State<SkincareSearch> {
         title: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
@@ -78,9 +79,6 @@ class _SkincareSearchState extends State<SkincareSearch> {
                   size: 24,
                   color: blackColor,
                 ),
-              ),
-              const SizedBox(
-                width: 7,
               ),
               Expanded(
                 child: Container(

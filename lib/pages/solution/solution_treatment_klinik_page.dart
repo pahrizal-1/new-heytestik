@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_klink_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
@@ -81,7 +81,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                       width: 11,
                     ),
                     Text(
-                      'Klink',
+                      'Klinik',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     const Spacer(),
@@ -100,6 +100,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -111,64 +112,58 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         color: blackColor,
                       ),
                     ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: Color(0xffF1F1F1),
-                          border: Border.all(
-                            color: fromCssColor("#CCCCCC"),
-                          ),
-                          borderRadius: BorderRadius.circular(7),
+                    Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Color(0xffF1F1F1),
+                        border: Border.all(
+                          color: fromCssColor("#CCCCCC"),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Image.asset(
-                                'assets/icons/search1.png',
-                                width: 10,
-                              ),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
                             ),
-                            Container(
-                              transform: Matrix4.translationValues(0, -2, 0),
-                              constraints: const BoxConstraints(maxWidth: 250),
-                              child: TextFormField(
-                                controller: searchController,
-                                style: const TextStyle(
-                                  fontSize: 15,
+                            child: Image.asset(
+                              'assets/icons/search1.png',
+                              width: 10,
+                            ),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(0, -2, 0),
+                            constraints: const BoxConstraints(maxWidth: 250),
+                            child: TextFormField(
+                              controller: searchController,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: "ProximaNova",
+                              ),
+                              onEditingComplete: () async {
+                                page = 1;
+                                search = searchController.text;
+                                clinics.clear();
+                                clinics.addAll(await stateTreatment
+                                    .getClinic(context, page, search: search));
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Cari Klinik",
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
                                   fontFamily: "ProximaNova",
-                                ),
-                                onEditingComplete: () async {
-                                  page = 1;
-                                  search = searchController.text;
-                                  clinics.clear();
-                                  clinics.addAll(await stateTreatment.getClinic(
-                                      context, page,
-                                      search: search));
-                                  setState(() {});
-                                },
-                                decoration: InputDecoration(
-                                  hintText: "Cari Klinik",
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -362,13 +357,13 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Get.to(DetailKlnikPage(
-                id: clinics[index].id,
-              ));
+              Get.to(() => DetailKlinikPage(
+                    clinicId: clinics[index].id,
+                  ));
             },
             child: CardKlinik(
               namaKlink: '${clinics[index].name}, ${clinics[index].city}',
-              rating: '${clinics[index].rating} (120k)',
+              rating: '${clinics[index].rating} (0k)',
               km: clinics[index].distance,
               urlImg: "${Global.FILE}/${clinics[index].logo}",
               price: clinics[index].price,

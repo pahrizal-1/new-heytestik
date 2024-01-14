@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/chect_out_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../theme/theme.dart';
-import 'metode_pembayaran_produk_page.dart';
 
 class PembayaranProduk extends StatefulWidget {
   List pesan;
@@ -33,124 +33,117 @@ class _PembayaranProdukState extends State<PembayaranProduk> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        state.listProductItem.clear();
-        state.totalAmount.value = 0;
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: greenColor,
-          title: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              const SizedBox(
-                width: 11,
-              ),
-              Text(
-                'Selesaikan Pesananmu',
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Text(
+              'Selesaikan Pesananmu',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+            ),
+          ],
         ),
-        body: Obx(
-          () => LoadingWidget(
-            isLoading: state.isLoading.value,
-            child: Padding(
-              padding: lsymetric,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.listProductItem.length,
-                itemBuilder: ((context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: kTopPadding,
-                        child: ProdukPembayaran(
-                          index: index,
-                          price: CurrencyFormat.convertToIdr(
-                              state.listProductItem[index]['totalPrice'], 0),
-                          img:
-                              "${Global.FILE}/${state.listProductItem[index]['img']}",
-                          productName: state.listProductItem[index]
-                              ['productName'],
-                          note: state.listProductItem[index]['notes'],
-                        ),
+      ),
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoading.value,
+          child: Padding(
+            padding: lsymetric,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.listProductItem.length,
+              itemBuilder: ((context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: kTopPadding,
+                      child: ProdukPembayaran(
+                        index: index,
+                        price: CurrencyFormat.convertToIdr(
+                            state.listProductItem[index]['totalPrice'], 0),
+                        img:
+                            "${Global.FILE}/${state.listProductItem[index]['img']}",
+                        productName: state.listProductItem[index]
+                            ['productName'],
+                        note: state.listProductItem[index]['notes'],
                       ),
-                    ],
-                  );
-                }),
-              ),
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: 25,
-          ),
-          height: 149,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Total Bayar',
-                style: blackRegulerTextStyle,
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 25,
+        ),
+        height: 149,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Total Bayar',
+              style: blackRegulerTextStyle,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Obx(
+              () => Text(
+                CurrencyFormat.convertToIdr(state.totalAmountProduct.value, 0),
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
-              const SizedBox(
-                height: 4,
-              ),
-              Obx(
-                () => Text(
-                  CurrencyFormat.convertToIdr(state.totalAmount.value, 0),
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              ButtonGreenWidget(
-                title: 'Lanjutkan Pembayaran',
-                onPressed: () {
-                  if (state.listProductItem.isEmpty) {
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ButtonGreenWidget(
+              title: 'Lanjutkan Pembayaran',
+              onPressed: () {
+                if (state.listProductItem.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(
+                      subtitle: "Pilih produk terlebih dahulu",
+                    ),
+                  );
+                  return;
+                }
+                for (int i = 0; i < state.listProductItem.length; i++) {
+                  if (state.listProductItem[i]['qty'] <= 0) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertWidget(
-                        subtitle: "Pilih produk terlebih dahulu",
+                        subtitle: "Banyaknya produk minimal satu",
                       ),
                     );
                     return;
                   }
-                  for (int i = 0; i < state.listProductItem.length; i++) {
-                    if (state.listProductItem[i]['qty'] == 0) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertWidget(
-                          subtitle: "Banyaknya produk minimal satu",
-                        ),
-                      );
-                      return;
-                    }
-                  }
-
-                  // redirect
-                  Get.to(MetodePembayaranProduk(
-                    isCart: widget.isCart,
-                  ));
-                },
-              )
-            ],
-          ),
+                }
+                print("LIST sblm ${state.listProductItem.length}");
+                Get.to(() => CheckOutPage(
+                      isCart: widget.isCart,
+                    ));
+                print("LIST sdh ${state.listProductItem.length}");
+              },
+            )
+          ],
         ),
       ),
     );

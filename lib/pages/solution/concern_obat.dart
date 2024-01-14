@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_obat_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import '../../theme/theme.dart';
@@ -28,11 +28,11 @@ class ConcernObatPage extends StatefulWidget {
 
 class _ConcernObatPageState extends State<ConcernObatPage> {
   final TextEditingController searchController = TextEditingController();
-  final MedicineController state = Get.put(MedicineController());
+  final DrugController state = Get.put(DrugController());
   bool isSelecteTampilan = true;
   final ScrollController scrollController = ScrollController();
   int page = 1;
-  List<Medicine.Data2> medicines = [];
+  List<Drug.Data2> drugs = [];
   String? search;
   Map<String, dynamic> filter = {};
 
@@ -41,7 +41,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
     filter['concern_ids[]'] = [widget.idConcern];
     setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      medicines.addAll(await state.getMedicine(
+      drugs.addAll(await state.getDrug(
         context,
         page,
         search: search,
@@ -56,7 +56,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            medicines.addAll(await state.getMedicine(
+            drugs.addAll(await state.getDrug(
               context,
               page,
               search: search,
@@ -78,6 +78,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {
@@ -88,9 +89,6 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                 size: 24,
                 color: blackColor,
               ),
-            ),
-            const SizedBox(
-              width: 11,
             ),
             Expanded(
               child: Container(
@@ -119,9 +117,9 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                           onEditingComplete: () async {
                             page = 1;
                             search = searchController.text;
-                            medicines.clear();
-                            medicines.addAll(
-                              await state.getMedicine(
+                            drugs.clear();
+                            drugs.addAll(
+                              await state.getDrug(
                                 context,
                                 page,
                                 search: search,
@@ -185,10 +183,10 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                               ).then((value) async {
                                 filter['display[]'] = value['display'];
                                 filter['category[]'] = value['category'];
-                                medicines.clear();
+                                drugs.clear();
                                 page = 1;
-                                medicines.addAll(
-                                  await state.getMedicine(
+                                drugs.addAll(
+                                  await state.getDrug(
                                     context,
                                     page,
                                     search: search,
@@ -218,10 +216,10 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                                 builder: (context) => FilterEtalase(),
                               ).then((value) async {
                                 filter['concern_ids[]'] = value['concern_ids'];
-                                medicines.clear();
+                                drugs.clear();
                                 page = 1;
-                                medicines.addAll(
-                                  await state.getMedicine(
+                                drugs.addAll(
+                                  await state.getDrug(
                                     context,
                                     page,
                                     search: search,
@@ -265,7 +263,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
             ),
             content: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
-              child: medicines.isEmpty
+              child: drugs.isEmpty
                   ? Center(
                       child: Text(
                         'Tidak ada produk obat',
@@ -277,9 +275,9 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
                       ),
                     )
                   : Wrap(
-                      children: medicines.map((medicine) {
+                      children: drugs.map((drug) {
                         return KonsultasiProduk(
-                          medicine: medicine,
+                          drug: drug,
                         );
                       }).toList(),
                     ),
@@ -294,18 +292,18 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
 class KonsultasiProduk extends StatelessWidget {
   KonsultasiProduk({
     Key? key,
-    required this.medicine,
+    required this.drug,
   }) : super(key: key);
 
-  final Medicine.Data2 medicine;
-  MedicineController medicineController = Get.put(MedicineController());
+  final Drug.Data2 drug;
+  DrugController medicineController = Get.put(DrugController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.to(
-          DetailObatPage(
-            medicine: medicine,
+          () => DetailDrugPage(
+            drugId: drug.id!,
           ),
         );
       },
@@ -327,7 +325,7 @@ class KonsultasiProduk extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "${Global.FILE}/${medicine.mediaProducts?[0].media?.path}"),
+                      "${Global.FILE}/${drug.mediaProducts?[0].media?.path}"),
                 ),
               ),
             ),
@@ -341,7 +339,7 @@ class KonsultasiProduk extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    medicine.name ?? '-',
+                    drug.name ?? '-',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 13, color: const Color(0xFF323232)),
                   ),
@@ -349,14 +347,14 @@ class KonsultasiProduk extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(medicine.price, 2),
+                    CurrencyFormat.convertToIdr(drug.price, 2),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    medicine.drugDetail?.specificationPackaging ?? '-',
+                    drug.drugDetail?.specificationPackaging ?? '-',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 12, color: const Color(0xFF9B9B9B)),
                   ),
@@ -375,14 +373,14 @@ class KonsultasiProduk extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  medicine.consultationRecipeDrugs!.isNotEmpty
+                  drug.consultationRecipeDrugs!.isNotEmpty
                       ? Container(
                           height: 30,
                           child: TextButton(
                             onPressed: () {
-                              medicineController.addMedicineToCart(
+                              medicineController.addDrugToCart(
                                 context,
-                                medicine.id!,
+                                drug.id!,
                               );
                               SnackbarWidget.getSuccessSnackbar(
                                 context,

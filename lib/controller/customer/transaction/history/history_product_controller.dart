@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
-import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
 class HistoryProductController extends StateClass {
@@ -28,6 +27,9 @@ class HistoryProductController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
           await TransactionService().transactionStatusProduct(orderId);
+
+      print("transactionStatus ${transactionStatus.value}");
+
       if (transactionStatus.value.success! &&
           transactionStatus.value.message == 'Success') {
         if (transactionStatus.value.data!.paymentType == 'echannel') {

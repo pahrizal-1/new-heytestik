@@ -3,14 +3,14 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_drug_model.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart';
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart';
-import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart';
-import 'package:heystetik_mobileapps/models/medicine.dart';
+import 'package:heystetik_mobileapps/models/drug_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
@@ -49,6 +49,57 @@ class SolutionService extends ProviderClass {
     }
   }
 
+  Future<SkincareModel> skincareDermatologists(int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare/dermatologists/choice',
+      params: {
+        "page": page,
+        "take": 100,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return SkincareModel.fromJson(response);
+  }
+
+  Future<SkincareModel> skincareRecomendation(int id, int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare/$id/recomendation',
+      params: {
+        "page": page,
+        "take": 100,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return SkincareModel.fromJson(response);
+  }
+
+  Future<SkincareModel> relatedProductSkincare(int id, int page) async {
+    var response = await networkingConfig.doGet(
+      '/solution/skincare/$id/related',
+      params: {
+        "page": page,
+        "take": 100,
+        "order": "desc",
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return SkincareModel.fromJson(response);
+  }
+
   Future<DetailSkincareSolutionModel> detailSkincare(int id) async {
     var response = await networkingConfig.doGet(
       '/solution/skincare/$id',
@@ -59,24 +110,6 @@ class SolutionService extends ProviderClass {
     );
 
     return DetailSkincareSolutionModel.fromJson(response);
-  }
-
-  Future<RelatedProductSkincareModel> relatedProductSkincare(
-      int id, int page) async {
-    var response = await networkingConfig.doGet(
-      '/solution/skincare/$id/related',
-      params: {
-        "page": page,
-        "take": 10,
-        "order": "desc",
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-
-    return RelatedProductSkincareModel.fromJson(response);
   }
 
   Future<LookupModel> getLookup(
@@ -148,7 +181,7 @@ class SolutionService extends ProviderClass {
 
   Future<ConcernModel> getConcern() async {
     var response = await networkingConfig.doGet(
-      '/concern?page=1&take=100&order=desc&search=',
+      '/concern?page=1&take=1000&order=desc&search=',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -158,7 +191,7 @@ class SolutionService extends ProviderClass {
     return ConcernModel.fromJson(response);
   }
 
-  Future<MedicineModel> getMedicine(
+  Future<DrugModel> getDrug(
     int page, {
     String? search,
     Map<String, dynamic>? filter,
@@ -184,11 +217,27 @@ class SolutionService extends ProviderClass {
         },
       );
 
-      return MedicineModel.fromJson(response);
+      return DrugModel.fromJson(response);
     } catch (error) {
       print(error);
-      return MedicineModel();
+      return DrugModel();
     }
+  }
+
+  Future<DrugModel> drugRecomendation(int page, int id) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug/$id/recomendation',
+      params: {
+        "page": page,
+        "take": 100,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DrugModel.fromJson(response);
   }
 
   Future<DrugRecipeModel> getDrugRecipe(int page) async {
@@ -196,7 +245,7 @@ class SolutionService extends ProviderClass {
       '/solution/drug-recipe',
       params: {
         "page": page,
-        "take": 10,
+        "take": 100,
       },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -207,7 +256,19 @@ class SolutionService extends ProviderClass {
     return DrugRecipeModel.fromJson(response);
   }
 
-  void addMedicineToCart(int productID) async {
+  Future<DetailDrugModel> detailDrug(int id) async {
+    var response = await networkingConfig.doGet(
+      '/solution/drug/$id',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return DetailDrugModel.fromJson(response);
+  }
+
+  void addDrugToCart(int productID) async {
     var response = await networkingConfig.doPost(
       '/user-cart',
       data: {

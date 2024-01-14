@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, invalid_use_of_protected_member
 
 import 'dart:convert';
 import 'dart:developer';
@@ -207,14 +207,14 @@ class CustomerChatController extends StateClass {
   joinRoom(String roomCode) {
     print('joinRoom');
     _socket?.emit('joinRoom', {"room": roomCode});
-    print('joinRoom ${roomCode}');
+    print('joinRoom $roomCode');
   }
 
   // EVENT LEAVE ROOM (udah dipanggil)
   leaveRoom(String roomCode) {
     print('leaveRoom');
     _socket?.emit('leaveRoom', {"room": roomCode});
-    print('leaveRoom ${roomCode}');
+    print('leaveRoom $roomCode');
   }
 
   // CLOSE / DISCONNECTED (udah dipanggil)
@@ -370,24 +370,247 @@ class CustomerChatController extends StateClass {
   }
 
   Rx<Detail.Data> data = Detail.Data.fromJson({}).obs;
+  RxList listSkincare = [].obs;
+  RxList listSkincareSelected = [].obs;
+  RxList listObat = [].obs;
+  RxList listObatSelected = [].obs;
+  RxInt totalAmountObatSelected = 0.obs;
+  RxInt totalAmountSkincareSelected = 0.obs;
+  RxInt totalAmount = 0.obs;
+  RxBool isAllObatSelected = false.obs;
+  RxBool isAllSkincareSelected = false.obs;
+  RxInt totalProductSelected = 0.obs;
+  RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
 
   detailConsultation(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      listObat.value.clear();
+      listObatSelected.value.clear();
+      listSkincare.value.clear();
+      listSkincareSelected.value.clear();
+      totalAmountObatSelected.value = 0;
+      totalAmountSkincareSelected.value = 0;
+      totalAmount.value = 0;
+      isAllObatSelected.value = false;
+      isAllSkincareSelected.value = false;
+
       var res = await DetailConsultationService().detailConsultation(id);
       data.value = res.data!;
+
+      for (int i = 0; i < data.value.consultationRecipeDrug!.length; i++) {
+        listObat.value.add({
+          "productId": data.value.consultationRecipeDrug![i].productId,
+          "productName":
+              data.value.consultationRecipeDrug![i].product?.name ?? '-',
+          "img": data.value.consultationRecipeDrug![i].product!
+              .mediaProducts?[0].media?.path,
+          "qty": 1,
+          "notes": data.value.consultationRecipeDrug![i].notes ?? '-',
+          "isSelected": false,
+          "price": data.value.consultationRecipeDrug![i].product!.price,
+          "totalPrice": data.value.consultationRecipeDrug![i].product!.price,
+        });
+      }
+
+      for (int i = 0;
+          i < data.value.consultationRecomendationSkincare!.length;
+          i++) {
+        listSkincare.value.add({
+          "productId":
+              data.value.consultationRecomendationSkincare![i].productId,
+          "productName":
+              data.value.consultationRecomendationSkincare![i].product?.name ??
+                  '-',
+          "img": data.value.consultationRecomendationSkincare![i].product!
+              .mediaProducts?[0].media?.path,
+          "qty": 1,
+          "notes":
+              data.value.consultationRecomendationSkincare![i].notes ?? '-',
+          "isSelected": false,
+          "price":
+              data.value.consultationRecomendationSkincare![i].product!.price,
+          "totalPrice":
+              data.value.consultationRecomendationSkincare![i].product!.price,
+        });
+      }
     });
     isLoading.value = false;
   }
 
-  RxList<Gallery.Data2> gallery = List<Gallery.Data2>.empty(growable: true).obs;
+  onChecklistObat(int number, bool isAll) async {
+    if (isAll) {
+      isAllObatSelected.value = !isAllObatSelected.value;
+      if (isAllObatSelected.value) {
+        listObatSelected.value.clear();
+        for (var i = 0; i < number; i++) {
+          listObat.value[i]['isSelected'] = true;
+          listObatSelected.value.add(listObat.value[i]);
+        }
+      } else {
+        for (var i = 0; i < number; i++) {
+          listObat.value[i]['isSelected'] = false;
+          listObatSelected.value.clear();
+        }
+      }
+    } else {
+      if (listObat.value[number]['isSelected']) {
+        listObat.value[number]['isSelected'] = false;
+        listObatSelected.value.removeWhere((item) =>
+            item?['productId'] == listObat.value[number]['productId']);
+      } else {
+        listObat.value[number]['isSelected'] = true;
+        listObatSelected.value.add(listObat.value[number]);
+      }
+    }
+
+    int sumD = 0;
+    for (var i = 0; i < listObat.value.length; i++) {
+      if (listObat.value[i]['isSelected']) {
+        sumD += int.parse(listObat.value[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountObatSelected.value = sumD;
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+
+    if (listObatSelected.value.length < listObat.value.length) {
+      isAllObatSelected.value = false;
+    }
+
+    if (listObatSelected.value.length == listObat.value.length) {
+      isAllObatSelected.value = true;
+    }
+  }
+
+  onChecklistSkincare(int number, bool isAll) async {
+    if (isAll) {
+      isAllSkincareSelected.value = !isAllSkincareSelected.value;
+      if (isAllSkincareSelected.value) {
+        listSkincareSelected.value.clear();
+        for (var i = 0; i < number; i++) {
+          listSkincare.value[i]['isSelected'] = true;
+          listSkincareSelected.value.add(listSkincare.value[i]);
+        }
+      } else {
+        for (var i = 0; i < number; i++) {
+          listSkincare.value[i]['isSelected'] = false;
+          listSkincareSelected.value.clear();
+        }
+      }
+    } else {
+      if (listSkincare.value[number]['isSelected']) {
+        listSkincare.value[number]['isSelected'] = false;
+        listSkincareSelected.value.removeWhere((item) =>
+            item?['productId'] == listSkincare.value[number]['productId']);
+      } else {
+        listSkincare.value[number]['isSelected'] = true;
+        listSkincareSelected.value.add(listSkincare.value[number]);
+      }
+    }
+
+    int sumD = 0;
+    for (var i = 0; i < listSkincare.value.length; i++) {
+      if (listSkincare.value[i]['isSelected']) {
+        sumD += int.parse(listSkincare.value[i]['totalPrice'].toString());
+      }
+    }
+
+    totalAmountSkincareSelected.value = sumD;
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+
+    if (listSkincareSelected.value.length < listSkincare.value.length) {
+      isAllSkincareSelected.value = false;
+    }
+
+    if (listSkincareSelected.value.length == listSkincare.value.length) {
+      isAllSkincareSelected.value = true;
+    }
+  }
+
+  increment(int index, String product) {
+    if (product == "OBAT") {
+      listObat.value[index]['qty'] += 1;
+      listObat.value[index]['totalPrice'] =
+          listObat.value[index]['price'] * listObat.value[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listObat.value.length; i++) {
+        if (listObat.value[i]['isSelected']) {
+          sum += int.parse(listObat.value[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountObatSelected.value = sum;
+    } else {
+      listSkincare.value[index]['qty'] += 1;
+      listSkincare.value[index]['totalPrice'] =
+          listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listSkincare.value.length; i++) {
+        if (listSkincare.value[i]['isSelected']) {
+          sum += int.parse(listSkincare.value[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountSkincareSelected.value = sum;
+    }
+
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+  }
+
+  decrement(int index, String product) {
+    if (product == "OBAT") {
+      listObat.value[index]['qty'] -= 1;
+      listObat.value[index]['totalPrice'] =
+          listObat.value[index]['price'] * listObat.value[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listObat.value.length; i++) {
+        if (listObat.value[i]['isSelected']) {
+          sum += int.parse(listObat.value[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountObatSelected.value = sum;
+    } else {
+      listSkincare.value[index]['qty'] -= 1;
+      listSkincare.value[index]['totalPrice'] =
+          listSkincare.value[index]['price'] * listSkincare.value[index]['qty'];
+
+      int sum = 0;
+      for (var i = 0; i < listSkincare.value.length; i++) {
+        if (listSkincare.value[i]['isSelected']) {
+          sum += int.parse(listSkincare.value[i]['totalPrice'].toString());
+        }
+      }
+
+      totalAmountSkincareSelected.value = sum;
+    }
+
+    totalAmount.value =
+        totalAmountObatSelected.value + totalAmountSkincareSelected.value;
+    totalProductSelected.value =
+        listObatSelected.value.length + listSkincareSelected.value.length;
+  }
 
   galleryFile(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await DetailConsultationService().galleryFile(id);
       gallery.value = res.data!.data!;
-      print("hehehahahah" + jsonDecode(jsonEncode(res)));
     });
     isLoading.value = false;
   }

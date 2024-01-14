@@ -1,9 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, must_be_immutable, invalid_use_of_protected_member
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
@@ -222,7 +223,7 @@ Container WidgetPhoto = Container(
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 120),
+                constraints: const BoxConstraints(maxWidth: 80),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -295,10 +296,21 @@ class ContainerSettings extends StatelessWidget {
   }
 }
 
-class ContainerProduk extends StatelessWidget {
+class ContainerProdukSkicare extends StatefulWidget {
+  int index;
   final Detail.ConsultationRecomendationSkincare data;
-  const ContainerProduk({Key? key, required this.data}) : super(key: key);
+  ContainerProdukSkicare({
+    Key? key,
+    required this.data,
+    required this.index,
+  }) : super(key: key);
 
+  @override
+  State<ContainerProdukSkicare> createState() => _ContainerProdukSkicareState();
+}
+
+class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
+  final CustomerChatController state = Get.put(CustomerChatController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -319,14 +331,39 @@ class ContainerProduk extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 5),
-              child: SvgPicture.asset(
-                'assets/icons/cekbox.svg',
+              child: InkWell(
+                onTap: () {
+                  state.onChecklistSkincare(widget.index, false);
+                  setState(() {});
+                },
+                child: Container(
+                  width: 23,
+                  padding: const EdgeInsets.all(4),
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: state.listSkincare.value[widget.index]['isSelected']
+                        ? greenColor
+                        : null,
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(
+                      color: state.listSkincare.value[widget.index]
+                              ['isSelected']
+                          ? greenColor
+                          : greyColor,
+                    ),
+                  ),
+                  child: state.listSkincare.value[widget.index]['isSelected']
+                      ? Image.asset('assets/icons/chek_new.png')
+                      : null,
+                ),
               ),
             ),
             const SizedBox(
               width: 8,
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,8 +375,9 @@ class ContainerProduk extends StatelessWidget {
                         border: Border.all(
                             width: 0.5, color: fromCssColor('#E9E9E9')),
                         image: DecorationImage(
+                          fit: BoxFit.cover,
                           image: NetworkImage(
-                              '${Global.FILE}/${data.product!.mediaProducts?[0].media?.path}'),
+                              '${Global.FILE}/${widget.data.product!.mediaProducts?[0].media?.path}'),
                         ),
                       ),
                     ),
@@ -350,10 +388,10 @@ class ContainerProduk extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          constraints: const BoxConstraints(maxWidth: 160),
+                          constraints: const BoxConstraints(maxWidth: 120),
                           child: RichText(
                             text: TextSpan(
-                              text: data.product?.name ?? '-',
+                              text: widget.data.product?.name ?? '-',
                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
                                 color: greenColor,
@@ -389,11 +427,10 @@ class ContainerProduk extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  // color: Colors.amberAccent,
                                   constraints:
                                       const BoxConstraints(maxWidth: 80),
                                   child: Text(
-                                    data.product?.skincareDetail
+                                    widget.data.product?.skincareDetail
                                             ?.specificationHowToUse ??
                                         '-',
                                     style: TextStyle(
@@ -426,56 +463,18 @@ class ContainerProduk extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              CurrencyFormat.convertToIdr(
-                                  data.product?.price ?? 0, 0),
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                                color: fromCssColor(
-                                  '#323232',
-                                ),
-                              ),
+                        Text(
+                          CurrencyFormat.convertToIdr(
+                              widget.data.product?.price ?? 0, 0),
+                          style: TextStyle(
+                            fontFamily: 'ProximaNova',
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                            color: fromCssColor(
+                              '#323232',
                             ),
-                            const SizedBox(
-                              width: 60,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/icons/troli.png',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '${data.product?.productStock ?? 0}',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.5,
-                                    color: fromCssColor(
-                                      '#323232',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
@@ -484,38 +483,97 @@ class ContainerProduk extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                Container(
-                  width: 250,
-                  height: 40,
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: 'Catatan',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
+                Row(
+                  children: [
+                    Container(
+                      width: 250,
+                      height: 40,
+                      child: TextFormField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: 'Catatan',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: widget.data.product?.category ?? '',
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: TextStyle(
+                            color: fromCssColor('#A3A3A3'),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: data.product?.category ?? '',
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: TextStyle(
-                        color: fromCssColor('#A3A3A3'),
                       ),
                     ),
-                  ),
+                  ],
                 ),
+                const SizedBox(
+                  height: 21,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: borderColor),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (state.listSkincare.value[widget.index]['qty'] >
+                              1) {
+                            state.decrement(widget.index, 'SKINCARE');
+                            setState(() {});
+                          }
+                        },
+                        child: Icon(
+                          Icons.remove,
+                          size: 15,
+                          color:
+                              state.listSkincare.value[widget.index]['qty'] <= 1
+                                  ? greyColor
+                                  : greenColor,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 21,
+                      ),
+                      Text(state.listSkincare.value[widget.index]['qty']
+                          .toString()),
+                      const SizedBox(
+                        width: 21,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          state.increment(widget.index, 'SKINCARE');
+                          setState(() {});
+                        },
+                        child: Icon(
+                          Icons.add,
+                          size: 15,
+                          color: greenColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ],
@@ -525,14 +583,22 @@ class ContainerProduk extends StatelessWidget {
   }
 }
 
-class ContainerProdukPenting extends StatelessWidget {
-  final Detail.ConsultationRecipeDrugs data;
-  const ContainerProdukPenting({Key? key, required this.data})
+class ContainerProdukObat extends StatefulWidget {
+  int index;
+  final Detail.ConsultationRecipeDrug data;
+  ContainerProdukObat({required this.index, required this.data, Key? key})
       : super(key: key);
 
   @override
+  State<ContainerProdukObat> createState() => _ContainerProdukObatState();
+}
+
+class _ContainerProdukObatState extends State<ContainerProdukObat> {
+  final CustomerChatController state = Get.put(CustomerChatController());
+  @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
@@ -551,14 +617,39 @@ class ContainerProdukPenting extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
-                  child: SvgPicture.asset(
-                    'assets/icons/cekbox.svg',
+                  child: InkWell(
+                    onTap: () {
+                      state.onChecklistObat(widget.index, false);
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: 23,
+                      padding: const EdgeInsets.all(4),
+                      height: 23,
+                      decoration: BoxDecoration(
+                        color: state.listObat.value[widget.index]['isSelected']
+                            ? greenColor
+                            : null,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: state.listObat.value[widget.index]
+                                  ['isSelected']
+                              ? greenColor
+                              : greyColor,
+                        ),
+                      ),
+                      child: state.listObat.value[widget.index]['isSelected']
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
+                    ),
                   ),
                 ),
                 const SizedBox(
                   width: 8,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -570,8 +661,9 @@ class ContainerProdukPenting extends StatelessWidget {
                             border: Border.all(
                                 width: 0.5, color: fromCssColor('#E9E9E9')),
                             image: DecorationImage(
+                              fit: BoxFit.cover,
                               image: NetworkImage(
-                                  '${Global.FILE}/${data.product!.mediaProducts?[0].media?.path}'),
+                                  '${Global.FILE}/${widget.data.product!.mediaProducts?[0].media?.path}'),
                             ),
                           ),
                         ),
@@ -582,10 +674,10 @@ class ContainerProdukPenting extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              constraints: const BoxConstraints(maxWidth: 160),
+                              constraints: const BoxConstraints(maxWidth: 120),
                               child: RichText(
                                 text: TextSpan(
-                                  text: data.product?.name ?? '-',
+                                  text: widget.data.product?.name ?? '-',
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     color: greenColor,
@@ -624,7 +716,7 @@ class ContainerProdukPenting extends StatelessWidget {
                                       constraints:
                                           const BoxConstraints(maxWidth: 80),
                                       child: Text(
-                                        data.product?.drugDetail
+                                        widget.data.product?.drugDetail
                                                 ?.specificationDose ??
                                             '-',
                                         style: TextStyle(
@@ -659,10 +751,11 @@ class ContainerProdukPenting extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   CurrencyFormat.convertToIdr(
-                                      data.product?.price ?? 0, 0),
+                                      widget.data.product?.price ?? 0, 0),
                                   style: TextStyle(
                                     fontFamily: 'ProximaNova',
                                     fontSize: 13,
@@ -674,36 +767,23 @@ class ContainerProdukPenting extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 70,
+                                  width: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 15,
-                                      width: 15,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/icons/troli.png'),
-                                        ),
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 80),
+                                  child: Text(
+                                    '1 (${widget.data.product?.drugDetail?.specificationPackaging})',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 13,
+                                      fontWeight: bold,
+                                      letterSpacing: 0.5,
+                                      color: fromCssColor(
+                                        '#323232',
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '${data.product?.productStock ?? 0}',
-                                      style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 13,
-                                        fontWeight: bold,
-                                        letterSpacing: 0.5,
-                                        color: fromCssColor(
-                                          '#323232',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 )
                               ],
                             ),
@@ -733,7 +813,7 @@ class ContainerProdukPenting extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          hintText: data.product?.category ?? '',
+                          hintText: widget.data.notes ?? '-',
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 12),
                           border: OutlineInputBorder(
@@ -746,6 +826,61 @@ class ContainerProdukPenting extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 21,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(color: borderColor),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (state.listObat.value[widget.index]['qty'] >
+                                  1) {
+                                state.decrement(widget.index, 'OBAT');
+                                setState(() {});
+                              }
+                            },
+                            child: Icon(
+                              Icons.remove,
+                              size: 15,
+                              color:
+                                  state.listObat.value[widget.index]['qty'] <= 1
+                                      ? greyColor
+                                      : greenColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 21,
+                          ),
+                          Text(state.listObat.value[widget.index]['qty']
+                              .toString()),
+                          const SizedBox(
+                            width: 21,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              state.increment(widget.index, 'OBAT');
+                              setState(() {});
+                            },
+                            child: Icon(
+                              Icons.add,
+                              size: 15,
+                              color: greenColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -758,7 +893,6 @@ class ContainerProdukPenting extends StatelessWidget {
               width: 82,
               height: 35,
               decoration: const BoxDecoration(
-                // color: Colors.amber,
                 image: DecorationImage(
                     image: AssetImage('assets/icons/penting.png'),
                     fit: BoxFit.fill),
@@ -778,6 +912,7 @@ class ContainerTreatment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
@@ -793,190 +928,176 @@ class ContainerTreatment extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
               children: [
-                SvgPicture.asset(
-                  'assets/icons/cekbox.svg',
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Column(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 0.5, color: fromCssColor('#E9E9E9')),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              '${Global.FILE}/${data.consultationRecomendationTreatmentClinics?[0].clinic!.mediaClinics?[0].media?.path}'),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 0.5, color: fromCssColor('#E9E9E9')),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  '${Global.FILE}/${data.consultationRecomendationTreatmentClinics?[0].clinic!.mediaClinics?[0].media?.path}'),
+                          child: RichText(
+                            text: TextSpan(
+                              text: data.name ?? '-',
+                              style: TextStyle(
+                                fontFamily: 'ProximaNova',
+                                color: greenColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                height: 1.1,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(
-                          width: 8,
+                          height: 3,
                         ),
-                        Column(
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              constraints: BoxConstraints(maxWidth: 160),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: data.name ?? '-',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    color: greenColor,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.1,
+                              width: 75,
+                              child: Text(
+                                'Cost',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
                               ),
                             ),
                             const SizedBox(
-                              height: 3,
+                              width: 10,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text(
-                                    'Cost',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 70),
+                              child: Text(
+                                data.cost ?? '-',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  // color: Colors.amberAccent,
-                                  constraints: BoxConstraints(maxWidth: 70),
-                                  child: Text(
-                                    data.cost ?? '-',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 3,
+                          ],
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 75,
+                              child: Text(
+                                'Recov. Time',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
+                                  ),
+                                ),
+                              ),
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text(
-                                    'Recov. Time',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  // color: Colors.amberAccent,
-                                  constraints: BoxConstraints(maxWidth: 70),
-                                  child: Text(
-                                    data.recoveryTime ?? '-',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            const SizedBox(
+                              width: 10,
                             ),
-                            SizedBox(
-                              height: 5,
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 70),
+                              child: Text(
+                                data.recoveryTime ?? '-',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
+                                  ),
+                                ),
+                              ),
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  child: Text(
-                                    'Type',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 75,
+                              child: Text(
+                                'Type',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  // color: Colors.amberAccent,
-                                  constraints: BoxConstraints(maxWidth: 70),
-                                  child: Text(
-                                    data.type ?? '-',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      fontSize: 12,
-                                      height: 1.3,
-                                      letterSpacing: 0.5,
-                                      color: fromCssColor(
-                                        '#9B9B9B',
-                                      ),
-                                    ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 70),
+                              child: Text(
+                                data.type ?? '-',
+                                style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 12,
+                                  height: 1.3,
+                                  letterSpacing: 0.5,
+                                  color: fromCssColor(
+                                    '#9B9B9B',
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
                   ],
+                ),
+                SizedBox(
+                  height: 15,
                 ),
               ],
             ),
@@ -985,12 +1106,7 @@ class ContainerTreatment extends StatelessWidget {
               child: ButtonGreenWidget(
                 title: 'Cari & Pilih Klinik',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TreatmentKlink(),
-                    ),
-                  );
+                  Get.to(() => const TreatmentKlink());
                 },
               ),
             ),

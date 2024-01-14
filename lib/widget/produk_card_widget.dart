@@ -116,134 +116,117 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                           const SizedBox(
                             width: 7,
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: borderColor),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      '${Global.FILE}/${widget.data.product!.mediaProducts?[0].media?.path}',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Column(
+                          Expanded(
+                            child: Container(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.8),
-                                    child: Text(
-                                      widget.data.product?.name ?? '-',
-                                      style: grenTextStyle.copyWith(
-                                        fontSize: 14,
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: borderColor),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          '${Global.FILE}/${widget.data.product!.mediaProducts?[0].media?.path}',
+                                        ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 5,
+                                    width: 8,
                                   ),
-                                  Row(
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Penggunaan',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          fontSize: 12,
-                                          height: 1.3,
-                                          // letterSpacing: 0.5,
-                                          color: fromCssColor(
-                                            '#9B9B9B',
+                                      Container(
+                                        constraints:
+                                            BoxConstraints(maxWidth: 120),
+                                        child: Text(
+                                          widget.data.product?.name ?? '-',
+                                          style: grenTextStyle.copyWith(
+                                            fontSize: 14,
                                           ),
                                         ),
                                       ),
                                       const SizedBox(
-                                        width: 10,
+                                        height: 5,
                                       ),
-                                      Column(
+                                      Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 80),
-                                            child: Text(
-                                              "${widget.data.product!.skincareDetail?.specificationHowToUse ?? widget.data.product!.drugDetail!.specificationDose}",
-                                              style: TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 12,
-                                                height: 1.3,
-                                                letterSpacing: 0.5,
-                                                color: fromCssColor(
-                                                  '#9B9B9B',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
                                           Text(
-                                            '0x sehari',
+                                            'Penggunaan',
                                             style: TextStyle(
                                               fontFamily: 'ProximaNova',
                                               fontSize: 12,
                                               height: 1.3,
-                                              letterSpacing: 0.5,
+                                              // letterSpacing: 0.5,
                                               color: fromCssColor(
                                                 '#9B9B9B',
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 70),
+                                                child: Text(
+                                                  "${widget.data.product!.skincareDetail?.specificationHowToUse ?? widget.data.product!.drugDetail!.specificationDose}",
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    fontSize: 12,
+                                                    height: 1.3,
+                                                    letterSpacing: 0.5,
+                                                    color: fromCssColor(
+                                                      '#9B9B9B',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                '0x sehari',
+                                                style: TextStyle(
+                                                  fontFamily: 'ProximaNova',
+                                                  fontSize: 12,
+                                                  height: 1.3,
+                                                  letterSpacing: 0.5,
+                                                  color: fromCssColor(
+                                                    '#9B9B9B',
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 200),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          CurrencyFormat.convertToIdr(
-                                              widget.data.product?.price ?? 0,
-                                              0),
-                                          style: TextStyle(
-                                            fontFamily: 'ProximaNova',
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            letterSpacing: 0.5,
-                                            color: fromCssColor(
-                                              '#323232',
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Column(
-                                          children: [
-                                            const SizedBox(
-                                              width: 4,
-                                            ),
-                                            Text(
-                                              '${widget.data.qty} ${widget.data.product?.skincareDetail?.specificationPackagingType ?? widget.data.product?.drugDetail?.specificationPackaging}',
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 120),
+                                            child: Text(
+                                              CurrencyFormat.convertToIdr(
+                                                  widget.data.product?.price ??
+                                                      0,
+                                                  0),
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
-                                                fontSize: 10,
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 0.5,
                                                 color: fromCssColor(
@@ -251,30 +234,59 @@ class _ProdukCardWidgetState extends State<ProdukCardWidget> {
                                                 ),
                                               ),
                                             ),
-                                            if (widget.data.product?.type ==
-                                                'SKINCARE')
-                                              Text(
-                                                '(${widget.data.product?.skincareDetail?.specificationNetto}${widget.data.product?.skincareDetail?.specificationNettoType}) ',
-                                                style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 0.5,
-                                                  color: fromCssColor(
-                                                    '#323232',
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                width: 4,
+                                              ),
+                                              Container(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 80),
+                                                child: Text(
+                                                  '${widget.data.qty} ${widget.data.product?.skincareDetail?.specificationPackagingType ?? widget.data.product?.drugDetail?.specificationPackaging}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 0.5,
+                                                    color: fromCssColor(
+                                                      '#323232',
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
+                                              if (widget.data.product?.type ==
+                                                  'SKINCARE')
+                                                Text(
+                                                  '(${widget.data.product?.skincareDetail?.specificationNetto}${widget.data.product?.skincareDetail?.specificationNettoType}) ',
+                                                  style: TextStyle(
+                                                    fontFamily: 'ProximaNova',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 0.5,
+                                                    color: fromCssColor(
+                                                      '#323232',
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),

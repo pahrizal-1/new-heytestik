@@ -104,6 +104,7 @@ class _NearMePageState extends State<NearMePage> {
                   ],
                 )
               : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -115,11 +116,7 @@ class _NearMePageState extends State<NearMePage> {
                         color: blackColor,
                       ),
                     ),
-                    const SizedBox(
-                      width: 7,
-                    ),
-                    Expanded(
-                        child: Container(
+                    Container(
                       height: 35,
                       decoration: BoxDecoration(
                         color: Color(0xffF1F1F1),
@@ -133,7 +130,7 @@ class _NearMePageState extends State<NearMePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                left: 20,
+                                left: 10,
                                 right: 10,
                               ),
                               child: Image.asset(
@@ -158,7 +155,7 @@ class _NearMePageState extends State<NearMePage> {
                                 style: const TextStyle(
                                     fontSize: 15, fontFamily: "ProximaNova"),
                                 decoration: InputDecoration(
-                                  hintText: "Cari Treatment",
+                                  hintText: "Cari Treatment Near Me",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                     fontFamily: "ProximaNova",
@@ -170,7 +167,7 @@ class _NearMePageState extends State<NearMePage> {
                               ),
                             ),
                           ]),
-                    )),
+                    ),
                   ],
                 ),
         ),
@@ -429,13 +426,13 @@ class _NearMePageState extends State<NearMePage> {
                           namaKlinik: element.clinic?.name ?? '-',
                           namaTreatmen: element.name!,
                           diskonProduk: '0',
-                          hargaDiskon: '',
+                          hargaDiskon: '0',
                           harga: element.price.toString(),
                           urlImg: element.mediaTreatments!.isEmpty
                               ? ""
                               : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (120k)',
-                          km: element.distance ?? '-',
+                          rating: '${element.rating} (0k)',
+                          km: element.distance ?? '0',
                           lokasiKlinik: element.clinic?.city?.name ?? '-',
                           treatmentData: element,
                         );

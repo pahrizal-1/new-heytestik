@@ -8,10 +8,14 @@ import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_con
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
+import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
+import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_share/social_share.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
@@ -19,17 +23,16 @@ import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../../widget/card_widget.dart';
 import '../../widget/filter_tap_widget.dart';
-import '../../widget/share_solusion_widget_page.dart';
 
-class DetailKlnikPage extends StatefulWidget {
-  int id;
-  DetailKlnikPage({required this.id, super.key});
+class DetailKlinikPage extends StatefulWidget {
+  int clinicId;
+  DetailKlinikPage({required this.clinicId, super.key});
 
   @override
-  State<DetailKlnikPage> createState() => _DetailKlnikPageState();
+  State<DetailKlinikPage> createState() => _DetailKlnikPageState();
 }
 
-class _DetailKlnikPageState extends State<DetailKlnikPage> {
+class _DetailKlnikPageState extends State<DetailKlinikPage> {
   final TreatmentController state = Get.put(TreatmentController());
   bool isVisibelity = true;
   bool isVisibelityJam = true;
@@ -55,7 +58,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.getClinicDetail(context, widget.id);
+      state.getClinicDetail(context, widget.clinicId);
       treatments.addAll(await state.getAllTreatment(context, page));
       setState(() {});
     });
@@ -65,7 +68,10 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
         images,
         fit: BoxFit.fill,
       );
-  // get all treatment dibawah
+  Widget buildImg2(String images) => Image.asset(
+        images,
+        fit: BoxFit.fill,
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,11 +95,13 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                 width: 11,
               ),
               Expanded(
-                child: Text(
-                  'Klinik Utama Lithea',
-                  style:
-                      whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-                  overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  () => Text(
+                    state.responseClinicDetail.value.data?.name ?? '',
+                    style:
+                        whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               )
             ],
@@ -109,19 +117,22 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
             width: 21,
           ),
           InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
-                ),
-                builder: (context) => const ShareShowWidget(),
-              );
+            onTap: () async {
+              Uri? url = await createDynamicLinkClinic(widget.clinicId);
+              print("url $url");
+              await SocialShare.shareOptions(url.toString());
+              // showModalBottomSheet(
+              //   isDismissible: false,
+              //   context: context,
+              //   backgroundColor: Colors.white,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius: BorderRadiusDirectional.only(
+              //       topEnd: Radius.circular(25),
+              //       topStart: Radius.circular(25),
+              //     ),
+              //   ),
+              //   builder: (context) => const ShareShowWidget(),
+              // );
             },
             child: SvgPicture.asset(
               'assets/icons/share-icons.svg',
@@ -142,8 +153,8 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                 itemCount:
                     state.responseClinicDetail.value.data?.mediaClinics?.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = state.responseClinicDetail.value.data!
-                      .mediaClinics?[index].media?.path;
+                  final image = state.responseClinicDetail.value.data
+                      ?.mediaClinics?[index].media?.path;
 
                   return buildImg1('${Global.FILE}/$image');
                 },
@@ -194,7 +205,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                             Container(
                               constraints: const BoxConstraints(maxWidth: 250),
                               child: Text(
-                                '${state.responseClinicDetail.value.data?.province?.name},${state.responseClinicDetail.value.data?.city?.name}',
+                                '${state.responseClinicDetail.value.data?.province?.name}, ${state.responseClinicDetail.value.data?.city?.name}',
                                 style: subTitleTextStyle.copyWith(fontSize: 12),
                               ),
                             ),
@@ -385,7 +396,6 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                             child: isVisibelityJam
                                                 ? Icon(
                                                     Icons.keyboard_arrow_down,
-                                                  
                                                   )
                                                 : Icon(
                                                     Icons.keyboard_arrow_up,
@@ -472,20 +482,36 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                         style: blackRegulerTextStyle.copyWith(
                                             fontSize: 13, fontWeight: regular),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 9),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          border: Border.all(
-                                              color: greenColor, width: 0.6),
-                                        ),
-                                        child: Text(
-                                          'Liat Peta',
-                                          style: grenTextStyle.copyWith(
-                                              fontSize: 13),
+                                      InkWell(
+                                        onTap: () {
+                                          Get.to(() => MapsWidgetClinic(
+                                                lat: state
+                                                    .responseClinicDetail
+                                                    .value
+                                                    .data!
+                                                    .pinpointLatitude!,
+                                                long: state
+                                                    .responseClinicDetail
+                                                    .value
+                                                    .data!
+                                                    .pinpointLongitude!,
+                                              ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(top: 9),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                            border: Border.all(
+                                                color: greenColor, width: 0.6),
+                                          ),
+                                          child: Text(
+                                            'Lihat Peta',
+                                            style: grenTextStyle.copyWith(
+                                                fontSize: 13),
+                                          ),
                                         ),
                                       )
                                     ],
@@ -507,7 +533,7 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                                         color: blackColor, fontSize: 13),
                                   ),
                                   Text(
-                                    '8120217031463',
+                                    '${state.responseClinicDetail.value.data?.registrationNumber}',
                                     style: blackRegulerTextStyle.copyWith(
                                         fontSize: 13, fontWeight: regular),
                                   ),
@@ -652,350 +678,315 @@ class _DetailKlnikPageState extends State<DetailKlnikPage> {
                   ],
                 ),
               ),
-              // CarouselSlider.builder(
-              //   itemCount: images.length,
-              //   itemBuilder: (context, index, realIndex) {
-              //     final imge = imagesBolder[index];
+              CarouselSlider.builder(
+                itemCount: images.length,
+                itemBuilder: (context, index, realIndex) {
+                  final imge = imagesBolder[index];
 
-              //     return buildImg1(imge);
-              //   },
-              //   options: CarouselOptions(
-              //     viewportFraction: 1,
-              //     onPageChanged: (index, reason) =>
-              //         setState(() => activeIndex = index),
-              //   ),
-              // ),
+                  return buildImg2(imge);
+                },
+                options: CarouselOptions(
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) =>
+                      setState(() => activeIndex = index),
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: activeIndex,
+                  count: images.length,
+                  effect: ScaleEffect(
+                    activeDotColor: greenColor,
+                    dotColor: const Color(0xffD9D9D9),
+                    dotWidth: 6,
+                    dotHeight: 6,
+                  ),
+                ),
+              ),
               StickyHeader(
-                  header: Container(
-                    padding: lsymetric.copyWith(top: 15, bottom: 9),
-                    color: whiteColor,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                header: Container(
+                  padding: lsymetric.copyWith(top: 15, bottom: 9),
+                  color: whiteColor,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Semua Treatment',
+                            style: blackHigtTextStyle.copyWith(fontSize: 18),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSelecteTampilan = !isSelecteTampilan;
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Tampilan',
+                                  style: subTitleTextStyle.copyWith(
+                                      color: const Color(0xff6B6B6B)),
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                isSelecteTampilan
+                                    ? SvgPicture.asset(
+                                        'assets/icons/tampilan1.svg')
+                                    : SvgPicture.asset(
+                                        'assets/icons/tampillan2.svg')
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 17,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Semua Treatment',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) => FilterShowModal(),
+                                );
+                              },
+                              child: Image.asset(
+                                'assets/icons/filters.png',
+                                width: 78,
+                              ),
                             ),
                             InkWell(
                               onTap: () {
-                                setState(() {
-                                  isSelecteTampilan = !isSelecteTampilan;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Tampilan',
-                                    style: subTitleTextStyle.copyWith(
-                                        color: const Color(0xff6B6B6B)),
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  isSelecteTampilan
-                                      ? SvgPicture.asset(
-                                          'assets/icons/tampilan1.svg')
-                                      : SvgPicture.asset(
-                                          'assets/icons/tampillan2.svg')
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.only(
-                                        topEnd: Radius.circular(25),
-                                        topStart: Radius.circular(25),
-                                      ),
+                                showModalBottomSheet(
+                                  isDismissible: false,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
                                     ),
-                                    builder: (context) => FilterShowModal(),
-                                  );
-                                },
-                                child: Image.asset(
-                                  'assets/icons/filters.png',
-                                  width: 78,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    isDismissible: false,
-                                    context: context,
-                                    backgroundColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.only(
-                                        topEnd: Radius.circular(25),
-                                        topStart: Radius.circular(25),
-                                      ),
-                                    ),
-                                    builder: (context) => Wrap(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
-                                              top: 36,
-                                              bottom: 20),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Image.asset(
-                                                      'assets/icons/danger-icons.png',
-                                                      width: 14,
-                                                    ),
+                                  ),
+                                  builder: (context) => Wrap(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 25,
+                                            right: 25,
+                                            top: 36,
+                                            bottom: 20),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/danger-icons.png',
+                                                    width: 14,
                                                   ),
-                                                  const SizedBox(
-                                                    width: 22,
-                                                  ),
-                                                  Text(
-                                                    'Filter',
-                                                    style: blackHigtTextStyle
-                                                        .copyWith(fontSize: 20),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 31,
-                                              ),
-                                              const FilterTapTreatment(
-                                                title: 'Rating Tertinggi',
-                                              ),
-                                              const SizedBox(
-                                                height: 18,
-                                              ),
-                                              const FilterTapTreatment(
-                                                title: 'Ulasan Terbanyaki',
-                                              ),
-                                              const SizedBox(
-                                                height: 18,
-                                              ),
-                                              const FilterTapTreatment(
-                                                title: 'Treatment Terlaris',
-                                              ),
-                                              const SizedBox(
-                                                height: 29,
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 22,
+                                                ),
+                                                Text(
+                                                  'Filter',
+                                                  style: blackHigtTextStyle
+                                                      .copyWith(fontSize: 20),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 31,
+                                            ),
+                                            const FilterTapTreatment(
+                                              title: 'Rating Tertinggi',
+                                            ),
+                                            const SizedBox(
+                                              height: 18,
+                                            ),
+                                            const FilterTapTreatment(
+                                              title: 'Ulasan Terbanyaki',
+                                            ),
+                                            const SizedBox(
+                                              height: 18,
+                                            ),
+                                            const FilterTapTreatment(
+                                              title: 'Treatment Terlaris',
+                                            ),
+                                            const SizedBox(
+                                              height: 29,
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 9),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(color: borderColor),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Text('Urutkan'),
+                                    SizedBox(
+                                      width: 9,
                                     ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 9),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 6, bottom: 6),
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(color: borderColor),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                      Text('Urutkan'),
-                                      SizedBox(
-                                        width: 9,
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 15,
-                                      )
-                                    ],
-                                  ),
+                                    Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                    )
+                                  ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const EtalaseTreatMentPage()),
-                                  );
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 9),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 6, bottom: 6),
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(color: borderColor),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                      Text('Retalase Treatment'),
-                                      SizedBox(
-                                        width: 9,
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 15,
-                                      )
-                                    ],
-                                  ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EtalaseTreatMentPage()),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 9),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(color: borderColor),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Text('Retalase Treatment'),
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                    )
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  content: isSelecteTampilan
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 25, top: 19),
-                              child: Wrap(
-                                spacing: 12,
-                                runSpacing: 12,
-                                children: treatments.map((element) {
-                                  return ProdukTreatment(
-                                    treatmentData: element,
-                                    namaKlinik: element.clinic!.name!,
-                                    namaTreatmen: element.name!,
-                                    diskonProduk: '0',
-                                    hargaDiskon: '0',
-                                    harga: element.price!.toString(),
-                                    urlImg: element.mediaTreatments!.isEmpty
-                                        ? ""
-                                        : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                                    rating: '${element.rating} (120k)',
-                                    km: '${element.distance}',
-                                    lokasiKlinik: element.clinic!.city!.name!,
-                                  );
-                                }).toList(),
-                                // children: const [
-                                // ProdukTreatment(
-                                //   namaKlinik: 'Klinik Utama Lithea',
-                                //   namaTreatmen: 'Radiant Glow Peeling',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: 'Rp250.000',
-                                //   harga: 'Rp200.000',
-                                //   urlImg: 'assets/images/lheatea.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ProdukTreatment(
-                                //   namaKlinik: 'ZAP Plaza Senayan',
-                                //   namaTreatmen: 'Toning Laser',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: '1,250.000',
-                                //   harga: '1,200.000',
-                                //   urlImg: 'assets/images/zap-senayan.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ProdukTreatment(
-                                //   namaKlinik: 'ZAP Plaza Senayan',
-                                //   namaTreatmen: 'IPL Rejuvenation',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: '100,000.000',
-                                //   harga: '10,200.000',
-                                //   urlImg: 'assets/images/Ipl1.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ProdukTreatment(
-                                //   namaKlinik: 'Klinik Utama Lithea',
-                                //   namaTreatmen: 'Radiant Glow Peeling',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: '250.000',
-                                //   harga: '200.000',
-                                //   urlImg: 'assets/images/laser1.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ProdukTreatment(
-                                //   namaKlinik: 'Klinik Utama Lithea',
-                                //   namaTreatmen: 'Radiant Glow Peeling',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: '250.000',
-                                //   harga: '200.000',
-                                //   urlImg: 'assets/images/laser2.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ProdukTreatment(
-                                //   namaKlinik: 'Klinik Utama Lithea',
-                                //   namaTreatmen: 'Radiant Glow Peeling',
-                                //   diskonProduk: '20',
-                                //   hargaDiskon: '250.000',
-                                //   harga: '200.000',
-                                //   urlImg: 'assets/images/lheatea.png',
-                                //   rating: '4.9 (120k)',
-                                //   km: '80',
-                                //   lokasiKlinik: 'Bogor Timur',
-                                // ),
-                                // ],
-                              ),
-                            )
+                            ),
                           ],
-                        )
-                      : Container()
-                  // Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //           horizontal: 25,
-                  //           vertical: 19,
-                  //         ),
-                  //         child: Column(
-                  //           children: const [
-                  //             TampilanRight(),
-                  //             TampilanRight(),
-                  //             TampilanRight(),
-                  //             TampilanRight(),
-                  //             TampilanRight(),
-                  //             TampilanRight(),
-                  //           ],
-                  //         ),
-                  //       ),
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                content: isSelecteTampilan
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, top: 19),
+                            child: Wrap(
+                              spacing: 15,
+                              runSpacing: 15,
+                              children: treatments.map((element) {
+                                return ProdukTreatment(
+                                  treatmentData: element,
+                                  namaKlinik: element.clinic!.name!,
+                                  namaTreatmen: element.name!,
+                                  diskonProduk: '0',
+                                  hargaDiskon: '0',
+                                  harga: element.price!.toString(),
+                                  urlImg: element.mediaTreatments!.isEmpty
+                                      ? ""
+                                      : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                  rating: '${element.rating} (120k)',
+                                  km: '${element.distance}',
+                                  lokasiKlinik: element.clinic!.city!.name!,
+                                );
+                              }).toList(),
+                            ),
+                          )
+                        ],
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 19),
+                        child: Column(
+                          children: treatments
+                              .map(
+                                (e) => TampilanRight(
+                                  treatment: e,
+                                  urlImg: e.mediaTreatments!.isEmpty
+                                      ? ""
+                                      : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+              ),
               const SizedBox(
                 height: 14,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class MapsWidgetClinic extends StatelessWidget {
+  double lat;
+  double long;
+  MapsWidgetClinic({required this.lat, required this.long, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: OpenStreetMapSearchAndPick(
+          center: LatLong(
+            lat,
+            long,
+          ),
+          buttonColor: greenColor,
+          buttonText: 'Lokasi',
+          onPicked: (pickedData) async {},
         ),
       ),
     );

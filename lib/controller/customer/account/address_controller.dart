@@ -297,7 +297,7 @@ class AddressController extends StateClass {
         'Berhasil',
         'Alamat berhasil disimpan',
       );
-      Get.back();
+      Get.back(result: true);
       await listAddress(context);
       await Future.delayed(const Duration(seconds: 1));
       clearForm();

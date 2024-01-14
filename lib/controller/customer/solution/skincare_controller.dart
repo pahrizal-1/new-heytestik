@@ -12,8 +12,6 @@ import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart
     as Overview;
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
-import 'package:heystetik_mobileapps/models/customer/related_product_skincare_model.dart'
-    as RelatedProductSkincare;
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 
@@ -21,17 +19,23 @@ import 'package:heystetik_mobileapps/service/customer/solution/solution_service.
 
 class SkincareController extends StateClass {
   Rx<Skincare.SkincareModel> responseSkincare = Skincare.SkincareModel().obs;
-  RxList<Skincare.Data2> dataSkincare =
-      List<Skincare.Data2>.empty(growable: true).obs;
+
+  Rx<Skincare.SkincareModel> responseSkincareDermatologists =
+      Skincare.SkincareModel().obs;
+
+  Rx<Skincare.SkincareModel> responseSkincareRecomendation =
+      Skincare.SkincareModel().obs;
+
+  Rx<Skincare.SkincareModel> responseRelatedSkincare =
+      Skincare.SkincareModel().obs;
 
   Rx<DetailSkincare.Data> skincareDetail = DetailSkincare.Data.fromJson({}).obs;
-  List<RelatedProductSkincare.Data2> relatedSkincare = [];
+
   Rx<Overview.Data> overviewSkincare = Overview.Data.fromJson({}).obs;
   RxList<ProductReviewModel.Data2> productReview =
       List<ProductReviewModel.Data2>.empty().obs;
 
   RxBool isLoadingDetailSkincare = false.obs;
-  RxBool isLoadingRelatedSkincare = false.obs;
   RxBool isLoadingProductReviewSkincare = false.obs;
   RxBool isLoadingLookup = false.obs;
 
@@ -42,21 +46,69 @@ class SkincareController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      Skincare.SkincareModel data = await SolutionService().getAllSkincare(
+      responseSkincare.value = await SolutionService().getAllSkincare(
         page,
         search: search,
         filter: filter,
       );
-
-      responseSkincare.value = data;
-
-      dataSkincare.value.addAll(responseSkincare.value.data!.data!);
     });
-
     isLoading.value = false;
     return responseSkincare.value.data!.data!;
+  }
+
+  Future<List<Skincare.Data2>> skincareDermatologists(
+      BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await SolutionService().skincareDermatologists(1);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
+      responseSkincareDermatologists.value = res;
+    });
+
+    return responseSkincareDermatologists.value.data!.data!;
+  }
+
+  Future<List<Skincare.Data2>> skincareRecomendation(
+      BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
+        var res = await SolutionService().skincareRecomendation(id, 1);
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        responseSkincareRecomendation.value = res;
+      } catch (e) {
+        print("hahah rekom $e");
+      }
+    });
+    return responseSkincareRecomendation.value.data!.data!;
+  }
+
+  Future<List<Skincare.Data2>> relatedProductSkincare(
+      BuildContext context, int id) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      try {
+        var res = await SolutionService().relatedProductSkincare(id, 1);
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        responseRelatedSkincare.value = res;
+      } catch (e) {
+        print("hahah related $e");
+      }
+    });
+    return responseRelatedSkincare.value.data!.data!;
   }
 
   detailSkincare(BuildContext context, int id) async {
@@ -115,22 +167,6 @@ class SkincareController extends StateClass {
     isLoadingProductReviewSkincare.value = false;
 
     return productReview.value;
-  }
-
-  relatedProductSkincare(BuildContext context, int id) async {
-    isLoadingRelatedSkincare.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().relatedProductSkincare(id, 1);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      relatedSkincare = res.data!.data!;
-    });
-    isLoadingRelatedSkincare.value = false;
   }
 
   Future<List<Lookup.Data2>> getLookup(

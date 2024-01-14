@@ -1,11 +1,11 @@
-class RelatedProductSkincareModel {
+class DrugModel {
   bool? success;
   String? message;
   Data? data;
 
-  RelatedProductSkincareModel({this.success, this.message, this.data});
+  DrugModel({this.success, this.message, this.data});
 
-  RelatedProductSkincareModel.fromJson(Map<String, dynamic> json) {
+  DrugModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -61,11 +61,14 @@ class Data2 {
   int? price;
   bool? productIsActive;
   int? productStock;
-  String? productTreshold;
-  String? productSku;
+  dynamic productTreshold;
+  dynamic productSku;
   double? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
+  String? shippingProductSizeLengthType;
+  String? shippingProductSizeWidthType;
+  String? shippingProductSizeHeightType;
   int? shippingProductSizeLength;
   int? shippingProductSizeWidth;
   int? shippingProductSizeHeight;
@@ -75,41 +78,45 @@ class Data2 {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
+  List<ConsultationRecipeDrugs>? consultationRecipeDrugs;
   List<MediaProducts>? mediaProducts;
-  SkincareDetail? skincareDetail;
-  dynamic drugDetail;
-  // List<Null>? productConcerns;
+  dynamic skincareDetail;
+  DrugDetail? drugDetail;
+  List<ProductConcerns>? productConcerns;
 
-  Data2({
-    this.id,
-    this.name,
-    this.type,
-    this.category,
-    this.display,
-    this.hasVariant,
-    this.minOrder,
-    this.price,
-    this.productIsActive,
-    this.productStock,
-    this.productTreshold,
-    this.productSku,
-    this.rating,
-    this.shippingProductWeight,
-    this.shippingProductWeightType,
-    this.shippingProductSizeLength,
-    this.shippingProductSizeWidth,
-    this.shippingProductSizeHeight,
-    this.shipping,
-    this.createdBy,
-    this.updatedBy,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.mediaProducts,
-    this.skincareDetail,
-    this.drugDetail,
-    // this.productConcerns,
-  });
+  Data2(
+      {this.id,
+      this.name,
+      this.type,
+      this.category,
+      this.display,
+      this.hasVariant,
+      this.minOrder,
+      this.price,
+      this.productIsActive,
+      this.productStock,
+      this.productTreshold,
+      this.productSku,
+      this.rating,
+      this.shippingProductWeight,
+      this.shippingProductWeightType,
+      this.shippingProductSizeLengthType,
+      this.shippingProductSizeWidthType,
+      this.shippingProductSizeHeightType,
+      this.shippingProductSizeLength,
+      this.shippingProductSizeWidth,
+      this.shippingProductSizeHeight,
+      this.shipping,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.consultationRecipeDrugs,
+      this.mediaProducts,
+      this.skincareDetail,
+      this.drugDetail,
+      this.productConcerns});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -127,6 +134,9 @@ class Data2 {
     rating = double.parse(json['rating'].toString());
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
+    shippingProductSizeLengthType = json['shipping_product_size_length_type'];
+    shippingProductSizeWidthType = json['shipping_product_size_width_type'];
+    shippingProductSizeHeightType = json['shipping_product_size_height_type'];
     shippingProductSizeLength = json['shipping_product_size_length'];
     shippingProductSizeWidth = json['shipping_product_size_width'];
     shippingProductSizeHeight = json['shipping_product_size_height'];
@@ -136,22 +146,28 @@ class Data2 {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    if (json['consultation_recipe_drugs'] != null) {
+      consultationRecipeDrugs = <ConsultationRecipeDrugs>[];
+      json['consultation_recipe_drugs'].forEach((v) {
+        consultationRecipeDrugs!.add(ConsultationRecipeDrugs.fromJson(v));
+      });
+    }
     if (json['media_products'] != null) {
       mediaProducts = <MediaProducts>[];
       json['media_products'].forEach((v) {
         mediaProducts!.add(MediaProducts.fromJson(v));
       });
     }
-    skincareDetail = json['skincare_detail'] != null
-        ? SkincareDetail.fromJson(json['skincare_detail'])
+    skincareDetail = json['skincare_detail'];
+    drugDetail = json['drug_detail'] != null
+        ? DrugDetail.fromJson(json['drug_detail'])
         : null;
-    drugDetail = json['drug_detail'];
-    // if (json['product_concerns'] != null) {
-    //   productConcerns = <Null>[];
-    //   json['product_concerns'].forEach((v) {
-    //     productConcerns!.add(Null.fromJson(v));
-    //   });
-    // }
+    if (json['product_concerns'] != null) {
+      productConcerns = <ProductConcerns>[];
+      json['product_concerns'].forEach((v) {
+        productConcerns!.add(ProductConcerns.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -171,6 +187,9 @@ class Data2 {
     data['rating'] = rating;
     data['shipping_product_weight'] = shippingProductWeight;
     data['shipping_product_weight_type'] = shippingProductWeightType;
+    data['shipping_product_size_length_type'] = shippingProductSizeLengthType;
+    data['shipping_product_size_width_type'] = shippingProductSizeWidthType;
+    data['shipping_product_size_height_type'] = shippingProductSizeHeightType;
     data['shipping_product_size_length'] = shippingProductSizeLength;
     data['shipping_product_size_width'] = shippingProductSizeWidth;
     data['shipping_product_size_height'] = shippingProductSizeHeight;
@@ -180,17 +199,86 @@ class Data2 {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    if (consultationRecipeDrugs != null) {
+      data['consultation_recipe_drugs'] =
+          consultationRecipeDrugs!.map((v) => v.toJson()).toList();
+    }
     if (mediaProducts != null) {
       data['media_products'] = mediaProducts!.map((v) => v.toJson()).toList();
     }
-    if (skincareDetail != null) {
-      data['skincare_detail'] = skincareDetail!.toJson();
+    data['skincare_detail'] = skincareDetail;
+    if (drugDetail != null) {
+      data['drug_detail'] = drugDetail!.toJson();
     }
-    data['drug_detail'] = drugDetail;
-    // if (productConcerns != null) {
-    //   data['product_concerns'] =
-    //       productConcerns!.map((v) => v.toJson()).toList();
-    // }
+    if (productConcerns != null) {
+      data['product_concerns'] =
+          productConcerns!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ConsultationRecipeDrugs {
+  int? id;
+  int? consultationId;
+  int? productId;
+  int? customerId;
+  String? notes;
+  int? redeemAmount;
+  int? remainingRedeemAmount;
+  String? dueDate;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  ConsultationRecipeDrugs(
+      {this.id,
+      this.consultationId,
+      this.productId,
+      this.customerId,
+      this.notes,
+      this.redeemAmount,
+      this.remainingRedeemAmount,
+      this.dueDate,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  ConsultationRecipeDrugs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    consultationId = json['consultation_id'];
+    productId = json['product_id'];
+    customerId = json['customer_id'];
+    notes = json['notes'];
+    redeemAmount = json['redeem_amount'];
+    remainingRedeemAmount = json['remaining_redeem_amount'];
+    dueDate = json['due_date'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['consultation_id'] = consultationId;
+    data['product_id'] = productId;
+    data['customer_id'] = customerId;
+    data['notes'] = notes;
+    data['redeem_amount'] = redeemAmount;
+    data['remaining_redeem_amount'] = remainingRedeemAmount;
+    data['due_date'] = dueDate;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -307,60 +395,66 @@ class Media {
   }
 }
 
-class SkincareDetail {
+class DrugDetail {
   int? id;
   int? productId;
-  String? brand;
+  String? manufacture;
+  String? indication;
+  String? contradiction;
   String? description;
-  String? specificationTexture;
+  String? specificationForm;
+  String? specificationClassification;
+  String? specificationType;
+  String? specificationPackaging;
+  String? specificationCategory;
   String? specificationBpom;
-  int? specificationNetto;
-  String? specificationNettoType;
-  String? specificationExpired;
-  String? specificationPackagingType;
   String? specificationIngredients;
-  String? specificationHowToUse;
-  String? specificationStorageAdvice;
+  String? specificationDose;
+  String? specificationSpecialAttention;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
 
-  SkincareDetail(
+  DrugDetail(
       {this.id,
       this.productId,
-      this.brand,
+      this.manufacture,
+      this.indication,
+      this.contradiction,
       this.description,
-      this.specificationTexture,
+      this.specificationForm,
+      this.specificationClassification,
+      this.specificationType,
+      this.specificationPackaging,
+      this.specificationCategory,
       this.specificationBpom,
-      this.specificationNetto,
-      this.specificationNettoType,
-      this.specificationExpired,
-      this.specificationPackagingType,
       this.specificationIngredients,
-      this.specificationHowToUse,
-      this.specificationStorageAdvice,
+      this.specificationDose,
+      this.specificationSpecialAttention,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
       this.updatedAt,
       this.deletedAt});
 
-  SkincareDetail.fromJson(Map<String, dynamic> json) {
+  DrugDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     productId = json['product_id'];
-    brand = json['brand'];
+    manufacture = json['manufacture'];
+    indication = json['indication'];
+    contradiction = json['contradiction'];
     description = json['description'];
-    specificationTexture = json['specification_texture'];
+    specificationForm = json['specification_form'];
+    specificationClassification = json['specification_classification'];
+    specificationType = json['specification_type'];
+    specificationPackaging = json['specification_packaging'];
+    specificationCategory = json['specification_category'];
     specificationBpom = json['specification_bpom'];
-    specificationNetto = json['specification_netto'];
-    specificationNettoType = json['specification_netto_type'];
-    specificationExpired = json['specification_expired'];
-    specificationPackagingType = json['specification_packaging_type'];
     specificationIngredients = json['specification_ingredients'];
-    specificationHowToUse = json['specification_how_to_use'];
-    specificationStorageAdvice = json['specification_storage_advice'];
+    specificationDose = json['specification_dose'];
+    specificationSpecialAttention = json['specification_special_attention'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -372,17 +466,120 @@ class SkincareDetail {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['product_id'] = productId;
-    data['brand'] = brand;
+    data['manufacture'] = manufacture;
+    data['indication'] = indication;
+    data['contradiction'] = contradiction;
     data['description'] = description;
-    data['specification_texture'] = specificationTexture;
+    data['specification_form'] = specificationForm;
+    data['specification_classification'] = specificationClassification;
+    data['specification_type'] = specificationType;
+    data['specification_packaging'] = specificationPackaging;
+    data['specification_category'] = specificationCategory;
     data['specification_bpom'] = specificationBpom;
-    data['specification_netto'] = specificationNetto;
-    data['specification_netto_type'] = specificationNettoType;
-    data['specification_expired'] = specificationExpired;
-    data['specification_packaging_type'] = specificationPackagingType;
     data['specification_ingredients'] = specificationIngredients;
-    data['specification_how_to_use'] = specificationHowToUse;
-    data['specification_storage_advice'] = specificationStorageAdvice;
+    data['specification_dose'] = specificationDose;
+    data['specification_special_attention'] = specificationSpecialAttention;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class ProductConcerns {
+  int? id;
+  int? productId;
+  int? concernId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Concern? concern;
+
+  ProductConcerns(
+      {this.id,
+      this.productId,
+      this.concernId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.concern});
+
+  ProductConcerns.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    concernId = json['concern_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    concern =
+        json['concern'] != null ? Concern.fromJson(json['concern']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['concern_id'] = concernId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (concern != null) {
+      data['concern'] = concern!.toJson();
+    }
+    return data;
+  }
+}
+
+class Concern {
+  int? id;
+  String? name;
+  String? segment;
+  bool? isActive;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Concern(
+      {this.id,
+      this.name,
+      this.segment,
+      this.isActive,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Concern.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    segment = json['segment'];
+    isActive = json['is_active'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['segment'] = segment;
+    data['is_active'] = isActive;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

@@ -1,17 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/medicine_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/obat_solutions_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
@@ -20,17 +19,17 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.da
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart'
-    // ignore: library_prefixes
-    as Drug;
-import 'package:heystetik_mobileapps/models/medicine.dart' as Medicine;
+    as DrugRecipe;
 import '../../controller/customer/solution/skincare_controller.dart';
 import '../../core/currency_format.dart';
 import '../../core/global.dart';
-import '../../widget/card_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
+    as Lookup;
 import '../../widget/pencarian_search_widget.dart';
 import '../../widget/produk_height_widget.dart';
 import '../../widget/produk_widget.dart';
@@ -44,7 +43,7 @@ class SolutionPage extends StatefulWidget {
 
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
-  final MedicineController stateMedicine = Get.put(MedicineController());
+  final DrugController stateDrug = Get.put(DrugController());
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final SkincareController stateSkincare = Get.put(SkincareController());
 
@@ -61,7 +60,8 @@ class _SolutionPageState extends State<SolutionPage> {
     'IPL.png',
     'Laser.png',
   ];
-  List<Drug.Data2> drugRecipe = [];
+  List<DrugRecipe.Data2> drugRecipe = [];
+  List<Lookup.Data2> lookupCategory = [];
   List<Skincare.Data2> skincare = [];
   int page = 1;
 
@@ -70,7 +70,9 @@ class _SolutionPageState extends State<SolutionPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.getLocation(context);
-      drugRecipe.addAll(await stateMedicine.getDrugRecipe(context, page));
+      drugRecipe.addAll(await stateDrug.getDrugRecipe(context, page));
+      lookupCategory
+          .addAll(await stateSkincare.getLookup(context, 'SKINCARE_CATEGORY'));
       skincare.addAll(await stateSkincare.getAllSkincare(context, page));
       stateTreatment.getTreatment(context);
       setState(() {});
@@ -141,7 +143,7 @@ class _SolutionPageState extends State<SolutionPage> {
               ListTile(
                 onTap: () {
                   Get.back();
-                  Get.to(MapsWidget());
+                  Get.to(() => MapsWidget());
                 },
                 leading: CircleAvatar(
                   backgroundColor: greenColor,
@@ -298,12 +300,7 @@ class _SolutionPageState extends State<SolutionPage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ObatSolutionsPage(),
-                            ),
-                          );
+                          Get.to(() => const DrugSolutionsPage());
                         },
                         child: Image.asset(
                           'assets/images/obat_resep.png',
@@ -316,13 +313,7 @@ class _SolutionPageState extends State<SolutionPage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SolutionSkincare1Page(),
-                            ),
-                          );
+                          Get.to(() => const SolutionSkincare1Page());
                         },
                         child: Image.asset(
                           'assets/images/skincare.png',
@@ -335,13 +326,7 @@ class _SolutionPageState extends State<SolutionPage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SolutionsTreatment1Page(),
-                            ),
-                          );
+                          Get.to(() => const SolutionsTreatment1Page());
                         },
                         child: Image.asset(
                           'assets/images/treatmean.png',
@@ -391,67 +376,59 @@ class _SolutionPageState extends State<SolutionPage> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: drugRecipe.isEmpty ? 0 : 29,
-              ),
-              drugRecipe.isEmpty
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25,
+              if (drugRecipe.isNotEmpty)
+                SizedBox(
+                  height: 29,
+                ),
+              if (drugRecipe.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Resep solusi buat kamu ✨',
+                        style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Resep solusi buat kamu ✨',
-                            style: blackHigtTextStyle.copyWith(fontSize: 18),
-                          ),
-                          const Spacer(),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ObatSolutionsPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Lihat Semua',
-                              style: grenTextStyle.copyWith(fontSize: 12),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-              SizedBox(
-                height: drugRecipe.isEmpty ? 0 : 16,
-              ),
-              drugRecipe.isEmpty
-                  ? Container()
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20, left: 25),
-                        child: Row(
-                          children: drugRecipe.map((e) {
-                            return ProdukObat(
-                              medicine: Medicine.Data2.fromJson(
-                                  jsonDecode(jsonEncode(e.product))),
-                              productId: e.product!.id!.toInt(),
-                              namaBrand: e.product?.name ?? '-',
-                              harga: CurrencyFormat.convertToIdr(
-                                  e.product?.price, 0),
-                              urlImg:
-                                  '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
-                              duedate:
-                                  ConvertDate.defaultDate(e.dueDate.toString()),
-                            );
-                          }).toList(),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const DrugSolutionsPage());
+                        },
+                        child: Text(
+                          'Lihat Semua',
+                          style: grenTextStyle.copyWith(fontSize: 12),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              if (drugRecipe.isNotEmpty)
+                SizedBox(
+                  height: 16,
+                ),
+              if (drugRecipe.isNotEmpty)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20, left: 25),
+                    child: Row(
+                      children: drugRecipe.map((e) {
+                        return ProdukObat(
+                          productId: e.product!.id!.toInt(),
+                          namaBrand: e.product?.name ?? '-',
+                          harga:
+                              CurrencyFormat.convertToIdr(e.product?.price, 0),
+                          urlImg:
+                              '${Global.FILE}/${e.product!.mediaProducts?[0].media?.path}',
+                          duedate:
+                              ConvertDate.defaultDate(e.dueDate.toString()),
+                        );
+                      }).toList(),
                     ),
+                  ),
+                ),
               const SizedBox(
                 height: 28,
               ),
@@ -494,23 +471,22 @@ class _SolutionPageState extends State<SolutionPage> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 25),
                   child: Row(
-                    children: [
-                      CardSkincare(
-                        title: 'Cleanser',
-                      ),
-                      CardSkincare(
-                        title: 'Serum',
-                      ),
-                      CardSkincare(
-                        title: 'Moisturizer',
-                      ),
-                      CardSkincare(
-                        title: 'Toner',
-                      ),
-                      CardSkincare(
-                        title: 'Eye Cream',
-                      ),
-                    ],
+                    children: lookupCategory.map(
+                      (item) {
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => CategorySkinCare(
+                                category: item.value.toString(),
+                              ),
+                            );
+                          },
+                          child: CardSkincare(
+                            title: item.value.toString(),
+                          ),
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ),
@@ -528,9 +504,9 @@ class _SolutionPageState extends State<SolutionPage> {
                           .map(
                             (e) => InkWell(
                               onTap: () {
-                                Get.to(DetailSkinCarePage(
-                                  productId: e.id!.toInt(),
-                                ));
+                                Get.to(() => DetailSkinCarePage(
+                                      productId: e.id!.toInt(),
+                                    ));
                               },
                               child: Produkheight(
                                 produkId: e.id!.toInt(),
@@ -542,8 +518,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                // rating: '4.9 (120k)',
-                                rating: e.rating.toString(),
+                                rating: '${e.rating} (0k)',
                               ),
                             ),
                           )

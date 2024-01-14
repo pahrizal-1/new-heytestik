@@ -363,9 +363,9 @@ class _AlamatpageState extends State<Alamatpage> {
                       items: state.zipcode.value
                           .map<DropdownMenuItem<String>>(
                             (e) => DropdownMenuItem<String>(
-                              value: e.fullZipCode.toString(),
+                              value: '${e.village} - ${e.zipCode}',
                               child: Text(
-                                e.fullZipCode.toString(),
+                                '${e.village} - ${e.zipCode}',
                                 style: blackTextStyle,
                               ),
                             ),
