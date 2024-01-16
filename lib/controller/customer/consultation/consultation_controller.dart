@@ -135,7 +135,7 @@ class ConsultationController extends StateClass {
         showDialog(
           context: Get.context!,
           builder: (context) =>
-              AlertWidget(subtitle: 'Permintaan anda telah expired'),
+              AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
         );
         close();
       }
