@@ -209,7 +209,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final List<XFile>? selectImage = await ImagePicker().pickMultiImage(imageQuality: 50);
+    final List<XFile>? selectImage =
+        await ImagePicker().pickMultiImage(imageQuality: 50);
     if (selectImage! != null) {
       selectedMultipleImage.addAll(selectImage);
       print('awal$selectedMultipleImage');
@@ -667,7 +668,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
 
                           print('id ' + widget.id.toString());
 
-                          if(refresh == 'refresh') {
+                          if (refresh == 'refresh') {
                             setState(() {
                               connectSocket(context);
                             });
@@ -1729,20 +1730,22 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                 }),
                           )
                         : Container(),
-                    Obx(() => Container(
-                          height: 30,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 20),
-                          color: Colors.grey,
-                          child: Center(
-                            child: Text(
-                              "Konsultasi selesai di ${state.endDate.value}",
-                              style: whiteTextStyle.copyWith(
-                                fontSize: 16,
+                    state.status.value == 'SELESAI'
+                        ? Obx(() => Container(
+                              height: 30,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 20),
+                              color: Colors.grey,
+                              child: Center(
+                                child: Text(
+                                  "Konsultasi selesai di ${state.endDate.value}",
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )),
+                            ))
+                        : SizedBox(),
                   ],
                 ),
               ),
