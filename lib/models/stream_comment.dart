@@ -23,8 +23,9 @@ class StreamCommentModel {
     return StreamCommentModel(
       commentID: json['id'],
       content: json['content'],
-      photoUser:
-          json['user']['media_user_profile_picture']['media']['path'] ?? "",
+      photoUser: json['user']['media_user_profile_picture'] != null
+          ? json['user']['media_user_profile_picture']['media']['path']
+          : "",
       fullName: json['user']['fullname'],
       userName: json['user']['username'],
       createdAt: json['created_at'],
