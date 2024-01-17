@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../models/customer/notification.dart';
 import '../../theme/theme.dart';
@@ -34,9 +35,11 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
             notifications.addAll(await state.getNotification(context, page));
+            setState(() {});
+            state.isLoadingMore.value = false;
           });
-          setState(() {});
         }
       }
     });
@@ -58,139 +61,185 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: notifications.length,
-        controller: controller,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, top: 27),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            notifications[index].title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
+      body: Obx(
+        () => LoadingWidget(
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
+          child: (notifications.isEmpty)
+              ? Center(
+                  child: Text(
+                    'Belum ada data',
+                    style: TextStyle(
+                      fontWeight: bold,
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: notifications.length,
+                  controller: controller,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        if (notifications[index].type == "GENERAL") {
+                          print("GENERAL");
+                          print(notifications[index].data);
+                        } else if (notifications[index].type ==
+                            "TRANSACTION_CONSULTATION_SUCCESS") {
+                          print("TRANSACTION_CONSULTATION_SUCCESS");
+                          print(notifications[index].data);
+                        } else if (notifications[index].type ==
+                            "STREAM_COMMENT_LIKE") {
+                          print("STREAM_COMMENT_LIKE");
+                          print(notifications[index].data);
+                        } else if (notifications[index].type == "STREAM_LIKE") {
+                          print("STREAM_LIKE");
+                          print(notifications[index].data);
+                        } else if (notifications[index].type == "STREAM_VOTE") {
+                          print("STREAM_VOTE");
+                          print(notifications[index].data);
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 25,
+                          right: 25,
+                          top: index == 0 ? 16 : 8,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        notifications[index].title,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        notifications[index].body,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  timeago.format(DateTime.parse(
+                                      notifications[index].createdAt)),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            notifications[index].body,
-                            style: TextStyle(
-                              color: Colors.grey,
+                            const SizedBox(
+                              height: 8,
                             ),
-                          ),
-                        ],
+                            if (notifications[index].type ==
+                                    "TRANSACTION_CONSULTATION_SUCCESS" ||
+                                notifications[index].type == 'CHAT')
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TabBarCustomer(currentIndex: 1),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    bottom: 8.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF24A7A0),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                    vertical: 8.0,
+                                  ),
+                                  child: Text(
+                                    "Chat Dokter",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (notifications[index].type ==
+                                'CONSULTATION_DOCTOR_SCHEDULE')
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  bottom: 8.0,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(.05),
+                                        blurRadius: 10,
+                                      )
+                                    ]),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              "Category : ${notifications[index].data['category']}"),
+                                          Text(
+                                              "Topic : ${notifications[index].data['topic']}"),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF24A7A0),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                        vertical: 8.0,
+                                      ),
+                                      child: Text(
+                                        "Terima",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            dividergrey(),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      timeago.format(
-                          DateTime.parse(notifications[index].createdAt)),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-                const SizedBox(
-                  height: 22,
-                ),
-                if (notifications[index].type ==
-                        "TRANSACTION_CONSULTATION_SUCCESS" ||
-                    notifications[index].type == 'CHAT')
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const TabBarCustomer(currentIndex: 1),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFF24A7A0),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
-                      child: Text(
-                        "Chat Dokter",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                if (notifications[index].type == 'CONSULTATION_DOCTOR_SCHEDULE')
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.05),
-                            blurRadius: 10,
-                          )
-                        ]),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                  "Category : ${notifications[index].data['category']}"),
-                              Text(
-                                  "Topic : ${notifications[index].data['topic']}"),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF24A7A0),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 8.0,
-                          ),
-                          child: Text(
-                            "Terima",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                if (notifications[index].type != "GENERAL")
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                dividergrey(),
-              ],
-            ),
-          );
-        },
+        ),
       ),
     );
   }

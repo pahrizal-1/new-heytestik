@@ -14,7 +14,9 @@ class NotificationCustomerModel {
   NotificationCustomerModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    data = json['data'] != null ? ResponseNotificationCustomerModel.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? ResponseNotificationCustomerModel.fromJson(json['data'])
+        : null;
   }
 }
 
@@ -27,9 +29,12 @@ class ResponseNotificationCustomerModel {
     required this.meta,
   });
 
-  factory ResponseNotificationCustomerModel.fromJson(Map<String, dynamic> json) {
+  factory ResponseNotificationCustomerModel.fromJson(
+      Map<String, dynamic> json) {
     return ResponseNotificationCustomerModel(
-      data: (json['data'] as List).map((e) => DataNotificationCustomerModel.fromJson(e)).toList(),
+      data: (json['data'] as List)
+          .map((e) => DataNotificationCustomerModel.fromJson(e))
+          .toList(),
       meta: Meta.fromJson(json['meta']),
     );
   }
@@ -64,7 +69,7 @@ class DataNotificationCustomerModel {
       type: json['type'],
       title: json['title'],
       body: json['body'],
-      data: json['type'] == "GENERAL" ? {} : json['data'],
+      data: json['data'],
       sender: SenderModel.fromJson(json['sender']),
       createdAt: json['created_at'],
     );
@@ -79,7 +84,13 @@ class Meta {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Meta({this.page, this.take, this.itemCount, this.pageCount, this.hasPreviousPage, this.hasNextPage});
+  Meta(
+      {this.page,
+      this.take,
+      this.itemCount,
+      this.pageCount,
+      this.hasPreviousPage,
+      this.hasNextPage});
 
   Meta.fromJson(Map<String, dynamic> json) {
     page = json['page'];

@@ -17,11 +17,12 @@ class NotificationCustomerController extends StateClass {
 
   Future<List<DataNotificationCustomerModel>> getNotification(
       BuildContext context, int page) async {
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data.value = await NotificationCustomerServices().listNotification(page);
-
       notifications.value.addAll(data.value.data!.data);
     });
+    isLoading.value = false;
     return data.value.data!.data;
   }
 
