@@ -23,6 +23,31 @@ import 'firebase_options.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
+  print("FIREBASE MESSAGING BACKGROUND HANDLER");
+  print("NOTIF DI TAP NIHH ${message.toMap()}");
+  print('SASASA ${message.data}');
+  print('SASASA JENIS ${message.data['type']}');
+
+  if (message.data['type'] == "GENERAL") {
+    print('INI NOTIF GENERAL');
+    Get.to(() => NotifikasionPage());
+  }
+  if (message.data['type'] == "TRANSACTION_CONSULTATION_SUCCESS") {
+    print('INI NOTIF TRANSACTION_CONSULTATION_SUCCESS');
+    Get.to(() => const TabBarCustomer(currentIndex: 1));
+  }
+  if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
+    print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
+    Get.to(() => const TabBarDoctor());
+  }
+  if (message.data['type'] == "CONSULTATION_REVIEW") {
+    print('INI NOTIF CONSULTATION_REVIEW');
+    Get.to(() => const TabBarCustomer(currentIndex: 1));
+  }
+  if (message.data['type'] == "CHAT") {
+    print('INI NOTIF CHAT');
+    Get.to(() => const TabBarCustomer(currentIndex: 1));
+  }
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -67,9 +92,10 @@ void main() async {
   );
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("ON MESSAGE OPENED APP");
     print("NOTIF DI TAP NIHH ${message.toMap()}");
-    print('SASASA ${message.data}');
-    print('SASASA JENIS ${message.data['type']}');
+    print('SISISI ${message.data}');
+    print('SISISI JENIS ${message.data['type']}');
 
     if (message.data['type'] == "GENERAL") {
       print('INI NOTIF GENERAL');
@@ -92,6 +118,7 @@ void main() async {
       Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
   });
+
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
     announcement: true,
@@ -107,12 +134,35 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
-    print('Message data: ${message.toMap()}');
+    print("ON MESSAGE");
+    print("NOTIF DI TAP NIHH ${message.toMap()}");
+    print('SUSUSU ${message.data}');
+    print('SUSUSU JENIS ${message.data['type']}');
 
     if (message.notification != null) {
       print(
           'Message also contained a notification: ${message.notification?.toMap()}');
       Get.put(DoctorHomeController()).isNotifications.value = true;
+    }
+    if (message.data['type'] == "GENERAL") {
+      print('INI NOTIF GENERAL');
+      Get.to(() => NotifikasionPage());
+    }
+    if (message.data['type'] == "TRANSACTION_CONSULTATION_SUCCESS") {
+      print('INI NOTIF TRANSACTION_CONSULTATION_SUCCESS');
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
+    }
+    if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
+      print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
+      Get.to(() => const TabBarDoctor());
+    }
+    if (message.data['type'] == "CONSULTATION_REVIEW") {
+      print('INI NOTIF CONSULTATION_REVIEW');
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
+    }
+    if (message.data['type'] == "CHAT") {
+      print('INI NOTIF CHAT');
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
 
     RemoteNotification? notification = message.notification;
