@@ -71,7 +71,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           child: Row(
             children: [
               InkWell(
-                onTap: () {
+                onTap: () async {
+                  // await stateProfile.timeout(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

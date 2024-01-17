@@ -99,6 +99,20 @@ class ProfileController extends StateClass {
     print('dataUser ${dataUser['fullname']}');
   }
 
+  timeout(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await ProfileService().timeout();
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
   Future accountVerification(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;

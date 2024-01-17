@@ -15,6 +15,17 @@ class ProfileService extends ProviderClass {
   ProfileService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
+  Future<dynamic> timeout() async {
+    var response = await networkingConfig.doGet(
+      '/test-timeout?process_time=60000&timeout=5000',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
+
   Future<dynamic> closedAccount() async {
     var response = await networkingConfig.doUpdateFinish(
       '/profile/close-account',
