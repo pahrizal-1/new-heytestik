@@ -121,11 +121,12 @@ class ErrorConfig implements Exception {
             message:
                 message ?? '504 - Network request error without any response');
       default:
-        debugPrint("${dioError.response?.statusCode} - Error tidak diketahui");
+        debugPrint(
+            "${dioError.response?.statusCode ?? ''} - Error tidak diketahui");
         return ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: message ??
-              '${dioError.response?.statusCode} - Error tidak diketahui',
+              '${dioError.response?.statusCode ?? ''} - Error tidak diketahui',
         );
     }
   }

@@ -144,26 +144,6 @@ void main() async {
           'Message also contained a notification: ${message.notification?.toMap()}');
       Get.put(DoctorHomeController()).isNotifications.value = true;
     }
-    if (message.data['type'] == "GENERAL") {
-      print('INI NOTIF GENERAL');
-      Get.to(() => NotifikasionPage());
-    }
-    if (message.data['type'] == "TRANSACTION_CONSULTATION_SUCCESS") {
-      print('INI NOTIF TRANSACTION_CONSULTATION_SUCCESS');
-      Get.to(() => const TabBarCustomer(currentIndex: 1));
-    }
-    if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
-      print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
-      Get.to(() => const TabBarDoctor());
-    }
-    if (message.data['type'] == "CONSULTATION_REVIEW") {
-      print('INI NOTIF CONSULTATION_REVIEW');
-      Get.to(() => const TabBarCustomer(currentIndex: 1));
-    }
-    if (message.data['type'] == "CHAT") {
-      print('INI NOTIF CHAT');
-      Get.to(() => const TabBarCustomer(currentIndex: 1));
-    }
 
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;

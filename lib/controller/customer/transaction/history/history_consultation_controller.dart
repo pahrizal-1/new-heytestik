@@ -61,7 +61,7 @@ class HistoryConsultationController extends StateClass {
   RxString statusTransaction = '-'.obs;
 
   getTransactionStatus(BuildContext context, String orderId) async {
-    // isLoading.value = true;
+    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
           await TransactionService().transactionStatusConsultation(orderId);
@@ -99,16 +99,16 @@ class HistoryConsultationController extends StateClass {
           return;
         }
         if (statusTransaction.value == 'expire') {
-          Get.offAll(ExpiredPage(
-            message: '',
-          ));
+          Get.offAll(() => ExpiredPage(
+                message: '',
+              ));
           return;
         }
         if (statusTransaction.value == 'settlement') {
-          Get.offAll(SuccessPage(
-            orderId: orderId,
-            isWillPop: true,
-          ));
+          Get.offAll(() => SuccessPage(
+                orderId: orderId,
+                isWillPop: true,
+              ));
           showDialog(
             context: context,
             builder: (context) => BankMoreDialog(),
@@ -117,9 +117,9 @@ class HistoryConsultationController extends StateClass {
         }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
-        Get.offAll(ExpiredPage(
-          message: transactionStatus.value.message.toString(),
-        ));
+        Get.offAll(() => ExpiredPage(
+              message: transactionStatus.value.message.toString(),
+            ));
         return;
       } else {
         throw ErrorConfig(
@@ -128,6 +128,6 @@ class HistoryConsultationController extends StateClass {
         );
       }
     });
-    // isLoading.value = false;
+    isLoading.value = false;
   }
 }

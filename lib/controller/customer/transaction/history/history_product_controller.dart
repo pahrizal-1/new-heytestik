@@ -62,18 +62,18 @@ class HistoryProductController extends StateClass {
           return;
         }
         if (statusTransaction.value == 'expire') {
-          Get.offAll(ExpiredPage(
-            isNotConsultation: true,
-            message: '',
-          ));
+          Get.offAll(() => ExpiredPage(
+                isNotConsultation: true,
+                message: '',
+              ));
           return;
         }
         if (statusTransaction.value == 'settlement') {
-          Get.offAll(SuccessPage(
-            isNotConsultation: true,
-            orderId: orderId,
-            isWillPop: true,
-          ));
+          Get.offAll(() => SuccessPage(
+                isNotConsultation: true,
+                orderId: orderId,
+                isWillPop: true,
+              ));
           showDialog(
             context: context,
             builder: (context) => AletTranSaksiProduct(
@@ -85,10 +85,10 @@ class HistoryProductController extends StateClass {
         }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
-        Get.offAll(ExpiredPage(
-          isNotConsultation: true,
-          message: transactionStatus.value.message.toString(),
-        ));
+        Get.offAll(() => ExpiredPage(
+              isNotConsultation: true,
+              message: transactionStatus.value.message.toString(),
+            ));
         return;
       } else {
         throw ErrorConfig(

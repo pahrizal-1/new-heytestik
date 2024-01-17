@@ -11,7 +11,6 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
-import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
 
 class HistoryTreatmentController extends StateClass {
@@ -100,18 +99,18 @@ class HistoryTreatmentController extends StateClass {
           return;
         }
         if (statusTransaction.value == 'expire') {
-          Get.offAll(ExpiredPage(
-            isNotConsultation: true,
-            message: '',
-          ));
+          Get.offAll(() => ExpiredPage(
+                isNotConsultation: true,
+                message: '',
+              ));
           return;
         }
         if (statusTransaction.value == 'settlement') {
-          Get.offAll(SuccessPage(
-            isNotConsultation: true,
-            orderId: orderId,
-            isWillPop: true,
-          ));
+          Get.offAll(() => SuccessPage(
+                isNotConsultation: true,
+                orderId: orderId,
+                isWillPop: true,
+              ));
           showDialog(
             context: context,
             builder: (context) => AletTranSaksiTreatMent(
@@ -123,10 +122,10 @@ class HistoryTreatmentController extends StateClass {
         }
       } else if (transactionStatus.value.message == 'Transaction is expire') {
         Get.back();
-        Get.offAll(ExpiredPage(
-          isNotConsultation: true,
-          message: transactionStatus.value.message.toString(),
-        ));
+        Get.offAll(() => ExpiredPage(
+              isNotConsultation: true,
+              message: transactionStatus.value.message.toString(),
+            ));
         return;
       } else {
         throw ErrorConfig(
