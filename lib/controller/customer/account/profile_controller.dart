@@ -208,8 +208,9 @@ class ProfileController extends StateClass {
       gender.value = profileData.value.data!.gender ?? 'Pilih jenis kelamin';
       dob.value = formatter.format(tdata);
       imgNetwork.value =
-          profileData.value.data!.mediaUserProfilePicture!.media!.path!;
-
+          (profileData.value.data!.mediaUserProfilePicture != null
+              ? profileData.value.data!.mediaUserProfilePicture!.media!.path
+              : "")!;
       // data text editing
       fullNameController.text = profileData.value.data!.fullname ?? '-';
       usernameController.text = profileData.value.data!.username ?? '-';
