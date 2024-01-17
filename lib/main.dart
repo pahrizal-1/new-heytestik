@@ -73,11 +73,11 @@ void main() async {
 
     if (message.data['type'] == "GENERAL") {
       print('INI NOTIF GENERAL');
-      Get.to(NotifikasionPage());
+      Get.to(() => NotifikasionPage());
     }
     if (message.data['type'] == "TRANSACTION_CONSULTATION_SUCCESS") {
       print('INI NOTIF TRANSACTION_CONSULTATION_SUCCESS');
-      Get.to(const TabBarCustomer(currentIndex: 1));
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
     if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
       print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
@@ -85,11 +85,11 @@ void main() async {
     }
     if (message.data['type'] == "CONSULTATION_REVIEW") {
       print('INI NOTIF CONSULTATION_REVIEW');
-      Get.to(const TabBarCustomer(currentIndex: 1));
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
     if (message.data['type'] == "CHAT") {
       print('INI NOTIF CHAT');
-      Get.to(const TabBarCustomer(currentIndex: 1));
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
   });
   NotificationSettings settings = await messaging.requestPermission(
