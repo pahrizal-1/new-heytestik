@@ -37,7 +37,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     Get.to(() => const TabBarCustomer(currentIndex: 1));
   }
   if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
-    print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
+    print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE');
     Get.to(() => const TabBarDoctor());
   }
   if (message.data['type'] == "CONSULTATION_REVIEW") {
@@ -106,7 +106,7 @@ void main() async {
       Get.to(() => const TabBarCustomer(currentIndex: 1));
     }
     if (message.data['type'] == "CONSULTATION_DOCTOR_SCHEDULE") {
-      print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE}');
+      print('INI NOTIF CONSULTATION_DOCTOR_SCHEDULE');
       Get.to(() => const TabBarDoctor());
     }
     if (message.data['type'] == "CONSULTATION_REVIEW") {
