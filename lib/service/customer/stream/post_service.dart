@@ -97,7 +97,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamHomeModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("getStreamInterest ${error.toString()}");
       return [];
     }
   }
@@ -129,7 +129,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamHomeModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("getStreamFollowed ${error.toString()}");
       return [];
     }
   }
@@ -161,7 +161,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamHomeModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("getTrendingStream ${error.toString()}");
       return [];
     }
   }
@@ -193,7 +193,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamHomeModel.fromJson(e))
           .toList();
     } catch (error) {
-      print("HEHEEH ${error.toString()}");
+      print("getStreamHome ${error.toString()}");
       return [];
     }
   }
@@ -210,7 +210,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("likePost ${error.toString()}");
     }
   }
 
@@ -226,7 +226,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("unlikePost ${error.toString()}");
     }
   }
 
@@ -247,7 +247,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("pickPolling ${error.toString()}");
     }
   }
 
@@ -268,7 +268,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("deletePolling ${error.toString()}");
     }
   }
 
@@ -290,7 +290,8 @@ class PostServices extends ProviderClass {
           .map((e) => StreamCommentModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("getComment ${error.toString()}");
+
       return [];
     }
   }
@@ -314,7 +315,7 @@ class PostServices extends ProviderClass {
           .map((e) => StreamCommentReplyModel.fromJson(e))
           .toList();
     } catch (error) {
-      print(error);
+      print("getCommentReplies ${error.toString()}");
       return [];
     }
   }
@@ -331,7 +332,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("likeComment ${error.toString()}");
     }
   }
 
@@ -347,7 +348,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("unlikeComment ${error.toString()}");
     }
   }
 
@@ -363,7 +364,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("likeCommentReply ${error.toString()}");
     }
   }
 
@@ -379,7 +380,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("unlikeCommentReply ${error.toString()}");
     }
   }
 
@@ -395,7 +396,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("savePost ${error.toString()}");
     }
   }
 
@@ -411,7 +412,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("unSavePost ${error.toString()}");
     }
   }
 
@@ -451,8 +452,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print("ERROR MASUK SINI");
-      print(error);
+      print("postComment ${error.toString()}");
     }
   }
 
@@ -468,7 +468,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("blockUser ${error.toString()}");
     }
   }
 
@@ -484,7 +484,7 @@ class PostServices extends ProviderClass {
 
       print(response);
     } catch (error) {
-      print(error);
+      print("unBlockUser ${error.toString()}");
     }
   }
 }

@@ -47,31 +47,37 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            Obx(
-              () => ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: postController.homeStreams.length,
-                itemBuilder: (context, index) {
-                  return StreamPostPage(
-                    stream: postController.homeStreams[index],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return dividergreen();
-                },
-              ),
+      body: Obx(() {
+        if (postController.homeStreams.isEmpty) {
+          return Center(child: Text("No Home Post"));
+        } else {
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                Obx(
+                  () => ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: postController.homeStreams.length,
+                    itemBuilder: (context, index) {
+                      return StreamPostPage(
+                        stream: postController.homeStreams[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return dividergreen();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 80,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

@@ -79,8 +79,9 @@ class StreamHomeModel {
       streamPollOptions: dataPolling,
       fullname: json['user']['fullname'] ?? "-",
       username: json['user']['username'] ?? "-",
-      photoUser:
-          json['user']['media_user_profile_picture']['media']['path'] ?? "",
+      photoUser: json['user']['media_user_profile_picture'] != null
+          ? json['user']['media_user_profile_picture']['media']['path']
+          : "",
       streamSaves: json['_count']['stream_saves'],
       streamComments: json['_count']['stream_comments'],
       streamLikes: json['_count']['stream_likes'],
