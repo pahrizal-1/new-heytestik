@@ -112,7 +112,7 @@ class _StreamHomePageState extends State<StreamHomePage>
                                   searchController.text;
                               postController.homeStreamIndex.value = 1;
                               postController.homeStreams.value = [];
-                              await postController.getStreamHomeModel(context);
+                              await postController.getStreamHome(context);
                             });
 
                             WidgetsBinding.instance

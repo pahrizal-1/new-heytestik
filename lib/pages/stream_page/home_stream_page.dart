@@ -25,7 +25,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
       postController.homeStreamIndex.value = 1;
       postController.search.value = "";
       postController.homeStreams.value = [];
-      await postController.getStreamHomeModel(context);
+      await postController.getStreamHome(context);
     });
 
     scrollController.addListener(() {
@@ -35,7 +35,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
           postController.homeStreamIndex.value =
               postController.homeStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            await postController.getStreamHomeModel(context);
+            await postController.getStreamHome(context);
           });
           setState(() {});
         }
