@@ -513,7 +513,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          KomentarStreamPage(post: widget.stream),
+                          KomentarStreamPage(data: widget.stream),
                     ),
                   );
                 },

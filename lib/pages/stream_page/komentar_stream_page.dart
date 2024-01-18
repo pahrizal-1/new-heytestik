@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -27,10 +29,10 @@ import '../../widget/text_with_mentions.dart';
 class KomentarStreamPage extends StatefulWidget {
   const KomentarStreamPage({
     super.key,
-    required this.post,
+    required this.data,
   });
 
-  final StreamHomeModel post;
+  final StreamHomeModel data;
 
   @override
   State<KomentarStreamPage> createState() => _KomentarStreamPageState();
@@ -43,6 +45,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   final ScrollController commentScrollController = ScrollController();
   final TextEditingController commentController = TextEditingController();
 
+  StreamHomeModel? post;
   int page = 1;
   int index = 1;
   bool? like;
@@ -63,16 +66,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      dataRemainingTime = widget.post.endTime
+      post = await postController.getStreamById(context, widget.data.id);
+      dataRemainingTime = post!.endTime
           .difference(DateTime.now())
           .toString()
           .split('.')[0]
           .split(":");
-      allVotesCount = widget.post.pollCount;
-      streamPollOptions = widget.post.streamPollOptions;
+      allVotesCount = post?.pollCount ?? 0;
+      streamPollOptions = post?.streamPollOptions ?? [];
 
       comments.addAll(
-          await postController.getComment(context, page, widget.post.id));
+        await postController.getComment(context, page, widget.data.id),
+      );
       for (var i = 0; i < comments.length; i++) {
         commentLikes.addAll({
           "${comments[i].commentID}": 0,
@@ -92,7 +97,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             comments.addAll(
-                await postController.getComment(context, page, widget.post.id));
+                await postController.getComment(context, page, widget.data.id));
             for (var i = 0; i < comments.length; i++) {
               commentLikes.addAll({
                 "${comments[i].commentID}": 0,
@@ -165,13 +170,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: widget.post.photoUser == "" ||
-                                    widget.post.photoUser == "photo_profile"
+                            image: post?.photoUser == "" ||
+                                    post?.photoUser == "photo_profile"
                                 ? AssetImage(
                                     'assets/images/profiledummy.png',
                                   )
                                 : NetworkImage(
-                                    '${Global.FILE}/${widget.post.photoUser}',
+                                    '${Global.FILE}/${post?.photoUser}',
                                   ) as ImageProvider,
                           ),
                         ),
@@ -183,14 +188,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.post.fullname,
+                            post?.fullname ?? "",
                             style: blackTextStyle.copyWith(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 4,
                           ),
                           Text(
-                            '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.post.createdAt))}, ${timeago.format(DateTime.parse(widget.post.createdAt))}',
+                            '${DateFormat('dd MMMM yyyy').format(DateTime.parse(post!.createdAt))}, ${timeago.format(DateTime.parse(post!.createdAt))}',
                             style: subTitleTextStyle.copyWith(fontSize: 10),
                           )
                         ],
@@ -208,11 +213,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                             ),
                             builder: (context) => ShareLinkStream(
-                              username: widget.post.username,
-                              isMe: stateProfile.username.value ==
-                                      widget.post.username
-                                  ? true
-                                  : false,
+                              username: post?.username ?? "",
+                              isMe:
+                                  stateProfile.username.value == post?.username
+                                      ? true
+                                      : false,
                             ),
                           );
                         },
@@ -229,13 +234,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   ),
                   if (streamPollOptions.isEmpty)
                     buildRichTextWithMentions(
-                      widget.post.content,
+                      post?.content ?? "",
                     ),
                   if (streamPollOptions.isEmpty)
                     const SizedBox(
                       height: 16,
                     ),
-                  if (widget.post.postImage.isNotEmpty)
+                  if (post!.postImage.isNotEmpty)
                     CarouselSlider(
                       options: CarouselOptions(
                         padEnds: false,
@@ -245,13 +250,13 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             setState(() => activeIndex = index),
                         viewportFraction: 1,
                       ),
-                      items: widget.post.postImage.map((image) {
+                      items: post?.postImage.map((image) {
                         return Builder(
                           builder: (BuildContext context) {
                             return InkWell(
                               onTap: () {
                                 // Get.to(
-                                //     GalleryWidgets(urlImages: widget.post.postImage));
+                                //     GalleryWidgets(urlImages: post.postImage));
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -272,15 +277,15 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         );
                       }).toList(),
                     ),
-                  if (widget.post.postImage.isNotEmpty)
+                  if (post!.postImage.isNotEmpty)
                     SizedBox(
                       height: 20,
                     ),
-                  if (widget.post.postImage.isNotEmpty)
+                  if (post!.postImage.isNotEmpty)
                     Center(
                       child: AnimatedSmoothIndicator(
                         activeIndex: activeIndex,
-                        count: widget.post.postImage.length,
+                        count: post?.postImage.length ?? 0,
                         effect: ScaleEffect(
                             activeDotColor: greenColor,
                             dotColor: const Color(0xffD9D9D9),
@@ -288,7 +293,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             dotHeight: 6),
                       ),
                     ),
-                  if (widget.post.postImage.isNotEmpty)
+                  if (post!.postImage.isNotEmpty)
                     const SizedBox(
                       height: 16,
                     ),
@@ -328,7 +333,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             height: 16.0,
                           ),
                           buildRichTextWithMentions(
-                            widget.post.content,
+                            post?.content ?? "",
                             textStyle: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -390,7 +395,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             1;
                                         postController.deletePolling(
                                             context,
-                                            widget.post.id,
+                                            widget.data.id,
                                             streamPollOptions[indexVotes!]
                                                 ['stream_poll_id'],
                                             streamPollOptions[indexVotes!]
@@ -399,7 +404,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
 
                                       postController.pickPolling(
                                           context,
-                                          widget.post.id,
+                                          widget.data.id,
                                           option.value['stream_poll_id'],
                                           option.value['id']);
                                       indexVotes = option.key;
@@ -485,12 +490,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         ],
                       ),
                     ),
-                  if (widget.post.hashtags.isNotEmpty) ...[
+                  if (post!.hashtags.isNotEmpty) ...[
                     const SizedBox(
                       height: 16,
                     ),
                     Wrap(
-                      children: widget.post.hashtags.map((hashtag) {
+                      children: post!.hashtags.map((hashtag) {
                         return Text(
                           "#$hashtag",
                           style: grenTextStyle.copyWith(
@@ -505,7 +510,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     height: 16,
                   ),
                   Text(
-                    '${widget.post.streamLikes + postLike} menyukai',
+                    '${post!.streamLikes + postLike} menyukai',
                     style: subTitleTextStyle.copyWith(fontSize: 12),
                   ),
                   const SizedBox(
@@ -518,23 +523,23 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                         children: [
                           InkWell(
                               onTap: () {
-                                if (like ?? widget.post.liked) {
+                                if (like ?? post!.liked) {
                                   postController.unlikePost(
-                                      context, widget.post.id);
+                                      context, widget.data.id);
                                   setState(() {
                                     like = false;
                                     postLike = postLike - 1;
                                   });
                                 } else {
                                   postController.likePost(
-                                      context, widget.post.id);
+                                      context, widget.data.id);
                                   setState(() {
                                     like = true;
                                     postLike = postLike + 1;
                                   });
                                 }
                               },
-                              child: like ?? widget.post.liked
+                              child: like ?? post!.liked
                                   ? Image.asset(
                                       'assets/icons/like.png',
                                       width: 19,
@@ -580,21 +585,21 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              if (saved ?? widget.post.saved) {
+                              if (saved ?? post!.saved) {
                                 postController.unSavePost(
-                                    context, widget.post.id);
+                                    context, widget.data.id);
                                 setState(() {
                                   saved = false;
                                 });
                               } else {
                                 postController.savePost(
-                                    context, widget.post.id);
+                                    context, widget.data.id);
                                 setState(() {
                                   saved = true;
                                 });
                               }
                             },
-                            child: saved ?? widget.post.saved
+                            child: saved ?? post!.saved
                                 ? Icon(
                                     Icons.bookmark,
                                     color: greenColor,
@@ -684,7 +689,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           0) {
                                         print("heheh");
                                         postController.unlikeComment(context,
-                                            widget.post.id, comment.commentID);
+                                            widget.data.id, comment.commentID);
                                         setState(() {
                                           commentLikes.update(
                                               "${comment.commentID}",
@@ -697,7 +702,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       } else {
                                         print("hahah");
                                         postController.likeComment(context,
-                                            widget.post.id, comment.commentID);
+                                            widget.data.id, comment.commentID);
                                         setState(() {
                                           commentLikes.update(
                                               "${comment.commentID}",
@@ -751,7 +756,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         await postController.getCommentReplies(
                                             context,
                                             page,
-                                            widget.post.id,
+                                            widget.data.id,
                                             comment.commentID);
 
                                     commentReplies.addAll({
@@ -879,7 +884,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                               onTap: () {
                                                                 postController.unlikeCommentReply(
                                                                     context,
-                                                                    widget.post
+                                                                    widget.data
                                                                         .id,
                                                                     comment
                                                                         .commentID,
@@ -907,7 +912,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                               onTap: () {
                                                                 postController.likeCommentReply(
                                                                     context,
-                                                                    widget.post
+                                                                    widget.data
                                                                         .id,
                                                                     comment
                                                                         .commentID,
@@ -1202,11 +1207,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               InkWell(
                 onTap: () async {
                   postController.postComment(
-                      context, widget.post.id, commentController.text);
+                      context, widget.data.id, commentController.text);
                   page = 1;
                   comments.clear();
                   comments.addAll(await postController.getComment(
-                      context, page, widget.post.id));
+                      context, page, widget.data.id));
                   commentController.clear();
                   setState(() {});
                 },

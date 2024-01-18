@@ -198,6 +198,23 @@ class PostServices extends ProviderClass {
     }
   }
 
+  Future<StreamHomeModel> getStreamById(int postId) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/stream/$postId',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      print("RES ${response['data']}");
+      return StreamHomeModel.fromJson(response['data']);
+    } catch (error) {
+      print("getStreamById SER ${error.toString()}");
+      return StreamHomeModel.fromJson({});
+    }
+  }
+
   void likePost(int postID) async {
     try {
       var response = await networkingConfig.doPost(

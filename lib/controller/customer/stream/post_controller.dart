@@ -45,6 +45,7 @@ class PostController extends StateClass {
         print("data $data");
         doInPost();
       } catch (e) {
+        print("postStream ${e.toString()}");
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: "Something wen't wrong please try again later",
@@ -67,7 +68,7 @@ class PostController extends StateClass {
       followedStreams.addAll(data);
       return data;
     } catch (error) {
-      print(error.toString());
+      print("getStreamFollowed ${error.toString()}");
       return [];
     }
   }
@@ -85,7 +86,7 @@ class PostController extends StateClass {
       interestStreams.addAll(data);
       return data;
     } catch (error) {
-      print(error.toString());
+      print("getStreamInterest ${error.toString()}");
       return [];
     }
   }
@@ -103,12 +104,12 @@ class PostController extends StateClass {
       trendingStreams.addAll(data);
       return data;
     } catch (error) {
-      print(error.toString());
+      print("getTrendingStream ${error.toString()}");
       return [];
     }
   }
 
-  Future<List<StreamHomeModel>> getStreamHomeModel(BuildContext context) async {
+  Future<List<StreamHomeModel>> getStreamHome(BuildContext context) async {
     try {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
@@ -121,8 +122,25 @@ class PostController extends StateClass {
       homeStreams.addAll(data);
       return data;
     } catch (error) {
-      print("heheh error nih ${error.toString()}");
+      print("getStreamHome ${error.toString()}");
       return [];
+    }
+  }
+
+  Future<StreamHomeModel?> getStreamById(
+      BuildContext context, int postId) async {
+    try {
+      isLoading.value = true;
+      StreamHomeModel? data;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await PostServices().getStreamById(postId);
+        isLoading.value = false;
+      });
+
+      return data;
+    } catch (error) {
+      print("getStreamById CON ${error.toString()}");
+      return StreamHomeModel.fromJson({});
     }
   }
 
@@ -139,7 +157,7 @@ class PostController extends StateClass {
 
       return data;
     } catch (error) {
-      print(error.toString());
+      print("getComment ${error.toString()}");
       return [];
     }
   }
@@ -156,7 +174,7 @@ class PostController extends StateClass {
 
       return data;
     } catch (error) {
-      print(error.toString());
+      print("getCommentReplies ${error.toString()}");
       return [];
     }
   }
@@ -167,7 +185,7 @@ class PostController extends StateClass {
       PostServices().likePost(postID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("likePost ${error.toString()}");
     }
   }
 
@@ -177,7 +195,7 @@ class PostController extends StateClass {
       PostServices().unlikePost(postID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("unlikePost ${error.toString()}");
     }
   }
 
@@ -188,7 +206,7 @@ class PostController extends StateClass {
       PostServices().pickPolling(streamID, pollingID, optionID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("pickPolling ${error.toString()}");
     }
   }
 
@@ -199,7 +217,7 @@ class PostController extends StateClass {
       PostServices().deletePolling(streamID, pollingID, optionID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("deletePolling ${error.toString()}");
     }
   }
 
@@ -209,7 +227,7 @@ class PostController extends StateClass {
       PostServices().savePost(postID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("savePost ${error.toString()}");
     }
   }
 
@@ -219,7 +237,7 @@ class PostController extends StateClass {
       PostServices().unSavePost(postID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("unSavePost ${error.toString()}");
     }
   }
 
@@ -229,7 +247,7 @@ class PostController extends StateClass {
       PostServices().likeComment(postID, commentID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("likeComment ${error.toString()}");
     }
   }
 
@@ -239,7 +257,7 @@ class PostController extends StateClass {
       PostServices().unlikeComment(postID, commentID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("unlikeComment ${error.toString()}");
     }
   }
 
@@ -250,7 +268,7 @@ class PostController extends StateClass {
       PostServices().likeCommentReply(postID, commentID, replyID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("likeCommentReply ${error.toString()}");
     }
   }
 
@@ -261,7 +279,7 @@ class PostController extends StateClass {
       PostServices().unlikeCommentReply(postID, commentID, replyID);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("unlikeCommentReply ${error.toString()}");
     }
   }
 
@@ -271,7 +289,7 @@ class PostController extends StateClass {
       PostServices().postComment(postID, comment);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("postComment ${error.toString()}");
     }
   }
 
@@ -281,7 +299,7 @@ class PostController extends StateClass {
       PostServices().blockUser(username);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("blockUser ${error.toString()}");
     }
   }
 
@@ -291,7 +309,7 @@ class PostController extends StateClass {
       PostServices().unBlockUser(username);
       isLoading.value = false;
     } catch (error) {
-      print(error.toString());
+      print("unBlockUser ${error.toString()}");
     }
   }
 }
