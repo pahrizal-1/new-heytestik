@@ -41,6 +41,12 @@ class ConsultationController extends StateClass {
       resendTime.value = resendTime.value - 1;
       if (resendTime.value <= 0) {
         timer.cancel();
+        Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => const TabBarCustomer(currentIndex: 1),
+          ),
+        );
       }
     });
   }
@@ -111,21 +117,41 @@ class ConsultationController extends StateClass {
     isLoading.value = false;
   }
 
+  eventConsultationExpired() {
+    socket?.on('consultationScheduleExpired', (expired) async {
+
+    });
+  }
+
   eventApp() {
     print("app");
     socket?.on('app', (app) async {
       log("appEvent $app");
       print("appEv ");
       print("ap ${app['message']}");
-      if (app['event'] != "consultationScheduleExpired") {
-        Navigator.push(
-          Get.context!,
-          MaterialPageRoute(
-            builder: (context) => const TabBarCustomer(currentIndex: 1),
-          ),
-        );
-      } else {
-        Navigator.pushAndRemoveUntil<dynamic>(
+      // if (app['event'] != "consultationScheduleExpired") {
+      //   Navigator.push(
+      //     Get.context!,
+      //     MaterialPageRoute(
+      //       builder: (context) => const TabBarCustomer(currentIndex: 1),
+      //     ),
+      //   );
+      // } else {
+      //   Navigator.pushAndRemoveUntil<dynamic>(
+      //     Get.context!,
+      //     MaterialPageRoute<dynamic>(
+      //       builder: (BuildContext context) => TabBarCustomer(),
+      //     ),
+      //     (route) => false, //if you want to disable back feature set to false
+      //   );
+      //   showDialog(
+      //     context: Get.context!,
+      //     builder: (context) =>
+      //         AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
+      //   );
+      //   close();
+      // }
+      Navigator.pushAndRemoveUntil<dynamic>(
           Get.context!,
           MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => TabBarCustomer(),
@@ -135,10 +161,9 @@ class ConsultationController extends StateClass {
         showDialog(
           context: Get.context!,
           builder: (context) =>
-              AlertWidget(subtitle: 'Permintaan anda telah expired'),
+              AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
         );
         close();
-      }
     });
   }
 
