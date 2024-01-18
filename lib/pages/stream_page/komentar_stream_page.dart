@@ -29,10 +29,10 @@ import '../../widget/text_with_mentions.dart';
 class KomentarStreamPage extends StatefulWidget {
   const KomentarStreamPage({
     super.key,
-    required this.data,
+    required this.postId,
   });
 
-  final StreamHomeModel data;
+  final int postId;
 
   @override
   State<KomentarStreamPage> createState() => _KomentarStreamPageState();
@@ -66,7 +66,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      post = await postController.getStreamById(context, widget.data.id);
+      post = await postController.getStreamById(context, widget.postId);
       dataRemainingTime = post!.endTime
           .difference(DateTime.now())
           .toString()
@@ -76,7 +76,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       streamPollOptions = post?.streamPollOptions ?? [];
 
       comments.addAll(
-        await postController.getComment(context, page, widget.data.id),
+        await postController.getComment(context, page, widget.postId),
       );
       for (var i = 0; i < comments.length; i++) {
         commentLikes.addAll({
@@ -97,7 +97,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             comments.addAll(
-                await postController.getComment(context, page, widget.data.id));
+                await postController.getComment(context, page, widget.postId));
             for (var i = 0; i < comments.length; i++) {
               commentLikes.addAll({
                 "${comments[i].commentID}": 0,
@@ -213,7 +213,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                             ),
                             builder: (context) => ShareLinkStream(
-                              username: post?.username ?? "",
+                              post: post!,
                               isMe:
                                   stateProfile.username.value == post?.username
                                       ? true
@@ -395,7 +395,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             1;
                                         postController.deletePolling(
                                             context,
-                                            widget.data.id,
+                                            widget.postId,
                                             streamPollOptions[indexVotes!]
                                                 ['stream_poll_id'],
                                             streamPollOptions[indexVotes!]
@@ -404,7 +404,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
 
                                       postController.pickPolling(
                                           context,
-                                          widget.data.id,
+                                          widget.postId,
                                           option.value['stream_poll_id'],
                                           option.value['id']);
                                       indexVotes = option.key;
@@ -525,14 +525,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               onTap: () {
                                 if (like ?? post!.liked) {
                                   postController.unlikePost(
-                                      context, widget.data.id);
+                                      context, widget.postId);
                                   setState(() {
                                     like = false;
                                     postLike = postLike - 1;
                                   });
                                 } else {
                                   postController.likePost(
-                                      context, widget.data.id);
+                                      context, widget.postId);
                                   setState(() {
                                     like = true;
                                     postLike = postLike + 1;
@@ -557,7 +557,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           ),
                           InkWell(
                             onTap: () async {
-                              Uri? url = await createDynamicLinkStream();
+                              Uri? url =
+                                  await createDynamicLinkStream(widget.postId);
                               print("url $url");
                               await SocialShare.shareOptions(url.toString());
                               // showModalBottomSheet(
@@ -587,13 +588,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             onTap: () {
                               if (saved ?? post!.saved) {
                                 postController.unSavePost(
-                                    context, widget.data.id);
+                                    context, widget.postId);
                                 setState(() {
                                   saved = false;
                                 });
                               } else {
-                                postController.savePost(
-                                    context, widget.data.id);
+                                postController.savePost(context, widget.postId);
                                 setState(() {
                                   saved = true;
                                 });
@@ -689,7 +689,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           0) {
                                         print("heheh");
                                         postController.unlikeComment(context,
-                                            widget.data.id, comment.commentID);
+                                            widget.postId, comment.commentID);
                                         setState(() {
                                           commentLikes.update(
                                               "${comment.commentID}",
@@ -702,7 +702,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       } else {
                                         print("hahah");
                                         postController.likeComment(context,
-                                            widget.data.id, comment.commentID);
+                                            widget.postId, comment.commentID);
                                         setState(() {
                                           commentLikes.update(
                                               "${comment.commentID}",
@@ -756,7 +756,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         await postController.getCommentReplies(
                                             context,
                                             page,
-                                            widget.data.id,
+                                            widget.postId,
                                             comment.commentID);
 
                                     commentReplies.addAll({
@@ -884,8 +884,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                               onTap: () {
                                                                 postController.unlikeCommentReply(
                                                                     context,
-                                                                    widget.data
-                                                                        .id,
+                                                                    widget
+                                                                        .postId,
                                                                     comment
                                                                         .commentID,
                                                                     commentReplies["${comment.commentID}"]![
@@ -912,8 +912,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                               onTap: () {
                                                                 postController.likeCommentReply(
                                                                     context,
-                                                                    widget.data
-                                                                        .id,
+                                                                    widget
+                                                                        .postId,
                                                                     comment
                                                                         .commentID,
                                                                     commentReplies["${comment.commentID}"]![
@@ -975,7 +975,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               ),
                             ),
                             builder: (context) => ShareLinkStream(
-                              username: comment.userName,
+                              post: post!,
                               isMe: stateProfile.username.value ==
                                       comment.userName
                                   ? true
@@ -1207,11 +1207,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               InkWell(
                 onTap: () async {
                   postController.postComment(
-                      context, widget.data.id, commentController.text);
+                      context, widget.postId, commentController.text);
                   page = 1;
                   comments.clear();
                   comments.addAll(await postController.getComment(
-                      context, page, widget.data.id));
+                      context, page, widget.postId));
                   commentController.clear();
                   setState(() {});
                 },

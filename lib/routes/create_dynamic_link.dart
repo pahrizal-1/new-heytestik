@@ -24,10 +24,10 @@ Future<Uri?> createDynamicLinkNews() async {
   return shortDynamicLink.shortUrl;
 }
 
-Future<Uri?> createDynamicLinkStream() async {
+Future<Uri?> createDynamicLinkStream(int postId) async {
   final DynamicLinkParameters parameters = DynamicLinkParameters(
     uriPrefix: 'https://heystetik.page.link',
-    link: Uri.parse('https://www.heystetik.com/stream'),
+    link: Uri.parse('https://www.heystetik.com/stream/$postId'),
     androidParameters: const AndroidParameters(
       packageName: 'com.example.heystetik_mobileapps',
       minimumVersion: 0,

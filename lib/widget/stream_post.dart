@@ -119,7 +119,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       ),
                     ),
                     builder: (context) => ShareLinkStream(
-                      username: widget.stream.username,
+                      post: widget.stream,
                       isMe:
                           stateProfile.username.value == widget.stream.username
                               ? true
@@ -454,7 +454,8 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      Uri? url = await createDynamicLinkStream();
+                      Uri? url =
+                          await createDynamicLinkStream(widget.stream.id);
                       print("url $url");
                       await SocialShare.shareOptions(url.toString());
 
@@ -513,7 +514,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          KomentarStreamPage(data: widget.stream),
+                          KomentarStreamPage(postId: widget.stream.id),
                     ),
                   );
                 },

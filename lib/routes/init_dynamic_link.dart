@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
-import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
 
 FirebaseDynamicLinksPlatform dynamicLinks =
     FirebaseDynamicLinksPlatform.instance;
@@ -13,14 +13,10 @@ Future<void> initDynamicLinks() async {
   dynamicLinks.onLink.listen((dynamicLinkData) {
     final path = dynamicLinkData.link.path;
     print('DYNAMIC LINK $path');
-    if (path.startsWith('/stream')) {
-      print('INI STREAM $path');
-      Get.offAll(
-        () => const TabBarCustomer(
-          currentIndex: 2,
-          streamIndex: 0,
-        ),
-      );
+    if (path.startsWith('/stream/')) {
+      final postId = path.split('/').last;
+      print("INI STREAM $postId");
+      Get.to(() => KomentarStreamPage(postId: int.parse(postId)));
     } else if (path.startsWith('/skincare/')) {
       final productId = path.split('/').last;
       print("INI SKINCARE $productId");

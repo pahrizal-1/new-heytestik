@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -12,10 +13,10 @@ class ShareLinkStream extends StatelessWidget {
   const ShareLinkStream({
     super.key,
     required this.isMe,
-    required this.username,
+    required this.post,
   });
   final bool isMe;
-  final String username;
+  final StreamHomeModel post;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class ShareLinkStream extends StatelessWidget {
                 'assets/icons/link.png',
                 'Salin Link',
                 () async {
-                  Uri? url = await createDynamicLinkStream();
+                  Uri? url = await createDynamicLinkStream(post.id);
                   print("url $url");
                   SocialShare.copyToClipboard(
                     text: url.toString(),
@@ -75,9 +76,9 @@ class ShareLinkStream extends StatelessWidget {
               if (!isMe)
                 text(
                   'assets/icons/slash-icons.png',
-                  'Blokir @$username',
+                  'Blokir @${post.username}',
                   () {
-                    postController.blockUser(context, username);
+                    postController.blockUser(context, post.username);
                   },
                   redColor,
                 ),
