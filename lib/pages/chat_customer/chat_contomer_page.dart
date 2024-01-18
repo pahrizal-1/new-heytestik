@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_null_comparison, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
@@ -78,8 +78,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     print('id' + widget.id.toString());
     print('romid' + widget.roomId.toString());
     getRequest(widget.roomCode, take);
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => doktorState.getDetailConsltation(context, widget.id!));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await doktorState.getDetailConsltation(context, widget.id!);
+      await state.detailConsultation(context, widget.id!);
+    });
     // controller.addListener(
     //   () {
     //     if (controller.position.pixels == controller.position.maxScrollExtent) {
@@ -95,6 +97,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     notificationService.initializePlatformNotifications();
     // joinRoom(widget.roomCode);
     // readMessage(widget.roomCode);
+    setState(() {});
   }
 
   bool clik = true;
@@ -482,31 +485,36 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 25, right: 25, bottom: 10, top: 10),
+                    left: 25,
+                    right: 25,
+                    bottom: 0,
+                    top: 0,
+                  ),
                   child: Row(
                     children: [
                       InkWell(
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         const SelesaiPembayaranPage(),
-                            //   ),
-                            // );
-                            Navigator.pop(context, 'refresh');
-                            selectedMultipleImage = [];
-                            fileImage = [];
-                            leaveRoom(widget.roomCode);
-                            close();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => SelesaiPembayaranPage(),
-                            //   ),
-                            // );
-                          },
-                          child: Icon(Icons.arrow_back)),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         const SelesaiPembayaranPage(),
+                          //   ),
+                          // );
+                          Navigator.pop(context, 'refresh');
+                          selectedMultipleImage = [];
+                          fileImage = [];
+                          leaveRoom(widget.roomCode);
+                          close();
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => SelesaiPembayaranPage(),
+                          //   ),
+                          // );
+                        },
+                        child: Icon(Icons.arrow_back),
+                      ),
                       const SizedBox(
                         width: 21,
                       ),
@@ -516,57 +524,72 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TabBarChat(id: widget.id),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: 135,
-                          height: 25,
-                          decoration: BoxDecoration(
-                              color: greenColor,
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Center(
-                            child: Text(
-                              'Detail Perawatan',
-                              style: whiteTextStyle.copyWith(fontSize: 13),
+                      if (state.data.value.consultationRecipeDrug!.isNotEmpty ||
+                          state.data.value.consultationRecomendationSkincare!
+                              .isNotEmpty ||
+                          state.data.value.consultationRecomendationTreatment!
+                              .isNotEmpty)
+                        Spacer(),
+                      if (state.data.value.consultationRecipeDrug!.isNotEmpty ||
+                          state.data.value.consultationRecomendationSkincare!
+                              .isNotEmpty ||
+                          state.data.value.consultationRecomendationTreatment!
+                              .isNotEmpty)
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TabBarChat(id: widget.id),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 135,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: greenColor,
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Center(
+                              child: Text(
+                                'Detail Perawatan',
+                                style: whiteTextStyle.copyWith(fontSize: 13),
+                              ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
-                Container(
-                  height: 31,
-                  color: Color(0xFFFFE2C1),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Rekomendasi Dokter sudah siap. Klik',
-                        style: blackTextStyle.copyWith(
-                            fontSize: 12, fontWeight: regular),
-                      ),
-                      Text(
-                        " 'Detail Perawatan’",
-                        style: blackHigtTextStyle.copyWith(fontSize: 12),
-                      ),
-                      Text(
-                        'ya :)',
-                        style: blackTextStyle.copyWith(
-                            fontSize: 12, fontWeight: regular),
-                      ),
-                    ],
-                  ),
-                )
+                if (state.data.value.consultationRecipeDrug!.isNotEmpty ||
+                    state.data.value.consultationRecomendationSkincare!
+                        .isNotEmpty ||
+                    state.data.value.consultationRecomendationTreatment!
+                        .isNotEmpty)
+                  Container(
+                    height: 31,
+                    color: Color(0xFFFFE2C1),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Rekomendasi Dokter sudah siap. Klik',
+                          style: blackTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular),
+                        ),
+                        Text(
+                          " 'Detail Perawatan’",
+                          style: blackHigtTextStyle.copyWith(fontSize: 12),
+                        ),
+                        Text(
+                          'ya :)',
+                          style: blackTextStyle.copyWith(
+                              fontSize: 12, fontWeight: regular),
+                        ),
+                      ],
+                    ),
+                  )
               ],
             ),
           ),
@@ -579,7 +602,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
           : SingleChildScrollView(
               controller: controller,
               child: Padding(
-                padding: lsymetric.copyWith(top: 17),
+                padding: lsymetric.copyWith(top: 0),
                 child: Column(
                   children: [
                     Container(
@@ -596,7 +619,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 18,
+                      height: 0,
                     ),
                     widget.id == widget.roomId
                         ? Container(
