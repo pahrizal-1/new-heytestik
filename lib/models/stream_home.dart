@@ -1,7 +1,7 @@
 class StreamHomeModel {
   final int id;
   final String content;
-  final String type;
+  // final String type;
   final String createdAt;
   final String visibility;
   final List<String> streamHashtags;
@@ -23,7 +23,7 @@ class StreamHomeModel {
   const StreamHomeModel({
     required this.id,
     required this.content,
-    required this.type,
+    // required this.type,
     required this.createdAt,
     required this.visibility,
     required this.streamHashtags,
@@ -68,7 +68,7 @@ class StreamHomeModel {
     return StreamHomeModel(
       id: json['id'],
       content: json['content'] ?? "",
-      type: json['type'] ?? "",
+      // type: json['type'] ?? "",
       createdAt: json['created_at'] ?? "",
       visibility: json['visibility'] ?? "",
       streamHashtags: json['stream_hastags'] == null
