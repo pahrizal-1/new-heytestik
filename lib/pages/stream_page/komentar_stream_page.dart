@@ -1016,185 +1016,185 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     ),
                     fillColor: whiteColor,
                     hintText: 'Tulis Komentar',
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(11.0),
-                      child: PopupMenuButton(
-                        icon: Image.asset(
-                          'assets/icons/atement.png',
-                          width: 20,
-                        ),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15)),
-                              height: 100,
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          backgroundColor: Colors.transparent,
-                                          insetPadding:
-                                              const EdgeInsets.all(0.1),
-                                          content: Container(
-                                            height: 225,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                              color: whiteColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 35,
-                                                      vertical: 32),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Tambahkan gambar',
-                                                    style: blackRegulerTextStyle
-                                                        .copyWith(
-                                                            fontSize: 20,
-                                                            color: blackColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 21,
-                                                  ),
-                                                  //Tambah Gambar Di Kamera
-                                                  InkWell(
-                                                    onTap: () {
-                                                      _pickImageFromCamera();
-                                                    },
-                                                    child: Text(
-                                                      'Kamera',
-                                                      style: blackRegulerTextStyle
-                                                          .copyWith(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  blackColor),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 21,
-                                                  ),
-                                                  //Tambah Gambar Di Galeri
-                                                  InkWell(
-                                                    onTap: () {
-                                                      _pickImageFromGalery();
-                                                    },
-                                                    child: Text(
-                                                      'Dari galeri',
-                                                      style: blackRegulerTextStyle
-                                                          .copyWith(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  blackColor),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 21,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          'CANCEL',
-                                                          style: blackRegulerTextStyle
-                                                              .copyWith(
-                                                                  fontSize: 15,
-                                                                  color:
-                                                                      blackColor),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Foto / Kamera',
-                                          style: blackRegulerTextStyle.copyWith(
-                                              fontSize: 13),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        const Spacer(),
-                                        Container(
-                                          height: 44,
-                                          width: 44,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          decoration: BoxDecoration(
-                                              color: greenColor,
-                                              shape: BoxShape.circle),
-                                          child: Image.asset(
-                                            'assets/icons/camera-new.png',
-                                            height: 25,
-                                            width: 25,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Poll',
-                                          style: blackRegulerTextStyle.copyWith(
-                                              fontSize: 13),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        const Spacer(),
-                                        Container(
-                                          height: 44,
-                                          width: 44,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          decoration: BoxDecoration(
-                                              color: greenColor,
-                                              shape: BoxShape.circle),
-                                          child: Image.asset(
-                                            'assets/icons/poll.png',
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    // suffixIcon: Padding(
+                    //   padding: const EdgeInsets.all(11.0),
+                    //   child: PopupMenuButton(
+                    //     icon: Image.asset(
+                    //       'assets/icons/atement.png',
+                    //       width: 20,
+                    //     ),
+                    //     itemBuilder: (context) => [
+                    //       PopupMenuItem(
+                    //         child: Container(
+                    //           decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(15)),
+                    //           height: 100,
+                    //           child: Column(
+                    //             children: [
+                    //               InkWell(
+                    //                 onTap: () {
+                    //                   showDialog(
+                    //                     context: context,
+                    //                     builder: (context) => AlertDialog(
+                    //                       backgroundColor: Colors.transparent,
+                    //                       insetPadding:
+                    //                           const EdgeInsets.all(0.1),
+                    //                       content: Container(
+                    //                         height: 225,
+                    //                         width: MediaQuery.of(context)
+                    //                             .size
+                    //                             .width,
+                    //                         decoration: BoxDecoration(
+                    //                           color: whiteColor,
+                    //                           borderRadius:
+                    //                               BorderRadius.circular(20),
+                    //                         ),
+                    //                         child: Padding(
+                    //                           padding:
+                    //                               const EdgeInsets.symmetric(
+                    //                                   horizontal: 35,
+                    //                                   vertical: 32),
+                    //                           child: Column(
+                    //                             crossAxisAlignment:
+                    //                                 CrossAxisAlignment.start,
+                    //                             children: [
+                    //                               Text(
+                    //                                 'Tambahkan gambar',
+                    //                                 style: blackRegulerTextStyle
+                    //                                     .copyWith(
+                    //                                         fontSize: 20,
+                    //                                         color: blackColor),
+                    //                               ),
+                    //                               const SizedBox(
+                    //                                 height: 21,
+                    //                               ),
+                    //                               //Tambah Gambar Di Kamera
+                    //                               InkWell(
+                    //                                 onTap: () {
+                    //                                   _pickImageFromCamera();
+                    //                                 },
+                    //                                 child: Text(
+                    //                                   'Kamera',
+                    //                                   style: blackRegulerTextStyle
+                    //                                       .copyWith(
+                    //                                           fontSize: 15,
+                    //                                           color:
+                    //                                               blackColor),
+                    //                                 ),
+                    //                               ),
+                    //                               const SizedBox(
+                    //                                 height: 21,
+                    //                               ),
+                    //                               //Tambah Gambar Di Galeri
+                    //                               InkWell(
+                    //                                 onTap: () {
+                    //                                   _pickImageFromGalery();
+                    //                                 },
+                    //                                 child: Text(
+                    //                                   'Dari galeri',
+                    //                                   style: blackRegulerTextStyle
+                    //                                       .copyWith(
+                    //                                           fontSize: 15,
+                    //                                           color:
+                    //                                               blackColor),
+                    //                                 ),
+                    //                               ),
+                    //                               const SizedBox(
+                    //                                 height: 21,
+                    //                               ),
+                    //                               Row(
+                    //                                 mainAxisAlignment:
+                    //                                     MainAxisAlignment.end,
+                    //                                 children: [
+                    //                                   InkWell(
+                    //                                     onTap: () {
+                    //                                       Navigator.pop(
+                    //                                           context);
+                    //                                     },
+                    //                                     child: Text(
+                    //                                       'CANCEL',
+                    //                                       style: blackRegulerTextStyle
+                    //                                           .copyWith(
+                    //                                               fontSize: 15,
+                    //                                               color:
+                    //                                                   blackColor),
+                    //                                     ),
+                    //                                   ),
+                    //                                 ],
+                    //                               )
+                    //                             ],
+                    //                           ),
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                   );
+                    //                 },
+                    //                 child: Row(
+                    //                   children: [
+                    //                     Text(
+                    //                       'Foto / Kamera',
+                    //                       style: blackRegulerTextStyle.copyWith(
+                    //                           fontSize: 13),
+                    //                     ),
+                    //                     const SizedBox(
+                    //                       width: 10,
+                    //                     ),
+                    //                     const Spacer(),
+                    //                     Container(
+                    //                       height: 44,
+                    //                       width: 44,
+                    //                       padding: const EdgeInsets.symmetric(
+                    //                           horizontal: 15),
+                    //                       decoration: BoxDecoration(
+                    //                           color: greenColor,
+                    //                           shape: BoxShape.circle),
+                    //                       child: Image.asset(
+                    //                         'assets/icons/camera-new.png',
+                    //                         height: 25,
+                    //                         width: 25,
+                    //                       ),
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //               const SizedBox(
+                    //                 height: 10,
+                    //               ),
+                    //               InkWell(
+                    //                 onTap: () {},
+                    //                 child: Row(
+                    //                   children: [
+                    //                     Text(
+                    //                       'Poll',
+                    //                       style: blackRegulerTextStyle.copyWith(
+                    //                           fontSize: 13),
+                    //                     ),
+                    //                     const SizedBox(
+                    //                       width: 10,
+                    //                     ),
+                    //                     const Spacer(),
+                    //                     Container(
+                    //                       height: 44,
+                    //                       width: 44,
+                    //                       padding: const EdgeInsets.symmetric(
+                    //                           horizontal: 15),
+                    //                       decoration: BoxDecoration(
+                    //                           color: greenColor,
+                    //                           shape: BoxShape.circle),
+                    //                       child: Image.asset(
+                    //                         'assets/icons/poll.png',
+                    //                       ),
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     hintStyle: subGreyTextStyle,
                   ),
                 ),
