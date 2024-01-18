@@ -1612,20 +1612,22 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                 }),
                           )
                         : Container(),
-                    Obx(() => Container(
-                          height: 30,
-                          width: double.infinity,
-                          color: Colors.grey,
-                          margin: EdgeInsets.only(top: 20),
-                          child: Center(
-                            child: Text(
-                              "Konsultasi selesai di ${doktorState.endDate.value}",
-                              style: whiteTextStyle.copyWith(
-                                fontSize: 16,
+                    doktorState.status.value == 'SELESAI'
+                        ? Obx(() => Container(
+                              height: 30,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 20),
+                              color: Colors.grey,
+                              child: Center(
+                                child: Text(
+                                  "Konsultasi selesai di ${doktorState.endDate.value}",
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )),
+                            ))
+                        : SizedBox(),
                   ],
                 ),
               ),

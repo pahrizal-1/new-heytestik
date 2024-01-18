@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/halaman_chat_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -91,7 +93,9 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context,);
+                      Navigator.pop(
+                        context,
+                      );
                       stateHome.isNotifications.value = false;
                     },
                     child: const Icon(
@@ -136,28 +140,33 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
                                 'CONSULTATION_REVIEW')
                               Row(
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          state.notif[index]['title'],
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
+                                  InkWell(
+                                    onTap: () {
+                                      print('object');
+                                    },
+                                    child: Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state.notif[index]['title'],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                            ),
                                           ),
-                                        ),
-                                        // SizedBox(
-                                        //   height: 8.0,
-                                        // ),
-                                        // Text(
-                                        //   state.notif[index]['body'],
-                                        //   style: TextStyle(
-                                        //     color: Colors.grey,
-                                        //   ),
-                                        // ),
-                                      ],
+                                          // SizedBox(
+                                          //   height: 8.0,
+                                          // ),
+                                          // Text(
+                                          //   state.notif[index]['body'],
+                                          //   style: TextStyle(
+                                          //     color: Colors.grey,
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -176,80 +185,88 @@ class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
 
                             if (state.notif[index]['type'] ==
                                 'CONSULTATION_DOCTOR_SCHEDULE')
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0,
-                                  vertical: 30.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.05),
-                                      blurRadius: 10,
-                                    )
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: 15,
-                                                height: 15,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  shape: BoxShape.circle,
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() =>
+                                      const TabBarDoctor(currentIndex: 1));
+                                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) => TabBarDoctor(currentIndex: 1,))));
+                                  print('list');
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                    vertical: 30.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(.05),
+                                        blurRadius: 10,
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 15,
+                                                  height: 15,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    shape: BoxShape.circle,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: 8.0,
-                                              ),
-                                              Text(
-                                                state.notif[index]['data']
-                                                    ['customer_name'],
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.0,
+                                                SizedBox(
+                                                  width: 8.0,
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          Text(
-                                            "Jadwal : ${DateFormat('dd MMMM yyyy | hh:mm').format(DateTime.parse(state.notif[index]['data']['schedule_date']))}",
-                                            style: TextStyle(
-                                              color: Colors.grey,
+                                                Text(
+                                                  state.notif[index]['data']
+                                                      ['customer_name'],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          ),
-                                          Text(
-                                            "Category : ${state.notif[index]['data']['category']}",
-                                            style: TextStyle(
-                                              color: Colors.grey,
+                                            SizedBox(
+                                              height: 8.0,
                                             ),
-                                          ),
-                                          Text(
-                                            "Topic : ${state.notif[index]['data']['topic']}",
-                                            style: TextStyle(
-                                              color: Colors.grey,
+                                            Text(
+                                              "Jadwal : ${DateFormat('dd MMMM yyyy | hh:mm').format(DateTime.parse(state.notif[index]['data']['schedule_date']))}",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              "Category : ${state.notif[index]['data']['category']}",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Topic : ${state.notif[index]['data']['topic']}",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    // NOTED
-                                  ],
+                                      SizedBox(
+                                        width: 8.0,
+                                      ),
+                                      // NOTED
+                                    ],
+                                  ),
                                 ),
                               ),
                             // if (notifications[index].type != "GENERAL")

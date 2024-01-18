@@ -39,6 +39,8 @@ class DoctorProfileController extends StateClass {
   RxList listDetailOverview = [].obs;
   RxList listWithDraw = [].obs;
   RxList listWithDrawHistory = [].obs;
+  RxString imgNetwork = ''.obs;
+
 
   var saldo = UserBalance.Data().obs;
   Rx<ProfileModel> profileData = ProfileModel().obs;
@@ -80,17 +82,20 @@ class DoctorProfileController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var response = await profileService.getProfile();
       profileData.value = response;
-      print('GetUserInfoDataDompet : ${profileData.value.data!.fullname}');
+      print('GetUserInfoDataDompet : ${profileData.value.data!.toJson()}');
+      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path ?? '';
+      print('imageeee : ${imgNetwork.value}');
 
-      nama.text = profileData.value.data!.fullname.toString();
+      nama.text = profileData.value.data!.fullname ?? '-';
       spesialisasi.text = profileData.value.data!.specialist ?? '';
-      email.text = profileData.value.data!.email.toString();
-      noHp.text = profileData.value.data!.noPhone.toString();
+      email.text = profileData.value.data!.email ?? '-';
+      noHp.text = profileData.value.data!.noPhone ?? '-';
       nomorsip.text = profileData.value.data!.sip ?? '';
       nomorstr.text = profileData.value.data!.str ?? '';
-      dropdownValue.value = profileData.value.data!.gender.toString();
+      dropdownValue.value = profileData.value.data!.gender ?? '-';
       pendidikanAkhir.text = profileData.value.data!.education ?? '';
       date = profileData.value.data!.dob;
+      
       tempatpraktek.text = profileData.value.data!.practiceLocation ?? '';
     });
     isLoading.value = false;

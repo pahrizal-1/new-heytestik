@@ -67,8 +67,11 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
   @override
   void initState() {
     super.initState();
-    state.init(context);
-    stateProfile.getProfile(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.init(context);
+      stateProfile.getProfile(context);
+    });
+
     // setupInteractedMessage();
     // message();
   }
@@ -112,14 +115,13 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                       borderRadius: BorderRadius.circular(50),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: stateProfile
-                                                    .profileData.value.data !=
-                                                null
+                                        image: stateProfile.imgNetwork.value !=
+                                                ""
                                             ? NetworkImage(
-                                                    '${Global.FILE}/${stateProfile.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
+                                                    '${Global.FILE}/${stateProfile.imgNetwork.value}')
                                                 as ImageProvider
                                             : AssetImage(
-                                                'assets/images/doctor1.png'),
+                                                'assets/images/profiledummy.png'),
                                       ),
                                     ),
                                   ),
