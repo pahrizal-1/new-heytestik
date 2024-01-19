@@ -12,7 +12,11 @@ import '../../controller/doctor/home/home_controller.dart';
 import '../../controller/websocket_chat/websocket_chat_controller.dart';
 
 class TabBarDoctor extends StatefulWidget {
-  const TabBarDoctor({super.key});
+  const TabBarDoctor({
+    super.key,
+    this.currentIndex = 0,
+  });
+  final int? currentIndex;
 
   @override
   State<TabBarDoctor> createState() => _TabBarDoctorState();
@@ -38,6 +42,10 @@ class _TabBarDoctorState extends State<TabBarDoctor> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      myIndex = widget.currentIndex ?? 0;
+      setState(() {});
+    });
     controller.connectSocket(context);
   }
 
@@ -56,11 +64,7 @@ class _TabBarDoctorState extends State<TabBarDoctor> {
               child: HomePageDoctor())
           : widgetList[myIndex],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            myIndex = index;
-          });
-        },
+        onTap: onTap,
         currentIndex: myIndex,
         backgroundColor: Colors.transparent,
         type: BottomNavigationBarType.fixed,

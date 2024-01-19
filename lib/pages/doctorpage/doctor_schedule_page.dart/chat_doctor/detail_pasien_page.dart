@@ -159,25 +159,6 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
               const SizedBox(
                 height: 9,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 200),
-              //   child: Container(
-              //     height: 34,
-              //     width: 1,
-              //     padding: const EdgeInsets.only(
-              //         top: 8, left: 25, bottom: 11, right: 19),
-              //     decoration: BoxDecoration(
-              //         color: greenColor,
-              //         borderRadius: const BorderRadius.only(
-              //             topRight: Radius.circular(20),
-              //             bottomRight: Radius.circular(20))),
-              //     child: Text(
-              //       'Pertanyaan Umum',
-              //       style: whiteTextStyle.copyWith(fontSize: 16),
-              //     ),
-              //   ),
-              // ),
-
               Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,11 +174,12 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PeryataanUmumTextFrom(
-                                    pernyattan: state.listPreAssesment[index]
-                                            ['interest_conditions_question']
-                                        ['name'],
+                                    pernyattan: state.listPreAssesment[index]['interest_conditions_question'] != null ? state.listPreAssesment[index]['interest_conditions_question']['name'] : '-',
                                     jawaban: state.listPreAssesment[index]
-                                        ['interest_conditions_answer']['name'],
+                                        ['interest_conditions_answer'] != null ? state.listPreAssesment[index]
+                                        ['interest_conditions_answer']['name'] : '-',
+                                        //  jawaban: state.listPreAssesment[index]
+                                        // ['interest_conditions_answer']['name'],
                                   ),
                                 ],
                               );
@@ -244,11 +226,11 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                             }),
                       ),
                     ),
-                    Text(
-                      '*Klik foto untuk memperbesar',
-                      style:
-                          greyTextStyle.copyWith(fontStyle: FontStyle.italic),
-                    ),
+                    // Text(
+                    //   '*Klik foto untuk memperbesar',
+                    //   style:
+                    //       greyTextStyle.copyWith(fontStyle: FontStyle.italic),
+                    // ),
                     const SizedBox(
                       height: 37,
                     ),

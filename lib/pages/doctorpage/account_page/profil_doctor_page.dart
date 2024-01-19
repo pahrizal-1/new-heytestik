@@ -81,12 +81,13 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               height: 65,
                               width: 65,
                               child: CircleAvatar(
-                                backgroundImage: state.profileData.value.data !=
-                                        null
-                                    ? NetworkImage(
-                                            '${Global.FILE}/${state.profileData.value.data!.mediaUserProfilePicture!.media!.path}')
-                                        as ImageProvider
-                                    : AssetImage('assets/images/doctor1.png'),
+                                backgroundImage: state.imgNetwork.value !=
+                                                ""
+                                            ? NetworkImage(
+                                                    '${Global.FILE}/${state.imgNetwork.value}')
+                                                as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/profiledummy.png'),
                               ),
                             ),
                           ),
