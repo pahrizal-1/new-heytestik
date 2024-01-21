@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../models/customer/notification.dart';
@@ -83,22 +84,93 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                       onTap: () {
                         if (notifications[index].type == "GENERAL") {
                           print("GENERAL");
-                          print(notifications[index].data);
                         } else if (notifications[index].type ==
                             "TRANSACTION_CONSULTATION_SUCCESS") {
                           print("TRANSACTION_CONSULTATION_SUCCESS");
-                          print(notifications[index].data);
+                          Get.to(() => const TabBarCustomer(currentIndex: 1));
+                        } else if (notifications[index].type == "CHAT") {
+                          print("CHAT");
+                          Get.to(() => const TabBarCustomer(currentIndex: 1));
+                        } else if (notifications[index].type == "STREAM_LIKE") {
+                          print("STREAM_LIKE");
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
+                        } else if (notifications[index].type ==
+                            "STREAM_COMMENT") {
+                          print("STREAM_COMMENT");
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
                         } else if (notifications[index].type ==
                             "STREAM_COMMENT_LIKE") {
                           print("STREAM_COMMENT_LIKE");
-                          print(notifications[index].data);
-                        } else if (notifications[index].type == "STREAM_LIKE") {
-                          print("STREAM_LIKE");
-                          print(notifications[index].data);
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
+                        } else if (notifications[index].type ==
+                            "STREAM_COMMENT_REPLY") {
+                          print("STREAM_COMMENT_REPLY");
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
+                        } else if (notifications[index].type ==
+                            "STREAM_COMMENT_REPLY_LIKE") {
+                          print("STREAM_COMMENT_REPLY_LIKE");
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
                         } else if (notifications[index].type == "STREAM_VOTE") {
                           print("STREAM_VOTE");
-                          print(notifications[index].data);
+                          Get.to(
+                            () => KomentarStreamPage(
+                              postId: int.parse(
+                                notifications[index]
+                                    .data['stream_id']
+                                    .toString(),
+                              ),
+                            ),
+                          );
                         }
+                        // GENERAL
+                        // TRANSACTION_CONSULTATION_SUCCESS
+                        // CHAT
+                        // STREAM_LIKE
+                        // STREAM_COMMENT
+                        // STREAM_COMMENT_LIKE
+                        // STREAM_COMMENT_REPLY
+                        // STREAM_COMMENT_REPLY_LIKE
+                        // STREAM_VOTE
                       },
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -154,15 +226,10 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                             if (notifications[index].type ==
                                     "TRANSACTION_CONSULTATION_SUCCESS" ||
                                 notifications[index].type == 'CHAT')
-                              GestureDetector(
+                              InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TabBarCustomer(currentIndex: 1),
-                                    ),
-                                  );
+                                  Get.to(() =>
+                                      const TabBarCustomer(currentIndex: 1));
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(
@@ -182,54 +249,6 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ),
-                            if (notifications[index].type ==
-                                'CONSULTATION_DOCTOR_SCHEDULE')
-                              Container(
-                                margin: const EdgeInsets.only(
-                                  bottom: 8.0,
-                                ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(.05),
-                                        blurRadius: 10,
-                                      )
-                                    ]),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              "Category : ${notifications[index].data['category']}"),
-                                          Text(
-                                              "Topic : ${notifications[index].data['topic']}"),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF24A7A0),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 16.0,
-                                        vertical: 8.0,
-                                      ),
-                                      child: Text(
-                                        "Terima",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
                             dividergrey(),
