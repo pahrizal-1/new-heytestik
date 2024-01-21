@@ -714,11 +714,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                           "${comment.commentID}"] ??
                                                       0) >
                                               0) {
-                                            print("heheh");
+                                            print("TIDAK SUKA KOMEN");
                                             postController.unlikeComment(
-                                                context,
-                                                widget.postId,
-                                                comment.commentID);
+                                              context,
+                                              widget.postId,
+                                              comment.commentID,
+                                            );
                                             setState(() {
                                               commentLikes.update(
                                                   "${comment.commentID}",
@@ -729,11 +730,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                       1);
                                             });
                                           } else {
-                                            print("hahah");
+                                            print("SUKA KOMEN");
                                             postController.likeComment(
-                                                context,
-                                                widget.postId,
-                                                comment.commentID);
+                                              context,
+                                              widget.postId,
+                                              comment.commentID,
+                                            );
                                             setState(() {
                                               commentLikes.update(
                                                   "${comment.commentID}",
@@ -782,8 +784,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                     InkWell(
                                       onTap: () async {
                                         viewCommentReply.update(
-                                            "${comment.commentID}",
-                                            (value) => true);
+                                          "${comment.commentID}",
+                                          (value) => true,
+                                        );
                                         List<StreamCommentReplyModel> replies =
                                             await postController
                                                 .getCommentReplies(
@@ -805,8 +808,10 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         }
                                         setState(() {});
                                       },
-                                      child: Text("View Comments",
-                                          style: greyTextStyle),
+                                      child: Text(
+                                        "View Comments",
+                                        style: greyTextStyle,
+                                      ),
                                     ),
                                   SizedBox(
                                     height: 20.0,
@@ -1246,11 +1251,28 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               InkWell(
                 onTap: () async {
                   postController.postComment(
-                      context, widget.postId, commentController.text);
+                    context,
+                    widget.postId,
+                    commentController.text,
+                  );
                   page = 1;
                   comments.clear();
-                  comments.addAll(await postController.getComment(
-                      context, page, widget.postId));
+                  comments.addAll(
+                    await postController.getComment(
+                      context,
+                      page,
+                      widget.postId,
+                    ),
+                  );
+                  for (var i = 0; i < comments.length; i++) {
+                    commentLikes.addAll({
+                      "${comments[i].commentID}": 0,
+                    });
+
+                    viewCommentReply.addAll({
+                      "${comments[i].commentID}": false,
+                    });
+                  }
                   commentController.clear();
                   setState(() {});
                 },
