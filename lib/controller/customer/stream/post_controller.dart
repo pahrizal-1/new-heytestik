@@ -130,11 +130,11 @@ class PostController extends StateClass {
   Future<StreamHomeModel?> getStreamById(
       BuildContext context, int postId) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       StreamHomeModel? data;
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
         data = await PostServices().getStreamById(postId);
-        isLoading.value = false;
+        // isLoading.value = false;
       });
 
       return data;
@@ -147,12 +147,12 @@ class PostController extends StateClass {
   Future<List<StreamCommentModel>> getComment(
       BuildContext context, int page, int postID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       List<StreamCommentModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
         await Future.delayed(Duration(seconds: 1));
         data = await PostServices().getComment(page, postID);
-        isLoading.value = false;
+        // isLoading.value = false;
       });
 
       return data;
