@@ -207,7 +207,6 @@ class PostServices extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
-      print("RES ${response['data']}");
       return StreamHomeModel.fromJson(response['data']);
     } catch (error) {
       print("getStreamById SER ${error.toString()}");
