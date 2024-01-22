@@ -91,67 +91,16 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                         } else if (notifications[index].type == "CHAT") {
                           print("CHAT");
                           Get.to(() => const TabBarCustomer(currentIndex: 1));
-                        } else if (notifications[index].type == "STREAM_LIKE") {
-                          print("STREAM_LIKE");
-                          Get.to(
-                            () => KomentarStreamPage(
-                              postId: int.parse(
-                                notifications[index]
-                                    .data['stream_id']
-                                    .toString(),
-                              ),
-                            ),
-                          );
-                        } else if (notifications[index].type ==
-                            "STREAM_COMMENT") {
-                          print("STREAM_COMMENT");
-                          Get.to(
-                            () => KomentarStreamPage(
-                              postId: int.parse(
-                                notifications[index]
-                                    .data['stream_id']
-                                    .toString(),
-                              ),
-                            ),
-                          );
-                        } else if (notifications[index].type ==
-                            "STREAM_COMMENT_LIKE") {
-                          print("STREAM_COMMENT_LIKE");
-                          Get.to(
-                            () => KomentarStreamPage(
-                              postId: int.parse(
-                                notifications[index]
-                                    .data['stream_id']
-                                    .toString(),
-                              ),
-                            ),
-                          );
-                        } else if (notifications[index].type ==
-                            "STREAM_COMMENT_REPLY") {
-                          print("STREAM_COMMENT_REPLY");
-                          Get.to(
-                            () => KomentarStreamPage(
-                              postId: int.parse(
-                                notifications[index]
-                                    .data['stream_id']
-                                    .toString(),
-                              ),
-                            ),
-                          );
-                        } else if (notifications[index].type ==
-                            "STREAM_COMMENT_REPLY_LIKE") {
-                          print("STREAM_COMMENT_REPLY_LIKE");
-                          Get.to(
-                            () => KomentarStreamPage(
-                              postId: int.parse(
-                                notifications[index]
-                                    .data['stream_id']
-                                    .toString(),
-                              ),
-                            ),
-                          );
-                        } else if (notifications[index].type == "STREAM_VOTE") {
-                          print("STREAM_VOTE");
+                        } else if (notifications[index].type == "STREAM_LIKE" ||
+                            notifications[index].type == "STREAM_COMMENT" ||
+                            notifications[index].type ==
+                                "STREAM_COMMENT_LIKE" ||
+                            notifications[index].type ==
+                                "STREAM_COMMENT_REPLY" ||
+                            notifications[index].type ==
+                                "STREAM_COMMENT_REPLY_LIKE" ||
+                            notifications[index].type == "STREAM_VOTE") {
+                          print(notifications[index].type);
                           Get.to(
                             () => KomentarStreamPage(
                               postId: int.parse(
@@ -162,15 +111,6 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                             ),
                           );
                         }
-                        // GENERAL
-                        // TRANSACTION_CONSULTATION_SUCCESS
-                        // CHAT
-                        // STREAM_LIKE
-                        // STREAM_COMMENT
-                        // STREAM_COMMENT_LIKE
-                        // STREAM_COMMENT_REPLY
-                        // STREAM_COMMENT_REPLY_LIKE
-                        // STREAM_VOTE
                       },
                       child: Padding(
                         padding: EdgeInsets.only(
