@@ -90,6 +90,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       }
       postController.isLoading.value = false;
       setState(() {});
+// komen reply masih error
+      print("viewCommentReply $viewCommentReply");
     });
 
     commentScrollController.addListener(() {
@@ -646,7 +648,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                 dividergrey(),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 20, right: 17, top: 24, bottom: 18),
+                    left: 20,
+                    right: 17,
+                    top: 24,
+                    bottom: 24,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: comments.map((comment) {
@@ -776,7 +782,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 16,
+                                    height: 8.0,
                                   ),
                                   if (viewCommentReply[
                                           "${comment.commentID}"] ==
@@ -790,10 +796,11 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         List<StreamCommentReplyModel> replies =
                                             await postController
                                                 .getCommentReplies(
-                                                    context,
-                                                    page,
-                                                    widget.postId,
-                                                    comment.commentID);
+                                          context,
+                                          page,
+                                          widget.postId,
+                                          comment.commentID,
+                                        );
 
                                         commentReplies.addAll({
                                           "${comment.commentID}": replies,
@@ -814,7 +821,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       ),
                                     ),
                                   SizedBox(
-                                    height: 20.0,
+                                    height: 8.0,
                                   ),
                                   if (viewCommentReply[
                                           "${comment.commentID}"] ==
@@ -833,7 +840,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                             vertical: 5.0,
                                           ),
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
+                                            horizontal: 10,
+                                            vertical: 10,
+                                          ),
                                           decoration: BoxDecoration(
                                             color: const Color.fromRGBO(
                                                 241, 241, 241, 0.95),
@@ -851,13 +860,23 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                   Container(
                                                     height: 30,
                                                     width: 30,
-                                                    decoration:
-                                                        const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                        image: AssetImage(
-                                                          'assets/images/profiledummy.png',
-                                                        ),
+                                                        image: commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .photoUser ==
+                                                                    "" ||
+                                                                commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .photoUser ==
+                                                                    "photo_profile"
+                                                            ? AssetImage(
+                                                                'assets/images/profiledummy.png',
+                                                              )
+                                                            : NetworkImage(
+                                                                '${Global.FILE}/${commentReplies["${comment.commentID}"]![index].photoUser}',
+                                                              ) as ImageProvider,
                                                       ),
                                                     ),
                                                   ),
@@ -927,14 +946,17 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                   0
                                                               ? InkWell(
                                                                   onTap: () {
-                                                                    postController.unlikeCommentReply(
-                                                                        context,
-                                                                        widget
-                                                                            .postId,
-                                                                        comment
-                                                                            .commentID,
-                                                                        commentReplies["${comment.commentID}"]![index]
-                                                                            .replyID);
+                                                                    postController
+                                                                        .unlikeCommentReply(
+                                                                      context,
+                                                                      widget
+                                                                          .postId,
+                                                                      comment
+                                                                          .commentID,
+                                                                      commentReplies["${comment.commentID}"]![
+                                                                              index]
+                                                                          .replyID,
+                                                                    );
                                                                     setState(
                                                                         () {
                                                                       commentReplyLikes.update(
@@ -953,14 +975,17 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                 )
                                                               : InkWell(
                                                                   onTap: () {
-                                                                    postController.likeCommentReply(
-                                                                        context,
-                                                                        widget
-                                                                            .postId,
-                                                                        comment
-                                                                            .commentID,
-                                                                        commentReplies["${comment.commentID}"]![index]
-                                                                            .replyID);
+                                                                    postController
+                                                                        .likeCommentReply(
+                                                                      context,
+                                                                      widget
+                                                                          .postId,
+                                                                      comment
+                                                                          .commentID,
+                                                                      commentReplies["${comment.commentID}"]![
+                                                                              index]
+                                                                          .replyID,
+                                                                    );
                                                                     setState(
                                                                         () {
                                                                       commentReplyLikes.update(
