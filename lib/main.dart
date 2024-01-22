@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/controller/customer/register/register_contr
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
 import 'package:heystetik_mobileapps/routes/app_pages.dart';
@@ -43,60 +44,20 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   } else if (message.data['type'] == "CHAT") {
     print('INI NOTIF CHAT');
     Get.to(() => const TabBarCustomer(currentIndex: 1));
-  } else if (message.data['type'] == "STREAM_LIKE") {
-    print("INI NOTIF STREAM_LIKE");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
-  } else if (message.data['type'] == "STREAM_COMMENT") {
-    print("INI NOTIF STREAM_COMMENT");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
-  } else if (message.data['type'] == "STREAM_COMMENT_LIKE") {
-    print("INI NOTIF STREAM_COMMENT_LIKE");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
-  } else if (message.data['type'] == "STREAM_COMMENT_REPLY") {
-    print("INI NOTIF STREAM_COMMENT_REPLY");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
-  } else if (message.data['type'] == "STREAM_COMMENT_REPLY_LIKE") {
-    print("INI NOTIF STREAM_COMMENT_REPLY_LIKE");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
-  } else if (message.data['type'] == "STREAM_VOTE") {
-    print("INI NOTIF STREAM_VOTE");
-    // Get.to(
-    //   () => KomentarStreamPage(
-    //     postId: int.parse(
-    //       notifications[index].data['stream_id'].toString(),
-    //     ),
-    //   ),
-    // );
+  } else if (message.data['type'] == "STREAM_LIKE" ||
+      message.data['type'] == "STREAM_COMMENT" ||
+      message.data['type'] == "STREAM_COMMENT_LIKE" ||
+      message.data['type'] == "STREAM_COMMENT_REPLY" ||
+      message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
+      message.data['type'] == "STREAM_VOTE") {
+    print("INI NOTIF ${message.data['type']}");
+    Get.to(
+      () => KomentarStreamPage(
+        postId: int.parse(
+          message.data['stream_id'].toString(),
+        ),
+      ),
+    );
   }
 }
 
@@ -162,60 +123,20 @@ void main() async {
     } else if (message.data['type'] == "CHAT") {
       print('INI NOTIF CHAT');
       Get.to(() => const TabBarCustomer(currentIndex: 1));
-    } else if (message.data['type'] == "STREAM_LIKE") {
-      print("INI NOTIF STREAM_LIKE");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
-    } else if (message.data['type'] == "STREAM_COMMENT") {
-      print("INI NOTIF STREAM_COMMENT");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
-    } else if (message.data['type'] == "STREAM_COMMENT_LIKE") {
-      print("INI NOTIF STREAM_COMMENT_LIKE");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
-    } else if (message.data['type'] == "STREAM_COMMENT_REPLY") {
-      print("INI NOTIF STREAM_COMMENT_REPLY");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
-    } else if (message.data['type'] == "STREAM_COMMENT_REPLY_LIKE") {
-      print("INI NOTIF STREAM_COMMENT_REPLY_LIKE");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
-    } else if (message.data['type'] == "STREAM_VOTE") {
-      print("INI NOTIF STREAM_VOTE");
-      // Get.to(
-      //   () => KomentarStreamPage(
-      //     postId: int.parse(
-      //       notifications[index].data['stream_id'].toString(),
-      //     ),
-      //   ),
-      // );
+    } else if (message.data['type'] == "STREAM_LIKE" ||
+        message.data['type'] == "STREAM_COMMENT" ||
+        message.data['type'] == "STREAM_COMMENT_LIKE" ||
+        message.data['type'] == "STREAM_COMMENT_REPLY" ||
+        message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
+        message.data['type'] == "STREAM_VOTE") {
+      print("INI NOTIF ${message.data['type']}");
+      Get.to(
+        () => KomentarStreamPage(
+          postId: int.parse(
+            message.data['stream_id'].toString(),
+          ),
+        ),
+      );
     }
   });
 
