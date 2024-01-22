@@ -165,11 +165,11 @@ class PostController extends StateClass {
   Future<List<StreamCommentReplyModel>> getCommentReplies(
       BuildContext context, int page, int postID, int commentID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       List<StreamCommentReplyModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
         data = await PostServices().getCommentReplies(page, postID, commentID);
-        isLoading.value = false;
+        // isLoading.value = false;
       });
 
       return data;
@@ -181,9 +181,9 @@ class PostController extends StateClass {
 
   void likePost(BuildContext context, int postID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().likePost(postID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("likePost ${error.toString()}");
     }
@@ -191,9 +191,9 @@ class PostController extends StateClass {
 
   void unlikePost(BuildContext context, int postID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().unlikePost(postID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("unlikePost ${error.toString()}");
     }
@@ -202,9 +202,9 @@ class PostController extends StateClass {
   void pickPolling(
       BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().pickPolling(streamID, pollingID, optionID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("pickPolling ${error.toString()}");
     }
@@ -213,9 +213,9 @@ class PostController extends StateClass {
   void deletePolling(
       BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().deletePolling(streamID, pollingID, optionID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("deletePolling ${error.toString()}");
     }
@@ -223,9 +223,9 @@ class PostController extends StateClass {
 
   void savePost(BuildContext context, int postID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().savePost(postID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("savePost ${error.toString()}");
     }
@@ -233,9 +233,9 @@ class PostController extends StateClass {
 
   void unSavePost(BuildContext context, int postID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().unSavePost(postID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("unSavePost ${error.toString()}");
     }
@@ -243,9 +243,9 @@ class PostController extends StateClass {
 
   void likeComment(BuildContext context, int postID, int commentID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().likeComment(postID, commentID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("likeComment ${error.toString()}");
     }
@@ -253,9 +253,9 @@ class PostController extends StateClass {
 
   void unlikeComment(BuildContext context, int postID, int commentID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().unlikeComment(postID, commentID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("unlikeComment ${error.toString()}");
     }
@@ -264,9 +264,9 @@ class PostController extends StateClass {
   void likeCommentReply(
       BuildContext context, int postID, int commentID, int replyID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().likeCommentReply(postID, commentID, replyID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("likeCommentReply ${error.toString()}");
     }
@@ -275,9 +275,9 @@ class PostController extends StateClass {
   void unlikeCommentReply(
       BuildContext context, int postID, int commentID, int replyID) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().unlikeCommentReply(postID, commentID, replyID);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("unlikeCommentReply ${error.toString()}");
     }
@@ -285,9 +285,9 @@ class PostController extends StateClass {
 
   void postComment(BuildContext context, int postID, String comment) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().postComment(postID, comment);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("postComment ${error.toString()}");
     }
@@ -295,9 +295,9 @@ class PostController extends StateClass {
 
   void blockUser(BuildContext context, String username) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().blockUser(username);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("blockUser ${error.toString()}");
     }
@@ -305,9 +305,9 @@ class PostController extends StateClass {
 
   void unBlockUser(BuildContext context, String username) async {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       PostServices().unBlockUser(username);
-      isLoading.value = false;
+      // isLoading.value = false;
     } catch (error) {
       print("unBlockUser ${error.toString()}");
     }
