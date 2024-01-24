@@ -163,7 +163,7 @@ class _NewsSearchPageState extends State<NewsSearchPage> {
             child: article.isEmpty
                 ? const Center(
                     child: Text(
-                      'Berita tidak ada',
+                      'Belum ada berita',
                       style: TextStyle(
                         fontSize: 20,
                       ),

@@ -157,7 +157,7 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                   () => state.filterData.isEmpty
                       ? const Center(
                           child: Text(
-                            'Data tidak ada',
+                            'Belum ada data',
                             style: TextStyle(
                               fontSize: 20,
                             ),

@@ -194,7 +194,7 @@ class _WishListPageState extends State<WishListPage> {
                   child: wishlist.isEmpty
                       ? Center(
                           child: Text(
-                            'Tidak ada produk',
+                            'Belum ada produk',
                             style: TextStyle(
                               fontWeight: bold,
                               fontFamily: 'ProximaNova',

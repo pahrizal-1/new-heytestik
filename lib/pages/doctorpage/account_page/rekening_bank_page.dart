@@ -79,7 +79,7 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                         () => state.filterData.isEmpty
                             ? Center(
                                 child: Text(
-                                  'Tidak ada data',
+                                  'Belum ada data',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: bold,
@@ -217,7 +217,7 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                     } else {
                       return Center(
                         child: Text(
-                          'Tidak ada data',
+                          'Belum ada data',
                           style: TextStyle(
                             fontWeight: bold,
                             fontFamily: 'ProximaNova',

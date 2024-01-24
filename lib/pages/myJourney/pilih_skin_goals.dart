@@ -58,7 +58,7 @@ class _PilihSkinGoalsState extends State<PilihSkinGoals> {
                     () => state.filterData.isEmpty
                         ? const Center(
                             child: Text(
-                              'Skin Goal Tidak Di Temukan',
+                              'Skin Goal tidak ditemukan',
                               style: TextStyle(
                                 fontSize: 20,
                               ),
