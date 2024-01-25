@@ -277,7 +277,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                               () => Column(
                                 children: [
                                   Text(
-                                    'Selesai',
+                                    'Selesai (${state.totalRecentChatDone.value})',
                                     style: greyTextStyle.copyWith(
                                         fontSize: 15,
                                         color: state.wigetIndex.value == 1
