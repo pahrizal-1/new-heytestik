@@ -405,7 +405,7 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                 } else {
                                   return Center(
                                     child: Text(
-                                      'Tidak ada data',
+                                      'Belum ada data',
                                       style: TextStyle(
                                         fontWeight: bold,
                                         fontFamily: 'ProximaNova',

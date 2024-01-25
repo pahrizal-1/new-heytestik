@@ -54,7 +54,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                     () => state.filterData.isEmpty
                         ? const Center(
                             child: Text(
-                              'Data tidak ada',
+                              'Belum ada data',
                               style: TextStyle(
                                 fontSize: 20,
                               ),

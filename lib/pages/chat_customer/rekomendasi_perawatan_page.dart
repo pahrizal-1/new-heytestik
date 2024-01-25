@@ -265,7 +265,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
           SizedBox(
             height: 10,
           ),
-          if (state.data.value.endDate != null)
+          if (DateTime.parse(state.data.value.endDate.toString())
+              .isBefore(DateTime.now()))
             Container(
               padding: EdgeInsets.only(
                 left: 5,
@@ -289,7 +290,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 ],
               ),
             ),
-          if (state.data.value.endDate != null)
+          if (DateTime.parse(state.data.value.endDate.toString())
+              .isBefore(DateTime.now()))
             SizedBox(
               height: 14,
             ),

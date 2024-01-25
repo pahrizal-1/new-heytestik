@@ -104,7 +104,7 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
                         padding: const EdgeInsets.only(top: 15),
                         child: Center(
                           child: Text(
-                            'Tidak ada alamat',
+                            'Belum ada alamat',
                             style: TextStyle(
                               fontWeight: bold,
                               fontFamily: 'ProximaNova',

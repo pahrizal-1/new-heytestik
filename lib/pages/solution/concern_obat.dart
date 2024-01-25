@@ -266,7 +266,7 @@ class _ConcernObatPageState extends State<ConcernObatPage> {
               child: drugs.isEmpty
                   ? Center(
                       child: Text(
-                        'Tidak ada produk obat',
+                        'Belum ada produk obat',
                         style: TextStyle(
                           fontWeight: bold,
                           fontFamily: 'ProximaNova',

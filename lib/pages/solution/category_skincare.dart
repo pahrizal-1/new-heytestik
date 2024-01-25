@@ -280,7 +280,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                     child: skincare.isEmpty
                         ? Center(
                             child: Text(
-                              'Tidak ada produk',
+                              'Belum ada produk',
                               style: TextStyle(
                                 fontWeight: bold,
                                 fontFamily: 'ProximaNova',
