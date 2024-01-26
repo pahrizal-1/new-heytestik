@@ -312,7 +312,7 @@ class DoctorConsultationController extends StateClass {
       listPreAssesment.value = [];
       listPreAssesmentImage.value = [];
       for (var i in listConstulDetail) {
-        print("cust ${i['customer']['fullname']}");
+        print("status nya berapa  ${i['status']}");
         idConsultation.value = i['code'];
         status.value = i['status'];
         dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
