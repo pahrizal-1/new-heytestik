@@ -25,6 +25,8 @@ import '../../../../widget/button_widget.dart';
 import '../../../../widget/preview_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:timeago/timeago.dart' as timeago;
+
 
 class ChatDoctorPage extends StatefulWidget {
   final String roomCode;
@@ -752,10 +754,16 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (buildex, index) {
                                     var formatter = DateFormat('dd-MM-yyyy');
-                                    String formattedTime = DateFormat('kk:mm')
-                                        .format(DateTime.parse(msglist![index]
-                                            .createdAt
-                                            .toString()));
+                                    // var p = DateFormat("HH:mm").format(DateTime.now());
+                                    // DateTime p = DateTime.parse('2024-01-28T01:10:25+07:00');
+                                    // String formattedTime = DateFormat('HH:mm').parse(p, true).toString();
+                                    String formattedTime = DateFormat('HH:mm').format(DateTime.parse('${msglist![index].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)));
+                                    // String formattedTime = DateFormat('HH:mm').format(DateTime.parse(msglist![index].createdAt.toString()));
+                                    // String formattedTime = '${dateTime.hour}';
+                                    // String formattedTime = DateFormat('kk:mm')
+                                    //     .format(DateTime.parse(msglist![index]
+                                    //         .createdAt
+                                    //         .toString()));
 
                                     if (widget.id == widget.roomId &&
                                         msglist![index].senderId == 0) {

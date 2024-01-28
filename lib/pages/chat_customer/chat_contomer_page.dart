@@ -642,9 +642,11 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (buildex, index) {
                                 var formatter = DateFormat('dd-MM-yyyy');
-                                String formattedTime = DateFormat('kk:mm')
+                                String formattedTime = DateFormat('HH:mm')
                                     .format(DateTime.parse(
-                                        msglist![index].createdAt.toString()));
+                                            '${msglist![index].createdAt}')
+                                        .toUtc()
+                                        .add(Duration(hours: 7, minutes: 00)));
 
                                 if (widget.id == widget.roomId &&
                                     msglist![index].senderId == 0) {
@@ -1231,7 +1233,18 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
-                                                            const ButtonGreenWidget(
+                                                            ButtonGreenWidget(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          TabBarChat(
+                                                                              id: widget.id),
+                                                                    ),
+                                                                  );
+                                                                },
                                                                 title:
                                                                     'Lihat Detail')
                                                           ],
