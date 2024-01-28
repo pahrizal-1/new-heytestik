@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/widget/chat_doctor_widget.dart';
 import 'package:heystetik_mobileapps/widget/filter_jadwal_doctor.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/global.dart';
 import '../../../../service/doctor/consultation/notif_service.dart';
@@ -417,9 +418,10 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                         : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
                     // img:
                     //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
-                    time: CurrentTime.timeChat(state
-                        .recentChatActive[i].lastChat!.createdAt
-                        .toString()),
+                    time: DateFormat('HH:mm').format(DateTime.parse(
+                            '${state.recentChatActive[i].lastChat!.createdAt}')
+                        .toUtc()
+                        .add(Duration(hours: 7, minutes: 00))),
                     valueChat: state.recentChatActive[i].unseenCount.toString(),
                     chat: state.recentChatActive[i].lastChat!.message == "####"
                         ? state.recentChatActive[i].lastChat!.message =
@@ -464,22 +466,28 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               itemCount: state.totalRecentChatDone.value,
               itemBuilder: (BuildContext context, int i) {
                 return ChatAktif(
-                  id: state.recentChatActive[i].id!.toInt(),
+                  id: state.recentChatDone[i].id!.toInt(),
                   roomCode: state.recentChatDone[i].code.toString(),
                   roomId: state.recentChatDone[i].id!.toInt(),
                   customerName:
                       state.recentChatDone[i].customer!.fullname ?? '-',
                   doctorName: '',
-                  subNameTitle: '22 tahun; Korektif Wajah - Bekas Jerawat',
-                  img: 'assets/icons/logo.png',
+                  subNameTitle: '',
+                  img: state.recentChatDone[i].customer!
+                              .mediaUserProfilePicture ==
+                          null
+                      ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
+                      : '${Global.FILE}/${state.recentChatDone[i].customer!.mediaUserProfilePicture!.media!.path!}',
                   // img:
                   //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
                   chat: state.recentChatDone[i].lastChat!.message == '####'
                       ? 'Resep Obat'
                       : state.recentChatDone[i].lastChat!.message ?? '-',
                   // topic: 'Licorice',
-                  time: CurrentTime.timeChat(
-                      state.recentChatDone[i].createdAt.toString()),
+                  time: DateFormat('HH:mm').format(
+                      DateTime.parse('${state.recentChatDone[i].createdAt}')
+                          .toUtc()
+                          .add(Duration(hours: 7, minutes: 00))),
 
                   seen: state.recentChatDone[i].lastChat!.seen ?? false,
                   valueChat: state.recentChatDone[i].unseenCount.toString(),

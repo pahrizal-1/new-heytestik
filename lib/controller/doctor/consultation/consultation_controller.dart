@@ -34,6 +34,7 @@ class DoctorConsultationController extends StateClass {
   RxInt currentScheduleId = 0.obs;
   RxString startTime = ''.obs;
   RxString endTime = ''.obs;
+  RxString endCreatedAt = ''.obs;
   RxString startTime1 = ''.obs;
   RxString startTime2 = ''.obs;
   RxString endTime1 = ''.obs;
@@ -331,10 +332,12 @@ class DoctorConsultationController extends StateClass {
         }
         if (i['end_date'] == null) {
           endDate.value = '-';
+          endCreatedAt.value = '';
         } else {
           final dateString = i['end_date'];
+          endCreatedAt.value = i['end_date'];
           final dateTime = DateTime.parse(dateString);
-          final format = DateFormat('HH:mm');
+          final format = DateFormat('yyyy-MM-dd');
           endDate.value = format.format(dateTime);
           print('endD' + endDate.toString());
         }
@@ -355,14 +358,36 @@ class DoctorConsultationController extends StateClass {
   }
 
   postFinishConsultation(BuildContext context, int id) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      isLoading.value = true;
+    try {
       var res =
           await ConsultationDoctorScheduleServices().postFinishConsultation(id);
       print('res' + res.toString());
       Navigator.pop(context);
-      isLoading.value = false;
-    });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ],
+                title: Text('Failed'),
+                content: Text(
+                    'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'));
+          });
+    }
+    // await ErrorConfig.doAndSolveCatchInContext(context, () async {
+    //   isLoading.value = true;
+    //   var res =
+    //       await ConsultationDoctorScheduleServices().postFinishConsultation(id);
+    //   print('res' + res.toString());
+    //   Navigator.pop(context);
+    //   isLoading.value = false;
+    // });
   }
 
   postDoctorNote(

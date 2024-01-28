@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../core/global.dart';
@@ -174,12 +175,22 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PeryataanUmumTextFrom(
-                                    pernyattan: state.listPreAssesment[index]['interest_conditions_question'] != null ? state.listPreAssesment[index]['interest_conditions_question']['name'] : '-',
-                                    jawaban: state.listPreAssesment[index]
-                                        ['interest_conditions_answer'] != null ? state.listPreAssesment[index]
-                                        ['interest_conditions_answer']['name'] : '-',
-                                        //  jawaban: state.listPreAssesment[index]
-                                        // ['interest_conditions_answer']['name'],
+                                    pernyattan: state.listPreAssesment[index][
+                                                'interest_conditions_question'] !=
+                                            null
+                                        ? state.listPreAssesment[index]
+                                                ['interest_conditions_question']
+                                            ['name']
+                                        : '-',
+                                    jawaban: state.listPreAssesment[index][
+                                                'interest_conditions_answer'] !=
+                                            null
+                                        ? state.listPreAssesment[index]
+                                                ['interest_conditions_answer']
+                                            ['name']
+                                        : '-',
+                                    //  jawaban: state.listPreAssesment[index]
+                                    // ['interest_conditions_answer']['name'],
                                   ),
                                 ],
                               );
@@ -187,7 +198,6 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 30,
               ),

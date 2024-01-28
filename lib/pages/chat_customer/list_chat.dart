@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/global.dart';
 import 'chat_contomer_page.dart';
@@ -111,10 +112,11 @@ class _ListChatPageState extends State<ListChatPage> {
                           : '${Global.FILE}/' +
                               state.recentChat.value!.data![i].doctor!
                                   .mediaUserProfilePicture!.media!.path!,
-                      time: CurrentTime.timeChat(
-                        state.recentChat.value!.data![i].lastChat!.createdAt
-                            .toString(),
-                      ),
+                      time: DateFormat('HH:mm').format(DateTime.parse(
+                              '${state.recentChat.value!.data![i].lastChat!.createdAt}')
+                          .toUtc()
+                          .add(Duration(hours: 7, minutes: 00))),
+
                       // roomCode:
                       //     state.recentChat.value!.data![i].code.toString(),
                       seen: state.recentChat.value!.data![i].lastChat!.seen ??
