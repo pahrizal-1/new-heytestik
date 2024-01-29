@@ -121,12 +121,11 @@ class ErrorConfig implements Exception {
             message:
                 message ?? '504 - Network request error without any response');
       default:
-        debugPrint(
-            "${dioError.response?.statusCode ?? ''} - Error tidak diketahui");
+        debugPrint("${dioError.response?.statusCode ?? ''} Terjadi kesahalan");
         return ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: message ??
-              '${dioError.response?.statusCode ?? ''} - Error tidak diketahui',
+              '${dioError.response?.statusCode ?? ''} Terjadi kesahalan',
         );
     }
   }
@@ -268,10 +267,7 @@ ErrorConfig handleError(
         break;
       default:
         debugPrint("Error default");
-        showDialog(
-          context: context,
-          builder: (context) => AlertWidget(subtitle: error.message),
-        );
+        SnackbarWidget.getErrorSnackbar(context, 'Info', error.message);
         break;
     }
   }
