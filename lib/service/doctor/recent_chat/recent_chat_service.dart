@@ -50,9 +50,13 @@ class FetchMessageByRoom extends ProviderClass {
           networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API),
         );
 
-  Future getFetchMessage(String roomCode, int take) async {
+  Future getFetchMessage(String roomCode, int take, String search) async {
     var response = await networkingConfig.doGet(
-      '/chat/message/${roomCode}?take=${take}&search&order=asc',
+      '/chat/message/${roomCode}',
+      params: {
+        'search': search,
+        'take': take,
+      },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

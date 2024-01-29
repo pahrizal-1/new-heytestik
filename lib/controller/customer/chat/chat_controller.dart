@@ -164,7 +164,7 @@ class CustomerChatController extends StateClass {
   Future getRequest(String roomCode) async {
     // isLoading.value = true;
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000, '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     msglist = result.data?.data;
     print('msg ' + response.toString());

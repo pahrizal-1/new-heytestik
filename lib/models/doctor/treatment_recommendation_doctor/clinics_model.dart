@@ -73,20 +73,20 @@ class DataClinic {
   String? picName;
   String? picPhone;
   String? contractExpiredDate;
-  Null? status;
+  dynamic status;
   int? rating;
-  Null? createdBy;
-  Null? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
   City? city;
   Province? province;
   MediaClinicLogo? mediaClinicLogo;
   List<MediaClinics>? mediaClinics;
   List<Treatments>? treatments;
   int? avgPrice;
-  Null? distance;
+  String? distance;
 
   DataClinic(
       {this.id,

@@ -14,6 +14,8 @@ import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart'
     as RecentChat;
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 // import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -368,16 +370,49 @@ class DoctorConsultationController extends StateClass {
           context: context,
           builder: (_) {
             return AlertDialog(
-                actions: [
-                  TextButton(
+              backgroundColor: Colors.transparent,
+              insetPadding: const EdgeInsets.all(0),
+              content: Container(
+                padding: const EdgeInsets.only(
+                  left: 25,
+                  right: 25,
+                ),
+                height: 210,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'),
+                    SizedBox(height: 10,),
+                    ButtonGreenWidget(
+                      title: 'Kembali ke home',
                       onPressed: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
-                      child: Text('OK'))
-                ],
-                title: Text('Failed'),
-                content: Text(
-                    'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'));
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
+              ),
+            );
+            // return AlertDialog(
+            //     actions: [
+            //       TextButton(
+            //           onPressed: () {
+            //             Navigator.pop(context);
+            //           },
+            //           child: Text('OK'))
+            //     ],
+            //     title: Text('Failed'),
+            //     content: Text(
+            //         'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'));
           });
     }
     // await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -529,7 +564,7 @@ class DoctorConsultationController extends StateClass {
   Future getRequest(String roomCode) async {
     // isLoading.value = true;
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000);
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, 1000, '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     msglist = result.data?.data;
     print('msg ' + response.toString());

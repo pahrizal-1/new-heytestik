@@ -156,6 +156,7 @@ class TreatmentRecommendationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       responseClinic.value = await TreatmentServices().getClinic();
       clinics.value = responseClinic.value.data!.data!;
+      print('clinics ${clinics}');
     });
     isLoadingSkincare.value = false;
   }
