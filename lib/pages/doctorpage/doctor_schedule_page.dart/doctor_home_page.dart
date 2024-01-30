@@ -15,6 +15,8 @@ import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/filter_jadwal_doctor.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:intl/intl.dart';
+
 
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/global.dart';
@@ -620,7 +622,8 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                         const EdgeInsets.only(
                                                             left: 5),
                                                     child: Text(
-                                                      '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
+                                                      "${DateFormat('HH:mm').format(DateTime.parse('${state.findSchedule.value!.data!.data![i].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)))} WIB",
+                                                      // '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
                                                       style: TextStyle(
                                                         color: fromCssColor(
                                                             '#6B6B6B'),

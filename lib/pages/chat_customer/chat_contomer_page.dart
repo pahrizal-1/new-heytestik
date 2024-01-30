@@ -144,7 +144,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   Future getRequest(String roomCode, int take) async {
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take);
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take, '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     msglist = result.data?.data;
     setState(() {});

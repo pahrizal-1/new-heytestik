@@ -220,8 +220,14 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      'Klinik',
+                    InkWell(
+                      onTap: (){
+                        for (var i in state.clinics) print('datas ${i.name}');
+
+                      },
+                      child: Text(
+                        'Klinik',
+                      ),
                     ),
                     SizedBox(height: 10),
                     Container(
@@ -243,8 +249,8 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                           hint: Text('Pilih Klinik'),
                           onChanged: (newVal) {
                             setState(() {
-                              dataClinic
-                                  .add({'id': newVal!.id, 'name': newVal.name});
+                              dataClinic.add(
+                                  {'id': newVal!.id, 'name': newVal.name});
                               // for (var i in dataClinic) {
                               //   setState(() {
                               //     clinickName = i;

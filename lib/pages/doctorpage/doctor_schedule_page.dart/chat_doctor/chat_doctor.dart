@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/detail_pasien_page.dart';
@@ -26,7 +27,6 @@ import '../../../../widget/preview_widget.dart';
 import '../../../../widget/text_button_vaigator.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:timeago/timeago.dart' as timeago;
-
 
 class ChatDoctorPage extends StatefulWidget {
   final String roomCode;
@@ -51,6 +51,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isVisibeliti = true;
   bool clik = true;
+  final DoctorProfileController stateProfile =
+      Get.put(DoctorProfileController());
   final DoctorConsultationController state =
       Get.put(DoctorConsultationController());
   IO.Socket? _socket;
@@ -64,6 +66,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   int page = 1;
   int take = 1000;
   int itemCountt = 0;
+  TextEditingController searchController = TextEditingController();
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
@@ -77,14 +80,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getRequest(widget.roomCode, take);
+    getRequest(widget.roomCode, take, '');
     state.status.value = '';
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   setState(() {
-    //     state.getDetailConsltation(context, widget.id!);
-    //     // state.status.value;
-    //   });
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        stateProfile.getProfile(context);
+        // state.status.value;
+      });
+    });
 
     // Timer.periodic(Duration(milliseconds: 200), (timer) {
     //   if (mounted) {
@@ -281,12 +284,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     print("onlineClients");
   }
 
-  Future getRequest(String roomCode, int take) async {
+  Future getRequest(String roomCode, int take, String? search) async {
     setState(() {
       isLoading = true;
     });
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take);
+    var response =
+        await FetchMessageByRoom().getFetchMessage(roomCode, take, search ?? '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     setState(() {
       msglist = result.data?.data;
@@ -594,11 +598,22 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     SizedBox(
                       width: 8,
                     ),
-                    Container(
-                      child: Text(
-                        'Search',
-                        style: blackTextStyle.copyWith(
-                            fontSize: 17, fontWeight: regular),
+                    Expanded(
+                      
+                      child: TextField(
+                        controller: searchController,
+                        onSubmitted: (String value){
+                          getRequest(widget.roomCode, take, searchController.text);
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          // enabledBorder: OutlineInputBorder(
+                          //   // borderSide: BorderSide(
+                          //   //     width: 3,
+                          //   //     color: Colors.greenAccent), //<-- SEE HERE
+                          //   // borderRadius: BorderRadius.circular(50.0),
+                          // ),
+                        ),
                       ),
                     )
                   ],
@@ -754,16 +769,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (buildex, index) {
                                     var formatter = DateFormat('dd-MM-yyyy');
-                                    // var p = DateFormat("HH:mm").format(DateTime.now());
-                                    // DateTime p = DateTime.parse('2024-01-28T01:10:25+07:00');
-                                    // String formattedTime = DateFormat('HH:mm').parse(p, true).toString();
-                                    String formattedTime = DateFormat('HH:mm').format(DateTime.parse('${msglist![index].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)));
-                                    // String formattedTime = DateFormat('HH:mm').format(DateTime.parse(msglist![index].createdAt.toString()));
-                                    // String formattedTime = '${dateTime.hour}';
-                                    // String formattedTime = DateFormat('kk:mm')
-                                    //     .format(DateTime.parse(msglist![index]
-                                    //         .createdAt
-                                    //         .toString()));
+
+                                    String formattedTime = DateFormat('HH:mm')
+                                        .format(DateTime.parse(
+                                                '${msglist![index].createdAt}')
+                                            .toUtc()
+                                            .add(Duration(
+                                                hours: 7, minutes: 00)));
 
                                     if (widget.id == widget.roomId &&
                                         msglist![index].senderId == 0) {
@@ -1060,7 +1072,12 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                 .length ==
                                             0) {
                                       return ChatRight(
-                                        // imgUser: 'assets/images/doctor-img.png',
+                                        imgUser: stateProfile
+                                                    .imgNetwork.value !=
+                                                ""
+                                            ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
+                                            : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                        // "${msglist?[index].mediaChatMessages } assets/images/doctor-img.png",
                                         // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                         nameUser: widget.senderBy,
                                         timetitle: formattedTime,
@@ -1394,8 +1411,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                       ],
                                                     )
                                                   : ChatRight(
-                                                      imgUser:
-                                                          'assets/images/doctor-img.png',
+                                                      imgUser: stateProfile
+                                                                  .imgNetwork
+                                                                  .value !=
+                                                              ""
+                                                          ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
+                                                          : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+
                                                       // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                                       nameUser: widget.senderBy,
                                                       timetitle: formattedTime,
