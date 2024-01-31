@@ -41,11 +41,17 @@ class ConsultationController extends StateClass {
       resendTime.value = resendTime.value - 1;
       if (resendTime.value <= 0) {
         timer.cancel();
-        Navigator.push(
+        Navigator.pushAndRemoveUntil<dynamic>(
           Get.context!,
-          MaterialPageRoute(
-            builder: (context) => const TabBarCustomer(currentIndex: 1),
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => TabBarCustomer(),
           ),
+          (route) => false, //if you want to disable back feature set to false
+        );
+        showDialog(
+          context: Get.context!,
+          builder: (context) =>
+              AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
         );
       }
     });
@@ -118,9 +124,7 @@ class ConsultationController extends StateClass {
   }
 
   eventConsultationExpired() {
-    socket?.on('consultationScheduleExpired', (expired) async {
-
-    });
+    socket?.on('consultationScheduleExpired', (expired) async {});
   }
 
   eventApp() {
@@ -137,13 +141,13 @@ class ConsultationController extends StateClass {
       //     ),
       //   );
       // } else {
-      //   Navigator.pushAndRemoveUntil<dynamic>(
-      //     Get.context!,
-      //     MaterialPageRoute<dynamic>(
-      //       builder: (BuildContext context) => TabBarCustomer(),
-      //     ),
-      //     (route) => false, //if you want to disable back feature set to false
-      //   );
+      Navigator.pushAndRemoveUntil<dynamic>(
+        Get.context!,
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => TabBarCustomer(),
+        ),
+        (route) => false, //if you want to disable back feature set to false
+      );
       //   showDialog(
       //     context: Get.context!,
       //     builder: (context) =>
@@ -151,19 +155,8 @@ class ConsultationController extends StateClass {
       //   );
       //   close();
       // }
-      Navigator.pushAndRemoveUntil<dynamic>(
-          Get.context!,
-          MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => TabBarCustomer(),
-          ),
-          (route) => false, //if you want to disable back feature set to false
-        );
-        showDialog(
-          context: Get.context!,
-          builder: (context) =>
-              AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
-        );
-        close();
+
+      close();
     });
   }
 
