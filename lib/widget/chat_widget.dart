@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 
 class ChatLeft extends StatelessWidget {
-  final String? imgDoctor;
+  final String? image;
   final String? nameDoctor;
   final String? timetitle;
   final Color? color;
   final String? title;
   const ChatLeft({
     Key? key,
-    this.imgDoctor,
+    this.image,
     this.nameDoctor,
     this.timetitle,
     this.title,
@@ -25,9 +25,9 @@ class ChatLeft extends StatelessWidget {
         children: [
           Row(
             children: [
-              imgDoctor != null
-                  ? Image.asset(
-                      imgDoctor.toString(),
+              image != null
+                  ? Image.network(
+                      image.toString(),
                       width: 35,
                     )
                   : Container(),
